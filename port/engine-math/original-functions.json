@@ -1,0 +1,226 @@
+{
+  "original_engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reconstructed_physical_function_starts": 20,
+  "functions": [
+    {
+      "elf_address": "0035e8e0",
+      "size": 184,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core8vector3dIfE9normalizeEv",
+      "demangled": "glitch::core::vector3d<float>::normalize()",
+      "original_code_sha256": "4985016000445c4963541bf6b6f0657b0c27f46bc746f69a18713582d6be289d",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_vector3d_float-71f244d031dd-001.asm",
+      "port_symbol": "dh2_vec3_normalize",
+      "test_kind": "normalize"
+    },
+    {
+      "elf_address": "0059a294",
+      "size": 80,
+      "mode": "arm",
+      "original_symbol": "_ZNK6glitch4core8vector3dIfEdvERKS2_",
+      "demangled": "glitch::core::vector3d<float>::operator/(glitch::core::vector3d<float> const&) const",
+      "original_code_sha256": "e9c7de4cfb2deec6a68d459004ec1333767d24e7055440a046239be0a7d37b26",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_vector3d_float-71f244d031dd-001.asm",
+      "port_symbol": "dh2_vec3_divide",
+      "test_kind": "divide"
+    },
+    {
+      "elf_address": "005a24b4",
+      "size": 68,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core8vector3dIfEdVERKS2_",
+      "demangled": "glitch::core::vector3d<float>::operator/=(glitch::core::vector3d<float> const&)",
+      "original_code_sha256": "9b048dc77ac96496796170ab5d7bd9887277f81442b220824eb4c4c00ece2220",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_vector3d_float-71f244d031dd-001.asm",
+      "port_symbol": "dh2_vec3_divide_assign",
+      "test_kind": "divide_assign"
+    },
+    {
+      "elf_address": "00630bfc",
+      "size": 252,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core8vector3dIfE10rotateXYByEdRKS2_",
+      "demangled": "glitch::core::vector3d<float>::rotateXYBy(double, glitch::core::vector3d<float> const&)",
+      "original_code_sha256": "db9f6c5a2ee768b3c675207ce9c35c51d9cea0200dd5628c025463aca3dc9ab0",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_vector3d_float-71f244d031dd-001.asm",
+      "port_symbol": "dh2_vec3_rotate_xy",
+      "test_kind": "rotate"
+    },
+    {
+      "elf_address": "00630cf8",
+      "size": 240,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core8vector3dIfE10rotateYZByEdRKS2_",
+      "demangled": "glitch::core::vector3d<float>::rotateYZBy(double, glitch::core::vector3d<float> const&)",
+      "original_code_sha256": "48e3beb703f7fd3a28e744054e88ce5b8476588c573ce91211995499ef52c9d3",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_vector3d_float-71f244d031dd-001.asm",
+      "port_symbol": "dh2_vec3_rotate_yz",
+      "test_kind": "rotate"
+    },
+    {
+      "elf_address": "00630de8",
+      "size": 256,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core8vector3dIfE10rotateXZByEdRKS2_",
+      "demangled": "glitch::core::vector3d<float>::rotateXZBy(double, glitch::core::vector3d<float> const&)",
+      "original_code_sha256": "b45bc129a796000edd46d37fab41465e5e43a2ecefa1b680a50d2d64c9d2bc98",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_vector3d_float-71f244d031dd-001.asm",
+      "port_symbol": "dh2_vec3_rotate_xz",
+      "test_kind": "rotate"
+    },
+    {
+      "elf_address": "006c7b6c",
+      "size": 388,
+      "mode": "arm",
+      "original_symbol": "_ZNK6glitch4core8vector3dIfE18getHorizontalAngleEv",
+      "demangled": "glitch::core::vector3d<float>::getHorizontalAngle() const",
+      "original_code_sha256": "0bba492f441b95cee22e7ed71548eb5720ea9c48b2d5adb9db9e072a4d66b7d1",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_vector3d_float-71f244d031dd-001.asm",
+      "port_symbol": "dh2_vec3_horizontal_angles",
+      "test_kind": "unary_output"
+    },
+    {
+      "elf_address": "0035c8f0",
+      "size": 232,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core10quaternion9normalizeEv",
+      "demangled": "glitch::core::quaternion::normalize()",
+      "original_code_sha256": "d0224b760127d26e5b107f90478293dfc004f62c06ee11b09dfe2c532802ad10",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_normalize",
+      "test_kind": "normalize"
+    },
+    {
+      "elf_address": "0035c9d8",
+      "size": 564,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core10quaternion3setEfff",
+      "demangled": "glitch::core::quaternion::set(float, float, float)",
+      "original_code_sha256": "6b523d0220f6816c0ce112206bd89c8fffdbfcbaec3fce9e7c060952aa2c212c",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_from_euler",
+      "test_kind": "euler"
+    },
+    {
+      "elf_address": "0060cdbc",
+      "size": 104,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core10quaternion13fromAngleAxisEfRKNS0_8vector3dIfEE",
+      "demangled": "glitch::core::quaternion::fromAngleAxis(float, glitch::core::vector3d<float> const&)",
+      "original_code_sha256": "3ae64c6b78e7a3d2cd026ecacdf872bd935963315dc6afc9a767cba667a9883a",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_from_angle_axis",
+      "test_kind": "axis"
+    },
+    {
+      "elf_address": "00410e48",
+      "size": 92,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core10quaternion13fromAngleAxisEfRKNS0_8vector3dIfEE.clone.1",
+      "demangled": "glitch::core::quaternion::fromAngleAxis(float, glitch::core::vector3d<float> const&) [clone .clone.1]",
+      "original_code_sha256": "7dd6c76019e5c17082d2d85a3c67f077185684b98030cd5179ee7b4b048aec19",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_from_fixed_angle_axis",
+      "test_kind": "unary_output"
+    },
+    {
+      "elf_address": "0060dd34",
+      "size": 448,
+      "mode": "arm",
+      "original_symbol": "_ZNK6glitch4core10quaternionmlERKS1_",
+      "demangled": "glitch::core::quaternion::operator*(glitch::core::quaternion const&) const",
+      "original_code_sha256": "8ccbd2df93a138f1b45ba1ebe938d4da7539c4ab0f0da00bff21da584fdd2ea2",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_multiply",
+      "test_kind": "multiply"
+    },
+    {
+      "elf_address": "0035bc90",
+      "size": 532,
+      "mode": "arm",
+      "original_symbol": "_ZNK6glitch4core10quaternionmlERKNS0_8vector3dIfEE",
+      "demangled": "glitch::core::quaternion::operator*(glitch::core::vector3d<float> const&) const",
+      "original_code_sha256": "865ee3d8aa3f15d485bfdb86d72c6c4a13a00a5962ddef93d9f8a5f51f3366ec",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_transform_vector",
+      "test_kind": "transform"
+    },
+    {
+      "elf_address": "00432984",
+      "size": 436,
+      "mode": "arm",
+      "original_symbol": "_ZNK6glitch4core10quaternion9getMatrixERNS0_8CMatrix4IfEE",
+      "demangled": "glitch::core::quaternion::getMatrix(glitch::core::CMatrix4<float>&) const",
+      "original_code_sha256": "64b639fa3aa0879da6b7d173ff410befe6693af9235bec9406637cb14a72f644",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_matrix",
+      "test_kind": "matrix"
+    },
+    {
+      "elf_address": "005602d0",
+      "size": 436,
+      "mode": "arm",
+      "original_symbol": "_ZNK6glitch4core10quaternion20getMatrix_transposedERNS0_8CMatrix4IfEE",
+      "demangled": "glitch::core::quaternion::getMatrix_transposed(glitch::core::CMatrix4<float>&) const",
+      "original_code_sha256": "56c5ccd77e9c45d13cf5f9e7afc95012dad31eac475f8d57a8151751a49bd989",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_matrix_transposed",
+      "test_kind": "matrix"
+    },
+    {
+      "elf_address": "006d162c",
+      "size": 36,
+      "mode": "arm",
+      "original_symbol": "_ZNK6glitch4core10quaternion9getMatrixEv",
+      "demangled": "glitch::core::quaternion::getMatrix() const",
+      "original_code_sha256": "ae8591acbcc27cc86f5d11541a304e7d2c2943f92dee6be954c0134fb0229094",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_matrix_value",
+      "test_kind": "matrix_value"
+    },
+    {
+      "elf_address": "0050eeb4",
+      "size": 676,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core10quaternionaSERKNS0_8CMatrix4IfEE",
+      "demangled": "glitch::core::quaternion::operator=(glitch::core::CMatrix4<float> const&)",
+      "original_code_sha256": "93b8a9336d30a583230cb1022cd4cc27f57e5a9a5a97c502cb570eb202277708",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_from_matrix",
+      "test_kind": "unary_output"
+    },
+    {
+      "elf_address": "00432bbc",
+      "size": 668,
+      "mode": "arm",
+      "original_symbol": "_ZNK6glitch4core8CMatrix4IfE18getRotationDegreesEv",
+      "demangled": "glitch::core::CMatrix4<float>::getRotationDegrees() const",
+      "original_code_sha256": "2f34dcb13ab2bf1f68bde682fe8665b1721a06aa370a33518ea8e4a0d8d340b8",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_CMatrix4_float-2afc87fd88ad-001.asm",
+      "port_symbol": "dh2_matrix_rotation_degrees",
+      "test_kind": "unary_output"
+    },
+    {
+      "elf_address": "00432e58",
+      "size": 144,
+      "mode": "arm",
+      "original_symbol": "_ZNK6glitch4core10quaternion13toEulerDegreeERNS0_8vector3dIfEE",
+      "demangled": "glitch::core::quaternion::toEulerDegree(glitch::core::vector3d<float>&) const",
+      "original_code_sha256": "53cd3d0cf478638b3d903e07e24184e0d94cecf11e7e99b5a7a0e6bff820a2ed",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_to_euler_degrees",
+      "test_kind": "quat_euler_output"
+    },
+    {
+      "elf_address": "00612d00",
+      "size": 980,
+      "mode": "arm",
+      "original_symbol": "_ZN6glitch4core10quaternion5slerpES1_S1_f",
+      "demangled": "glitch::core::quaternion::slerp(glitch::core::quaternion, glitch::core::quaternion, float)",
+      "original_code_sha256": "320c09ce496f978ca29941c242952215c5636791faebe2028c5623199a788c1b",
+      "original_assembly_file": "recovered/native/assembly/libDungeonHunter2.so/glitch_core_quaternion-0c307365cc58-001.asm",
+      "port_symbol": "dh2_quat_slerp",
+      "test_kind": "slerp"
+    }
+  ]
+}

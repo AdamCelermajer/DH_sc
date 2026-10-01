@@ -1,0 +1,253 @@
+{
+  "validation": "CPU-emulated original ARM32 instructions versus compiled ARM64 source",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "b6db083a6bbffe5e5b801b4946f59df7032f68cb4b3594006e2ea0356648f5c5",
+  "source_sha256": "9bb0ad401cd274aad9172158039b107d29b9c7b01ce4a6627b0a4630523313d4",
+  "source_files_sha256": {
+    "math.cpp": "9bb0ad401cd274aad9172158039b107d29b9c7b01ce4a6627b0a4630523313d4",
+    "math.hpp": "978108687aa3f88adb46a4716e689787925acddac00d2df4e8a9473f5a0a97ff",
+    "original-functions.json": "36a2a0880843f574f960d6b270784fa0d14caca4212cfc2db3c7be1b85882e56",
+    "tests/differential.py": "f290661c860b28c4732850996259b2eed56a7f66b563b49e07e7a7e1dbb53f39",
+    "tests/fp_oracle.c": "a0d0c3c8f31f747c501ec272f03c318e0d634e57adc6b0b7505ef76b1db8b3aa"
+  },
+  "oracle_binary_sha256": "5a38346341975f51476aef61b52771b72c009118ed4cd4a75f2053e10753fae1",
+  "seed": 20631002,
+  "random_cases_per_function": 1024,
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch4core8vector3dIfE9normalizeEv",
+      "elf_address": "0035e8e0",
+      "port_symbol": "dh2_vec3_normalize",
+      "cases": 1044,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 46,
+      "original_arm_words_in_range": 46
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core8vector3dIfEdvERKS2_",
+      "elf_address": "0059a294",
+      "port_symbol": "dh2_vec3_divide",
+      "cases": 1116,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 20,
+      "original_arm_words_in_range": 20
+    },
+    {
+      "original_symbol": "_ZN6glitch4core8vector3dIfEdVERKS2_",
+      "elf_address": "005a24b4",
+      "port_symbol": "dh2_vec3_divide_assign",
+      "cases": 1125,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 17,
+      "original_arm_words_in_range": 17
+    },
+    {
+      "original_symbol": "_ZN6glitch4core8vector3dIfE10rotateXYByEdRKS2_",
+      "elf_address": "00630bfc",
+      "port_symbol": "dh2_vec3_rotate_xy",
+      "cases": 1088,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 63,
+      "original_arm_words_in_range": 63
+    },
+    {
+      "original_symbol": "_ZN6glitch4core8vector3dIfE10rotateYZByEdRKS2_",
+      "elf_address": "00630cf8",
+      "port_symbol": "dh2_vec3_rotate_yz",
+      "cases": 1088,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 60,
+      "original_arm_words_in_range": 60
+    },
+    {
+      "original_symbol": "_ZN6glitch4core8vector3dIfE10rotateXZByEdRKS2_",
+      "elf_address": "00630de8",
+      "port_symbol": "dh2_vec3_rotate_xz",
+      "cases": 1088,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 64,
+      "original_arm_words_in_range": 64
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core8vector3dIfE18getHorizontalAngleEv",
+      "elf_address": "006c7b6c",
+      "port_symbol": "dh2_vec3_horizontal_angles",
+      "cases": 1035,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 97,
+      "original_arm_words_in_range": 97
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10quaternion9normalizeEv",
+      "elf_address": "0035c8f0",
+      "port_symbol": "dh2_quat_normalize",
+      "cases": 1043,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 58,
+      "original_arm_words_in_range": 58
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10quaternion3setEfff",
+      "elf_address": "0035c9d8",
+      "port_symbol": "dh2_quat_from_euler",
+      "cases": 1031,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 141,
+      "original_arm_words_in_range": 141
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10quaternion13fromAngleAxisEfRKNS0_8vector3dIfEE",
+      "elf_address": "0060cdbc",
+      "port_symbol": "dh2_quat_from_angle_axis",
+      "cases": 1066,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 26,
+      "original_arm_words_in_range": 26
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10quaternion13fromAngleAxisEfRKNS0_8vector3dIfEE.clone.1",
+      "elf_address": "00410e48",
+      "port_symbol": "dh2_quat_from_fixed_angle_axis",
+      "cases": 1033,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 23,
+      "original_arm_words_in_range": 23
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10quaternionmlERKS1_",
+      "elf_address": "0060dd34",
+      "port_symbol": "dh2_quat_multiply",
+      "cases": 1088,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 112,
+      "original_arm_words_in_range": 112
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10quaternionmlERKNS0_8vector3dIfEE",
+      "elf_address": "0035bc90",
+      "port_symbol": "dh2_quat_transform_vector",
+      "cases": 1080,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 133,
+      "original_arm_words_in_range": 133
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10quaternion9getMatrixERNS0_8CMatrix4IfEE",
+      "elf_address": "00432984",
+      "port_symbol": "dh2_quat_matrix",
+      "cases": 1032,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 109,
+      "original_arm_words_in_range": 109
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10quaternion20getMatrix_transposedERNS0_8CMatrix4IfEE",
+      "elf_address": "005602d0",
+      "port_symbol": "dh2_quat_matrix_transposed",
+      "cases": 1032,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 109,
+      "original_arm_words_in_range": 109
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10quaternion9getMatrixEv",
+      "elf_address": "006d162c",
+      "port_symbol": "dh2_quat_matrix_value",
+      "cases": 1032,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 9,
+      "original_arm_words_in_range": 9
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10quaternionaSERKNS0_8CMatrix4IfEE",
+      "elf_address": "0050eeb4",
+      "port_symbol": "dh2_quat_from_matrix",
+      "cases": 1038,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 169,
+      "original_arm_words_in_range": 169
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core8CMatrix4IfE18getRotationDegreesEv",
+      "elf_address": "00432bbc",
+      "port_symbol": "dh2_matrix_rotation_degrees",
+      "cases": 1038,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 167,
+      "original_arm_words_in_range": 167
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10quaternion13toEulerDegreeERNS0_8vector3dIfEE",
+      "elf_address": "00432e58",
+      "port_symbol": "dh2_quat_to_euler_degrees",
+      "cases": 1032,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 36,
+      "original_arm_words_in_range": 36
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10quaternion5slerpES1_S1_f",
+      "elf_address": "00612d00",
+      "port_symbol": "dh2_quat_slerp",
+      "cases": 1348,
+      "mismatches": 0,
+      "original_instruction_addresses_executed": 245,
+      "original_arm_words_in_range": 245
+    }
+  ],
+  "total_comparisons": 21477,
+  "mismatches": 0,
+  "arm64_pointers_above_4gib": true,
+  "arm64_load_alignments": [
+    16384,
+    16384
+  ],
+  "comparison": "Exact float bits except NaN sign/payload; matrix hint, padding, output guards, input preservation, stack restoration and pointer returns checked",
+  "external_dependency_model": "Host C float/double arithmetic and libm for imported __aeabi/libm; same transcendental implementations on both CPUs",
+  "import_calls_original": {
+    "__aeabi_fmul": 147052,
+    "__aeabi_fadd": 86963,
+    "__aeabi_fcmpeq": 4208,
+    "sqrtf": 5458,
+    "__aeabi_fdiv": 12441,
+    "__aeabi_dmul": 33789,
+    "cos": 8427,
+    "__aeabi_d2f": 18932,
+    "sin": 6357,
+    "__aeabi_fsub": 55155,
+    "atan2f": 1035,
+    "__aeabi_f2d": 15948,
+    "__aeabi_fcmplt": 3418,
+    "__aeabi_fcmpge": 3417,
+    "atan2": 4875,
+    "__aeabi_dsub": 3097,
+    "__aeabi_dadd": 4904,
+    "sinf": 4953,
+    "cosf": 1066,
+    "__aeabi_fcmpgt": 3533,
+    "asinf": 2070,
+    "__aeabi_dcmpgt": 2070,
+    "__aeabi_ddiv": 1770,
+    "__aeabi_dcmplt": 5910,
+    "memset": 2064,
+    "acosf": 1295
+  },
+  "import_calls_ported": {
+    "sqrtf": 5458,
+    "cos": 8427,
+    "sin": 6357,
+    "atan2f": 1035,
+    "atan2": 4875,
+    "sinf": 4953,
+    "cosf": 1066,
+    "memcpy": 3415,
+    "asinf": 2070,
+    "fabs": 2070,
+    "acosf": 1295
+  },
+  "elapsed_seconds": 8.788,
+  "historical_android_libm_validated": false,
+  "android_device_tested": false,
+  "complete_engine": false,
+  "gameplay_validated": false
+}

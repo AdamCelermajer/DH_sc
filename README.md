@@ -1,5 +1,9 @@
 # Dungeon Hunter 2 — source reconstruction
 
+## Engine source reconstruction — math checkpoint
+
+[Browse the reconstructed C++ module](port/engine-math/README.md). Twenty original vector/quaternion/matrix function starts have been rewritten from ARM assembly and compile for ARM64. The [recorded test report](reports/engine-math-validation.json) contains 21,477 original-ARM32 versus compiled-ARM64 comparisons with zero mismatches, under the documented external arithmetic/libm model. All 1,704 original instruction addresses in these routines were exercised. This is a tested engine component; asset loading, rendering and gameplay reconstruction remain unfinished. The full source ZIP and validation-artifact ZIP in the Drive folder below now include this checkpoint.
+
 ## Fold7 compatibility build — test 2
 
 [Download the test 2 APK](https://github.com/Noamcelermajer/DH_sc/releases/tag/v1.0.2-fold7-test2). It fixes the `Invalid column *` startup crash reported on SM-F966B / Android 16. Install over test 1 to retain the imported cache. The report confirms 4 KB pages and native loading; test 2 gameplay still needs a phone retest.
@@ -13,7 +17,7 @@ python unpack_compatibility.py
 The script verifies the archive and every restored file. Key authored code and reports are also browsable below `compatibility/`. The standard full-directory ZIP is attached to the test 2 release. External toolchains and duplicate build intermediates are represented by versions, hashes and build instructions. This compatibility snapshot includes native/runtime inputs and a deliberately public development-only signing fixture; original rights and third-party notices apply.
 
 
-**Download the complete recovery handoff:** [Google Drive folder](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). The folder contains the source ZIP, full native assembly/symbol bundles, validation artifacts, the exact supplied APK and all ten supplied cache parts. Start with START-HERE.txt. This GitHub repository currently contains this overview; file paths below refer to the downloaded recovery package.
+**Download the complete recovery handoff:** [Google Drive folder](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). The folder contains the source ZIP, full native assembly/symbol bundles, validation artifacts, the exact supplied APK and all ten supplied cache parts. Start with START-HERE.txt. This GitHub repository contains the engine math checkpoint and compatibility work. The remaining recovery paths below refer to the downloaded source package.
 
 This repository contains code recovered from the supplied **Dungeon Hunter 2 HD v1.0.2 Android APK**, binary evidence for its native engine, recovered level configurations and shaders, and independently reconstructed port components. Its purpose is a reviewable studio handoff and a starting point for restoring the game on modern Android.
 
@@ -31,6 +35,7 @@ This repository contains code recovered from the supplied **Dungeon Hunter 2 HD 
 | Cache audit | 5,839 verified files and 241 directories from the uploaded prefix; file formats, hashes, truncation evidence | [`reports/cache-recovery.md`](reports/cache-recovery.md), [`reports/cache-formats.md`](reports/cache-formats.md) |
 | JNI support source | Reconstructed source for the small `libnativeinterface.so`; ARM64 compilation and original-ARM differential tests | [`port/nativeinterface`](port/nativeinterface) |
 | Android Java repair | Separately maintained compilation repairs; exact validation and remaining JNI/reflection risks in its own README | [`port/android-java`](port/android-java) |
+| Engine math reconstruction | Buildable C++ for 20 original vector/quaternion/matrix routines; 21,477 ARM32/ARM64 comparisons passed | [`port/engine-math`](port/engine-math), [`reports/engine-math-validation.json`](reports/engine-math-validation.json) |
 | Recovery tooling | Scripts to reproduce the recovery from the owner's APK and cache parts | [`tools`](tools), [`docs/REPRODUCING.md`](docs/REPRODUCING.md) |
 
 Large assembly and ELF inventories are included as compressed bundles to keep the repository manageable. No evidence is dropped by this packaging. After cloning, restore their individual files with:
