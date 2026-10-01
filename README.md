@@ -1,5 +1,7 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Download the complete recovery handoff:** [Google Drive folder](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). The folder contains the source ZIP, full native assembly/symbol bundles, validation artifacts, the exact supplied APK and all ten supplied cache parts. Start with START-HERE.txt. This GitHub repository currently contains this overview; file paths below refer to the downloaded recovery package.
+
 This repository contains code recovered from the supplied **Dungeon Hunter 2 HD v1.0.2 Android APK**, binary evidence for its native engine, recovered level configurations and shaders, and independently reconstructed port components. Its purpose is a reviewable studio handoff and a starting point for restoring the game on modern Android.
 
 **This is not the original studio source repository or a completed, playable ARM64 port.** Native decompiler output is pseudocode that still requires reconstruction and behavioral validation. A successful export or compilation is not evidence that the game runs.
