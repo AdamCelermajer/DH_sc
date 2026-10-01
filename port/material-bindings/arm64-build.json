@@ -1,0 +1,21 @@
+{
+  "all_checks_passed": true,
+  "ndk_revision": "29.0.14206865",
+  "target": "aarch64-linux-android26",
+  "elf_class": "ELF64",
+  "machine": "AArch64",
+  "elf_type": "DYN",
+  "size_bytes": 23512,
+  "sha256": "944550860a50a4f01c7a588e3c00576fe12ac10bf19e85060344fc43c37d9f29",
+  "pt_load_alignments": [16384, 16384],
+  "verified_new_exports": [
+    "dh2_effect_group",
+    "dh2_effect_parameter",
+    "dh2_effect_group_image",
+    "dh2_material_parameter",
+    "dh2_material_sampler_image"
+  ],
+  "host_boundary_checks_passed": true,
+  "complete_cache_audit": "validation.json",
+  "scope": "isolated ARM64 shared-library build and ELF inspection; no Android loading or renderer execution"
+}

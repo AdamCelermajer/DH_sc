@@ -1,0 +1,18 @@
+{
+  "android_api": 26,
+  "elf_class": "ELF64",
+  "elf_machine": "EM_AARCH64",
+  "pt_load_alignments": [
+    16384,
+    16384
+  ],
+  "pt_load_offset_vaddr_congruent": true,
+  "artifact_bytes": 12168,
+  "artifact_sha256": "849343423ad28890c5a526d1286a842f7630f23c362f5aeed15516e361b0f21a",
+  "source_sha256": {
+    "texture.cpp": "b3590aa070633718ca3aa9db027b471d53547282acdf146df0be22cdb2fad423",
+    "texture.hpp": "56bdf5e338e464bebfd2ade4f0abbbfbdfd6b748ad67ada8946a90f7103906f9",
+    "decode.cpp": "8405e9fbae0cea4278c9618a03f4b0fc009ddc54acf24f9b72d1bde9d81cbd4a"
+  },
+  "runtime_tested": false
+}

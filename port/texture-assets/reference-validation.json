@@ -1,0 +1,8 @@
+{
+  "matched_textures": 234,
+  "mismatched_textures": 0,
+  "comparison": "byte-for-byte RGBA8 output against PowerVR Native_SDK PVRTDecompressPVRTC",
+  "combined_rgba_sha256": "83d5637bf464996fb70751ad5e12d9a7afa5f52e45c69b492ec75f958c60cdb8",
+  "reference_url": "https://github.com/powervr-graphics/Native_SDK/blob/master/framework/PVRCore/texture/PVRTDecompress.cpp",
+  "reference_source_sha256": "74559c5a4b8161aafce1ebe984bf8060896feaa81276b614491dbee755d6e4c7"
+}

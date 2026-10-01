@@ -1,0 +1,27 @@
+{
+  "scope": "standalone reconstructed texture and material readers, not original game engine or renderer",
+  "android_runtime_tested": true,
+  "emulator": true,
+  "android_release": "17",
+  "android_api": 37,
+  "abi_list": "x86_64,arm64-v8a",
+  "page_size": 16384,
+  "executable_sha256": "fd355c42a339a184e2765d238ea5f872768b285cdf338db0367df8611284a8c8",
+  "executable_bytes": 34192,
+  "remote_hashes_match_local": true,
+  "synthetic_output": "synthetic texture and material checks passed",
+  "external_output": "synthetic texture and material checks passed\nexternal texture: 1024x1024 format=2 bytes=524348\nexternal BRES: images=3 effects=2 materials=4 bytes=16856",
+  "private_fixtures": [
+    {
+      "kind": "texture",
+      "bytes": 524348,
+      "sha256": "8a9dbda3b603acf05de48a45adc0f1c2fa1c68b001b966fbf9750e2bd26b9618"
+    },
+    {
+      "kind": "bres",
+      "bytes": 16856,
+      "sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6"
+    }
+  ],
+  "exit_code": 0
+}

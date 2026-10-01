@@ -17,6 +17,7 @@ enum class Error : std::uint32_t {
     invalid_payload,
     trailing_bytes,
     unsupported_format,
+    invalid_output,
 };
 
 enum class Kind : std::uint32_t {
@@ -54,7 +55,18 @@ struct TextureView {
 // On unsupported_format, the recognized container metadata is still returned.
 Error open(TextureView* out, const void* data, std::size_t size);
 
+// Decode a checked BTEX/PVR v2 PVRTC1 image to row-major RGBA8, with the
+// first encoded row at the start of `output`. The caller owns `output` and must
+// provide at least (height - 1) * row_stride + width * 4 bytes. Source and
+// output must not overlap. Only power-of-two PVRTC1 images are decoded.
+// No allocation, input modification or implicit image flip occurs.
+Error decode_rgba8(void* output, std::size_t output_size,
+                   std::size_t row_stride, const void* data, std::size_t size);
+
 } // namespace dh2::textures
 
 extern "C" dh2::textures::Error dh2_texture_open(
     dh2::textures::TextureView* out, const void* data, std::size_t size);
+extern "C" dh2::textures::Error dh2_texture_decode_rgba8(
+    void* output, std::size_t output_size, std::size_t row_stride,
+    const void* data, std::size_t size);

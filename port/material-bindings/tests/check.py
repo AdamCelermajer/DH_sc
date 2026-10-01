@@ -8,7 +8,7 @@ import struct
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
-from audit_cache import Bres, Image, Material, bind  # noqa: E402
+from audit_cache import Bres, Effect, EffectGroup, Image, ImageRef, Material, Parameter, bind  # noqa: E402
 
 
 def opened(dll, raw):
@@ -49,7 +49,58 @@ def main():
         assert dll.dh2_material_record(c.byref(material), c.byref(view), index) == 0
         result = dll.dh2_material_local_effect(c.byref(material))
         assert (result == -1) == bool(material.external_effect_file)
+        for parameter_index in range(material.parameter_count):
+            parameter = Parameter()
+            assert dll.dh2_material_parameter(c.byref(parameter), c.byref(material), parameter_index) == 0
+            reference = ImageRef()
+            status = dll.dh2_material_sampler_image(c.byref(reference), c.byref(material), parameter_index)
+            assert status == (0 if parameter.type_code == 11 else 5)
+
+    effect = Effect()
+    assert dll.dh2_effect_record(c.byref(effect), c.byref(view), 0) == 0
+    group = EffectGroup()
+    assert dll.dh2_effect_group(c.byref(group), c.byref(effect), 0) == 0
+    assert dll.dh2_effect_group(c.byref(group), c.byref(effect), 2) == 2
+    assert dll.dh2_effect_group(c.byref(group), c.byref(effect), 1) == 0
+    assert dll.dh2_effect_group_image(c.byref(ImageRef()), c.byref(group), -1) == 2
+
+    # The nested arrays and the sampler's extra indirection must stay inside
+    # the borrowed image. Mutations preserve the top-level BRES header.
+    material = Material()
+    assert dll.dh2_material_record(c.byref(material), c.byref(view), 0) == 0
+    bad_array = bytearray(raw)
+    struct.pack_into('<I', bad_array, material.record - view.bytes + 20, len(raw) - 4)
+    bad_buffer, bad_view = opened(dll, bytes(bad_array))
+    assert bad_buffer
+    assert dll.dh2_material_record(c.byref(Material()), c.byref(bad_view), 0) == 4
+
+    sampler_index = next(j for j in range(material.parameter_count)
+                         if read_parameter(dll, material, j).type_code == 11)
+    parameter = read_parameter(dll, material, sampler_index)
+    image_index_offset = struct.unpack_from('<I', raw, parameter.raw_value - view.bytes)[0]
+    bad_sampler = bytearray(raw)
+    struct.pack_into('<I', bad_sampler, image_index_offset,
+                     dll.dh2_bres_library_count(c.byref(view), 4))
+    sampler_buffer, sampler_view = opened(dll, bytes(bad_sampler))
+    assert sampler_buffer
+    changed = Material()
+    assert dll.dh2_material_record(c.byref(changed), c.byref(sampler_view), 0) == 0
+    assert dll.dh2_material_sampler_image(c.byref(ImageRef()), c.byref(changed), sampler_index) == 4
+
+    bad_effect = bytearray(raw)
+    struct.pack_into('<I', bad_effect, effect.record - view.bytes + 40, len(raw))
+    effect_buffer, effect_view = opened(dll, bytes(bad_effect))
+    assert effect_buffer
+    changed_effect = Effect()
+    assert dll.dh2_effect_record(c.byref(changed_effect), c.byref(effect_view), 0) == 0
+    assert dll.dh2_effect_group(c.byref(EffectGroup()), c.byref(changed_effect), 1) == 4
     print('material-binding boundary checks passed')
+
+
+def read_parameter(dll, material, index):
+    value = Parameter()
+    assert dll.dh2_material_parameter(c.byref(value), c.byref(material), index) == 0
+    return value
 
 
 if __name__ == '__main__':

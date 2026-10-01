@@ -30,11 +30,32 @@ class Image(c.Structure):
 
 class Material(c.Structure):
     _fields_ = [('image', Bres), ('id', P), ('name', P),
-                ('external_effect_file', P), ('effect_url', P), ('record', P)]
+                ('external_effect_file', P), ('effect_url', P), ('record', P),
+                ('parameter_count', U), ('parameter_records', P)]
 
 
 class Effect(c.Structure):
     _fields_ = [('image', Bres), ('id', P), ('name', P), ('record', P)]
+
+
+class EffectGroup(c.Structure):
+    _fields_ = [('image', Bres), ('named_count', U), ('parameter_count', U),
+                ('image_count', U), ('named_records', P),
+                ('parameter_records', P), ('image_indices', P)]
+
+
+class Parameter(c.Structure):
+    _fields_ = [('image', Bres), ('id', P), ('semantic', P),
+                ('type_code', U), ('value_count', U), ('raw_value', P)]
+
+
+class EffectParameter(c.Structure):
+    _fields_ = [('image', Bres), ('id', P), ('type_code', U),
+                ('raw_word_8', U), ('value_count', U), ('raw_value', P)]
+
+
+class ImageRef(c.Structure):
+    _fields_ = [('index', I), ('id', P), ('name', P), ('source_path', P)]
 
 
 def decode(pointer: int | None) -> str | None:
@@ -50,6 +71,11 @@ def bind(path: Path):
         ('dh2_effect_record', U, [c.POINTER(Effect), c.POINTER(Bres), I]),
         ('dh2_material_record', U, [c.POINTER(Material), c.POINTER(Bres), I]),
         ('dh2_material_local_effect', I, [c.POINTER(Material)]),
+        ('dh2_effect_group', U, [c.POINTER(EffectGroup), c.POINTER(Effect), I]),
+        ('dh2_effect_parameter', U, [c.POINTER(EffectParameter), c.POINTER(EffectGroup), I]),
+        ('dh2_effect_group_image', U, [c.POINTER(ImageRef), c.POINTER(EffectGroup), I]),
+        ('dh2_material_parameter', U, [c.POINTER(Parameter), c.POINTER(Material), I]),
+        ('dh2_material_sampler_image', U, [c.POINTER(ImageRef), c.POINTER(Material), I]),
     ):
         function = getattr(dll, name)
         function.restype = result
@@ -93,6 +119,24 @@ def audit(dll, cache: Path) -> dict:
             assert dll.dh2_effect_record(c.byref(effect), c.byref(view), index) == 0, (relative, index)
             assert decode(effect.id) and decode(effect.name), (relative, index)
             totals['effect_records'] += 1
+            for group_index in range(2):
+                group = EffectGroup()
+                assert dll.dh2_effect_group(c.byref(group), c.byref(effect), group_index) == 0, (relative, index, group_index)
+                totals['effect_named_records'] += group.named_count
+                totals['effect_parameter_records'] += group.parameter_count
+                for j in range(group.parameter_count):
+                    parameter = EffectParameter()
+                    assert dll.dh2_effect_parameter(c.byref(parameter), c.byref(group), j) == 0, (relative, index, group_index, j)
+                    assert decode(parameter.id) is not None
+                for j in range(group.image_count):
+                    reference = ImageRef()
+                    assert dll.dh2_effect_group_image(c.byref(reference), c.byref(group), j) == 0, (relative, index, group_index, j)
+                    totals['effect_image_references'] += 1
+                    if reference.index == -1:
+                        totals['effect_unbound_image_references'] += 1
+                    else:
+                        assert decode(reference.id) and decode(reference.source_path)
+                        totals['effect_bound_image_references'] += 1
         for index in range(dll.dh2_bres_library_count(c.byref(view), 6)):
             material = Material()
             assert dll.dh2_material_record(c.byref(material), c.byref(view), index) == 0, (relative, index)
@@ -100,6 +144,22 @@ def audit(dll, cache: Path) -> dict:
             url = decode(material.effect_url)
             assert url and url.startswith('#'), (relative, index)
             totals['material_records'] += 1
+            totals['material_parameter_records'] += material.parameter_count
+            sampler_indices = set()
+            for j in range(material.parameter_count):
+                parameter = Parameter()
+                assert dll.dh2_material_parameter(c.byref(parameter), c.byref(material), j) == 0, (relative, index, j)
+                assert decode(parameter.id) is not None and decode(parameter.semantic) is not None
+                if parameter.type_code == 11:
+                    reference = ImageRef()
+                    assert dll.dh2_material_sampler_image(c.byref(reference), c.byref(material), j) == 0, (relative, index, j)
+                    sampler_indices.add(reference.index)
+                    totals['material_sampler_references'] += 1
+                    if reference.index == -1:
+                        totals['material_unbound_sampler_references'] += 1
+                    else:
+                        assert decode(reference.id) and decode(reference.source_path)
+                        totals['material_bound_sampler_references'] += 1
             effect_index = dll.dh2_material_local_effect(c.byref(material))
             if material.external_effect_file:
                 assert effect_index == -1, (relative, index)
@@ -111,10 +171,20 @@ def audit(dll, cache: Path) -> dict:
                 effect = Effect()
                 assert dll.dh2_effect_record(c.byref(effect), c.byref(view), effect_index) == 0
                 assert decode(effect.id) == url[1:], (relative, index)
+                for group_index in range(2):
+                    group = EffectGroup()
+                    assert dll.dh2_effect_group(c.byref(group), c.byref(effect), group_index) == 0
+                    group_indices = set()
+                    for j in range(group.image_count):
+                        reference = ImageRef()
+                        assert dll.dh2_effect_group_image(c.byref(reference), c.byref(group), j) == 0
+                        group_indices.add(reference.index)
+                    assert group_indices == sampler_indices, (relative, index, group_index)
+                    totals['local_effect_group_image_set_matches'] += 1
                 totals['resolved_local_effects'] += 1
     return {
         'all_checks_passed': True,
-        'scope': 'immutable BRES image/material string views and local effect-ID links; no shader state or GPU behavior',
+        'scope': 'immutable BRES image/effect/material views, bounded nested parameter arrays and serialized image-index links; no shader state or GPU behavior',
         'totals': dict(totals),
         'unique_unmatched_texture_filenames': len(missing),
         'unmatched_texture_samples': missing.most_common(25),

@@ -1,0 +1,16 @@
+{
+  "decoded_files": 234,
+  "formats": {
+    "pvrtc1_2bpp": 17,
+    "pvrtc1_4bpp": 217
+  },
+  "dimensions": {
+    "128x128": 72,
+    "1024x1024": 80,
+    "512x512": 40,
+    "256x256": 20,
+    "64x64": 22
+  },
+  "combined_rgba_sha256": "83d5637bf464996fb70751ad5e12d9a7afa5f52e45c69b492ec75f958c60cdb8",
+  "scope": "external BTEX/PVR v2 PVRTC1 textures in the complete cache"
+}
