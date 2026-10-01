@@ -1,5 +1,18 @@
 # Dungeon Hunter 2 — source reconstruction
 
+## Fold7 compatibility build — test 2
+
+[Download the test 2 APK](https://github.com/Noamcelermajer/DH_sc/releases/tag/v1.0.2-fold7-test2). It fixes the `Invalid column *` startup crash reported on SM-F966B / Android 16. Install over test 1 to retain the imported cache. The report confirms 4 KB pages and native loading; test 2 gameplay still needs a phone retest.
+
+[Compatibility code and findings](compatibility/README.md) include the [test 2 diagnosis](compatibility/work/fold7-build/TEST2.md), [known issues](compatibility/ISSUES.md), [device checklist](compatibility/DEVICE-TESTING.md), patches, build scripts and recorded tests. All **2,057 compatibility-work files** are preserved in `compatibility-work-test2.zip`; identical files share storage without losing their original paths or bytes. After cloning, restore the full trees with:
+
+```sh
+python unpack_compatibility.py
+```
+
+The script verifies the archive and every restored file. Key authored code and reports are also browsable below `compatibility/`. The standard full-directory ZIP is attached to the test 2 release. External toolchains and duplicate build intermediates are represented by versions, hashes and build instructions. This compatibility snapshot includes native/runtime inputs and a deliberately public development-only signing fixture; original rights and third-party notices apply.
+
+
 **Download the complete recovery handoff:** [Google Drive folder](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). The folder contains the source ZIP, full native assembly/symbol bundles, validation artifacts, the exact supplied APK and all ten supplied cache parts. Start with START-HERE.txt. This GitHub repository currently contains this overview; file paths below refer to the downloaded recovery package.
 
 This repository contains code recovered from the supplied **Dungeon Hunter 2 HD v1.0.2 Android APK**, binary evidence for its native engine, recovered level configurations and shaders, and independently reconstructed port components. Its purpose is a reviewable studio handoff and a starting point for restoring the game on modern Android.

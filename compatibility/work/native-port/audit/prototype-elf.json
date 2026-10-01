@@ -1,0 +1,20 @@
+{
+  "sha256": "ba946c7347065f20b77dc6afa5e716df6105e14cd81b70eeeb19afb8d5d65f07",
+  "checks": {
+    "aarch64": true,
+    "elf64": true,
+    "four_exported_functions": true,
+    "no_imports": true,
+    "no_needed_libraries": true,
+    "load_alignment_16k": true,
+    "load_offset_congruence_16k": true,
+    "relro_end_alignment_16k": true
+  },
+  "exports": [
+    "dh2_log2_u32",
+    "dh2_int2fb_u32",
+    "dh2_fb2int_u32",
+    "dh2_ui_contains_point_legacy32"
+  ],
+  "android_load_tested": false
+}

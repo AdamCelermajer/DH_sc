@@ -1,0 +1,41 @@
+dh2_log2_u32 12349 cases match
+dh2_int2fb_u32 12349 cases match
+dh2_fb2int_u32 12349 cases match
+dh2_ui_contains_point_legacy32 8283 cases match
+{
+  "kind": "CPU-emulated differential checks; not a mathematical proof or device test",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "ported_sha256": "ba946c7347065f20b77dc6afa5e716df6105e14cd81b70eeeb19afb8d5d65f07",
+  "functions": [
+    {
+      "original": "luaO_log2",
+      "ported": "dh2_log2_u32",
+      "cases": 12349,
+      "mismatches": 0
+    },
+    {
+      "original": "luaO_int2fb",
+      "ported": "dh2_int2fb_u32",
+      "cases": 12349,
+      "mismatches": 0
+    },
+    {
+      "original": "luaO_fb2int",
+      "ported": "dh2_fb2int_u32",
+      "cases": 12349,
+      "mismatches": 0
+    },
+    {
+      "original": "_ZNK6glitch3gui11IGUIElement13isPointInsideERKNS_4core10position2dIiEE",
+      "ported": "dh2_ui_contains_point_legacy32",
+      "cases": 8283,
+      "mismatches": 0,
+      "arm64_data_pointers_above_4gib": true
+    }
+  ],
+  "total_comparisons": 45330,
+  "elapsed_seconds": 0.942,
+  "full_game_ported": false,
+  "android_load_tested": false,
+  "performance_measured": false
+}

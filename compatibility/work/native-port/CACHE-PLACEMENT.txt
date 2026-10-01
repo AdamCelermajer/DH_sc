@@ -1,0 +1,41 @@
+DUNGEON HUNTER 2 CACHE DESTINATION
+
+For the supplied APK, the default asset root is:
+
+  /sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files
+
+In a file manager, the corresponding path is:
+
+  Internal storage/Android/data/com.gameloft.android.GAND.GloftD2SS/files
+
+This comes directly from GameInstaller's sd_folder default and SUtils.getSDFolder.
+The SDFolder preference in DungeonHunter2Prefs can override this destination.
+This instruction describes the current APK; it does not imply the ARM64 port
+has been completed or that the old APK launches on the target phone.
+
+For an archive containing an already-extracted game-data tree, preserve that
+tree when placing its contents at this destination. If the archive already
+contains Android/data/com.gameloft.android.GAND.GloftD2SS/files, merge at the
+corresponding level. Avoid accidentally creating files/files or nesting the
+entire Android directory under files.
+
+The archive has not been inspected, so its precise root level, asset variants,
+or completeness cannot yet be verified. The installer also contains separate
+OBB handling. If the supplied cache consists of main.*.obb or patch.*.obb files,
+do not rename or unpack them based solely on the extracted-data instructions;
+that is a different layout requiring inspection of the actual filenames.
+
+Modern Android restricts other apps' access to Android/data. The game can use
+its own app-specific directory, but an ordinary file manager might not let you
+copy into it. A future in-app file-picker importer can copy a locally selected
+archive to the game's own directory. Such an importer has not been implemented
+in this checkpoint. No file-manager workaround has been tested on One UI 8.5.
+
+Do not delete an existing installation just to prepare this folder: uninstalling
+can remove app-specific saves/data. Keep the original cache archive as a backup.
+
+There is no need to split or upload the cache to carry out native-code analysis.
+
+Android storage documentation checked during this work:
+https://developer.android.com/training/data-storage/app-specific
+https://developer.android.com/about/versions/11/privacy/storage

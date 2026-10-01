@@ -1,0 +1,70 @@
+{
+  "CACHE-PLACEMENT.txt": {
+    "bytes": 2140,
+    "sha256": "aca0ab8056117544ff71fbd2f4429625cb059f90611445b1134e386289cc9bdf"
+  },
+  "README.txt": {
+    "bytes": 4888,
+    "sha256": "84371336e746549a647de7b2bee496d40c33e984b94c4c6647b7e2f23d978dfa"
+  },
+  "audit/cache-path-evidence.smali.txt": {
+    "bytes": 622,
+    "sha256": "c6b4b3b3c01ab68e53433ee843b1b25067a7237f79477e9818e9f687868fadc0"
+  },
+  "audit/engine-inventory.json": {
+    "bytes": 17100,
+    "sha256": "88eafbc8bb8dbd3d4a801321ad47b5fd3a3ac1522923f8791a05e76178129416"
+  },
+  "audit/functions.csv": {
+    "bytes": 2817812,
+    "sha256": "1ab0419b9bde1c4aeb045c9fd35369a7a37142370f9577d2e2f741cfd759ec55"
+  },
+  "audit/original-apk-dependencies.json": {
+    "bytes": 13985,
+    "sha256": "7b69e72cb9821524efc489e4fcc7b13bf05d8bca8b8d62311adeaff3c5a64adb"
+  },
+  "audit/original-routines.txt": {
+    "bytes": 2444,
+    "sha256": "dbbadb463ae1f22075293846fbed2368cf94c3d84d3f77533997967da1bc17e0"
+  },
+  "audit/prototype-elf.json": {
+    "bytes": 497,
+    "sha256": "895fedeb29fb2d2b452af076c54aeeab3a7644c319d7fb45052ce121cb8b9eb3"
+  },
+  "audit_native.py": {
+    "bytes": 4484,
+    "sha256": "43042f394c182dc3721d08a3f5352afbe7febb7effd82953b7120a53f43590bc"
+  },
+  "build/libdh2_port_prototype.so": {
+    "bytes": 3304,
+    "sha256": "ba946c7347065f20b77dc6afa5e716df6105e14cd81b70eeeb19afb8d5d65f07"
+  },
+  "build.py": {
+    "bytes": 671,
+    "sha256": "e171394a66ef4dc256fd5ceaaacc9c8ba229be50070358b1ba3644960a17544a"
+  },
+  "extract_input.py": {
+    "bytes": 1120,
+    "sha256": "3b525b55f5d31c5cc2bafc660079d6be552268c39878dfd4fb5f979097be278c"
+  },
+  "ported_arm64.S": {
+    "bytes": 2508,
+    "sha256": "a6074f7ae0fdd5d298089a49d17c4b2752810537b212a5e92be58822debf520d"
+  },
+  "requirements.txt": {
+    "bytes": 64,
+    "sha256": "760a79a704eb1cb0e09c7768e015b01ce07f7aa8bebb5b32e8d6dd86665cac84"
+  },
+  "translation-results.json": {
+    "bytes": 1050,
+    "sha256": "b104c0de337b8dfbd356cee6b15d772bb835cb3d7e7ccc3e889223d530cf13c8"
+  },
+  "translation-test.log": {
+    "bytes": 1196,
+    "sha256": "6c8328aaffc2594a7125a29e5555c1c84d071e2a403dd6fde3626fe3a07bafd7"
+  },
+  "verify_translations.py": {
+    "bytes": 6472,
+    "sha256": "f5f3d5bb0cdec53a76c45ec248b02e407d070dba205ad54f068d3b3b9b493a97"
+  }
+}

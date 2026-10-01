@@ -1,0 +1,130 @@
+diff --git a/android/launcher/app/src/main/java/com/zettabridge/core/ZBridge.java b/android/launcher/app/src/main/java/com/zettabridge/core/ZBridge.java
+index b637f22..5eb0c06 100644
+--- a/android/launcher/app/src/main/java/com/zettabridge/core/ZBridge.java
++++ b/android/launcher/app/src/main/java/com/zettabridge/core/ZBridge.java
+@@ -54,6 +54,8 @@ public final class ZBridge {
+      */
+     public static native void activatePlugin(String pluginRoot, int targetSdk, ClassLoader classLoader);
+ 
++    public static native void addPathAlias(String guestDirectory, String hostDirectory);
++
+     /**
+      * Called by libzbproxy.so from JNI_OnLoad. Loads the arm32 library that belongs to the proxy,
+      * binds its Java_* exports and runs its JNI_OnLoad on the calling thread. Results are memoized
+diff --git a/android/launcher/app/src/main/java/com/zettabridge/launcher/LoadedPlugin.java b/android/launcher/app/src/main/java/com/zettabridge/launcher/LoadedPlugin.java
+index 015adda..04b28ef 100644
+--- a/android/launcher/app/src/main/java/com/zettabridge/launcher/LoadedPlugin.java
++++ b/android/launcher/app/src/main/java/com/zettabridge/launcher/LoadedPlugin.java
+@@ -90,6 +90,21 @@ final class LoadedPlugin {
+             ZBridge.setGlDiagnostics(record.diagnostics);
+             // Must precede every plugin class initialization, provider and Application callback.
+             ZBridge.activatePlugin(record.dir.getCanonicalPath(), record.targetSdk, cl);
++            if (record.packageName.equals(CacheArchive.GAME)) {
++                String legacy = "/data/data/" + record.packageName;
++                String modern = "/data/user/0/" + record.packageName;
++                String actualLib = record.libDir().getCanonicalPath() + "/";
++                String actualData = record.dataDir().getCanonicalPath() + "/";
++                ZBridge.addPathAlias(legacy + "/lib/", actualLib);
++                ZBridge.addPathAlias(modern + "/lib/", actualLib);
++                ZBridge.addPathAlias(legacy + "/", actualData);
++                ZBridge.addPathAlias(modern + "/", actualData);
++                File external = new File(host.getExternalFilesDir(null), "plugins/" + record.packageName);
++                if (!external.isDirectory() && !external.mkdirs()) throw new java.io.IOException("Cannot create game cache directory");
++                String actualExternal = external.getCanonicalPath() + "/";
++                ZBridge.addPathAlias("/sdcard/Android/data/" + record.packageName + "/files/", actualExternal);
++                ZBridge.addPathAlias("/storage/emulated/0/Android/data/" + record.packageName + "/files/", actualExternal);
++            }
+         }
+         if (info.activities != null) {
+             for (ActivityInfo a : info.activities) {
+diff --git a/cli/zbrun/main.cpp b/cli/zbrun/main.cpp
+index 0964edf..7595e02 100644
+--- a/cli/zbrun/main.cpp
++++ b/cli/zbrun/main.cpp
+@@ -36,6 +36,7 @@ int main(int argc, char** argv) {
+         guest_envp.push_back(entry);
+     }
+ 
++    std::vector<std::pair<std::string, std::string>> aliases;
+     int i = 1;
+     while (i < argc && std::strncmp(argv[i], "--", 2) == 0) {
+         if (std::strcmp(argv[i], "--sysroot") == 0 && i + 1 < argc) {
+@@ -50,6 +51,12 @@ int main(int argc, char** argv) {
+             std::erase_if(guest_envp, [&](const std::string& e) { return e.compare(0, prefix.size(), prefix) == 0; });
+             guest_envp.push_back(assignment);
+             i += 2;
++        } else if (std::strcmp(argv[i], "--alias") == 0 && i + 2 < argc) {
++            const std::string from = argv[i + 1], to = argv[i + 2];
++            if (from.empty() || to.empty() || from.front() != '/' || to.front() != '/' ||
++                from.back() != '/' || to.back() != '/') return usage();
++            aliases.emplace_back(from, to);
++            i += 3;
+         } else {
+             return usage();
+         }
+@@ -60,6 +67,7 @@ int main(int argc, char** argv) {
+ 
+     zb::Process process;
+     process.set_sysroot(sysroot);
++    for (const auto& [from, to] : aliases) process.add_path_alias(from, to);
+     if (precise_faults) process.set_precise_faults(true);
+     return process.run(argv[i], guest_argv, guest_envp);
+ }
+diff --git a/core/android/guest_jni_runtime.h b/core/android/guest_jni_runtime.h
+index 96592da..3334ce0 100644
+--- a/core/android/guest_jni_runtime.h
++++ b/core/android/guest_jni_runtime.h
+@@ -29,6 +29,7 @@ public:
+     static GuestJniRuntime* peek();
+ 
+     ProxyRuntime& proxies() { return proxies_; }
++    void add_path_alias(const std::string& guest, const std::string& host) { engine_.add_path_alias(guest, host); }
+ 
+ private:
+     class Engine final : public GuestJniEngine {
+diff --git a/core/android/zbridge_jni.cpp b/core/android/zbridge_jni.cpp
+index 68c4cc6..7de5987 100644
+--- a/core/android/zbridge_jni.cpp
++++ b/core/android/zbridge_jni.cpp
+@@ -122,6 +122,24 @@ JNIEXPORT void JNICALL Java_com_zettabridge_core_ZBridge_activatePlugin(JNIEnv*
+     }
+ }
+ 
++// Configure aliases before guest code starts; both prefixes must be absolute directories.
++JNIEXPORT void JNICALL Java_com_zettabridge_core_ZBridge_addPathAlias(JNIEnv* env, jclass,
++                                                                    jstring guest, jstring host) {
++    const auto g = to_string(env, guest);
++    const auto h = to_string(env, host);
++    if (!g || !h || g->empty() || h->empty() || g->front() != '/' || h->front() != '/' ||
++        g->back() != '/' || h->back() != '/') {
++        throw_new(env, "java/lang/IllegalArgumentException", "Path aliases require absolute directory prefixes");
++        return;
++    }
++    auto* runtime = zb::GuestJniRuntime::peek();
++    if (runtime == nullptr) {
++        throw_new(env, "java/lang/IllegalStateException", "Activate the plugin before adding path aliases");
++        return;
++    }
++    runtime->add_path_alias(*g, *h);
++}
++
+ // static native int onProxyLoaded(String proxyPath), called by libzbproxy.so's JNI_OnLoad.
+ // Returns the guest JNI version or throws UnsatisfiedLinkError with the full detail, which also
+ // stays available through loadError/lastLoadError because ART replaces it.
+diff --git a/tools/build_guest.sh b/tools/build_guest.sh
+index 670a00e..3090728 100755
+--- a/tools/build_guest.sh
++++ b/tools/build_guest.sh
+@@ -33,7 +33,11 @@ done
+ 
+ for src in "$ROOT"/guest/tests/*_dynamic.c; do
+     name=$(basename "$src" .c)
+-    "$CC" -O2 -Wall -o "$OUT/$name" "$src" -llog
++    if [ "$name" = zlib_dynamic ]; then
++        "$CC" -O2 -Wall -o "$OUT/$name" "$src" -llog -lz
++    else
++        "$CC" -O2 -Wall -o "$OUT/$name" "$src" -llog
++    fi
+ done
+ 
+ "$CC" -O2 -Wall -I"$ROOT/core/include" -o "$OUT/zbhost" \

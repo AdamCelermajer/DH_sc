@@ -1,0 +1,23 @@
+.method public static getSDFolder()Ljava/lang/String;
+    .locals 2
+
+    const-string v0, "SDFolder"
+
+    sget-object v1, Lcom/gameloft/android/GAND/GloftD2SS/installer/GameInstaller;->mPreferencesName:Ljava/lang/String;
+
+    invoke-static {v0, v1}, Lcom/gameloft/android/GAND/GloftD2SS/GLUtils/SUtils;->getPreferenceString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+
+    move-result-object v0
+
+    const-string v1, ""
+
+    if-eq v0, v1, :cond_0
+
+    :goto_0
+    return-object v0
+
+    :cond_0
+    const-string v0, "/sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files"
+
+    goto :goto_0
+.end method

@@ -1,0 +1,68 @@
+Original ARM32 disassembly of the four ported routines.
+Trailing literal pools may decode as instructions; consult source comments.
+
+luaO_log2 @ 0x00854854, 56 bytes
+Raw bytes: ff0050e30030e0930400009a0030e0e32004a0e1ff0050e3083083e2fbffff8a0c209fe502208fe00000d2e7030080e01eff2fe108b80b00
+  00854854  cmp      r0, #0xff
+  00854858  mvnls    r3, #0
+  0085485c  bls      #0x854874
+  00854860  mvn      r3, #0
+  00854864  lsr      r0, r0, #8
+  00854868  cmp      r0, #0xff
+  0085486c  add      r3, r3, #8
+  00854870  bhi      #0x854864
+  00854874  ldr      r2, [pc, #0xc]
+  00854878  add      r2, pc, r2
+  0085487c  ldrb     r0, [r2, r0]
+  00854880  add      r0, r0, r3
+  00854884  bx       lr
+  00854888  andeq    fp, fp, r8, lsl #16
+
+luaO_int2fb @ 0x00854800, 56 bytes
+Raw bytes: 0f0050e30030a0930500009a0030a0e3010080e2a000a0e10f0050e3013083e2faffff8a070050e30800408201308382830180811eff2fe1
+  00854800  cmp      r0, #0xf
+  00854804  movls    r3, #0
+  00854808  bls      #0x854824
+  0085480c  mov      r3, #0
+  00854810  add      r0, r0, #1
+  00854814  lsr      r0, r0, #1
+  00854818  cmp      r0, #0xf
+  0085481c  add      r3, r3, #1
+  00854820  bhi      #0x854810
+  00854824  cmp      r0, #7
+  00854828  subhi    r0, r0, #8
+  0085482c  addhi    r3, r3, #1
+  00854830  orrhi    r0, r0, r3, lsl #3
+  00854834  bx       lr
+
+luaO_fb2int @ 0x00854838, 28 bytes
+Raw bytes: d031e4e7000053e30700001208008012013043121003a0111eff2fe1
+  00854838  ubfx     r3, r0, #3, #5
+  0085483c  cmp      r3, #0
+  00854840  andne    r0, r0, #7
+  00854844  addne    r0, r0, #8
+  00854848  subne    r3, r3, #1
+  0085484c  lslne    r0, r0, r3
+  00854850  bx       lr
+
+_ZNK6glitch3gui11IGUIElement13isPointInsideERKNS_4core10position2dIiEE @ 0x00534e48, 72 bytes
+Raw bytes: 003091e5482090e5030052e10b0000ca042091e54c1090e5020051e1070000ca501090e5010053e1040000ca540090e5000052e10000a0c30100a0d31eff2fe10000a0e31eff2fe1
+  00534e48  ldr      r3, [r1]
+  00534e4c  ldr      r2, [r0, #0x48]
+  00534e50  cmp      r2, r3
+  00534e54  bgt      #0x534e88
+  00534e58  ldr      r2, [r1, #4]
+  00534e5c  ldr      r1, [r0, #0x4c]
+  00534e60  cmp      r1, r2
+  00534e64  bgt      #0x534e88
+  00534e68  ldr      r1, [r0, #0x50]
+  00534e6c  cmp      r3, r1
+  00534e70  bgt      #0x534e88
+  00534e74  ldr      r0, [r0, #0x54]
+  00534e78  cmp      r2, r0
+  00534e7c  movgt    r0, #0
+  00534e80  movle    r0, #1
+  00534e84  bx       lr
+  00534e88  mov      r0, #0
+  00534e8c  bx       lr
+
