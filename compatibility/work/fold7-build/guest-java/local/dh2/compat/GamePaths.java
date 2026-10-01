@@ -10,6 +10,7 @@ public final class GamePaths {
     private static volatile Context context;
     public static void initialize(Context value) {
         context=value;
+        GameTrace.initialize(value);
         File external=value.getExternalFilesDir(null);
         if(external!=null) {
             external.mkdirs();

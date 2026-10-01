@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="local.dh2.fold7" android:versionCode="2" android:versionName="1.0-test2">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="local.dh2.fold7" android:versionCode="3" android:versionName="1.0-test3">
 
     
     <uses-permission android:name="android.permission.INTERNET" />

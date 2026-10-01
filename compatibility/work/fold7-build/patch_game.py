@@ -46,6 +46,30 @@ replacement='''.method public static initMediaList()V
 part=replacement+part[query_end:]
 assert '->nativeInitplayer()V' in part
 p.write_text(s[:start]+part+s[end:])
+# Test 3: observe the original renderer and lifecycle without substituting an engine.
+p=target/'smali/com/gameloft/android/GAND/GloftD2SS/GameGLSurfaceView.smali'
+s=p.read_text()
+needle='    invoke-virtual {p0, v0}, Lcom/gameloft/android/GAND/GloftD2SS/GameGLSurfaceView;->setRenderer(Landroid/opengl/GLSurfaceView$Renderer;)V'
+assert s.count(needle)==2
+s=s.replace(needle,'    invoke-static {p0, v0}, Llocal/dh2/compat/GameTrace;->wrap(Landroid/opengl/GLSurfaceView;Landroid/opengl/GLSurfaceView$Renderer;)Landroid/opengl/GLSurfaceView$Renderer;\n    move-result-object v0\n'+needle)
+p.write_text(s)
+p=target/'smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali'
+s=p.read_text();start=s.index('.method public static Get_PhoneLanguage()I');end=s.index('.end method',start)
+part=s[start:end].replace('    return v0','    invoke-static {v0}, Llocal/dh2/compat/GameTrace;->phoneLanguage(I)I\n    move-result v0\n    return v0')
+s=s[:start]+part+s[end:]
+needle='invoke-virtual {p0, v0}, Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;->setContentView(Landroid/view/View;)V'
+assert s.count(needle)==1
+s=s.replace(needle,'invoke-static {p0, v0}, Llocal/dh2/compat/GameTrace;->installContent(Landroid/app/Activity;Landroid/view/View;)V');p.write_text(s)
+p=target/'smali/com/gameloft/android/GAND/GloftD2SS/GameRenderer.smali'
+s=p.read_text();start=s.index('.method public onSurfaceChanged(');end=s.index('.end method',start)
+part=s[start:end];assert '.locals 0' in part
+part=part.replace('.locals 0',""".locals 1
+    invoke-static {}, Llocal/dh2/compat/GameTrace;->fitEnabled()Z
+    move-result v0
+    if-eqz v0, :dh2_original_resize
+    invoke-static {p2, p3}, Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;->nativeSetPhone(II)V
+    :dh2_original_resize""")
+p.write_text(s[:start]+part+s[end:])
 subprocess.run([sys.executable,str(ROOT/'patch_storm.py'),'--output',str(target/'lib/armeabi-v7a/libStormGLOFT.so')],check=True)
 (ROOT/'game-patch-report.json').write_text(json.dumps({'path_changes':changes,'total':sum(x['path_lookups'] for x in changes),'media_playlist_query_fixed':True,'native_engine_modified':False,'storm_patch_library_modified':True,'licensing_decisions_modified':False},indent=2)+'\n')
 print('Patched',sum(x['path_lookups'] for x in changes),'Java path lookups and Storm private-linker ABI use; engine unchanged.')

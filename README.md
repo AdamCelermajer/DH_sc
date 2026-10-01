@@ -4,18 +4,19 @@
 
 [Browse the reconstructed C++ module](port/engine-math/README.md). Twenty original vector/quaternion/matrix function starts have been rewritten from ARM assembly and compile for ARM64. The [recorded test report](reports/engine-math-validation.json) contains 21,477 original-ARM32 versus compiled-ARM64 comparisons with zero mismatches, under the documented external arithmetic/libm model. All 1,704 original instruction addresses in these routines were exercised. This is a tested engine component; asset loading, rendering and gameplay reconstruction remain unfinished. The full source ZIP and validation-artifact ZIP in the Drive folder below now include this checkpoint.
 
-## Fold7 compatibility build — test 2
+## Fold7 compatibility build — test 3
 
-[Download the test 2 APK](https://github.com/Noamcelermajer/DH_sc/releases/tag/v1.0.2-fold7-test2). It fixes the `Invalid column *` startup crash reported on SM-F966B / Android 16. Install over test 1 to retain the imported cache. The report confirms 4 KB pages and native loading; test 2 gameplay still needs a phone retest.
+[Download the test 3 APK and full work archive](https://github.com/Noamcelermajer/DH_sc/releases/tag/v1.0.2-fold7-test3). Test 2 completes the cinematic on SM-F966B / Android 16, then aborts at the fairy loading screen. Test 3 records the native abort state and logs, adds **Export diagnostic ZIP**, and provides optional English/display/context settings. The loading crash is not yet claimed fixed. Install over test 2 to retain cache and saves.
 
-[Compatibility code and findings](compatibility/README.md) include the [test 2 diagnosis](compatibility/work/fold7-build/TEST2.md), [known issues](compatibility/ISSUES.md), [device checklist](compatibility/DEVICE-TESTING.md), patches, build scripts and recorded tests. All **2,057 compatibility-work files** are preserved in `compatibility-work-test2.zip`; identical files share storage without losing their original paths or bytes. After cloning, restore the full trees with:
+Read the [test 3 changes and phone procedure](compatibility/work/fold7-build/TEST3.md), [independent bridge assessment](compatibility/work/fold7-build/BRIDGE-ASSESSMENT.md), [known issues](compatibility/ISSUES.md), and [device checklist](compatibility/DEVICE-TESTING.md). Five translated abort/exit/fault probes, seven media-query cases, complete library loading/hook checks and package checks pass; Fold7 gameplay still needs a retest.
+
+All **2,102 compatibility-work files** are preserved in `compatibility-work-test3.zip`, with exact paths and SHA-256 hashes. After cloning into a clean directory, restore the full trees with:
 
 ```sh
 python unpack_compatibility.py
 ```
 
-The script verifies the archive and every restored file. Key authored code and reports are also browsable below `compatibility/`. The standard full-directory ZIP is attached to the test 2 release. External toolchains and duplicate build intermediates are represented by versions, hashes and build instructions. This compatibility snapshot includes native/runtime inputs and a deliberately public development-only signing fixture; original rights and third-party notices apply.
-
+The script verifies the archive and every restored file. Authored code and reports are also browsable under `compatibility/`. The standard full-directory ZIP is attached to the test 3 release. Prior releases and the test 2 snapshot are retained. External toolchains and duplicate build intermediates are represented by versions, hashes and build instructions. The compatibility snapshot includes native/runtime inputs and a deliberately public development-only signing fixture; original rights and third-party notices apply.
 
 **Download the complete recovery handoff:** [Google Drive folder](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). The folder contains the source ZIP, full native assembly/symbol bundles, validation artifacts, the exact supplied APK and all ten supplied cache parts. Start with START-HERE.txt. This GitHub repository contains the engine math checkpoint and compatibility work. The remaining recovery paths below refer to the downloaded source package.
 

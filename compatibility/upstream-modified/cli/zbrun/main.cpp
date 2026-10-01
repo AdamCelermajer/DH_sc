@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "zb/process.h"
+#include "zb/runtime_report.h"
 
 extern char** environ;
 
@@ -14,6 +15,7 @@ int usage() {
     std::fprintf(stderr,
                  "usage: zbrun [--sysroot DIR] [--env NAME=VALUE]... <arm32-executable> [args...]\n"
                  "  --sysroot DIR     arm32 Android system files (default: $ZB_SYSROOT)\n"
+                 "  --report FILE     persist guest log tail, exits and register diagnostics\n"
                  "  --env NAME=VALUE  set a variable for the guest only; the host dynamic loader never\n"
                  "                    sees it (use for guest LD_DEBUG, LD_LIBRARY_PATH, ...)\n"
                  "  --precise-faults  exact guest state at memory faults (slower; also $ZB_PRECISE_FAULTS=1)\n");
@@ -26,6 +28,7 @@ int main(int argc, char** argv) {
     std::string sysroot;
     if (const char* env = std::getenv("ZB_SYSROOT")) sysroot = env;
     bool precise_faults = false;
+    std::string report_file;
 
     // Host loader variables describe 64-bit host libraries; the 32-bit guest linker would try to
     // load them (Termux sets LD_PRELOAD) and fail. Pass guest ones explicitly with --env.
@@ -41,6 +44,9 @@ int main(int argc, char** argv) {
     while (i < argc && std::strncmp(argv[i], "--", 2) == 0) {
         if (std::strcmp(argv[i], "--sysroot") == 0 && i + 1 < argc) {
             sysroot = argv[i + 1];
+            i += 2;
+        } else if (std::strcmp(argv[i], "--report") == 0 && i + 1 < argc) {
+            report_file = argv[i + 1];
             i += 2;
         } else if (std::strcmp(argv[i], "--precise-faults") == 0) {
             precise_faults = true;
@@ -66,6 +72,7 @@ int main(int argc, char** argv) {
     std::vector<std::string> guest_argv(argv + i, argv + argc);
 
     zb::Process process;
+    if (!report_file.empty() && !zb::write_runtime_report_to(zb::runtime_report(), report_file)) return 2;
     process.set_sysroot(sysroot);
     for (const auto& [from, to] : aliases) process.add_path_alias(from, to);
     if (precise_faults) process.set_precise_faults(true);

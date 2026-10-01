@@ -84,7 +84,7 @@
     "sha256": "726095d24a7ce809943fdcc523791f18b444dad9bfba6546dc337c1605db6427"
   },
   "jniLibs/arm64-v8a/libzbridge.so": {
-    "bytes": 3300712,
-    "sha256": "873c5c1c8f79091c2bdcff78d38d824c53ea284489a35223876a13c25618ad30"
+    "bytes": 3306992,
+    "sha256": "25e8da7edbcba1d4cfe828e506a03f1e6dd6e7ffa2948a91eb2ca6f300682d24"
   }
 }

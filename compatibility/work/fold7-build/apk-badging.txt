@@ -1,4 +1,4 @@
-package: name='local.dh2.fold7' versionCode='2' versionName='1.0-test2' platformBuildVersionName='15' platformBuildVersionCode='35' compileSdkVersion='35' compileSdkVersionCodename='15'
+package: name='local.dh2.fold7' versionCode='3' versionName='1.0-test3' platformBuildVersionName='15' platformBuildVersionCode='35' compileSdkVersion='35' compileSdkVersionCodename='15'
 uses-permission: name='android.permission.INTERNET'
 uses-permission: name='android.permission.ACCESS_NETWORK_STATE'
 uses-permission: name='android.permission.VIBRATE'

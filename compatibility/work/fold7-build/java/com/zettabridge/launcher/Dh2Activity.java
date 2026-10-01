@@ -15,8 +15,8 @@ public class Dh2Activity extends Activity {
     private final ExecutorService worker=Executors.newSingleThreadExecutor();
     private TextView status,location;
     private Button play,importButton;
-    private static final int PICK=21;
-    private static final String REVISION="dh2-fold7-test2-media-query";
+    private static final int PICK=21, EXPORT=22;
+    private static final String REVISION="dh2-fold7-test3-diagnostics";
     private File dataRoot() { return new File(getExternalFilesDir(null),"plugins/"+CacheArchive.GAME); }
 
     @Override public void onCreate(Bundle state) {
@@ -24,11 +24,15 @@ public class Dh2Activity extends Activity {
         Diagnostics.installCrashRecorder(this);
         LinearLayout panel=new LinearLayout(this); panel.setOrientation(1); panel.setPadding(32,32,32,32);panel.setFitsSystemWindows(true);
         TextView title=new TextView(this);title.setText("Dungeon Hunter 2");title.setTextSize(26);panel.addView(title);
-        TextView note=new TextView(this);note.setText("Fold7 test 2 — music-query startup fix\n\nYour imported cache is kept when updating. Import a complete cache ZIP only if needed, then launch. Gameplay has not yet been verified.");panel.addView(note);
+        TextView note=new TextView(this);note.setText("Fold7 test 3 - persistent crash diagnostics\n\nLogs are saved while playing. After a crash, reopen this screen and export the diagnostic ZIP. Your cache and saves are kept.");panel.addView(note);
         status=new TextView(this);status.setPadding(0,24,0,24);panel.addView(status);
         importButton=new Button(this);importButton.setText("Import cache ZIP");importButton.setOnClickListener(v -> pick());panel.addView(importButton);
         play=new Button(this);play.setText("Launch game");play.setOnClickListener(v -> launchGame());panel.addView(play);
         Button report=new Button(this);report.setText("View / share diagnostic report");report.setOnClickListener(v -> showReport());panel.addView(report);
+        Button export=new Button(this);export.setText("Export diagnostic ZIP");export.setOnClickListener(v -> startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/zip").putExtra(Intent.EXTRA_TITLE,"DH2-test3-diagnostics.zip"),EXPORT));panel.addView(export);
+        option(panel,"Prefer English (cache translations may override)","preferEnglish",true);
+        option(panel,"Fit game to 16:9 (experimental)","fit16by9",false);
+        option(panel,"Keep graphics context during cinematics","preserveContext",false);
         location=new TextView(this);location.setTextIsSelectable(true);location.setText("Cache destination:\n"+dataRoot().getAbsolutePath());panel.addView(location);
         TextView credit=new TextView(this);credit.setPadding(0,24,0,0);credit.setText("Uses ZettaBridge and Dynarmic for ARM32 translation. Private compatibility build; upstream notices are included.");panel.addView(credit);
         ScrollView scroll=new ScrollView(this);scroll.addView(panel);setContentView(scroll);
@@ -52,8 +56,14 @@ public class Dh2Activity extends Activity {
         });
     }
 
+    private void option(LinearLayout panel,String title,String key,boolean initial){
+        CheckBox box=new CheckBox(this);box.setText(title);box.setChecked(getPreferences(0).getBoolean(key,initial));
+        box.setOnCheckedChangeListener((button,value)->getPreferences(0).edit().putBoolean(key,value).apply());panel.addView(box);
+    }
     private void configurePath() throws IOException {
         File root=dataRoot();if (!root.isDirectory() && !root.mkdirs()) throw new IOException("External game storage is unavailable");
+        String options="{\"preferEnglish\":"+getPreferences(0).getBoolean("preferEnglish",true)+",\"fit16by9\":"+getPreferences(0).getBoolean("fit16by9",false)+",\"preserveContext\":"+getPreferences(0).getBoolean("preserveContext",false)+"}";
+        java.nio.file.Files.write(new File(root,"dh2-options.json").toPath(),options.getBytes(StandardCharsets.UTF_8));
         getSharedPreferences(CacheArchive.GAME+"__DungeonHunter2Prefs",0).edit().putString("SDFolder",root.getAbsolutePath()).commit();
     }
     private void setBusy(boolean busy,String text) { play.setEnabled(!busy);importButton.setEnabled(!busy);status.setText(text); }
@@ -63,6 +73,12 @@ public class Dh2Activity extends Activity {
     }
     @Override protected void onActivityResult(int request,int result,Intent data) {
         super.onActivityResult(request,result,data);
+        if(request==EXPORT && result==RESULT_OK && data!=null && data.getData()!=null){
+            Uri destination=data.getData();setBusy(true,"Saving diagnostics...");worker.execute(()->{
+                try(OutputStream out=getContentResolver().openOutputStream(destination)){if(out==null)throw new IOException("Cannot write selected document");Dh2Diagnostics.export(this,out);runOnUiThread(()->setBusy(false,"Diagnostic ZIP saved. Attach it to this conversation."));}
+                catch(Exception e){failed("Export failed",e);}
+            });return;
+        }
         if (request!=PICK || result!=RESULT_OK || data==null || data.getData()==null) return;
         Uri selected=data.getData();stopGuest();setBusy(true,"Importing cache. Keep this screen open...");
         worker.execute(() -> {
@@ -81,7 +97,12 @@ public class Dh2Activity extends Activity {
         try {
             long page=android.system.Os.sysconf(android.system.OsConstants._SC_PAGESIZE);
             if(page!=4096)throw new IOException("This translation runtime currently requires 4096-byte memory pages. This phone reports "+page+". Please share the diagnostic report.");
-            configurePath();startActivity(PluginSwitchActivity.intent(this,CacheArchive.GAME));
+            setBusy(true,"Starting a fresh diagnostic run...");
+            worker.execute(()->{
+                try{stopGuest();configurePath();Dh2Diagnostics.collectExits(this);Dh2Diagnostics.begin(this);
+                    runOnUiThread(()->{setBusy(false,"Logs are saved automatically. Export the diagnostic ZIP after the test.");startActivity(PluginSwitchActivity.intent(this,CacheArchive.GAME));});
+                }catch(Exception e){failed("Launch failed",e);}
+            });
         }
         catch(Exception e){failed("Launch failed",e);}
     }
@@ -96,18 +117,20 @@ public class Dh2Activity extends Activity {
         runOnUiThread(()->setBusy(false,label+": "+e.getMessage()+"\nUse the diagnostic report for details."));
     }
     private void showReport() {
-        StringBuilder b=new StringBuilder("DH2 Fold7 test 2 (versionCode 2)\nModel: "+Build.MODEL+"\nAndroid: "+Build.VERSION.RELEASE+"\nABIs: "+java.util.Arrays.toString(Build.SUPPORTED_ABIS)+"\nPage size: "+android.system.Os.sysconf(android.system.OsConstants._SC_PAGESIZE)+"\nCache: "+dataRoot()+"\n\n");
+        StringBuilder b=new StringBuilder("DH2 Fold7 test 3 (versionCode 3)\nModel: "+Build.MODEL+"\nAndroid: "+Build.VERSION.RELEASE+"\nABIs: "+java.util.Arrays.toString(Build.SUPPORTED_ABIS)+"\nPage size: "+android.system.Os.sysconf(android.system.OsConstants._SC_PAGESIZE)+"\nCache: "+dataRoot()+"\n\n");
         File media=new File(dataRoot(),"dh2-media-status.txt");
         try{b.append("dh2-media-status.txt:\n").append(new String(java.nio.file.Files.readAllBytes(media.toPath()),StandardCharsets.UTF_8)).append("\n");}
-        catch(IOException ignored){b.append("No test 2 media query report yet.\n\n");}
-        for(String name:new String[]{"zb-runtime-report.txt","zb-errors.txt"}){
+        catch(IOException ignored){b.append("No media query report yet.\n\n");}
+        for(String name:new String[]{"zb-runtime-report.txt","zb-errors.txt","dh2-exits.txt","dh2-session.txt"}){
             File f=new File(getExternalFilesDir(null),name);b.append(name).append(":\n");
-            try{byte[] all=java.nio.file.Files.readAllBytes(f.toPath());int start=Math.max(0,all.length-120000);b.append(new String(all,start,all.length-start,StandardCharsets.UTF_8));}
-            catch(IOException e){b.append("No report recorded yet.\n");}b.append("\n");
+            b.append(Dh2Diagnostics.tail(f,120000)).append("\n");
         }
+        b.append("\ndh2-events.txt:\n").append(Dh2Diagnostics.tail(new File(dataRoot(),"dh2-events.txt"),40000));
+        b.append("\nUse Export diagnostic ZIP for full logs and system exit traces.\n");
         String text=b.toString();TextView view=new TextView(this);view.setText(text);view.setTextIsSelectable(true);view.setPadding(24,12,24,12);
         ScrollView scroll=new ScrollView(this);scroll.addView(view);
         new AlertDialog.Builder(this).setTitle("Diagnostic report").setView(scroll).setPositiveButton("Share",(d,w)->startActivity(Intent.createChooser(new Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT,text),"Share report"))).setNegativeButton("Close",null).show();
     }
+    @Override protected void onResume(){super.onResume();if(!worker.isShutdown())worker.execute(()->{try{Dh2Diagnostics.collectExits(this);}catch(IOException ignored){}});}
     @Override protected void onDestroy(){worker.shutdownNow();super.onDestroy();}
 }

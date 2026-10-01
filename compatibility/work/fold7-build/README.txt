@@ -121,7 +121,7 @@ checkouts. download-hashes.json pins the downloaded artifacts used here.
 1. Clone https://github.com/ZailoxTT/ZettaBridge into research/ZettaBridge and
    check out 7c647a4f1ea150eab7978ab0da28fdf49f3a79de.
 2. Apply fold7-build/zettabridge-dh2.patch from that checkout.
-3. Extract fold7-build/runtime-bundle.zip into research/ZettaBridge/build/launcher. This
+3. Extract runtime-bundle.zip into research/ZettaBridge/build/launcher. This
    supplies the exact tested runtime files. Their checksums are recorded inside
    runtime-manifest.json. For a native rebuild, initialize the Dynarmic submodule,
    apply both patches in third_party/patches, and follow the upstream build steps.

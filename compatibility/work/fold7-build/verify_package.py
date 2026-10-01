@@ -4,7 +4,7 @@ import io,json,hashlib,zipfile,subprocess
 from elftools.elf.elffile import ELFFile
 
 ROOT=Path(__file__).resolve().parent;WORK=ROOT.parent
-apk=WORK.parent/'deliverables/Dungeon-Hunter-2-Fold7-test2.apk';checks={}
+apk=WORK.parent/'deliverables/Dungeon-Hunter-2-Fold7-test3.apk';checks={}
 with zipfile.ZipFile(apk) as z:
     checks['apk_crc_ok']=z.testzip() is None
     names=z.namelist();checks['no_duplicate_zip_entries']=len(names)==len(set(names))
@@ -19,9 +19,11 @@ with zipfile.ZipFile(apk) as z:
         patch=json.loads((ROOT/'storm-patch-report.json').read_text())
         checks['storm_fix_packaged']=hashlib.sha256(game.read('lib/armeabi-v7a/libStormGLOFT.so')).hexdigest()==patch['output_sha256']
         checks['path_helper_present']=b'Llocal/dh2/compat/GamePaths;' in game.read('classes2.dex')
+        checks['game_trace_helper_present']=b'Llocal/dh2/compat/GameTrace;' in game.read('classes2.dex')
+        checks['game_trace_helper_referenced']=b'Llocal/dh2/compat/GameTrace;' in game.read('classes.dex')
         checks['media_query_helper_present']=b'Llocal/dh2/compat/MediaQueries;' in game.read('classes2.dex')
         checks['media_query_helper_referenced']=b'Llocal/dh2/compat/MediaQueries;' in game.read('classes.dex')
-    checks['setup_and_cache_classes_present']=all(c in z.read('classes.dex') for c in [b'Lcom/zettabridge/launcher/Dh2Activity;',b'Lcom/zettabridge/launcher/CacheArchive;'])
+    checks['setup_and_cache_classes_present']=all(c in z.read('classes.dex') for c in [b'Lcom/zettabridge/launcher/Dh2Activity;',b'Lcom/zettabridge/launcher/CacheArchive;',b'Lcom/zettabridge/launcher/Dh2Diagnostics;'])
     for name in z.namelist():
         if name.startswith('assets/zb/'):
             assert z.read(name)==(WORK/'research/ZettaBridge/build/launcher'/name).read_bytes(),name
@@ -32,7 +34,7 @@ checks['application_id_unique']="package: name='local.dh2.fold7'" in badging
 checks['main_activity_correct']="launchable-activity: name='com.zettabridge.launcher.Dh2Activity'" in badging
 checks['min_sdk_29']="sdkVersion:'29'" in badging
 checks['target_sdk_35']="targetSdkVersion:'35'" in badging
-checks['upgrade_version_2']="versionCode='2'" in badging and "versionName='1.0-test2'" in badging
+checks['upgrade_version_3']="versionCode='3'" in badging and "versionName='1.0-test3'" in badging
 checks['native_hook_test_passed']='PASS shader and GL-string GOT hooks and original inline hook are installed' in (ROOT/'native-load-test.log').read_text()
 assert all(checks.values()),checks
 report={'checks':checks,'sha256':hashlib.sha256(apk.read_bytes()).hexdigest(),'bytes':apk.stat().st_size,'cache_test_cases':13,'native_probe_inputs':4096,'native_entry_points_tested_with_inert_vm':True,'android_art_tested':False,'phone_tested':False,'gameplay_tested':False,'requires_host_page_size':4096}
