@@ -1,0 +1,21 @@
+{
+  "host_build": true,
+  "arm64_build": true,
+  "sanitizer_passed": true,
+  "sanitizer_cases": 10000,
+  "asan_options": "detect_leaks=0",
+  "complete_engine": false,
+  "source_sha256": {
+    "resources.cpp": "9b93e43036f62094fd9d2fa68514f6e0035fbd3ff3aacc6acfaf9a605f476083",
+    "resources.hpp": "2cf4a179e8d8bbe1caa62c5c543ee540cc41b45fd0f7da605dea6f8173f54d61",
+    "tests/safety.cpp": "0af338055337f2504652b81d27ced690ef8c3527a54f12f1a049f44ab43f7bfe",
+    "build.py": "20227a2de787e04188eac8e556b66818c0d2e1f480010ffa849a976c2857b615"
+  },
+  "artifact_sha256": {
+    "libdh2_engine_resources_arm64.so": "45718b6a8fd1152749aa4fc5bffa60eadefa9de02110caf65acc1ad816b34cc9",
+    "libdh2_engine_resources_host.so": "2a34af6b35b2d297c241721d0321d5d196ffa54fb473ed1322df9a35277993ba",
+    "libresources_fixture_arm64.so": "8f77906361ae245f803465efbeb6d2f83e808d009e3f18d145e57fea3c1ad3af",
+    "libresources_fixture_host.so": "ae4df1be3b494732968ba0d5ac2d01220172015d61433840d1fde51755347c47"
+  },
+  "sanitizer_sample_sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6"
+}

@@ -1,0 +1,347 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "complete_function_count": 35,
+  "partial_function_count": 1,
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch2io15CMemoryReadFile9getBufferEPl",
+      "demangled": "glitch::io::CMemoryReadFile::getBuffer(long*)",
+      "elf_address": "0x0056eb6c",
+      "size": 20,
+      "sha256": "c045f460acf7f619d390a81efaffb198790ded3caaa8a159b4f2b4a70bd8b18a",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_buffer"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile13isAllInMemoryEv",
+      "demangled": "glitch::io::CMemoryReadFile::isAllInMemory() const",
+      "elf_address": "0x0056eb80",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_all_in_memory"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile7isValidEv",
+      "demangled": "glitch::io::CMemoryReadFile::isValid() const",
+      "elf_address": "0x0056eb8c",
+      "size": 32,
+      "sha256": "55e91ac2dc71386a9b84bbcaa3d5d8cf62ce8b5da97feb6bf11de258097f67c2",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_valid"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io15CMemoryReadFile9readAsyncEPvjPFviiPNS0_9IReadFileES2_ES2_",
+      "demangled": "glitch::io::CMemoryReadFile::readAsync(void*, unsigned int, void (*)(int, int, glitch::io::IReadFile*, void*), void*)",
+      "elf_address": "0x0056ebac",
+      "size": 52,
+      "sha256": "25232c587c29328a08993fef9359eb62baac53e17c92187195e99498a18ee99b",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_async"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io15CMemoryReadFile9readAsyncEPvjlPFviiPNS0_9IReadFileES2_ES2_",
+      "demangled": "glitch::io::CMemoryReadFile::readAsync(void*, unsigned int, long, void (*)(int, int, glitch::io::IReadFile*, void*), void*)",
+      "elf_address": "0x0056ebe0",
+      "size": 92,
+      "sha256": "525118f1246c7fc6151291c50e394dcb13cfd5b1ea94b0be44285797e5f85e9d",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_async_at"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io15CMemoryReadFile4seekElb",
+      "demangled": "glitch::io::CMemoryReadFile::seek(long, bool)",
+      "elf_address": "0x0056ec3c",
+      "size": 60,
+      "sha256": "7f83659505f67a5255ce8a43a1f20478be50c579c1b24a9133e883a6e4db40b0",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_seek"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile7getSizeEv",
+      "demangled": "glitch::io::CMemoryReadFile::getSize() const",
+      "elf_address": "0x0056ec78",
+      "size": 8,
+      "sha256": "92df6aa9eea4684d440ba48ad7aa66b50cfa50d181fe83163472ce5d9e95b67f",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_size"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile6getPosEv",
+      "demangled": "glitch::io::CMemoryReadFile::getPos() const",
+      "elf_address": "0x0056ec80",
+      "size": 8,
+      "sha256": "f97b82eff06f3455a7a831dfaa38d39255e289563ff5fe9fe5430f13e3727496",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_position"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile11getFileNameEv",
+      "demangled": "glitch::io::CMemoryReadFile::getFileName() const",
+      "elf_address": "0x0056ec88",
+      "size": 8,
+      "sha256": "ffe014f6eeeba0be14666f8531dd52e07886b87c26688fc23df953b96f0bfd37",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_name"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile11getFullPathEv",
+      "demangled": "glitch::io::CMemoryReadFile::getFullPath() const",
+      "elf_address": "0x0056ec90",
+      "size": 8,
+      "sha256": "ffe014f6eeeba0be14666f8531dd52e07886b87c26688fc23df953b96f0bfd37",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_full_path"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io15CMemoryReadFile4readEPvj",
+      "demangled": "glitch::io::CMemoryReadFile::read(void*, unsigned int)",
+      "elf_address": "0x0056ecc4",
+      "size": 88,
+      "sha256": "f8020173511a699476d76f307b8040ba90538c2691556d5eb2afb04df5d4a2f7",
+      "scope": "complete function",
+      "port_symbol": "dh2_memory_read"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase10getVersionEv",
+      "demangled": "glitch::collada::CColladaDatabase::getVersion() const",
+      "elf_address": "0x0060e2a8",
+      "size": 20,
+      "sha256": "7ee56aee4f0dce44bad10e254d6bfd9d771bcfe2a38ddfc3677b5577bb450862",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_version"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase23getAnimationClipLibraryEv",
+      "demangled": "glitch::collada::CColladaDatabase::getAnimationClipLibrary() const",
+      "elf_address": "0x0060e334",
+      "size": 20,
+      "sha256": "2ff21355746c838b2c33ebbf679ed1d549692e3acd1574fbc6b37101f9e8e56e",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_root_part",
+      "root_part_kind": 0
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase8getSceneEv",
+      "demangled": "glitch::collada::CColladaDatabase::getScene() const",
+      "elf_address": "0x0060e348",
+      "size": 20,
+      "sha256": "4e5924365f1df9a4f7e6402edfaa2a2af07ddeef3ec81311adc1e203a6a33b03",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_root_part",
+      "root_part_kind": 1
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase12getAnimationEi",
+      "demangled": "glitch::collada::CColladaDatabase::getAnimation(int) const",
+      "elf_address": "0x0060e35c",
+      "size": 24,
+      "sha256": "a71a4c8872d47f4eedbd9150316320b46495b8e9055373c0a2745fd94ea6dd79",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 0
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase16getAnimationClipEi",
+      "demangled": "glitch::collada::CColladaDatabase::getAnimationClip(int) const",
+      "elf_address": "0x0060e374",
+      "size": 28,
+      "sha256": "1b5ba97d9c2d3f89c37af6afa211271b0d90ca5806d30124cbaa1d5134ff539a",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 1
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase9getCameraEi",
+      "demangled": "glitch::collada::CColladaDatabase::getCamera(int) const",
+      "elf_address": "0x0060e390",
+      "size": 28,
+      "sha256": "fc5fcb90f019cadf57f99b65c87fd8cc7da2340c62d497206ce6fde6e479c783",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 2
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase8getLightEi",
+      "demangled": "glitch::collada::CColladaDatabase::getLight(int) const",
+      "elf_address": "0x0060e3ac",
+      "size": 28,
+      "sha256": "c4cdfaa71b40f0c1fcc421d1c7bc3df5102c0602d726c3eaf3b8591fcf491cd8",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 3
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase8getImageEi",
+      "demangled": "glitch::collada::CColladaDatabase::getImage(int) const",
+      "elf_address": "0x0060e3c8",
+      "size": 28,
+      "sha256": "540b23c65793cd8e76cfb435f3aea0861dd204feddd91e71688704d4475192d3",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 4
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase9getEffectEi",
+      "demangled": "glitch::collada::CColladaDatabase::getEffect(int) const",
+      "elf_address": "0x0060e3e4",
+      "size": 28,
+      "sha256": "86a8341de135e486dd3b6514c947eb84cd62abb5c53398b3ebd8a142f725029b",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 5
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase11getMaterialEi",
+      "demangled": "glitch::collada::CColladaDatabase::getMaterial(int) const",
+      "elf_address": "0x0060e400",
+      "size": 28,
+      "sha256": "d9efcc2e9e67f27e6fb5cc4ea7517e93aa3bd9272984d75e56d0366adb33f8c6",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 6
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase11getGeometryEi",
+      "demangled": "glitch::collada::CColladaDatabase::getGeometry(int) const",
+      "elf_address": "0x0060e41c",
+      "size": 24,
+      "sha256": "3689e7cdc7ffb4a9ee331ad50e89c3db562dd17485b4f3be5b01dc6c2126aba6",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 7
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase13getControllerEi",
+      "demangled": "glitch::collada::CColladaDatabase::getController(int) const",
+      "elf_address": "0x0060e434",
+      "size": 28,
+      "sha256": "b71df3fdaaf8005968c5553f309fd54f35c2198a9bd9473f480ef6d831c2ae3e",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 8
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase8getForceEi",
+      "demangled": "glitch::collada::CColladaDatabase::getForce(int) const",
+      "elf_address": "0x0060e450",
+      "size": 24,
+      "sha256": "abb0d831938902e08fd467065eae52dccc52cbae7a76feb7770ad638be43ae8a",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 11
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase10getEmitterEi",
+      "demangled": "glitch::collada::CColladaDatabase::getEmitter(int) const",
+      "elf_address": "0x0060e468",
+      "size": 28,
+      "sha256": "b3ef0c6e4a6c4f98f157f7e335613918a84b315b6afe17441ed20ee9bdf83bbe",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 9
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase14getGNPSEmitterEi",
+      "demangled": "glitch::collada::CColladaDatabase::getGNPSEmitter(int) const",
+      "elf_address": "0x0060e484",
+      "size": 28,
+      "sha256": "0fba6a1e1c32fbbd4036873b5bf8f8e2511a3c6219d6d94ffffdad8853e84576",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 10
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase10getCoronasEi",
+      "demangled": "glitch::collada::CColladaDatabase::getCoronas(int) const",
+      "elf_address": "0x0060e4a0",
+      "size": 28,
+      "sha256": "dc907bd62028ca05257644488f8e7bff86ee0c3e3f2da5ea815fdc9cf52467c5",
+      "scope": "complete function",
+      "port_symbol": "dh2_bres_library_item",
+      "library_kind": 12
+    },
+    {
+      "original_symbol": "_ZN6glitch3res4File4InitEv",
+      "demangled": "glitch::res::File::Init()",
+      "elf_address": "0x0069a40c",
+      "size": 1108,
+      "sha256": "e36600c917439651bfec9dedadfdf85537210401a6c00e0a5f96617e7f50a05a",
+      "scope": "whole-buffer branch only",
+      "port_symbol": "dh2_bres_open / dh2_bres_fixups"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io14CLimitReadFile4readEPvj",
+      "demangled": "glitch::io::CLimitReadFile::read(void*, unsigned int)",
+      "elf_address": "0x006b44e8",
+      "size": 152,
+      "sha256": "a157139d75c71b43d4e3b0964ab54c0f548deee046135cf0405f38781018bec4",
+      "scope": "complete function",
+      "port_symbol": "dh2_limit_read"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io14CLimitReadFile9readAsyncEPvjPFviiPNS0_9IReadFileES2_ES2_",
+      "demangled": "glitch::io::CLimitReadFile::readAsync(void*, unsigned int, void (*)(int, int, glitch::io::IReadFile*, void*), void*)",
+      "elf_address": "0x006b4580",
+      "size": 80,
+      "sha256": "a4b5c4ebdee989997338d4d74dc1d11fcc025dbe38b3afd298c6249f730f1bbe",
+      "scope": "complete function",
+      "port_symbol": "dh2_limit_async"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io14CLimitReadFile9readAsyncEPvjlPFviiPNS0_9IReadFileES2_ES2_",
+      "demangled": "glitch::io::CLimitReadFile::readAsync(void*, unsigned int, long, void (*)(int, int, glitch::io::IReadFile*, void*), void*)",
+      "elf_address": "0x006b45d0",
+      "size": 116,
+      "sha256": "d4f5957fe445d1561d19bd2a8058a1a4003b05dde1767ffa9472658bc34e4d96",
+      "scope": "complete function",
+      "port_symbol": "dh2_limit_async_at"
+    },
+    {
+      "original_symbol": "_ZN6glitch2io14CLimitReadFile4seekElb",
+      "demangled": "glitch::io::CLimitReadFile::seek(long, bool)",
+      "elf_address": "0x006b4644",
+      "size": 140,
+      "sha256": "3e90d56a3a766d56f84ddabe1baa88c65e1d3878874f192913b4471ab5bac8b4",
+      "scope": "complete function",
+      "port_symbol": "dh2_limit_seek"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io14CLimitReadFile7getSizeEv",
+      "demangled": "glitch::io::CLimitReadFile::getSize() const",
+      "elf_address": "0x006b46d0",
+      "size": 8,
+      "sha256": "bc7ed00b838995180d3bbf9e6e7b34b80030014fb0cce98eb890aaf3999b066f",
+      "scope": "complete function",
+      "port_symbol": "dh2_limit_size"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io14CLimitReadFile6getPosEv",
+      "demangled": "glitch::io::CLimitReadFile::getPos() const",
+      "elf_address": "0x006b46d8",
+      "size": 16,
+      "sha256": "09a68739084cede2d1c76478c91bfec32a24feeb8def108d3c3dae86fb799b33",
+      "scope": "complete function",
+      "port_symbol": "dh2_limit_position"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io14CLimitReadFile11getFileNameEv",
+      "demangled": "glitch::io::CLimitReadFile::getFileName() const",
+      "elf_address": "0x006b46e8",
+      "size": 8,
+      "sha256": "f794a96f7ae6cca84512e07d84d5433bb44a5caedd5c59ce72b1fa2cdf86e291",
+      "scope": "complete function",
+      "port_symbol": "dh2_limit_name"
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io14CLimitReadFile11getFullPathEv",
+      "demangled": "glitch::io::CLimitReadFile::getFullPath() const",
+      "elf_address": "0x006b46f0",
+      "size": 8,
+      "sha256": "096844bd4d841b76a36a9dc71e509b638387cfe1549b3674645b200d64cf8b3c",
+      "scope": "complete function",
+      "port_symbol": "dh2_limit_full_path"
+    }
+  ]
+}
