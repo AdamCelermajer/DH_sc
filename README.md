@@ -1,5 +1,7 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Local agent: start with [LOCAL_AGENT_HANDOFF.md](LOCAL_AGENT_HANDOFF.md).** It includes the current Test 5 diagnosis, device retest, exact build layout, open issues, emulator failure evidence, and a verified workspace-preparation helper. For the independent native-source route, read [RECONSTRUCTION-HANDOFF.md](RECONSTRUCTION-HANDOFF.md).
+
 ## Engine source reconstruction — mesh and animation checkpoint
 
 [Browse the mesh/animation C++ module](port/asset-payloads/README.md) and [verified binary layouts](port/asset-payloads/FORMATS.md). The loader decodes all 10,924 type-0 meshes and 890,301 animation time keys in the recovered BRES cache, including the Prince model's deferred buffers. Twenty-six complete animation accessor/search bodies pass [271,970 original-ARM32/compiled-ARM64 comparisons](reports/asset-payloads-arm-validation.json) with zero mismatches; all 456 original instruction addresses were exercised. Separate target checks pass 25,682 comparisons on 1,149 meshes. Host/ARM64 builds and 5,000 sanitizer probes pass. [OBJ and animation JSON examples](port/asset-payloads/examples/README.md) are included. Nine type-1 geometries, scene/controller and material/image decoding, GPU ownership, rendering and gameplay remain unfinished. This checkpoint is published directly on GitHub.
@@ -20,11 +22,13 @@ Thirteen path cases, five earlier file cases, native library/hook checks and APK
 
 Read [TEST5.md](compatibility/work/fold7-build/TEST5.md) for the diagnosis, assembly, test limits and device procedure. Test 5 modifies the engine binary; earlier byte-identical-engine statements refer to Tests 1–4.
 
-The complete compatibility snapshot is preserved in `compatibility-work-test5.zip`. Restore and verify it after cloning into a clean directory:
+The complete Test 5 compatibility snapshot is preserved in `compatibility-work-test5.zip`. Prepare a new work directory with current Git source overlaid on that verified snapshot:
 
 ```sh
-python unpack_compatibility.py
+python3 tools/prepare_local_agent.py ../DH2-local-work
 ```
+
+The helper verifies the archive and runtime inputs, restores the original-library layout expected by the patchers, and leaves the checkout unchanged. The destination must not exist. `unpack_compatibility.py` remains the exact historical restorer; see the handoff before using it with newer files.
 
 Authored source and reports are browsable under `compatibility/`; the standard full-directory ZIP is attached to the release. Previous releases and independent engine reconstruction are retained. External toolchains and duplicate intermediates are represented by versions, hashes and instructions. Original rights and third-party notices apply.
 
@@ -81,5 +85,5 @@ See [`docs/FINDINGS.md`](docs/FINDINGS.md) for evidence interpretation and [`doc
 - Inspect [`port/nativeinterface/README.md`](port/nativeinterface/README.md) for the buildable native component, its differential tests, and documented safe differences from undefined behavior in the original.
 - Give the rights holder this repository together with the exact input APK and complete original cache when available. Ask for original engine/build metadata and asset tooling; source-file names and subsystem inventories help focus that search.
 
-Art/audio binaries, input APKs, original `.so` files, toolchain binaries and signing keys are not committed. The recovery tooling operates on copies supplied separately by the owner. Recovered materials carry their original provenance; this repository does not assert an open-source license for the game. See [`RIGHTS.md`](RIGHTS.md).
+The independent reconstruction modules use owner-supplied inputs. The compatibility snapshot is an explicit exception to their earlier packaging policy: it includes original `.so` inputs, the tested runtime bundle, and a deliberately public development signing-key fixture. Complete art/audio cache archives and external SDK/NDK/JDK/emulator toolchains are not included. The local-agent handoff identifies which older recovery-package paths are absent from this checkout. Recovered materials carry their original provenance; this repository does not assert an open-source license for the game. See [`RIGHTS.md`](RIGHTS.md).
 
