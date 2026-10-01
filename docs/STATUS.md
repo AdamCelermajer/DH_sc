@@ -1,5 +1,7 @@
 # Recovery status — 2026-10-01
 
+**Later input note (2026-10-02):** a separately supplied local cache ZIP is valid and contains 6,833 files, including the previously truncated WAV. See [COMPLETE-CACHE.md](COMPLETE-CACHE.md). Counts below document the earlier ten-part partial recovery and are not a full-cache validation result.
+
 This package is a source-recovery workspace and studio handoff. It is not a completed game source restoration or a playable ARM64 APK.
 
 ## Final export accounting

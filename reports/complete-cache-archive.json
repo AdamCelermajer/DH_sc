@@ -1,0 +1,62 @@
+{
+  "archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "archive_bytes": 433189197,
+  "zip_integrity": "all entries read with valid CRC and length",
+  "files": 6833,
+  "directories_below_files_root": 253,
+  "uncompressed_file_bytes": 648357710,
+  "extensions": {
+    "": 248,
+    ".bak": 3,
+    ".bar": 2,
+    ".bdae": 2904,
+    ".bin": 215,
+    ".checkpoint": 2,
+    ".english": 37,
+    ".fnt": 1,
+    ".french": 37,
+    ".german": 37,
+    ".italian": 37,
+    ".japanese": 37,
+    ".korean": 37,
+    ".lightset_xml": 40,
+    ".luac": 219,
+    ".mgp": 629,
+    ".mgx": 250,
+    ".mlx": 400,
+    ".mp4": 3,
+    ".mvp": 598,
+    ".mvx": 253,
+    ".pak": 1,
+    ".png": 121,
+    ".savegame": 4,
+    ".sc": 37,
+    ".spanish": 37,
+    ".state": 1,
+    ".swf": 30,
+    ".symbols": 37,
+    ".tga": 242,
+    ".ttf": 7,
+    ".tweaker_xml": 2,
+    ".txt": 23,
+    ".vxn": 17,
+    ".wav": 244,
+    ".xml": 41
+  },
+  "format_signatures": {
+    "BRES": 2904,
+    "BTEXpvr": 234,
+    "other_tga": 8
+  },
+  "key_entries": {
+    "data/3d/characters/prince/prince_modular.bdae": {
+      "bytes": 3207072,
+      "crc32": "029adf0f"
+    },
+    "data/sounds/m_world_map.wav": {
+      "bytes": 1037460,
+      "crc32": "001a9d4a"
+    }
+  },
+  "scope": "archive integrity and inventory; game loading and asset-reference completeness untested"
+}

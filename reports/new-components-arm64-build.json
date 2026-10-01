@@ -1,0 +1,36 @@
+{
+  "ndk": "r29 (29.0.14206865)",
+  "android_api": 26,
+  "host_execution": false,
+  "components": {
+    "material-bindings": {
+      "elf_machine": "EM_AARCH64",
+      "elf_class": "ELF64",
+      "pt_load_alignments": [
+        16384,
+        16384
+      ],
+      "artifact_bytes": 20728,
+      "artifact_sha256": "6bae33d69fca5a8fa7857ce54154d538f3a302b04a651271d26859a59d953cab",
+      "source_sha256": {
+        "port/material-bindings/bindings.cpp": "4581a3d517311074f3c7339c39aa707cf337b3b50041ac6442eedd927b4402d5",
+        "port/material-bindings/bindings.hpp": "ed4a362e86b57ad9041791102cc726ee219108d08999feae7065c465a32d87fe",
+        "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+      }
+    },
+    "texture-assets": {
+      "elf_machine": "EM_AARCH64",
+      "elf_class": "ELF64",
+      "pt_load_alignments": [
+        16384,
+        16384
+      ],
+      "artifact_bytes": 7456,
+      "artifact_sha256": "8936e9b154065466711359eb0c3173af7ee58081c61005b30c46c804223c9500",
+      "source_sha256": {
+        "port/texture-assets/texture.cpp": "b3590aa070633718ca3aa9db027b471d53547282acdf146df0be22cdb2fad423",
+        "port/texture-assets/texture.hpp": "ce34d8a59acc940c981f3568793d4406a1e50430a52a06f1bb9abc7ff0dfded0"
+      }
+    }
+  }
+}
