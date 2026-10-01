@@ -1,0 +1,35 @@
+{
+  "scope": "host versus executed compiled ARM64 mesh decoder; original constructor is not executed",
+  "complete_engine": false,
+  "comparisons": 25682,
+  "mismatches": 0,
+  "meshes": 1149,
+  "vertices": 98642,
+  "indices": 214908,
+  "arm64_pointers_above_4gib": true,
+  "files": [
+    {
+      "file": "data/3d/animateddecors/candle_flame.bdae",
+      "sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6",
+      "decoded_meshes": 2
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+      "decoded_meshes": 173
+    },
+    {
+      "file": "data/3d/menu/main_menu_charactere_swamp.bdae",
+      "sha256": "8a3462863a3d6ca2255d96989d53a21cddfba821e42c8a13e676f10e51d1300b",
+      "decoded_meshes": 3
+    },
+    {
+      "file": "data/3d/modules/darkwood/darkwood2.bdae",
+      "sha256": "8b51825a87a8c7543ec3c6a62881aa09add3b424a7c77d6a458e008a43d3d134",
+      "decoded_meshes": 971
+    }
+  ],
+  "ported_sha256": "416d863fccbc67795a4390bb383471660af0f6480b2119bf4e859e432754518d",
+  "host_sha256": "8c5d68ac19d97810857776e46525aec76dbd12b1d2a99bd8cb72bf4f80582864",
+  "elapsed_seconds": 1.05
+}

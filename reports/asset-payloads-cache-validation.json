@@ -1,0 +1,94 @@
+{
+  "all_checks_passed": true,
+  "scope": "full recovered BRES cache; immutable payload decoding and data integrity",
+  "complete_engine": false,
+  "totals": {
+    "files": 2901,
+    "file_bytes": 143565008,
+    "decoded_meshes": 10924,
+    "vertices": 1641664,
+    "finite_vertex_components": 19856116,
+    "vertex_scalar_reader_checks": 90964,
+    "primitives": 11962,
+    "indices": 3265266,
+    "triangles": 1088422,
+    "index_scalar_reader_checks": 23924,
+    "segments": 3732,
+    "animation_data_entries": 165760,
+    "animations": 49060,
+    "animation_segment_views": 82803,
+    "sampler_segment_vectors": 82880,
+    "animation_time_keys": 890301,
+    "finite_animation_components": 3244961,
+    "animation_scalar_reader_checks": 140511,
+    "files_with_deferred_mesh_buffers": 1
+  },
+  "types": {
+    "vertex_6_3": 21848,
+    "vertex_1_4": 8460,
+    "vertex_6_2": 15174,
+    "primitive_0": 11962,
+    "time_4": 1493,
+    "output_6_3": 25455,
+    "time_1": 77760,
+    "output_6_4": 53827,
+    "time_3": 3627,
+    "output_6_1": 3127,
+    "output_1_4": 410,
+    "output_1_1": 61
+  },
+  "segment_states": {
+    "1": 1454,
+    "0": 2278
+  },
+  "unsupported_geometry": [
+    {
+      "file": "data/3d/characters/dragon/dragon.bdae",
+      "geometry": 0,
+      "type": 1
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_attack_02.bdae",
+      "geometry": 0,
+      "type": 1
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_attack_03.bdae",
+      "geometry": 0,
+      "type": 1
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_intimidate.bdae",
+      "geometry": 0,
+      "type": 1
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_intimidate_01.bdae",
+      "geometry": 0,
+      "type": 1
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_intimidate_01b.bdae",
+      "geometry": 0,
+      "type": 1
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_intimidate_02.bdae",
+      "geometry": 0,
+      "type": 1
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_intimidate_03.bdae",
+      "geometry": 0,
+      "type": 1
+    },
+    {
+      "file": "data/3d/interface/spell_dh2_splined_projectile.bdae",
+      "geometry": 0,
+      "type": 1
+    }
+  ],
+  "cache_manifest_sha256": "07ea5c64c073a4add2503e52858a8875adea1f792e86e05a8a573b49a223edf8",
+  "library_sha256": "8c5d68ac19d97810857776e46525aec76dbd12b1d2a99bd8cb72bf4f80582864",
+  "elapsed_seconds": 6.54
+}

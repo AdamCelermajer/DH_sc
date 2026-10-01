@@ -1,0 +1,21 @@
+{
+  "host_build": true,
+  "arm64_build": true,
+  "sanitizer_passed": true,
+  "sanitizer_cases": 5000,
+  "asan_options": "detect_leaks=0",
+  "complete_engine": false,
+  "source_sha256": {
+    "payloads.cpp": "58759e11390a84428799c67f9804e72e8094ca1c0053af8c8411e9f3442cf3e9",
+    "payloads.hpp": "087cc28e99e670272c4747782eeb4cfdda4b4ffe1cc8a846938bbdc491ad6f5c",
+    "build.py": "4c521e2816d8c2a2698dc8c3a3d4828118a6c9e237f6592a71610b432f998e7c",
+    "tests/safety.cpp": "4c38147469581f0c40203442aec29327820f81c9214376efd4afb0951ae5a3d1",
+    "../engine-resources/resources.cpp": "9b93e43036f62094fd9d2fa68514f6e0035fbd3ff3aacc6acfaf9a605f476083",
+    "../engine-resources/resources.hpp": "2cf4a179e8d8bbe1caa62c5c543ee540cc41b45fd0f7da605dea6f8173f54d61"
+  },
+  "artifact_sha256": {
+    "libdh2_asset_payloads_arm64.so": "416d863fccbc67795a4390bb383471660af0f6480b2119bf4e859e432754518d",
+    "libdh2_asset_payloads_host.so": "8c5d68ac19d97810857776e46525aec76dbd12b1d2a99bd8cb72bf4f80582864"
+  },
+  "sanitizer_sample_sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6"
+}

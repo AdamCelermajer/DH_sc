@@ -1,8 +1,12 @@
 # Dungeon Hunter 2 — source reconstruction
 
+## Engine source reconstruction — mesh and animation checkpoint
+
+[Browse the mesh/animation C++ module](port/asset-payloads/README.md) and [verified binary layouts](port/asset-payloads/FORMATS.md). The loader decodes all 10,924 type-0 meshes and 890,301 animation time keys in the recovered BRES cache, including the Prince model's deferred buffers. Twenty-six complete animation accessor/search bodies pass [271,970 original-ARM32/compiled-ARM64 comparisons](reports/asset-payloads-arm-validation.json) with zero mismatches; all 456 original instruction addresses were exercised. Separate target checks pass 25,682 comparisons on 1,149 meshes. Host/ARM64 builds and 5,000 sanitizer probes pass. [OBJ and animation JSON examples](port/asset-payloads/examples/README.md) are included. Nine type-1 geometries, scene/controller and material/image decoding, GPU ownership, rendering and gameplay remain unfinished. This checkpoint is published directly on GitHub.
+
 ## Engine source reconstruction — resource checkpoint
 
-[Browse the resource-loading C++ module](port/engine-resources/README.md). This adds 35 complete reader/Collada-accessor bodies and the whole-buffer BRES relocation branch, reconstructed from original ARM instructions and compiled for ARM64. [Validation](reports/engine-resources-validation.json) passed 10,449 reader comparisons and every fixup in all 2,901 recovered BRES images: 2,577,206 fixups, with zero mismatches. The port exposes top-level animation/image/material/geometry tables using native pointers while preserving the serialized 32-bit offsets. Nested payload decoding, rendering and gameplay remain unfinished. This checkpoint is published directly on GitHub; the existing Drive ZIP remains the earlier math checkpoint.
+[Browse the resource-loading C++ module](port/engine-resources/README.md). This adds 35 complete reader/Collada-accessor bodies and the whole-buffer BRES relocation branch, reconstructed from original ARM instructions and compiled for ARM64. [Validation](reports/engine-resources-validation.json) passed 10,449 reader comparisons and every fixup in all 2,901 recovered BRES images: 2,577,206 fixups, with zero mismatches. The port exposes top-level animation/image/material/geometry tables using native pointers while preserving the serialized 32-bit offsets. The subsequent payload checkpoint above adds mesh/raw-animation decoding; image/material decoding, rendering and gameplay remain unfinished. This checkpoint is published directly on GitHub; the existing Drive ZIP remains the earlier math checkpoint.
 
 ## Engine source reconstruction — math checkpoint
 
@@ -24,7 +28,7 @@ python unpack_compatibility.py
 
 Authored source and reports are browsable under `compatibility/`; the standard full-directory ZIP is attached to the release. Previous releases and independent engine reconstruction are retained. External toolchains and duplicate intermediates are represented by versions, hashes and instructions. Original rights and third-party notices apply.
 
-**Download the complete recovery handoff:** [Google Drive folder](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). The folder contains the source ZIP, full native assembly/symbol bundles, validation artifacts, the exact supplied APK and all ten supplied cache parts. Start with START-HERE.txt. This GitHub repository contains the engine math/resource checkpoints and compatibility work. The remaining recovery paths below refer to the downloaded source package.
+**Download the complete recovery handoff:** [Google Drive folder](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). The folder contains the source ZIP, full native assembly/symbol bundles, validation artifacts, the exact supplied APK and all ten supplied cache parts. Start with START-HERE.txt. This GitHub repository contains the engine math/resource/payload checkpoints and compatibility work. The remaining recovery paths below refer to the downloaded source package.
 
 This repository contains code recovered from the supplied **Dungeon Hunter 2 HD v1.0.2 Android APK**, binary evidence for its native engine, recovered level configurations and shaders, and independently reconstructed port components. Its purpose is a reviewable studio handoff and a starting point for restoring the game on modern Android.
 
@@ -44,6 +48,7 @@ This repository contains code recovered from the supplied **Dungeon Hunter 2 HD 
 | Android Java repair | Separately maintained compilation repairs; exact validation and remaining JNI/reflection risks in its own README | [`port/android-java`](port/android-java) |
 | Engine math reconstruction | Buildable C++ for 20 original vector/quaternion/matrix routines; 21,477 ARM32/ARM64 comparisons passed | [`port/engine-math`](port/engine-math), [`reports/engine-math-validation.json`](reports/engine-math-validation.json) |
 | Resource reconstruction | Buildable C++ for 35 complete reader/accessor bodies plus whole-buffer BRES relocation; all 2,901 recovered BRES files validated | [`port/engine-resources`](port/engine-resources), [`reports/engine-resources-validation.json`](reports/engine-resources-validation.json) |
+| Mesh/animation reconstruction | ARM64 C++ decoder, OBJ/raw-key export, 26 animation bodies and 271,970 original-instruction comparisons | [`port/asset-payloads`](port/asset-payloads), [`reports/asset-payloads-arm-validation.json`](reports/asset-payloads-arm-validation.json) |
 | Recovery tooling | Scripts to reproduce the recovery from the owner's APK and cache parts | [`tools`](tools), [`docs/REPRODUCING.md`](docs/REPRODUCING.md) |
 
 Large assembly and ELF inventories are included as compressed bundles to keep the repository manageable. No evidence is dropped by this packaging. After cloning, restore their individual files with:
@@ -71,8 +76,10 @@ See [`docs/FINDINGS.md`](docs/FINDINGS.md) for evidence interpretation and [`doc
 - Read [`docs/STATUS.md`](docs/STATUS.md) for generated coverage and test results.
 - For behavior, prefer exact smali/assembly over a decompiler's inferred types or control flow. A `.pseudo.c` file deliberately does not claim to compile.
 - Inspect [`port/engine-math/README.md`](port/engine-math/README.md) for the math module, original-address mapping and differential-test limits. Floating-point helper metadata incorrectly truncates 16 of 19 vector/quaternion pseudocode bodies; their assembly remains complete.
-- Inspect [`port/engine-resources/README.md`](port/engine-resources/README.md) for memory/subfile readers, checked BRES offset loading, Collada table layouts and original-instruction checks. Mesh/texture payload decoding and rendering remain unfinished.
+- Inspect [`port/engine-resources/README.md`](port/engine-resources/README.md) for memory/subfile readers, checked BRES offset loading, Collada table layouts and original-instruction checks. The next payload checkpoint adds mesh and raw animation decoding; image/material decoding and rendering remain unfinished.
+- Inspect [`port/asset-payloads/README.md`](port/asset-payloads/README.md) for checked mesh/deferred-buffer decoding, raw animation keys, original keyframe timing/search and small real exports. Its format tables and reports distinguish complete animation functions from partial GPU/ownership evidence.
 - Inspect [`port/nativeinterface/README.md`](port/nativeinterface/README.md) for the buildable native component, its differential tests, and documented safe differences from undefined behavior in the original.
 - Give the rights holder this repository together with the exact input APK and complete original cache when available. Ask for original engine/build metadata and asset tooling; source-file names and subsystem inventories help focus that search.
 
 Art/audio binaries, input APKs, original `.so` files, toolchain binaries and signing keys are not committed. The recovery tooling operates on copies supplied separately by the owner. Recovered materials carry their original provenance; this repository does not assert an open-source license for the game. See [`RIGHTS.md`](RIGHTS.md).
+

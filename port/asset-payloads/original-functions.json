@@ -1,0 +1,308 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "complete_function_count": 26,
+  "partial_evidence_function_count": 4,
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch7collada17SAnimationSegment7getDataERNS_3res14onDemandReaderE",
+      "demangled": "glitch::collada::SAnimationSegment::getData(glitch::res::onDemandReader&)",
+      "elf_address": "0x0060bee4",
+      "size": 376,
+      "sha256": "788f4a36e0d9bb8f96853957b2a298e795453ca974637ae6f7c351dff13e4da2",
+      "scope": "inner animation-data relocation only",
+      "port_symbol": "checked schema decoder"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada5CMeshC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERKNS0_9SGeometryERKNS0_13SBufferConfigESD_b",
+      "demangled": "glitch::collada::CMesh::CMesh(glitch::collada::CColladaDatabase const&, glitch::video::IVideoDriver*, glitch::collada::SGeometry const&, glitch::collada::SBufferConfig const&, glitch::collada::SBufferConfig const&, bool)",
+      "elf_address": "0x00645588",
+      "size": 1504,
+      "sha256": "f84f873b135b3507caae483dfa74e54d829dd0a31f9a517049e3c999d13cea0a",
+      "scope": "deferred buffer selection and mesh fields only",
+      "port_symbol": "checked schema decoder"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getTargetEv",
+      "demangled": "glitch::collada::SAnimationAccessor::getTarget() const",
+      "elf_address": "0x00669e00",
+      "size": 16,
+      "sha256": "659f05d42a0b6ebc6828359e2771bd7921d7d471cd9c198f143132cb27638e0b",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_target"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor7getTypeEi",
+      "demangled": "glitch::collada::SAnimationAccessor::getType(int) const",
+      "elf_address": "0x00669e10",
+      "size": 20,
+      "sha256": "6941526b310494cf375881ec358efd2ec8d5f9fab7f059510ebf8f565bb55c26",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_type"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getOutputEi",
+      "demangled": "glitch::collada::SAnimationAccessor::getOutput(int) const",
+      "elf_address": "0x00669e24",
+      "size": 32,
+      "sha256": "ebbae3803b8841315855c8aeb748d80121405fb42b1082a214e3feffb0dc5fe7",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_vector (output)"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor10getChannelEi",
+      "demangled": "glitch::collada::SAnimationAccessor::getChannel(int) const",
+      "elf_address": "0x00669e44",
+      "size": 16,
+      "sha256": "e8610324e8cd139a6c6fcc3c6579cbb3e07a0d246935b97eb37b2ca0ef59a495",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_channel"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor15hasDefaultValueEv",
+      "demangled": "glitch::collada::SAnimationAccessor::hasDefaultValue() const",
+      "elf_address": "0x00669e54",
+      "size": 20,
+      "sha256": "2fe191dca60a4c07938f8796b51e56b7254b2aeabc0e4f899971db00a561ba61",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_has_default"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor15getDefaultValueEv",
+      "demangled": "glitch::collada::SAnimationAccessor::getDefaultValue() const",
+      "elf_address": "0x00669e68",
+      "size": 16,
+      "sha256": "78eebd674d99c6aecafef75963c29be3fe2eb4a282e3e02a2a3ea98a16efbfac",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_default"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16getChannelsCountEv",
+      "demangled": "glitch::collada::SAnimationAccessor::getChannelsCount() const",
+      "elf_address": "0x00669e78",
+      "size": 12,
+      "sha256": "fc82fb84f4f13c25db8e14035637485696b844bc0b2c68468bee416331798345",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_channels"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor19getTimeInternalTypeEi",
+      "demangled": "glitch::collada::SAnimationAccessor::getTimeInternalType(int) const",
+      "elf_address": "0x00669e84",
+      "size": 24,
+      "sha256": "1fac2e785711e9b0531f5a6f5dcf0f583ce40c9612a905d23260febdbaef1020",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_time_type"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor20getInterpolationTypeEi",
+      "demangled": "glitch::collada::SAnimationAccessor::getInterpolationType(int) const",
+      "elf_address": "0x00669e9c",
+      "size": 24,
+      "sha256": "17f33990935bd9de3355b2dd13c4ab353473195ea7afe5182b96af747545a2ff",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_interpolation"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor10getOffsetsEv",
+      "demangled": "glitch::collada::SAnimationAccessor::getOffsets() const",
+      "elf_address": "0x00669eb4",
+      "size": 16,
+      "sha256": "b37982ebf52d7fc4df21cacd904d4233e9a284e76cd560aad5a279b03a8f0050",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_offsets"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getScalesEv",
+      "demangled": "glitch::collada::SAnimationAccessor::getScales() const",
+      "elf_address": "0x00669ec4",
+      "size": 16,
+      "sha256": "27e64fbcf0f52d79a6dc2cca7f8b66fd057f1388c7957d6efd8f101add82be28",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_scales"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor18getOffsetScaleTypeEv",
+      "demangled": "glitch::collada::SAnimationAccessor::getOffsetScaleType() const",
+      "elf_address": "0x00669ed4",
+      "size": 24,
+      "sha256": "72db9aec7f00857fcf1d541af9586f8844cef460ad342a2c7200b89d86fe237f",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_scale_type"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor10getKeyTimeEi",
+      "demangled": "glitch::collada::SAnimationAccessor::getKeyTime(int) const",
+      "elf_address": "0x00669eec",
+      "size": 32,
+      "sha256": "1a440d4d63ee559d0d99fea56f78c50e6df2eb1a086942c1da626e4367402e3d",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_vector (time)"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor10getKeyTimeEii",
+      "demangled": "glitch::collada::SAnimationAccessor::getKeyTime(int, int) const",
+      "elf_address": "0x00669f0c",
+      "size": 160,
+      "sha256": "837eddd9a77cadf86693f62572d40a7b34828f458bbf53b41c0c3f59c2adc3a4",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_key_time"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor8getStartEi",
+      "demangled": "glitch::collada::SAnimationAccessor::getStart(int) const",
+      "elf_address": "0x00669fac",
+      "size": 8,
+      "sha256": "9a7b1175657cdf42b0db925488fe57a60994472d1782091659306e1a4a8ada7a",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_start"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor6getEndEi",
+      "demangled": "glitch::collada::SAnimationAccessor::getEnd(int) const",
+      "elf_address": "0x00669fb4",
+      "size": 40,
+      "sha256": "a3a47602cfc95d9a51fbf4f17a0d5f8360bab9616ca78401d677f68aa79ebaee",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_end"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getLengthEi",
+      "demangled": "glitch::collada::SAnimationAccessor::getLength(int) const",
+      "elf_address": "0x00669fdc",
+      "size": 40,
+      "sha256": "52b7ac584ca9531084a29f727fc445a4cadbd168924ae6c603381733d90018a8",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_length"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor11getAnimatorEv",
+      "demangled": "glitch::collada::SAnimationAccessor::getAnimator() const",
+      "elf_address": "0x0066a004",
+      "size": 12,
+      "sha256": "720aee2d02bc76f44bf680961bf055107aaf6c1936ba4cbd5b0168e17f1877db",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_animator"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIiLi1000EEEbiRKNS_3res6vectorIiEEiRi",
+      "demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<int, 1000>(int, glitch::res::vector<int> const&, int, int&) const",
+      "elf_address": "0x0066a1f0",
+      "size": 188,
+      "sha256": "c42cc464f1b15ecca7b4664778a261d7f61b76c27c254da6b7f2791617070d45",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_find_index (int)"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIiLi1000EEEbiRKNS_3res6vectorIiEEiRiRf",
+      "demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<int, 1000>(int, glitch::res::vector<int> const&, int, int&, float&) const",
+      "elf_address": "0x0066a2ac",
+      "size": 188,
+      "sha256": "95bc4d481296856e9bec3ddb45713ca87d81611804787bbbfc57cc3862b5e0a2",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_find (int)"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoIhLi30EEEbRKNS_3res6vectorIiEEiRi",
+      "demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNo<unsigned char, 30>(glitch::res::vector<int> const&, int, int&) const",
+      "elf_address": "0x0066a6d0",
+      "size": 184,
+      "sha256": "47b59d0d0bccbd87ceab118c787f323403d0a4cb703ffdcd9d72b088da4baf44",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_find_raw_index (byte)"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIhLi30EEEbiRKNS_3res6vectorIiEEiRi",
+      "demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<unsigned char, 30>(int, glitch::res::vector<int> const&, int, int&) const",
+      "elf_address": "0x0066a788",
+      "size": 60,
+      "sha256": "415613bce34431e0c3ba089ea346801cbd11d3bfc3a8ca2332b0d7539f786db8",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_find_index (byte)"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIhLi30EEEbiRKNS_3res6vectorIiEEiRiRf",
+      "demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<unsigned char, 30>(int, glitch::res::vector<int> const&, int, int&, float&) const",
+      "elf_address": "0x0066a7c4",
+      "size": 208,
+      "sha256": "dbf7f28e3fc752b740704554f80fbab7de14ecfe4a3919d78fb4a3adfbe52ae9",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_find (byte)"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoItLi30EEEbRKNS_3res6vectorIiEEiRi",
+      "demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNo<unsigned short, 30>(glitch::res::vector<int> const&, int, int&) const",
+      "elf_address": "0x0066abb8",
+      "size": 192,
+      "sha256": "2fc90865236755a6f418b2fb447948a7267619fbcdc0a10d8ca3766cf0c277a7",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_find_raw_index (short)"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExItLi30EEEbiRKNS_3res6vectorIiEEiRi",
+      "demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<unsigned short, 30>(int, glitch::res::vector<int> const&, int, int&) const",
+      "elf_address": "0x0066ac78",
+      "size": 60,
+      "sha256": "924bc45a4961a5f79852d060ff280f36d112d5141864976976450e1faf026bd2",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_find_index (short)"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExItLi30EEEbiRKNS_3res6vectorIiEEiRiRf",
+      "demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<unsigned short, 30>(int, glitch::res::vector<int> const&, int, int&, float&) const",
+      "elf_address": "0x0066acb4",
+      "size": 216,
+      "sha256": "00936c7495149f81aea20d9887bf9691912dda5fee60e91c938a33e3347f1b08",
+      "scope": "complete function",
+      "port_symbol": "dh2_animation_find (short)"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene12_GLOBAL__N_19addStreamEPNS_5video12IVideoDriverERNS_7collada5SMeshERNS5_11SMeshBufferEcPNS2_17SVertexStreamDataEhRKNS5_13SBufferConfigE",
+      "demangled": "glitch::scene::(anonymous namespace)::addStream(glitch::video::IVideoDriver*, glitch::collada::SMesh&, glitch::collada::SMeshBuffer&, char, glitch::video::SVertexStreamData*, unsigned char, glitch::collada::SBufferConfig const&)",
+      "elf_address": "0x006bccf0",
+      "size": 656,
+      "sha256": "6b31fed2a17e981495a87a9a3dcb4ab7a65aefcf249972cb1590dedf1dc58034",
+      "scope": "interleaved stream fields only",
+      "port_symbol": "checked schema decoder"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene11CMeshBufferC2EPNS_5video12IVideoDriverERNS_7collada5SMeshEjRKNS5_13SBufferConfigESA_b",
+      "demangled": "glitch::scene::CMeshBuffer::CMeshBuffer(glitch::video::IVideoDriver*, glitch::collada::SMesh&, unsigned int, glitch::collada::SBufferConfig const&, glitch::collada::SBufferConfig const&, bool)",
+      "elf_address": "0x006bcf80",
+      "size": 2680,
+      "sha256": "7f9395749140adaefd3f58ceaa581417a0767ad64e045e1bbfd18d6403f64cb2",
+      "scope": "primitive/attribute/index fields only",
+      "port_symbol": "checked schema decoder"
+    }
+  ],
+  "static_tables": [
+    {
+      "elf_address": "0x008e4ca4",
+      "name": "SVertexAttributeTypeInspection::ValueTypeSize",
+      "bytes": [
+        1,
+        1,
+        2,
+        2,
+        4,
+        4,
+        4
+      ],
+      "size": 7,
+      "sha256": "b8b852d4a0f66f1bbfc9c41d0d283f210f4f739a3356c07ea5f4bcb3308b2a14"
+    },
+    {
+      "elf_address": "0x008eb338",
+      "name": "ColladaPrimitiveMap (engine enum, not GL enum)",
+      "words": [
+        6,
+        4,
+        3,
+        1,
+        2
+      ],
+      "size": 20,
+      "sha256": "f30a2e2c478fae6b15bd7912c393438f6b3482646ff426aa6594d3d67e617420"
+    }
+  ]
+}
