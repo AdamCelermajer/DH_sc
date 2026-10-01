@@ -40,7 +40,18 @@ void* dh2_fopen_guard(const char* path,const char* mode) {
             return 0;
         }
     }
-    return storm_fopen(path,mode);
+    void* result=storm_fopen(path,mode);
+    int saved_errno=*storm_errno();
+    /* Record the asset whose failed reopen immediately preceded Test 4's
+     * COnDemandReader null dispatch. Do not flood logs for all engine opens. */
+    const char* basename=path;
+    if(path)for(const char* p=path;*p;++p)if(*p=='/' || *p=='\\')basename=p+1;
+    const char* expected="prince_modular.bdae";
+    const char* match=basename;
+    if(match){while(*match && *match==*expected){++match;++expected;}
+        if(!*match && !*expected)dh2_note(result?"DH2Model opened: ":"DH2Model open failed: ",path);}
+    *storm_errno()=saved_errno;
+    return result;
 }
 
 /* The engine's no-exceptions STL prints a reason with puts before aborting.

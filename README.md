@@ -8,21 +8,21 @@
 
 [Browse the reconstructed C++ module](port/engine-math/README.md). Twenty original vector/quaternion/matrix function starts have been rewritten from ARM assembly and compile for ARM64. The [recorded test report](reports/engine-math-validation.json) contains 21,477 original-ARM32 versus compiled-ARM64 comparisons with zero mismatches, under the documented external arithmetic/libm model. All 1,704 original instruction addresses in these routines were exercised. This is a tested engine component; asset loading, rendering and gameplay reconstruction remain unfinished. The full source ZIP and validation-artifact ZIP in the Drive folder below now include this checkpoint.
 
-## Fold7 compatibility build — test 4
+## Fold7 compatibility build — test 5
 
-[Download the Test 4 APK and complete work archive](https://github.com/Noamcelermajer/DH_sc/releases/tag/v1.0.2-fold7-test4). The owner's Test 3 diagnostics point to an original-engine file-path bounds check. Calling the original ARM32 file-opening code with a directory path reproduces the same abort stack. Test 4 rejects that invalid file input through the engine's existing failure path, and preserves buffered native error messages.
+[Download the Test 5 APK and complete work archive](https://github.com/Noamcelermajer/DH_sc/releases/tag/v1.0.2-fold7-test5). The Test 4 phone report confirms its directory guard ran, followed by a new failure reopening the prince character model with a duplicated cache root. An original-engine probe reproduces the bad absolute-path classification. Test 5 changes five ARM instructions to recognize Android absolute paths and records model-open results.
 
-All five file-opening regressions, the native library/hook probe and package/upgrade checks pass. **The exact failing phone path and successful gameplay still require a Fold7 retest.** Install over Test 3, keep the same options and cache, repeat the fairy loading-screen failure, then export diagnostics. The Russian language issue remains unresolved.
+Thirteen path cases, five earlier file cases, native library/hook checks and APK/signature checks pass. **Loading and gameplay still need a Fold7 retest.** Install over Test 4, keep the same options and cache, repeat the load, then export DH2-test5-diagnostics.zip. Russian menus, display behavior and the earlier GL error remain unresolved or unverified.
 
-Read [TEST4.md](compatibility/work/fold7-build/TEST4.md) for disassembly evidence, test limits and the phone procedure, and the [bridge assessment](compatibility/work/fold7-build/BRIDGE-ASSESSMENT.md) for compatibility decisions.
+Read [TEST5.md](compatibility/work/fold7-build/TEST5.md) for the diagnosis, assembly, test limits and device procedure. Test 5 modifies the engine binary; earlier byte-identical-engine statements refer to Tests 1–4.
 
-All **2,141 compatibility-work files** are preserved in `compatibility-work-test4.zip`, including code, phone reports, tests, build inputs and historical findings. Restore and verify the complete snapshot after cloning into a clean directory:
+The complete compatibility snapshot is preserved in `compatibility-work-test5.zip`. Restore and verify it after cloning into a clean directory:
 
 ```sh
 python unpack_compatibility.py
 ```
 
-Authored source and reports are also browsable under `compatibility/`; a standard full-directory ZIP is attached to the release. Prior releases/snapshots and independent engine reconstruction are retained. External toolchains and duplicate build intermediates are represented by versions, hashes and instructions. The compatibility snapshot contains native/runtime inputs and a deliberately public development-only signing fixture; original rights and third-party notices apply.
+Authored source and reports are browsable under `compatibility/`; the standard full-directory ZIP is attached to the release. Previous releases and independent engine reconstruction are retained. External toolchains and duplicate intermediates are represented by versions, hashes and instructions. Original rights and third-party notices apply.
 
 **Download the complete recovery handoff:** [Google Drive folder](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). The folder contains the source ZIP, full native assembly/symbol bundles, validation artifacts, the exact supplied APK and all ten supplied cache parts. Start with START-HERE.txt. This GitHub repository contains the engine math/resource checkpoints and compatibility work. The remaining recovery paths below refer to the downloaded source package.
 

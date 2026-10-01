@@ -71,5 +71,6 @@ part=part.replace('.locals 0',""".locals 1
     :dh2_original_resize""")
 p.write_text(s[:start]+part+s[end:])
 subprocess.run([sys.executable,str(ROOT/'patch_storm.py'),'--output',str(target/'lib/armeabi-v7a/libStormGLOFT.so')],check=True)
-(ROOT/'game-patch-report.json').write_text(json.dumps({'path_changes':changes,'total':sum(x['path_lookups'] for x in changes),'media_playlist_query_fixed':True,'native_engine_modified':False,'storm_patch_library_modified':True,'licensing_decisions_modified':False},indent=2)+'\n')
-print('Patched',sum(x['path_lookups'] for x in changes),'Java path lookups and Storm private-linker ABI use; engine unchanged.')
+subprocess.run([sys.executable,str(ROOT/'patch_engine.py'),'--output',str(target/'lib/armeabi-v7a/libDungeonHunter2.so')],check=True)
+(ROOT/'game-patch-report.json').write_text(json.dumps({'path_changes':changes,'total':sum(x['path_lookups'] for x in changes),'media_playlist_query_fixed':True,'native_engine_modified':True,'engine_change':'20-byte POSIX absolute path recognition fix','storm_patch_library_modified':True,'licensing_decisions_modified':False},indent=2)+'\n')
+print('Patched',sum(x['path_lookups'] for x in changes),'Java path lookups, Storm private-linker ABI use, and engine absolute-path classification.')

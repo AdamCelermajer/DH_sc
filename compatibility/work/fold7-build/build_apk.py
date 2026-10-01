@@ -48,7 +48,7 @@ NS='http://schemas.android.com/apk/res/android';TOOLS='http://schemas.android.co
 ET.register_namespace('android',NS)
 a=lambda n:'{'+NS+'}'+n
 tree=ET.parse(ZB/'android/launcher/app/src/main/AndroidManifest.xml');manifest=tree.getroot()
-manifest.set('package','local.dh2.fold7');manifest.set(a('versionCode'),'4');manifest.set(a('versionName'),'1.0-test4')
+manifest.set('package','local.dh2.fold7');manifest.set(a('versionCode'),'5');manifest.set(a('versionName'),'1.0-test5')
 ET.SubElement(manifest,'uses-sdk',{a('minSdkVersion'):'29',a('targetSdkVersion'):'35'})
 for perm in ['android.permission.ACCESS_WIFI_STATE','android.permission.CHANGE_WIFI_STATE','android.permission.BLUETOOTH','android.permission.BLUETOOTH_ADMIN']:
     ET.SubElement(manifest,'uses-permission',{a('name'):perm})
@@ -94,7 +94,7 @@ with zipfile.ZipFile(unsigned,'a',zipfile.ZIP_DEFLATED) as z:
     for p in (ZB/'build/launcher/jniLibs/arm64-v8a').glob('*.so'):z.write(p,'lib/arm64-v8a/'+p.name)
 aligned=OUT/'dh2-aligned.apk'
 run([BT/'zipalign','-f','-P','16','4',unsigned,aligned])
-deliverable=WORK.parent/'deliverables/Dungeon-Hunter-2-Fold7-test4.apk'
+deliverable=WORK.parent/'deliverables/Dungeon-Hunter-2-Fold7-test5.apk'
 deliverable.parent.mkdir(parents=True,exist_ok=True)
 run([BT/'apksigner','sign','--ks',WORK/'dh2-local-test.p12','--ks-key-alias','dh2-local-test','--ks-pass','pass:dh2-local-test-only','--key-pass','pass:dh2-local-test-only','--out',deliverable,aligned])
 run([BT/'apksigner','verify','--verbose',deliverable])

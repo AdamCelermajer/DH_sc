@@ -53,20 +53,21 @@ egl-swaps: 0
 egl-first-error: (none)
 crash-recent-jni-calls: (none)
 crash-recent-egl-calls: (none)
-crash-registers: r0=00000000 r1=0000002d r2=00000006 r3=feffe288 r4=feffe288 r5=0000002d r6=0000002d r7=0000016b r8=00000000 r9=ffffffff r10=fda4531c r11=00000000 r12=feffe298 r13=feffe280 r14=fdc907eb r15=fdc907fe
-crash-state: cpsr=000f0030 tls=fdd6d48c tid=45
+crash-registers: r0=00000000 r1=00000017 r2=00000006 r3=feffe280 r4=feffe280 r5=00000017 r6=00000017 r7=0000016b r8=00000000 r9=ffffffff r10=fda40fac r11=00000000 r12=feffe290 r13=feffe278 r14=fdca07eb r15=fdca07fe
+crash-state: cpsr=00070030 tls=fdd6d48c tid=23
 crash-pc: /workspace/scratch/283fa0994529/dh2-work/research/ZettaBridge/sysroot/system/lib/libc.so offset 0x4b7fe
 crash-lr: /workspace/scratch/283fa0994529/dh2-work/research/ZettaBridge/sysroot/system/lib/libc.so offset 0x4b7eb
-crash-stack: 00000020 00000000 00000000 00000000 ffffffff 0000002d 00000000 00000000
+crash-stack: 00000020 00000000 00000000 00000000 ffffffff 00000017 00000000 00000000
 crash-precise: no
-crash-stack-candidate-1: sp+0x98=0xfd744460 /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x8be460
-crash-stack-candidate-2: sp+0xb4=0xfd7288eb /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x8a28ea
-crash-stack-candidate-3: sp+0xbc=0xfd3f2a64 /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x56ca64
-crash-stack-candidate-4: sp+0xd4=0xfd3f3de8 /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x56dde8
-crash-stack-candidate-5: sp+0x164=0xfd3f3c40 /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x56dc40
-crash-stack-candidate-6: sp+0x17c=0x3fffd9a8 /workspace/scratch/283fa0994529/dh2-work/fold7-build/dh2_file_open_probe vaddr 0x9a8
-crash-stack-candidate-7: sp+0x2f4=0xfdfcae3f /workspace/scratch/283fa0994529/dh2-work/research/ZettaBridge/sysroot/system/bin/linker vaddr 0x120e3e
-crash-stack-candidate-8: sp+0x2fc=0xfdfcb16f /workspace/scratch/283fa0994529/dh2-work/research/ZettaBridge/sysroot/system/bin/linker vaddr 0x12116e
-crash-stack-candidate-9: sp+0x30c=0xfdf02541 /workspace/scratch/283fa0994529/dh2-work/research/ZettaBridge/sysroot/system/bin/linker vaddr 0x58540
-crash-stack-candidate-10: sp+0x314=0x3fffd738 /workspace/scratch/283fa0994529/dh2-work/fold7-build/dh2_file_open_probe vaddr 0x738
-crash-stack-candidate-11: sp+0x324=0xfdf9a46d /workspace/scratch/283fa0994529/dh2-work/research/ZettaBridge/sysroot/system/bin/linker vaddr 0xf046c
+crash-stack-candidate-1: sp+0x98=0xfd506460 /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x8be460
+crash-stack-candidate-2: sp+0xb4=0xfd4ea8eb /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x8a28ea
+crash-stack-candidate-3: sp+0xbc=0xfd1b4a64 /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x56ca64
+crash-stack-candidate-4: sp+0xd4=0xfd1b5de8 /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x56dde8
+crash-stack-candidate-5: sp+0x150=0xfd1b5c40 /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x56dc40
+crash-stack-candidate-6: sp+0x16c=0xfd1b5c40 /workspace/scratch/283fa0994529/dh2-work/fold7-build/probe-libs/libDungeonHunter2.so offset 0x56dc40
+crash-stack-candidate-7: sp+0x17c=0x3fffda98 /workspace/scratch/283fa0994529/dh2-work/fold7-build/dh2_file_open_probe vaddr 0xa98
+crash-stack-candidate-8: sp+0x2fc=0xfdfcae3f /workspace/scratch/283fa0994529/dh2-work/research/ZettaBridge/sysroot/system/bin/linker vaddr 0x120e3e
+crash-stack-candidate-9: sp+0x304=0xfdfcb16f /workspace/scratch/283fa0994529/dh2-work/research/ZettaBridge/sysroot/system/bin/linker vaddr 0x12116e
+crash-stack-candidate-10: sp+0x314=0xfdf02541 /workspace/scratch/283fa0994529/dh2-work/research/ZettaBridge/sysroot/system/bin/linker vaddr 0x58540
+crash-stack-candidate-11: sp+0x31c=0x3fffd7cc /workspace/scratch/283fa0994529/dh2-work/fold7-build/dh2_file_open_probe vaddr 0x7cc
+crash-stack-candidate-12: sp+0x32c=0xfdf9a46d /workspace/scratch/283fa0994529/dh2-work/research/ZettaBridge/sysroot/system/bin/linker vaddr 0xf046c

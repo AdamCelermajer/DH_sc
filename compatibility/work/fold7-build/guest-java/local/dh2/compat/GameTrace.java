@@ -35,6 +35,13 @@ public final class GameTrace {
                 }catch(Exception ex){event("asset probe error="+ex);}
             }
         }
+        File model=new File(c.getExternalFilesDir(null),"data/3d/characters/prince/prince_modular.bdae");
+        event("model probe="+model.getAbsolutePath()+" exists="+model.isFile()+" bytes="+model.length());
+        if(model.isFile())try(InputStream in=new FileInputStream(model)){
+            byte[] header=new byte[32];int n=in.read(header);StringBuilder hex=new StringBuilder();
+            for(int i=0;i<n;i++)hex.append(String.format(Locale.US,"%02x",header[i]&255));
+            event("model first32="+hex);
+        }catch(IOException ex){event("model probe error="+ex);}
         if(c instanceof Application)((Application)c).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks(){
             public void onActivityCreated(Activity a,Bundle b){event(a.getClass().getSimpleName()+" created");}
             public void onActivityStarted(Activity a){event(a.getClass().getSimpleName()+" started");}

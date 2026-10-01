@@ -8,7 +8,7 @@
 #include <jni.h>
 int main(int argc,char **argv) {
  setvbuf(stdout,0,_IONBF,0);
- if(argc!=5)return 2;
+ if(argc!=5 && argc!=6)return 2;
  void *dl=dlopen("libdl_android.so",RTLD_NOW);
  void(*target)(unsigned)=dlsym(dl,"android_set_application_target_sdk_version");target(24);
  if(!dlopen("libzbcompat.so",RTLD_NOW|RTLD_GLOBAL)){puts(dlerror());return 1;}
@@ -21,6 +21,11 @@ int main(int argc,char **argv) {
   jint(*start)(JavaVM*,void*)=dlsym(s,"JNI_OnLoad");start(&vm,0);
  }
  void *(*openFile)(void**,const char*,const char*)=dlsym(h,"_ZN6glitch2io11CFileSystem4openEPKcS3_");
+ if(argc==6) {
+  char *root=dlsym(h,"_ZN6glitch2io11CFileSystem16WorkingDirectoryE");
+  if(!root || strlen(argv[5])>=1024)return 6;
+  strcpy(root,argv[5]);printf("WorkingDirectory=%s\n",root);
+ }
  void *result=0;
  printf("CFileSystem::open input=%s patched=%s\n",argv[3],argv[2]);
  errno=0;openFile(&result,argv[3],"rb");

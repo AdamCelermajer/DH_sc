@@ -8,6 +8,7 @@ if hashlib.sha256((native/'libDungeonHunter2.so').read_bytes()).hexdigest()!='36
     raise SystemExit('Wrong engine input hash')
 libs=ROOT/'probe-libs';libs.mkdir(exist_ok=True)
 for p in native.glob('*.so'):shutil.copyfile(p,libs/p.name)
+subprocess.run([sys.executable,str(ROOT/'patch_engine.py'),'--output',str(libs/'libDungeonHunter2.so')],check=True)
 subprocess.run([sys.executable,str(ROOT/'patch_storm.py'),'--output',str(libs/'libStormGLOFT.so')],check=True)
 subprocess.run([sys.executable,str(repo/'tools/fix_guest_lib.py'),*map(str,libs.glob('*.so'))],check=True)
 cc=WORK/'toolchains/android-ndk-r29/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi21-clang'

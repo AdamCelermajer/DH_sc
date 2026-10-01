@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Restore every file in the exact Fold7 test 4 work snapshot after cloning."""
+"""Restore every file in the exact Fold7 test 5 work snapshot after cloning."""
 from pathlib import Path, PurePosixPath
 import hashlib,json,zipfile
 
 ROOT=Path(__file__).resolve().parent
-archive=ROOT/'compatibility-work-test4.zip'
-expected='b9703e5d5eae7c187997cdae3c091180f7a434d6a72bdcc38faad1669a3c17be'
+archive=ROOT/'compatibility-work-test5.zip'
+expected='9ce519019b2e34d4b777455a10b57a50f4dd0a32c82aa9b1892abc9d9c522440'
 assert hashlib.sha256(archive.read_bytes()).hexdigest()==expected,'Snapshot archive checksum mismatch'
 with zipfile.ZipFile(archive) as z:
     manifest=json.loads(z.read('manifest.json'))
