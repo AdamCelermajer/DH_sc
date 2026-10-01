@@ -24,7 +24,7 @@ final class Dh2Diagnostics {
         for(String name:REPORTS){File f=new File(dir,name);if(f.isFile())Files.move(f.toPath(),new File(previous,name).toPath(),StandardCopyOption.REPLACE_EXISTING);}
         File game=new File(dir,"plugins/"+CacheArchive.GAME);
         for(String name:new String[]{"dh2-events.txt","dh2-events-previous.txt","dh2-media-status.txt"}){File f=new File(game,name);if(f.isFile())Files.move(f.toPath(),new File(previous,name).toPath(),StandardCopyOption.REPLACE_EXISTING);}
-        String info="DH2 test3 session "+new Date()+"\nUID="+android.os.Process.myUid()+"\nlocale="+Locale.getDefault()+"\n";
+        String info="DH2 test4 session "+new Date()+"\nUID="+android.os.Process.myUid()+"\nlocale="+Locale.getDefault()+"\n";
         Files.write(new File(dir,"dh2-session.txt").toPath(),info.getBytes(StandardCharsets.UTF_8));
         // Android restricts unprivileged logcat to this app UID. --uid further narrows it.
         // Native guest logging also goes straight into the runtime report if logcat is denied.

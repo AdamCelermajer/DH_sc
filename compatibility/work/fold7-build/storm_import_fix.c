@@ -7,6 +7,51 @@
 
 extern void* storm_dlopen(const char*,int);
 extern void* storm_dlsym(void*,const char*);
+extern void* storm_fopen(const char*,const char*);
+extern int storm_puts(const char*);
+extern int* storm_errno(void);
+extern int storm_log(int,const char*,const char*,...);
+
+static void dh2_note(const char* prefix,const char* value) {
+    char line[640];unsigned n=0;
+    while(*prefix && n<100)line[n++]=*prefix++;
+    for(unsigned i=0;value && value[i] && i<512;i++)line[n++]=value[i];
+    line[n++]='\n';line[n]=0;
+    storm_log(5,"DH2FileGuard","%s",line);
+    /* Test 3 showed that abort may precede stdout flush. fd 2 is captured by
+     * the bridge independently of the Android logd socket and its filtering. */
+    int (*write_fn)(int,const void*,unsigned)=
+        (int(*)(int,const void*,unsigned))storm_dlsym((void*)(uintptr_t)0xffffffffu,"write");
+    if(write_fn)write_fn(2,line,n);
+}
+
+
+/* DH2 CFile uses string::at(last_separator + 1). A trailing separator
+ * therefore aborts after fopen has accepted a directory. Treat such input as
+ * a failed FILE open at the engine import boundary, preserving its null path.
+ * Directory enumeration via opendir/openat is deliberately unaffected. */
+__attribute__((visibility("hidden")))
+void* dh2_fopen_guard(const char* path,const char* mode) {
+    if(path) {
+        const char* end=path;while(*end)++end;
+        if(end!=path && (end[-1]=='/' || end[-1]=='\\')) {
+            dh2_note("DH2FileGuard rejected directory-shaped path: ",path);
+            *storm_errno()=21; /* EISDIR in ARM Linux/bionic. */
+            return 0;
+        }
+    }
+    return storm_fopen(path,mode);
+}
+
+/* The engine's no-exceptions STL prints a reason with puts before aborting.
+ * Keep that reason even when stdout is buffered and the process dies. */
+__attribute__((visibility("hidden")))
+int dh2_puts_log(const char* text) {
+    int saved_errno=*storm_errno();
+    dh2_note("DH2Engine: ",text);
+    *storm_errno()=saved_errno;
+    return storm_puts(text);
+}
 
 static int same(const char* a,const char* b) {
     while(*a && *a==*b){a++;b++;}return *a==*b;
@@ -37,14 +82,18 @@ void* storm_import_fix(const char* library,const char* name,void* replacement) {
         }
     }
     if(!symbols||!strings||!relocs||bytes>1024*1024)return 0;
+    void* previous=0;
     for(size_t i=0;i<bytes/sizeof(Elf32_Rel);i++){
         if(ELF32_R_TYPE(relocs[i].r_info)!=R_ARM_JUMP_SLOT)continue;
         const Elf32_Sym* symbol=&symbols[ELF32_R_SYM(relocs[i].r_info)];
-        if(same(strings+symbol->st_name,name)){
+        const char* imported=strings+symbol->st_name;
+        void** slot=(void**)(base+relocs[i].r_offset);
+        if(same(imported,"fopen"))*slot=(void*)dh2_fopen_guard;
+        if(same(imported,"puts"))*slot=(void*)dh2_puts_log;
+        if(same(imported,name)){
             /* The pinned DH2 ELF has no GNU_RELRO segment; its GOT is writable. */
-            void** slot=(void**)(base+relocs[i].r_offset);
-            void* old=*slot;*slot=replacement;return old;
+            previous=*slot;*slot=replacement;
         }
     }
-    return 0;
+    return previous;
 }

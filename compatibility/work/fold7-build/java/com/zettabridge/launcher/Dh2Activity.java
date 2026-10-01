@@ -16,7 +16,7 @@ public class Dh2Activity extends Activity {
     private TextView status,location;
     private Button play,importButton;
     private static final int PICK=21, EXPORT=22;
-    private static final String REVISION="dh2-fold7-test3-diagnostics";
+    private static final String REVISION="dh2-fold7-test4-diagnostics";
     private File dataRoot() { return new File(getExternalFilesDir(null),"plugins/"+CacheArchive.GAME); }
 
     @Override public void onCreate(Bundle state) {
@@ -24,12 +24,12 @@ public class Dh2Activity extends Activity {
         Diagnostics.installCrashRecorder(this);
         LinearLayout panel=new LinearLayout(this); panel.setOrientation(1); panel.setPadding(32,32,32,32);panel.setFitsSystemWindows(true);
         TextView title=new TextView(this);title.setText("Dungeon Hunter 2");title.setTextSize(26);panel.addView(title);
-        TextView note=new TextView(this);note.setText("Fold7 test 3 - persistent crash diagnostics\n\nLogs are saved while playing. After a crash, reopen this screen and export the diagnostic ZIP. Your cache and saves are kept.");panel.addView(note);
+        TextView note=new TextView(this);note.setText("Fold7 test 4 - persistent crash diagnostics\n\nLogs are saved while playing. After a crash, reopen this screen and export the diagnostic ZIP. Your cache and saves are kept.");panel.addView(note);
         status=new TextView(this);status.setPadding(0,24,0,24);panel.addView(status);
         importButton=new Button(this);importButton.setText("Import cache ZIP");importButton.setOnClickListener(v -> pick());panel.addView(importButton);
         play=new Button(this);play.setText("Launch game");play.setOnClickListener(v -> launchGame());panel.addView(play);
         Button report=new Button(this);report.setText("View / share diagnostic report");report.setOnClickListener(v -> showReport());panel.addView(report);
-        Button export=new Button(this);export.setText("Export diagnostic ZIP");export.setOnClickListener(v -> startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/zip").putExtra(Intent.EXTRA_TITLE,"DH2-test3-diagnostics.zip"),EXPORT));panel.addView(export);
+        Button export=new Button(this);export.setText("Export diagnostic ZIP");export.setOnClickListener(v -> startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/zip").putExtra(Intent.EXTRA_TITLE,"DH2-test4-diagnostics.zip"),EXPORT));panel.addView(export);
         option(panel,"Prefer English (cache translations may override)","preferEnglish",true);
         option(panel,"Fit game to 16:9 (experimental)","fit16by9",false);
         option(panel,"Keep graphics context during cinematics","preserveContext",false);
@@ -117,7 +117,7 @@ public class Dh2Activity extends Activity {
         runOnUiThread(()->setBusy(false,label+": "+e.getMessage()+"\nUse the diagnostic report for details."));
     }
     private void showReport() {
-        StringBuilder b=new StringBuilder("DH2 Fold7 test 3 (versionCode 3)\nModel: "+Build.MODEL+"\nAndroid: "+Build.VERSION.RELEASE+"\nABIs: "+java.util.Arrays.toString(Build.SUPPORTED_ABIS)+"\nPage size: "+android.system.Os.sysconf(android.system.OsConstants._SC_PAGESIZE)+"\nCache: "+dataRoot()+"\n\n");
+        StringBuilder b=new StringBuilder("DH2 Fold7 test 4 (versionCode 4)\nModel: "+Build.MODEL+"\nAndroid: "+Build.VERSION.RELEASE+"\nABIs: "+java.util.Arrays.toString(Build.SUPPORTED_ABIS)+"\nPage size: "+android.system.Os.sysconf(android.system.OsConstants._SC_PAGESIZE)+"\nCache: "+dataRoot()+"\n\n");
         File media=new File(dataRoot(),"dh2-media-status.txt");
         try{b.append("dh2-media-status.txt:\n").append(new String(java.nio.file.Files.readAllBytes(media.toPath()),StandardCharsets.UTF_8)).append("\n");}
         catch(IOException ignored){b.append("No media query report yet.\n\n");}

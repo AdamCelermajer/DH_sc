@@ -34,6 +34,7 @@ subprocess.run([str(toolchain/'ld.lld'),'-T',str(ROOT/'storm_bias_fix.ld'),*obje
 subprocess.run([str(toolchain/'llvm-objcopy'),'-O','binary',str(out/'storm-fixes.elf'),str(out/'storm-bias.bin')],check=True)
 with (out/'storm-fixes.elf').open('rb') as f:
     fixelf=ELFFile(f)
+    assert not any(sec['sh_size'] and sec.name in ('.got','.got.plt','.data','.bss','.rel.dyn') for sec in fixelf.iter_sections()), 'Embedded patch must be position independent without runtime relocations'
     import_va=next(s['st_value'] for s in fixelf.get_section_by_name('.symtab').iter_symbols() if s.name=='storm_import_fix')
 stub=(out/'storm-bias.bin').read_bytes();start=0xd3800;end=start+len(stub)
 data=bytearray(original.read_bytes())
@@ -54,6 +55,6 @@ args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_bytes(dat
 instructions=[f'{i.address:08x} {i.mnemonic} {i.op_str}' for i in Cs(CS_ARCH_ARM,CS_MODE_ARM).disasm(stub,start)]
 assert any('bl #0x321d4' in x for x in instructions)
 assert any('b #0x438e8' in x for x in instructions)
-report={'input_sha256':expected,'output_sha256':hashlib.sha256(data).hexdigest(),'patched_va':'0x438e4','old_instruction':'ldr r0, [r0, #0x8c]','replacement':'branch to symbol-based load-bias resolver','import_hook_entry_patch':'0x371e4','import_hook_replacement':hex(import_va),'import_hook_algorithm':'Walk PT_DYNAMIC, DT_SYMTAB, DT_STRTAB and DT_JMPREL in the loaded engine ELF; replace matching R_ARM_JUMP_SLOT','stub_va':hex(start),'stub_bytes':len(stub),'original_rx_end':hex(oldend),'extended_rx_end':hex(end),'instructions':instructions,'scope':'Exact supplied DH2/Storm pair only; no licensing decisions modified'}
+report={'input_sha256':expected,'output_sha256':hashlib.sha256(data).hexdigest(),'patched_va':'0x438e4','old_instruction':'ldr r0, [r0, #0x8c]','replacement':'branch to symbol-based load-bias resolver','import_hook_entry_patch':'0x371e4','import_hook_replacement':hex(import_va),'import_hook_algorithm':'Walk PT_DYNAMIC, DT_SYMTAB, DT_STRTAB and DT_JMPREL in the loaded engine ELF; replace matching R_ARM_JUMP_SLOT','stub_va':hex(start),'stub_bytes':len(stub),'original_rx_end':hex(oldend),'extended_rx_end':hex(end),'instructions':instructions,'file_guard':'Reject trailing directory separators at the engine fopen import; log buffered STL puts reasons','scope':'Exact supplied DH2/Storm pair only; no licensing decisions modified'}
 (ROOT/'storm-patch-report.json').write_text(json.dumps(report,indent=2)+'\n')
 print('Patched Storm legacy linker handle dereference:',args.output)

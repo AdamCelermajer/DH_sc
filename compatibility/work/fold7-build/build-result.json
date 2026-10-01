@@ -1,8 +1,8 @@
 {
-  "apk": "/workspace/scratch/283fa0994529/deliverables/Dungeon-Hunter-2-Fold7-test3.apk",
-  "sha256": "568da5be68ebefc40583d04c6a31fe9280851fb270ab8ea93cb8c0474df9229a",
-  "bytes": 13765856,
-  "upstream_commit": "6e7c65f1dec6793557ac48c3ae7e5d6d4881b025",
+  "apk": "/workspace/scratch/283fa0994529/deliverables/Dungeon-Hunter-2-Fold7-test4.apk",
+  "sha256": "1357618cadd018794497b6f82e0a3e224e0aad02d9b02cca6818418350f96d51",
+  "bytes": 13769952,
+  "upstream_commit": "3094fd150ad7fe5891fd3741fd2f43892424277f",
   "host_abi": "arm64-v8a",
   "guest_abi": "armeabi-v7a",
   "device_tested": false,

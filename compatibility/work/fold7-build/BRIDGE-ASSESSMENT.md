@@ -1,5 +1,7 @@
 # Is ZettaBridge suitable for DH2 on this Fold7?
 
+Test 3 update: its abort stack maps to an original-engine filename bounds check. Original ARM32 caller probes reproduce the same stack with a directory path. Test 4 supplies a narrow file-open guard; the phone retest remains required. See [TEST4.md](TEST4.md). This evidence favors repairing that boundary before replacing the CPU translator.
+
 The present evidence supports continuing with a **locally audited, game-specific compatibility build**, not accepting upstream claims as proof of DH2 support. It does not yet support calling this a stable port.
 
 | Boundary | Evidence in this project | Unresolved risk / next discriminator |

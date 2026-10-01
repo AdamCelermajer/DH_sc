@@ -8,19 +8,21 @@
 
 [Browse the reconstructed C++ module](port/engine-math/README.md). Twenty original vector/quaternion/matrix function starts have been rewritten from ARM assembly and compile for ARM64. The [recorded test report](reports/engine-math-validation.json) contains 21,477 original-ARM32 versus compiled-ARM64 comparisons with zero mismatches, under the documented external arithmetic/libm model. All 1,704 original instruction addresses in these routines were exercised. This is a tested engine component; asset loading, rendering and gameplay reconstruction remain unfinished. The full source ZIP and validation-artifact ZIP in the Drive folder below now include this checkpoint.
 
-## Fold7 compatibility build — test 3
+## Fold7 compatibility build — test 4
 
-[Download the test 3 APK and full work archive](https://github.com/Noamcelermajer/DH_sc/releases/tag/v1.0.2-fold7-test3). Test 2 completes the cinematic on SM-F966B / Android 16, then aborts at the fairy loading screen. Test 3 records the native abort state and logs, adds **Export diagnostic ZIP**, and provides optional English/display/context settings. The loading crash is not yet claimed fixed. Install over test 2 to retain cache and saves.
+[Download the Test 4 APK and complete work archive](https://github.com/Noamcelermajer/DH_sc/releases/tag/v1.0.2-fold7-test4). The owner's Test 3 diagnostics point to an original-engine file-path bounds check. Calling the original ARM32 file-opening code with a directory path reproduces the same abort stack. Test 4 rejects that invalid file input through the engine's existing failure path, and preserves buffered native error messages.
 
-Read the [test 3 changes and phone procedure](compatibility/work/fold7-build/TEST3.md), [independent bridge assessment](compatibility/work/fold7-build/BRIDGE-ASSESSMENT.md), [known issues](compatibility/ISSUES.md), and [device checklist](compatibility/DEVICE-TESTING.md). Five translated abort/exit/fault probes, seven media-query cases, complete library loading/hook checks and package checks pass; Fold7 gameplay still needs a retest.
+All five file-opening regressions, the native library/hook probe and package/upgrade checks pass. **The exact failing phone path and successful gameplay still require a Fold7 retest.** Install over Test 3, keep the same options and cache, repeat the fairy loading-screen failure, then export diagnostics. The Russian language issue remains unresolved.
 
-All **2,102 compatibility-work files** are preserved in `compatibility-work-test3.zip`, with exact paths and SHA-256 hashes. After cloning into a clean directory, restore the full trees with:
+Read [TEST4.md](compatibility/work/fold7-build/TEST4.md) for disassembly evidence, test limits and the phone procedure, and the [bridge assessment](compatibility/work/fold7-build/BRIDGE-ASSESSMENT.md) for compatibility decisions.
+
+All **2,141 compatibility-work files** are preserved in `compatibility-work-test4.zip`, including code, phone reports, tests, build inputs and historical findings. Restore and verify the complete snapshot after cloning into a clean directory:
 
 ```sh
 python unpack_compatibility.py
 ```
 
-The script verifies the archive and every restored file. Authored code and reports are also browsable under `compatibility/`. The standard full-directory ZIP is attached to the test 3 release. Prior releases and the test 2 snapshot are retained. External toolchains and duplicate build intermediates are represented by versions, hashes and build instructions. The compatibility snapshot includes native/runtime inputs and a deliberately public development-only signing fixture; original rights and third-party notices apply.
+Authored source and reports are also browsable under `compatibility/`; a standard full-directory ZIP is attached to the release. Prior releases/snapshots and independent engine reconstruction are retained. External toolchains and duplicate build intermediates are represented by versions, hashes and instructions. The compatibility snapshot contains native/runtime inputs and a deliberately public development-only signing fixture; original rights and third-party notices apply.
 
 **Download the complete recovery handoff:** [Google Drive folder](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). The folder contains the source ZIP, full native assembly/symbol bundles, validation artifacts, the exact supplied APK and all ten supplied cache parts. Start with START-HERE.txt. This GitHub repository contains the engine math/resource checkpoints and compatibility work. The remaining recovery paths below refer to the downloaded source package.
 
