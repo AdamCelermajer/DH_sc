@@ -20,7 +20,9 @@ These are generated, binary-derived records: grouped ARM/Thumb disassembly,
 symbol tables, function/address indexes, relocations, strings, vtable and unwind
 metadata. They are **not original studio assembly or C/C++ source**, a
 compilable game project, or proof that inferred names and types are correct.
-The original ELF binaries, APK, cache, asset XML/shaders and compressed bundle
+The [text and debug import](../../docs/RECOVERED-TEXT-AND-DEBUG.md) adds native
+debug metadata and original shader/configuration resources to Git.
+The original ELF binaries, APK, cache and compressed bundle
 archives are not included in this import. See [`RIGHTS.md`](../../RIGHTS.md):
 these records retain the supplied materials' provenance and rights, and the
 repository does not assert a game-wide open-source license.

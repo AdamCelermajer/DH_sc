@@ -12,7 +12,7 @@ The [per-file import manifest](../reports/recovery-source-import.json) records 3
 - The 14-file reconstructed [JNI source component](../port/nativeinterface/README.md), including its build and focused test sources.
 - Recovery/build scripts, Ghidra scripts, the historical JNI/Java validation reports and the two native bundle checksums.
 
-The first selected import did not include raw code exports. A later archival-code import makes 44 [Ghidra pseudocode/index/summary files](../recovered/native/decompiled/README.md) and 721 [raw Java/smali files](../recovered/android/README.md) browseable in Git. They were copied byte-for-byte from the same verified ZIP, with separate per-file SHA-256 manifests and verification scripts. Another import makes the exact 3,625 [native assembly files and 71 symbol records](../recovered/native/README.md) browsable from the two verified bundles, with a separate manifest and verifier. The pseudocode and generated assembly are not a compilable or validated engine; raw Java has known decompiler damage. The compressed bundles, recovered XML/shader data, supplied APK and game cache remain separate. See [the reproduction guide](REPRODUCING.md) for the external handoff. The complete later cache ZIP is a separate local input. None of these imports implies an open-source license for the game; [RIGHTS.md](../RIGHTS.md) records provenance.
+The first selected import did not include raw code exports. A later archival-code import makes 44 [Ghidra pseudocode/index/summary files](../recovered/native/decompiled/README.md) and 721 [raw Java/smali files](../recovered/android/README.md) browseable in Git. They were copied byte-for-byte from the same verified ZIP, with separate per-file SHA-256 manifests and verification scripts. Another import makes the exact 3,625 [native assembly files and 71 symbol records](../recovered/native/README.md) browsable from the two verified bundles, with a separate manifest and verifier. The pseudocode and generated assembly are not a compilable or validated engine; raw Java has known decompiler damage. A subsequent [text and debug import](RECOVERED-TEXT-AND-DEBUG.md) adds all 2,164 recovered shader/configuration resources and 48 native debug exports from this ZIP. The compressed bundles, supplied APK and game cache remain separate. See [the reproduction guide](REPRODUCING.md) for the external handoff. The complete later cache ZIP is a separate local input. None of these imports implies an open-source license for the game; [RIGHTS.md](../RIGHTS.md) records provenance.
 
 ## Verify
 
@@ -25,6 +25,7 @@ python tools/verify_native_decomp_import.py --archive /path/to/Dungeon-Hunter-2-
 python tools/verify_android_raw_import.py --archive /path/to/Dungeon-Hunter-2-Source-Recovery.zip
 python tools/verify_native_evidence_import.py
 python tools/verify_native_evidence_import.py --bundle-dir /path/to/bundles
+python tools/verify_remaining_recovery_import.py --archive /path/to/Dungeon-Hunter-2-Source-Recovery.zip
 ```
 
 The first command hashes all imported files without external inputs. The second also checks the exact source ZIP hash, every ZIP member CRC, and each corresponding original member. Paths in the import manifest are validated before reading.
