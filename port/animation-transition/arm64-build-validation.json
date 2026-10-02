@@ -1,0 +1,28 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "source_sha256": {
+    "animation-transition\\transition.cpp": "00d10695c806dbefdc660fd975c51bc522159af6c431cc3f07a1d43d25153cbc",
+    "animation-transition\\transition.hpp": "34fecf97a09eac08c647da8eaa83cc6c10f02833f781712628b9efa1392a7f8b",
+    "animation-mixing\\mixing.cpp": "356e356741497dd002f917e4ce7109eb2340f6093d230a388f30df25d8113ef5",
+    "animation-mixing\\mixing.hpp": "e694a012b78b14f049bb1010c44291a3893c37ac2aec4bec294d3a09fcc07a06",
+    "engine-math\\math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "engine-math\\math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "artifact_sha256": {
+    "animation-transition\\build\\transition-arm64.so": "1d196ff9f984301204073c483a8e58e056c5fc62be03fd154e2643d15ff1a88b"
+  },
+  "arm64_layout": {
+    "machine": 183,
+    "pt_load": [
+      {
+        "offset": 0,
+        "alignment": 16384
+      },
+      {
+        "offset": 12432,
+        "alignment": 16384
+      }
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "full_animator_equivalence": false,
+  "comparison": "Original ARM32 vs compiled ARM64 and host projected state: exact bits except signed zero",
+  "sequences": 400,
+  "begin_calls": 300,
+  "updates": 4800,
+  "dispatch_order_checks": 4800,
+  "mismatches": 0,
+  "output_guards": true,
+  "stack_restoration": true,
+  "seed": 20261002,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_sha256": "cb2738454edc30f01e875a193d2d26359e18e9cc142ad14292adaeac542b4de6",
+  "arm64_sha256": "1d196ff9f984301204073c483a8e58e056c5fc62be03fd154e2643d15ff1a88b",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "function_evidence": [
+    {
+      "elf_address": "0x0036679c",
+      "size": 236,
+      "name": "Blend",
+      "symbol": "_ZN15AnimatorBlender5BlendEi",
+      "sha256": "c9a59ac98167bf4100bb6a305a94f4c4c31d5a722fe514655bb1fe97d9e1dc2f"
+    },
+    {
+      "elf_address": "0x00366d90",
+      "size": 296,
+      "name": "updateTime",
+      "symbol": "_ZN15AnimatorBlender10updateTimeEj",
+      "sha256": "2ead57bb909da235724e468f22f0cbd87a05c2681e151f844dda12c4324f1fc1"
+    },
+    {
+      "elf_address": "0x00366594",
+      "size": 140,
+      "name": "normalizeWeights",
+      "symbol": "_ZN6glitch7collada25CSceneNodeAnimatorBlender16normalizeWeightsEv",
+      "sha256": "a80169f90c62f768255b85656e7a113ea49d1450614a041711326a0fa6f0f59b"
+    }
+  ],
+  "source_sha256": {
+    "transition.cpp": "00d10695c806dbefdc660fd975c51bc522159af6c431cc3f07a1d43d25153cbc",
+    "transition.hpp": "34fecf97a09eac08c647da8eaa83cc6c10f02833f781712628b9efa1392a7f8b"
+  },
+  "test_sha256": "2a7b87399093ace9188a0b5e2dfa5ee71c40fd6da4900e8bceced60b194ede9e",
+  "import_calls": {
+    "__aeabi_fcmpeq": 21600,
+    "__aeabi_fadd": 16800,
+    "__aeabi_fdiv": 16592,
+    "__aeabi_i2f": 1908,
+    "__aeabi_fmul": 1677,
+    "__aeabi_fsub": 1677,
+    "__aeabi_uidivmod": 300
+  },
+  "dependency_model": "Actual original Blend/updateTime/normalization execute; host arithmetic and signed/unsigned division; child update/getter and CheckCallback explicitly stubbed without mutation",
+  "child_timelines_tested": false,
+  "callback_check_implementation_tested": false,
+  "events_tested": false
+}

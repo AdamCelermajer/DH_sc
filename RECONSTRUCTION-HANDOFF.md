@@ -1,5 +1,13 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Original transition projection:** The original two-child transition request
+and fade/update state passed 300 requests and 4,800 updates against original
+ARM32 and compiled ARM64/host source. Active-child dispatch order passed,
+with child updates/getters and callback checking explicitly stubbed.
+100,000 safety operations passed. This is standalone; original object ownership,
+callback effects, pose application and full gameplay remain unfinished.
+See [scope and exact evidence](port/animation-transition/README.md).
+
 **Two-motion source preview:** Checked absolute layers now combine the warrior's
 dual walk and Dark Queen scene 03a motion. The exact updated APK passed imports,
 midpoint seek, 0/50/100% mix, advancing Play and stable Pause on Android 17 with

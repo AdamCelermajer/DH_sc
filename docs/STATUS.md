@@ -15,6 +15,13 @@ remain open. See [layers](../port/animation-layers/README.md),
 [Android runtime evidence](../port/android-app/layers-runtime-validation.json).
 Full source-built gameplay remains unfinished.
 
+**Original transition state:** The standalone animator transition projection
+passed 400 sequences, 300 transition requests and 4,800 original ARM32/compiled
+ARM64/host updates, including child selection order before normalization.
+Another 100,000 valid/corrupted operations passed sanitizers. Child timelines
+and callback effects were explicitly stubbed; this is not a complete scheduler
+or Android integration. See [transition scope](../port/animation-transition/README.md).
+
 **Complete-cache note:** a separately supplied local cache ZIP is valid and contains 6,833 files, including the previously truncated WAV. See [COMPLETE-CACHE.md](COMPLETE-CACHE.md). The original recovery counts below document the earlier ten-part partial input; newer module checks explicitly identify their full-cache scope.
 
 This status combines this Git checkout with results from the separate earlier recovery package. A selected, hash-verified import makes the repaired Android Java source, reconstructed JNI component, recovery tools and reports browsable in Git. Later exact imports add 44 native pseudocode/index files, 721 raw Java/smali files, 3,625 native assembly files and 71 symbol records, each with per-file hashes. The compressed native bundles remain external. Exact copies of the 2,164 shader/configuration resources and 48 native DWARF/debug exports are now in Git with unchanged historical provenance; see [the text/debug import](RECOVERED-TEXT-AND-DEBUG.md). The archived pseudocode and assembly are not a compilable engine; the Android 17 gameplay APK still depends on the original ARM32 engine. See [the import ledger](RECOVERY-SOURCE-IMPORT.md).
