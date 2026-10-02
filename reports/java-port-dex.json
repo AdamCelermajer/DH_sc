@@ -1,0 +1,21 @@
+{
+  "d8_exit_code": 0,
+  "min_api": 23,
+  "input_class_files": 365,
+  "dex_files": [
+    {
+      "name": "classes.dex",
+      "bytes": 571752,
+      "sha256": "dfc0ee0f8214e3c8247d1cb65777515af250fee6aae2c1448defefcacea6f784"
+    }
+  ],
+  "expected_native_declarations": 46,
+  "rebuilt_native_declarations": 46,
+  "missing_native_contracts": [],
+  "unexpected_native_contracts": [],
+  "native_method_contract_matches": true,
+  "limitations": [
+    "DEX conversion is not Android runtime or gameplay validation.",
+    "This verifies declared native methods, not native calls into other Java members."
+  ]
+}

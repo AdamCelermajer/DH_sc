@@ -32,6 +32,14 @@ int main(void) {
     memset(long_path,'a',sizeof long_path-1);long_path[sizeof long_path-1]=0;
     int ok=1;
     ok&=check("emulator repeated model root",original,expected);
+    const char* wrapper="/storage/emulated/0/Android/data/local.dh2.fold7/files/plugins/com.gameloft.android.GAND.GloftD2SS/";
+    snprintf(original,sizeof original,"%s/storage/emulated/0/android/data/local.dh2.fold7/files/plugins/com.gameloft.android.gand.gloftd2ss/%s",wrapper,model);
+    snprintf(expected,sizeof expected,"%s%s",wrapper,model);
+    ok&=check("standalone wrapper repeated model root",original,expected);
+    snprintf(wrong,sizeof wrong,"%s/storage/emulated/0/android/data/local.dh2.fold7/files/plugins/another.package/%s",wrapper,model);
+    ok&=check("wrapper different repeated guest",wrong,0);
+    ok&=check("wrapper other plugin", "/storage/emulated/0/Android/data/local.dh2.fold7/files/plugins/other.package//storage/emulated/0/android/data/local.dh2.fold7/files/plugins/other.package/data/a",0);
+    ok&=check("wrapper nested directory", "/storage/emulated/0/Android/data/local.dh2.fold7/files/plugins/com.gameloft.android.GAND.GloftD2SS/nested//storage/emulated/0/android/data/local.dh2.fold7/files/plugins/com.gameloft.android.gand.gloftd2ss/nested/data/a",0);
     ok&=check("normal absolute asset",expected,0);
     ok&=check("relative asset",model,0);
     ok&=check("cache directory",root,0);

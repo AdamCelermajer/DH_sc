@@ -1,0 +1,25 @@
+{
+  "scope": "Reconstructed Java layer compilation/DEX check on Windows; no APK, runtime, or gameplay validation",
+  "source_files": 288,
+  "javac": "Oracle JDK 25, --release 17",
+  "javac_exit_code": 0,
+  "javac_warnings": 15,
+  "compiled_class_files": 364,
+  "android_sdk_platform": "android-37.0",
+  "android_build_tools": "35.0.0",
+  "d8_exit_code": 0,
+  "dex_files": [
+    {
+      "name": "classes.dex",
+      "bytes": 572124,
+      "sha256": "7b43f8681c67aa0ba89e1e7a15e49b65b92d9a224f5d9e6deffbb34ea627b9c3"
+    }
+  ],
+  "expected_native_declarations": 46,
+  "rebuilt_native_declarations": 46,
+  "native_method_contract_matches": true,
+  "limitations": [
+    "DEX conversion is not Android runtime or gameplay validation.",
+    "This verifies declared native methods, not native calls into other Java members."
+  ]
+}

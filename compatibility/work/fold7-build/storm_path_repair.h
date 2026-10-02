@@ -10,6 +10,27 @@ static int dh2_read_only_mode(const char* mode) {
         (!mode[1] || (mode[1]=='b' && !mode[2]));
 }
 
+/* The direct guest keeps its cache under <package>/files/. The standalone
+ * wrapper puts the same cache under <host>/files/plugins/<DH2 package>/.
+ * Limit the second form to this guest so an arbitrary nested directory does
+ * not become a candidate for the repeated-root retry. */
+static int dh2_cache_root_suffix(const char* path,unsigned package_start,unsigned root_len) {
+    unsigned p=package_start;
+    while(p<root_len && path[p]!='/')++p;
+    if(p==package_start || p==root_len)return 0;
+    const char* files="/files/";
+    for(unsigned j=0;j<7;j++)
+        if(p+j>=root_len || dh2_ascii_lower(path[p+j])!=(unsigned char)files[j])return 0;
+    p+=7;
+    if(p==root_len)return 1;
+    const char* plugin="plugins/com.gameloft.android.gand.gloftd2ss/";
+    unsigned j=0;
+    for(;plugin[j];j++)
+        if(p+j>=root_len || dh2_ascii_lower(path[p+j])!=(unsigned char)plugin[j])return 0;
+    p+=j;
+    return p==root_len;
+}
+
 /* Deferred model names can contain the cache root twice. The second copy is
  * lowercased by the original engine. Accept only the same Android cache root
  * repeated exactly, ignoring ASCII case, and retain its first spelling. */
@@ -30,11 +51,8 @@ static int dh2_repeated_cache_root(const char* path,char* out,unsigned cap) {
     for(unsigned p=i;p+1<n;p++)if(path[p]=='/' && path[p+1]=='/'){
         split=p;break;
     }
-    if(split<i+6)return 0;
-    const char* files="/files/";
-    for(unsigned j=0;j<7;j++)
-        if(dh2_ascii_lower(path[split-6+j])!=(unsigned char)files[j])return 0;
     unsigned root_len=split+1;
+    if(!dh2_cache_root_suffix(path,i,root_len))return 0;
     unsigned second=split+1;
     if(second+root_len>=n)return 0; /* Require a child file after both roots. */
     for(unsigned j=0;j<root_len;j++)

@@ -16,20 +16,80 @@ public class Dh2Activity extends Activity {
     private TextView status,location;
     private Button play,importButton;
     private static final int PICK=21, EXPORT=22;
-    private static final String REVISION="dh2-fold7-test5-diagnostics";
+    private static final String LEGACY_REVISION="dh2-fold7-test5-diagnostics";
+    private static final String BUNDLED_CACHE_MARKER=".dh2-bundled-cache.sha256";
     private File dataRoot() { return new File(getExternalFilesDir(null),"plugins/"+CacheArchive.GAME); }
+    private boolean cacheReady() {
+        File root=dataRoot();
+        return new File(root,"data").isDirectory() && new File(root,"shaders.pak").isFile();
+    }
+    private boolean hasExistingCacheFiles() throws IOException {
+        File root=dataRoot();
+        if (!root.exists()) return false;
+        File[] files=root.listFiles();
+        if (files==null) throw new IOException("Cannot inspect existing cache");
+        for (File file:files)
+            if (!file.getName().equals("dh2-options.json")) return true;
+        return false;
+    }
+    private String bundledCacheHash() throws IOException {
+        try (BufferedReader in=new BufferedReader(new InputStreamReader(getAssets().open("dh2/cache.sha256"),StandardCharsets.US_ASCII))) {
+            String hash=in.readLine();
+            if (hash==null || !hash.trim().matches("[0-9a-f]{64}")) throw new IOException("Invalid bundled cache revision");
+            return hash.trim();
+        } catch (FileNotFoundException absent) {
+            return null;
+        }
+    }
+    private boolean bundledCacheInstalled() throws IOException {
+        String hash=bundledCacheHash();
+        if (hash==null || !cacheReady()) return false;
+        File marker=new File(dataRoot(),BUNDLED_CACHE_MARKER);
+        if (!marker.isFile()) return false;
+        try (BufferedReader in=new BufferedReader(new InputStreamReader(new FileInputStream(marker),StandardCharsets.US_ASCII))) {
+            return hash.equals(in.readLine());
+        }
+    }
+    private String bundledGuestRevision() throws IOException {
+        try (BufferedReader in=new BufferedReader(new InputStreamReader(getAssets().open("dh2/guest.sha256"),StandardCharsets.US_ASCII))) {
+            String revision=in.readLine();
+            if (revision == null) throw new IOException("Missing bundled guest revision");
+            revision=revision.trim();
+            if (!revision.matches("[0-9a-f]{64}")) throw new IOException("Invalid bundled guest revision");
+            return revision;
+        } catch (FileNotFoundException absent) {
+            return LEGACY_REVISION;
+        }
+    }
+    private boolean importBundledCache() throws IOException {
+        InputStream bundled;
+        try { bundled=getAssets().open("dh2/cache.zip"); }
+        catch (FileNotFoundException absent) { return false; }
+        try (InputStream in=bundled) {
+            String hash=bundledCacheHash();
+            if (hash==null) throw new IOException("Bundled cache revision is missing");
+            final long[] last={0};
+            CacheArchive.install(in,dataRoot(),(bytes,files)->{
+                long now=SystemClock.elapsedRealtime();
+                if(now-last[0]>500){last[0]=now;runOnUiThread(()->status.setText("Installing bundled cache: "+files+" files, "+(bytes/(1024*1024))+" MiB"));}
+            });
+            if (!cacheReady()) throw new IOException("Bundled cache is missing required game files");
+            java.nio.file.Files.write(new File(dataRoot(),BUNDLED_CACHE_MARKER).toPath(),(hash+"\n").getBytes(StandardCharsets.US_ASCII));
+            return true;
+        }
+    }
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
         Diagnostics.installCrashRecorder(this);
         LinearLayout panel=new LinearLayout(this); panel.setOrientation(1); panel.setPadding(32,32,32,32);panel.setFitsSystemWindows(true);
         TextView title=new TextView(this);title.setText("Dungeon Hunter 2");title.setTextSize(26);panel.addView(title);
-        TextView note=new TextView(this);note.setText("Fold7 test 5 - persistent crash diagnostics\n\nLogs are saved while playing. After a crash, reopen this screen and export the diagnostic ZIP. Your cache and saves are kept.");panel.addView(note);
+        TextView note=new TextView(this);note.setText("Game setup and crash diagnostics\n\nThe bundled cache installs on first launch when available. You can also import a cache ZIP. After a crash, reopen this screen and export diagnostics.");panel.addView(note);
         status=new TextView(this);status.setPadding(0,24,0,24);panel.addView(status);
         importButton=new Button(this);importButton.setText("Import cache ZIP");importButton.setOnClickListener(v -> pick());panel.addView(importButton);
         play=new Button(this);play.setText("Launch game");play.setOnClickListener(v -> launchGame());panel.addView(play);
         Button report=new Button(this);report.setText("View / share diagnostic report");report.setOnClickListener(v -> showReport());panel.addView(report);
-        Button export=new Button(this);export.setText("Export diagnostic ZIP");export.setOnClickListener(v -> startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/zip").putExtra(Intent.EXTRA_TITLE,"DH2-test5-diagnostics.zip"),EXPORT));panel.addView(export);
+        Button export=new Button(this);export.setText("Export diagnostic ZIP");export.setOnClickListener(v -> startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/zip").putExtra(Intent.EXTRA_TITLE,"DH2-diagnostics.zip"),EXPORT));panel.addView(export);
         option(panel,"Prefer English (cache translations may override)","preferEnglish",true);
         option(panel,"Fit game to 16:9 (experimental)","fit16by9",false);
         option(panel,"Keep graphics context during cinematics","preserveContext",false);
@@ -39,7 +99,8 @@ public class Dh2Activity extends Activity {
         setBusy(true,"Preparing game and ARM64 runtime...");
         worker.execute(() -> {
             try {
-                if (!REVISION.equals(getPreferences(0).getString("prepared", "")) || PluginStore.find(this,CacheArchive.GAME)==null) {
+                String revision=bundledGuestRevision();
+                if (!revision.equals(getPreferences(0).getString("prepared", "")) || PluginStore.find(this,CacheArchive.GAME)==null) {
                     stopGuest();
                     File temporary=new File(getCacheDir(),"dh2-bundled.apk");
                     try (InputStream in=getAssets().open("dh2/game.apk"); OutputStream out=new FileOutputStream(temporary)) {
@@ -48,10 +109,20 @@ public class Dh2Activity extends Activity {
                     PluginRecord record=PluginStore.importApk(this,Uri.fromFile(temporary));
                     if (!CacheArchive.GAME.equals(record.packageName)) throw new IOException("Unexpected bundled package");
                     temporary.delete();
-                    getPreferences(0).edit().putString("prepared",REVISION).apply();
+                    getPreferences(0).edit().putString("prepared",revision).apply();
                 }
+                boolean ready=cacheReady();
+                boolean existing=hasExistingCacheFiles();
+                if (!ready && !existing && importBundledCache()) ready=cacheReady();
+                if (ready) getPreferences(0).edit().putBoolean("cacheImported",true).apply();
                 configurePath();
-                runOnUiThread(() -> setBusy(false,getPreferences(0).getBoolean("cacheImported",false)?"Ready. Existing cache retained; launch the game.":"Ready. Import the cache before the first launch."));
+                final boolean cacheAvailable=ready;
+                final boolean bundledInstalled=bundledCacheInstalled();
+                final boolean partialCache=existing && !cacheAvailable;
+                runOnUiThread(() -> setBusy(false,bundledInstalled?"Ready. Bundled cache import completed; launch the game.":
+                    cacheAvailable?"Cache files found; completeness not verified. You can launch or import a cache ZIP.":
+                    partialCache?"Existing cache files are incomplete; import a complete cache ZIP.":
+                    "Ready. Import the cache before the first launch."));
             } catch (Throwable e) { failed("Preparation failed",e); }
         });
     }
@@ -88,8 +159,9 @@ public class Dh2Activity extends Activity {
                 CacheArchive.Result r=CacheArchive.install(in,dataRoot(),(bytes,files)->{
                     long now=SystemClock.elapsedRealtime();if(now-last[0]>500){last[0]=now;runOnUiThread(()->status.setText("Importing: "+files+" files, "+(bytes/(1024*1024))+" MiB"));}
                 });
+                java.nio.file.Files.deleteIfExists(new File(dataRoot(),BUNDLED_CACHE_MARKER).toPath());
                 configurePath();getPreferences(0).edit().putBoolean("cacheImported",true).apply();
-                runOnUiThread(()->setBusy(false,"Imported "+r.files+" files ("+(r.bytes/(1024*1024))+" MiB). Ready to launch."));
+                runOnUiThread(()->setBusy(false,"Imported "+r.files+" files ("+(r.bytes/(1024*1024))+" MiB). Completeness not verified; ready to try launch."));
             } catch(Exception e) { failed("Cache import failed",e); }
         });
     }
@@ -117,7 +189,7 @@ public class Dh2Activity extends Activity {
         runOnUiThread(()->setBusy(false,label+": "+e.getMessage()+"\nUse the diagnostic report for details."));
     }
     private void showReport() {
-        StringBuilder b=new StringBuilder("DH2 Fold7 test 5 (versionCode 5)\nModel: "+Build.MODEL+"\nAndroid: "+Build.VERSION.RELEASE+"\nABIs: "+java.util.Arrays.toString(Build.SUPPORTED_ABIS)+"\nPage size: "+android.system.Os.sysconf(android.system.OsConstants._SC_PAGESIZE)+"\nCache: "+dataRoot()+"\n\n");
+        StringBuilder b=new StringBuilder("DH2 compatibility build\nModel: "+Build.MODEL+"\nAndroid: "+Build.VERSION.RELEASE+"\nABIs: "+java.util.Arrays.toString(Build.SUPPORTED_ABIS)+"\nPage size: "+android.system.Os.sysconf(android.system.OsConstants._SC_PAGESIZE)+"\nCache: "+dataRoot()+"\n\n");
         File media=new File(dataRoot(),"dh2-media-status.txt");
         try{b.append("dh2-media-status.txt:\n").append(new String(java.nio.file.Files.readAllBytes(media.toPath()),StandardCharsets.UTF_8)).append("\n");}
         catch(IOException ignored){b.append("No media query report yet.\n\n");}

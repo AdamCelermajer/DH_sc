@@ -1,0 +1,65 @@
+{
+  "scope": "source-based Android asset renderer; not a playable game",
+  "target_sdk": 37,
+  "min_sdk": 26,
+  "abi": {
+    "arm64-v8a": {
+      "machine": 183,
+      "sha256": "25ae521ca8bf2175fe2de030ba5fe824eb2dbc3586708062ffeb77484851bbe3",
+      "bytes": 56040,
+      "pt_load": [
+        {
+          "alignment": 16384,
+          "offset": 0
+        },
+        {
+          "alignment": 16384,
+          "offset": 16820
+        },
+        {
+          "alignment": 16384,
+          "offset": 40752
+        },
+        {
+          "alignment": 16384,
+          "offset": 42272
+        }
+      ]
+    },
+    "x86_64": {
+      "machine": 62,
+      "sha256": "9d6354c7a3739140f9356a4f36d964afbc8efe527ac015a8d46ac19b7fa32c16",
+      "bytes": 57040,
+      "pt_load": [
+        {
+          "alignment": 16384,
+          "offset": 0
+        },
+        {
+          "alignment": 16384,
+          "offset": 17040
+        },
+        {
+          "alignment": 16384,
+          "offset": 42784
+        },
+        {
+          "alignment": 16384,
+          "offset": 44320
+        }
+      ]
+    }
+  },
+  "apk": {
+    "sha256": "046b4abc5f286b87b8b60af724745fe3a70bc6cc7f7fd71dbd0e4e986179c078",
+    "bytes": 148000
+  },
+  "source_sha256": {
+    "port/android-app/native.cpp": "376d1b7ed779ca88c63091cce543e051a61432d6975701bed3f15eab229281a5",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/material-bindings/bindings.cpp": "7ce25fc920a1493283aeeceb884748cc5837afa93a4ee2f78a2ff723f4e493fa",
+    "port/texture-assets/texture.cpp": "b3590aa070633718ca3aa9db027b471d53547282acdf146df0be22cdb2fad423",
+    "port/texture-assets/decode.cpp": "8405e9fbae0cea4278c9618a03f4b0fc009ddc54acf24f9b72d1bde9d81cbd4a"
+  }
+}

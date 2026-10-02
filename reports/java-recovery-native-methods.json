@@ -1,0 +1,370 @@
+[
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeAccelerometer(FFF)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeAccelerometer",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeCanInterrupt()I",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeCanInterrupt",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeGetGameMusicVolume()I",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeGetGameMusicVolume",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeGetInfo(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeGetInfo",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeInit(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeInit",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeKeyDown(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeKeyDown",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeKeyUp(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeKeyUp",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeOpenIGM()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeOpenIGM",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativePause(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativePause",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeResume(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeResume",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeSetOrientation(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeSetOrientation",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeSetPhone(II)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeSetPhone",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativegetState(I)I",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativegetState",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/DungeonHunter2;",
+    "method": "nativeonTrackballEvent(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_DungeonHunter2_nativeonTrackballEvent",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLBluetooth;",
+    "method": "nativeInit()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLBluetooth_nativeInit",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLBluetooth.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLBluetoothService;",
+    "method": "ConnectionStateChanged(II)V",
+    "access_flags": "public native",
+    "static": false,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLBluetoothService_ConnectionStateChanged",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLBluetoothService.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLBluetoothService;",
+    "method": "ReceiveData(I)V",
+    "access_flags": "public native",
+    "static": false,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLBluetoothService_ReceiveData",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLBluetoothService.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLMediaPlayer;",
+    "method": "nativeGetTotalSounds()I",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeGetTotalSounds",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLMediaPlayer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLMediaPlayer;",
+    "method": "nativeGetTotalSoundsOfSameInstance()I",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeGetTotalSoundsOfSameInstance",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLMediaPlayer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLMediaPlayer;",
+    "method": "nativeInit(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeInit",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLMediaPlayer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLMediaPlayer;",
+    "method": "nativeSetStopOnMusic(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLMediaPlayer_nativeSetStopOnMusic",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLMediaPlayer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLResLoader;",
+    "method": "nativeInit(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLResLoader_nativeInit",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLResLoader.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLUtils/Device;",
+    "method": "nativeInit()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLUtils_Device_nativeInit",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLUtils/Device.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLUtils/SUtils;",
+    "method": "nativeInit()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLUtils_SUtils_nativeInit",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLUtils/SUtils.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GLiveMain;",
+    "method": "nativeInit()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GLiveMain_nativeInit",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GLiveMain.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GameGLSurfaceView;",
+    "method": "nativeOnTouch(IIIJII)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GameGLSurfaceView_nativeOnTouch",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GameGLSurfaceView.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GameRenderer;",
+    "method": "nativeConfig()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeConfig",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GameRenderer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GameRenderer;",
+    "method": "nativeDone()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeDone",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GameRenderer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GameRenderer;",
+    "method": "nativeInit(I)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeInit",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GameRenderer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GameRenderer;",
+    "method": "nativeOnDrawFrame()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeOnDrawFrame",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GameRenderer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GameRenderer;",
+    "method": "nativeRender()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeRender",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GameRenderer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GameRenderer;",
+    "method": "nativeResize(II)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeResize",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GameRenderer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GameRenderer;",
+    "method": "nativeGameRenderer()V",
+    "access_flags": "public native",
+    "static": false,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeGameRenderer",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GameRenderer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GameRenderer;",
+    "method": "nativeGetJNIEnv()V",
+    "access_flags": "public native",
+    "static": false,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeGetJNIEnv",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GameRenderer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/GameRenderer;",
+    "method": "nativeOnSurfaceChanged(II)V",
+    "access_flags": "public native",
+    "static": false,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeOnSurfaceChanged",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/GameRenderer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/IGPActivity;",
+    "method": "nativeInit()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_IGPActivity_nativeInit",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/IGPActivity.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/Musicplayer;",
+    "method": "nativeDisplayMusicTitle([B)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_Musicplayer_nativeDisplayMusicTitle",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/Musicplayer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/Musicplayer;",
+    "method": "nativeInitplayer()V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_Musicplayer_nativeInitplayer",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/Musicplayer.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/iab/InAppBilling;",
+    "method": "nativeInit(Landroid/content/Context;)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_iab_InAppBilling_nativeInit",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/iab/InAppBilling.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/iab/InAppBilling;",
+    "method": "nativeSendData(Landroid/os/Bundle;)Landroid/os/Bundle;",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_iab_InAppBilling_nativeSendData",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/iab/InAppBilling.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/iab/InAppBilling;",
+    "method": "nativeSetContext(Landroid/content/Context;)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_iab_InAppBilling_nativeSetContext",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/iab/InAppBilling.smali"
+  },
+  {
+    "class_descriptor": "Lcom/gameloft/android/GAND/GloftD2SS/iab/InAppBilling;",
+    "method": "nativeSetIABObject(Lcom/gameloft/android/GAND/GloftD2SS/iab/InAppBilling;)V",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_gameloft_android_GAND_GloftD2SS_iab_InAppBilling_nativeSetIABObject",
+    "smali": "recovered/android/smali/com/gameloft/android/GAND/GloftD2SS/iab/InAppBilling.smali"
+  },
+  {
+    "class_descriptor": "Lcom/samsung/zirconia/NativeInterface;",
+    "method": "checkLicenseFile(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_samsung_zirconia_NativeInterface_checkLicenseFile",
+    "smali": "recovered/android/smali/com/samsung/zirconia/NativeInterface.smali"
+  },
+  {
+    "class_descriptor": "Lcom/samsung/zirconia/NativeInterface;",
+    "method": "checkLicenseFile2(Ljava/lang/String;Ljava/lang/String;)Z",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_samsung_zirconia_NativeInterface_checkLicenseFile2",
+    "smali": "recovered/android/smali/com/samsung/zirconia/NativeInterface.smali"
+  },
+  {
+    "class_descriptor": "Lcom/samsung/zirconia/NativeInterface;",
+    "method": "doPassphraseTest(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_samsung_zirconia_NativeInterface_doPassphraseTest",
+    "smali": "recovered/android/smali/com/samsung/zirconia/NativeInterface.smali"
+  },
+  {
+    "class_descriptor": "Lcom/samsung/zirconia/NativeInterface;",
+    "method": "storeLicenseKey(Ljava/lang/String;[BLjava/lang/String;)Z",
+    "access_flags": "public static native",
+    "static": true,
+    "jni_short_name": "Java_com_samsung_zirconia_NativeInterface_storeLicenseKey",
+    "smali": "recovered/android/smali/com/samsung/zirconia/NativeInterface.smali"
+  }
+]

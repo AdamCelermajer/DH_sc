@@ -1,0 +1,119 @@
+{
+  "component": "libnativeinterface.so",
+  "status": "source_reconstructed_buildable_and_component_tests_passed",
+  "original_source_recovered": false,
+  "scope": "Samsung Zirconia JNI license helper; does not include game engine",
+  "original_elf_sha256": "180b582cbb7e7004c94fe771f8c8013dad4c74a9317ee4baff08c542da4ff0da",
+  "source_directory": "port/nativeinterface",
+  "original_function_symbols": [
+    "CheckLicenseFile",
+    "Java_com_samsung_zirconia_NativeInterface_checkLicenseFile",
+    "Java_com_samsung_zirconia_NativeInterface_checkLicenseFile2",
+    "Java_com_samsung_zirconia_NativeInterface_doPassphraseTest",
+    "Java_com_samsung_zirconia_NativeInterface_storeLicenseKey",
+    "SHA1Input",
+    "SHA1PadMessage",
+    "SHA1ProcessMessageBlock",
+    "SHA1Reset",
+    "SHA1Result"
+  ],
+  "jni_signatures": {
+    "checkLicenseFile": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Z",
+    "checkLicenseFile2": "(Ljava/lang/String;Ljava/lang/String;)Z",
+    "doPassphraseTest": "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+    "storeLicenseKey": "(Ljava/lang/String;[BLjava/lang/String;)Z"
+  },
+  "evidence": {
+    "thumb_entry_points_from_elf_symbol_lsb": true,
+    "original_checkLicenseFile2_instruction_bytes": "01207047",
+    "original_checkLicenseFile2_returns_true": true,
+    "original_checkLicenseFile_validation_preserved": true,
+    "lookup_table_count": 5,
+    "lookup_table_bytes_each": 1024,
+    "sha1_context_size_bytes": 104
+  },
+  "intentional_safety_differences": [
+    "Metadata GetStringUTFChars/wcslen mismatch made deterministic: hash ceil(UTF8-byte-length/4) bytes, matching explicit zero-padded original buffers",
+    "Reject required null arguments and key arrays shorter than 20 bytes",
+    "Handle allocation failures",
+    "Per-thread JNI context pointers replace process-global JNI context",
+    "CheckLicenseFile without an active wrapper context returns false instead of opening a null path"
+  ],
+  "verification": {
+    "host_semantic_c_tests": "pass: known SHA1 vectors including one million a, state/overflow, passphrase truncation, license match/mismatch/short file and stored metadata",
+    "host_jvm_jni_tests": "pass: all 4 JNI functions; real JNI marshaling including Unicode/null/invalid inputs",
+    "differential_original_arm32": {
+      "original_sha256": "180b582cbb7e7004c94fe771f8c8013dad4c74a9317ee4baff08c542da4ff0da",
+      "original_arm_instructions_executed": true,
+      "sha1_cases": 15,
+      "passphrase_cases": 100,
+      "license_file_cases": 72,
+      "original_jni_passphrase_cases": 4,
+      "original_jni_check_license_cases": 72,
+      "original_jni_store_license_padded_buffer_cases": 8,
+      "original_checkLicenseFile2_returns_true": true,
+      "result": "pass",
+      "limits": [
+        "modeled libc and JNI dispatch rather than original Android runtime",
+        "original store metadata pointer deliberately zero-padded; unsafe allocation-slack behavior excluded",
+        "device runtime not exercised by this emulator"
+      ]
+    },
+    "android_arm64_static_elf": {
+      "result": "pass",
+      "architecture": "AArch64",
+      "elf_class": 64,
+      "function_exports_preserved": [
+        "CheckLicenseFile",
+        "Java_com_samsung_zirconia_NativeInterface_checkLicenseFile",
+        "Java_com_samsung_zirconia_NativeInterface_checkLicenseFile2",
+        "Java_com_samsung_zirconia_NativeInterface_doPassphraseTest",
+        "Java_com_samsung_zirconia_NativeInterface_storeLicenseKey",
+        "SHA1Input",
+        "SHA1PadMessage",
+        "SHA1ProcessMessageBlock",
+        "SHA1Reset",
+        "SHA1Result"
+      ],
+      "function_export_count": 10,
+      "load_segment_alignment": [
+        16384,
+        16384,
+        16384
+      ],
+      "built_sha256": "c2c13e87984ad6f6b6be5f7808f334b3d499573d824aae9af38adc774198eaeb",
+      "limits": [
+        "static ELF validation does not establish Android device execution"
+      ]
+    },
+    "compiler": "Android NDK r29 aarch64-linux-android26-clang",
+    "minimum_android_api": 26,
+    "cmake_configuration_execution": "not run; CMake unavailable, validated compiler build.sh instead",
+    "device_execution": "not tested",
+    "game_integration": "not tested"
+  },
+  "license_behavior_note": "No new bypass added. checkLicenseFile2 unconditionally true already in supplied ELF; cannot establish vendor-authored versus later modification. Primary checkLicenseFile remains real SHA1 validation.",
+  "source_file_sha256": {
+    ".gitignore": "0cf256cc9234b415f912f5b0e9f8c9364688466041611047cd3f599c35f4efa6",
+    "CMakeLists.txt": "834a9a539a675807e0a2f6caab71b3cbbbcf42d56c3fb61f0fa92791c887dec6",
+    "README.md": "e9b5cbba8fc44a087787781cc3e4555ac8d3329c907517220c909700f43182ac",
+    "build.sh": "58d19802dbb6b4125a2903607fe4ac1791a7ffced92bc0146dfac6bbe30d1b54",
+    "exports.map": "a0425a397015308261095fb78e806e3f701715f17646317075ff98ace333e14e",
+    "nativeinterface.c": "ddd8564b9a6a0182dacff829d1739c98dbed9685e4bf816bd810f42bb8084c1b",
+    "nativeinterface.h": "caff49f2901354b93cb9d23ce9060317c3a25285d307fd3d279de0a047ea1030",
+    "nativeinterface_jni.c": "7773c006aa5a54dd99e69317de345ca5c6abc7b67b0bda5b18994cba5a8cbd23",
+    "passphrase_tables.h": "532405bac21d02395681fd67cf445c04a34ea579fd4f830038588bfca7ab35a2",
+    "tests/NativeInterfaceSmokeTest.java": "d5e0c05b6635cbbd1ce34914d7461c707fa586e4a5e62367d37791ca08b87225",
+    "tests/check_arm64_elf.py": "f7f9d45a67e4b5853f8fddaf05376833f366c07e119a4384b1ff4d4064acb5eb",
+    "tests/differential_arm32.py": "54199e808ce2ae99674d0ef8087ae12aa4350c1da599f49b819d034e54575aa3",
+    "tests/semantic_test.c": "cb1073ea59f2978697b0b095e2a5fcc312683a6adc2dd8b8af6d18b07ff0b506",
+    "tools/extract_tables.py": "fbebb1256558830f260b0d8e7f65c0800c0d7f6e54b8218f763f154a9378b677"
+  },
+  "limits": [
+    "New source reconstruction rather than studio original source",
+    "No equivalence claimed for original undefined wcslen overreads into arbitrary allocation slack",
+    "No complete Android game port; main game engine is a separate reconstruction",
+    "No real entitlement or server interaction validated",
+    "Cross compilation and 16 KiB ELF alignment alone do not establish operation on a phone"
+  ]
+}

@@ -1,0 +1,13 @@
+# Local build products and private test inputs are reproducible or supplied separately.
+__pycache__/
+*.py[cod]
+port/android-app/build/
+port/nativeinterface/build/
+compatibility/work/fold7-build/out/
+compatibility/work/fold7-build/build-result.json
+recovered/native/assembly/
+recovered/native/symbols/
+recovered/native/decompiled/
+recovered/native/bundles/*.tar.gz
+recovered/android/
+recovered/assets/source-data/

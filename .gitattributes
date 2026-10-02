@@ -1,0 +1,4 @@
+# These imported source bytes and tested patch context retain their verified spelling.
+compatibility/16k-port/zettabridge-guest-memory-16k-poc.patch -whitespace
+port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/GameInstaller.java -whitespace
+port/android-java/java/com/samsungapps/plasma/CreditCardPaymentMethod.java -whitespace

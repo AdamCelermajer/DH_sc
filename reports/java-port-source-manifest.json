@@ -1,0 +1,1446 @@
+{
+  "java_files": 288,
+  "combined_sorted_path_sha256": "bbd9c136dcda2744cd49cbc24fb9ac9a150b7ea89022e336cf3e405d899f49ec",
+  "files": [
+    {
+      "path": "port/android-java/java/a/a/a.java",
+      "bytes": 98,
+      "sha256": "9c61442575f9c50485d6257520878c3f10fb10bcc75f7a4e12badee8b98c4560"
+    },
+    {
+      "path": "port/android-java/java/a/a/b.java",
+      "bytes": 93,
+      "sha256": "44d122c41df460d5fb52373c33536445772f5ea978b6f8dd25123d0a1e102cf5"
+    },
+    {
+      "path": "port/android-java/java/android/support/v4/app/app.java",
+      "bytes": 728,
+      "sha256": "09d0aa63d61744ce7f95de9761351bf79c4ba93fe30eb740c16ef6fae435aaee"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ApplicationSetUp.java",
+      "bytes": 1035,
+      "sha256": "79fe09e17ff4a785d920f94f64c1786ad00d0c752e78832064ef65725ec5ed92"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/Billing.java",
+      "bytes": 7305,
+      "sha256": "a6909aecb13992fd96ea28f46286d5a955cdb632351d773686bda9dae5b58696"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/DungeonHunter2.java",
+      "bytes": 19037,
+      "sha256": "bd0a1176767800e27d4a01e7f1d42781ba82a13ebfc6c4d90f4a03dc24a17464"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLBluetooth.java",
+      "bytes": 2987,
+      "sha256": "2b82fd9a2cdc6f8c78b76fd465e53ec692e80a4cfbc683bdd11e5e243614fd6d"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLBluetoothService.java",
+      "bytes": 23105,
+      "sha256": "e0cbebf7afb92429463130e608ace6e1f40d6e1f0a23c5bb36a022605c49f5cc"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLMediaPlayer.java",
+      "bytes": 15980,
+      "sha256": "ac5d9087867fff0a5056b5553f1daae8c90f633b3a1b564bf2227603e727e1c6"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLResLoader.java",
+      "bytes": 12870,
+      "sha256": "1f8d8e561617e5bc8720e4eaa4477d9fd07fd86abfbae9a9f0109b171f86bfdd"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/Base64Coder.java",
+      "bytes": 5985,
+      "sha256": "5d903832fea4cce5f39107143022e5a608e8b729bd4a20c9fd3e73f5424566b4"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/Config.java",
+      "bytes": 963,
+      "sha256": "874b428b27c6732b8145997c10ff1f73960a24794971eb636a6670fa9f3be3e8"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/ConnectionTimer.java",
+      "bytes": 723,
+      "sha256": "5850f9369e56e2de2ca6e2452221049bc61ab1d03269264cfc9b626386f1e55f"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/Device.java",
+      "bytes": 10230,
+      "sha256": "412536c84394f23231dc28a2f2753f7990237c5b673911a1af30e59cef729f78"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/Encoder.java",
+      "bytes": 2648,
+      "sha256": "27b4ddb37b52eb933f2c2fab572d38521de84b14fbf87d80db005f37aae3fbab"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/Encrypter.java",
+      "bytes": 2165,
+      "sha256": "18161e85d5f6ad84fb264b993608869853fb959349621d8b348e10d4153f0676"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/HTTP.java",
+      "bytes": 10887,
+      "sha256": "dcc0cdc90ad4b290bd8f7314a32972a961ac10bb2356566f7c5576223415c234"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/ResLoader.java",
+      "bytes": 2288,
+      "sha256": "5c11070fb3e31e63c96fc25fbe77a2efd11b43df7bf32bdb928654774adc5c84"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/SUtils.java",
+      "bytes": 14622,
+      "sha256": "d7d1e6581938c21898c91083022d369e1ca1d03d009e0c1ac09f92a2a9f26dbb"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/WebSettingsCompat.java",
+      "bytes": 1057,
+      "sha256": "dcab7d5c871a05b727c665efb37e60cc7fc082a224ad943883da707b4fe4c48a"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/XPlayer.java",
+      "bytes": 26489,
+      "sha256": "c5e995f6271becd4ea24c4625a6c4d8b213740ce38a776bb93f162fa5f4e009d"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/ZipFile.java",
+      "bytes": 3469,
+      "sha256": "909616e0aa1ea5482425fd688b37cdd3da5f48f6efcd27bebd2d4a924fe940e0"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/a.java",
+      "bytes": 819,
+      "sha256": "94a12062a1dc64d21d5fe6289f26016d97e35c075210863244257b0d38b65cee"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/b.java",
+      "bytes": 545,
+      "sha256": "7ac6dbc59a0c646315a8fc368538c3a58bfaefc02b3839d7b06ac5e823b1ba9a"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/c.java",
+      "bytes": 459,
+      "sha256": "6af15619fc8a1767b784e6ffe0d12ed09a2e1ece7d53c7b02013e72f77dcfe44"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/d.java",
+      "bytes": 529,
+      "sha256": "3553ec9dcfe03fde86c4a6681a7639f260c98b371216656a7b401cda2736a5da"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLUtils/e.java",
+      "bytes": 824,
+      "sha256": "cf81db0595c2190e80824e7208e5df215112f7aa2b12532814b9bc607589b54f"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GLiveMain.java",
+      "bytes": 123658,
+      "sha256": "fd8fc7bb100145e247285decfbd77016fd2d0b8d0e81a71dc3589f93aa33f2c3"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GameGLSurfaceView.java",
+      "bytes": 11237,
+      "sha256": "51f6ab15b6b763fca587b4e2e8eb6057c976d2d56de6bebdcfdf416016baaa38"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GameRenderer.java",
+      "bytes": 2122,
+      "sha256": "5bc242830ec8852a9ef625e60bd1c649f276fb9566e22eebfb37012aa4f5e3a3"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/GetNpost.java",
+      "bytes": 1485,
+      "sha256": "cb29a45dd774fcb60c4139a15b5467519f867ac019ace17dba4573222cf44a01"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/IGPActivity.java",
+      "bytes": 11955,
+      "sha256": "b7913d9d8c8cadbb7b399b3d6cf92afa5c5e4bd5c2897cf8cb13789704144e0c"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/MediaPlayList.java",
+      "bytes": 3925,
+      "sha256": "d5fe3487e36b6dd6417acaacae7a2c87f620070a2eb6fbb73d9f846c2f5198a4"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/Musicplayer.java",
+      "bytes": 4434,
+      "sha256": "99f0e517ab1c3d73322cdd1c12164a6b989731de05d2ac2d8025b6edc4928c66"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/MyList.java",
+      "bytes": 566,
+      "sha256": "23419df7fbfb5ab5ff3252a20be9606b0489aada42963d86d64c93292a124eed"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/MyVideoView.java",
+      "bytes": 17549,
+      "sha256": "8eaefa6af11e6ceacef19d10f46ce00bfef8b04568f4748c5567dbe5ce5804bc"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/Sounddefs.java",
+      "bytes": 19534,
+      "sha256": "737b81932fbe448e509ed989477dab3b7fbbb22fd5febd4f6a65f8c23d7bce69"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/VZBilling.java",
+      "bytes": 9668,
+      "sha256": "fdcd4c1d0d316da08668ce4cab7971e99fa1a7dd1fa381bede5aba1a2b5167b9"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/Zirconia_DRM.java",
+      "bytes": 5125,
+      "sha256": "5d4c83de21fb7ff9b208447eeb77e27e939ca9d13504efa3f24dd0c13bc276cb"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/a.java",
+      "bytes": 679,
+      "sha256": "489a6b2b709c728cc7da99d8286930022df274267b5fefb0a55c1571a5f965f7"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/aa.java",
+      "bytes": 499,
+      "sha256": "8dda44d5455ac2fb68305b7551043682b712b88101b79f9a8d90331fd979d1b8"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ab.java",
+      "bytes": 499,
+      "sha256": "f50ffcc9ecefdccb42a72d744e3f1d30890d7cafe51fb8c817b355a2c5e7dcd0"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ac.java",
+      "bytes": 2775,
+      "sha256": "10554dd8a21ab32eb26962acaa877a50d3851d52bc19741b2b8c5d46a72ebf80"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ad.java",
+      "bytes": 2577,
+      "sha256": "11d8d8805c3aff6a4ed36a8cfb2727fc53365e404c963dd751f7d4d14c8d9b43"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ae.java",
+      "bytes": 1448,
+      "sha256": "823f3ef611ac9ba02fc6dbf3cf22a6921b9d82366d10937dd2b2f2626a904437"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/af.java",
+      "bytes": 1528,
+      "sha256": "6e2c91963239be967fe0c2c5c0e46c13f7316677e0885ad785495f61007a49c8"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ag.java",
+      "bytes": 529,
+      "sha256": "43fb59eb87f6648b95f1d655e7859c411fbf826abfad623936c3ba0877b2c6e1"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ah.java",
+      "bytes": 3264,
+      "sha256": "d132d6cc2ec1f30bbdd6a2fb584e58edd41076ba38499c938291203b46610f59"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ai.java",
+      "bytes": 2309,
+      "sha256": "e3dd30c1bf5067f6744b27fb28991d8af8ea715a30c013f538ef6e7992fadde2"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/aj.java",
+      "bytes": 747,
+      "sha256": "d7b615e518e5d9d18d94d9fc6e619c301e3e38d81ab6b86967f43c23ea75320c"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ak.java",
+      "bytes": 1806,
+      "sha256": "63c932235a54e0e9f100ae5201de95d69f921d58d6d47dbe20984dba5b2d5f6c"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/al.java",
+      "bytes": 1633,
+      "sha256": "87be9fb4f45df99c20f119cae53a7719448c87434afbb168c7a12190e51379b5"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/am.java",
+      "bytes": 1487,
+      "sha256": "6bdb72c7efbeb0c13d518984649e7cf2af7e8794c0a87b494ca7495d66e92449"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/an.java",
+      "bytes": 529,
+      "sha256": "2f711b8030a2195de8aaa591516ea05df09303036501fdf8839079c61a9bdb1e"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ao.java",
+      "bytes": 907,
+      "sha256": "4b876cfdb8630b6eb44605e7aa7548da34cbc29d66ece44dca91f076de481039"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ap.java",
+      "bytes": 505,
+      "sha256": "f840a9294271676dff31caf442ea74e4e886ad5ee1fa2d02128007c71d03782f"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/aq.java",
+      "bytes": 529,
+      "sha256": "08cfac29d81eaea49e3d20080f91a172e0bdaa3c63890f9f22df06e9c196e2ef"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ar.java",
+      "bytes": 886,
+      "sha256": "ebe8910103493b7cea2e1dc0601a6f811817264056a3bff13363b1f2d02144f6"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/as.java",
+      "bytes": 674,
+      "sha256": "0ca100f6aef790a6b9d554c31c49c96ab7f16b78ed6eabbe40c024a8cbdea208"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/at.java",
+      "bytes": 730,
+      "sha256": "888703313aa16817d476dea0ddc68533ce1c57119da3f6f5be87a3397e030391"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/au.java",
+      "bytes": 1349,
+      "sha256": "47ef9776eff0dd019794fc28d1ab707304f999ec4d924ce59c8f2fb14b079ae8"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/av.java",
+      "bytes": 2928,
+      "sha256": "fa7f5fdbf255ef3b8458b927716847eb8e81543a27930650ee466013433c1649"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/aw.java",
+      "bytes": 827,
+      "sha256": "70901787e5ba846eda6e8379b000c16d6477be3f25bca067dc51f9823cf3a524"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ax.java",
+      "bytes": 765,
+      "sha256": "18d95a2bc2b9919f08652bbba3344f19be3969d7256cf02999b45c08e9c2e1c3"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ay.java",
+      "bytes": 819,
+      "sha256": "edd79d59bbc1fd0d1920354a70806a3946cf5332c4cb483f8148654dd044418a"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/az.java",
+      "bytes": 539,
+      "sha256": "668352f76186dac1cf0d57dda235ec2d38ece04548b4cdb3cf5e1ded6f9dfd96"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/b.java",
+      "bytes": 1253,
+      "sha256": "42b019b744ebc9f496597bf4db0869b73b4925e1c740e5597b610fb6f37916b6"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ba.java",
+      "bytes": 3982,
+      "sha256": "159e9d3c17150c63e277654f432a98a8e3f6436d71103c2c15e7883595931a29"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bb.java",
+      "bytes": 843,
+      "sha256": "d43d444226135407502e1f25d0b5eb479783ceb02bf32974ed26b6b679715207"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bc.java",
+      "bytes": 656,
+      "sha256": "cf9b06bfa7894af80bd0913c61b9531bdc16b250e74d5105315fc0013ff264fe"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bd.java",
+      "bytes": 650,
+      "sha256": "a0abfcd604c1feaa210fc25b1f1f202f1ce0bec5326716b8c6149b908a21aa1e"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/be.java",
+      "bytes": 508,
+      "sha256": "fc143addd81c24a54ae863158f169e53aad4ff144fe21896897cf5cc6d22fa87"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bf.java",
+      "bytes": 587,
+      "sha256": "c2afc640143328694b3bec1481896c742b3bfb9be6fcdca03b778758f17c25c8"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bg.java",
+      "bytes": 650,
+      "sha256": "ab559022f1333c9421aff60e8a51eafeedfb81f4319f3aa114f89bee2007bb90"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bh.java",
+      "bytes": 647,
+      "sha256": "d2009915471026980fa36cffc8e447e60a6f0690d22f4a84b8698da9e2be5938"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bi.java",
+      "bytes": 781,
+      "sha256": "af7d456fee0466e04ff8c62ae5e2a071a2c3c09e4d976ecc1b02b3e88ed9c91a"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/billing/common/AServerInfo.java",
+      "bytes": 2525,
+      "sha256": "6b608985fefbcea55a3ea4ec1ef88dcc2a03f92ed018b81ada61f90115850693"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/billing/common/Base64.java",
+      "bytes": 9104,
+      "sha256": "745bef53fbd66a8577f15eedbcd548c82a6039c4238b25c00a43480402f452a2"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/billing/common/LManager.java",
+      "bytes": 7399,
+      "sha256": "474b0f20b1a75d56901f25291cd5a2b85c5f8d555afb5336cdee6d1367d05ca8"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/billing/common/StringEncrypter.java",
+      "bytes": 5260,
+      "sha256": "19386ffce78ee3768d05ea19a0425c82b98f87ce346eabd8b1184ca4c27c95b4"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/billing/common/a.java",
+      "bytes": 344,
+      "sha256": "ae4ce563ae3de3110ac7a4e0a50f6fcc2f1a722095b2adab0dd0d248ee0c530a"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/billing/common/b.java",
+      "bytes": 1122,
+      "sha256": "b0d486b08d3deab0ea43599bfd3e87c5417de1d68d2585c0b9552cb7388b04c1"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/billing/common/c.java",
+      "bytes": 3280,
+      "sha256": "c3c65ee9f7397f9ddf2ce4defb99582e89c5d617bf9fc1190b41460423a11f68"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bj.java",
+      "bytes": 787,
+      "sha256": "24bf8a9a7d16ca549a920420d562c1836500e34e6cd1a0219f6684522d5c68c8"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bk.java",
+      "bytes": 114,
+      "sha256": "cdf98f5afe9b77d20f2bc2f8027589794b2d0a2fb065303d0bc2e52a627486af"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bl.java",
+      "bytes": 114,
+      "sha256": "85b2e78f0b355041d258164d9604db4c0e9fb6a030179711f800484a52820054"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bm.java",
+      "bytes": 373,
+      "sha256": "a26e3a7d9e939c461410d17fae74df593d1b6dd7f8bb1f93a7b7d814f3d098fd"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bn.java",
+      "bytes": 593,
+      "sha256": "dde8d111b1b4c894e1a77b9fec62fd304659e0574f0193a23df42e0116a155d9"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bo.java",
+      "bytes": 2755,
+      "sha256": "ab988a9e1e473e453748eacfec312143080797cf26e7f39e4c85cff431817c1e"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bp.java",
+      "bytes": 3966,
+      "sha256": "c9a152ab02395870efb04b0fc0d2f03108fe19e6dcfdf205307225bb3f1a7986"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bq.java",
+      "bytes": 2710,
+      "sha256": "b56cb28004aee3141bc2f1929ac31463a23371958583eac128f8e7e6865e1559"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/br.java",
+      "bytes": 285,
+      "sha256": "c11f43981bc54a3bdda915fc23d295e7ca12db56a79b8f7a5b4dcdcc67213b42"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bs.java",
+      "bytes": 810,
+      "sha256": "b374784f698d6d9d4633b4af3a2f9642f4a0038588af516b152c9c629cbe2be1"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bt.java",
+      "bytes": 461,
+      "sha256": "a20e140b4de389b93e7adc31ae4094ea68e1d91118975840ca7cf815f9920043"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bu.java",
+      "bytes": 23010,
+      "sha256": "e3c0236ed5dde22df02430cbce1da610dfe6ffa74b7090600926a5948055aaad"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bv.java",
+      "bytes": 1429,
+      "sha256": "0ccd00f5e043e970c23c6f0dc839184b8cd8aa30f5e454813d8aa72b20bbea8a"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bw.java",
+      "bytes": 2012,
+      "sha256": "91e15d5af6ce7ab067e7048c65150779fbb48344508447423f108df93ed1cd75"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bx.java",
+      "bytes": 797,
+      "sha256": "dc8a4a29713eace355a45b3e6ec22be33e1fbcde98bf79f4f942ececc6a9ab33"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/by.java",
+      "bytes": 673,
+      "sha256": "c7ac7957db315dcccde838680c09a9030f30af037dd22b5cfdb5ed5dbd1147b4"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/bz.java",
+      "bytes": 741,
+      "sha256": "660ffa6df69959f11c556276fcf880c407546f763b63148b38433e93130869d8"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/c.java",
+      "bytes": 2283,
+      "sha256": "e39bcfec0d977f3f2905b914ff0aa9e4d61a89a1f2ce08db6faa6fb6724aefee"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ca.java",
+      "bytes": 797,
+      "sha256": "a2460c2fc012f6eb6da25164b7b2ca9186827c54849b7aac810b02e366b60777"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/cb.java",
+      "bytes": 673,
+      "sha256": "54474fc59dca215b4b4670264c3bc890ac4a98452894060669e892df909faee0"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/cc.java",
+      "bytes": 998,
+      "sha256": "ef6b38d5858e9fe2b22b19b56c2e08d37c75a9334e61191477c48c007bf34e40"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/cd.java",
+      "bytes": 797,
+      "sha256": "2172e2fd7667b8c6cd23a23f000e434fa09a8b99ee1da55f94a82a328b62ff44"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/ce.java",
+      "bytes": 565,
+      "sha256": "9efe046eaba9d89d05ea5a3f1756e889aeff10e2b203135c19e13f6b0cc6a45b"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/d.java",
+      "bytes": 3578,
+      "sha256": "db56d9d9b1372761c70d640141b41ec86cae810c724088a9038a0f2c52ef647f"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/e.java",
+      "bytes": 2501,
+      "sha256": "453923bce8beaddcb3d5c9080d3426ed860dad7f989c3906eae35ed28a57dbb4"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/f.java",
+      "bytes": 380,
+      "sha256": "14db5388781b7ab3b7ef0063136493cc3a5a2219ab0af58be0e7c678c710fac4"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/g.java",
+      "bytes": 1546,
+      "sha256": "3bd13bf6c2a6f09c4032f0733b3a35dd2b01f8a3db3666bbaa90eaa461d391fd"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/h.java",
+      "bytes": 715,
+      "sha256": "c77ee6bc31372c8c43c49adce27c5040dce5be891f942e3649abedbf87c698ae"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/i.java",
+      "bytes": 1741,
+      "sha256": "34a9bc4f3144b7bc6daa9e7f1102e801af480d2eb089b5d5e2623cc83e44a31c"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/InAppBilling.java",
+      "bytes": 25544,
+      "sha256": "28455d2789ff6f40d4b6682f2146cb13517be4fb644d8147f2352908369c5c6d"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/SamsungHelper.java",
+      "bytes": 3483,
+      "sha256": "15d0a32fefbbb529329dac3a5b8dd2daf66b24d60fcb7fc9627b00a0d6acfd78"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/SamsungIABActivity.java",
+      "bytes": 10357,
+      "sha256": "e5917ef772795635fa533ddcf933930923ede3e129c6bed612abc8ffa7d754b9"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/ServerInfo.java",
+      "bytes": 15043,
+      "sha256": "99bfab13d6e8ebdc4ff7688fcbd7bebacc3b75dd7452f59e4b226cc2c901124f"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/a.java",
+      "bytes": 652,
+      "sha256": "51465307eb173da212dbac3c0f148e65a0798b8db757e95fb9cff41eb071cb38"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/b.java",
+      "bytes": 4708,
+      "sha256": "0c64d0cb80b7d9f597b6149331aedc0474d7637a8df49c842025402685f33600"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/c.java",
+      "bytes": 471,
+      "sha256": "9e23cb923cc08438e9e45eaa6e07b1ed6960b24403ba7451f5781aad1f43b5db"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/d.java",
+      "bytes": 1501,
+      "sha256": "419639576e2cb3e7a152f922f939612c4085874346ea25531e05918d8d6ce996"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/e.java",
+      "bytes": 4238,
+      "sha256": "e7039d818d6ffc406c0b7966d7bb320e18996674c21351945f09284f36e20fc0"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/f.java",
+      "bytes": 1010,
+      "sha256": "8bec64f5d322dda1ba0134dcef9f11514efbbb72a638d9e4e8771690db8b866a"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/iab/g.java",
+      "bytes": 1808,
+      "sha256": "b9174b66c127d1d129ba47418a2dba70b0880c12f83f90881f4c7d9f4cb5eb7d"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/GameInstaller.java",
+      "bytes": 111231,
+      "sha256": "234a6b169fe9405ee864c8ba911914213e6221d394876e6cafc20a7104d8cb7e"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/IReferrerReceiver.java",
+      "bytes": 1885,
+      "sha256": "47d5b8b5c6dac8f711321e21f1c1213433dca7cddafe5f3f9c7abcfbffc5cd8b"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/Utils.java",
+      "bytes": 5812,
+      "sha256": "a0ee6ce852b2affd60e5d82f818b9e0a82af1ed75269940b293f0b65d28d26fc"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/a.java",
+      "bytes": 788,
+      "sha256": "4526aedc4626aa322432028da85fca07c74806a0deac9d103d39e58e1f5595c6"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/b.java",
+      "bytes": 21667,
+      "sha256": "160c7dbee0a7ed4f3a3459ab16f4102f417c69368b60c5a872b183f1b747eac4"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/c.java",
+      "bytes": 735,
+      "sha256": "18ba57bdd570ffc5ac78b40db60fc3d6516754890bcc1c729d006ec8a17224c0"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/d.java",
+      "bytes": 696,
+      "sha256": "a8b21744c9eba22e63ccf27a934776c2ad1412f45a37b7f0e4f9493627d3b19b"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/e.java",
+      "bytes": 1361,
+      "sha256": "71fb1d9b499f4b009143c43637e3eb3ddcf3a4d79c247be52ce8c2d641edd9bd"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/f.java",
+      "bytes": 993,
+      "sha256": "b83dfa107a2c4942a92c8b6123c262e0330ccff40a264efe464e0a5a63d2d83e"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/g.java",
+      "bytes": 866,
+      "sha256": "bbc51a635baba07c877df41d1777a67205b76c3912eae2c3d7b861d82a127ac8"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/h.java",
+      "bytes": 780,
+      "sha256": "2f76b6b6f003d226881eda8832b3fb857166145f57e8264b67efbd81ddbd3746"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/i.java",
+      "bytes": 727,
+      "sha256": "97c9c86fca1f9cdbfa6689593445476af7efd45b4afa83b4ff109d6aa3a434ee"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/j.java",
+      "bytes": 973,
+      "sha256": "2d815833c112a6f3339facfe0aca017391067564999db229d25f5b3b50c80588"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/k.java",
+      "bytes": 958,
+      "sha256": "370a984d56b501c46123e55223daf7b5cfb48da87a4b6dd3ab1616e1838ceae6"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/l.java",
+      "bytes": 1018,
+      "sha256": "4ab408de6e65cba949163c404adde9eaa45d307aa7f76301f2905d18beadc328"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/m.java",
+      "bytes": 696,
+      "sha256": "809ffc5fa600539fd5dfc3597e98bae61c0b5247c230168e715175e3afc6e91d"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/n.java",
+      "bytes": 2034,
+      "sha256": "295646b857ee3fa5cc5adbc94b3210ddc69baf1d0aa32eb7181fb8cc6c7028c5"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/o.java",
+      "bytes": 123,
+      "sha256": "6c80627a1d77ce839e6150cf953abb1e6a45bfbf700867bf0dc40cb71d350581"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/p.java",
+      "bytes": 392,
+      "sha256": "f7f872830457f7423985567d60577a803d9b7c6631810bf98c4f3fe3cc4ab159"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/q.java",
+      "bytes": 355,
+      "sha256": "bde6e53f71799dc7044075a655464b0daff45589f164758ab3cdfabc50961850"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/r.java",
+      "bytes": 355,
+      "sha256": "a0159d51f14e7949cbd22f515c14a7fbeb3e6ec0e4c5dc64706c79f9bb95cf89"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/s.java",
+      "bytes": 466,
+      "sha256": "4bba17c1c37c0eddffff31482296eb7b6b7a159b8bb3956b96e8783df6c432e9"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/t.java",
+      "bytes": 355,
+      "sha256": "a0862ab414a039e78c99fbe1982114c2209117494cb5b32078a67fc17475f0ff"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/u.java",
+      "bytes": 873,
+      "sha256": "af717736444ad74183237b4760d5f34fec9bad83d2f56b1ca92b41a6f4f19230"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/CRC.java",
+      "bytes": 2483,
+      "sha256": "a96b38b4c5c506efbd16cd8da5bae283e567093dfdcf3017034910f29c873c59"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/DownloadComponent.java",
+      "bytes": 24786,
+      "sha256": "0a2717c3c13a615d06982b6681bcf8dde141977c5859a0d69b858cd5b0db7791"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/Downloader.java",
+      "bytes": 8989,
+      "sha256": "668163741fc18c2d7160b0df21d1975c298ae2a0d3d4adc1e12d165321affb86"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/HttpClient.java",
+      "bytes": 3715,
+      "sha256": "84e9f4be538b1d798cd5e26ef73af7acc38ce5981db90c149023727b526a0b2d"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/JoinFiles.java",
+      "bytes": 2702,
+      "sha256": "8942be4adadb9d58816296cb49059118229ba4f6d2c6a90657a631b248ba6e6c"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/MD5.java",
+      "bytes": 1183,
+      "sha256": "fbd6ea0734d85cc2363576ee968c48a526e856858fe60640f87430ca3981cc33"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/Section.java",
+      "bytes": 8884,
+      "sha256": "6ed880b33c5e335fb73992a77c991df6fc58da184d78d8ab17ac7e4ebbc8b623"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/SimpleDownload.java",
+      "bytes": 10297,
+      "sha256": "ffed0dd0d9a493ab16be48beb23be168497e2bde4b1bc05e3bd9a0f1d3b4d67e"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/Tracker.java",
+      "bytes": 2966,
+      "sha256": "dabe4768ded7a1581ab51b5ca6e982e101cfe2b4e798970706841cdece81f5bd"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/Tracking.java",
+      "bytes": 2689,
+      "sha256": "f88534e5797b1a4097dc0ceee3e04b1db6e963e827d62909d473a29219162aab"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/a.java",
+      "bytes": 1700,
+      "sha256": "9c7d0ba47f66b16c9ee69394014a8ab193e510548d1d83b34db0911836e8b8ae"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/b.java",
+      "bytes": 2004,
+      "sha256": "39040dc0707e86cce7741ce8527227823f2133504d89bb61afd25acc021f6771"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/c.java",
+      "bytes": 346,
+      "sha256": "cddca5ed32a94e4126be410ae400afcffd6b17356bd13cd1df325db93a86c5cc"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/d.java",
+      "bytes": 4926,
+      "sha256": "9be71f3a40da124823236736e348e248ad8ea481f6f7d1322651f57d7c942ee7"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/e.java",
+      "bytes": 3502,
+      "sha256": "0585ed9884fc51efe469594c9289f2b1808843187ef19b4fa2d1ad28f1143e74"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/f.java",
+      "bytes": 2615,
+      "sha256": "cd5239fdec5dfdf6551adc562ed27a85d931df1bcf8584274152a7f56d2bed24"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/g.java",
+      "bytes": 3754,
+      "sha256": "594fdacc4a46d2d917faf461524048734a57bf7b2fbe7e6cd3a849349b62c215"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/h.java",
+      "bytes": 614,
+      "sha256": "aa72b83d28bb57e75c55288956ff9ce24accdfa0712c3eb87137ae9ce47e84cb"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/i.java",
+      "bytes": 1209,
+      "sha256": "d8a047b5bba37f08def71b029ae8376545acf801fc5ea85eb150d52b5f56fe14"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/j.java",
+      "bytes": 1684,
+      "sha256": "7169561cf02aef330a148eb0bb50a8345831aec1906ab5045939bf1918701c47"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/k.java",
+      "bytes": 998,
+      "sha256": "522be9df6369676cd9cd4b6e02157b8c7e4a622c1494099f549ed14aefbf2c1c"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/l.java",
+      "bytes": 574,
+      "sha256": "9fc1246d863b01b67b754d4007fab4ef2ca81800c29963ebd4fe37d22af42111"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/m.java",
+      "bytes": 540,
+      "sha256": "db40bada1057856c2eb29c76250f36f77e9630e7bf7b003c3cdd2a558052fa78"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/utils/n.java",
+      "bytes": 1146,
+      "sha256": "b719099016ce1592ca5aaada2045231f247e0116b35f74de269dcb4d5a5b5a8e"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/v.java",
+      "bytes": 355,
+      "sha256": "1a0d0e28269ad174e3c0a9d90857ef99cef47bbb278892da2a5ed0789d731b77"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/w.java",
+      "bytes": 392,
+      "sha256": "f29f10035dc6fa294a9203eb82d808c2c7d392e2f1e4f296bab50c0c8f2a6ef9"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/x.java",
+      "bytes": 577,
+      "sha256": "edace3c46e7330c5e91b8679ecfa147f429aa28301445a20455cf7f5ce75d39b"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/j.java",
+      "bytes": 1683,
+      "sha256": "2625e88d507a0b8598c288b3d743acdd36542c199e3a51670be5e3a66fcd8595"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/k.java",
+      "bytes": 1991,
+      "sha256": "570beda139309662e9fcaba174a6fd4ef6708c58fed25a4af2c1afce0662de07"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/l.java",
+      "bytes": 1927,
+      "sha256": "253de430a54e9dbe3f2d1c2509d36059b8a5676420e108f9cf3bc64ae8ced2c9"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/m.java",
+      "bytes": 1942,
+      "sha256": "46c96ba6a62b875c56aaa70ca924085002e190f73cd2d2530c17cc7a39efa755"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/n.java",
+      "bytes": 1935,
+      "sha256": "16bb76c6af08586527d69a22bb9bd830b3d8b936f458ffb90b602c65561c94c6"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/o.java",
+      "bytes": 1933,
+      "sha256": "272798424ab041db7b4215bd8ad6f63c1b6ef9f09d26e9a0c9fe214779422187"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/p.java",
+      "bytes": 2261,
+      "sha256": "6d347479389876e822dc95eb7cfab4dc2daccf950fc4a7f4c604a4a04a5f79ca"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/q.java",
+      "bytes": 1677,
+      "sha256": "bd7b2e68d860031c6f47a27edac70c7383653384ef6b6f7587066c4b94d6a381"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/r.java",
+      "bytes": 493,
+      "sha256": "d0edae383396b63dee544cd280392f4b079c5e7b4da9c4f230ee491a192a1c4d"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/s.java",
+      "bytes": 1295,
+      "sha256": "ba605af8bae839a7e2ebcfbbc2f82c0bfe2bde00bf480368fad528642b8a8aae"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/t.java",
+      "bytes": 493,
+      "sha256": "6557a15878f5f476ae9e1ffa2b7f99b447c29b4542a66eb962fdd1ebfc618c75"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/u.java",
+      "bytes": 561,
+      "sha256": "751ccddc00a8fe27726cca10eafcaf041392ef15798a687c7f39fb883f689dbe"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/v.java",
+      "bytes": 3381,
+      "sha256": "81df802bd866b0622c60494e7dacd5a6c08a528d413304bdb3ad862abd00fdd0"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/w.java",
+      "bytes": 499,
+      "sha256": "44427f3cd9ee2cce7f28965a69e45c4a8ecd0ae688f950ecfac7ada66c40493e"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/x.java",
+      "bytes": 987,
+      "sha256": "d7250066d626180f62c4f6f1606c7f162d62545d04b826d651a43e99df6e96b1"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/y.java",
+      "bytes": 1142,
+      "sha256": "89d434182009931d9c667b315633a31175bc0ef366beb5e5757b1f41e6c667a8"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/android/GAND/GloftD2SS/z.java",
+      "bytes": 3622,
+      "sha256": "1a8aa083adf6763a938c4df76c21d2b0ddf6b483cebcff4f3dd1c8d1ef755286"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/glf/config_Android.java",
+      "bytes": 6581,
+      "sha256": "0bba4b65fb4a9d66fa3dc5f3117e654967864948ce297967557e59e6759574ca"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/layout/DataDownloaderButton.java",
+      "bytes": 975,
+      "sha256": "394abfdaf80e5e621accd0a0f05a6fdbd6bccbea4158c085c1cb8861a1abb497"
+    },
+    {
+      "path": "port/android-java/java/com/gameloft/layout/DataDownloaderTextView.java",
+      "bytes": 987,
+      "sha256": "889316f67278e61b86eaeba7506345a947076c65a1617801b6049511cbebbe52"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/a/a.java",
+      "bytes": 1365,
+      "sha256": "2e8b7db8d2f453e668e03b736b655ae99223d058afc62bb549613ae10903615a"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ALMLClient.java",
+      "bytes": 21036,
+      "sha256": "51f94bb698f418f5344d70bb2bc3f64d58cd4b952d0584bba1682ba285682dd7"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ALMLClientBase.java",
+      "bytes": 1117,
+      "sha256": "f66f8643fee65b3c254d79817590ac506a8eae826fddf2f989ab781154c7e822"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/AccountManagerAccessor.java",
+      "bytes": 23684,
+      "sha256": "60788e14b14564243c7773a0a642f04db4e730ea135a3d30040877661fc1dc6f"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/AccountManagerAccessorSilent.java",
+      "bytes": 4294,
+      "sha256": "26d34041f714b37e073faee195a7843048b10c45b1934e0236008eeaf0265024"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ApiUtil.java",
+      "bytes": 11544,
+      "sha256": "a5d4559824a4d82360e51043d0e39be7e6795624f98bcfdd5172b77cb23566dc"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/a.java",
+      "bytes": 2484,
+      "sha256": "b2c4486f1c88b5503d0fca610600c0cdaab8d2976aff3968a436eae3c29a1542"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/aa.java",
+      "bytes": 115,
+      "sha256": "ec119d8ed6d8d339dcc5168f3f657e9db5dcfda0f645800963ac20e1bcedf26d"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ab.java",
+      "bytes": 115,
+      "sha256": "c1ec6cbfb1cc090b90e0f14d17f60739db5b37677a92601f170462ccd6499971"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ac.java",
+      "bytes": 115,
+      "sha256": "d7a2757eb99550bdafe84607aeb1d13c19ec2c8eb58af1d425ae9f30bd6b8699"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ad.java",
+      "bytes": 115,
+      "sha256": "e215bcd0ee0265c1635aa5871903560a094069e20591bc2422efbf30156f4e67"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ae.java",
+      "bytes": 115,
+      "sha256": "118daaeea2ca896a78116dcc86463985ed6eb4cd6eb77792e3445df472f259f6"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/af.java",
+      "bytes": 115,
+      "sha256": "8b5c78a1682ff253843ee229d606d84ee2274f290d9ad2d1420487b1c6bdcd7b"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ag.java",
+      "bytes": 160,
+      "sha256": "f52294a2bb4cb5c50956e2c9da70c9ac7c01f5bb97715cabbb1ca7b3bf617931"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ah.java",
+      "bytes": 130,
+      "sha256": "d97c954fc5e2470dd0d048111739064ad360096dcb17759131cdaf22472c480e"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ai.java",
+      "bytes": 115,
+      "sha256": "cca1d132a6c3d19c98e076df73caead567132f1f69491ae76b0d9f46e42c2e60"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/aj.java",
+      "bytes": 115,
+      "sha256": "84262e524529e2d759d0ad7298656b447c373d346071e3fd57baaed74775976e"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ak.java",
+      "bytes": 130,
+      "sha256": "76f971bb5114f68bb9c070faef42aa81fab3256a2ddfeecbe07f4afe9c341214"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/al.java",
+      "bytes": 873,
+      "sha256": "c5074cea4802238e852b6a3e865c5d4a3af2ff113f5445297fbd50a65ca52aed"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/am.java",
+      "bytes": 1586,
+      "sha256": "9450625837f708e248f52aaf80429e2fbdc8b1d35bb527fb211e3e273c8b0e6f"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/an.java",
+      "bytes": 969,
+      "sha256": "81fa90d0bdb2e550e0c58d6467f917d78cc594375f6e9ff9241cae22ba1acdc6"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ao.java",
+      "bytes": 1263,
+      "sha256": "dd62a4c36149d8a626541b479f1395eb9a770de82062e8e5e11c3b267a24405b"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ap.java",
+      "bytes": 874,
+      "sha256": "ea4ee8ac634c47abb44d8c19f3bf8717bfb47ad92fd00025292fcc661fa51587"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/aq.java",
+      "bytes": 1262,
+      "sha256": "197db5bd3c2a2bc821fb4253be1003246c41693de51051680189b0c64487bf9a"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/ar.java",
+      "bytes": 873,
+      "sha256": "160f33e4bcc1eafa77d47ddaf035fda1301b898f9678423d4636beed234e39b4"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/as.java",
+      "bytes": 685,
+      "sha256": "294da03287b3c693ce6daae5baf7be093e5ef186d506aaca124b75c9ab40d0fd"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/at.java",
+      "bytes": 685,
+      "sha256": "7a52151c8851d9e1574a75a351ecbcd2fad3b1632ba6514af6f547991a719660"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/au.java",
+      "bytes": 2579,
+      "sha256": "230fc648097cd7bfdacd4da6f8dfa9c347dc5535f0dd2f9f31cc2b07c8cc48ec"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/av.java",
+      "bytes": 2525,
+      "sha256": "48dc7d25af6b833786147e42e6aaa9cea9eb3e761a3f85cc4a0a7c51b54df6e5"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/aw.java",
+      "bytes": 177,
+      "sha256": "ae68eeb22c9af4c31f61c6b026cfd923ab3550ae333fa9f474a8dfd57912f68c"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/b.java",
+      "bytes": 980,
+      "sha256": "9ea61cc9824264485049bf9999617a60f65d2d6218d1683d291877161220a6f9"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/c.java",
+      "bytes": 1177,
+      "sha256": "66157d5d23a7fdedc762c2064a22385c0d8531bc744675bfa0c339aa98ddcdbf"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/d.java",
+      "bytes": 919,
+      "sha256": "8273feb775cf26f08bc16929ce4331dff59a8c4069240a283a5931eae973ca5b"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/e.java",
+      "bytes": 921,
+      "sha256": "9deb8e3af531337ec148980aa21d8cc1004042b39b91d2d7a2f743e00c26092f"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/f.java",
+      "bytes": 807,
+      "sha256": "27887b89e7bc317d519590d21f33e0720dd37112c94ca4a007ddf5a9ef62300e"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/g.java",
+      "bytes": 807,
+      "sha256": "cf9716c74371f2881c780484c91a4449ceec5d869de332ab660393deae896d9c"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/h.java",
+      "bytes": 807,
+      "sha256": "85fa5acd34a6a84da7d454b5ba0bc3b17b6ca0ff9518adcdbab65f02d9ca132b"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/i.java",
+      "bytes": 807,
+      "sha256": "47b5a9c29bc6f051280c4e8ae7b03c65e97ba91df8021a547660ead3a7aa63e6"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/j.java",
+      "bytes": 988,
+      "sha256": "d5241cfa31ab0e0f9de29cbf3e7d2b353ecdde7a5ac0c4de72f3eb38bcf0ab5c"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/k.java",
+      "bytes": 1109,
+      "sha256": "712a9fa27370049a192365e006263fb5d746ba1eecfc763ab95854f84b9996ff"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/l.java",
+      "bytes": 1345,
+      "sha256": "e74da7784e8c998ae110661e273a3026e7ef898eba4dec13f04cf71648f16228"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/m.java",
+      "bytes": 636,
+      "sha256": "7ea3ec7fa0c829f5ffef09033908f286d4ab65c521f8aa88953fe2fe939ae04a"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/n.java",
+      "bytes": 1108,
+      "sha256": "809bbb009bb9f9ecf6b0f3b09c92dd60e01a48ca8a1bb780638a219e98352b72"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/o.java",
+      "bytes": 635,
+      "sha256": "875047a5b3a77f055243325d90cd4d9f57c82d4b046d172063f347665f3f2aa2"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/p.java",
+      "bytes": 507,
+      "sha256": "c90c6e153dd412e609e15707a082d3f9fa2bfd421641553662e77333fac4bbf4"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/q.java",
+      "bytes": 507,
+      "sha256": "079f9a3293bec275d6724f150f53f59e43d68b08758fb6e553f61966b9501c01"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/r.java",
+      "bytes": 1267,
+      "sha256": "d7522e8d18a98848dc1f734bea5876fd40ad47142c180c20bb92973150de7cd2"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/s.java",
+      "bytes": 1180,
+      "sha256": "cc0f81fc3738ee7f0b36ed209cdb2fa08acb60aa056d86caeb64ce289b3fa817"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/t.java",
+      "bytes": 1180,
+      "sha256": "6f2cc109aad1b19befe73cc1a42315c40c3f4a3df25155b4a7a123f245e619ca"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/u.java",
+      "bytes": 1447,
+      "sha256": "ba10390bb77ee6bd742f956b94aee9b41710b973ccb8f1d6157a4d064ae9c2c5"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/v.java",
+      "bytes": 1620,
+      "sha256": "5f23bccecdaa19ecdb6190c7465a4bfa36cb1fea7e46479b68080817f6cedce2"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/w.java",
+      "bytes": 1520,
+      "sha256": "448fc79c8d83e6c9158d427f22ce647b43675a30fd19dcd34b615158685f0db2"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/x.java",
+      "bytes": 1247,
+      "sha256": "e99a754dfc674bfccecf30ab040d59df744e09e429988a3e35aca02db1e3572a"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/y.java",
+      "bytes": 1744,
+      "sha256": "7f914dd2fce793cb2b0da5f27f728c16ec10388f9f57195b452f3b881912e162"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/lib/z.java",
+      "bytes": 149,
+      "sha256": "c7d8105d6d4d4af4087bebac3204358b9fc006d7b4ad16d011e8e37f23717668"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/service/IAppAuthorizeService.java",
+      "bytes": 19611,
+      "sha256": "70244d9b7e40e602b1e21da35715230cbf1ea78bb304be55f05dc54a7cb4a4f7"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/service/IAppAuthorizeServiceCallback.java",
+      "bytes": 12817,
+      "sha256": "533bf3c44ea19f7ea7511711dc4042b0f249c61055db6a82a74d7d97dfe78769"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/util/Base64.java",
+      "bytes": 19144,
+      "sha256": "a53a0dbf002daec16f385316e605c53d0093423a506b645bd21388c8ffd87e1b"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/util/a.java",
+      "bytes": 2600,
+      "sha256": "1ccd4d74a3122aa79e1cdd69e0281560d2ee56e916fdb523464d5e54dcb6590a"
+    },
+    {
+      "path": "port/android-java/java/com/kddi/market/alml/util/b.java",
+      "bytes": 345,
+      "sha256": "d051ab144524158a59ed34da27118b1082585c4166d3840d7b82b0396fc84a95"
+    },
+    {
+      "path": "port/android-java/java/com/samsung/zirconia/Constants.java",
+      "bytes": 2435,
+      "sha256": "de1aa47ddb4a5a52e49da952fea5e983ec7798f4333f44b03ee865ed3b4171e3"
+    },
+    {
+      "path": "port/android-java/java/com/samsung/zirconia/DevInfoRetriever.java",
+      "bytes": 2517,
+      "sha256": "6661c5ee158033dba4be177790a8d6605702e293228ac67b0d3179af1ded5408"
+    },
+    {
+      "path": "port/android-java/java/com/samsung/zirconia/LicenseCheckListener.java",
+      "bytes": 186,
+      "sha256": "e63836aa2a35bd02a23cb24e52666369cc917a347b0da2a83ce560df13ef3b2e"
+    },
+    {
+      "path": "port/android-java/java/com/samsung/zirconia/LicenseRetriever.java",
+      "bytes": 7375,
+      "sha256": "753ada117bb0465bc5e342329974af61fe1685792ca6a285cf658f7046041f74"
+    },
+    {
+      "path": "port/android-java/java/com/samsung/zirconia/NativeInterface.java",
+      "bytes": 529,
+      "sha256": "158085daa37ceabffe40ad2e833a25ebfe756f9b6188d4f6a1f45bf90b918720"
+    },
+    {
+      "path": "port/android-java/java/com/samsung/zirconia/R.java",
+      "bytes": 82692,
+      "sha256": "570fceffbe09ef0c81b77aa50ae250cd96a759b97e13376a4545dbd819f12f75"
+    },
+    {
+      "path": "port/android-java/java/com/samsung/zirconia/Zirconia.java",
+      "bytes": 8182,
+      "sha256": "3ebe09142670b1fd5b544abb3bd4287ebf9f814a10b0bd1db0a632e94687e3e8"
+    },
+    {
+      "path": "port/android-java/java/com/samsung/zirconia/ZirconiaVersion.java",
+      "bytes": 305,
+      "sha256": "e8ea1ab594a199dc256c009acf6dba25032b97d2e5ca5e7aca4acbb8cdaa8872"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/CreditCardPaymentMethod.java",
+      "bytes": 16059,
+      "sha256": "4e24e0c57d928d3ae65f1fab20d6ae7115024b7317e4f9622ee34e4432afcf9a"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/CyberCashPaymentMethod.java",
+      "bytes": 8779,
+      "sha256": "cf87638f98d9fb56fbd1bd56520168a630128fccb8265b3f69008a61b0aaca10"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/ItemInformation.java",
+      "bytes": 2211,
+      "sha256": "fe22fccfbdeba1cb55ff21f9c6512c69ec7eaeab91d226779b5f3ee109ef3e9c"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/MicroPurchasePaymentMethod.java",
+      "bytes": 18896,
+      "sha256": "552160355aa4d407bccecba567c1653f1996899c33a70dc0da17b006fd91197e"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/PSMSPaymentMethod.java",
+      "bytes": 23125,
+      "sha256": "12b5b59f222efd7c42f3d2cc442b9b25fa1527b3c585a70659e58e83dcbce4fd"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/Plasma.java",
+      "bytes": 3213,
+      "sha256": "5b16bb4d7fe045b39634062092b038b552f13abfe944916b92dc84068d499ba7"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/PlasmaListener.java",
+      "bytes": 485,
+      "sha256": "124c4d3ad55df8c7e6298793dd8eb3cf87793591da9b1e1ed4ed74405735f0d6"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/PrepaidCardPaymentMethod.java",
+      "bytes": 12413,
+      "sha256": "952fc3d65b73df8321dfaa1c38f3bf4c9d6c68a88e800248eb9c7b9395d99af0"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/PurchaseTicket.java",
+      "bytes": 1064,
+      "sha256": "32d81b07a77849ac802e0e17456478404fade9c2f0a14678dcc12d426ac9d798"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/PurchasedItemInformation.java",
+      "bytes": 591,
+      "sha256": "e4f99a5a16d4833ca7a876935a447f93f65e2f0d5b59076f1b9560c928bf52ea"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/SamsungAccountPaymentMethod.java",
+      "bytes": 5500,
+      "sha256": "0996c103895bf5c3166d595cf73d2d947da9c85a5118ffc7039744308f8916ee"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/a.java",
+      "bytes": 559,
+      "sha256": "70c0d634ec6204534cafd10ebcad7b69ee761733467338c9e690536f4945d235"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/b.java",
+      "bytes": 4611,
+      "sha256": "4cd901f112cffbff6cbcabf26428ae083849b4ea41c7ee68bced572134504fab"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/c.java",
+      "bytes": 1951,
+      "sha256": "1f09c70b5f30ba80f489116e1380475b6d77eddf1c4d5347ed173b0080efd726"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/d.java",
+      "bytes": 42723,
+      "sha256": "c4f3be4e2f931f4419d91e95615b02a44934cb9cef30337f79623bce93b14a74"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/e.java",
+      "bytes": 413,
+      "sha256": "484211e92ab1d3aa4b734cb010f345f9723fdbc50d93893231797a80c5403889"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/f.java",
+      "bytes": 3515,
+      "sha256": "21280d98e82268fa143198ce655da39c51b20f458df31c924866049a680f220b"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/g.java",
+      "bytes": 6307,
+      "sha256": "13aa1c07508b6e4f825ee14c9200de7aefcc489897346934d4f66caf8f1540c1"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/h.java",
+      "bytes": 273,
+      "sha256": "adb90c06296c715cf6772d22ecce1a37e968df6c661309233a590c6859707c03"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/i.java",
+      "bytes": 3506,
+      "sha256": "81db984e4ee76ee54271fae8740cb7e8b284d8e8d744e9ce09541acde3a26d42"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/j.java",
+      "bytes": 2175,
+      "sha256": "7cb0c7d897646ea9a719ead171608b63df13568aa13b147cdeaaf85fbdfe467a"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/k.java",
+      "bytes": 7371,
+      "sha256": "b6535df2dee7ac0fddc5bc4cae1c355bcb0840891c496ab68b7ffdbc6eb990bc"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/l.java",
+      "bytes": 438,
+      "sha256": "1f81dbd015e56593959f3654a80f9afe1ddceb574254ce5a95aaf664d7e7c122"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/m.java",
+      "bytes": 1103,
+      "sha256": "f1e9edb36ab0b72fa3dd40343d15eeb120185409c45b837e6741f9ee5ae464ee"
+    },
+    {
+      "path": "port/android-java/java/com/samsungapps/plasma/n.java",
+      "bytes": 91,
+      "sha256": "2b3dd25872fa34b99b0c644779a0afb5aeb9f9679741786a7b516d2bd8b01723"
+    },
+    {
+      "path": "port/android-java/java/com/savegame/SavesRestoringPortable.java",
+      "bytes": 18714,
+      "sha256": "0d987c1316d9d3a9b494a1492b94a08fd01b18719fcfd82b81ae9a8a2172179f"
+    }
+  ]
+}

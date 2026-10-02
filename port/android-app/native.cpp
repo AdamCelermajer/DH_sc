@@ -1,0 +1,255 @@
+#include "../engine-resources/resources.hpp"
+#include "../asset-payloads/payloads.hpp"
+#include "../material-bindings/bindings.hpp"
+#include "../texture-assets/texture.hpp"
+
+#include <GLES2/gl2.h>
+#include <android/log.h>
+#include <jni.h>
+#include <pthread.h>
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+
+namespace {
+pthread_mutex_t guard = PTHREAD_MUTEX_INITIALIZER;
+float* vertices = nullptr; // x, y, u, v per vertex
+std::uint16_t* indices = nullptr;
+std::uint32_t vertex_count = 0, index_count = 0;
+std::uint8_t* rgba = nullptr;
+int texture_width = 0, texture_height = 0;
+bool texture_dirty = false;
+GLuint program = 0, texture = 0;
+GLint position_loc = -1, uv_loc = -1, sampler_loc = -1, has_texture_loc = -1, aspect_loc = -1;
+int screen_width = 1, screen_height = 1;
+
+constexpr char vertex_shader[] =
+    "attribute vec2 aPosition; attribute vec2 aUv; varying vec2 vUv;"
+    "uniform float uAspect;"
+    "void main(){gl_Position=vec4(aPosition.x*uAspect,aPosition.y,0.0,1.0);vUv=aUv;}";
+constexpr char fragment_shader[] =
+    "precision mediump float; varying vec2 vUv; uniform sampler2D uTexture;"
+    "uniform float uHasTexture; void main(){"
+    "vec4 c=texture2D(uTexture,vUv);"
+    "gl_FragColor=mix(vec4(0.95,0.48,0.19,1.0),c,uHasTexture);}";
+
+GLuint compile(GLenum kind, const char* source) {
+    GLuint shader = glCreateShader(kind);
+    glShaderSource(shader, 1, &source, nullptr);
+    glCompileShader(shader);
+    GLint ok = GL_FALSE;
+    glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
+    if (!ok) {
+        char log[512]{};
+        glGetShaderInfoLog(shader, sizeof(log), nullptr, log);
+        __android_log_print(ANDROID_LOG_ERROR, "DH2Source", "shader: %s", log);
+        glDeleteShader(shader);
+        return 0;
+    }
+    return shader;
+}
+
+jstring message(JNIEnv* env, const char* value) { return env->NewStringUTF(value); }
+
+std::uint8_t* input_copy(JNIEnv* env, jbyteArray source, std::size_t& size) {
+    size = source ? static_cast<std::size_t>(env->GetArrayLength(source)) : 0;
+    if (!size || size > 32U * 1024U * 1024U) return nullptr;
+    auto* copy = static_cast<std::uint8_t*>(std::malloc(size));
+    if (copy) env->GetByteArrayRegion(source, 0, static_cast<jsize>(size),
+                                      reinterpret_cast<jbyte*>(copy));
+    return copy;
+}
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_local_dh2_sourceviewer_MainActivity_loadBres(JNIEnv* env, jclass, jbyteArray source) {
+    std::size_t size = 0;
+    auto* bytes = input_copy(env, source, size);
+    if (!bytes) return message(env, "BRES rejected: empty, too large, or out of memory");
+    dh2::resources::BresView image{};
+    dh2::assets::Mesh mesh{};
+    dh2::assets::Primitive primitive{};
+    dh2::assets::Attribute positions{}, uv{};
+    bool ok = dh2_bres_open(&image, bytes, size) == dh2::resources::BresError::ok
+        && dh2_mesh_open(&mesh, &image, 0) == dh2::assets::Error::ok
+        && mesh.vertices > 0 && mesh.vertices <= 4096 && mesh.primitives > 0
+        && dh2_mesh_primitive(&mesh, 0, &primitive) == dh2::assets::Error::ok
+        && primitive.index_count > 0 && primitive.index_count <= 12000
+        && primitive.index_count % 3 == 0 && primitive.collada_type == 0
+        && primitive.attributes[0] >= 0 && primitive.attributes[4] >= 0
+        && dh2_mesh_attribute(&mesh, primitive.attributes[0], &positions) == dh2::assets::Error::ok
+        && dh2_mesh_attribute(&mesh, primitive.attributes[4], &uv) == dh2::assets::Error::ok
+        && positions.components >= 3 && uv.components >= 2;
+    if (!ok) {
+        std::free(bytes);
+        return message(env, "BRES rejected: no supported first triangle mesh with UVs");
+    }
+    auto* new_vertices = static_cast<float*>(std::malloc(mesh.vertices * 4U * sizeof(float)));
+    auto* new_indices = static_cast<std::uint16_t*>(std::malloc(primitive.index_count * sizeof(std::uint16_t)));
+    if (!new_vertices || !new_indices) ok = false;
+    const float dx = mesh.maximum[0] - mesh.minimum[0];
+    const float dz = mesh.maximum[2] - mesh.minimum[2];
+    const float span = dx > dz ? dx : dz;
+    if (!(span > 0.0f) || !std::isfinite(span)) ok = false;
+    for (std::uint32_t i = 0; ok && i < mesh.vertices; ++i) {
+        float p[16]{}, t[16]{};
+        if (!dh2_attribute_read(&positions, i, p) || !dh2_attribute_read(&uv, i, t)) {
+            ok = false; break;
+        }
+        new_vertices[4 * i] = (p[0] - (mesh.minimum[0] + mesh.maximum[0]) * 0.5f) * 1.5f / span;
+        new_vertices[4 * i + 1] = (p[2] - (mesh.minimum[2] + mesh.maximum[2]) * 0.5f) * 1.5f / span;
+        new_vertices[4 * i + 2] = t[0];
+        new_vertices[4 * i + 3] = t[1];
+        for (int j = 0; j < 4; ++j) if (!std::isfinite(new_vertices[4 * i + j])) ok = false;
+    }
+    for (std::uint32_t i = 0; ok && i < primitive.index_count; ++i) {
+        std::uint32_t value = 0;
+        if (!dh2_index_read(&primitive, i, &value) || value >= mesh.vertices) {
+            ok = false; break;
+        }
+        new_indices[i] = static_cast<std::uint16_t>(value);
+    }
+    char expected[96]{};
+    if (ok && primitive.material) {
+        const auto count = dh2_bres_library_count(&image, dh2::resources::Library::material);
+        for (std::uint32_t i = 0; i < count; ++i) {
+            dh2::materials::Material material{};
+            if (dh2_material_record(&material, &image, i) != dh2::materials::Error::ok
+                || !material.id || std::strcmp(material.id, primitive.material) != 0) continue;
+            for (std::uint32_t j = 0; j < material.parameter_count; ++j) {
+                dh2::materials::Parameter param{};
+                if (dh2_material_parameter(&param, &material, j) != dh2::materials::Error::ok
+                    || param.type_code != 11 || !param.id || !std::strstr(param.id, "diffuse")) continue;
+                dh2::materials::ImageRef ref{};
+                if (dh2_material_sampler_image(&ref, &material, j) == dh2::materials::Error::ok
+                    && ref.index >= 0 && ref.source_path) {
+                    const char* slash = std::strrchr(ref.source_path, '/');
+                    std::snprintf(expected, sizeof(expected), "%s", slash ? slash + 1 : ref.source_path);
+                }
+                break;
+            }
+            break;
+        }
+    }
+    std::free(bytes);
+    if (!ok) {
+        std::free(new_vertices); std::free(new_indices);
+        return message(env, "BRES rejected: unsupported or malformed mesh payload");
+    }
+    pthread_mutex_lock(&guard);
+    std::free(vertices); std::free(indices);
+    vertices = new_vertices; indices = new_indices;
+    vertex_count = mesh.vertices; index_count = primitive.index_count;
+    const bool already_textured = rgba != nullptr;
+    pthread_mutex_unlock(&guard);
+    char result[192]{};
+    std::snprintf(result, sizeof(result), "Mesh loaded: %u vertices, %u indices. Diffuse texture: %s. %s",
+                  vertex_count, index_count, expected[0] ? expected : "unresolved",
+                  already_textured ? "Rendering with imported texture." : "Import that texture to render it.");
+    return message(env, result);
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_local_dh2_sourceviewer_MainActivity_loadTexture(JNIEnv* env, jclass, jbyteArray source) {
+    std::size_t size = 0;
+    auto* bytes = input_copy(env, source, size);
+    if (!bytes) return message(env, "Texture rejected: empty, too large, or out of memory");
+    dh2::textures::TextureView view{};
+    bool ok = dh2_texture_open(&view, bytes, size) == dh2::textures::Error::ok
+        && view.width <= 4096 && view.height <= 4096
+        && (view.format == dh2::textures::Format::pvrtc_2bpp
+            || view.format == dh2::textures::Format::pvrtc_4bpp);
+    std::uint8_t* decoded = nullptr;
+    if (ok) {
+        const std::size_t length = std::size_t(view.width) * view.height * 4U;
+        decoded = static_cast<std::uint8_t*>(std::malloc(length));
+        ok = decoded && dh2_texture_decode_rgba8(decoded, length, view.width * 4U,
+                                                    bytes, size) == dh2::textures::Error::ok;
+    }
+    std::free(bytes);
+    if (!ok) {
+        std::free(decoded);
+        return message(env, "Texture rejected: expected supported BTEX/PVRTC1 data");
+    }
+    pthread_mutex_lock(&guard);
+    std::free(rgba);
+    rgba = decoded; texture_width = static_cast<int>(view.width);
+    texture_height = static_cast<int>(view.height); texture_dirty = true;
+    const bool mesh_loaded = vertices != nullptr;
+    pthread_mutex_unlock(&guard);
+    char result[128]{};
+    std::snprintf(result, sizeof(result), "PVRTC texture decoded: %u x %u. %s",
+                  view.width, view.height,
+                  mesh_loaded ? "Rendering imported BRES mesh." : "Import a matching BRES mesh to display it.");
+    return message(env, result);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_local_dh2_sourceviewer_MainActivity_surfaceCreated(JNIEnv*, jclass) {
+    GLuint vs = compile(GL_VERTEX_SHADER, vertex_shader);
+    GLuint fs = compile(GL_FRAGMENT_SHADER, fragment_shader);
+    if (!vs || !fs) return;
+    program = glCreateProgram();
+    glAttachShader(program, vs); glAttachShader(program, fs); glLinkProgram(program);
+    glDeleteShader(vs); glDeleteShader(fs);
+    GLint linked = GL_FALSE;
+    glGetProgramiv(program, GL_LINK_STATUS, &linked);
+    if (!linked) { glDeleteProgram(program); program = 0; return; }
+    position_loc = glGetAttribLocation(program, "aPosition");
+    uv_loc = glGetAttribLocation(program, "aUv");
+    sampler_loc = glGetUniformLocation(program, "uTexture");
+    has_texture_loc = glGetUniformLocation(program, "uHasTexture");
+    aspect_loc = glGetUniformLocation(program, "uAspect");
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    pthread_mutex_lock(&guard);
+    texture_dirty = true;
+    pthread_mutex_unlock(&guard);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_local_dh2_sourceviewer_MainActivity_surfaceChanged(JNIEnv*, jclass, jint width, jint height) {
+    screen_width = width > 0 ? width : 1;
+    screen_height = height > 0 ? height : 1;
+    glViewport(0, 0, screen_width, screen_height);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_local_dh2_sourceviewer_MainActivity_draw(JNIEnv*, jclass) {
+    glClearColor(0.035f, 0.055f, 0.085f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    if (!program) return;
+    static const float placeholder[] = {
+        -0.5f,-0.5f,0,1,  0.5f,-0.5f,1,1,
+         0.5f, 0.5f,1,0, -0.5f, 0.5f,0,0
+    };
+    static const std::uint16_t placeholder_indices[] = {0,1,2,2,3,0};
+    pthread_mutex_lock(&guard);
+    if (texture_dirty && rgba) {
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture_width, texture_height,
+                     0, GL_RGBA, GL_UNSIGNED_BYTE, rgba);
+        texture_dirty = false;
+    }
+    glUseProgram(program);
+    glActiveTexture(GL_TEXTURE0); glBindTexture(GL_TEXTURE_2D, texture);
+    glUniform1i(sampler_loc, 0);
+    glUniform1f(has_texture_loc, rgba ? 1.0f : 0.0f);
+    glUniform1f(aspect_loc, static_cast<float>(screen_height) / screen_width);
+    const float* points = vertices ? vertices : placeholder;
+    const std::uint16_t* faces = indices ? indices : placeholder_indices;
+    const auto count = indices ? index_count : 6U;
+    glVertexAttribPointer(position_loc, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), points);
+    glVertexAttribPointer(uv_loc, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), points + 2);
+    glEnableVertexAttribArray(position_loc); glEnableVertexAttribArray(uv_loc);
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(count), GL_UNSIGNED_SHORT, faces);
+    glDisableVertexAttribArray(position_loc); glDisableVertexAttribArray(uv_loc);
+    pthread_mutex_unlock(&guard);
+}
