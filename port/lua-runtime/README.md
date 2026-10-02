@@ -8,7 +8,27 @@ The original engine contains a Lua 5.1.4 version string. This module imports
 The archive has 216,679 bytes. The exact MIT license is retained in
 `vendor/lua-5.1.4/COPYRIGHT`; [the manifest](vendor-manifest.json) pins each
 imported file. Upstream bytes are unchanged. The original game library may
-contain local changes: original interpreter equivalence has not been tested.
+contain local changes: full original interpreter equivalence has not been tested.
+
+## Original number profile
+
+The original `lua_pushnumber` stores one 32-bit value and a 32-bit type tag;
+`lua_tonumber` returns that word. The source now uses **float32 numbers and
+int32 integers** through Lua's supported `LUA_USER_H` hook and the separate
+[configuration header](dh2_lua_config.h). Upstream bytes remain exact. Other
+configuration choices retain upstream defaults and are not established as
+engine equivalents.
+
+[Original instruction evidence](original-numeric-validation.json) checks 13
+push/read cases, including both signed zeros, subnormals, infinities and a NaN
+payload, through positive and negative stack indexes. It also records 504
+numeric arithmetic outputs from the actual original `Arith` body. The current
+source runtime evaluates matching authored snippets for addition, subtraction,
+multiplication, division, modulo, power and negation. All 504 match on host and
+both Android 17 emulators, with signed zero treated as equivalent. Original
+arithmetic imports use the existing host oracle; floor/power use host libm.
+This does not prove historical Android libm, metamethods, numeric string
+coercion, integer edge conversions or full interpreter equivalence.
 
 The new owned C wrapper installs the base, math, table and string libraries
 observed in the original registration callers. It removes filesystem loaders
@@ -40,11 +60,15 @@ are compiled only and **never executed**. Runtime tests execute authored snippet
 for standard library access, missing game callbacks, instruction/memory limits,
 error recovery, compile-only behavior and invalid/bytecode inputs.
 
-- [Host build/sanitizer evidence](host-build-validation.json)
-- [Android cross-build evidence](android-build-validation.json)
-- [Host corpus](host-corpus-validation.json)
-- [Android 17 / 4 KiB](android-4k-validation.json)
-- [Android 17 / 16 KiB](android-16k-validation.json)
+- [Current host build/sanitizer evidence](float-host-build-validation.json)
+- [Current Android cross-build evidence](float-android-build-validation.json)
+- [Current host corpus/arithmetic](float-host-corpus-validation.json)
+- [Current Android 17 / 4 KiB](float-android-4k-validation.json)
+- [Current Android 17 / 16 KiB](float-android-16k-validation.json)
+
+The earlier reports without the `float-` prefix record the initial upstream
+double-number builds and their distinct binary/source identities. They confirm
+parse/selftest behavior for those earlier builds, not the current number profile.
 
 This is a standalone source runtime. It is not packaged in the Android preview
 APK yet. ARM64 runtime, native game callbacks, includes, AI/skills, world state
@@ -54,6 +78,7 @@ device was tested for this module.
 ## Rebuild and verify
 
 ```sh
+python3 port/lua-runtime/tests/original_numeric_vectors.py --original /path/to/libDungeonHunter2.so --oracle port/skin-payloads/build/oracle.so --header port/lua-runtime/tests/numeric-vectors.h --report /path/to/original-numeric.json
 python3 port/lua-runtime/build.py --host --sanitize --report /path/to/host-build.json
 python3 port/lua-runtime/build.py --ndk /path/to/ndk --report /path/to/android-build.json
 python3 port/lua-runtime/tests/corpus.py --runner port/lua-runtime/build/lua-host-runner --report /path/to/host-corpus.json
@@ -66,3 +91,8 @@ images and non-x86_64 ABIs. Binary runners and staging inputs are ignored by Git
 `tools/import_lua_runtime.py` can reproduce the exact vendor import from the
 pinned archive. The earlier Lua 5.1.5 parse/inventory reports retain their
 distinct compiler identities and scope.
+
+The numeric vector generator additionally needs Unicorn/pyelftools and the
+existing host arithmetic oracle. Checked vectors are already tracked for normal
+builds; regeneration deliberately executes only the identified original Lua
+API/arithmetic bodies. No game script or gameplay callback is executed.

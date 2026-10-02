@@ -1,7 +1,10 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
 **Source Lua checkpoint:** Official Lua 5.1.4 C/header/license bytes are now
-vendored with a pinned archive/per-file manifest. The owned C runtime builds
+vendored with a pinned archive/per-file manifest. The owned C runtime uses the
+observed original float32/int32 profile through a separate configuration header.
+504 original arithmetic outputs match host and Android source evaluation;
+13 original numeric push/read cases verify float32 storage. The runtime builds
 for ARM64/x86_64; host selftests/sanitizers pass. The exact x86_64 runner passed
 on Android 17 with 4 KiB and 16 KiB pages, parsing 218 originals and the separate
 sandworm override, with the unchanged malformed original rejected as expected.

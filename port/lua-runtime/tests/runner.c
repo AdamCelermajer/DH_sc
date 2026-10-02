@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define CHECK(x) do { if (!(x)) { fprintf(stderr,"check failed at line %d: %s\n",__LINE__,#x);return 2; } } while(0)
+int dh2_lua_numeric_tests(void);
 int main(int argc,char **argv) {
     char error[512];dh2_lua *runtime=dh2_lua_create(2*1024*1024);CHECK(runtime);
     const char *basic="assert(_VERSION=='Lua 5.1'); assert(math.floor(1.9)==1);"
@@ -31,6 +32,7 @@ int main(int argc,char **argv) {
     CHECK(dh2_lua_create(65*1024*1024)==NULL);
     dh2_lua_destroy(runtime);
     printf("SELFTEST PASS\n");
+    CHECK(dh2_lua_numeric_tests()==0);
     if (argc==1)return 0;
     CHECK(argc==2);FILE *list=fopen(argv[1],"rb");CHECK(list);char path[2048];unsigned index=0;
     while (fgets(path,sizeof(path),list)) {

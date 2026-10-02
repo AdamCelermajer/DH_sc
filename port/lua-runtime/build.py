@@ -24,7 +24,8 @@ def main():
     vendor=ROOT/'vendor/lua-5.1.4/src'
     sources=[vendor/(name+'.c')for name in (CORE+' '+LIBRARIES).split()]+[ROOT/'runtime.c']
     build=ROOT/'build';build.mkdir(exist_ok=True)
-    flags=['-std=c99','-O2','-fno-fast-math','-ffp-contract=off','-I',str(vendor),'-Wall']
+    flags=['-std=c99','-O2','-fno-fast-math','-ffp-contract=off','-I',str(vendor),
+           '-I',str(ROOT),'-DLUA_USER_H="dh2_lua_config.h"','-Wall']
     variants=[]
     if a.host:variants.append(('host',os.environ.get('CC','cc'),[]))
     if a.ndk:
@@ -39,7 +40,7 @@ def main():
             output=build/(f'lua-{name}.so'if kind=='shared'else f'lua-{name}-runner')
             args=[cc,*extra,*flags,*map(str,sources)]
             if kind=='shared':args+=['-fPIC','-shared','-Wl,--no-undefined']
-            else:args+=['-fPIE','-pie',str(ROOT/'tests/runner.c')]
+            else:args+=['-fPIE','-pie',str(ROOT/'tests/runner.c'),str(ROOT/'tests/numeric.c')]
             args+=['-lm','-o',str(output)]
             result=subprocess.run(args,capture_output=True,text=True)
             if result.returncode:raise RuntimeError(result.stderr)
@@ -52,15 +53,18 @@ def main():
     safety=None
     if a.sanitize:
         output=build/'lua-host-safety'
-        subprocess.run([os.environ.get('CC','cc'),'-std=c99','-O1','-g','-I',str(vendor),
+        subprocess.run([os.environ.get('CC','cc'),'-std=c99','-O1','-g','-I',str(vendor),'-I',str(ROOT),
+                        '-DLUA_USER_H="dh2_lua_config.h"',
                         '-fsanitize=address,undefined','-fno-omit-frame-pointer',*map(str,sources),
-                        str(ROOT/'tests/runner.c'),'-lm','-o',str(output)],check=True)
+                        str(ROOT/'tests/runner.c'),str(ROOT/'tests/numeric.c'),'-lm','-o',str(output)],check=True)
         subprocess.run([str(output.resolve())],check=True)
         safety={'address_sanitizer':True,'undefined_behavior_sanitizer':True,'test':'runtime selftest only'}
     result={'complete_game':False,'game_callbacks_installed':False,'original_lua_equivalence_tested':False,
-            'vendor_manifest_sha256':sha(manifest_path),'artifacts':artifacts,'compiler_warnings':warnings,
+            'vendor_manifest_sha256':sha(manifest_path),'number_profile':'float32 / int32 via LUA_USER_H',
+            'artifacts':artifacts,'compiler_warnings':warnings,
             'source_sha256':{path.relative_to(ROOT).as_posix():sha(path)for path in
-                [*sources,ROOT/'runtime.h',ROOT/'tests/runner.c']},'build_tool_sha256':sha(Path(__file__))}
+                [*sources,ROOT/'runtime.h',ROOT/'dh2_lua_config.h',ROOT/'tests/runner.c',ROOT/'tests/numeric.c',
+                 ROOT/'tests/numeric-vectors.h']},'build_tool_sha256':sha(Path(__file__))}
     if safety:result['safety']=safety
     a.report.write_text(json.dumps(result,indent=2)+'\n');print('Built:',', '.join(artifacts))
 if __name__=='__main__':main()

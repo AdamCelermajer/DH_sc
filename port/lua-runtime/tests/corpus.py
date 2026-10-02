@@ -54,6 +54,8 @@ def main():
         output=adb('shell',base+'/runner',base+'/list.txt')
     else:output=run(a.runner.resolve(),listing.resolve())
     assert output.splitlines()[0]=='SELFTEST PASS'
+    numeric_path=ROOT/'original-numeric-validation.json';numeric=json.loads(numeric_path.read_text())
+    assert output.splitlines()[1]==f"NUMERIC PASS {numeric['numeric_arith_vectors']}"
     result_rows=[]
     for index,status in re.findall(r'^SOURCE (\d+) (\d+)$',output,re.M):
         index,status=int(index),int(status);assert index==len(result_rows)
@@ -63,13 +65,18 @@ def main():
     assert len(result_rows)==220 and output.splitlines()[-1]=='FILES 220'
     result={'complete_game':False,'game_scripts_executed':False,'game_callbacks_installed':False,
             'source_built_runtime':'official Lua 5.1.4 plus modern owned wrapper',
+            'number_profile':'float32 / int32 via LUA_USER_H',
+            'original_numeric_vectors_matched':numeric['numeric_arith_vectors'],
+            'numeric_comparison':'exact float32 bits except signed zero; host dependency model for original imports',
+            'original_numeric_report_sha256':sha(numeric_path),
             'runtime_selftest':{'standard_libraries':True,'missing_game_callbacks_explicit':True,
                 'instruction_budget':True,'memory_budget':True,'recovery_after_runtime_errors':True,
                 'compiler_does_not_execute':True,'bytecode_rejection':True,'invalid_arguments':True},
             'files':220,'original_syntax_pass':218,'original_syntax_fail':1,'override_syntax_pass':1,
             'script_manifest_sha256':sha(manifest_path),'vendor_manifest_sha256':sha(ROOT/'vendor-manifest.json'),
             'runner_sha256':sha(a.runner),'test_sha256':sha(Path(__file__)),
-            'source_sha256':{name:sha(ROOT/name)for name in ('runtime.c','runtime.h','tests/runner.c')},
+            'source_sha256':{name:sha(ROOT/name)for name in ('runtime.c','runtime.h','dh2_lua_config.h',
+                            'tests/runner.c','tests/numeric.c','tests/numeric-vectors.h')},
             'per_file':result_rows,'selftest_and_corpus_stdout':output}
     if device:result['device']=device;result['pushed_input_hashes_verified']=len(remote_hashes)
     a.report.write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:v for k,v in result.items()if k not in ('per_file','selftest_and_corpus_stdout')}))

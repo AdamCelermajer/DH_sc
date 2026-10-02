@@ -1,7 +1,9 @@
 # Dungeon Hunter 2 — source reconstruction
 
 **Source Lua on Android 17:** The official Lua 5.1.4 source and a new owned
-runtime now build for ARM64/x86_64. The exact x86_64 runner passed on both
+runtime use the observed original float32 number profile and build for ARM64/x86_64.
+504 original arithmetic outputs match the source runtime on host and both
+Android page sizes. The exact x86_64 runner passed on both
 4 KiB and 16 KiB Android 17 emulators: 218 original scripts and the separate
 sandworm repair parse, while the unchanged malformed original fails as expected.
 Authored library, memory/instruction budget and error-recovery tests passed.

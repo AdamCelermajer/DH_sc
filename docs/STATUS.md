@@ -1,7 +1,9 @@
 # Recovery status — updated 2026-10-02
 
 **Source scripting runtime:** Official Lua 5.1.4 source plus an owned C wrapper
-builds for ARM64/x86_64 and passes host selftests/sanitizers. The exact x86_64
+uses the original observed float32 number profile, builds for ARM64/x86_64 and
+passes host selftests/sanitizers. All 504 original numeric arithmetic vectors
+match source evaluation on host and both Android page sizes. The exact x86_64
 runner passed standard library, memory/instruction budget and error recovery
 tests on Android 17 with 4 KiB and 16 KiB pages. It parses 218 original scripts
 plus the repaired override; the unchanged malformed sandworm fails as expected.
