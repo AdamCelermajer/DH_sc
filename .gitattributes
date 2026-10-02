@@ -7,3 +7,5 @@ recovered/native/decompiled/libStormGLOFT.so/* -text -whitespace linguist-genera
 recovered/native/decompiled/libnativeinterface.so/* -text -whitespace linguist-generated=true
 recovered/android/java/** -text -whitespace linguist-generated=true
 recovered/android/smali/** -text -whitespace linguist-generated=true
+recovered/native/assembly/** -text -whitespace linguist-generated=true
+recovered/native/symbols/** -text -whitespace linguist-generated=true
