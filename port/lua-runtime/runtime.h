@@ -41,6 +41,13 @@ int dh2_lua_import_character_properties(dh2_lua *runtime,const void *bytes,size_
  * Objects created before class import lack class data until recreated. */
 int dh2_lua_import_character_classes(dh2_lua *runtime,const void *bytes,size_t size,
                                     char *error,size_t capacity);
+/* Atomic owned full eight-table loot file. New diagnostic property objects
+ * retain its generation. EquipItem(set,slot,row) and SelectEquipmentSet(set)
+ * are authored snapshot controls. Original named bonus methods and HasShield
+ * use the source projection; numeric/boolean/nil first bonus arguments only.
+ * No gear-sheet contributions, equip restrictions or full inventory lifecycle. */
+int dh2_lua_import_loot_tables(dh2_lua *runtime,const void *bytes,size_t size,
+                             char *error,size_t capacity);
 /* Controlled execution helper; instruction budget counts in 1000-op blocks.
  * Installs base/math/table/string, with filesystem loaders and print removed.
  * Returns zero on success; stack and hook are cleared after each call. */

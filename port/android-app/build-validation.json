@@ -5,8 +5,8 @@
   "abi": {
     "arm64-v8a": {
       "machine": 183,
-      "sha256": "78531ce16aae2b2f62626e52080ef68bf47932115bff5a15f1698d981c411ff1",
-      "bytes": 116456,
+      "sha256": "f990d44e2a0cb533ef69dbc5656d744e9971963d50b5ea58092fc4491536d251",
+      "bytes": 116664,
       "pt_load": [
         {
           "alignment": 16384,
@@ -14,21 +14,21 @@
         },
         {
           "alignment": 16384,
-          "offset": 31864
+          "offset": 31936
         },
         {
           "alignment": 16384,
-          "offset": 91328
+          "offset": 91440
         },
         {
           "alignment": 16384,
-          "offset": 93480
+          "offset": 93592
         }
       ],
       "lua_library": {
         "machine": 183,
-        "sha256": "067d334757cd425f68e9dd59525991da3af97f02a431098c40ec477acb8ab59e",
-        "bytes": 243736,
+        "sha256": "1c8da3a689d1c2f2caa71e8880aceb5845c7dce551de7f462733846a1cd8dc30",
+        "bytes": 254880,
         "pt_load": [
           {
             "alignment": 16384,
@@ -36,19 +36,19 @@
           },
           {
             "alignment": 16384,
-            "offset": 205792
+            "offset": 215744
           },
           {
             "alignment": 16384,
-            "offset": 211704
+            "offset": 221712
           }
         ]
       }
     },
     "x86_64": {
       "machine": 62,
-      "sha256": "a09e4aba0f0e869494a8998cbf6ad3da2769dcbebc684dd4e2c57f2ec89d8ceb",
-      "bytes": 120664,
+      "sha256": "c0ee1e50a8eb8ba8e2f65dd45120be011ca69e3edc1cd40051bcae61cd12be3b",
+      "bytes": 121000,
       "pt_load": [
         {
           "alignment": 16384,
@@ -56,21 +56,21 @@
         },
         {
           "alignment": 16384,
-          "offset": 31312
+          "offset": 31392
         },
         {
           "alignment": 16384,
-          "offset": 97712
+          "offset": 97952
         },
         {
           "alignment": 16384,
-          "offset": 99872
+          "offset": 100112
         }
       ],
       "lua_library": {
         "machine": 62,
-        "sha256": "2e779485a6311ec69e1b9b2c0a057e290805b2207cae0f36693642ab8823392b",
-        "bytes": 238016,
+        "sha256": "bb409b06e31970456b93766f6569ba277c66223e27ee293d4829aac4a10b0d47",
+        "bytes": 249160,
         "pt_load": [
           {
             "alignment": 16384,
@@ -78,21 +78,21 @@
           },
           {
             "alignment": 16384,
-            "offset": 204576
+            "offset": 214688
           },
           {
             "alignment": 16384,
-            "offset": 210520
+            "offset": 220688
           }
         ]
       }
     }
   },
   "apk": {
-    "sha256": "7d2c82ab3ba433e06c006bbe962f35b78f8266b4cd030d2be2440942a8231c79",
-    "bytes": 779171
+    "sha256": "2974a802e258582a13c20a0d38aad19a44ceff313170473a85c0ff68322cafdd",
+    "bytes": 807843
   },
-  "lua_build_sha256": "397906a6a23be60d102a394609b63ab1b6105f1145fd631bd2f9c899630caceb",
+  "lua_build_sha256": "df9e46fca6a521d7f0683cb4c28e0434355fc09e034a18fd17177d23be448932",
   "lua_build": {
     "complete_game": false,
     "numeric_callbacks_installed": true,
@@ -102,6 +102,7 @@
     "ordered_names_bridge_installed": true,
     "property_state_userdata_installed": true,
     "authored_property_class_method_installed": true,
+    "owned_item_dataset_and_equipment_snapshot_methods_installed": true,
     "builtin_struct_name_tables": 71,
     "builtin_struct_field_entries": 636,
     "vendor_manifest_sha256": "7061a96d44cf17297e377ed79c9aea5da9a0ef46a9b036d2417193a0c9c0c6d0",
@@ -116,8 +117,8 @@
     ],
     "artifacts": {
       "lua-arm64.so": {
-        "sha256": "067d334757cd425f68e9dd59525991da3af97f02a431098c40ec477acb8ab59e",
-        "bytes": 243736,
+        "sha256": "1c8da3a689d1c2f2caa71e8880aceb5845c7dce551de7f462733846a1cd8dc30",
+        "bytes": 254880,
         "layout": {
           "machine": 183,
           "pt_load": [
@@ -126,19 +127,19 @@
               "alignment": 16384
             },
             {
-              "offset": 205792,
+              "offset": 215744,
               "alignment": 16384
             },
             {
-              "offset": 211704,
+              "offset": 221712,
               "alignment": 16384
             }
           ]
         }
       },
       "lua-arm64-runner": {
-        "sha256": "7a3dc54366381d5714165c32dc2beb8aa223bd5c30a5110dedd50293d4a00fba",
-        "bytes": 267384,
+        "sha256": "cd3742c303a5b5b85b273e2a7bdcbdf3484fe82bc347f0752088311916807660",
+        "bytes": 286280,
         "layout": {
           "machine": 183,
           "pt_load": [
@@ -147,23 +148,23 @@
               "alignment": 16384
             },
             {
-              "offset": 228192,
+              "offset": 245616,
               "alignment": 16384
             },
             {
-              "offset": 233264,
+              "offset": 250688,
               "alignment": 16384
             }
           ]
         }
       },
       "lua-x86_64.so": {
-        "sha256": "2e779485a6311ec69e1b9b2c0a057e290805b2207cae0f36693642ab8823392b",
-        "bytes": 238016
+        "sha256": "bb409b06e31970456b93766f6569ba277c66223e27ee293d4829aac4a10b0d47",
+        "bytes": 249160
       },
       "lua-x86_64-runner": {
-        "sha256": "cc6cc4f2c92a5aff6a6076184a20d945712d5bfd68536205497a1bbe9e05f8c8",
-        "bytes": 261816
+        "sha256": "be78513d442137c1a125d1ee1df7895ecff1519498fe2697536a832fdc174626",
+        "bytes": 280560
       }
     },
     "compiler_warnings": {
@@ -197,7 +198,7 @@
       "vendor/lua-5.1.4/src/lmathlib.c": "e2933a56332d567cdd69f0fe514d638a8f82da6878754ff259e77cf2157263c3",
       "vendor/lua-5.1.4/src/lstrlib.c": "a978166ca36525de2708ac931834d575c8df057719bc2da39dbe3befe810ec1d",
       "vendor/lua-5.1.4/src/ltablib.c": "e934dc4b2fc117a501c717302a00147f7b44eea978ef87a58a3e40e9bfe45d20",
-      "runtime.c": "2f4828b71b80bd3065188f36d94a73036584b94bb0b95ca03234fe4791a54f69",
+      "runtime.c": "deb837b77600d671fd340a0db1e881aca301250ee59877e99e409e6eb00e5a80",
       "../lua-numeric/numeric.c": "3f089b267266a19838121d9e6e2c933da6b2588b8188ccf0853cdcb34695fee8",
       "../lua-numeric/bridge.c": "bed00c0501122ca8d1ea03c480fb3df1c527702062c1bf6b778fc9f0d04b597e",
       "../pydata-constants/constants.c": "08de59987e05ed27ac89263395f48d99fa81a1a38c4bf6ffd63731815169a377",
@@ -208,11 +209,13 @@
       "../property-composition/composition.c": "171c943e47e8887ac901f756681456b4249e758fffa1bef3ff80860fc4e1c7ee",
       "../character-state/state.c": "a1a2dc4ef4e789216aae2a9f00b7a677c537158bf8edee2331f2c7f5f0dab03a",
       "../lua-character/methods.c": "bed9b374b5e3e2f1835162bddecd27dbd03a71be35d9d30ef76eddea8a0ded95",
-      "../lua-character/bridge.c": "a5355086d8a7304c88473174f4e2badecd1f041d695fb59dbb199ad0f1d70afb",
+      "../lua-character/bridge.c": "efbb435bb27c3f5cb5fcdaf2277b4f847370fdb47c6257bfa44083d815d864e1",
       "../character-classes/classes.c": "f67ecaab58c5b25813d7c3e474e3d386db96b1bc42518ef9f357d9d8f255ef9c",
-      "runtime.h": "75bfdabdc0a3a3793d29ed5cac1cc2398d27870ca2e0bbdded63ecde5b0b3262",
+      "../loot-tables/loot.c": "82646012a94f3c6edcf7a797e8b97fd281c4a96eb2acc333b862257139a98fb4",
+      "../equipment-bonuses/equipment.c": "c7e3b4dcf1fc0cebdaa3a658d37183f997365b57c5111c01398bfa41a08b81ab",
+      "runtime.h": "66e72bd8bb4ab5410eb41bf84ee6f43f39400088e805872d0ec0975af16d18ec",
       "dh2_lua_config.h": "ce2f3d4463fc7bd0083404b00003dedb4ccf515943abd1e824d2d45f601fc189",
-      "tests/runner.c": "4ad5e893c5b13eff9bfd90fe6d2221567ba935cdfee53fb0ce708952c4c1f7c7",
+      "tests/runner.c": "83a6fc6ca827da21df48d95726f05808193aff9bfb10271fadd2c008cafdb218",
       "tests/numeric.c": "31a3f29caa1a851610d1e8eade2c26ad0e4c6fd08080ac48c30e49374bebded0",
       "tests/numeric-vectors.h": "88bd377642576f9da8f690ae226cb1aab05200dc78efdbc18a0583c096b85454",
       "tests/constants.c": "ab60dbd71e814deadda2f58ecb2667c5bb1c516dc8e80f1da1c0acb2ac12f94b",
@@ -228,9 +231,12 @@
       "../character-state/state.h": "77a92e2339a292e8ab80e0f6d6a5ed4c4a7914414b3faad4a0092b671c6e92e7",
       "../lua-character/methods.h": "7ef4b0ed88e0ec93b80a3da1b1f679a45d27db21b961064101196be5de48c04a",
       "../character-classes/classes.h": "df8d3aa5ebd5c59dc76f7e02770dcfba5f87777cd41c20bb721ed3f27d0884cc",
-      "tests/classes.c": "223ebc7346c8f98bcd1258f0b4781f22db70b0054bb5794420ece16932db90a7"
+      "tests/classes.c": "223ebc7346c8f98bcd1258f0b4781f22db70b0054bb5794420ece16932db90a7",
+      "../loot-tables/loot.h": "bfc4b9dfb8b7254f787f4c3f59a673651d66b715a12466f889790c56f1559d58",
+      "../equipment-bonuses/equipment.h": "537aed8298783822bd45b363ac8cd2c6f5dded6196d1e184820036cd0c3b5d99",
+      "tests/equipment.c": "3f9a339678ac92927a10ebf123bf50b492e47a76af6fbd578b8c041ad49fb2ed"
     },
-    "build_tool_sha256": "d4a21187e7833d1284906aa420ef184861dff6a72c748262d28531bc3b61c6f4"
+    "build_tool_sha256": "bb6b14f692b5078b199d3b4dd2d4221e2185a28c62798813f6858acabf5e1ebf"
   },
   "script_assets": {
     "assets/dh2/scripts/ai-commons.lua": {
@@ -249,7 +255,7 @@
   "source_sha256": {
     "port/android-app/native.cpp": "eb3753914d1f56a4c8e0eecb51353dc6f015dc75023c61fbf2fdc1182f9c8d67",
     "port/android-app/scene_buffers.cpp": "2d1015614e692a52e02d10a428b25d66c989a5e8525156b03b036d67d3ecc13e",
-    "port/android-app/scripts.cpp": "a79f98d6099da276a14000b1e10afb4b7080c11b9619441eb1911a47a9396003",
+    "port/android-app/scripts.cpp": "3555fba836d5b718157b590cb688f6ff493c49ed06af4515da0ad5d59d7f5675",
     "port/skin-payloads/skin.cpp": "c3b61a63e47bdd5e37a6f784e5b89f4626fe9499d1232a8f2f3760beb7cc8c83",
     "port/animation-pose/pose.cpp": "95bbbbd840a5e119a31454a5fe7723fea69b0c3cbd5b581d699813ec28a3cab1",
     "port/animation-values/values.cpp": "44cb86790f52c50c0ae2d3811cc983911514a1d5f987f37c2a5a692aeed3cb2c",

@@ -1,0 +1,333 @@
+{
+  "complete_game": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "host_sha256": "3810f1ed8dedeee51e916897c719a45f6b89a036ee5aea1fb4a38596787cb668",
+  "arm64_sha256": "fe95b8689f74d52bc887bdd41dcb1b6d0f3324768d49592b6e2591c624a9d234",
+  "test_sha256": "9d113acb6af52edfc6df3bbaec1c114fbf2a01e32cfa58f5f410b134be452d09",
+  "cache_sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+  "comparisons": 24670,
+  "cases": {
+    "arm64 other table spans": 19,
+    "actual other record destinations": 589,
+    "actual item destinations": 1322,
+    "actual item equipment flags": 5288,
+    "actual item equipment bonuses": 7932,
+    "synthetic equipment flags": 864,
+    "synthetic equipment bonuses": 1296,
+    "current equipment set": 112,
+    "equipped item": 80,
+    "integer with bonus": 7168
+  },
+  "mismatches": 0,
+  "function_entries": {
+    "0x400110": 1538,
+    "0x3fc6a8": 23709,
+    "0x400158": 6824,
+    "0x4001a0": 5751,
+    "0x3f9e08": 20950,
+    "0x3df7c4": 3076,
+    "0x3ffe3c": 9468,
+    "0x3dedb4": 19924,
+    "0x3df81c": 3108,
+    "0x40019c": 5286,
+    "0x3df8ac": 3204,
+    "0x3ffdec": 80,
+    "0x3df980": 7168
+  },
+  "source_arm64_snapshot_loads": 16,
+  "function_evidence": [
+    {
+      "elf_address": "0x3df7c4",
+      "size": 88,
+      "symbol": "_ZNK14CharProperties24PROPS_GetBonusCritRatingEb",
+      "sha256": "30886d3e03dc3a35baf8be741248463f43cdd292821bb22dec1db342f633ef51"
+    },
+    {
+      "elf_address": "0x3df81c",
+      "size": 144,
+      "symbol": "_ZNK14CharProperties26PROPS_GetBonusAttackRatingEb",
+      "sha256": "f74ae9fcab292486c994974ba9cde117eeffe8bc41198715bba7c58a4f52dbef"
+    },
+    {
+      "elf_address": "0x3df8ac",
+      "size": 212,
+      "symbol": "_ZNK14CharProperties20PROPS_GetBonusDamageEb",
+      "sha256": "d5ba6551dae014418fe3cb7ee5377f794a5cedd102d175f4d7a101279b26dcc7"
+    },
+    {
+      "elf_address": "0x3df980",
+      "size": 284,
+      "symbol": "_ZNK14CharProperties21PROPS_GetIntWithBonusEib",
+      "sha256": "7c0d89a09bf3ca91241c9dc9adce5fb34d000a7c6f416104435bde6683f3c29b"
+    },
+    {
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac"
+    },
+    {
+      "elf_address": "0x3ffdec",
+      "size": 80,
+      "symbol": "_ZNK13ItemInventory15GetEquippedItemEj",
+      "sha256": "96a407d7a62fa93c5ae4ccb665c37dfa16da4852bd7a9509e5b924f9e73513ba"
+    },
+    {
+      "elf_address": "0x3ffe3c",
+      "size": 80,
+      "symbol": "_ZN13ItemInventory15GetEquippedItemEj",
+      "sha256": "69cf53b6cff74ab550cd32f132e5a8a15b3b86fb9fa35be16a195bf20c2f918f"
+    },
+    {
+      "elf_address": "0x400110",
+      "size": 72,
+      "symbol": "_ZNK13ItemInventory9HasShieldEv",
+      "sha256": "6bb9c61905b9258e5b7eb9c645f8ef7ab77e5a52784748040ba96ee66f615d77"
+    },
+    {
+      "elf_address": "0x400158",
+      "size": 68,
+      "symbol": "_ZNK13ItemInventory16HasOffHandWeaponEv",
+      "sha256": "85f0ba7f6478e524064787834ac6983146bb37bd8b0e1ddc794c9185e82efdc3"
+    },
+    {
+      "elf_address": "0x40019c",
+      "size": 4,
+      "symbol": "_ZNK13ItemInventory14IsDualWieldingEv",
+      "sha256": "c03b26a2b81d0620626937c6329b87cd97a8b20c758c94a045486bae5ffdba57"
+    },
+    {
+      "elf_address": "0x4001a0",
+      "size": 140,
+      "symbol": "_ZNK13ItemInventory12HasTwoHanderEb",
+      "sha256": "fb30a48a8275d5caad1d79ae0e981d1a0fa436a46318967b373d04427aae3189"
+    },
+    {
+      "elf_address": "0x3f9e08",
+      "size": 44,
+      "symbol": "_ZNK12ItemInstance7GetItemEv",
+      "sha256": "df3cef6ad94f3333a35c215c39f1330df860704814086e3f08133ee6333836b2"
+    },
+    {
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "elf_address": "0x313a90",
+      "size": 184,
+      "symbol": "_ZN12StreamReader6readAsIjEET_P11IStreamBase",
+      "calls": 8,
+      "sha256": "aa0ca3fa275c748cd04a9694d9d0f3a6112241e79cdf905fcbed0485c9930c79"
+    },
+    {
+      "elf_address": "0x317454",
+      "size": 60,
+      "symbol": "_ZN12StreamReader12readStringExEP11IStreamBasePcy",
+      "calls": 2644,
+      "sha256": "4b98c1070f5b1fde5e9ea6a9ee65e66080cc78d4bc12e5694e9c24abc08cfdec"
+    },
+    {
+      "elf_address": "0x3df1a0",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIjEEvP11IStreamBasePT_",
+      "calls": 3908,
+      "sha256": "80fbe74a694f45c71b183a970e0501cda9ffd07e1544dedbaeccd1926968aafa"
+    },
+    {
+      "elf_address": "0x459090",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "calls": 47665,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    },
+    {
+      "elf_address": "0x4b9bf4",
+      "size": 332,
+      "symbol": "_ZN6Arrays12NumProbArray4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "7ae64ca16a71fda1bd96b363c7499a4f6e08962897d80ef532e5cac17d3378df"
+    },
+    {
+      "elf_address": "0x4b9d40",
+      "size": 332,
+      "symbol": "_ZN6Arrays13MerchantTable4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "d900ec9ea068d4a14f91e6784ad63026364f79e4fe835802f773353a9b5ce950"
+    },
+    {
+      "elf_address": "0x4b9e8c",
+      "size": 340,
+      "symbol": "_ZN6Arrays9LootTable4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "d13006a209222f360d9cc53bed812e7fdce305b691cd6388f45a850b0dcd5916"
+    },
+    {
+      "elf_address": "0x4b9fe0",
+      "size": 332,
+      "symbol": "_ZN6Arrays12ItemTypeList4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "8fb2fa6494bd6ea1f9d68b1a3192ac0b53cf6c1af202818a3ab2c5ac537a4a7e"
+    },
+    {
+      "elf_address": "0x4ba12c",
+      "size": 336,
+      "symbol": "_ZN6Arrays9ItemTable4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "29ca3fa18018c5ab934a299718c1cea15eeea6af0bd094e090e86d3ceb3a4dd3"
+    },
+    {
+      "elf_address": "0x4ba27c",
+      "size": 332,
+      "symbol": "_ZN6Arrays8ItemList4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "b60ffe0c1f10c2c1dacbdf595f6f9bb9d54bb7f523fbd91f68d84d8d89487eee"
+    },
+    {
+      "elf_address": "0x4ba3c8",
+      "size": 308,
+      "symbol": "_ZN6Arrays14InventoryTable4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "b450be06a3b97bc37fb120c0a3af76b0c3f4fee1090b92da7aa5a34c12a63fce"
+    },
+    {
+      "elf_address": "0x4ba4fc",
+      "size": 332,
+      "symbol": "_ZN6Arrays21DropTilePriorityTable4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "ff2ae4b23d569a8905be9e602c2efe1c0050cd17586db22b511c7a0ec66991f3"
+    },
+    {
+      "elf_address": "0x4db89c",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIbEEvP11IStreamBasePT_",
+      "calls": 1322,
+      "sha256": "74ad7d2721470ff297fa1b4d2d6959fed75456af87600b2ac5e31af684ce8156"
+    },
+    {
+      "elf_address": "0x4db94c",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIfEEvP11IStreamBasePT_",
+      "calls": 11898,
+      "sha256": "3d2ddb81b8cf07eb6da9482254ecfc8dc6fc3752731d50f5595977fbfdc42243"
+    },
+    {
+      "elf_address": "0x4db9fc",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIaEEvP11IStreamBasePT_",
+      "calls": 826,
+      "sha256": "ea0dc44358bcd1753b66faa89e097ce4e831859120f16e333ed8fa3ba6cf7557"
+    },
+    {
+      "elf_address": "0x4dbaac",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIsEEvP11IStreamBasePT_",
+      "calls": 1251,
+      "sha256": "8656605484773844be9a9050e7041de36457acf352cea7d92e7008d10b74d4a6"
+    },
+    {
+      "elf_address": "0x4dbb5c",
+      "size": 112,
+      "symbol": "_ZN7Structs9Inventory4readEP11IStreamBase",
+      "calls": 3,
+      "sha256": "9988b500810315e64da0069a1c5225c4fd725cb8fe1ef957f57d7587e4575896"
+    },
+    {
+      "elf_address": "0x4dbbcc",
+      "size": 208,
+      "symbol": "_ZN7Structs10TileOffset4readEP11IStreamBase",
+      "calls": 9,
+      "sha256": "7c26e41dba9509833a16688f086b86364dfc8f82db340de65d7b97ac30829fc6"
+    },
+    {
+      "elf_address": "0x4dbc9c",
+      "size": 208,
+      "symbol": "_ZN7Structs7NumProb4readEP11IStreamBase",
+      "calls": 209,
+      "sha256": "99ed8012d32c63270ef419c1527368f69c417cc9619622f158a6c2ddd37df497"
+    },
+    {
+      "elf_address": "0x4dc4e0",
+      "size": 344,
+      "symbol": "_ZN7Structs14TileOffsetList4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "275c077c6bd8fb6bada6b82cbc6c32ae3009493876e69aefc4053548cae9d03f"
+    },
+    {
+      "elf_address": "0x4dc638",
+      "size": 344,
+      "symbol": "_ZN7Structs11NumProbList4readEP11IStreamBase",
+      "calls": 39,
+      "sha256": "2cf52a1bdbd1c93c402072ee5d1f8fb6b60f79dc945d155fbebbf3055b8e0744"
+    },
+    {
+      "elf_address": "0x4dc790",
+      "size": 364,
+      "symbol": "_ZN7Structs17ItemListEntryList4readEP11IStreamBase",
+      "calls": 186,
+      "sha256": "27c6b8317132d55ae312563bc732317d4041a74d9eef02cd982615726fd98dea"
+    },
+    {
+      "elf_address": "0x4dd2c4",
+      "size": 200,
+      "symbol": "_ZN7Structs16ItemTypeListList4readEP11IStreamBase",
+      "calls": 9,
+      "sha256": "920077c8bcf71ebac247990927996258e2dfb57978fff0bbc49123367aa87d49"
+    },
+    {
+      "elf_address": "0x4ec47c",
+      "size": 1396,
+      "symbol": "_ZN7Structs8ItemBase4readEP11IStreamBase",
+      "calls": 1322,
+      "sha256": "7b7a782839919633a3bb135a78ca4083ab3d2a0e3ecf709f9058adff29491a4b"
+    },
+    {
+      "elf_address": "0x4ed280",
+      "size": 220,
+      "symbol": "_ZN7Structs13ItemListEntry4readEP11IStreamBase",
+      "calls": 812,
+      "sha256": "6644a8b9e9850b0761c4f361507110820aa7fd07621c85695d937167427cbb61"
+    },
+    {
+      "elf_address": "0x4f1bc0",
+      "size": 208,
+      "symbol": "_ZN7Structs20MerchandiseListEntry4readEP11IStreamBase",
+      "calls": 11,
+      "sha256": "c25f8ca04d7b46cdd7d3414d948777b0fefed091ec1c1d787834618c9f578be1"
+    },
+    {
+      "elf_address": "0x4fc068",
+      "size": 2216,
+      "symbol": "_ZN7Structs4Item4readEP11IStreamBase",
+      "calls": 1322,
+      "sha256": "b30bf8ce31421ff4f116d12658de9a89710c33f1782a545996c8311ae4859e2d"
+    },
+    {
+      "elf_address": "0x4fe794",
+      "size": 1140,
+      "symbol": "_ZN7Structs4Loot4readEP11IStreamBase",
+      "calls": 339,
+      "sha256": "203d51dd9509c48a5a89c52065fe0cfd4493b3308c41441c2d0437d956c0fbec"
+    },
+    {
+      "elf_address": "0x4fec08",
+      "size": 760,
+      "symbol": "_ZN7Structs9LootEntry4readEP11IStreamBase",
+      "calls": 1366,
+      "sha256": "bf57e3463b2f917df0d9c62630c5bfcd7249b4a83101d13e765a5907922adc44"
+    },
+    {
+      "elf_address": "0x4ff604",
+      "size": 548,
+      "symbol": "_ZN7Structs8Merchant4readEP11IStreamBase",
+      "calls": 12,
+      "sha256": "a2338fb8f31012bb1f4cf2faa70cd355489020eca98ff69bbfab26a51ed77ccc"
+    }
+  ],
+  "input_preservation": true,
+  "output_guards": true,
+  "stack_restoration": true,
+  "scope": "Actual original eight loot array readers and nested scalar/string/list readers execute. All 1322 item destinations agree with host and source ARM64; all other table destinations agree with host record spans, selected spans also run on ARM64. Sixteen source snapshot loads run on ARM64; remaining bonus cases copy checked host snapshots into ARM64. Actual original GetItem, equipped-item/current-set, shield/offhand/twohand, property bonus and GetIntWithBonus bodies execute against original records and explicit synthetic layouts. Source ARM64 runs in Unicorn. Stream/storage dependencies use bounded models. No inventory lifecycle/equip restrictions/gear contributions, full Character, original Lua/gameplay, APK or hardware execution."
+}

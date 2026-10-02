@@ -20,3 +20,5 @@ reports/pydata-struct-name-trace.json -text
 port/pydata-names/struct-names.h -text
 reports/character-property-reader-trace.json -text
 reports/character-class-reader-trace.json -text
+reports/loot-table-reader-trace.json -text
+reports/equipment-callback-trace.json -text

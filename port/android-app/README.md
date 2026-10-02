@@ -1,6 +1,16 @@
 # Android 17 source renderer milestone
 
-## Current class calculation APK milestone
+## Current equipment calculation APK milestone
+
+The current source APK is 807,843 bytes, SHA-256
+`2974a802e258582a13c20a0d38aad19a44ceff313170473a85c0ff68322cafdd`.
+It imports owned property, class and item data. Supported bonus and shield
+queries, retained data generations, rejection/recovery, class rules, shared
+scripts and textured two-motion animation pass on both Android 17 page sizes.
+See [instructions and evidence](EQUIPMENT-INTEGRATION.md). Full Character and
+inventory lifecycle, gear contributions/powers and source gameplay are unfinished.
+
+## Earlier class calculation APK milestone
 
 The current source APK is 779,171 bytes, SHA-256
 `7d2c82ab3ba433e06c006bbe962f35b78f8266b4cd030d2be2440942a8231c79`.
@@ -183,7 +193,7 @@ Open **DH2 Source Renderer**. Tap **Import BRES scene** and select `data/3d/modu
 
 `build.py` compiles both ABIs and checks every native `PT_LOAD` segment for 16 KiB alignment. It also checks APK ZIP alignment and signature. The output APK and local debug signing key stay in ignored `build/`. The tracked [`build-validation.json`](build-validation.json) records the current binary hashes; [`scalar-track-runtime-validation.json`](scalar-track-runtime-validation.json) records this build's emulator check. The earlier scene check is in [`scene-3d-runtime-validation.json`](scene-3d-runtime-validation.json). Earlier builds' evidence remains in [`scene-runtime-validation.json`](scene-runtime-validation.json) and [`runtime-validation.json`](runtime-validation.json). The APK and screenshots remain outside Git.
 
-The earlier 3D scene APK was installed on Android 17 x86_64 emulators with both 4 KiB (API 37.0) and 16 KiB (API 37.2) pages. On each it loaded the real 199,300-byte void maze BRES, reported 77 draws/3,140 vertices/4,695 indices, decoded its 256×256 PVRTC texture, and visibly displayed textured stone geometry. A touch drag changed the 3D view angle, and the process remained alive. The candle sample also loaded and displayed on the 4 KiB emulator. ARM64 was checked structurally but has not run on an ARM64 device or emulator.
+The earlier 3D scene APK was installed on Android 17 x86_64 emulators with both 4 KiB (API 37.0) and 16 KiB (API 37.2) pages. On each it loaded the real 199,300-byte void maze BRES, reported 77 draws/3,140 vertices/4,695 indices, decoded its 256Ã—256 PVRTC texture, and visibly displayed textured stone geometry. A touch drag changed the 3D view angle, and the process remained alive. The candle sample also loaded and displayed on the 4 KiB emulator. ARM64 was checked structurally but has not run on an ARM64 device or emulator.
 
 This app is an asset renderer milestone. Its coordinate normalization, orthographic camera, shader, texture sampling, and UI are new diagnostic choices. It applies one imported texture to every command, with no per-command material/shader state, transparency rules, or draw ordering reconstruction. A BRES with more than 256 static commands, 8,192 vertices, or 24,000 indices is rejected rather than partially drawn. It does not include the original game engine, level streaming, original animation state control, combat, input controls, audio, saved-game handling, or gameplay. Importing a BRES and a texture does not verify that the chosen files belong together; use the filename returned by the material link. The original rights situation remains described in [`RIGHTS.md`](../../RIGHTS.md).
 

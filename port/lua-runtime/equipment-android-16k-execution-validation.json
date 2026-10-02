@@ -1,0 +1,143 @@
+{
+  "complete_game": false,
+  "original_lua_gameplay_equivalence_tested": false,
+  "equipment_binding_tested": true,
+  "actual_items": 1322,
+  "equipment_set_queries": 2644,
+  "bonus_and_shield_queries": 18508,
+  "assertion_files": 21,
+  "reference_sha256": "3810f1ed8dedeee51e916897c719a45f6b89a036ee5aea1fb4a38596787cb668",
+  "standalone_original_comparison_sha256": "9f466bad5f26645648df0cb973ba0a479532abb6f16b748923489a313c4fc7f8",
+  "item_cache_sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+  "runner_sha256": "be78513d442137c1a125d1ee1df7895ecff1519498fe2697536a832fdc174626",
+  "test_sha256": "742cd3bec2794798446e46ec1ce9d4c2df289c3674bc573a73d64cf26f7f9309",
+  "listing_sha256": "2b14a6681d9bb73306b03713c51f567f01b4275137fdbb673ef0f1a5560b1d5a",
+  "property_fixture_sha256": "d3fe9a99b03b19bebfb699b6ee22723534b3041636c46822c719f845a68c3c5a",
+  "assertions": [
+    {
+      "name": "000.lua",
+      "bytes": 48687,
+      "sha256": "bba90c73f5ce6ab9f4e11bfd4ece7a23eba7c4d7e41e6576be8d7aa8af206c9a"
+    },
+    {
+      "name": "001.lua",
+      "bytes": 48989,
+      "sha256": "9624b4f9e8651058f0523d693721f400b0abfa44f15bee95f1ea12be7259a0f7"
+    },
+    {
+      "name": "002.lua",
+      "bytes": 49422,
+      "sha256": "783f0d38f4c3e4f37ab758d7028df5ef27891c56cb2a6938366ddd5609502fc2"
+    },
+    {
+      "name": "003.lua",
+      "bytes": 49302,
+      "sha256": "a4bd759450cf0a54f006d578dc67ad71d36ad13e1997cd95cb55b443da04c787"
+    },
+    {
+      "name": "004.lua",
+      "bytes": 49330,
+      "sha256": "e3d359196c133aeebe3a46229b1deee184ccc8c055bb7d50d7c53b2e96b89927"
+    },
+    {
+      "name": "005.lua",
+      "bytes": 49394,
+      "sha256": "779eb52375c4d84c9cb308274a710e15904c350c9c4c36f3728c49283d461582"
+    },
+    {
+      "name": "006.lua",
+      "bytes": 49364,
+      "sha256": "8f3c33cac03a490976edc179c5ea04803bcce95843c967a28e38a6d0433d8599"
+    },
+    {
+      "name": "007.lua",
+      "bytes": 49316,
+      "sha256": "36bc647a066e9506f09073e73b6b9dc6ccb7c2130423c8f495e066a22a371296"
+    },
+    {
+      "name": "008.lua",
+      "bytes": 49316,
+      "sha256": "6d84202882faee578e5b0e5ad31bb840faa472c1ef4124efa495cb67d14ee7d1"
+    },
+    {
+      "name": "009.lua",
+      "bytes": 49316,
+      "sha256": "b343569b40472eef7b794d3215525d59f8a608fbf936698ce6fda943c1a9644e"
+    },
+    {
+      "name": "010.lua",
+      "bytes": 49316,
+      "sha256": "b8a0d653d8bde02f1d4c014321140ee3f0188fff223588567fda03d980269e7d"
+    },
+    {
+      "name": "011.lua",
+      "bytes": 49316,
+      "sha256": "7bb5e419584371b271da3f69a68aecac211a802a0fd7472e42da642da821ebf4"
+    },
+    {
+      "name": "012.lua",
+      "bytes": 49302,
+      "sha256": "364fbca60e58806af407e4db573463f9c79101bacb7a10878fe3243b82c05643"
+    },
+    {
+      "name": "013.lua",
+      "bytes": 49316,
+      "sha256": "65e2020ff29a00429bd24a0dea7e860e4ec172f5a5c39358ca14c05cdd9c3aef"
+    },
+    {
+      "name": "014.lua",
+      "bytes": 49316,
+      "sha256": "3510c2d5dff373c8b72d3ec16644cbca534c9fd0c7be321249d1406b7abc04ef"
+    },
+    {
+      "name": "015.lua",
+      "bytes": 49247,
+      "sha256": "8acb9289dfdce6da2071e1d3c1f5ab83065768eb881ef5ce0ce6320ba81cd5f5"
+    },
+    {
+      "name": "016.lua",
+      "bytes": 49291,
+      "sha256": "dd4be0b3e0cb6886e75d4da02179f06ab144ca719188d4da8e6c56da5e337399"
+    },
+    {
+      "name": "017.lua",
+      "bytes": 49332,
+      "sha256": "66d4610d96c4cb8cce85757733f5e87bc9fb5607c0433a2ce73a588abba5eefe"
+    },
+    {
+      "name": "018.lua",
+      "bytes": 49333,
+      "sha256": "90e079618fdd48042b4678abf47fc70a925769805e56e852cafea0dc901dc9ab"
+    },
+    {
+      "name": "019.lua",
+      "bytes": 49267,
+      "sha256": "7823cc81b576fb12c9db38280a7c7a4d2a19fce2d9a2c1f229700c3b1419e8c0"
+    },
+    {
+      "name": "020.lua",
+      "bytes": 32232,
+      "sha256": "e5e350cd9dccd5107c89a3a0feee923f369f875ffd76834acade35c4eb8b7930"
+    }
+  ],
+  "stdout": "SELFTEST PASS\nNUMERIC PASS 504\nEQUIPMENT CORPUS PASS 21",
+  "source_sha256": {
+    "runtime.c": "deb837b77600d671fd340a0db1e881aca301250ee59877e99e409e6eb00e5a80",
+    "runtime.h": "66e72bd8bb4ab5410eb41bf84ee6f43f39400088e805872d0ec0975af16d18ec",
+    "tests/runner.c": "83a6fc6ca827da21df48d95726f05808193aff9bfb10271fadd2c008cafdb218",
+    "tests/equipment.c": "3f9a339678ac92927a10ebf123bf50b492e47a76af6fbd578b8c041ad49fb2ed",
+    "../lua-character/bridge.c": "efbb435bb27c3f5cb5fcdaf2277b4f847370fdb47c6257bfa44083d815d864e1",
+    "../equipment-bonuses/equipment.c": "c7e3b4dcf1fc0cebdaa3a658d37183f997365b57c5111c01398bfa41a08b81ab",
+    "../loot-tables/loot.c": "82646012a94f3c6edcf7a797e8b97fd281c4a96eb2acc333b862257139a98fb4"
+  },
+  "scope": "All actual cache items pass through retained owned Lua item generations, authored two-set snapshot controls and named bonus/shield methods, using synthetic property data. Expected values come from the standalone C projection separately matched against original ARM instructions. Native bonus callbacks/Value coercion and the original Lua/game are not executed by this corpus. Selftests cover typed arguments, caller release, generations, malformed/OOM retention and recovery. No gear contributions, equip restrictions, original inventory or Character lifecycle.",
+  "device": {
+    "serial": "emulator-5558",
+    "android_release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64",
+    "fingerprint": "google/sdk_gphone16k_x86_64/emu64xa16k:17/CP41.260828.004.A7/16296984:userdebug/dev-keys"
+  },
+  "pushed_input_hashes_verified": 25
+}

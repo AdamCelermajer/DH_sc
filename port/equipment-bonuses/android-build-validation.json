@@ -1,0 +1,28 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "equipment-arm64.so": {
+      "sha256": "fe95b8689f74d52bc887bdd41dcb1b6d0f3324768d49592b6e2591c624a9d234",
+      "layout": {
+        "machine": 183,
+        "pt_load": [
+          {
+            "offset": 0,
+            "alignment": 16384
+          },
+          {
+            "offset": 7856,
+            "alignment": 16384
+          }
+        ]
+      }
+    }
+  },
+  "source_sha256": {
+    "equipment.c": "c7e3b4dcf1fc0cebdaa3a658d37183f997365b57c5111c01398bfa41a08b81ab",
+    "../loot-tables/loot.c": "82646012a94f3c6edcf7a797e8b97fd281c4a96eb2acc333b862257139a98fb4",
+    "equipment.h": "537aed8298783822bd45b363ac8cd2c6f5dded6196d1e184820036cd0c3b5d99",
+    "../loot-tables/loot.h": "bfc4b9dfb8b7254f787f4c3f59a673651d66b715a12466f889790c56f1559d58"
+  },
+  "build_tool_sha256": "2cffce97acc95a095fac9cd9a3be00a8861f5d9283cd665185019f375ecb86de"
+}

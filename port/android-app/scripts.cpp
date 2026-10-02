@@ -15,22 +15,26 @@ extern "C" JNIEXPORT void JNICALL
 Java_local_dh2_sourceviewer_MainActivity_destroyScriptSession(JNIEnv*,jclass,jlong handle) {
     dh2_lua_destroy(reinterpret_cast<dh2_lua*>(static_cast<std::uintptr_t>(handle)));
 }
-static jstring importData(JNIEnv* env,jlong handle,jbyteArray source,bool classes) {
+static jstring importData(JNIEnv* env,jlong handle,jbyteArray source,int kind) {
+    const char* label=kind==2?"Items":kind==1?"Classes":"Properties";
     auto* runtime=reinterpret_cast<dh2_lua*>(static_cast<std::uintptr_t>(handle));
-    if(!runtime || !source)return env->NewStringUTF(classes?"Classes rejected: session unavailable":"Properties rejected: session unavailable");
+    char message[560]{};
+    if(!runtime || !source) { std::snprintf(message,sizeof(message),"%s rejected: session unavailable",label);return env->NewStringUTF(message); }
     const auto length=env->GetArrayLength(source);
-    if(length<0 || length>4*1024*1024)return env->NewStringUTF(classes?"Classes rejected: exceeds 4 MiB limit":"Properties rejected: exceeds 4 MiB limit");
+    if(length<0 || length>4*1024*1024) { std::snprintf(message,sizeof(message),"%s rejected: exceeds 4 MiB limit",label);return env->NewStringUTF(message); }
     auto* bytes=static_cast<unsigned char*>(std::malloc(length?static_cast<std::size_t>(length):1));
-    if(!bytes)return env->NewStringUTF(classes?"Classes rejected: out of memory":"Properties rejected: out of memory");
+    if(!bytes) { std::snprintf(message,sizeof(message),"%s rejected: out of memory",label);return env->NewStringUTF(message); }
     if(length)env->GetByteArrayRegion(source,0,length,reinterpret_cast<jbyte*>(bytes));
     if(env->ExceptionCheck()) { std::free(bytes);return nullptr; }
     char error[512]{};
-    const int status=classes?dh2_lua_import_character_classes(runtime,bytes,length,error,sizeof(error)):
+    const int status=kind==2?dh2_lua_import_loot_tables(runtime,bytes,length,error,sizeof(error)):
+                     kind==1?dh2_lua_import_character_classes(runtime,bytes,length,error,sizeof(error)):
                              dh2_lua_import_character_properties(runtime,bytes,length,error,sizeof(error));
     std::free(bytes);
-    if(!status)return env->NewStringUTF(classes?"Classes loaded. New script property objects can apply class rules; gameplay is unfinished.":
+    if(!status)return env->NewStringUTF(kind==2?"Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished.":
+                                      kind==1?"Classes loaded. New script property objects can apply class rules; gameplay is unfinished.":
                                              "Properties loaded. Script property objects are ready; gameplay is unfinished.");
-    char message[560]{};std::strcpy(message,classes?"Classes rejected: ":"Properties rejected: ");const std::size_t start=std::strlen(message);
+    std::snprintf(message,sizeof(message),"%s rejected: ",label);const std::size_t start=std::strlen(message);
     for(std::size_t i=0;error[i] && i<sizeof(error)-1 && start+i<sizeof(message)-1;++i) {
         const auto byte=static_cast<unsigned char>(error[i]);
         message[start+i]=byte>=32 && byte<127?static_cast<char>(byte):' ';
@@ -39,11 +43,15 @@ static jstring importData(JNIEnv* env,jlong handle,jbyteArray source,bool classe
 }
 extern "C" JNIEXPORT jstring JNICALL
 Java_local_dh2_sourceviewer_MainActivity_importProperties(JNIEnv* env,jclass,jlong handle,jbyteArray source) {
-    return importData(env,handle,source,false);
+    return importData(env,handle,source,0);
 }
 extern "C" JNIEXPORT jstring JNICALL
 Java_local_dh2_sourceviewer_MainActivity_importClasses(JNIEnv* env,jclass,jlong handle,jbyteArray source) {
-    return importData(env,handle,source,true);
+    return importData(env,handle,source,1);
+}
+extern "C" JNIEXPORT jstring JNICALL
+Java_local_dh2_sourceviewer_MainActivity_importItems(JNIEnv* env,jclass,jlong handle,jbyteArray source) {
+    return importData(env,handle,source,2);
 }
 extern "C" JNIEXPORT jstring JNICALL
 Java_local_dh2_sourceviewer_MainActivity_executeScript(JNIEnv* env,jclass,jlong handle,jbyteArray source) {

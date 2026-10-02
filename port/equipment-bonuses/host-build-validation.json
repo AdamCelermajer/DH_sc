@@ -1,0 +1,23 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "equipment-host.so": {
+      "sha256": "3810f1ed8dedeee51e916897c719a45f6b89a036ee5aea1fb4a38596787cb668"
+    }
+  },
+  "source_sha256": {
+    "equipment.c": "c7e3b4dcf1fc0cebdaa3a658d37183f997365b57c5111c01398bfa41a08b81ab",
+    "../loot-tables/loot.c": "82646012a94f3c6edcf7a797e8b97fd281c4a96eb2acc333b862257139a98fb4",
+    "equipment.h": "537aed8298783822bd45b363ac8cd2c6f5dded6196d1e184820036cd0c3b5d99",
+    "../loot-tables/loot.h": "bfc4b9dfb8b7254f787f4c3f59a673651d66b715a12466f889790c56f1559d58"
+  },
+  "build_tool_sha256": "2cffce97acc95a095fac9cd9a3be00a8861f5d9283cd665185019f375ecb86de",
+  "safety": {
+    "iterations": 12000,
+    "asan": true,
+    "ubsan": true,
+    "recover": false,
+    "test_sha256": "d6d49956a792eaa5fba23041881998f19505f0afc6a43a1d61a42b1e7769fbc1",
+    "seed": 20261002
+  }
+}

@@ -1,5 +1,18 @@
 # Recovery status — updated 2026-10-02
 
+**Equipment calculations in the source APK:** All eight loot tables are
+decoded from checked reader layouts, including 1,322 item records. Owned script
+objects retain item data and expose supported attack/critical/damage bonuses and
+shield queries. The reader/query comparison passes 24,670 original ARM32 versus
+source ARM64/host checks; 312 original callback cases match the source bindings.
+All-item script checks pass 18,508 queries on host, strict sanitizers and both
+Android 17 page sizes. The 807,843-byte APK passes item, class, shared-script and
+textured animation integration on both page sizes. Full Character lifecycle,
+inventory mutation, gear contributions/powers, combat and source gameplay remain
+unfinished. See [source scope](../port/equipment-bonuses/README.md) and
+[APK evidence](../port/android-app/EQUIPMENT-INTEGRATION.md).
+Earlier entries retain their checkpoint identities.
+
 **Class calculations in the source APK:** Owned script property objects now
 retain class datasets and expose authored `ApplyClass`. All 260 real classes /
 116,480 final-field queries pass on host, strict sanitizers and both Android 17

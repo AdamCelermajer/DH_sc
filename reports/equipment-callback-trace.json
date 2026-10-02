@@ -1,0 +1,4657 @@
+{
+  "complete_game": false,
+  "original_lua_gameplay_equivalence_tested": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "source_runtime_sha256": "6d36b273f82673f2a283752062d88356a129944cc4eaa0025bb36a8eb3fb2ada",
+  "test_sha256": "cb5c4e061d46bf0e06f33022f3bc584a39a6344c78c383e6d515598a51830b70",
+  "property_fixture_sha256": "d3fe9a99b03b19bebfb699b6ee22723534b3041636c46822c719f845a68c3c5a",
+  "item_fixture_sha256": "d5ead7ef222586b4cc95762a75f7661074bcc853bf1a98e4b47c6507b4c5a5e1",
+  "comparisons": 312,
+  "cases": {
+    "GetCritRatingBonus": 78,
+    "GetAttackRatingBonus": 78,
+    "GetDamageBonus": 78,
+    "HasShield": 78
+  },
+  "mismatches": 0,
+  "input_preservation": true,
+  "stack_restoration": true,
+  "function_evidence": [
+    {
+      "elf_address": "0x3b7b28",
+      "size": 92,
+      "symbol": "_ZN9Character23_GetPropBonusCritRatingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "sha256": "0f45c2e5c600fbdb741d307a1d683c4b88de88a20bef7029df2543d61ded3e78"
+    },
+    {
+      "elf_address": "0x3b7b84",
+      "size": 92,
+      "symbol": "_ZN9Character25_GetPropBonusAttackRatingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "sha256": "df53bd9617d418cad809250bcf44e870d3ed4efdbdd347aef43de8754b64512f"
+    },
+    {
+      "elf_address": "0x3b7acc",
+      "size": 92,
+      "symbol": "_ZN9Character19_GetPropBonusDamageERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "sha256": "562f9b73f94ef9484a276bd0252c88cf8cc10779ac473e2f17926a438c1766f6"
+    },
+    {
+      "elf_address": "0x3b6fa4",
+      "size": 32,
+      "symbol": "_ZN9Character10_HasShieldERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "sha256": "bd532b80da52314a09c4ae01bc3b05d113d738a00d9fb507391a482e248855e5"
+    },
+    {
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0"
+    },
+    {
+      "elf_address": "0x37cb24",
+      "size": 104,
+      "symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+      "sha256": "f82c34ddaa9becff30d931e6ec79c8a9c3a73c1da5f7bf1980a70c750825eb68"
+    },
+    {
+      "elf_address": "0x37c7e4",
+      "size": 104,
+      "symbol": "_ZN3sfc6script3lua12ReturnValues11pushBooleanEb",
+      "sha256": "abfadde1b5e401d9598088abb959b85b585ca7f401fbcab038ae164c597ac779"
+    }
+  ],
+  "assertions": [
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(nil))==1 and p:GetCritRatingBonus(nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false))==1 and p:GetCritRatingBonus(false)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true))==1 and p:GetCritRatingBonus(true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.0))==1 and p:GetCritRatingBonus(0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-0.0))==1 and p:GetCritRatingBonus(-0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(1.0))==1 and p:GetCritRatingBonus(1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-1.0))==1 and p:GetCritRatingBonus(-1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.25))==1 and p:GetCritRatingBonus(0.25)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((0/0)))==1 and p:GetCritRatingBonus((0/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((1/0)))==1 and p:GetCritRatingBonus((1/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false,true))==1 and p:GetCritRatingBonus(false,true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true,nil))==1 and p:GetCritRatingBonus(true,nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(nil))==1 and p:GetAttackRatingBonus(nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false))==1 and p:GetAttackRatingBonus(false)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true))==1 and p:GetAttackRatingBonus(true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.0))==1 and p:GetAttackRatingBonus(0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-0.0))==1 and p:GetAttackRatingBonus(-0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(1.0))==1 and p:GetAttackRatingBonus(1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-1.0))==1 and p:GetAttackRatingBonus(-1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.25))==1 and p:GetAttackRatingBonus(0.25)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((0/0)))==1 and p:GetAttackRatingBonus((0/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((1/0)))==1 and p:GetAttackRatingBonus((1/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false,true))==1 and p:GetAttackRatingBonus(false,true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true,nil))==1 and p:GetAttackRatingBonus(true,nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(nil))==1 and p:GetDamageBonus(nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false))==1 and p:GetDamageBonus(false)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true))==1 and p:GetDamageBonus(true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.0))==1 and p:GetDamageBonus(0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-0.0))==1 and p:GetDamageBonus(-0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(1.0))==1 and p:GetDamageBonus(1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-1.0))==1 and p:GetDamageBonus(-1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.25))==1 and p:GetDamageBonus(0.25)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((0/0)))==1 and p:GetDamageBonus((0/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((1/0)))==1 and p:GetDamageBonus((1/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false,true))==1 and p:GetDamageBonus(false,true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true,nil))==1 and p:GetDamageBonus(true,nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:HasShield())==1 and p:HasShield()==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(nil))==1 and p:HasShield(nil)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false))==1 and p:HasShield(false)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true))==1 and p:HasShield(true)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.0))==1 and p:HasShield(0.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-0.0))==1 and p:HasShield(-0.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(1.0))==1 and p:HasShield(1.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-1.0))==1 and p:HasShield(-1.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.25))==1 and p:HasShield(0.25)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((0/0)))==1 and p:HasShield((0/0))==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((1/0)))==1 and p:HasShield((1/0))==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false,true))==1 and p:HasShield(false,true)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true,nil))==1 and p:HasShield(true,nil)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(nil))==1 and p:GetCritRatingBonus(nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false))==1 and p:GetCritRatingBonus(false)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true))==1 and p:GetCritRatingBonus(true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.0))==1 and p:GetCritRatingBonus(0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-0.0))==1 and p:GetCritRatingBonus(-0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(1.0))==1 and p:GetCritRatingBonus(1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-1.0))==1 and p:GetCritRatingBonus(-1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.25))==1 and p:GetCritRatingBonus(0.25)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((0/0)))==1 and p:GetCritRatingBonus((0/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((1/0)))==1 and p:GetCritRatingBonus((1/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false,true))==1 and p:GetCritRatingBonus(false,true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true,nil))==1 and p:GetCritRatingBonus(true,nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(nil))==1 and p:GetAttackRatingBonus(nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false))==1 and p:GetAttackRatingBonus(false)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true))==1 and p:GetAttackRatingBonus(true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.0))==1 and p:GetAttackRatingBonus(0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-0.0))==1 and p:GetAttackRatingBonus(-0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(1.0))==1 and p:GetAttackRatingBonus(1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-1.0))==1 and p:GetAttackRatingBonus(-1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.25))==1 and p:GetAttackRatingBonus(0.25)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((0/0)))==1 and p:GetAttackRatingBonus((0/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((1/0)))==1 and p:GetAttackRatingBonus((1/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false,true))==1 and p:GetAttackRatingBonus(false,true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true,nil))==1 and p:GetAttackRatingBonus(true,nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(nil))==1 and p:GetDamageBonus(nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false))==1 and p:GetDamageBonus(false)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true))==1 and p:GetDamageBonus(true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.0))==1 and p:GetDamageBonus(0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-0.0))==1 and p:GetDamageBonus(-0.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(1.0))==1 and p:GetDamageBonus(1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-1.0))==1 and p:GetDamageBonus(-1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.25))==1 and p:GetDamageBonus(0.25)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((0/0)))==1 and p:GetDamageBonus((0/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((1/0)))==1 and p:GetDamageBonus((1/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false,true))==1 and p:GetDamageBonus(false,true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true,nil))==1 and p:GetDamageBonus(true,nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:HasShield())==1 and p:HasShield()==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(nil))==1 and p:HasShield(nil)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false))==1 and p:HasShield(false)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true))==1 and p:HasShield(true)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.0))==1 and p:HasShield(0.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-0.0))==1 and p:HasShield(-0.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(1.0))==1 and p:HasShield(1.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-1.0))==1 and p:HasShield(-1.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.25))==1 and p:HasShield(0.25)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((0/0)))==1 and p:HasShield((0/0))==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((1/0)))==1 and p:HasShield((1/0))==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false,true))==1 and p:HasShield(false,true)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 0,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true,nil))==1 and p:HasShield(true,nil)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(nil))==1 and p:GetCritRatingBonus(nil)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false))==1 and p:GetCritRatingBonus(false)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true))==1 and p:GetCritRatingBonus(true)==6831.0)",
+      "returns": [
+        [
+          "integer",
+          6831
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.0))==1 and p:GetCritRatingBonus(0.0)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-0.0))==1 and p:GetCritRatingBonus(-0.0)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(1.0))==1 and p:GetCritRatingBonus(1.0)==6831.0)",
+      "returns": [
+        [
+          "integer",
+          6831
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-1.0))==1 and p:GetCritRatingBonus(-1.0)==6831.0)",
+      "returns": [
+        [
+          "integer",
+          6831
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.25))==1 and p:GetCritRatingBonus(0.25)==6831.0)",
+      "returns": [
+        [
+          "integer",
+          6831
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((0/0)))==1 and p:GetCritRatingBonus((0/0))==6831.0)",
+      "returns": [
+        [
+          "integer",
+          6831
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((1/0)))==1 and p:GetCritRatingBonus((1/0))==6831.0)",
+      "returns": [
+        [
+          "integer",
+          6831
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false,true))==1 and p:GetCritRatingBonus(false,true)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true,nil))==1 and p:GetCritRatingBonus(true,nil)==6831.0)",
+      "returns": [
+        [
+          "integer",
+          6831
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(nil))==1 and p:GetAttackRatingBonus(nil)==-5731.0)",
+      "returns": [
+        [
+          "integer",
+          4294961565
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false))==1 and p:GetAttackRatingBonus(false)==-5731.0)",
+      "returns": [
+        [
+          "integer",
+          4294961565
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true))==1 and p:GetAttackRatingBonus(true)==2188.0)",
+      "returns": [
+        [
+          "integer",
+          2188
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.0))==1 and p:GetAttackRatingBonus(0.0)==-5731.0)",
+      "returns": [
+        [
+          "integer",
+          4294961565
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-0.0))==1 and p:GetAttackRatingBonus(-0.0)==-5731.0)",
+      "returns": [
+        [
+          "integer",
+          4294961565
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(1.0))==1 and p:GetAttackRatingBonus(1.0)==2188.0)",
+      "returns": [
+        [
+          "integer",
+          2188
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-1.0))==1 and p:GetAttackRatingBonus(-1.0)==2188.0)",
+      "returns": [
+        [
+          "integer",
+          2188
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.25))==1 and p:GetAttackRatingBonus(0.25)==2188.0)",
+      "returns": [
+        [
+          "integer",
+          2188
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((0/0)))==1 and p:GetAttackRatingBonus((0/0))==2188.0)",
+      "returns": [
+        [
+          "integer",
+          2188
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((1/0)))==1 and p:GetAttackRatingBonus((1/0))==2188.0)",
+      "returns": [
+        [
+          "integer",
+          2188
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false,true))==1 and p:GetAttackRatingBonus(false,true)==-5731.0)",
+      "returns": [
+        [
+          "integer",
+          4294961565
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true,nil))==1 and p:GetAttackRatingBonus(true,nil)==2188.0)",
+      "returns": [
+        [
+          "integer",
+          2188
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(nil))==1 and p:GetDamageBonus(nil)==-14467.0)",
+      "returns": [
+        [
+          "integer",
+          4294952829
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false))==1 and p:GetDamageBonus(false)==-14467.0)",
+      "returns": [
+        [
+          "integer",
+          4294952829
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true))==1 and p:GetDamageBonus(true)==-6548.0)",
+      "returns": [
+        [
+          "integer",
+          4294960748
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.0))==1 and p:GetDamageBonus(0.0)==-14467.0)",
+      "returns": [
+        [
+          "integer",
+          4294952829
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-0.0))==1 and p:GetDamageBonus(-0.0)==-14467.0)",
+      "returns": [
+        [
+          "integer",
+          4294952829
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(1.0))==1 and p:GetDamageBonus(1.0)==-6548.0)",
+      "returns": [
+        [
+          "integer",
+          4294960748
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-1.0))==1 and p:GetDamageBonus(-1.0)==-6548.0)",
+      "returns": [
+        [
+          "integer",
+          4294960748
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.25))==1 and p:GetDamageBonus(0.25)==-6548.0)",
+      "returns": [
+        [
+          "integer",
+          4294960748
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((0/0)))==1 and p:GetDamageBonus((0/0))==-6548.0)",
+      "returns": [
+        [
+          "integer",
+          4294960748
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((1/0)))==1 and p:GetDamageBonus((1/0))==-6548.0)",
+      "returns": [
+        [
+          "integer",
+          4294960748
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false,true))==1 and p:GetDamageBonus(false,true)==-14467.0)",
+      "returns": [
+        [
+          "integer",
+          4294952829
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true,nil))==1 and p:GetDamageBonus(true,nil)==-6548.0)",
+      "returns": [
+        [
+          "integer",
+          4294960748
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:HasShield())==1 and p:HasShield()==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(nil))==1 and p:HasShield(nil)==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false))==1 and p:HasShield(false)==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true))==1 and p:HasShield(true)==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.0))==1 and p:HasShield(0.0)==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-0.0))==1 and p:HasShield(-0.0)==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(1.0))==1 and p:HasShield(1.0)==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-1.0))==1 and p:HasShield(-1.0)==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.25))==1 and p:HasShield(0.25)==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((0/0)))==1 and p:HasShield((0/0))==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((1/0)))==1 and p:HasShield((1/0))==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false,true))==1 and p:HasShield(false,true)==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true,nil))==1 and p:HasShield(true,nil)==true)",
+      "returns": [
+        [
+          "boolean",
+          1
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(nil))==1 and p:GetCritRatingBonus(nil)==14750.0)",
+      "returns": [
+        [
+          "integer",
+          14750
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false))==1 and p:GetCritRatingBonus(false)==14750.0)",
+      "returns": [
+        [
+          "integer",
+          14750
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true))==1 and p:GetCritRatingBonus(true)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.0))==1 and p:GetCritRatingBonus(0.0)==14750.0)",
+      "returns": [
+        [
+          "integer",
+          14750
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-0.0))==1 and p:GetCritRatingBonus(-0.0)==14750.0)",
+      "returns": [
+        [
+          "integer",
+          14750
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(1.0))==1 and p:GetCritRatingBonus(1.0)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-1.0))==1 and p:GetCritRatingBonus(-1.0)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.25))==1 and p:GetCritRatingBonus(0.25)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((0/0)))==1 and p:GetCritRatingBonus((0/0))==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((1/0)))==1 and p:GetCritRatingBonus((1/0))==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false,true))==1 and p:GetCritRatingBonus(false,true)==14750.0)",
+      "returns": [
+        [
+          "integer",
+          14750
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true,nil))==1 and p:GetCritRatingBonus(true,nil)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(nil))==1 and p:GetAttackRatingBonus(nil)==-5727.0)",
+      "returns": [
+        [
+          "integer",
+          4294961569
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false))==1 and p:GetAttackRatingBonus(false)==-5727.0)",
+      "returns": [
+        [
+          "integer",
+          4294961569
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true))==1 and p:GetAttackRatingBonus(true)==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.0))==1 and p:GetAttackRatingBonus(0.0)==-5727.0)",
+      "returns": [
+        [
+          "integer",
+          4294961569
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-0.0))==1 and p:GetAttackRatingBonus(-0.0)==-5727.0)",
+      "returns": [
+        [
+          "integer",
+          4294961569
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(1.0))==1 and p:GetAttackRatingBonus(1.0)==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-1.0))==1 and p:GetAttackRatingBonus(-1.0)==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.25))==1 and p:GetAttackRatingBonus(0.25)==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((0/0)))==1 and p:GetAttackRatingBonus((0/0))==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((1/0)))==1 and p:GetAttackRatingBonus((1/0))==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false,true))==1 and p:GetAttackRatingBonus(false,true)==-5727.0)",
+      "returns": [
+        [
+          "integer",
+          4294961569
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true,nil))==1 and p:GetAttackRatingBonus(true,nil)==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(nil))==1 and p:GetDamageBonus(nil)==25686.0)",
+      "returns": [
+        [
+          "integer",
+          25686
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false))==1 and p:GetDamageBonus(false)==25686.0)",
+      "returns": [
+        [
+          "integer",
+          25686
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true))==1 and p:GetDamageBonus(true)==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.0))==1 and p:GetDamageBonus(0.0)==25686.0)",
+      "returns": [
+        [
+          "integer",
+          25686
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-0.0))==1 and p:GetDamageBonus(-0.0)==25686.0)",
+      "returns": [
+        [
+          "integer",
+          25686
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(1.0))==1 and p:GetDamageBonus(1.0)==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-1.0))==1 and p:GetDamageBonus(-1.0)==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.25))==1 and p:GetDamageBonus(0.25)==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((0/0)))==1 and p:GetDamageBonus((0/0))==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((1/0)))==1 and p:GetDamageBonus((1/0))==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false,true))==1 and p:GetDamageBonus(false,true)==25686.0)",
+      "returns": [
+        [
+          "integer",
+          25686
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true,nil))==1 and p:GetDamageBonus(true,nil)==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:HasShield())==1 and p:HasShield()==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(nil))==1 and p:HasShield(nil)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false))==1 and p:HasShield(false)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true))==1 and p:HasShield(true)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.0))==1 and p:HasShield(0.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-0.0))==1 and p:HasShield(-0.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(1.0))==1 and p:HasShield(1.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-1.0))==1 and p:HasShield(-1.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.25))==1 and p:HasShield(0.25)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((0/0)))==1 and p:HasShield((0/0))==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((1/0)))==1 and p:HasShield((1/0))==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false,true))==1 and p:HasShield(false,true)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 1,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true,nil))==1 and p:HasShield(true,nil)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(nil))==1 and p:GetCritRatingBonus(nil)==14750.0)",
+      "returns": [
+        [
+          "integer",
+          14750
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false))==1 and p:GetCritRatingBonus(false)==14750.0)",
+      "returns": [
+        [
+          "integer",
+          14750
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true))==1 and p:GetCritRatingBonus(true)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.0))==1 and p:GetCritRatingBonus(0.0)==14750.0)",
+      "returns": [
+        [
+          "integer",
+          14750
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-0.0))==1 and p:GetCritRatingBonus(-0.0)==14750.0)",
+      "returns": [
+        [
+          "integer",
+          14750
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(1.0))==1 and p:GetCritRatingBonus(1.0)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-1.0))==1 and p:GetCritRatingBonus(-1.0)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.25))==1 and p:GetCritRatingBonus(0.25)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((0/0)))==1 and p:GetCritRatingBonus((0/0))==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((1/0)))==1 and p:GetCritRatingBonus((1/0))==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false,true))==1 and p:GetCritRatingBonus(false,true)==14750.0)",
+      "returns": [
+        [
+          "integer",
+          14750
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true,nil))==1 and p:GetCritRatingBonus(true,nil)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(nil))==1 and p:GetAttackRatingBonus(nil)==-5727.0)",
+      "returns": [
+        [
+          "integer",
+          4294961569
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false))==1 and p:GetAttackRatingBonus(false)==-5727.0)",
+      "returns": [
+        [
+          "integer",
+          4294961569
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true))==1 and p:GetAttackRatingBonus(true)==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.0))==1 and p:GetAttackRatingBonus(0.0)==-5727.0)",
+      "returns": [
+        [
+          "integer",
+          4294961569
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-0.0))==1 and p:GetAttackRatingBonus(-0.0)==-5727.0)",
+      "returns": [
+        [
+          "integer",
+          4294961569
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(1.0))==1 and p:GetAttackRatingBonus(1.0)==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-1.0))==1 and p:GetAttackRatingBonus(-1.0)==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.25))==1 and p:GetAttackRatingBonus(0.25)==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((0/0)))==1 and p:GetAttackRatingBonus((0/0))==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((1/0)))==1 and p:GetAttackRatingBonus((1/0))==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false,true))==1 and p:GetAttackRatingBonus(false,true)==-5727.0)",
+      "returns": [
+        [
+          "integer",
+          4294961569
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true,nil))==1 and p:GetAttackRatingBonus(true,nil)==-21565.0)",
+      "returns": [
+        [
+          "integer",
+          4294945731
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(nil))==1 and p:GetDamageBonus(nil)==25686.0)",
+      "returns": [
+        [
+          "integer",
+          25686
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false))==1 and p:GetDamageBonus(false)==25686.0)",
+      "returns": [
+        [
+          "integer",
+          25686
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true))==1 and p:GetDamageBonus(true)==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.0))==1 and p:GetDamageBonus(0.0)==25686.0)",
+      "returns": [
+        [
+          "integer",
+          25686
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-0.0))==1 and p:GetDamageBonus(-0.0)==25686.0)",
+      "returns": [
+        [
+          "integer",
+          25686
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(1.0))==1 and p:GetDamageBonus(1.0)==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-1.0))==1 and p:GetDamageBonus(-1.0)==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.25))==1 and p:GetDamageBonus(0.25)==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((0/0)))==1 and p:GetDamageBonus((0/0))==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((1/0)))==1 and p:GetDamageBonus((1/0))==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false,true))==1 and p:GetDamageBonus(false,true)==25686.0)",
+      "returns": [
+        [
+          "integer",
+          25686
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true,nil))==1 and p:GetDamageBonus(true,nil)==9848.0)",
+      "returns": [
+        [
+          "integer",
+          9848
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:HasShield())==1 and p:HasShield()==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(nil))==1 and p:HasShield(nil)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false))==1 and p:HasShield(false)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true))==1 and p:HasShield(true)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.0))==1 and p:HasShield(0.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-0.0))==1 and p:HasShield(-0.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(1.0))==1 and p:HasShield(1.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-1.0))==1 and p:HasShield(-1.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.25))==1 and p:HasShield(0.25)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((0/0)))==1 and p:HasShield((0/0))==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((1/0)))==1 and p:HasShield((1/0))==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false,true))==1 and p:HasShield(false,true)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 0,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true,nil))==1 and p:HasShield(true,nil)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(nil))==1 and p:GetCritRatingBonus(nil)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false))==1 and p:GetCritRatingBonus(false)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true))==1 and p:GetCritRatingBonus(true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.0))==1 and p:GetCritRatingBonus(0.0)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-0.0))==1 and p:GetCritRatingBonus(-0.0)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(1.0))==1 and p:GetCritRatingBonus(1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(-1.0))==1 and p:GetCritRatingBonus(-1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(0.25))==1 and p:GetCritRatingBonus(0.25)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((0/0)))==1 and p:GetCritRatingBonus((0/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus((1/0)))==1 and p:GetCritRatingBonus((1/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(false,true))==1 and p:GetCritRatingBonus(false,true)==-1088.0)",
+      "returns": [
+        [
+          "integer",
+          4294966208
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetCritRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetCritRatingBonus(true,nil))==1 and p:GetCritRatingBonus(true,nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(nil))==1 and p:GetAttackRatingBonus(nil)==-5731.0)",
+      "returns": [
+        [
+          "integer",
+          4294961565
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false))==1 and p:GetAttackRatingBonus(false)==-5731.0)",
+      "returns": [
+        [
+          "integer",
+          4294961565
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true))==1 and p:GetAttackRatingBonus(true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.0))==1 and p:GetAttackRatingBonus(0.0)==-5731.0)",
+      "returns": [
+        [
+          "integer",
+          4294961565
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-0.0))==1 and p:GetAttackRatingBonus(-0.0)==-5731.0)",
+      "returns": [
+        [
+          "integer",
+          4294961565
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(1.0))==1 and p:GetAttackRatingBonus(1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(-1.0))==1 and p:GetAttackRatingBonus(-1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(0.25))==1 and p:GetAttackRatingBonus(0.25)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((0/0)))==1 and p:GetAttackRatingBonus((0/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus((1/0)))==1 and p:GetAttackRatingBonus((1/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(false,true))==1 and p:GetAttackRatingBonus(false,true)==-5731.0)",
+      "returns": [
+        [
+          "integer",
+          4294961565
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetAttackRatingBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetAttackRatingBonus(true,nil))==1 and p:GetAttackRatingBonus(true,nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus())==0)",
+      "returns": []
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(nil))==1 and p:GetDamageBonus(nil)==-14467.0)",
+      "returns": [
+        [
+          "integer",
+          4294952829
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false))==1 and p:GetDamageBonus(false)==-14467.0)",
+      "returns": [
+        [
+          "integer",
+          4294952829
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true))==1 and p:GetDamageBonus(true)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.0))==1 and p:GetDamageBonus(0.0)==-14467.0)",
+      "returns": [
+        [
+          "integer",
+          4294952829
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-0.0))==1 and p:GetDamageBonus(-0.0)==-14467.0)",
+      "returns": [
+        [
+          "integer",
+          4294952829
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(1.0))==1 and p:GetDamageBonus(1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(-1.0))==1 and p:GetDamageBonus(-1.0)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(0.25))==1 and p:GetDamageBonus(0.25)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((0/0)))==1 and p:GetDamageBonus((0/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus((1/0)))==1 and p:GetDamageBonus((1/0))==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(false,true))==1 and p:GetDamageBonus(false,true)==-14467.0)",
+      "returns": [
+        [
+          "integer",
+          4294952829
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "GetDamageBonus",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:GetDamageBonus(true,nil))==1 and p:GetDamageBonus(true,nil)==0.0)",
+      "returns": [
+        [
+          "integer",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [],
+      "lua_assertion": "assert(select('#',p:HasShield())==1 and p:HasShield()==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(nil))==1 and p:HasShield(nil)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false))==1 and p:HasShield(false)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true))==1 and p:HasShield(true)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.0))==1 and p:HasShield(0.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-0.0))==1 and p:HasShield(-0.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(1.0))==1 and p:HasShield(1.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(-1.0))==1 and p:HasShield(-1.0)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(0.25))==1 and p:HasShield(0.25)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((0/0)))==1 and p:HasShield((0/0))==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        3
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield((1/0)))==1 and p:HasShield((1/0))==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        1
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(false,true))==1 and p:HasShield(false,true)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    },
+    {
+      "configuration": 2,
+      "set": 1,
+      "method": "HasShield",
+      "argument_tags": [
+        1,
+        0
+      ],
+      "lua_assertion": "assert(select('#',p:HasShield(true,nil))==1 and p:HasShield(true,nil)==false)",
+      "returns": [
+        [
+          "boolean",
+          0
+        ]
+      ]
+    }
+  ],
+  "scope": "Actual original three bonus callbacks, HasShield, numeric/boolean/nil Value.getBool and native inventory/property bodies execute on bounded synthetic equipment and property fixtures. ReturnValues pushes are capture boundaries; int-to-Lua float32 conversion is explicit. These emitted counts/typed values agree with the owned source Lua userdata. Nonzero numbers (including NaN/infinity), zero, nil, missing/extra args and both equipment sets are covered. Original Lua interpreter, string/pointer coercion, inventory and Character lifecycle, combat/gameplay are not executed."
+}

@@ -27,6 +27,7 @@ public final class MainActivity extends Activity {
     private static final int SCRIPT = 5;
     private static final int PROPERTIES = 6;
     private static final int CLASSES = 7;
+    private static final int ITEMS = 8;
     private GLSurfaceView surface;
     private TextView status;
     private TextView scriptStatus;
@@ -51,6 +52,7 @@ public final class MainActivity extends Activity {
     private static native String executeScript(long session, byte[] source);
     private static native String importProperties(long session, byte[] data);
     private static native String importClasses(long session, byte[] data);
+    private static native String importItems(long session, byte[] data);
     private static native String loadTexture(byte[] data);
     private static native String loadAnimation(byte[] data);
     private static native String loadBlendAnimation(byte[] data);
@@ -202,6 +204,10 @@ public final class MainActivity extends Activity {
         classes.setText("Import character classes");
         classes.setOnClickListener(view -> pick(CLASSES));
         layout.addView(classes);
+        Button items = new Button(this);
+        items.setText("Import item data");
+        items.setOnClickListener(view -> pick(ITEMS));
+        layout.addView(items);
         startScripts();
         surface = new GLSurfaceView(this);
         surface.setEGLContextClientVersion(2);
@@ -263,6 +269,13 @@ public final class MainActivity extends Activity {
                 scriptStatus.setText(importClasses(scriptSession,
                     readLimited(getContentResolver().openInputStream(data.getData()), 4 * 1024 * 1024)));
             } catch (Exception error) { scriptStatus.setText("Classes rejected: " + error.getMessage()); }
+            return;
+        }
+        if (request == ITEMS) {
+            try {
+                scriptStatus.setText(importItems(scriptSession,
+                    readLimited(getContentResolver().openInputStream(data.getData()), 4 * 1024 * 1024)));
+            } catch (Exception error) { scriptStatus.setText("Items rejected: " + error.getMessage()); }
             return;
         }
         if (request != BRES && request != TEXTURE && request != ANIMATION && request != BLEND) return;
