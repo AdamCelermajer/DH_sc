@@ -1,0 +1,19 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "source_sha256": {
+    "completion.cpp": "60a19356a71caff810b51e184ebdf1b8e34a5de73ff0548197a48e89b38fb69e",
+    "completion.hpp": "a99fb7a02e3d780d07a2f7c3f1f49952a0b9574f972767f4839ce97ffd1b4f46"
+  },
+  "artifact_sha256": {
+    "completion-host.so": "9d5d083ebbb380c43afb2013a6ef63b99602ae671d6c09fb4475dda684e03a21"
+  },
+  "safety": {
+    "address_sanitizer": true,
+    "undefined_behavior_sanitizer": true,
+    "sequences": 5000,
+    "checks": 10000,
+    "seed": 20261002,
+    "test_sha256": "95384c133d34db0b24384c3c2644f3cc290f10055c2c7eb2f7167cd512f615e1"
+  }
+}

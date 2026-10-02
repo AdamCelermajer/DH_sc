@@ -1,5 +1,12 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Original completion dispatch:** Callback registration/checking passed 384
+setters, 768 checks and 144 controlled dispatches against original ARM32 and
+compiled ARM64/host source. Deferred notification, field changes during callback
+and the final pending clear passed, as did 10,000 sanitizer checks. Original
+game callbacks and Android integration remain open.
+See [completion evidence](port/animation-completion/README.md).
+
 **Original animation movement:** Explicit-position movement delta/reset passed
 800 resets, 4,000 calculations and 100,000 sanitizer operations. Source preserves
 the original repeated-timestamp behavior and position history. It is standalone;

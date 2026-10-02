@@ -29,6 +29,13 @@ valid/corrupted operations passed sanitizers. This standalone component has
 no root-track sampling, scene movement or collision integration yet.
 See [movement scope](../port/animation-motion/README.md).
 
+**Original completion dispatch:** Standalone callback registration/checking
+passed 384 setters, 768 checks and 144 controlled callback dispatches against
+original ARM32 and compiled ARM64/host source, plus 10,000 sanitizer checks.
+It preserves deferred notification and clearing after field changes during
+callback. The actual character/game callback bodies and triggered events
+remain unfinished. See [completion scope](../port/animation-completion/README.md).
+
 **Complete-cache note:** a separately supplied local cache ZIP is valid and contains 6,833 files, including the previously truncated WAV. See [COMPLETE-CACHE.md](COMPLETE-CACHE.md). The original recovery counts below document the earlier ten-part partial input; newer module checks explicitly identify their full-cache scope.
 
 This status combines this Git checkout with results from the separate earlier recovery package. A selected, hash-verified import makes the repaired Android Java source, reconstructed JNI component, recovery tools and reports browsable in Git. Later exact imports add 44 native pseudocode/index files, 721 raw Java/smali files, 3,625 native assembly files and 71 symbol records, each with per-file hashes. The compressed native bundles remain external. Exact copies of the 2,164 shader/configuration resources and 48 native DWARF/debug exports are now in Git with unchanged historical provenance; see [the text/debug import](RECOVERED-TEXT-AND-DEBUG.md). The archived pseudocode and assembly are not a compilable engine; the Android 17 gameplay APK still depends on the original ARM32 engine. See [the import ledger](RECOVERY-SOURCE-IMPORT.md).
