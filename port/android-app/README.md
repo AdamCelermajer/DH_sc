@@ -1,8 +1,17 @@
 # Android 17 source renderer milestone
 
-## Current shared-script APK milestone
+## Current property data APK milestone
 
-The current source APK is 730,019 bytes, SHA-256
+The current source APK is 775,075 bytes, SHA-256
+`31c8e586004ce0932cc9853ec6a03b3140c6752f9b29d4ebcc1c16cfc3e61be7`.
+It imports character property data and exposes owned typed property state to
+scripts. Data replacement/rejection/recovery, shared scripts and character
+animation checks pass on both Android 17 page sizes. See [instructions and
+evidence](PROPERTY-INTEGRATION.md). Full source gameplay remains unfinished.
+
+## Earlier shared-script APK milestone
+
+The earlier source APK is 730,019 bytes, SHA-256
 `ffcb32a34ed5de300ca05420bfb67637a89e64264b581a855f918a1e79d8b211`.
 Three exact recovered shared scripts now initialize in an activity-owned source
 Lua runtime. Script imports, budget/error rejection and recovery pass in the

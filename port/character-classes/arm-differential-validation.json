@@ -1,0 +1,125 @@
+{
+  "complete_game": false,
+  "scripts_executed": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "host_sha256": "a2f10c30f09170d24e79ed002ae0f6f1b144a09ee3208d1aec08d954aedbf5ac",
+  "arm64_sha256": "4cf5fad7a6b7495bf18247c2dda50ca6826efe7fd95fb2ec078f19a7c800a54b",
+  "test_sha256": "e90eb7098ca890e91cf687a5faab22649d480eafc0f1d484d54ffa72308e36cf",
+  "class_cache_sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+  "property_cache_sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+  "class_count": 260,
+  "rule_count": 1659,
+  "cases": {
+    "actual classes": 2600,
+    "synthetic opcode/overflow/early return": 620,
+    "invalid class original no-op": 50
+  },
+  "comparisons": 3270,
+  "mismatches": 0,
+  "function_entries": {
+    "0x3e2e20": 6010,
+    "0x3e3014": 2620,
+    "0x3e2d4c": 63880,
+    "0x3dfe60": 25552,
+    "0x3e2bd0": 100,
+    "0x3e2d04": 720,
+    "0x3e2bdc": 830,
+    "0x3e2c78": 580,
+    "0x3e2c10": 190,
+    "0x3e2cc0": 60,
+    "0x3e2bcc": 60
+  },
+  "function_evidence": [
+    {
+      "elf_address": "0x3e2e20",
+      "size": 500,
+      "symbol": "_ZN14CharProperties10_LoadClassERN7Structs19CharacterPropertiesEib",
+      "sha256": "ea1c47f34e1c1c2359e4f86125017701d87ff2e1ed7bb1fab94c3f0aa78135d1"
+    },
+    {
+      "elf_address": "0x3e3014",
+      "size": 100,
+      "symbol": "_ZN14CharProperties6_GroupERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "sha256": "f340adc1e89a696ba95bda938d47b8df946edbf1deef4b99960f99218871d70b"
+    },
+    {
+      "elf_address": "0x3e2d4c",
+      "size": 212,
+      "symbol": "_ZN14CharProperties28_LinearWithPropPlusBaseValueERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "sha256": "b8b7d6bf3cda3aaddb025068ed61f290e0e4332b76579916dcce40369fa2078a"
+    },
+    {
+      "elf_address": "0x3e2d04",
+      "size": 72,
+      "symbol": "_ZN14CharProperties7_MinMaxERN7Structs19CharacterPropertiesEPNS0_9ClassFuncE",
+      "sha256": "12740065afca70d23b09d4eb5016d9e2007d80ab511526892dd8bbd3338b5e3e"
+    },
+    {
+      "elf_address": "0x3e2cc0",
+      "size": 68,
+      "symbol": "_ZN14CharProperties13_AddOtherPropERN7Structs19CharacterPropertiesEPNS0_9ClassFuncE",
+      "sha256": "1195a7165b8a822259f07c2059fd50c905d3744f604b557736c972a62e73ea2b"
+    },
+    {
+      "elf_address": "0x3e2c78",
+      "size": 72,
+      "symbol": "_ZN14CharProperties20_ScaleWithPercentageERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "sha256": "ec11cd1b9ac448185aef5199dd40e586efab687067585fe994a4efbe719099f9"
+    },
+    {
+      "elf_address": "0x3e2c10",
+      "size": 104,
+      "symbol": "_ZN14CharProperties27_ScaleWithPercentageForBuffERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "sha256": "415a1d82f69aa92dbd58a807cc83625a88de0bbc37e4be796b25135f15085463"
+    },
+    {
+      "elf_address": "0x3e2bdc",
+      "size": 52,
+      "symbol": "_ZN14CharProperties9_AddValueERN7Structs19CharacterPropertiesEPNS0_9ClassFuncE",
+      "sha256": "e05c7d102a6deebf1d4149b9f3921913ef6c450223a5377fbc808a35424b4ca6"
+    },
+    {
+      "elf_address": "0x3e2bcc",
+      "size": 4,
+      "symbol": "_ZN14CharProperties17_ApplyGroupOnlyIfERN7Structs19CharacterPropertiesEPNS0_9ClassFuncE",
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "elf_address": "0x3e2bd0",
+      "size": 12,
+      "symbol": "_ZN14CharProperties7_SetOIDERN7Structs19CharacterPropertiesEPNS0_9ClassFuncE",
+      "sha256": "d513bf6d3b2248e62bc0249b6d94ad9d7dd7a4e0cfcbab6d21fa2a2bae4f7404"
+    },
+    {
+      "elf_address": "0x3dfe60",
+      "size": 1972,
+      "symbol": "_ZN14CharProperties14RecalcPropertyEi",
+      "sha256": "9df07709d1780dd22c056b6bdca240de845b4c118b7b4b3d6719595193ec9030"
+    },
+    {
+      "elf_address": "0x4b4484",
+      "size": 332,
+      "symbol": "_ZN6Arrays10ClassTable4readEP11IStreamBase",
+      "sha256": "09589423e57660b21abad588fe24a4a25ad9a03723b28adefeea8110ff0936e8"
+    },
+    {
+      "elf_address": "0x4dcfec",
+      "size": 364,
+      "symbol": "_ZN7Structs13ClassFuncList4readEP11IStreamBase",
+      "sha256": "946f3bc370840dd0a2a535e40f85132aa0dac4f809dccf94a6eca9d34336bb0d"
+    },
+    {
+      "elf_address": "0x4f19dc",
+      "size": 484,
+      "symbol": "_ZN7Structs9ClassFunc4readEP11IStreamBase",
+      "sha256": "3b6482b8333fefbc518e244dce369d043cb39170c959243dfc05ce096fc019b2"
+    }
+  ],
+  "whole_four_sheet_and_temporary_comparison": true,
+  "input_preservation": true,
+  "original_reserved_fields_preserved": true,
+  "output_guards": true,
+  "stack_restoration": true,
+  "scope": "Actual original class application, group traversal, linear/clamp/scale/add/set helpers and property recalculation execute with empty buffs. All classes across five destination sheets and both final-source flags, plus authored opcode/overflow/early-return/no-op fixtures. Original allocation/stream/copy dependencies are models. Cyclic original classes, unsafe property indices, buff-inclusive application, original Character construction, complete derived-stat lifecycle, Lua class binding and APK integration are untested. Source ARM64 executes in Unicorn, not hardware."
+}

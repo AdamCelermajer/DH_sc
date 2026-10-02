@@ -1,5 +1,13 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Derived property class rules:** Original readers recover 260 classes / 1,659
+rules. Original application, group traversal and calculation bodies match source
+ARM64/host in 3,270 cases across all four state sheets and temporary storage.
+Strict sanitizers pass 12,000 safety iterations. This standalone checkpoint uses
+empty buffs; complete Character construction, class lifecycle, Lua class binding,
+APK integration and full gameplay remain unfinished. See [source and evidence](port/character-classes/README.md).
+Earlier entries retain their checkpoint scopes and identities.
+
 **Typed script property state in Android:** Numeric/boolean `GetProp`/`SetProp`
 matches original ARM32 and source ARM64/host in 1,586 callback checks. Owned Lua
 userdata checks all 448 real records / 100,352 composed fields on host, strict

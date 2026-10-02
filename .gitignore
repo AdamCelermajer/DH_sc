@@ -8,6 +8,7 @@ port/character-properties/build/
 port/property-composition/build/
 port/character-state/build/
 port/lua-character/build/
+port/character-classes/build/
 *.py[cod]
 port/android-app/build/
 port/nativeinterface/build/
