@@ -1,0 +1,49 @@
+{
+  "scope": "source-built rotatable 3D static scene preview; no original engine or gameplay",
+  "apk": {
+    "path": "port/android-app/build/dh2-source-renderer-debug.apk",
+    "sha256": "bafa791956c50cd58f19d947df416ece7c29f2113b6cd4c8b13589979f970d99",
+    "bytes": 184864,
+    "installed_base_apk_sha256": "bafa791956c50cd58f19d947df416ece7c29f2113b6cd4c8b13589979f970d99"
+  },
+  "android_17_4k": {
+    "serial": "emulator-5560",
+    "api": "37.0",
+    "os_release": "17",
+    "page_size": 4096,
+    "abi": "x86_64",
+    "package": "local.dh2.sourceviewer",
+    "input_bres": "data/3d/modules/void_maze/void_maze.bdae",
+    "input_bres_sha256": "7b67b90b65b41de96a5bd5a9a9d9d8f40cdd4425e806057a28ee5299ed2840ba",
+    "input_bres_bytes": 199300,
+    "input_texture": "data/3d/textures/env_voidmaze.tga",
+    "input_texture_sha256": "aac2c1923d2b9add49d6d8c32211d0af9d1f0a9e022530d551d1dc65d2703c20",
+    "scene_status": "Static scene: 77 draws, 3140 vertices, 4695 indices. First diffuse: env_voidmaze.tga. Import that texture to render it.",
+    "texture_status": "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene.",
+    "observed_image": "textured stone maze geometry visible in oblique 3D view; touch drag changed view angle",
+    "process_alive_after_import": true,
+    "untextured_screenshot_sha256": "2d7a96fa3382735d871bb9137494d48352b68a2de9adc0520f7bf70ed9f5e579",
+    "textured_screenshot_sha256": "d35eeaac328ee34c44d451e5713b523ee1df131f1ff3db0543fb92dd4146e746",
+    "rotated_screenshot_sha256": "f18f64515de2ce8bade4cce03a09470d6fb9b541ab28173f5f530eb59396f88a"
+  },
+  "regression": {
+    "candle_bres_sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6",
+    "candle_texture_sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad",
+    "scene_draws": 2,
+    "scene_vertices": 8,
+    "scene_indices": 12,
+    "decoded_texture": [1024, 1024],
+    "textured_screenshot_sha256": "431c40cc6c15efc2d80dcb85aca5d0b255e8f1726abf0e57b68fc20dcb982841"
+  },
+  "host_scene_buffer_check": {
+    "candle_draws": 2,
+    "void_maze_draws": 77,
+    "void_maze_vertices": 3140,
+    "void_maze_indices": 4695,
+    "world_xyz_preserved": true,
+    "private_inputs_unchanged": true
+  },
+  "new_apk_16k_runtime_tested": false,
+  "arm64_runtime_tested": false,
+  "gameplay_tested": false
+}

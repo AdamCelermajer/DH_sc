@@ -17,7 +17,7 @@ struct Context {
     SceneMesh* output;
     const dh2::resources::BresView* image;
     SceneMeshError error;
-    float min_x, max_x, min_z, max_z;
+    float minimum[3], maximum[3];
 };
 
 void first_diffuse(const dh2::draw::Command* draw, Context& context) {
@@ -82,22 +82,28 @@ bool append_draw(const dh2::draw::Command* draw, void* user) {
         }
         const float x = ((m[0] * position[0] + m[4] * position[1]) +
                          m[8] * position[2]) + m[12];
+        const float y = ((m[1] * position[0] + m[5] * position[1]) +
+                         m[9] * position[2]) + m[13];
         const float z = ((m[2] * position[0] + m[6] * position[1]) +
                          m[10] * position[2]) + m[14];
-        if (!std::isfinite(x) || !std::isfinite(z) ||
+        if (!std::isfinite(x) || !std::isfinite(y) || !std::isfinite(z) ||
             !std::isfinite(texcoord[0]) || !std::isfinite(texcoord[1])) {
             context.error = SceneMeshError::unsupported;
             return false;
         }
-        const auto offset = std::size_t(base + i) * 4;
+        const auto offset = std::size_t(base + i) * 5;
         output.vertices[offset] = x;
-        output.vertices[offset + 1] = z;
-        output.vertices[offset + 2] = texcoord[0];
-        output.vertices[offset + 3] = texcoord[1];
-        if (x < context.min_x) context.min_x = x;
-        if (x > context.max_x) context.max_x = x;
-        if (z < context.min_z) context.min_z = z;
-        if (z > context.max_z) context.max_z = z;
+        output.vertices[offset + 1] = y;
+        output.vertices[offset + 2] = z;
+        output.vertices[offset + 3] = texcoord[0];
+        output.vertices[offset + 4] = texcoord[1];
+        const float coordinates[3] = {x, y, z};
+        for (int axis = 0; axis < 3; ++axis) {
+            if (coordinates[axis] < context.minimum[axis])
+                context.minimum[axis] = coordinates[axis];
+            if (coordinates[axis] > context.maximum[axis])
+                context.maximum[axis] = coordinates[axis];
+        }
     }
     for (std::uint32_t i = 0; i < primitive.index_count; ++i) {
         std::uint32_t index = 0;
@@ -129,7 +135,7 @@ extern "C" SceneMeshError dh2_viewer_scene_mesh(
     *output = {};
     if (!image || !image->bytes) return SceneMeshError::argument;
     output->vertices = static_cast<float*>(std::malloc(
-        std::size_t(max_vertices) * 4 * sizeof(float)));
+        std::size_t(max_vertices) * 5 * sizeof(float)));
     output->indices = static_cast<std::uint16_t*>(std::malloc(
         std::size_t(max_indices) * sizeof(std::uint16_t)));
     if (!output->vertices || !output->indices) {
@@ -137,7 +143,8 @@ extern "C" SceneMeshError dh2_viewer_scene_mesh(
         return SceneMeshError::allocation;
     }
     Context context{output, image, SceneMeshError::ok,
-                    INFINITY, -INFINITY, INFINITY, -INFINITY};
+                    {INFINITY, INFINITY, INFINITY},
+                    {-INFINITY, -INFINITY, -INFINITY}};
     dh2::draw::Stats stats{};
     const auto walked = dh2_static_scene_draws(&stats, image, append_draw,
                                                 &context, 20000, max_commands);
@@ -154,18 +161,22 @@ extern "C" SceneMeshError dh2_viewer_scene_mesh(
         dh2_viewer_scene_mesh_free(output);
         return SceneMeshError::no_draw;
     }
-    const auto dx = context.max_x - context.min_x;
-    const auto dz = context.max_z - context.min_z;
-    const auto span = dx > dz ? dx : dz;
+    float span = 0.0f;
+    for (int axis = 0; axis < 3; ++axis) {
+        const auto extent = context.maximum[axis] - context.minimum[axis];
+        if (extent > span) span = extent;
+    }
     if (!std::isfinite(span) || !(span > 0)) {
         dh2_viewer_scene_mesh_free(output);
         return SceneMeshError::unsupported;
     }
-    const auto cx = (context.min_x + context.max_x) * 0.5f;
-    const auto cz = (context.min_z + context.max_z) * 0.5f;
+    float center[3]{};
+    for (int axis = 0; axis < 3; ++axis)
+        center[axis] = (context.minimum[axis] + context.maximum[axis]) * 0.5f;
     for (std::uint32_t i = 0; i < output->vertex_count; ++i) {
-        output->vertices[4 * i] = (output->vertices[4 * i] - cx) * 1.5f / span;
-        output->vertices[4 * i + 1] = (output->vertices[4 * i + 1] - cz) * 1.5f / span;
+        for (int axis = 0; axis < 3; ++axis)
+            output->vertices[5 * i + axis] =
+                (output->vertices[5 * i + axis] - center[axis]) / span;
     }
     return SceneMeshError::ok;
 }

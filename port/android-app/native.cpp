@@ -14,20 +14,29 @@
 
 namespace {
 pthread_mutex_t guard = PTHREAD_MUTEX_INITIALIZER;
-float* vertices = nullptr; // x, y, u, v per vertex
+float* vertices = nullptr; // normalized world x, y, z, u, v per vertex
 std::uint16_t* indices = nullptr;
 std::uint32_t vertex_count = 0, index_count = 0;
 std::uint8_t* rgba = nullptr;
 int texture_width = 0, texture_height = 0;
 bool texture_dirty = false;
 GLuint program = 0, texture = 0;
-GLint position_loc = -1, uv_loc = -1, sampler_loc = -1, has_texture_loc = -1, aspect_loc = -1;
+GLint position_loc = -1, uv_loc = -1, sampler_loc = -1, has_texture_loc = -1;
+GLint aspect_loc = -1, yaw_loc = -1, pitch_loc = -1, zoom_loc = -1;
 int screen_width = 1, screen_height = 1;
+float yaw = 0.6f, pitch = 0.9f, zoom = 1.0f;
 
 constexpr char vertex_shader[] =
-    "attribute vec2 aPosition; attribute vec2 aUv; varying vec2 vUv;"
-    "uniform float uAspect;"
-    "void main(){gl_Position=vec4(aPosition.x*uAspect,aPosition.y,0.0,1.0);vUv=aUv;}";
+    "attribute vec3 aPosition; attribute vec2 aUv; varying vec2 vUv;"
+    "uniform float uAspect; uniform float uYaw; uniform float uPitch; uniform float uZoom;"
+    "void main(){"
+    "float cy=cos(uYaw),sy=sin(uYaw),cp=cos(uPitch),sp=sin(uPitch);"
+    "vec3 turned=vec3(cy*aPosition.x+sy*aPosition.z,aPosition.y,"
+    "-sy*aPosition.x+cy*aPosition.z);"
+    "vec3 viewed=vec3(turned.x,cp*turned.y-sp*turned.z,"
+    "sp*turned.y+cp*turned.z);"
+    "gl_Position=vec4(viewed.x*uAspect*uZoom,viewed.y*uZoom,"
+    "-viewed.z*0.5,1.0);vUv=aUv;}";
 constexpr char fragment_shader[] =
     "precision mediump float; varying vec2 vUv; uniform sampler2D uTexture;"
     "uniform float uHasTexture; void main(){"
@@ -129,6 +138,19 @@ Java_local_dh2_sourceviewer_MainActivity_loadTexture(JNIEnv* env, jclass, jbyteA
 }
 
 extern "C" JNIEXPORT void JNICALL
+Java_local_dh2_sourceviewer_MainActivity_setView(JNIEnv*, jclass,
+                                                 jfloat next_yaw, jfloat next_pitch,
+                                                 jfloat next_zoom) {
+    if (!std::isfinite(next_yaw) || !std::isfinite(next_pitch) ||
+        !std::isfinite(next_zoom)) return;
+    pthread_mutex_lock(&guard);
+    yaw = next_yaw;
+    pitch = next_pitch < 0.15f ? 0.15f : next_pitch > 1.5f ? 1.5f : next_pitch;
+    zoom = next_zoom < 0.4f ? 0.4f : next_zoom > 4.0f ? 4.0f : next_zoom;
+    pthread_mutex_unlock(&guard);
+}
+
+extern "C" JNIEXPORT void JNICALL
 Java_local_dh2_sourceviewer_MainActivity_surfaceCreated(JNIEnv*, jclass) {
     GLuint vs = compile(GL_VERTEX_SHADER, vertex_shader);
     GLuint fs = compile(GL_FRAGMENT_SHADER, fragment_shader);
@@ -144,6 +166,11 @@ Java_local_dh2_sourceviewer_MainActivity_surfaceCreated(JNIEnv*, jclass) {
     sampler_loc = glGetUniformLocation(program, "uTexture");
     has_texture_loc = glGetUniformLocation(program, "uHasTexture");
     aspect_loc = glGetUniformLocation(program, "uAspect");
+    yaw_loc = glGetUniformLocation(program, "uYaw");
+    pitch_loc = glGetUniformLocation(program, "uPitch");
+    zoom_loc = glGetUniformLocation(program, "uZoom");
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -165,11 +192,11 @@ Java_local_dh2_sourceviewer_MainActivity_surfaceChanged(JNIEnv*, jclass, jint wi
 extern "C" JNIEXPORT void JNICALL
 Java_local_dh2_sourceviewer_MainActivity_draw(JNIEnv*, jclass) {
     glClearColor(0.035f, 0.055f, 0.085f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (!program) return;
     static const float placeholder[] = {
-        -0.5f,-0.5f,0,1,  0.5f,-0.5f,1,1,
-         0.5f, 0.5f,1,0, -0.5f, 0.5f,0,0
+        -0.5f,-0.5f,0,0,1,  0.5f,-0.5f,0,1,1,
+         0.5f, 0.5f,0,1,0, -0.5f, 0.5f,0,0,0
     };
     static const std::uint16_t placeholder_indices[] = {0,1,2,2,3,0};
     pthread_mutex_lock(&guard);
@@ -185,11 +212,16 @@ Java_local_dh2_sourceviewer_MainActivity_draw(JNIEnv*, jclass) {
     glUniform1i(sampler_loc, 0);
     glUniform1f(has_texture_loc, rgba ? 1.0f : 0.0f);
     glUniform1f(aspect_loc, static_cast<float>(screen_height) / screen_width);
+    glUniform1f(yaw_loc, yaw);
+    glUniform1f(pitch_loc, pitch);
+    const float aspect_fit = screen_width < screen_height
+        ? static_cast<float>(screen_width) / screen_height : 1.0f;
+    glUniform1f(zoom_loc, 1.2f * aspect_fit * zoom);
     const float* points = vertices ? vertices : placeholder;
     const std::uint16_t* faces = indices ? indices : placeholder_indices;
     const auto count = indices ? index_count : 6U;
-    glVertexAttribPointer(position_loc, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), points);
-    glVertexAttribPointer(uv_loc, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), points + 2);
+    glVertexAttribPointer(position_loc, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), points);
+    glVertexAttribPointer(uv_loc, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), points + 3);
     glEnableVertexAttribArray(position_loc); glEnableVertexAttribArray(uv_loc);
     glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(count), GL_UNSIGNED_SHORT, faces);
     glDisableVertexAttribArray(position_loc); glDisableVertexAttribArray(uv_loc);

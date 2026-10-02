@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -20,9 +21,11 @@ public final class MainActivity extends Activity {
     private static final int TEXTURE = 2;
     private GLSurfaceView surface;
     private TextView status;
+    private float lastX, lastY, yaw = 0.6f, pitch = 0.9f;
 
     private static native String loadBres(byte[] data);
     private static native String loadTexture(byte[] data);
+    private static native void setView(float yaw, float pitch, float zoom);
     private static native void surfaceCreated();
     private static native void surfaceChanged(int width, int height);
     private static native void draw();
@@ -39,7 +42,7 @@ public final class MainActivity extends Activity {
             return insets;
         });
         status = new TextView(this);
-        status.setText("Source renderer ready. Import a BRES scene and its PVRTC texture from your own cache. This is an asset preview, not gameplay.");
+        status.setText("Source renderer ready. Import a BRES scene and its PVRTC texture from your own cache. Drag the preview to rotate it. This is an asset preview, not gameplay.");
         layout.addView(status);
         Button mesh = new Button(this);
         mesh.setText("Import BRES scene");
@@ -51,12 +54,31 @@ public final class MainActivity extends Activity {
         layout.addView(texture);
         surface = new GLSurfaceView(this);
         surface.setEGLContextClientVersion(2);
+        surface.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         surface.setRenderer(new GLSurfaceView.Renderer() {
             @Override public void onSurfaceCreated(GL10 ignored, EGLConfig config) { surfaceCreated(); }
             @Override public void onSurfaceChanged(GL10 ignored, int width, int height) { surfaceChanged(width, height); }
             @Override public void onDrawFrame(GL10 ignored) { draw(); }
         });
         surface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        surface.setOnTouchListener((view, event) -> {
+            if (event.getPointerCount() != 1) return true;
+            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                lastX = event.getX();
+                lastY = event.getY();
+                return true;
+            }
+            if (event.getActionMasked() != MotionEvent.ACTION_MOVE) return true;
+            float x = event.getX(), y = event.getY();
+            yaw += (x - lastX) * 3.0f / Math.max(1, view.getWidth());
+            pitch = Math.max(0.15f, Math.min(1.5f,
+                    pitch + (y - lastY) * 2.0f / Math.max(1, view.getHeight())));
+            lastX = x;
+            lastY = y;
+            setView(yaw, pitch, 1.0f);
+            surface.requestRender();
+            return true;
+        });
         layout.addView(surface, new LinearLayout.LayoutParams(-1, 0, 1));
         setContentView(layout);
         layout.requestApplyInsets();

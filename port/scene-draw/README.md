@@ -23,4 +23,4 @@ python port/scene-draw/tests/run_android.py --adb PATH_TO_ADB \
   --sample PATH_TO_CACHE/files/data/3d/animateddecors/candle_flame.bdae
 ```
 
-Use `.so` for the host library on Linux. Generated binaries and private BRES files stay outside Git. This is a substantial source path toward a scene renderer, but it does not draw pixels or run the game. The Android source renderer still draws one imported primitive using a diagnostic shader; it does not yet consume these scene commands.
+Use `.so` for the host library on Linux. Generated binaries and private BRES files stay outside Git. This module emits checked static descriptors but does not itself draw pixels or run the game. The separate Android source renderer now consumes the descriptors for bounded static scene previews, including a 77-command cached maze sample. It does not run gameplay.

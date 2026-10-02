@@ -11,7 +11,7 @@ enum class SceneMeshError : std::uint32_t {
     ok, argument, allocation, unsupported, limit, scene_walk, no_draw
 };
 struct SceneMesh {
-    float* vertices;          // x, z, u, v per vertex; x/z normalized after walk.
+    float* vertices;          // x, y, z, u, v per vertex; XYZ normalized after walk.
     std::uint16_t* indices;   // Combined triangle list, offset per draw.
     std::uint32_t vertex_count, index_count, draw_commands;
     char first_diffuse_texture[96];
