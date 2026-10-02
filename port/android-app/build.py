@@ -17,6 +17,8 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 SOURCES = [
     HERE / 'native.cpp',
+    HERE / 'world_renderer.cpp',
+    HERE / 'gameplay.cpp',
     HERE / 'scene_buffers.cpp',
     HERE / 'scripts.cpp',
     REPO / 'port/skin-payloads/skin.cpp',
@@ -70,12 +72,54 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--sdk', required=True, type=Path)
     parser.add_argument('--ndk', required=True, type=Path)
+    parser.add_argument('--cache', type=Path, default=REPO.parent / 'cache/files',
+                        help='Unpacked original cache; only encounter assets are bundled')
     args = parser.parse_args()
     sdk, ndk = args.sdk.resolve(), args.ndk.resolve()
     build = HERE / 'build'
     classes, dex, lib = build / 'classes', build / 'dex', build / 'lib'
     for path in (classes, dex, lib):
         path.mkdir(parents=True, exist_ok=True)
+    cache = args.cache.resolve()
+    encounter_paths = {
+        'room.bdae': 'data/3d/modules/void_maze/void_maze.bdae',
+        'floor.tga': 'data/3d/textures/env_voidmaze.tga',
+        'hero.bdae': 'data/3d/characters/prince/prince_low_poly_warrior.bdae',
+        'hero.tga': 'data/3d/textures/prince-warrior.tga',
+        'walk.bdae': 'data/3d/characters/prince/animations/prince_walk_1hand.bdae',
+        'idle.bdae': 'data/3d/characters/prince/animations/prince_idle_shield.bdae',
+        'attack.bdae': 'data/3d/characters/prince/animations/prince_1hand_combo_01.bdae',
+        'properties.bin': 'data/pydata/character_properties_pyarray.bin',
+        'classes.bin': 'data/pydata/character_classes_pyarray.bin',
+        'loot.bin': 'data/pydata/loot_table_pyarray.bin',
+        'powers.bin': 'data/pydata/item_powers_pyarray.bin',
+        'quests.bin': 'data/pydata/v2quests_pyarray.bin',
+    }
+    encounter_assets = {}
+    encounter_manifest = {}
+    for name, relative in encounter_paths.items():
+        source = cache / relative
+        if not source.is_file():
+            raise FileNotFoundError(f'Supply --cache with the unpacked original cache: missing {relative}')
+        encounter_assets['assets/dh2/encounter/' + name] = source
+        encounter_manifest[name] = {'source': relative, 'sha256': sha(source),
+                                    'bytes': source.stat().st_size}
+    constant_sources = [cache / 'data/pydata' / name for name in
+                        ('ai_pycst.bin', 'design_pycst.bin', 'v2quests_pycst.bin')]
+    constant_payloads = [path.read_bytes() for path in constant_sources]
+    if any(len(data) < 4 for data in constant_payloads):
+        raise ValueError('Original encounter constants are incomplete')
+    group_count = sum(struct.unpack_from('<I', data)[0] for data in constant_payloads)
+    merged = build / 'encounter-constants.bin'
+    merged.write_bytes(struct.pack('<I', group_count) + b''.join(data[4:] for data in constant_payloads))
+    encounter_assets['assets/dh2/encounter/constants.bin'] = merged
+    encounter_manifest['constants.bin'] = {'sha256': sha(merged), 'bytes': merged.stat().st_size,
+        'derivation': 'sum little-endian group counts, concatenate complete original group payloads',
+        'sources': [{'source': path.relative_to(cache).as_posix(), 'sha256': sha(path)}
+                    for path in constant_sources]}
+    bundle_manifest = build / 'encounter-assets.json'
+    bundle_manifest.write_text(json.dumps(encounter_manifest, indent=2) + '\n')
+    encounter_assets['assets/dh2/encounter/manifest.json'] = bundle_manifest
     jar = sdk / 'platforms/android-37.2/android.jar'
     if not jar.is_file():
         jar = sdk / 'platforms/android-37.0/android.jar'
@@ -119,13 +163,14 @@ def main() -> None:
             *SOURCES, '-L', directory, '-ldh2lua', '-llog', '-lGLESv2', '-landroid', '-o', output)
         result[abi] = check_elf(output, machine)
         result[abi]['lua_library'] = check_elf(lua_library, machine)
-    java_source = HERE / 'src/local/dh2/sourceviewer/MainActivity.java'
+    java_sources = sorted((HERE / 'src/local/dh2/sourceviewer').glob('*.java'))
     run(javac, '-Xlint:-options', '-source', '8', '-target', '8', '-classpath', jar,
-        '-d', classes, java_source)
-    if (classes / 'local/dh2/sourceviewer/MainActivity.class').stat().st_mtime_ns < java_source.stat().st_mtime_ns:
-        raise RuntimeError('javac did not update MainActivity.class')
+        '-d', classes, *java_sources)
+    for source in java_sources:
+        if (classes / 'local/dh2/sourceviewer' / (source.stem + '.class')).stat().st_mtime_ns < source.stat().st_mtime_ns:
+            raise RuntimeError('javac did not update ' + source.stem + '.class')
     run(tools / 'd8.bat', '--min-api', '26', '--output', dex,
-        *sorted((classes / 'local/dh2/sourceviewer').glob('MainActivity*.class')))
+        *sorted((classes / 'local/dh2/sourceviewer').glob('*.class')))
     base = build / 'base.apk'
     run(tools / 'aapt2.exe', 'link', '--manifest', HERE / 'AndroidManifest.xml',
         '-I', jar, '--min-sdk-version', '26', '--target-sdk-version', '37',
@@ -135,7 +180,7 @@ def main() -> None:
         for abi in result:
             for name in ('libdh2source.so', 'libdh2lua.so'):
                 apk.write(lib / abi / name, f'lib/{abi}/{name}', compress_type=zipfile.ZIP_STORED)
-        for name, path in script_assets.items():
+        for name, path in {**script_assets, **encounter_assets}.items():
             apk.write(path, name, compress_type=zipfile.ZIP_DEFLATED)
     aligned = build / 'aligned.apk'
     run(tools / 'zipalign.exe', '-f', '-P', '16', '4', base, aligned)
@@ -150,13 +195,14 @@ def main() -> None:
         '--out', signed, aligned)
     run(tools / 'apksigner.bat', 'verify', '--verbose', signed)
     run(tools / 'zipalign.exe', '-c', '-P', '16', '4', signed)
-    report = {'scope': 'source-based Android asset renderer; not a playable game',
+    report = {'scope': 'source-built authored development encounter and asset diagnostics; not the complete original game',
               'target_sdk': 37, 'min_sdk': 26, 'abi': result,
               'apk': {'sha256': sha(signed), 'bytes': signed.stat().st_size},
               'lua_build_sha256': sha(build / 'lua-build-validation.json'),
               'lua_build': json.loads((build / 'lua-build-validation.json').read_text()),
               'script_assets': {name: {'sha256': sha(path), 'bytes': path.stat().st_size}
                                 for name, path in script_assets.items()},
+              'encounter_assets': encounter_manifest,
               'source_sha256': {str(p.relative_to(REPO)).replace('\\', '/'): sha(p)
                                 for p in SOURCES}}
     (HERE / 'build-validation.json').write_text(json.dumps(report, indent=2) + '\n')

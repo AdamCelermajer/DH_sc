@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="local.dh2.sourceviewer" android:versionCode="1" android:versionName="0.1">
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
-    <application android:label="DH2 Source Renderer" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:hasCode="true">
-        <activity android:name="local.dh2.sourceviewer.MainActivity" android:exported="true" android:screenOrientation="unspecified">
+    <application android:label="DH2 Source Encounter" android:theme="@android:style/Theme.Material.Light.NoActionBar" android:hasCode="true">
+        <activity android:name="local.dh2.sourceviewer.MainActivity" android:exported="true" android:screenOrientation="unspecified" />
+        <activity android:name="local.dh2.sourceviewer.GameplayActivity" android:exported="true" android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

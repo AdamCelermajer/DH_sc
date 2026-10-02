@@ -1,0 +1,154 @@
+{
+  "scope": "Authored source development encounter; full original game rebuild unfinished",
+  "apk": {
+    "sha256": "9e87332d0f715da02912c32c8341f010fadebd197c603dcbf28919aa598c93ff",
+    "bytes": 1161180
+  },
+  "target_sdk": 37,
+  "abis": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "uses_original_engine_binary": false,
+  "build_validation_sha256": "f56a5dee32f2aa85196c73bbf7cf31bffe0cb99d541f542c473c0cd7213aa4bb",
+  "sources": [
+    {
+      "path": "port/android-app/build.py",
+      "bytes": 11021,
+      "sha256": "e209ff9d4c3667e4bd20c5f9965416ab3b4e35016df8483fdda8473111d615f3"
+    },
+    {
+      "path": "port/android-app/AndroidManifest.xml",
+      "bytes": 944,
+      "sha256": "ae7635c242a949e0529f4cce7061ebbf65ce29b86540425a3b66ba4c1620e975"
+    },
+    {
+      "path": "port/android-app/src/local/dh2/sourceviewer/MainActivity.java",
+      "bytes": 17621,
+      "sha256": "18829aca0561dbca34b02ed4973c9868cf0f2677899526f94c828ecf62dae157"
+    },
+    {
+      "path": "port/android-app/src/local/dh2/sourceviewer/GameplayActivity.java",
+      "bytes": 10674,
+      "sha256": "687dddc7975a96775572fe6baf6f503672cc4077814cbd4476185958ca12e4da"
+    },
+    {
+      "path": "port/android-app/gameplay.cpp",
+      "bytes": 16004,
+      "sha256": "e534a358428996836b72a1964a6d2a2e465109e67753abbb7722a13c63a5acb6"
+    },
+    {
+      "path": "port/android-app/gameplay.h",
+      "bytes": 1597,
+      "sha256": "4f13306e01f8a2990a2b5a33ec0f76520e0ba595524381cac145226fbf36256e"
+    },
+    {
+      "path": "port/android-app/world_renderer.cpp",
+      "bytes": 22539,
+      "sha256": "1d19602f1fad14f74f36911d375e5a03dd17571c924539653d465e624493819d"
+    },
+    {
+      "path": "port/android-app/scene_buffers.cpp",
+      "bytes": 13229,
+      "sha256": "57e9c3567291a603ea6fb0bed637d263aeda9866cc53b433d1cff7f3b362a0e2"
+    },
+    {
+      "path": "port/android-app/scene_buffers.hpp",
+      "bytes": 1919,
+      "sha256": "b3f592cd352c701ba0ba68009c4b6257011805fbd42ec1af9dff75cb633dd710"
+    },
+    {
+      "path": "port/lua-runtime/runtime.c",
+      "bytes": 12563,
+      "sha256": "df467ac58471149aa5dc8792c178af7409aca1593b8226e6301748ba46fe7d7b"
+    },
+    {
+      "path": "port/lua-runtime/runtime.h",
+      "bytes": 5374,
+      "sha256": "127b75166d5d941557fe6d0da9a3fbaa7ab2735dae7eb29c8f4a3d9472a9128a"
+    }
+  ],
+  "tests": {
+    "host": [
+      "Lua runtime SELFTEST / Numeric504",
+      "Combat to reconstructed death to actual compiled quest 2/2",
+      "Player defeat, reset, movement and invalid-input rejection",
+      "Protected numeric-call count/type/finite/budget rejection"
+    ],
+    "initial_apk": {
+      "sha256": "f4a60f9008b76e484ca9257e0fdde366f97780f46b9305a7e136b8e9010a03a9",
+      "checks": [
+        "Bundled launch",
+        "Movement and floor collision",
+        "Hold Attack to 2/2 COMPLETE",
+        "Player defeat",
+        "Reset",
+        "Cold launch"
+      ]
+    },
+    "final_apk": {
+      "4k": [
+        "Installed APK hash matches",
+        "Corrected tiling inspected",
+        "Hold Attack to 2/2 COMPLETE",
+        "Reset",
+        "Launcher cold start"
+      ],
+      "16k": [
+        "Installed APK hash matches",
+        "Corrected tiling inspected",
+        "Hold Attack to 2/2 COMPLETE",
+        "Reset",
+        "Cold start",
+        "Bounded app log has no fatal",
+        "APK/source hashes stable during QA"
+      ]
+    },
+    "emulators": [
+      {
+        "api": "37.0",
+        "android": "17",
+        "page_bytes": 4096
+      },
+      {
+        "api": "37.2",
+        "android": "17",
+        "page_bytes": 16384
+      }
+    ],
+    "physical_device_tested": false
+  },
+  "screenshots": {
+    "encounter-fixed.png": {
+      "bytes": 346123,
+      "sha256": "8fc92599cc6fdb26389a59f2b710d71645e4a80ccf07916977b0708bd0a431f2"
+    },
+    "fixed-win-4k.png": {
+      "bytes": 345080,
+      "sha256": "e752351b2704c91b5cb52653e5f9aa1b756c3297bdbcce2c806c01b2e905c1ad"
+    },
+    "visualfix-ready-16k.png": {
+      "bytes": 345040,
+      "sha256": "c46e5a73061264e8122c1ce0f61f09be1ca0678c234245732c0440b8681e8797"
+    },
+    "visualfix-win-16k.png": {
+      "bytes": 344803,
+      "sha256": "7be706e9060d9319f9bbf924b634ee33a30af5692aafc697c1778bb1675a1860"
+    }
+  },
+  "authored": [
+    "Room selection/placement",
+    "Camera/input/movement/floor collision",
+    "Enemy steering/targeting",
+    "Two appended tuned property rows",
+    "Death-event routing"
+  ],
+  "remaining": [
+    "Original complete world and level lifecycle",
+    "Full original AI/animation",
+    "Enemy appearances and weapon attachments",
+    "Inventory/rewards/progression",
+    "Audio and persistent saves",
+    "Pale patch at floor center"
+  ]
+}

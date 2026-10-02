@@ -1,12 +1,12 @@
 {
-  "scope": "source-based Android asset renderer; not a playable game",
+  "scope": "source-built authored development encounter and asset diagnostics; not the complete original game",
   "target_sdk": 37,
   "min_sdk": 26,
   "abi": {
     "arm64-v8a": {
       "machine": 183,
-      "sha256": "4483dc1972d57e62e298ccf555bf89c09db75d47ba1b832bbc3d9c6eca5a5220",
-      "bytes": 118224,
+      "sha256": "5404b7177dadbbca7f731b059c848263f246b6501211d612d4adea5dde4ea2d5",
+      "bytes": 155192,
       "pt_load": [
         {
           "alignment": 16384,
@@ -14,21 +14,21 @@
         },
         {
           "alignment": 16384,
-          "offset": 32760
+          "offset": 42728
         },
         {
           "alignment": 16384,
-          "offset": 92592
+          "offset": 117040
         },
         {
           "alignment": 16384,
-          "offset": 94768
+          "offset": 119352
         }
       ],
       "lua_library": {
         "machine": 183,
-        "sha256": "d47bcf7df6a8ca0a047690d59b2ca0bd5a05207af5d50a710efacc7389183674",
-        "bytes": 306544,
+        "sha256": "6895802415b4f34fe9f24535939bb47918f77e966051316cf3e5ac1a8e8b0ce2",
+        "bytes": 308136,
         "pt_load": [
           {
             "alignment": 16384,
@@ -36,19 +36,19 @@
           },
           {
             "alignment": 16384,
-            "offset": 261408
+            "offset": 262880
           },
           {
             "alignment": 16384,
-            "offset": 267688
+            "offset": 269160
           }
         ]
       }
     },
     "x86_64": {
       "machine": 62,
-      "sha256": "6d6d1654a420076fe87849bdb699e0de9a0e1bf41ad67602c30c00a18fec3dee",
-      "bytes": 122512,
+      "sha256": "4b658f1c18648f92a309970365b33e2893232e7bb57add095f3c379c0808e638",
+      "bytes": 160920,
       "pt_load": [
         {
           "alignment": 16384,
@@ -56,21 +56,21 @@
         },
         {
           "alignment": 16384,
-          "offset": 32256
+          "offset": 42016
         },
         {
           "alignment": 16384,
-          "offset": 99056
+          "offset": 125408
         },
         {
           "alignment": 16384,
-          "offset": 101240
+          "offset": 127728
         }
       ],
       "lua_library": {
         "machine": 62,
-        "sha256": "065313453110e8ab9078a3779ad84ee1ddbedeac06fe2aaaebd151936ee8a2e5",
-        "bytes": 299152,
+        "sha256": "f8ac97cf9fc75dae2c5d4452bc7774ec2ce3a454e41e348c2165c16ee014303b",
+        "bytes": 300704,
         "pt_load": [
           {
             "alignment": 16384,
@@ -78,21 +78,21 @@
           },
           {
             "alignment": 16384,
-            "offset": 260080
+            "offset": 261520
           },
           {
             "alignment": 16384,
-            "offset": 266392
+            "offset": 267832
           }
         ]
       }
     }
   },
   "apk": {
-    "sha256": "7580405d76546728dc858a88f397a6ee854f91bc0c62483110f7c14d4abc1f2a",
-    "bytes": 906147
+    "sha256": "9e87332d0f715da02912c32c8341f010fadebd197c603dcbf28919aa598c93ff",
+    "bytes": 1161180
   },
-  "lua_build_sha256": "46603c580dfed1fa27e3ad5290a878bd3b97a70e247a740c7012aa94bfa8c240",
+  "lua_build_sha256": "57acbe3bec2cf4edad6bf41fbabc766a7b404d5474beeb0620f251769e3d3055",
   "lua_build": {
     "complete_game": false,
     "numeric_callbacks_installed": true,
@@ -125,8 +125,8 @@
     ],
     "artifacts": {
       "lua-arm64.so": {
-        "sha256": "d47bcf7df6a8ca0a047690d59b2ca0bd5a05207af5d50a710efacc7389183674",
-        "bytes": 306544,
+        "sha256": "6895802415b4f34fe9f24535939bb47918f77e966051316cf3e5ac1a8e8b0ce2",
+        "bytes": 308136,
         "layout": {
           "machine": 183,
           "pt_load": [
@@ -135,19 +135,19 @@
               "alignment": 16384
             },
             {
-              "offset": 261408,
+              "offset": 262880,
               "alignment": 16384
             },
             {
-              "offset": 267688,
+              "offset": 269160,
               "alignment": 16384
             }
           ]
         }
       },
       "lua-arm64-runner": {
-        "sha256": "2dc58efd03d40f37ab6ca0bb72564f10e984fe058d20ea855be5a597c1f542e9",
-        "bytes": 376392,
+        "sha256": "2f61e8da03af608ac4f24cd4a9a157184b6ab0451d463971dc036c2443740968",
+        "bytes": 377936,
         "layout": {
           "machine": 183,
           "pt_load": [
@@ -156,23 +156,23 @@
               "alignment": 16384
             },
             {
-              "offset": 329424,
+              "offset": 330848,
               "alignment": 16384
             },
             {
-              "offset": 334496,
+              "offset": 335920,
               "alignment": 16384
             }
           ]
         }
       },
       "lua-x86_64.so": {
-        "sha256": "065313453110e8ab9078a3779ad84ee1ddbedeac06fe2aaaebd151936ee8a2e5",
-        "bytes": 299152
+        "sha256": "f8ac97cf9fc75dae2c5d4452bc7774ec2ce3a454e41e348c2165c16ee014303b",
+        "bytes": 300704
       },
       "lua-x86_64-runner": {
-        "sha256": "e7cb92539a51d25ec4ce25eb13d4e3390066488f9f542e3c45134692430448b6",
-        "bytes": 368968
+        "sha256": "2d4eb4b8884f5c1ef172fbbbc286fba17c450bb41e5791fadd617205890811ac",
+        "bytes": 370480
       }
     },
     "compiler_warnings": {
@@ -206,7 +206,7 @@
       "vendor/lua-5.1.4/src/lmathlib.c": "e2933a56332d567cdd69f0fe514d638a8f82da6878754ff259e77cf2157263c3",
       "vendor/lua-5.1.4/src/lstrlib.c": "a978166ca36525de2708ac931834d575c8df057719bc2da39dbe3befe810ec1d",
       "vendor/lua-5.1.4/src/ltablib.c": "e934dc4b2fc117a501c717302a00147f7b44eea978ef87a58a3e40e9bfe45d20",
-      "runtime.c": "4931c90ebf33def3f6759a2c2da32572e16d8b87febd7d6167035c4194c9868b",
+      "runtime.c": "df467ac58471149aa5dc8792c178af7409aca1593b8226e6301748ba46fe7d7b",
       "../lua-numeric/numeric.c": "3f089b267266a19838121d9e6e2c933da6b2588b8188ccf0853cdcb34695fee8",
       "../lua-numeric/bridge.c": "bed00c0501122ca8d1ea03c480fb3df1c527702062c1bf6b778fc9f0d04b597e",
       "../pydata-constants/constants.c": "08de59987e05ed27ac89263395f48d99fa81a1a38c4bf6ffd63731815169a377",
@@ -233,7 +233,7 @@
       "../quest-data/lua-bridge.c": "798ee48b26f8a72c596958e5b553af0b042ade0b2d3568b022ce1c824b319768",
       "../quest-compile/compile.c": "164753db2fb835d019bc1b55b3fea203faf17dfb810c0cd1e696fdbac9de4437",
       "../quest-compile/lua-world.c": "aca6fbc97f3df17f043d0924f25415a1e07b1a24c736957a1b8fa970900ccd87",
-      "runtime.h": "91bb7ddfffc920c6282a762b806eee97af797dd09f37e3ca6fc2c0aa5a409f96",
+      "runtime.h": "127b75166d5d941557fe6d0da9a3fbaa7ab2735dae7eb29c8f4a3d9472a9128a",
       "dh2_lua_config.h": "ce2f3d4463fc7bd0083404b00003dedb4ccf515943abd1e824d2d45f601fc189",
       "tests/runner.c": "5a1699e075383b43c97b2db2fbc1b1490014ea9b3114e0ee9f9eb6ecdba9b408",
       "tests/numeric.c": "31a3f29caa1a851610d1e8eade2c26ad0e4c6fd08080ac48c30e49374bebded0",
@@ -282,9 +282,92 @@
       "bytes": 36004
     }
   },
+  "encounter_assets": {
+    "room.bdae": {
+      "source": "data/3d/modules/void_maze/void_maze.bdae",
+      "sha256": "7b67b90b65b41de96a5bd5a9a9d9d8f40cdd4425e806057a28ee5299ed2840ba",
+      "bytes": 199300
+    },
+    "floor.tga": {
+      "source": "data/3d/textures/env_voidmaze.tga",
+      "sha256": "aac2c1923d2b9add49d6d8c32211d0af9d1f0a9e022530d551d1dc65d2703c20",
+      "bytes": 32828
+    },
+    "hero.bdae": {
+      "source": "data/3d/characters/prince/prince_low_poly_warrior.bdae",
+      "sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+      "bytes": 46256
+    },
+    "hero.tga": {
+      "source": "data/3d/textures/prince-warrior.tga",
+      "sha256": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+      "bytes": 32828
+    },
+    "walk.bdae": {
+      "source": "data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5",
+      "bytes": 10496
+    },
+    "idle.bdae": {
+      "source": "data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92",
+      "bytes": 54600
+    },
+    "attack.bdae": {
+      "source": "data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa",
+      "bytes": 8028
+    },
+    "properties.bin": {
+      "source": "data/pydata/character_properties_pyarray.bin",
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "bytes": 401608
+    },
+    "classes.bin": {
+      "source": "data/pydata/character_classes_pyarray.bin",
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+      "bytes": 34224
+    },
+    "loot.bin": {
+      "source": "data/pydata/loot_table_pyarray.bin",
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "bytes": 284104
+    },
+    "powers.bin": {
+      "source": "data/pydata/item_powers_pyarray.bin",
+      "sha256": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e",
+      "bytes": 54443
+    },
+    "quests.bin": {
+      "source": "data/pydata/v2quests_pyarray.bin",
+      "sha256": "cbbde6ad8aef5f69ed913da5b62b4246a9c8584219c03256c3a2f8de8e8a1b36",
+      "bytes": 21817
+    },
+    "constants.bin": {
+      "sha256": "d375c74e98dff20cdbe2122fc989d36ee1df4bcb32d1bae34a30af992fee1a98",
+      "bytes": 5838,
+      "derivation": "sum little-endian group counts, concatenate complete original group payloads",
+      "sources": [
+        {
+          "source": "data/pydata/ai_pycst.bin",
+          "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e"
+        },
+        {
+          "source": "data/pydata/design_pycst.bin",
+          "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931"
+        },
+        {
+          "source": "data/pydata/v2quests_pycst.bin",
+          "sha256": "35feff579bdb6b36fef849afea06044830af9dd6180953727179ecc12926ac6a"
+        }
+      ]
+    }
+  },
   "source_sha256": {
     "port/android-app/native.cpp": "eb3753914d1f56a4c8e0eecb51353dc6f015dc75023c61fbf2fdc1182f9c8d67",
-    "port/android-app/scene_buffers.cpp": "2d1015614e692a52e02d10a428b25d66c989a5e8525156b03b036d67d3ecc13e",
+    "port/android-app/world_renderer.cpp": "1d19602f1fad14f74f36911d375e5a03dd17571c924539653d465e624493819d",
+    "port/android-app/gameplay.cpp": "e534a358428996836b72a1964a6d2a2e465109e67753abbb7722a13c63a5acb6",
+    "port/android-app/scene_buffers.cpp": "57e9c3567291a603ea6fb0bed637d263aeda9866cc53b433d1cff7f3b362a0e2",
     "port/android-app/scripts.cpp": "d78f7691a8bb4b0e5f6c83072ebe613825221b1964e19ce4595738c96615f25b",
     "port/skin-payloads/skin.cpp": "c3b61a63e47bdd5e37a6f784e5b89f4626fe9499d1232a8f2f3760beb7cc8c83",
     "port/animation-pose/pose.cpp": "95bbbbd840a5e119a31454a5fe7723fea69b0c3cbd5b581d699813ec28a3cab1",

@@ -30,3 +30,12 @@ extern "C" dh2::viewer::SceneMeshError dh2_viewer_scene_mesh_at(
 extern "C" dh2::viewer::SceneMeshError dh2_viewer_scene_mesh_layers(
     dh2::viewer::SceneMesh*, const dh2::resources::BresView*,
     const dh2::layers::Layers*);
+
+// World renderer projections keep the checked original coordinates. An
+// optional node prefix selects one module from a BRES catalogue. The viewer's
+// existing normalized APIs above remain unchanged.
+extern "C" dh2::viewer::SceneMeshError dh2_world_scene_mesh(
+    dh2::viewer::SceneMesh*, const dh2::resources::BresView*, const char* node_prefix);
+extern "C" dh2::viewer::SceneMeshError dh2_world_scene_mesh_at(
+    dh2::viewer::SceneMesh*, const dh2::resources::BresView*,
+    const dh2::pose::Clip*, std::int32_t milliseconds);

@@ -11,6 +11,7 @@
 #include "../gear-properties/gears.h"
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 struct dh2_lua { lua_State *state; size_t used,limit; uint32_t blocks; };
 void dh2_lua_register_numeric(lua_State *state);
@@ -206,3 +207,42 @@ int dh2_lua_execute(dh2_lua *runtime,const void *source,size_t bytes,uint32_t bl
     lua_settop(state,0);return status;
 }
 size_t dh2_lua_memory_used(const dh2_lua *runtime) { return runtime?runtime->used:0; }
+struct number_call {
+    const char *name; const float *arguments; size_t count, results;
+    float values[32];
+};
+static int call_numbers(lua_State *state) {
+    struct number_call *call=(struct number_call *)lua_touserdata(state,1);
+    lua_getglobal(state,call->name);
+    if(lua_type(state,-1)!=LUA_TFUNCTION)return luaL_error(state,"session function is absent");
+    for(size_t i=0;i<call->count;++i)lua_pushnumber(state,call->arguments[i]);
+    lua_call(state,(int)call->count,LUA_MULTRET);
+    if((size_t)(lua_gettop(state)-1)!=call->results)return luaL_error(state,"session result count mismatch");
+    for(size_t i=0;i<call->results;++i) {
+        if(lua_type(state,(int)i+2)!=LUA_TNUMBER)return luaL_error(state,"session result must be numeric");
+        float value=(float)lua_tonumber(state,(int)i+2);
+        if(!isfinite(value))return luaL_error(state,"session result must be finite");
+        call->values[i]=value;
+    }
+    return 0;
+}
+int dh2_lua_call_numbers(dh2_lua *runtime,const char *function,
+                         const float *arguments,size_t count,float *results,size_t result_count,
+                         uint32_t blocks,char *error,size_t capacity) {
+    if(error && capacity)error[0]='\0';
+    if(!runtime || !function || !*function || strlen(function)>127 || count>16 ||
+       result_count>32 || (!arguments && count) || (!results && result_count) || !blocks) {
+        diagnostic(error,capacity,"invalid numeric session call");return -1;
+    }
+    for(size_t i=0;i<count;++i)if(!isfinite(arguments[i])) {
+        diagnostic(error,capacity,"session arguments must be finite");return -1;
+    }
+    struct number_call call={function,arguments,count,result_count,{0}};
+    lua_State *state=runtime->state;lua_settop(state,0);runtime->blocks=blocks;
+    lua_sethook(state,instruction_limit,LUA_MASKCOUNT,1000);
+    int status=lua_cpcall(state,call_numbers,&call);
+    lua_sethook(state,NULL,0,0);runtime->blocks=0;
+    if(status)diagnostic(error,capacity,lua_tostring(state,-1));
+    else if(result_count)memcpy(results,call.values,result_count*sizeof(*results));
+    lua_settop(state,0);return status;
+}

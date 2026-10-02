@@ -66,6 +66,15 @@ int dh2_lua_import_quests(dh2_lua *,const void *,size_t,char *,size_t);
  * Returns zero on success; stack and hook are cleared after each call. */
 int dh2_lua_execute(dh2_lua *runtime, const void *source, size_t bytes,
                     uint32_t instruction_blocks, char *error, size_t capacity);
+/* Authored session interface to an already installed Lua global function.
+ * Up to 16 finite numeric arguments and 32 finite numeric results are copied;
+ * output is written only after the exact result count/tags validate. Lua
+ * execution is protected by the same allocation and instruction limits as
+ * execute. Function side effects are not rolled back after a Lua error. */
+int dh2_lua_call_numbers(dh2_lua *,const char *function,
+                         const float *arguments,size_t argument_count,
+                         float *results,size_t result_count,
+                         uint32_t instruction_blocks,char *error,size_t capacity);
 size_t dh2_lua_memory_used(const dh2_lua *runtime);
 #ifdef __cplusplus
 }

@@ -1,6 +1,25 @@
-# Android 17 source renderer milestone
+# Android 17 source encounter and diagnostics
 
-## Current quest activation APK milestone
+## Current source encounter checkpoint
+
+The default launcher now opens a bundled development encounter with movement,
+floor collision, original idle/walk/attack clips, enemy attacks, HP, death and a
+real counted objective advancing to **2/2 COMPLETE**. Reset restarts the room.
+Native ARM64 and x86_64 libraries are built entirely from repository source.
+
+APK: 1,161,180 bytes, SHA-256
+`9e87332d0f715da02912c32c8341f010fadebd197c603dcbf28919aa598c93ff`.
+Practical checks passed on Android 17 4 KiB and 16 KiB emulators. The installed
+16 KiB APK hash matched the build; original floor tiling was corrected after
+visual review. A pale center patch remains. No physical-device testing was done.
+
+This is one authored development encounter, not the complete original game.
+It loads the required supplied-cache assets automatically; previous diagnostic
+imports are still available through **Diagnostics**. Cold launching starts fresh.
+See [scope, build and controls](SOURCE-ENCOUNTER.md) and
+[verification record](../../reports/source-encounter-android17.json).
+
+## Earlier quest activation APK milestone
 
 Current source APK: 906,147 bytes, SHA-256 `7580405d76546728dc858a88f397a6ee854f91bc0c62483110f7c14d4abc1f2a`.
 Original kill/clear compile rules use owned resolved-ID world snapshots. All 34

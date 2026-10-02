@@ -24,6 +24,7 @@ struct Context {
     const dh2::pose::Clip* clip;
     std::int32_t time;
     const dh2::layers::Layers* layers;
+    const char* node_prefix;
 };
 
 void first_diffuse(const dh2::draw::Command* draw, Context& context) {
@@ -52,6 +53,9 @@ void first_diffuse(const dh2::draw::Command* draw, Context& context) {
 
 bool append_draw(const dh2::draw::Command* draw, void* user) {
     auto& context = *static_cast<Context*>(user);
+    if (context.node_prefix && (!draw->node_id ||
+        std::strncmp(draw->node_id, context.node_prefix,
+                     std::strlen(context.node_prefix)) != 0)) return true;
     auto& output = *context.output;
     dh2::assets::Mesh mesh{};
     dh2::assets::Primitive primitive{};
@@ -198,7 +202,8 @@ extern "C" void dh2_viewer_scene_mesh_free(SceneMesh* output) {
 static SceneMeshError mesh_at(
     SceneMesh* output, const dh2::resources::BresView* image,
     const dh2::pose::Clip* clip, std::int32_t milliseconds,
-    const dh2::layers::Layers* layers) {
+    const dh2::layers::Layers* layers, bool normalized = true,
+    const char* node_prefix = nullptr) {
     if (!output) return SceneMeshError::argument;
     *output = {};
     if (!image || !image->bytes) return SceneMeshError::argument;
@@ -212,7 +217,8 @@ static SceneMeshError mesh_at(
     }
     Context context{output, image, SceneMeshError::ok,
                     {INFINITY, INFINITY, INFINITY},
-                    {-INFINITY, -INFINITY, -INFINITY}, nullptr, nullptr, clip, milliseconds, layers};
+                    {-INFINITY, -INFINITY, -INFINITY}, nullptr, nullptr, clip, milliseconds, layers,
+                    node_prefix};
     dh2::draw::Stats stats{};
     const auto walked = dh2_static_scene_draws(&stats, image, append_draw,
                                                 &context, 20000, max_commands);
@@ -224,9 +230,9 @@ static SceneMeshError mesh_at(
         dh2_viewer_scene_mesh_free(output);
         return error;
     }
-    if (!output->draw_commands) append_first_skin(context);
+    if (!output->draw_commands && !node_prefix) append_first_skin(context);
     if (context.error != SceneMeshError::ok || !output->vertex_count || !output->index_count ||
-        (!output->skin_joints && output->draw_commands != stats.draw_commands)) {
+        (!output->skin_joints && !node_prefix && output->draw_commands != stats.draw_commands)) {
         dh2_viewer_scene_mesh_free(output);
         return SceneMeshError::no_draw;
     }
@@ -239,6 +245,7 @@ static SceneMeshError mesh_at(
         dh2_viewer_scene_mesh_free(output);
         return SceneMeshError::unsupported;
     }
+    if (!normalized) return SceneMeshError::ok;
     float center[3]{};
     for (int axis = 0; axis < 3; ++axis)
         center[axis] = (context.minimum[axis] + context.maximum[axis]) * 0.5f;
@@ -266,4 +273,15 @@ extern "C" SceneMeshError dh2_viewer_scene_mesh_layers(
 extern "C" SceneMeshError dh2_viewer_scene_mesh(
     SceneMesh* output, const dh2::resources::BresView* image) {
     return dh2_viewer_scene_mesh_at(output, image, nullptr, 0);
+}
+
+extern "C" SceneMeshError dh2_world_scene_mesh(
+    SceneMesh* output, const dh2::resources::BresView* image, const char* node_prefix) {
+    return mesh_at(output, image, nullptr, 0, nullptr, false, node_prefix);
+}
+
+extern "C" SceneMeshError dh2_world_scene_mesh_at(
+    SceneMesh* output, const dh2::resources::BresView* image,
+    const dh2::pose::Clip* clip, std::int32_t milliseconds) {
+    return mesh_at(output, image, clip, milliseconds, nullptr, false);
 }
