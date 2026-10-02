@@ -1,5 +1,12 @@
 # Recovery status — updated 2026-10-02
 
+**Character property data:** Original readers fully consume all three tables in
+the 401,608-byte character cache file. Source ARM64/host loading matches all
+100,352 character values, and 2,022 original property-operation checks pass.
+Strict sanitizers pass 12,000 safety iterations. This standalone component has
+no entity ownership, aggregate equipment/buffs, Lua object bridge or APK wiring
+yet; full source gameplay remains unfinished. See [scope and evidence](../port/character-properties/README.md).
+
 **Source scripts in the Android APK:** The 730,019-byte source package now
 initializes three exact recovered shared scripts inside the character preview.
 Imports, budget/error rejection and recovery pass in the same process on Android
