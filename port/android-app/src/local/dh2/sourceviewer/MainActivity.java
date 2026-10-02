@@ -39,10 +39,10 @@ public final class MainActivity extends Activity {
             return insets;
         });
         status = new TextView(this);
-        status.setText("Source renderer ready. Import a BRES mesh and its PVRTC texture from your own cache. This is an asset preview, not gameplay.");
+        status.setText("Source renderer ready. Import a BRES scene and its PVRTC texture from your own cache. This is an asset preview, not gameplay.");
         layout.addView(status);
         Button mesh = new Button(this);
-        mesh.setText("Import BRES mesh");
+        mesh.setText("Import BRES scene");
         mesh.setOnClickListener(v -> pick(BRES));
         layout.addView(mesh);
         Button texture = new Button(this);

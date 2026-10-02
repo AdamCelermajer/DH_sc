@@ -1,0 +1,38 @@
+{
+  "scope": "source-built Android static scene asset renderer; no gameplay or original engine",
+  "apk": {
+    "path": "port/android-app/build/dh2-source-renderer-debug.apk",
+    "sha256": "ce7963e3fc2d117c07ec88ccccca88e350589f19397401a4029b44c5d7b247c0",
+    "bytes": 184864,
+    "installed_base_apk_sha256": "ce7963e3fc2d117c07ec88ccccca88e350589f19397401a4029b44c5d7b247c0"
+  },
+  "android_17_4k": {
+    "serial": "emulator-5560",
+    "api": "37.0",
+    "os_release": "17",
+    "page_size": 4096,
+    "abi": "x86_64",
+    "package": "local.dh2.sourceviewer",
+    "input_bres": "data/3d/animateddecors/candle_flame.bdae",
+    "input_bres_sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6",
+    "input_texture": "data/3d/textures/env_crypt.tga",
+    "input_texture_sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad",
+    "scene_status": "Static scene: 2 draws, 8 vertices, 12 indices. First diffuse: env_crypt.tga. Import that texture to render it.",
+    "texture_status": "PVRTC texture decoded: 1024 x 1024. Rendering imported BRES scene.",
+    "observed_image": "crypt background and candle flame visible together",
+    "process_alive_after_import": true,
+    "scene_import_screenshot_sha256": "8194791ad74e7cecba775f28869028cf34c66bed98314e7f10287a021ab0918d",
+    "textured_scene_screenshot_sha256": "9c8c2fea991e674a6fdc2e1b4c9caad37e301343bd6ef245806804a6c3842e8c"
+  },
+  "host_scene_buffer_check": {
+    "draw_commands": 2,
+    "vertices": 8,
+    "indices": 12,
+    "unique_referenced_vertices": 8,
+    "expected_first_diffuse": "env_crypt.tga",
+    "input_unchanged": true
+  },
+  "new_scene_apk_16k_runtime_tested": false,
+  "arm64_runtime_tested": false,
+  "gameplay_tested": false
+}

@@ -1,7 +1,6 @@
 #include "../engine-resources/resources.hpp"
-#include "../asset-payloads/payloads.hpp"
-#include "../material-bindings/bindings.hpp"
 #include "../texture-assets/texture.hpp"
+#include "scene_buffers.hpp"
 
 #include <GLES2/gl2.h>
 #include <android/log.h>
@@ -69,86 +68,29 @@ Java_local_dh2_sourceviewer_MainActivity_loadBres(JNIEnv* env, jclass, jbyteArra
     auto* bytes = input_copy(env, source, size);
     if (!bytes) return message(env, "BRES rejected: empty, too large, or out of memory");
     dh2::resources::BresView image{};
-    dh2::assets::Mesh mesh{};
-    dh2::assets::Primitive primitive{};
-    dh2::assets::Attribute positions{}, uv{};
-    bool ok = dh2_bres_open(&image, bytes, size) == dh2::resources::BresError::ok
-        && dh2_mesh_open(&mesh, &image, 0) == dh2::assets::Error::ok
-        && mesh.vertices > 0 && mesh.vertices <= 4096 && mesh.primitives > 0
-        && dh2_mesh_primitive(&mesh, 0, &primitive) == dh2::assets::Error::ok
-        && primitive.index_count > 0 && primitive.index_count <= 12000
-        && primitive.index_count % 3 == 0 && primitive.collada_type == 0
-        && primitive.attributes[0] >= 0 && primitive.attributes[4] >= 0
-        && dh2_mesh_attribute(&mesh, primitive.attributes[0], &positions) == dh2::assets::Error::ok
-        && dh2_mesh_attribute(&mesh, primitive.attributes[4], &uv) == dh2::assets::Error::ok
-        && positions.components >= 3 && uv.components >= 2;
-    if (!ok) {
+    if (dh2_bres_open(&image, bytes, size) != dh2::resources::BresError::ok) {
         std::free(bytes);
-        return message(env, "BRES rejected: no supported first triangle mesh with UVs");
+        return message(env, "BRES rejected: invalid container");
     }
-    auto* new_vertices = static_cast<float*>(std::malloc(mesh.vertices * 4U * sizeof(float)));
-    auto* new_indices = static_cast<std::uint16_t*>(std::malloc(primitive.index_count * sizeof(std::uint16_t)));
-    if (!new_vertices || !new_indices) ok = false;
-    const float dx = mesh.maximum[0] - mesh.minimum[0];
-    const float dz = mesh.maximum[2] - mesh.minimum[2];
-    const float span = dx > dz ? dx : dz;
-    if (!(span > 0.0f) || !std::isfinite(span)) ok = false;
-    for (std::uint32_t i = 0; ok && i < mesh.vertices; ++i) {
-        float p[16]{}, t[16]{};
-        if (!dh2_attribute_read(&positions, i, p) || !dh2_attribute_read(&uv, i, t)) {
-            ok = false; break;
-        }
-        new_vertices[4 * i] = (p[0] - (mesh.minimum[0] + mesh.maximum[0]) * 0.5f) * 1.5f / span;
-        new_vertices[4 * i + 1] = (p[2] - (mesh.minimum[2] + mesh.maximum[2]) * 0.5f) * 1.5f / span;
-        new_vertices[4 * i + 2] = t[0];
-        new_vertices[4 * i + 3] = t[1];
-        for (int j = 0; j < 4; ++j) if (!std::isfinite(new_vertices[4 * i + j])) ok = false;
-    }
-    for (std::uint32_t i = 0; ok && i < primitive.index_count; ++i) {
-        std::uint32_t value = 0;
-        if (!dh2_index_read(&primitive, i, &value) || value >= mesh.vertices) {
-            ok = false; break;
-        }
-        new_indices[i] = static_cast<std::uint16_t>(value);
-    }
-    char expected[96]{};
-    if (ok && primitive.material) {
-        const auto count = dh2_bres_library_count(&image, dh2::resources::Library::material);
-        for (std::uint32_t i = 0; i < count; ++i) {
-            dh2::materials::Material material{};
-            if (dh2_material_record(&material, &image, i) != dh2::materials::Error::ok
-                || !material.id || std::strcmp(material.id, primitive.material) != 0) continue;
-            for (std::uint32_t j = 0; j < material.parameter_count; ++j) {
-                dh2::materials::Parameter param{};
-                if (dh2_material_parameter(&param, &material, j) != dh2::materials::Error::ok
-                    || param.type_code != 11 || !param.id || !std::strstr(param.id, "diffuse")) continue;
-                dh2::materials::ImageRef ref{};
-                if (dh2_material_sampler_image(&ref, &material, j) == dh2::materials::Error::ok
-                    && ref.index >= 0 && ref.source_path) {
-                    const char* slash = std::strrchr(ref.source_path, '/');
-                    std::snprintf(expected, sizeof(expected), "%s", slash ? slash + 1 : ref.source_path);
-                }
-                break;
-            }
-            break;
-        }
-    }
+    dh2::viewer::SceneMesh scene_mesh{};
+    const auto result = dh2_viewer_scene_mesh(&scene_mesh, &image);
     std::free(bytes);
-    if (!ok) {
-        std::free(new_vertices); std::free(new_indices);
-        return message(env, "BRES rejected: unsupported or malformed mesh payload");
-    }
+    if (result != dh2::viewer::SceneMeshError::ok)
+        return message(env, "BRES scene rejected: unsupported, too large, or malformed static draw data");
     pthread_mutex_lock(&guard);
     std::free(vertices); std::free(indices);
-    vertices = new_vertices; indices = new_indices;
-    vertex_count = mesh.vertices; index_count = primitive.index_count;
+    vertices = scene_mesh.vertices; indices = scene_mesh.indices;
+    vertex_count = scene_mesh.vertex_count; index_count = scene_mesh.index_count;
     const bool already_textured = rgba != nullptr;
     pthread_mutex_unlock(&guard);
-    char result[192]{};
-    std::snprintf(result, sizeof(result), "Mesh loaded: %u vertices, %u indices. Diffuse texture: %s. %s",
-                  vertex_count, index_count, expected[0] ? expected : "unresolved",
+    char status[224]{};
+    std::snprintf(status, sizeof(status),
+                  "Static scene: %u draws, %u vertices, %u indices. First diffuse: %s. %s",
+                  scene_mesh.draw_commands, scene_mesh.vertex_count, scene_mesh.index_count,
+                  scene_mesh.first_diffuse_texture[0]
+                      ? scene_mesh.first_diffuse_texture : "unresolved",
                   already_textured ? "Rendering with imported texture." : "Import that texture to render it.");
-    return message(env, result);
+    return message(env, status);
 }
 
 extern "C" JNIEXPORT jstring JNICALL
@@ -182,7 +124,7 @@ Java_local_dh2_sourceviewer_MainActivity_loadTexture(JNIEnv* env, jclass, jbyteA
     char result[128]{};
     std::snprintf(result, sizeof(result), "PVRTC texture decoded: %u x %u. %s",
                   view.width, view.height,
-                  mesh_loaded ? "Rendering imported BRES mesh." : "Import a matching BRES mesh to display it.");
+                  mesh_loaded ? "Rendering imported BRES scene." : "Import a matching BRES scene to display it.");
     return message(env, result);
 }
 

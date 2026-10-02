@@ -16,8 +16,12 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parent.parent
 SOURCES = [
     HERE / 'native.cpp',
+    HERE / 'scene_buffers.cpp',
+    REPO / 'port/scene-draw/draw.cpp',
+    REPO / 'port/scene-payloads/scene.cpp',
     REPO / 'port/asset-payloads/payloads.cpp',
     REPO / 'port/engine-resources/resources.cpp',
+    REPO / 'port/engine-math/math.cpp',
     REPO / 'port/material-bindings/bindings.cpp',
     REPO / 'port/texture-assets/texture.cpp',
     REPO / 'port/texture-assets/decode.cpp',
