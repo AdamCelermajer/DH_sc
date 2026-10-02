@@ -1,5 +1,27 @@
 # Android 17 source renderer milestone
 
+## Character pose milestone
+
+The current build adds a checked software-skinning fallback when a BRES has
+no static scene draws. Import
+`data/3d/characters/prince/prince_low_poly_warrior.bdae`, then
+`data/3d/textures/prince-warrior.tga`. It resolves 18 bone scope IDs and
+renders 335 vertices/1,092 indices. Drag rotates the textured pose. The
+diagnostic camera maps character Z-up coordinates to the display's Y-up
+basis; recovered data stays unchanged.
+
+The exact 213,536-byte APK, SHA-256
+`664595b19de049d9a745d6e3b8f629ff1d65c9121abf927de895f6ad4be8fdb8`,
+was installed and pulled back with matching hashes on both Android 17 page
+sizes. Both previews visibly showed the warrior and changed angle after a
+drag. [The runtime record](character-runtime-validation.json) records this
+check. [Skin payloads](../skin-payloads/README.md) documents the parser,
+original ARM palette comparison and safety checks.
+
+This fallback selects one locally resolved controller. It does not assemble
+modular equipment, apply animation, skin normals or provide gameplay. The
+older scene runtime records below belong to earlier APKs.
+
 This is a new Android APK built from the repository's checked C++ BRES, scene, mesh, material and PVRTC readers. It uses a small Java file-picker UI and an OpenGL ES 2.0 shader to draw checked static triangle commands from an owner-supplied BRES file. It walks the scene hierarchy, applies each command's world transform, retains all three world coordinates, and combines the triangles into one bounded diagnostic draw. The preview has an oblique 3D camera, depth buffer, and touch rotation. The native libraries are built for `arm64-v8a` and `x86_64`, and the manifest targets API 37. The APK contains no original game code, game assets, cache, or proxy engine.
 
 From the repository root, with JDK, Android SDK platform 37, build-tools 35, and NDK r29 installed:

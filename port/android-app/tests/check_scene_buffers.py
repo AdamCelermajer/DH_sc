@@ -24,6 +24,7 @@ class SceneMesh(c.Structure):
     _fields_ = [('vertices', c.POINTER(c.c_float)),
                 ('indices', c.POINTER(c.c_uint16)),
                 ('vertex_count', U), ('index_count', U), ('draw_commands', U),
+                ('skin_joints', U),
                 ('first_diffuse_texture', c.c_char * 96)]
 
 
@@ -32,6 +33,7 @@ def main() -> None:
     parser.add_argument('--library', type=Path, required=True)
     parser.add_argument('--sample', type=Path, required=True)
     parser.add_argument('--complex-sample', type=Path)
+    parser.add_argument('--character-sample', type=Path)
     args = parser.parse_args()
     dll = c.CDLL(str(args.library.resolve()))
     dll.dh2_bres_open.argtypes = [c.POINTER(Bres), P, c.c_size_t]
@@ -48,6 +50,7 @@ def main() -> None:
     assert dll.dh2_viewer_scene_mesh(c.byref(result), c.byref(view)) == 0
     assert (result.vertex_count, result.index_count, result.draw_commands) == (8, 12, 2)
     assert result.first_diffuse_texture == b'env_crypt.tga'
+    assert result.skin_joints == 0
     vertices = [result.vertices[i] for i in range(result.vertex_count * 5)]
     indices = [result.indices[i] for i in range(result.index_count)]
     assert all(math.isfinite(x) for x in vertices)
@@ -74,6 +77,18 @@ def main() -> None:
                    for i in range(result.vertex_count) for axis in (0, 1, 2))
         assert max(coordinates[5 * i + 1] for i in range(result.vertex_count)) > (
             min(coordinates[5 * i + 1] for i in range(result.vertex_count)))
+        assert hashlib.sha256(source.raw[:len(raw)]).digest() == hashlib.sha256(raw).digest()
+        dll.dh2_viewer_scene_mesh_free(c.byref(result))
+    if args.character_sample:
+        raw = args.character_sample.read_bytes()
+        source = c.create_string_buffer(raw)
+        view = Bres()
+        assert dll.dh2_bres_open(c.byref(view), source, len(raw)) == 0
+        assert dll.dh2_viewer_scene_mesh(c.byref(result), c.byref(view)) == 0
+        assert (result.draw_commands, result.vertex_count, result.skin_joints) == (1, 335, 18)
+        assert result.first_diffuse_texture == b'prince-warrior.tga'
+        assert all(math.isfinite(result.vertices[i]) for i in range(result.vertex_count * 5))
+        assert all(result.indices[i] < result.vertex_count for i in range(result.index_count))
         assert hashlib.sha256(source.raw[:len(raw)]).digest() == hashlib.sha256(raw).digest()
         dll.dh2_viewer_scene_mesh_free(c.byref(result))
     print('scene buffers: candle 2 commands; optional void maze 77 commands; '

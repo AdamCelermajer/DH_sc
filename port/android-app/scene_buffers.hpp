@@ -14,6 +14,7 @@ struct SceneMesh {
     float* vertices;          // x, y, z, u, v per vertex; XYZ normalized after walk.
     std::uint16_t* indices;   // Combined triangle list, offset per draw.
     std::uint32_t vertex_count, index_count, draw_commands;
+    std::uint32_t skin_joints; // Nonzero for the first-controller pose fallback.
     char first_diffuse_texture[96];
 };
 }

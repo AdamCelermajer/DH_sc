@@ -17,22 +17,24 @@ pthread_mutex_t guard = PTHREAD_MUTEX_INITIALIZER;
 float* vertices = nullptr; // normalized world x, y, z, u, v per vertex
 std::uint16_t* indices = nullptr;
 std::uint32_t vertex_count = 0, index_count = 0;
+bool character_z_up = false;
 std::uint8_t* rgba = nullptr;
 int texture_width = 0, texture_height = 0;
 bool texture_dirty = false;
 GLuint program = 0, texture = 0;
 GLint position_loc = -1, uv_loc = -1, sampler_loc = -1, has_texture_loc = -1;
 GLint aspect_loc = -1, yaw_loc = -1, pitch_loc = -1, zoom_loc = -1;
+GLint z_up_loc = -1;
 int screen_width = 1, screen_height = 1;
 float yaw = 0.6f, pitch = 0.9f, zoom = 1.0f;
 
 constexpr char vertex_shader[] =
     "attribute vec3 aPosition; attribute vec2 aUv; varying vec2 vUv;"
-    "uniform float uAspect; uniform float uYaw; uniform float uPitch; uniform float uZoom;"
+    "uniform float uAspect; uniform float uYaw; uniform float uPitch; uniform float uZoom; uniform float uZUp;"
     "void main(){"
     "float cy=cos(uYaw),sy=sin(uYaw),cp=cos(uPitch),sp=sin(uPitch);"
-    "vec3 turned=vec3(cy*aPosition.x+sy*aPosition.z,aPosition.y,"
-    "-sy*aPosition.x+cy*aPosition.z);"
+    "vec3 p=mix(aPosition,vec3(aPosition.x,aPosition.z,-aPosition.y),uZUp);"
+    "vec3 turned=vec3(cy*p.x+sy*p.z,p.y,-sy*p.x+cy*p.z);"
     "vec3 viewed=vec3(turned.x,cp*turned.y-sp*turned.z,"
     "sp*turned.y+cp*turned.z);"
     "gl_Position=vec4(viewed.x*uAspect*uZoom,viewed.y*uZoom,"
@@ -90,12 +92,14 @@ Java_local_dh2_sourceviewer_MainActivity_loadBres(JNIEnv* env, jclass, jbyteArra
     std::free(vertices); std::free(indices);
     vertices = scene_mesh.vertices; indices = scene_mesh.indices;
     vertex_count = scene_mesh.vertex_count; index_count = scene_mesh.index_count;
+    character_z_up = scene_mesh.skin_joints != 0;
     const bool already_textured = rgba != nullptr;
     pthread_mutex_unlock(&guard);
     char status[224]{};
     std::snprintf(status, sizeof(status),
-                  "Static scene: %u draws, %u vertices, %u indices. First diffuse: %s. %s",
-                  scene_mesh.draw_commands, scene_mesh.vertex_count, scene_mesh.index_count,
+                  "%s: %u draws, %u vertices, %u indices, %u bones. First diffuse: %s. %s",
+                  scene_mesh.skin_joints ? "Character pose" : "Static scene",
+                  scene_mesh.draw_commands, scene_mesh.vertex_count, scene_mesh.index_count, scene_mesh.skin_joints,
                   scene_mesh.first_diffuse_texture[0]
                       ? scene_mesh.first_diffuse_texture : "unresolved",
                   already_textured ? "Rendering with imported texture." : "Import that texture to render it.");
@@ -169,6 +173,7 @@ Java_local_dh2_sourceviewer_MainActivity_surfaceCreated(JNIEnv*, jclass) {
     yaw_loc = glGetUniformLocation(program, "uYaw");
     pitch_loc = glGetUniformLocation(program, "uPitch");
     zoom_loc = glGetUniformLocation(program, "uZoom");
+    z_up_loc = glGetUniformLocation(program, "uZUp");
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
     glGenTextures(1, &texture);
@@ -214,6 +219,7 @@ Java_local_dh2_sourceviewer_MainActivity_draw(JNIEnv*, jclass) {
     glUniform1f(aspect_loc, static_cast<float>(screen_height) / screen_width);
     glUniform1f(yaw_loc, yaw);
     glUniform1f(pitch_loc, pitch);
+    glUniform1f(z_up_loc, character_z_up ? 1.0f : 0.0f);
     const float aspect_fit = screen_width < screen_height
         ? static_cast<float>(screen_width) / screen_height : 1.0f;
     glUniform1f(zoom_loc, 1.2f * aspect_fit * zoom);

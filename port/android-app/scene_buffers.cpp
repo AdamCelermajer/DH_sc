@@ -1,5 +1,6 @@
 #include "scene_buffers.hpp"
 #include "../scene-draw/draw.hpp"
+#include "../skin-payloads/skin.hpp"
 
 #include <cmath>
 #include <cstdio>
@@ -18,6 +19,8 @@ struct Context {
     const dh2::resources::BresView* image;
     SceneMeshError error;
     float minimum[3], maximum[3];
+    const dh2::skin::Skin* skin;
+    const dh2::math::Matrix4f* palette;
 };
 
 void first_diffuse(const dh2::draw::Command* draw, Context& context) {
@@ -80,6 +83,14 @@ bool append_draw(const dh2::draw::Command* draw, void* user) {
             context.error = SceneMeshError::unsupported;
             return false;
         }
+        if (context.skin) {
+            dh2::math::Vector3f input{position[0], position[1], position[2]}, skinned{};
+            if (dh2_skin_position(context.skin, i, context.palette, context.skin->joints,
+                                   &input, &skinned) != dh2::skin::Error::ok) {
+                context.error = SceneMeshError::unsupported; return false;
+            }
+            position[0] = skinned.x; position[1] = skinned.y; position[2] = skinned.z;
+        }
         const float x = ((m[0] * position[0] + m[4] * position[1]) +
                          m[8] * position[2]) + m[12];
         const float y = ((m[1] * position[0] + m[5] * position[1]) +
@@ -120,6 +131,52 @@ bool append_draw(const dh2::draw::Command* draw, void* user) {
     first_diffuse(draw, context);
     return true;
 }
+bool append_first_skin(Context& context) {
+    dh2::scene::Scene scene{};
+    if (dh2_scene_open(&scene, context.image) != dh2::scene::Error::ok) return false;
+    const auto count = dh2_bres_library_count(context.image, dh2::resources::Library::controller);
+    for (std::uint32_t i = 0; i < count; ++i) {
+        dh2::skin::Skin skin{};
+        if (dh2_skin_open(&skin, context.image, i) != dh2::skin::Error::ok) continue;
+        // Diagnostic: select the first resolvable controller, not every armour
+        // alternative in a modular character file.
+        for (std::uint32_t j = 0; j < scene.visuals; ++j) {
+            dh2::scene::Visual visual{}; dh2::math::Matrix4f palette[256]{};
+            if (dh2_scene_visual(&scene, j, &visual) != dh2::scene::Error::ok ||
+                dh2_skin_scene_palette(&skin, &visual, palette, 256) != dh2::skin::Error::ok)
+                continue;
+            dh2::assets::Mesh mesh{};
+            if (dh2_mesh_open(&mesh, context.image, skin.geometry_index) != dh2::assets::Error::ok)
+                return false;
+            context.skin = &skin; context.palette = palette;
+            for (std::uint32_t k = 0; k < mesh.primitives; ++k) {
+                dh2::assets::Primitive primitive{};
+                if (dh2_mesh_primitive(&mesh, k, &primitive) != dh2::assets::Error::ok)
+                    return false;
+                if (primitive.collada_type != 0 || primitive.index_count % 3) continue;
+                std::int32_t material_index = -1;
+                const auto materials = dh2_bres_library_count(context.image, dh2::resources::Library::material);
+                for (std::uint32_t m = 0; m < materials; ++m) {
+                    dh2::materials::Material material{};
+                    if (dh2_material_record(&material, context.image, m) == dh2::materials::Error::ok &&
+                        std::strcmp(material.id, primitive.material) == 0) {
+                        material_index = static_cast<std::int32_t>(m); break;
+                    }
+                }
+                dh2::draw::Command command{};
+                command.world.m[0] = command.world.m[5] = command.world.m[10] = command.world.m[15] = 1;
+                command.geometry_index = skin.geometry_index;
+                command.primitive_index = static_cast<std::int32_t>(k);
+                command.material_index = material_index;
+                if (!append_draw(&command, &context)) return false;
+            }
+            context.skin = nullptr; context.palette = nullptr;
+            context.output->skin_joints = skin.joints;
+            return context.output->draw_commands != 0;
+        }
+    }
+    return false;
+}
 }
 
 extern "C" void dh2_viewer_scene_mesh_free(SceneMesh* output) {
@@ -144,7 +201,7 @@ extern "C" SceneMeshError dh2_viewer_scene_mesh(
     }
     Context context{output, image, SceneMeshError::ok,
                     {INFINITY, INFINITY, INFINITY},
-                    {-INFINITY, -INFINITY, -INFINITY}};
+                    {-INFINITY, -INFINITY, -INFINITY}, nullptr, nullptr};
     dh2::draw::Stats stats{};
     const auto walked = dh2_static_scene_draws(&stats, image, append_draw,
                                                 &context, 20000, max_commands);
@@ -156,8 +213,9 @@ extern "C" SceneMeshError dh2_viewer_scene_mesh(
         dh2_viewer_scene_mesh_free(output);
         return error;
     }
-    if (!output->vertex_count || !output->index_count ||
-        output->draw_commands != stats.draw_commands) {
+    if (!output->draw_commands) append_first_skin(context);
+    if (context.error != SceneMeshError::ok || !output->vertex_count || !output->index_count ||
+        (!output->skin_joints && output->draw_commands != stats.draw_commands)) {
         dh2_viewer_scene_mesh_free(output);
         return SceneMeshError::no_draw;
     }

@@ -1,0 +1,2776 @@
+{
+  "complete_engine": false,
+  "arm_differential": false,
+  "totals": {
+    "files": 2904,
+    "files_with_controllers": 386,
+    "controllers": 727,
+    "decoded_skins": 531,
+    "joints": 4319,
+    "vertices": 104486,
+    "checked_positions": 1593,
+    "zero_weight_vertices": 22
+  },
+  "influences_per_skin": {
+    "1": 260,
+    "2": 181,
+    "3": 81,
+    "4": 9
+  },
+  "unsupported": [
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "controller": 5,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+      "controller": 5,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/asassin_demon/animations/assassindemon_attack_01.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/dark_queen/animations/cs_darkqueen_scene08_dq.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/dark_queen/animations/dark_queen1stform_template_anim.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/dark_queen/animations/dark_queen2ndform_hurt.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/dark_queen/animations/dark_queen2ndform_template_anim.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/darkguardian/animations/darkguardian_template_anim.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/dk/animations/dk_template_anim.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/dk/animations/dk_template_anim.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/dk/animations/dk_template_anim.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/dk/animations/dk_template_anim.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_darkqueen_scene03a_faery.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_darkqueen_scene03b_faery.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_darkqueen_scene07_faery.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_darkqueen_scene07_faery_talk.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_darkqueen_scene08_faery.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_earth_temple_intro_faery_scene01_03.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_earth_temple_intro_faery_scene06.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_earth_temple_intro_faery_scene06_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_earth_temple_intro_faery_scene08.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_earth_temple_intro_faery_scene09.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_earth_temple_intro_faery_scene10.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_earth_temple_outro_faery_scene02.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_earth_temple_outro_faery_scene11_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_earth_temple_outro_faery_scene11_talk.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_earth_temple_outro_faery_scene12_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_king_intro_faery_scene07_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_king_intro_faery_scene08_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swamp_intro_faery_scene08_idle_02.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swamp_intro_faery_scene11_faerytalk.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene02.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene02_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene02_talk.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene03.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene03_talk.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene04.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene04_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene04_talk.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene05.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene05_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene06.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_swampking_outro_faery_scene07.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_witch_intro_faery_scene01.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_witch_intro_faery_scene02.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_witch_intro_faery_scene03.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_witch_intro_faery_scene03_talk.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_witch_intro_faery_scene04.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_witch_intro_faery_scene05.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/cs_witch_intro_faery_scene06.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/faeries_celeste_alarm.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/faeries_celeste_despawn.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/faeries_celeste_dying.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/faeries_fx_madruk01_death.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/faeries_fx_madruk01_death_despawn.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/faeries_fx_madruk01_spell_cast.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/faeries/animations/faeries_template_anim.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/ghost/animations/ghost_attack_02.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/ghost/animations/ghost_post_attack_02.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/ghost/animations/ghost_pre_attack_02.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/ghost/animations/ghost_walk_01.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/infected/animations/infected_spawn.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/infected/animations/infected_spawn_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/infected/animations/infected_template_anim.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/lighthouse/animations/lighthouse_template_anim.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/madruk/animations/madruk1_walk.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/madruk/animations/madrukfinal_charging_grab_drain_complete.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/madruk/animations/madrukfinal_charging_grab_miss_complete.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/moth_cocoon/animations/moth_cocoon_dead.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cin_king_point.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cin_king_point_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cin_king_sitting_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cin_king_situp.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cin_king_situp_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cin_king_stand.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cin_king_stand_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cs_earthtemple_intro_scene07_cultist_r_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene01.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene01.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/cs_swamp_intro_prisonner_scene01.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/king_anim_template.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/npcs/animations/npc_m_dead.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_earthtemple_intro_scene09_prince_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_earthtemple_intro_scene09_prince_idle.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_earthtemple_intro_scene09_prince_idle.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_earthtemple_intro_scene09_prince_idle.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_earthtemple_intro_scene09_prince_idle.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_swamp_intro_prince_scene09.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_swamp_intro_prince_scene09.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_swamp_intro_prince_scene09.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_swamp_intro_prince_scene09.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_swampking_intro_prince_scene02_idle.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_swampking_intro_prince_scene02_idle.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_swampking_intro_prince_scene02_idle.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_swampking_intro_prince_scene02_idle.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_swampking_intro_prince_scene02_idle.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_swampking_intro_prince_scene02_idle.bdae",
+      "controller": 5,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04.bdae",
+      "controller": 5,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04_talk.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04_talk.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04_talk.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04_talk.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04_talk.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/cs_witch_intro_prince_scene04_talk.bdae",
+      "controller": 5,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_2hand.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_2hand.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_2hand.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_2hand.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_2hand.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_dual.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_dual.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_dual.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_dual.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_dual.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_dual_02.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_dual_02.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_dual_02.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_dual_02.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_dual_02.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_eclipse.bdae",
+      "controller": 4,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_figments.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_figments.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_figments.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_figments.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_terror.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_terror.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_terror.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_illusionist_terror.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_necromancer_death_claw.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_complete.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_complete.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_complete.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_complete.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_post.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_post.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_post.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_post.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_pre.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_pre.bdae",
+      "controller": 1,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_pre.bdae",
+      "controller": 2,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/prince/animations/spell_dh2_prince_drained_life_pre.bdae",
+      "controller": 3,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/root_troll/animations/cs_earthtemple_intro_scene08a_troll.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/root_troll/animations/cs_earthtemple_outro_scene02_troll.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/root_troll/animations/cs_earthtemple_outro_scene03_troll.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/root_troll/animations/cs_earthtemple_outro_scene06_troll.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/root_troll/animations/root_troll_attack_01.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/statue/animations/statue_dying.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/swampking/animations/cs_swampking_intro_cutscene_emerge_eat.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/swampking/animations/cs_swampking_intro_swampking_scene07.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/swampking/animations/cs_swampking_outro_swampking_scene04.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/swampking/animations/cs_swampking_outro_swampking_scene05.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/swampking/animations/swampking_sandworm_despawn.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/troll/animations/cs_swamp_intro_troll_scene01.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    },
+    {
+      "file": "data/3d/characters/troll/animations/cs_swamp_intro_troll_scene02.bdae",
+      "controller": 0,
+      "type": 0,
+      "error": 6
+    }
+  ],
+  "samples": [
+    {
+      "file": "data/3d/characters/prince/prince_low_poly_warrior.bdae",
+      "skin": "Prince-warrior-mesh-skin",
+      "joints": 18,
+      "vertices": 335,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_low_poly_warrior.bdae",
+      "skin": "_mesh_shadow-mesh-skin",
+      "joints": 1,
+      "vertices": 4,
+      "influences": 1,
+      "max_weight_sum_error": 0,
+      "sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_01-mesh-skin",
+      "joints": 8,
+      "vertices": 158,
+      "influences": 3,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_02-mesh-skin",
+      "joints": 8,
+      "vertices": 158,
+      "influences": 3,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_03-mesh-skin",
+      "joints": 8,
+      "vertices": 158,
+      "influences": 3,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_04-mesh-skin",
+      "joints": 8,
+      "vertices": 153,
+      "influences": 3,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_05-mesh-skin",
+      "joints": 8,
+      "vertices": 153,
+      "influences": 3,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_06-mesh-skin",
+      "joints": 8,
+      "vertices": 140,
+      "influences": 3,
+      "max_weight_sum_error": 1.2293457984924316e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_07-mesh-skin",
+      "joints": 8,
+      "vertices": 140,
+      "influences": 3,
+      "max_weight_sum_error": 1.2293457984924316e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_08-mesh-skin",
+      "joints": 8,
+      "vertices": 140,
+      "influences": 3,
+      "max_weight_sum_error": 1.2293457984924316e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_09-mesh-skin",
+      "joints": 8,
+      "vertices": 140,
+      "influences": 3,
+      "max_weight_sum_error": 1.2293457984924316e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_10-mesh-skin",
+      "joints": 8,
+      "vertices": 176,
+      "influences": 3,
+      "max_weight_sum_error": 1.021544449031353e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_Illusionist_01-mesh-skin",
+      "joints": 8,
+      "vertices": 177,
+      "influences": 3,
+      "max_weight_sum_error": 1.4132820069789886e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_Necromancer_01-mesh-skin",
+      "joints": 8,
+      "vertices": 177,
+      "influences": 3,
+      "max_weight_sum_error": 1.1548399925231934e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Cloth_Necromancer_02-mesh-skin",
+      "joints": 8,
+      "vertices": 198,
+      "influences": 3,
+      "max_weight_sum_error": 8.917413651943207e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_01-mesh-skin",
+      "joints": 8,
+      "vertices": 168,
+      "influences": 3,
+      "max_weight_sum_error": 6.984919309616089e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_02-mesh-skin",
+      "joints": 8,
+      "vertices": 153,
+      "influences": 3,
+      "max_weight_sum_error": 7.450580596923828e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_03-mesh-skin",
+      "joints": 8,
+      "vertices": 149,
+      "influences": 3,
+      "max_weight_sum_error": 1.043081283569336e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_04-mesh-skin",
+      "joints": 7,
+      "vertices": 153,
+      "influences": 3,
+      "max_weight_sum_error": 1.0314397513866425e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_05-mesh-skin",
+      "joints": 8,
+      "vertices": 156,
+      "influences": 3,
+      "max_weight_sum_error": 1.2665987014770508e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_06-mesh-skin",
+      "joints": 8,
+      "vertices": 156,
+      "influences": 4,
+      "max_weight_sum_error": 1.1455267667770386e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_07-mesh-skin",
+      "joints": 8,
+      "vertices": 153,
+      "influences": 3,
+      "max_weight_sum_error": 9.685754776000977e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_08-mesh-skin",
+      "joints": 8,
+      "vertices": 156,
+      "influences": 3,
+      "max_weight_sum_error": 9.872019290924072e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_09-mesh-skin",
+      "joints": 8,
+      "vertices": 180,
+      "influences": 3,
+      "max_weight_sum_error": 1.3224780559539795e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_10-mesh-skin",
+      "joints": 8,
+      "vertices": 181,
+      "influences": 3,
+      "max_weight_sum_error": 1.0244548320770264e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_Archer_01-mesh-skin",
+      "joints": 7,
+      "vertices": 253,
+      "influences": 3,
+      "max_weight_sum_error": 7.264316082000732e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Leather_Assassin_01-mesh-skin",
+      "joints": 8,
+      "vertices": 143,
+      "influences": 3,
+      "max_weight_sum_error": 8.940696716308594e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_01-mesh-skin",
+      "joints": 8,
+      "vertices": 153,
+      "influences": 3,
+      "max_weight_sum_error": 9.685754776000977e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_02-mesh-skin",
+      "joints": 8,
+      "vertices": 153,
+      "influences": 3,
+      "max_weight_sum_error": 8.940696716308594e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_03-mesh-skin",
+      "joints": 8,
+      "vertices": 153,
+      "influences": 3,
+      "max_weight_sum_error": 9.685754776000977e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_04-mesh-skin",
+      "joints": 8,
+      "vertices": 155,
+      "influences": 4,
+      "max_weight_sum_error": 1.1175870895385742e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_05-mesh-skin",
+      "joints": 8,
+      "vertices": 153,
+      "influences": 2,
+      "max_weight_sum_error": 7.82310962677002e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_06-mesh-skin",
+      "joints": 8,
+      "vertices": 153,
+      "influences": 3,
+      "max_weight_sum_error": 8.940696716308594e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_07-mesh-skin",
+      "joints": 8,
+      "vertices": 155,
+      "influences": 3,
+      "max_weight_sum_error": 1.1175870895385742e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_08-mesh-skin",
+      "joints": 8,
+      "vertices": 155,
+      "influences": 4,
+      "max_weight_sum_error": 1.2293457984924316e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_09-mesh-skin",
+      "joints": 8,
+      "vertices": 155,
+      "influences": 3,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_10-mesh-skin",
+      "joints": 7,
+      "vertices": 160,
+      "influences": 3,
+      "max_weight_sum_error": 1.3783574104309082e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_Berserker_01-mesh-skin",
+      "joints": 7,
+      "vertices": 204,
+      "influences": 3,
+      "max_weight_sum_error": 6.763730198144913e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_Plate_Paladin_01-mesh-skin",
+      "joints": 7,
+      "vertices": 175,
+      "influences": 3,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet__naked-mesh-skin",
+      "joints": 8,
+      "vertices": 167,
+      "influences": 3,
+      "max_weight_sum_error": 1.1548399925231934e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet__placeholder-mesh-skin",
+      "joints": 8,
+      "vertices": 167,
+      "influences": 3,
+      "max_weight_sum_error": 1.1548399925231934e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_default-mesh-skin",
+      "joints": 8,
+      "vertices": 167,
+      "influences": 3,
+      "max_weight_sum_error": 1.1548399925231934e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_default_mage-mesh-skin",
+      "joints": 8,
+      "vertices": 177,
+      "influences": 3,
+      "max_weight_sum_error": 1.260777935385704e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_default_rogue-mesh-skin",
+      "joints": 8,
+      "vertices": 153,
+      "influences": 2,
+      "max_weight_sum_error": 1.0617077350616455e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Feet_default_warrior-mesh-skin",
+      "joints": 8,
+      "vertices": 167,
+      "influences": 3,
+      "max_weight_sum_error": 1.1548399925231934e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_01-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 3,
+      "max_weight_sum_error": 7.508788257837296e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_02-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 6.332993507385254e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_03-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 6.332993507385254e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_04-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 6.332993507385254e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_05-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 6.332993507385254e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_06-mesh-skin",
+      "joints": 6,
+      "vertices": 64,
+      "influences": 2,
+      "max_weight_sum_error": 6.332993507385254e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_07-mesh-skin",
+      "joints": 6,
+      "vertices": 64,
+      "influences": 2,
+      "max_weight_sum_error": 6.332993507385254e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_08-mesh-skin",
+      "joints": 6,
+      "vertices": 64,
+      "influences": 2,
+      "max_weight_sum_error": 6.332993507385254e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_09-mesh-skin",
+      "joints": 6,
+      "vertices": 64,
+      "influences": 2,
+      "max_weight_sum_error": 6.332993507385254e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_10-mesh-skin",
+      "joints": 6,
+      "vertices": 76,
+      "influences": 3,
+      "max_weight_sum_error": 1.1222437024116516e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_Illusionist_01-mesh-skin",
+      "joints": 6,
+      "vertices": 96,
+      "influences": 2,
+      "max_weight_sum_error": 1.0617077350616455e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_Necromancer_01-mesh-skin",
+      "joints": 6,
+      "vertices": 59,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Cloth_Necromancer_02-mesh-skin",
+      "joints": 6,
+      "vertices": 96,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_01-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_02-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_03-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_04-mesh-skin",
+      "joints": 5,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_05-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 3,
+      "max_weight_sum_error": 6.111804395914078e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_06-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 3,
+      "max_weight_sum_error": 6.111804395914078e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_07-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 6.05359673500061e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_08-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 3,
+      "max_weight_sum_error": 6.111804395914078e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_09-mesh-skin",
+      "joints": 6,
+      "vertices": 68,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_10-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_Archer_01-mesh-skin",
+      "joints": 6,
+      "vertices": 68,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Leather_Assassin_01-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_01-mesh-skin",
+      "joints": 6,
+      "vertices": 80,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_02-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 6.05359673500061e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_03-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 6.05359673500061e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_04-mesh-skin",
+      "joints": 6,
+      "vertices": 136,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_05-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 6.05359673500061e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_06-mesh-skin",
+      "joints": 6,
+      "vertices": 76,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_07-mesh-skin",
+      "joints": 6,
+      "vertices": 136,
+      "influences": 2,
+      "max_weight_sum_error": 5.296897143125534e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_08-mesh-skin",
+      "joints": 6,
+      "vertices": 136,
+      "influences": 2,
+      "max_weight_sum_error": 5.296897143125534e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_09-mesh-skin",
+      "joints": 6,
+      "vertices": 136,
+      "influences": 2,
+      "max_weight_sum_error": 5.296897143125534e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_10-mesh-skin",
+      "joints": 5,
+      "vertices": 124,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_Berserker_01-mesh-skin",
+      "joints": 6,
+      "vertices": 112,
+      "influences": 3,
+      "max_weight_sum_error": 1.1827796697616577e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_Plate_Paladin_01-mesh-skin",
+      "joints": 6,
+      "vertices": 142,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands__naked-mesh-skin",
+      "joints": 6,
+      "vertices": 62,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands__placeholder-mesh-skin",
+      "joints": 6,
+      "vertices": 62,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_default-mesh-skin",
+      "joints": 6,
+      "vertices": 62,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_default_mage-mesh-skin",
+      "joints": 6,
+      "vertices": 86,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_default_rogue-mesh-skin",
+      "joints": 6,
+      "vertices": 58,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Hands_default_warrior-mesh-skin",
+      "joints": 6,
+      "vertices": 62,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_01-mesh-skin",
+      "joints": 3,
+      "vertices": 113,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_02-mesh-skin",
+      "joints": 3,
+      "vertices": 114,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_03-mesh-skin",
+      "joints": 3,
+      "vertices": 113,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_04-mesh-skin",
+      "joints": 3,
+      "vertices": 117,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_05-mesh-skin",
+      "joints": 3,
+      "vertices": 114,
+      "influences": 3,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_06-mesh-skin",
+      "joints": 2,
+      "vertices": 117,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_07-mesh-skin",
+      "joints": 3,
+      "vertices": 131,
+      "influences": 3,
+      "max_weight_sum_error": 4.470348358154297e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_08-mesh-skin",
+      "joints": 3,
+      "vertices": 131,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_09-mesh-skin",
+      "joints": 3,
+      "vertices": 131,
+      "influences": 3,
+      "max_weight_sum_error": 5.2619725465774536e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_10-mesh-skin",
+      "joints": 3,
+      "vertices": 126,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_Illusionist_01-mesh-skin",
+      "joints": 2,
+      "vertices": 56,
+      "influences": 2,
+      "max_weight_sum_error": 2.2351741790771484e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_Necromancer_01-mesh-skin",
+      "joints": 2,
+      "vertices": 63,
+      "influences": 1,
+      "max_weight_sum_error": 0,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Cloth_Necromancer_02-mesh-skin",
+      "joints": 3,
+      "vertices": 117,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_01-mesh-skin",
+      "joints": 2,
+      "vertices": 124,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_02-mesh-skin",
+      "joints": 3,
+      "vertices": 116,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_03-mesh-skin",
+      "joints": 3,
+      "vertices": 131,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_04-mesh-skin",
+      "joints": 3,
+      "vertices": 136,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_05-mesh-skin",
+      "joints": 2,
+      "vertices": 136,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_06-mesh-skin",
+      "joints": 2,
+      "vertices": 136,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_07-mesh-skin",
+      "joints": 3,
+      "vertices": 122,
+      "influences": 2,
+      "max_weight_sum_error": 9.778887033462524e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_08-mesh-skin",
+      "joints": 3,
+      "vertices": 116,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_09-mesh-skin",
+      "joints": 3,
+      "vertices": 103,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_10-mesh-skin",
+      "joints": 3,
+      "vertices": 300,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_Archer_01-mesh-skin",
+      "joints": 3,
+      "vertices": 148,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Leather_Assassin_01-mesh-skin",
+      "joints": 3,
+      "vertices": 80,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_01-mesh-skin",
+      "joints": 3,
+      "vertices": 110,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_02-mesh-skin",
+      "joints": 3,
+      "vertices": 127,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_03-mesh-skin",
+      "joints": 3,
+      "vertices": 133,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_04-mesh-skin",
+      "joints": 3,
+      "vertices": 156,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_05-mesh-skin",
+      "joints": 3,
+      "vertices": 131,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_06-mesh-skin",
+      "joints": 3,
+      "vertices": 120,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_07-mesh-skin",
+      "joints": 3,
+      "vertices": 191,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_08-mesh-skin",
+      "joints": 3,
+      "vertices": 194,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_09-mesh-skin",
+      "joints": 3,
+      "vertices": 169,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_10-mesh-skin",
+      "joints": 2,
+      "vertices": 169,
+      "influences": 1,
+      "max_weight_sum_error": 0,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_Berserker_01-mesh-skin",
+      "joints": 3,
+      "vertices": 352,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_Plate_Paladin_01-mesh-skin",
+      "joints": 2,
+      "vertices": 117,
+      "influences": 1,
+      "max_weight_sum_error": 0,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head__naked-mesh-skin",
+      "joints": 3,
+      "vertices": 100,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head__placeholder-mesh-skin",
+      "joints": 3,
+      "vertices": 100,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_default-mesh-skin",
+      "joints": 3,
+      "vertices": 100,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_default_mage-mesh-skin",
+      "joints": 2,
+      "vertices": 100,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_default_rogue-mesh-skin",
+      "joints": 3,
+      "vertices": 100,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Head_default_warrior-mesh-skin",
+      "joints": 3,
+      "vertices": 100,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_01-mesh-skin",
+      "joints": 14,
+      "vertices": 266,
+      "influences": 3,
+      "max_weight_sum_error": 1.3969838619232178e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_02-mesh-skin",
+      "joints": 14,
+      "vertices": 266,
+      "influences": 3,
+      "max_weight_sum_error": 1.3969838619232178e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_03-mesh-skin",
+      "joints": 14,
+      "vertices": 266,
+      "influences": 2,
+      "max_weight_sum_error": 6.705522537231445e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_04-mesh-skin",
+      "joints": 14,
+      "vertices": 197,
+      "influences": 2,
+      "max_weight_sum_error": 6.705522537231445e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_05-mesh-skin",
+      "joints": 14,
+      "vertices": 197,
+      "influences": 2,
+      "max_weight_sum_error": 6.705522537231445e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_06-mesh-skin",
+      "joints": 15,
+      "vertices": 274,
+      "influences": 3,
+      "max_weight_sum_error": 1.1254451237618923e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_07-mesh-skin",
+      "joints": 14,
+      "vertices": 274,
+      "influences": 3,
+      "max_weight_sum_error": 1.1254451237618923e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_08-mesh-skin",
+      "joints": 14,
+      "vertices": 274,
+      "influences": 3,
+      "max_weight_sum_error": 1.1254451237618923e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_09-mesh-skin",
+      "joints": 14,
+      "vertices": 274,
+      "influences": 4,
+      "max_weight_sum_error": 1.1175870895385742e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_10-mesh-skin",
+      "joints": 14,
+      "vertices": 358,
+      "influences": 3,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_Illusionist_01-mesh-skin",
+      "joints": 14,
+      "vertices": 288,
+      "influences": 3,
+      "max_weight_sum_error": 1.1641532182693481e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_Necromancer_01-mesh-skin",
+      "joints": 12,
+      "vertices": 321,
+      "influences": 3,
+      "max_weight_sum_error": 1.0617077350616455e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Cloth_Necromancer_02-mesh-skin",
+      "joints": 13,
+      "vertices": 340,
+      "influences": 3,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_01-mesh-skin",
+      "joints": 13,
+      "vertices": 167,
+      "influences": 4,
+      "max_weight_sum_error": 8.568167686462402e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_02-mesh-skin",
+      "joints": 12,
+      "vertices": 114,
+      "influences": 4,
+      "max_weight_sum_error": 1.1548399925231934e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_03-mesh-skin",
+      "joints": 12,
+      "vertices": 110,
+      "influences": 3,
+      "max_weight_sum_error": 1.043081283569336e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_04-mesh-skin",
+      "joints": 12,
+      "vertices": 148,
+      "influences": 4,
+      "max_weight_sum_error": 1.3783574104309082e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_05-mesh-skin",
+      "joints": 15,
+      "vertices": 247,
+      "influences": 3,
+      "max_weight_sum_error": 1.2665987014770508e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_06-mesh-skin",
+      "joints": 15,
+      "vertices": 247,
+      "influences": 3,
+      "max_weight_sum_error": 1.2665987014770508e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_07-mesh-skin",
+      "joints": 12,
+      "vertices": 116,
+      "influences": 3,
+      "max_weight_sum_error": 9.685754776000977e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_08-mesh-skin",
+      "joints": 12,
+      "vertices": 150,
+      "influences": 2,
+      "max_weight_sum_error": 6.705522537231445e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_09-mesh-skin",
+      "joints": 12,
+      "vertices": 243,
+      "influences": 3,
+      "max_weight_sum_error": 1.043081283569336e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_10-mesh-skin",
+      "joints": 11,
+      "vertices": 162,
+      "influences": 3,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_Archer_01-mesh-skin",
+      "joints": 13,
+      "vertices": 253,
+      "influences": 3,
+      "max_weight_sum_error": 1.1548399925231934e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Leather_Assassin_01-mesh-skin",
+      "joints": 10,
+      "vertices": 253,
+      "influences": 3,
+      "max_weight_sum_error": 6.705522537231445e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_01-mesh-skin",
+      "joints": 12,
+      "vertices": 221,
+      "influences": 3,
+      "max_weight_sum_error": 1.043081283569336e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_02-mesh-skin",
+      "joints": 12,
+      "vertices": 150,
+      "influences": 2,
+      "max_weight_sum_error": 9.685754776000977e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_03-mesh-skin",
+      "joints": 12,
+      "vertices": 117,
+      "influences": 2,
+      "max_weight_sum_error": 9.685754776000977e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_04-mesh-skin",
+      "joints": 12,
+      "vertices": 134,
+      "influences": 3,
+      "max_weight_sum_error": 1.2991949915885925e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_05-mesh-skin",
+      "joints": 12,
+      "vertices": 117,
+      "influences": 2,
+      "max_weight_sum_error": 9.685754776000977e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_06-mesh-skin",
+      "joints": 12,
+      "vertices": 143,
+      "influences": 3,
+      "max_weight_sum_error": 1.050066202878952e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_07-mesh-skin",
+      "joints": 12,
+      "vertices": 134,
+      "influences": 3,
+      "max_weight_sum_error": 1.2991949915885925e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_08-mesh-skin",
+      "joints": 12,
+      "vertices": 134,
+      "influences": 3,
+      "max_weight_sum_error": 1.2991949915885925e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_09-mesh-skin",
+      "joints": 12,
+      "vertices": 134,
+      "influences": 3,
+      "max_weight_sum_error": 1.2991949915885925e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_10-mesh-skin",
+      "joints": 14,
+      "vertices": 370,
+      "influences": 4,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_Berserker_01-mesh-skin",
+      "joints": 8,
+      "vertices": 440,
+      "influences": 2,
+      "max_weight_sum_error": 2.9802322387695312e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_Plate_Paladin_01-mesh-skin",
+      "joints": 12,
+      "vertices": 295,
+      "influences": 3,
+      "max_weight_sum_error": 1.1135125532746315e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso__naked-mesh-skin",
+      "joints": 10,
+      "vertices": 211,
+      "influences": 2,
+      "max_weight_sum_error": 8.195638656616211e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso__placeholder-mesh-skin",
+      "joints": 10,
+      "vertices": 211,
+      "influences": 2,
+      "max_weight_sum_error": 8.195638656616211e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_default-mesh-skin",
+      "joints": 10,
+      "vertices": 211,
+      "influences": 2,
+      "max_weight_sum_error": 8.195638656616211e-08,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_default_mage-mesh-skin",
+      "joints": 11,
+      "vertices": 178,
+      "influences": 3,
+      "max_weight_sum_error": 1.1920928955078125e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_default_rogue-mesh-skin",
+      "joints": 12,
+      "vertices": 153,
+      "influences": 3,
+      "max_weight_sum_error": 1.1175870895385742e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "MC_Torso_default_warrior-mesh-skin",
+      "joints": 10,
+      "vertices": 158,
+      "influences": 3,
+      "max_weight_sum_error": 1.043081283569336e-07,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "file": "data/3d/characters/prince/prince_modular.bdae",
+      "skin": "_mesh_shadow-mesh-skin",
+      "joints": 1,
+      "vertices": 4,
+      "influences": 1,
+      "max_weight_sum_error": 0,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    }
+  ],
+  "library_sha256": "17f1bf8f6aeccb56e05158ef7a2c42437cb595a573e2d80311886f90b4cbf841"
+}

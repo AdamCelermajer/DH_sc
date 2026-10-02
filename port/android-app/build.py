@@ -17,6 +17,7 @@ REPO = HERE.parent.parent
 SOURCES = [
     HERE / 'native.cpp',
     HERE / 'scene_buffers.cpp',
+    REPO / 'port/skin-payloads/skin.cpp',
     REPO / 'port/scene-draw/draw.cpp',
     REPO / 'port/scene-payloads/scene.cpp',
     REPO / 'port/asset-payloads/payloads.cpp',
@@ -90,6 +91,7 @@ def main() -> None:
         output = directory / 'libdh2source.so'
         run(clang, f'--target={target}', '-std=c++17', '-O2', '-Wall', '-Wextra',
             '-Werror', '-fPIC', '-shared', '-fno-exceptions', '-fno-rtti',
+            '-fno-fast-math', '-ffp-contract=off',
             '-nostdlib++', '-Wl,-z,max-page-size=16384', '-Wl,--no-undefined',
             *SOURCES, '-llog', '-lGLESv2', '-landroid', '-o', output)
         result[abi] = check_elf(output, machine)
