@@ -11,6 +11,7 @@ It adds **18 complete animation accessor bodies and 8 complete typed search bodi
 | Original ARM32 versus compiled ARM64 animation access/search | 271,970 comparisons, zero mismatches; all 456 instruction addresses in the 26 complete ranges executed | [ARM report](../../reports/asset-payloads-arm-validation.json) |
 | Full recovered BRES cache | 2,901 files; 10,924 meshes; 1,641,664 vertices; 3,265,266 indices / 1,088,422 triangles | [Cache report](../../reports/asset-payloads-cache-validation.json) |
 | Nine type-1 geometry records | Each has a checked embedded mesh after a 20-byte opaque prefix; 542 embedded vertices and 600 triangles total; 4 malformed cases rejected | [Type-1 report](type1-validation.json) |
+| Type-1 revision ARM64 cross-build | NDK r29 produced a 31,560-byte shared library; both `PT_LOAD` segments have 16 KiB alignment. Runtime execution of this new revision on ARM64 is untested | [Type-1 build report](type1-arm64-build-validation.json) |
 | Animation payloads | 49,060 animation records, 3,732 segments, 82,880 sampler/segment vector pairs and 890,301 time keys decoded and checked | Same cache report |
 | Host / Android ARM64 compilation | Both pass with strict floating-point evaluation and 16 KiB target load alignment | [Build report](../../reports/asset-payloads-build.json) |
 | Corrupted / truncated BRES inputs | 5,000 host ASan/UBSan probes pass; leak detection disabled because of the execution environment | Same build report |
