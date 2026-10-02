@@ -1,12 +1,19 @@
 #include "quest.h"
+#include "../quest-compile/compile.h"
 #include "lua.h"
 #include "lauxlib.h"
 #include <math.h>
 #define QUEST_TYPE "dh2.source.kill-objective"
-struct objective {struct dh2_kill_objective state;uint32_t kind;};
+struct objective {struct dh2_kill_objective state;uint32_t kind,active,has_record;int32_t record_level,record_required;};
+void dh2_lua_quest_world_context(lua_State *,int,uint32_t,int32_t,int32_t *,int32_t *);
 void dh2_lua_push_kill_objective(lua_State *L,const struct dh2_kill_objective *state,uint32_t kind) {
     struct objective *o=lua_newuserdata(L,sizeof(*o));o->state=*state;o->kind=kind;
+    o->active=1;o->has_record=0;o->record_level=-1;o->record_required=state->required;
     luaL_getmetatable(L,QUEST_TYPE);lua_setmetatable(L,-2);
+}
+void dh2_lua_push_compiled_kill_objective(lua_State *L,const struct dh2_quest_compiled *s,const struct dh2_quest_compile_context *c) {
+    dh2_lua_push_kill_objective(L,&s->progress,c->kind);struct objective *o=lua_touserdata(L,-1);
+    o->active=s->active;o->has_record=1;o->record_level=c->record_level;o->record_required=c->record_required;
 }
 static int32_t integer(lua_State *L,int table,const char *key,int optional,int32_t fallback) {
     lua_pushstring(L,key);lua_rawget(L,table);
@@ -27,6 +34,22 @@ static void flag(lua_State *L,const char *key,uint32_t n) {lua_pushboolean(L,n);
 static void snapshot(lua_State *L,const struct objective *o) {
     lua_newtable(L);number(L,"kind",(int32_t)o->kind);number(L,"match_id",o->state.match_id);
     number(L,"current",o->state.current);number(L,"required",o->state.required);flag(L,"completed",o->state.completed);
+    flag(L,"active",o->active);flag(L,"compiled_record",o->has_record);
+}
+void dh2_lua_push_quest_compile_result(lua_State *L,const struct dh2_quest_compiled *s,uint32_t kind,const struct dh2_quest_compile_result *r) {
+    struct objective o={s->progress,kind,s->active,1,-1,0};
+    lua_newtable(L);flag(L,"eligible",r->eligible);flag(L,"required_updated",r->required_updated);
+    flag(L,"completion_requested",r->completion_requested);flag(L,"newly_completed",r->newly_completed);
+    snapshot(L,&o);lua_setfield(L,-2,"progress");
+}
+static int compile_against(lua_State *L) {
+    struct objective *o=luaL_checkudata(L,1,QUEST_TYPE);
+    if(lua_gettop(L)!=2 || !o->has_record)return luaL_error(L,"compiled quest record and world required");
+    struct dh2_quest_compile_context c={o->kind,o->state.match_id,o->record_level,0,o->record_required,0};
+    dh2_lua_quest_world_context(L,2,o->kind,o->state.match_id,&c.current_level,&c.population);
+    struct dh2_quest_compiled next={o->state,o->active};struct dh2_quest_compile_result r;
+    if(dh2_quest_compile(&next,&c,&r))return luaL_error(L,"invalid quest compile context");
+    dh2_lua_push_quest_compile_result(L,&next,o->kind,&r);o->state=next.progress;o->active=next.active;return 1;
 }
 static int progress(lua_State *L) {
     struct objective *o=luaL_checkudata(L,1,QUEST_TYPE);
@@ -61,5 +84,6 @@ static int create(lua_State *L) {
 void dh2_lua_register_kill_objectives(lua_State *L) {
     luaL_newmetatable(L,QUEST_TYPE);lua_pushvalue(L,-1);lua_setfield(L,-2,"__index");
     lua_pushcfunction(L,progress);lua_setfield(L,-2,"GetProgress");lua_pushcfunction(L,consume);lua_setfield(L,-2,"ConsumeKillEvent");
+    lua_pushcfunction(L,compile_against);lua_setfield(L,-2,"CompileAgainst");
     lua_pop(L,1);lua_pushcfunction(L,create);lua_setglobal(L,"DH2CreateKillObjective");
 }

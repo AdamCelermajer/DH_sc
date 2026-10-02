@@ -1,5 +1,19 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Quest activation in the source APK:** Actual native population helpers and
+four kill/clear Compile methods match 27,516 population and 21,372 compilation
+cases on host/source ARM64. The 906,147-byte source APK passes 23 imports on each
+Android 17 page size: all 34 real counted-kill records compile against owned
+resolved-ID world snapshots and execute recovered damage/death/progress. Four
+synthetic kill/clear records preserve the original level, population, active and
+required-count decisions. Record/world generations survive replacement/rejection
+and collection. Native/strict gates pass. World loading and ID resolution,
+conditions, automatic dispatch, persistence/rewards, loot, full combat/world/AI
+and complete source gameplay remain unfinished. See
+[compile scope](port/quest-compile/README.md) and
+[APK evidence](port/android-app/QUEST-COMPILE-INTEGRATION.md). Earlier entries
+retain their checkpoint identities.
+
 **Real quest data in the source APK:** All 64 cache quest records, 80
 conditions, 194 objective stubs, 222 rewards and 896 script slots match the actual
 original reader on host/source ARM64. All 21,817 host truncations reject. The

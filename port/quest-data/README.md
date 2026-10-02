@@ -58,7 +58,11 @@ The constructor supports native types 0/10 (KillXEnemies/KillEnemyTemplate),
 uses argument 0 as property/template match ID and argument 2 as required count,
 and maps these to source event kinds 0/2. Required count must be positive.
 The real cache contains 34 supported objectives. Unsupported types reject.
-Clear objectives need compiled live-world counts and are not created here.
+The counted-only constructor keeps this restriction. The additional
+`DH2CreateCompiledQuestObjective` supports types 0/1/10/11 through reconstructed
+native compile rules and owned resolved-ID world snapshots; see
+[quest compilation](../quest-compile/README.md). The real cache has 34 counted
+kill objectives and no clear objectives. Clear-path checks use synthetic records.
 
 These are authored development getters/constructors, not original Lua registration.
 Float32/int32 Lua numbers retain the runtime's numeric profile. A malformed import
@@ -66,8 +70,11 @@ preserves the previous generation; input bytes are copied through a protected
 Lua allocation call. Record tables are snapshots, and getter failures do not change
 the dataset or prior objective progress.
 
-Quest compile/world/level gating, conditions, automatic event dispatch, markers,
-completion observers, rewards, persistence and full source gameplay remain pending.
+Kill/clear compile, level gating and population decisions are reconstructed
+against supplied resolved-ID world snapshots. Original Character/world loading,
+ID resolution and collection/cache lifecycle, conditions, automatic event dispatch,
+markers, completion observers, rewards, persistence and full source gameplay
+remain pending.
 
 ## Reproduce
 

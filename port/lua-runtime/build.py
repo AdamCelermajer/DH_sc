@@ -31,6 +31,7 @@ def main():
         ROOT/'../character-state/state.c',ROOT/'../lua-character/methods.c',ROOT/'../lua-character/bridge.c',
         ROOT/'../character-classes/classes.c',ROOT/'../loot-tables/loot.c',ROOT/'../equipment-bonuses/equipment.c',ROOT/'../gear-properties/gears.c',
         ROOT/'../random/random.c',ROOT/'../random/lua-bridge.c',ROOT/'../character-health/health.c',ROOT/'../character-damage/damage.c',ROOT/'../character-death/death.c',ROOT/'../quest-kill/quest.c',ROOT/'../quest-kill/lua-bridge.c',ROOT/'../quest-data/quests.c',ROOT/'../quest-data/lua-bridge.c']
+    sources.extend([ROOT/'../quest-compile/compile.c',ROOT/'../quest-compile/lua-world.c'])
     build=ROOT/'build';build.mkdir(exist_ok=True)
     # Preserve the upstream import; apply the reviewed repair only to a build copy.
     patch_path=ROOT/'patches/ltable-array-index.json'
@@ -93,6 +94,7 @@ def main():
             'owned_nonplayer_death_metadata_and_event_projection_installed':True,
             'owned_kill_objective_progress_projection_installed':True,
             'owned_quest_dataset_and_counted_kill_record_creation_installed':True,
+            'owned_quest_world_snapshot_and_record_compile_installed':True,
             'builtin_struct_name_tables':71,'builtin_struct_field_entries':636,
             'vendor_manifest_sha256':sha(manifest_path),'number_profile':'float32 / int32 via LUA_USER_H',
             'upstream_patches':[{'path':str(patch_path.relative_to(ROOT)),
@@ -104,6 +106,7 @@ def main():
                  ROOT/'../pydata-constants/constants.h',ROOT/'../pydata-names/names.h',ROOT/'../pydata-names/struct-names.h',
                  ROOT/'../character-properties/properties.h',ROOT/'../property-composition/composition.h',
                  ROOT/'../character-state/state.h',ROOT/'../lua-character/methods.h',ROOT/'../character-classes/classes.h',ROOT/'tests/classes.c',ROOT/'../loot-tables/loot.h',ROOT/'../equipment-bonuses/equipment.h',ROOT/'tests/equipment.c',ROOT/'../gear-properties/gears.h',ROOT/'tests/gears.c',ROOT/'../random/random.h',ROOT/'tests/combat.c',ROOT/'../character-health/health.h',ROOT/'../character-damage/damage.h',ROOT/'../character-death/death.h',ROOT/'../quest-kill/quest.h',ROOT/'../quest-data/quests.h']},'build_tool_sha256':sha(Path(__file__))}
+    result['source_sha256']['../quest-compile/compile.h']=sha(ROOT/'../quest-compile/compile.h')
     if safety:result['safety']=safety
     a.report.write_text(json.dumps(result,indent=2)+'\n');print('Built:',', '.join(artifacts))
 if __name__=='__main__':main()

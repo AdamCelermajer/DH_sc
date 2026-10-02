@@ -26,6 +26,7 @@ int dh2_lua_loot_load(lua_State *state,const struct dh2_loot_tables *);
 int dh2_lua_powers_load(lua_State *state,const struct dh2_power_tables *);
 void dh2_lua_register_kill_objectives(lua_State *state);
 void dh2_lua_register_quest_data(lua_State *state);
+void dh2_lua_register_quest_world(lua_State *state);
 int dh2_lua_quests_load(lua_State *,const struct dh2_quest_table *);
 static void *allocate(void *opaque, void *pointer, size_t old_size, size_t new_size) {
     dh2_lua *runtime=(dh2_lua *)opaque;
@@ -53,6 +54,7 @@ static int libraries(lua_State *state) {
     dh2_lua_register_characters(state);
     dh2_lua_register_kill_objectives(state);
     dh2_lua_register_quest_data(state);
+    dh2_lua_register_quest_world(state);
     return 0;
 }
 dh2_lua *dh2_lua_create(size_t memory_limit) {

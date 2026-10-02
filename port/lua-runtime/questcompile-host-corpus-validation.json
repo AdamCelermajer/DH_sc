@@ -1,0 +1,27 @@
+{
+  "complete_game": false,
+  "passed": true,
+  "quest_records": 64,
+  "counted_kill_objectives": 34,
+  "compiled_real_objectives": 34,
+  "scripts": 9,
+  "constant_files": 3,
+  "runner_sha256": "4370d0adbfcf6e5d3f83cae97988509fe972b0cf7ddeeb38ff1c88d41e371b51",
+  "build_report_sha256": "48787bcf7557edb767dfce61e766bbdd1ece0925ea0f581d1f39273f97de4e26",
+  "test_sha256": "c01f077b4090f9d3f11489315a587b079643564f857fc59bfbef73d54430ef4a",
+  "ui_test_sha256": "acea59c36a996a27a6923d194beaf76eb04355795c60fc09a7c5f65953fa1a5e",
+  "quests_sha256": "cbbde6ad8aef5f69ed913da5b62b4246a9c8584219c03256c3a2f8de8e8a1b36",
+  "script_sha256": [
+    "f83639a12c5c1910f9a23fff494f4013330943ad4ef8f4d91c33fe1eb975565f",
+    "13f9beb44c3df165392a0edd46b1d84b2b769bf00576455d2023daa55032f552",
+    "d611e553d2c2ffc7d50d328ab7aca692fe0829e48fbb2d6ab5d0e66e1358727d",
+    "fe22d32830d9d3c0b1ebe3cb340adedb9d94cf19b0ab59229da43715af5fc6bd",
+    "24fb8ffc1bb051abc21d3f3378db27acc8abd11f8e0969d7cdf0e5576269757c",
+    "50108a85eafcfc992b4ebd11db68f78f2a3dc52be45e9a84aba5c9c74dd23baf",
+    "3f095e44ef1b81b45cda0bf00118e98ba680832923e7d7653257d503d7785df0",
+    "af88628f4de6aed6e70cfa7f7dc926f625745b5c66e5e79dcdcaa6407ffed157",
+    "d52f1bf6e3cc62a58ad25e33a7ee4792ba0876a15b5cde899f0dfa48f97d9a1b"
+  ],
+  "output": "SELFTEST PASS\nNUMERIC PASS 504\nQUEST CORPUS PASS 3 9\n",
+  "scope": "Host native source Lua executes exact melee formula, owned health/death/quest counting, all 64 real quest record snapshots compared to original reader evidence and 34 real counted-kill objectives. All 34 real counted-kill records compile against owned resolved-ID world snapshots and execute formula/hit/death/count. Original Character/world collection lifecycle, conditions, automatic dispatch, quest persistence/rewards and full source gameplay remain unfinished."
+}

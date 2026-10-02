@@ -1,10 +1,14 @@
 #include "quests.h"
 #include "../quest-kill/quest.h"
+#include "../quest-compile/compile.h"
 #include "lua.h"
 #include "lauxlib.h"
 #include <math.h>
 #include <string.h>
 void dh2_lua_push_kill_objective(lua_State *,const struct dh2_kill_objective *,uint32_t);
+void dh2_lua_quest_world_context(lua_State *,int,uint32_t,int32_t,int32_t *,int32_t *);
+void dh2_lua_push_compiled_kill_objective(lua_State *,const struct dh2_quest_compiled *,const struct dh2_quest_compile_context *);
+void dh2_lua_push_quest_compile_result(lua_State *,const struct dh2_quest_compiled *,uint32_t,const struct dh2_quest_compile_result *);
 static char data_key;
 struct dataset {struct dh2_quest_table table;unsigned char bytes[];};
 static int32_t integer(lua_State *L,int index) {
@@ -73,9 +77,25 @@ static int create(lua_State *L) {
     dh2_lua_push_kill_objective(L,&state,o.common[0]==0?0:2);
     lua_newtable(L);lua_pushvalue(L,dataset_index);lua_rawseti(L,-2,1);lua_setfenv(L,-2);return 1;
 }
+static int create_compiled(lua_State *L) {
+    if(lua_gettop(L)!=6 || lua_type(L,4)!=LUA_TBOOLEAN || lua_type(L,5)!=LUA_TBOOLEAN)return luaL_error(L,"compiled quest requires row, objective, current, completed, active and world");
+    int32_t row=integer(L,1),index=integer(L,2),progress=integer(L,3);
+    struct dataset *data=current(L);int dataset_index=lua_gettop(L);struct dh2_quest_objective o;
+    if(row<0 || index<0 || dh2_quests_objective(&data->table,(uint32_t)row,(uint32_t)index,&o))return luaL_error(L,"invalid quest objective index");
+    uint32_t kind;
+    switch(o.common[0]) {case 0:kind=0;break;case 1:kind=1;break;case 10:kind=2;break;case 11:kind=3;break;default:return luaL_error(L,"unsupported compiled quest type");}
+    struct dh2_quest_compile_context c={kind,kind&1?o.args[1]:o.args[0],kind&1?o.args[0]:o.args[1],0,o.args[2],0};
+    dh2_lua_quest_world_context(L,6,kind,c.match_id,&c.current_level,&c.population);
+    struct dh2_quest_compiled state={{c.match_id,progress,0,(uint32_t)lua_toboolean(L,4)},(uint32_t)lua_toboolean(L,5)};
+    struct dh2_quest_compile_result result;if(dh2_quest_compile(&state,&c,&result))return luaL_error(L,"invalid quest compile context");
+    dh2_lua_push_compiled_kill_objective(L,&state,&c);
+    lua_newtable(L);lua_pushvalue(L,dataset_index);lua_rawseti(L,-2,1);lua_setfenv(L,-2);
+    dh2_lua_push_quest_compile_result(L,&state,kind,&result);return 2;
+}
 void dh2_lua_register_quest_data(lua_State *L) {
     lua_pushcfunction(L,count);lua_setglobal(L,"DH2GetQuestCount");lua_pushcfunction(L,record);lua_setglobal(L,"DH2GetQuestRecord");
     lua_pushcfunction(L,create);lua_setglobal(L,"DH2CreateQuestKillObjective");
+    lua_pushcfunction(L,create_compiled);lua_setglobal(L,"DH2CreateCompiledQuestObjective");
 }
 static int import(lua_State *L) {
     const struct dh2_quest_table *input=lua_touserdata(L,1);

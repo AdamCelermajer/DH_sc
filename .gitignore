@@ -68,3 +68,4 @@ port/character-damage/build/
 port/character-death/build/
 port/quest-kill/build/
 port/quest-data/build/
+port/quest-compile/build/

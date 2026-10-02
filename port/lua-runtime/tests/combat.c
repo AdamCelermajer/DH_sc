@@ -130,6 +130,43 @@ int dh2_lua_combat_tests(void) {
     word(quests+28,1);CHECK(!dh2_lua_import_quests(r,quests,sizeof(quests),error,sizeof(error)));
     CHECK(!execute(r,"assert(not pcall(function()DH2CreateQuestKillObjective(0,0,0,false)end));"
         "assert(quest_generation_keeper:GetProgress().current==2)"));
+    CHECK(!execute(r,"local chars={{property_id=5,template_id=7},{present=false,property_id=5,template_id=7}};"
+        "local cached={{property_id=5,quantity=9},{property_id=8,quantity=-2}};"
+        "quest_world_keeper=DH2CreateQuestWorld(7,chars,cached);local w=quest_world_keeper;"
+        "assert(w:GetLevel()==7 and w:GetPopulation(0,5)==1 and w:GetPopulation(1,7)==1);"
+        "assert(w:GetPopulation(0,8)==-2 and w:GetPopulation(1,8)==0);"
+        "chars[1].property_id=8;cached[1].quantity=1;collectgarbage('collect');assert(w:GetPopulation(0,5)==1);"
+        "assert(not pcall(function()DH2CreateQuestWorld(0,{},{{property_id=1,quantity=0},{property_id=1,quantity=2}})end));"
+        "assert(not pcall(function()DH2CreateQuestWorld(0,{{property_id=32768,template_id=1}},{})end));"
+        "assert(not pcall(function()DH2CreateQuestWorld(0,{{present=1,property_id=5,template_id=7}},{})end));"
+        "assert(not pcall(function()w:GetPopulation(2,5)end));assert(not pcall(function()w:GetPopulation(0,0/0)end));"
+        "assert(w:GetPopulation(0,5)==1)"));
+    for(unsigned kind=0;kind<4;++kind) {
+        word(quests+28,kind<2?kind:kind+8);word(quests+48,kind&1?7:5);word(quests+52,kind&1?5:7);word(quests+56,2);
+        CHECK(!dh2_lua_import_quests(r,quests,sizeof(quests),error,sizeof(error)));
+        char source[4096];snprintf(source,sizeof(source),
+            "local kind=%u;local w=DH2CreateQuestWorld(7,{{property_id=5,template_id=5},{property_id=5,template_id=5}},{});"
+            "local q,c=DH2CreateCompiledQuestObjective(0,0,2,false,false,w);compiled_generation_keeper=q;"
+            "assert(c.eligible and c.required_updated and c.completion_requested and c.newly_completed);"
+            "local p=q:GetProgress();assert(p.compiled_record and p.active and p.completed and p.required==2 and p.kind==kind and p.match_id==5);"
+            "local mismatch=DH2CreateQuestWorld(9,{},{});c=q:CompileAgainst(mismatch);"
+            "assert(not c.eligible and not c.completion_requested and c.required_updated==(kind%%2==0));"
+            "assert(c.progress.active==(kind%%2==1) and c.progress.required==2 and c.progress.completed);"
+            "local empty=DH2CreateQuestWorld(7,{},{});c=q:CompileAgainst(empty);"
+            "assert(not c.eligible and c.required_updated and c.progress.required==(kind%%2==0 and 2 or 0));"
+            "assert(c.progress.active==(kind%%2==1));c=q:CompileAgainst(w);"
+            "assert(c.eligible and c.progress.active and c.progress.required==2 and c.completion_requested and not c.newly_completed);"
+            "local e={kind=kind,match_id=5};local v=q:ConsumeKillEvent(e);assert(v.changed and v.progress.current==3 and v.completion_requested);"
+            "assert(not pcall(function()q:CompileAgainst({})end));assert(q:GetProgress().current==3);"
+            "assert(not pcall(function()DH2CreateCompiledQuestObjective(0,0,0,0,false,w)end));"
+            "assert(not pcall(function()DH2CreateCompiledQuestObjective(0,0,0,false,false,{})end));"
+            "collectgarbage('collect');assert(q:GetProgress().current==3)",kind);
+        CHECK(!execute(r,source));
+    }
+    word(quests+28,4);CHECK(!dh2_lua_import_quests(r,quests,sizeof(quests),error,sizeof(error)));
+    CHECK(!execute(r,"assert(not pcall(function()DH2CreateCompiledQuestObjective(0,0,0,false,false,quest_world_keeper)end));"
+        "collectgarbage('collect');local r=compiled_generation_keeper:CompileAgainst(DH2CreateQuestWorld(7,{{property_id=5,template_id=5}},{}));"
+        "assert(r.eligible and r.progress.kind==3 and r.progress.required==1 and r.progress.current==3 and r.completion_requested and not r.newly_completed)"));
     dh2_lua_destroy(r);return 0;
 }
 static int file(dh2_lua *r,const char *path,int kind) {

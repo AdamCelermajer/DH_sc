@@ -27,8 +27,8 @@
       ],
       "lua_library": {
         "machine": 183,
-        "sha256": "4a170e41abeb84bde6c4adaa50c20468e21fbc8dac1c4168157740c395e1c02b",
-        "bytes": 298616,
+        "sha256": "d47bcf7df6a8ca0a047690d59b2ca0bd5a05207af5d50a710efacc7389183674",
+        "bytes": 306544,
         "pt_load": [
           {
             "alignment": 16384,
@@ -36,11 +36,11 @@
           },
           {
             "alignment": 16384,
-            "offset": 254400
+            "offset": 261408
           },
           {
             "alignment": 16384,
-            "offset": 260632
+            "offset": 267688
           }
         ]
       }
@@ -69,8 +69,8 @@
       ],
       "lua_library": {
         "machine": 62,
-        "sha256": "209180012559fa9cb6c5fdfd4fdea5680c3bedff541cdc65d1b5a56aa1d4f768",
-        "bytes": 291464,
+        "sha256": "065313453110e8ab9078a3779ad84ee1ddbedeac06fe2aaaebd151936ee8a2e5",
+        "bytes": 299152,
         "pt_load": [
           {
             "alignment": 16384,
@@ -78,21 +78,21 @@
           },
           {
             "alignment": 16384,
-            "offset": 253072
+            "offset": 260080
           },
           {
             "alignment": 16384,
-            "offset": 259336
+            "offset": 266392
           }
         ]
       }
     }
   },
   "apk": {
-    "sha256": "3de5a72da41717d3be63f9c1a2901007a8cee8858550d5e688655b4d04fcf7c0",
-    "bytes": 902051
+    "sha256": "7580405d76546728dc858a88f397a6ee854f91bc0c62483110f7c14d4abc1f2a",
+    "bytes": 906147
   },
-  "lua_build_sha256": "c99869e12adcb068de2927be537b88ae1cbb31f35322805a7763612426ef05b4",
+  "lua_build_sha256": "46603c580dfed1fa27e3ad5290a878bd3b97a70e247a740c7012aa94bfa8c240",
   "lua_build": {
     "complete_game": false,
     "numeric_callbacks_installed": true,
@@ -110,6 +110,7 @@
     "owned_nonplayer_death_metadata_and_event_projection_installed": true,
     "owned_kill_objective_progress_projection_installed": true,
     "owned_quest_dataset_and_counted_kill_record_creation_installed": true,
+    "owned_quest_world_snapshot_and_record_compile_installed": true,
     "builtin_struct_name_tables": 71,
     "builtin_struct_field_entries": 636,
     "vendor_manifest_sha256": "7061a96d44cf17297e377ed79c9aea5da9a0ef46a9b036d2417193a0c9c0c6d0",
@@ -124,8 +125,8 @@
     ],
     "artifacts": {
       "lua-arm64.so": {
-        "sha256": "4a170e41abeb84bde6c4adaa50c20468e21fbc8dac1c4168157740c395e1c02b",
-        "bytes": 298616,
+        "sha256": "d47bcf7df6a8ca0a047690d59b2ca0bd5a05207af5d50a710efacc7389183674",
+        "bytes": 306544,
         "layout": {
           "machine": 183,
           "pt_load": [
@@ -134,19 +135,19 @@
               "alignment": 16384
             },
             {
-              "offset": 254400,
+              "offset": 261408,
               "alignment": 16384
             },
             {
-              "offset": 260632,
+              "offset": 267688,
               "alignment": 16384
             }
           ]
         }
       },
       "lua-arm64-runner": {
-        "sha256": "0cd711f0fb74f2645b1568c3d4513789e89cfac5211a1692c6584af251848af2",
-        "bytes": 363944,
+        "sha256": "2dc58efd03d40f37ab6ca0bb72564f10e984fe058d20ea855be5a597c1f542e9",
+        "bytes": 376392,
         "layout": {
           "machine": 183,
           "pt_load": [
@@ -155,23 +156,23 @@
               "alignment": 16384
             },
             {
-              "offset": 317872,
+              "offset": 329424,
               "alignment": 16384
             },
             {
-              "offset": 322944,
+              "offset": 334496,
               "alignment": 16384
             }
           ]
         }
       },
       "lua-x86_64.so": {
-        "sha256": "209180012559fa9cb6c5fdfd4fdea5680c3bedff541cdc65d1b5a56aa1d4f768",
-        "bytes": 291464
+        "sha256": "065313453110e8ab9078a3779ad84ee1ddbedeac06fe2aaaebd151936ee8a2e5",
+        "bytes": 299152
       },
       "lua-x86_64-runner": {
-        "sha256": "d178c2c8cddf7e401781a06a0c0b29a43bf851bbfb4a9dcf883c0d0b95210e2d",
-        "bytes": 356672
+        "sha256": "e7cb92539a51d25ec4ce25eb13d4e3390066488f9f542e3c45134692430448b6",
+        "bytes": 368968
       }
     },
     "compiler_warnings": {
@@ -205,7 +206,7 @@
       "vendor/lua-5.1.4/src/lmathlib.c": "e2933a56332d567cdd69f0fe514d638a8f82da6878754ff259e77cf2157263c3",
       "vendor/lua-5.1.4/src/lstrlib.c": "a978166ca36525de2708ac931834d575c8df057719bc2da39dbe3befe810ec1d",
       "vendor/lua-5.1.4/src/ltablib.c": "e934dc4b2fc117a501c717302a00147f7b44eea978ef87a58a3e40e9bfe45d20",
-      "runtime.c": "a2cd23ab0b7f81fc118e34d51683e45a406422aabc8191c3d197129ad3d58ba2",
+      "runtime.c": "4931c90ebf33def3f6759a2c2da32572e16d8b87febd7d6167035c4194c9868b",
       "../lua-numeric/numeric.c": "3f089b267266a19838121d9e6e2c933da6b2588b8188ccf0853cdcb34695fee8",
       "../lua-numeric/bridge.c": "bed00c0501122ca8d1ea03c480fb3df1c527702062c1bf6b778fc9f0d04b597e",
       "../pydata-constants/constants.c": "08de59987e05ed27ac89263395f48d99fa81a1a38c4bf6ffd63731815169a377",
@@ -227,9 +228,11 @@
       "../character-damage/damage.c": "0e93d3c6caa323562b3a1c937fafc98139758703aeace207155d9efae27dbb01",
       "../character-death/death.c": "47d1ff67a1ebcbeadf4b0e5d6413ec4bd0060d6a3ad663f4cf07d9dc570f8313",
       "../quest-kill/quest.c": "1e5258d0d10d57bd4384ace6d813eb07b1f144941d616854e837e1c250bfd1a1",
-      "../quest-kill/lua-bridge.c": "68dd69554bebb832708a9ec36cfccbfa4eb73834768fe9f3fb3826a2ca41d07c",
+      "../quest-kill/lua-bridge.c": "b98419e7e1cb6254be7da7aac71beef4649ccf11d7248bb5f4664d384618c7a6",
       "../quest-data/quests.c": "9f8887a0b4f6469e6bbc58bb87811f1c3fe456755f2104ddadb4ade62bf0ce29",
-      "../quest-data/lua-bridge.c": "67575fccfde9436b9a96262468c2419302d6f524f65bac3a5b20eeeb83ef6daf",
+      "../quest-data/lua-bridge.c": "798ee48b26f8a72c596958e5b553af0b042ade0b2d3568b022ce1c824b319768",
+      "../quest-compile/compile.c": "164753db2fb835d019bc1b55b3fea203faf17dfb810c0cd1e696fdbac9de4437",
+      "../quest-compile/lua-world.c": "aca6fbc97f3df17f043d0924f25415a1e07b1a24c736957a1b8fa970900ccd87",
       "runtime.h": "91bb7ddfffc920c6282a762b806eee97af797dd09f37e3ca6fc2c0aa5a409f96",
       "dh2_lua_config.h": "ce2f3d4463fc7bd0083404b00003dedb4ccf515943abd1e824d2d45f601fc189",
       "tests/runner.c": "5a1699e075383b43c97b2db2fbc1b1490014ea9b3114e0ee9f9eb6ecdba9b408",
@@ -255,14 +258,15 @@
       "../gear-properties/gears.h": "77ecd3a042d9c0c8ad5fb24096f670e76a6fd75a87f1ac8029a54f16b4803d04",
       "tests/gears.c": "b08bd9ce206837da20238134ef719410f28ee8a364c5bb35e4f14d8f1ead970c",
       "../random/random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6",
-      "tests/combat.c": "9e3f7692e377ed123a0d8bdf5c05924f34f907113e252364bbe5cbf77378190e",
+      "tests/combat.c": "2234de96017bedb882a5a477ee32dbee0f40b7307ccae5047683fd15ed14c39c",
       "../character-health/health.h": "0be8ec940e45d933eb9f76c3a19f4691f1588def7c1e0889bdf77a25db90fedb",
       "../character-damage/damage.h": "8fd50db7faa30af9195a4be7002d74c6394460cf9f479642f91f4a394f277fb4",
       "../character-death/death.h": "f62d33869a3e3a7e4112718b81239fbafccb836cfaef0805f9fc1af2e903b4b5",
       "../quest-kill/quest.h": "34e140475fb50238fe20b217623f9d83e78a63985666817470c30809c5cd2bd6",
-      "../quest-data/quests.h": "7cd7d83581f2128850f9cae41d3008e6503aced3e7be8ec550d953fa30ed26d2"
+      "../quest-data/quests.h": "7cd7d83581f2128850f9cae41d3008e6503aced3e7be8ec550d953fa30ed26d2",
+      "../quest-compile/compile.h": "16b3488b4e0a9848c8b7c423463e72c7c6c7ec9cb3fe6dd0dec7b34518e423ad"
     },
-    "build_tool_sha256": "ee6010ad82e7b6470cc8d4707bf9051efca143d3f6c4a29ceed0978815dfe21e"
+    "build_tool_sha256": "cb82301b8b76372c492d677a3ce58b55cc0771dbd9348b35529277946b19e8ca"
   },
   "script_assets": {
     "assets/dh2/scripts/ai-commons.lua": {
