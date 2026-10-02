@@ -2,7 +2,7 @@
 
 **Complete-cache note:** a separately supplied local cache ZIP is valid and contains 6,833 files, including the previously truncated WAV. See [COMPLETE-CACHE.md](COMPLETE-CACHE.md). The original recovery counts below document the earlier ten-part partial input; newer module checks explicitly identify their full-cache scope.
 
-This status combines this Git checkout with results from the separate earlier recovery package. A selected, hash-verified import now makes the repaired Android Java source, reconstructed JNI component, recovery tools and reports browsable in Git. Original smali, raw native decompilation, full assembly/symbols, DWARF and XML/shader exports remain external. Neither collection is a completed game source restoration or a playable ARM64 APK. See [the import ledger](RECOVERY-SOURCE-IMPORT.md).
+This status combines this Git checkout with results from the separate earlier recovery package. A selected, hash-verified import makes the repaired Android Java source, reconstructed JNI component, recovery tools and reports browsable in Git. A later archival-code import adds 44 native pseudocode/index files and 721 raw Java/smali files as exact, per-file-verified ZIP copies. Full assembly/symbols, DWARF and XML/shader exports remain external. The archived pseudocode is not a compilable engine; the Android 17 gameplay APK still depends on the original ARM32 engine. See [the import ledger](RECOVERY-SOURCE-IMPORT.md).
 
 ## Final export accounting
 

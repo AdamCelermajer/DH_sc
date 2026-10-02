@@ -2,3 +2,8 @@
 compatibility/16k-port/zettabridge-guest-memory-16k-poc.patch -whitespace
 port/android-java/java/com/gameloft/android/GAND/GloftD2SS/installer/GameInstaller.java -whitespace
 port/android-java/java/com/samsungapps/plasma/CreditCardPaymentMethod.java -whitespace
+recovered/native/decompiled/libDungeonHunter2.so/* -text -whitespace linguist-generated=true
+recovered/native/decompiled/libStormGLOFT.so/* -text -whitespace linguist-generated=true
+recovered/native/decompiled/libnativeinterface.so/* -text -whitespace linguist-generated=true
+recovered/android/java/** -text -whitespace linguist-generated=true
+recovered/android/smali/** -text -whitespace linguist-generated=true

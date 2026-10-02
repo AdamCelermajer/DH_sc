@@ -12,7 +12,7 @@ The [per-file import manifest](../reports/recovery-source-import.json) records 3
 - The 14-file reconstructed [JNI source component](../port/nativeinterface/README.md), including its build and focused test sources.
 - Recovery/build scripts, Ghidra scripts, the historical JNI/Java validation reports and the two native bundle checksums.
 
-The raw original smali/Java export, Ghidra pseudocode, full native assembly/symbol files, recovered XML/shader data, supplied APK and game cache were **not** copied into Git. To browse those, download the original archive and follow [the reproduction guide](REPRODUCING.md). The complete later cache ZIP is a separate local input. The import does not imply an open-source license for the game; [RIGHTS.md](../RIGHTS.md) records provenance.
+The first selected import did not include raw code exports. A later archival-code import now makes 44 [Ghidra pseudocode/index/summary files](../recovered/native/decompiled/README.md) and 721 [raw Java/smali files](../recovered/android/README.md) browseable in Git. They were copied byte-for-byte from the same verified ZIP, with separate per-file SHA-256 manifests and verification scripts. The pseudocode is not compilable or a validated engine; raw Java has known decompiler damage. Full native assembly/symbol files, recovered XML/shader data, supplied APK and game cache remain separate. See [the reproduction guide](REPRODUCING.md) for the external handoff. The complete later cache ZIP is a separate local input. Neither import implies an open-source license for the game; [RIGHTS.md](../RIGHTS.md) records provenance.
 
 ## Verify
 
@@ -21,6 +21,8 @@ From the Git checkout:
 ```sh
 python tools/verify_recovery_import.py
 python tools/verify_recovery_import.py --archive /path/to/Dungeon-Hunter-2-Source-Recovery.zip
+python tools/verify_native_decomp_import.py --archive /path/to/Dungeon-Hunter-2-Source-Recovery.zip
+python tools/verify_android_raw_import.py --archive /path/to/Dungeon-Hunter-2-Source-Recovery.zip
 ```
 
 The first command hashes all imported files without external inputs. The second also checks the exact source ZIP hash, every ZIP member CRC, and each corresponding original member. Paths in the import manifest are validated before reading.

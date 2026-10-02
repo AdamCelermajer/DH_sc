@@ -1,9 +1,11 @@
 # Reproducing the recovery
 
-This Git checkout contains selected browsable reconstructed Java/JNI source and the recovery scripts. The full raw Java/smali, native pseudocode, DWARF, assembly/symbols and original text/shader exports remain in the [separate recovery handoff](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). In this checkout, `recovered/native/bundles/` contains only a checksum manifest. A fresh clone cannot run `unpack_native.py` or `verify_recovery.py` until the external files are restored. Verify the imported source without those files using:
+This Git checkout contains selected reconstructed Java/JNI source, exact raw Java/smali and native pseudocode code exports, and recovery scripts. The archived code is browseable but not a compilable replacement game. DWARF, assembly/symbols and original text/shader exports remain in the [separate recovery handoff](https://drive.google.com/drive/folders/1njTxLAJHt08SinEskn7gC6IWylXemwDW). In this checkout, `recovered/native/bundles/` contains only a checksum manifest. A fresh clone cannot run `unpack_native.py` or `verify_recovery.py` until the external files are restored. Verify the imported source without those files using:
 
 ```sh
 python tools/verify_recovery_import.py
+python tools/verify_native_decomp_import.py
+python tools/verify_android_raw_import.py
 ```
 
 To verify the **full historical recovery**, download `Dungeon-Hunter-2-Source-Recovery.zip`, `assembly.tar.gz` and `symbols.tar.gz` from that folder into a private work directory. Verify their SHA-256 hashes against `ARTIFACT-CHECKSUMS.json`. Extract the source ZIP there, place both `.tar.gz` files beside `dh2-reconstruction/recovered/native/bundles/manifest.json`, then run the commands below from the extracted `dh2-reconstruction` root. Do not overlay the archive onto the newer Git checkout.
