@@ -16,7 +16,7 @@ Java_local_dh2_sourceviewer_MainActivity_destroyScriptSession(JNIEnv*,jclass,jlo
     dh2_lua_destroy(reinterpret_cast<dh2_lua*>(static_cast<std::uintptr_t>(handle)));
 }
 static jstring importData(JNIEnv* env,jlong handle,jbyteArray source,int kind) {
-    const char* label=kind==4?"Constants":kind==3?"Powers":kind==2?"Items":kind==1?"Classes":"Properties";
+    const char* label=kind==5?"Quests":kind==4?"Constants":kind==3?"Powers":kind==2?"Items":kind==1?"Classes":"Properties";
     auto* runtime=reinterpret_cast<dh2_lua*>(static_cast<std::uintptr_t>(handle));
     char message[560]{};
     if(!runtime || !source) { std::snprintf(message,sizeof(message),"%s rejected: session unavailable",label);return env->NewStringUTF(message); }
@@ -27,13 +27,15 @@ static jstring importData(JNIEnv* env,jlong handle,jbyteArray source,int kind) {
     if(length)env->GetByteArrayRegion(source,0,length,reinterpret_cast<jbyte*>(bytes));
     if(env->ExceptionCheck()) { std::free(bytes);return nullptr; }
     char error[512]{};
-    const int status=kind==4?dh2_lua_import_constants(runtime,bytes,length,error,sizeof(error)):
+    const int status=kind==5?dh2_lua_import_quests(runtime,bytes,length,error,sizeof(error)):
+                     kind==4?dh2_lua_import_constants(runtime,bytes,length,error,sizeof(error)):
                      kind==3?dh2_lua_import_item_powers(runtime,bytes,length,error,sizeof(error)):
                      kind==2?dh2_lua_import_loot_tables(runtime,bytes,length,error,sizeof(error)):
                      kind==1?dh2_lua_import_character_classes(runtime,bytes,length,error,sizeof(error)):
                              dh2_lua_import_character_properties(runtime,bytes,length,error,sizeof(error));
     std::free(bytes);
-    if(!status)return env->NewStringUTF(kind==4?"Constants loaded. Script combat calculations are ready; gameplay is unfinished.":
+    if(!status)return env->NewStringUTF(kind==5?"Quests loaded. Quest records are ready for scripts.":
+                                      kind==4?"Constants loaded. Script combat calculations are ready; gameplay is unfinished.":
                                       kind==3?"Powers loaded. New script property objects can calculate gear stats; gameplay is unfinished.":
                                       kind==2?"Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished.":
                                       kind==1?"Classes loaded. New script property objects can apply class rules; gameplay is unfinished.":
@@ -64,6 +66,10 @@ Java_local_dh2_sourceviewer_MainActivity_importPowers(JNIEnv* env,jclass,jlong h
 extern "C" JNIEXPORT jstring JNICALL
 Java_local_dh2_sourceviewer_MainActivity_importConstants(JNIEnv* env,jclass,jlong handle,jbyteArray source) {
     return importData(env,handle,source,4);
+}
+extern "C" JNIEXPORT jstring JNICALL
+Java_local_dh2_sourceviewer_MainActivity_importQuests(JNIEnv* env,jclass,jlong handle,jbyteArray source) {
+    return importData(env,handle,source,5);
 }
 extern "C" JNIEXPORT jstring JNICALL
 Java_local_dh2_sourceviewer_MainActivity_executeScript(JNIEnv* env,jclass,jlong handle,jbyteArray source) {

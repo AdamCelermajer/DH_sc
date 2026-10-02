@@ -4,6 +4,10 @@
 #include <math.h>
 #define QUEST_TYPE "dh2.source.kill-objective"
 struct objective {struct dh2_kill_objective state;uint32_t kind;};
+void dh2_lua_push_kill_objective(lua_State *L,const struct dh2_kill_objective *state,uint32_t kind) {
+    struct objective *o=lua_newuserdata(L,sizeof(*o));o->state=*state;o->kind=kind;
+    luaL_getmetatable(L,QUEST_TYPE);lua_setmetatable(L,-2);
+}
 static int32_t integer(lua_State *L,int table,const char *key,int optional,int32_t fallback) {
     lua_pushstring(L,key);lua_rawget(L,table);
     if(optional && lua_isnil(L,-1)) {lua_pop(L,1);return fallback;}
@@ -52,7 +56,7 @@ static int create(lua_State *L) {
     value.kind=(uint32_t)kind;value.state.match_id=integer(L,1,"match_id",0,0);
     value.state.current=integer(L,1,"current",0,0);value.state.required=integer(L,1,"required",0,0);
     value.state.completed=boolean(L,1,"completed",0);
-    struct objective *o=lua_newuserdata(L,sizeof(*o));*o=value;luaL_getmetatable(L,QUEST_TYPE);lua_setmetatable(L,-2);return 1;
+    dh2_lua_push_kill_objective(L,&value.state,value.kind);return 1;
 }
 void dh2_lua_register_kill_objectives(lua_State *L) {
     luaL_newmetatable(L,QUEST_TYPE);lua_pushvalue(L,-1);lua_setfield(L,-2,"__index");

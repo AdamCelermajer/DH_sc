@@ -46,6 +46,7 @@ public final class MainActivity extends Activity {
             clockUi.postDelayed(this, 100);
         }
     };
+    private static final int QUESTS = 13;
     private float lastX, lastY, yaw = 0.6f, pitch = 0.9f;
 
     private static native String loadBres(byte[] data);
@@ -56,6 +57,7 @@ public final class MainActivity extends Activity {
     private static native String importClasses(long session, byte[] data);
     private static native String importItems(long session, byte[] data);
     private static native String importPowers(long session, byte[] data);
+    private static native String importQuests(long session, byte[] data);
     private static native String importConstants(long session, byte[] data);
     private static native String loadTexture(byte[] data);
     private static native String loadAnimation(byte[] data);
@@ -220,6 +222,10 @@ public final class MainActivity extends Activity {
         constants.setText("Import script constants");
         constants.setOnClickListener(view -> pick(CONSTANTS));
         layout.addView(constants);
+        Button quests = new Button(this);
+        quests.setText("Import quest data");
+        quests.setOnClickListener(view -> pick(QUESTS));
+        layout.addView(quests);
         startScripts();
         surface = new GLSurfaceView(this);
         surface.setEGLContextClientVersion(2);
@@ -267,6 +273,13 @@ public final class MainActivity extends Activity {
             try {
                 scriptStatus.setText(executeScript(scriptSession, readScript(getContentResolver().openInputStream(data.getData()))));
             } catch (Exception error) { scriptStatus.setText("Script rejected: " + error.getMessage()); }
+            return;
+        }
+        if (request == QUESTS) {
+            try {
+                scriptStatus.setText(importQuests(scriptSession,
+                    readLimited(getContentResolver().openInputStream(data.getData()), 4 * 1024 * 1024)));
+            } catch (Exception error) { scriptStatus.setText("Quests rejected: " + error.getMessage()); }
             return;
         }
         if (request == CONSTANTS) {

@@ -106,6 +106,30 @@ int dh2_lua_combat_tests(void) {
         "assert(not pcall(function()q:ConsumeKillEvent({})end));assert(not pcall(function()DH2CreateKillObjective{}end));"
         "local thrown=false;local raw=setmetatable({kind=0,match_id=5},{__index=function()thrown=true;error('metamethod')end});"
         "v=q:ConsumeKillEvent(raw);assert(v.changed and v.progress.current==9 and not thrown);collectgarbage('collect');assert(q:GetProgress().current==9)"));
+    unsigned char quests[209]={0};word(quests,1);word(quests+24,1);
+    word(quests+32,0xffffffffu);word(quests+36,0xffffffffu);
+    word(quests+48,5);word(quests+52,0xffffffffu);word(quests+56,2);
+    CHECK(!dh2_lua_import_quests(r,quests,sizeof(quests),error,sizeof(error)));
+    CHECK(!execute(r,"assert(DH2GetQuestCount()==1);local row=DH2GetQuestRecord(0);"
+        "assert(#row.ids==4 and #row.conditions==0 and #row.objectives==1 and #row.scripts==14);"
+        "assert(row.objectives[1].common[1]==0 and row.objectives[1].args[1]==5 and row.objectives[1].args[3]==2);"
+        "assert(row.objectives[1].strings[1]=='' and row.scripts[14]=='');"
+        "quest_generation_keeper=DH2CreateQuestKillObjective(0,0,0,false);"
+        "local q=quest_generation_keeper;local r=q:ConsumeKillEvent{kind=0,match_id=5};assert(r.changed and r.progress.current==1 and not r.progress.completed);"
+        "assert(not pcall(function()DH2GetQuestRecord(1)end));assert(not pcall(function()DH2GetQuestRecord('0')end));"
+        "assert(not pcall(function()DH2CreateQuestKillObjective(0,1,0,false)end));assert(not pcall(function()DH2CreateQuestKillObjective(0,0,0,0)end))"));
+    word(quests+48,9);word(quests+56,3);
+    CHECK(!dh2_lua_import_quests(r,quests,sizeof(quests),error,sizeof(error)));
+    CHECK(dh2_lua_import_quests(r,quests,sizeof(quests)-1,error,sizeof(error)));
+    CHECK(!execute(r,"collectgarbage('collect');local row=DH2GetQuestRecord(0);assert(row.objectives[1].args[1]==9);"
+        "local q=quest_generation_keeper;local r=q:ConsumeKillEvent{kind=0,match_id=5};"
+        "assert(r.changed and r.newly_completed and r.progress.current==2 and r.progress.required==2);"
+        "local fresh=DH2CreateQuestKillObjective(0,0,0,false);assert(fresh:GetProgress().match_id==9 and fresh:GetProgress().required==3);"
+        "assert(not fresh:ConsumeKillEvent{kind=0,match_id=5}.matched);"
+        "assert(fresh:ConsumeKillEvent{kind=0,match_id=9}.progress.current==1)"));
+    word(quests+28,1);CHECK(!dh2_lua_import_quests(r,quests,sizeof(quests),error,sizeof(error)));
+    CHECK(!execute(r,"assert(not pcall(function()DH2CreateQuestKillObjective(0,0,0,false)end));"
+        "assert(quest_generation_keeper:GetProgress().current==2)"));
     dh2_lua_destroy(r);return 0;
 }
 static int file(dh2_lua *r,const char *path,int kind) {
@@ -114,6 +138,7 @@ static int file(dh2_lua *r,const char *path,int kind) {
     if(kind==0)rc=dh2_lua_import_character_properties(r,bytes,n,error,sizeof(error));
     else if(kind==1)rc=dh2_lua_import_loot_tables(r,bytes,n,error,sizeof(error));
     else if(kind==2)rc=dh2_lua_import_constants(r,bytes,n,error,sizeof(error));
+    else if(kind==4)rc=dh2_lua_import_quests(r,bytes,n,error,sizeof(error));
     else rc=dh2_lua_execute(r,bytes,n,10000,error,sizeof(error));
     free(bytes);if(rc)fprintf(stderr,"combat file %s: %s\n",path,error);CHECK(!rc);return 0;
 }
@@ -129,4 +154,9 @@ int dh2_lua_combat_corpus(const char *props,const char *loot,const char *constan
     dh2_lua *r=dh2_lua_create(8*1024*1024);CHECK(r);CHECK(!file(r,props,0) && !file(r,loot,1));unsigned imported,executed;
     CHECK(!listing(r,constants,2,&imported));CHECK(!listing(r,scripts,3,&executed));dh2_lua_destroy(r);
     printf("COMBAT CORPUS PASS %u %u\n",imported,executed);return 0;
+}
+int dh2_lua_quest_corpus(const char *props,const char *loot,const char *constants,const char *quests,const char *scripts) {
+    dh2_lua *r=dh2_lua_create(8*1024*1024);CHECK(r);CHECK(!file(r,props,0) && !file(r,loot,1));unsigned imported,executed;
+    CHECK(!listing(r,constants,2,&imported));CHECK(!file(r,quests,4));CHECK(!listing(r,scripts,3,&executed));dh2_lua_destroy(r);
+    printf("QUEST CORPUS PASS %u %u\n",imported,executed);return 0;
 }

@@ -1,6 +1,15 @@
 # Android 17 source renderer milestone
 
-## Current kill-objective progress APK milestone
+## Current real quest data APK milestone
+
+Current source APK: 902,051 bytes, SHA-256 `3de5a72da41717d3be63f9c1a2901007a8cee8858550d5e688655b4d04fcf7c0`.
+All 64 quest record snapshots and 34 counted-kill objectives run with recovered
+melee damage and owned health/death/progress. Both Android 17 page sizes pass 19
+imports, threshold completion, replacement/rejection and retained generations.
+See [instructions/evidence](QUEST-DATA-INTEGRATION.md). Full quest compile/world
+ownership, persistence/rewards and complete source gameplay remain unfinished.
+
+## Earlier kill-objective progress APK milestone
 
 Current source APK: 873,379 bytes, SHA-256 `3005249a0ef0ece743c66ed6d67a01687e0b2590ea27c1ddd4997c6366c782cb`.
 Recovered melee damage, owned health/death and four reconstructed kill-objective

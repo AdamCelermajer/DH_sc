@@ -57,6 +57,10 @@ int dh2_lua_import_loot_tables(dh2_lua *runtime,const void *bytes,size_t size,
  * Equipment selection and power assignment require an explicit gear update.
  * These objects are not original Character, inventory or gameplay objects. */
 int dh2_lua_import_item_powers(dh2_lua *,const void *,size_t,char *,size_t);
+/* Atomic owned full quest table import. Authored record getters and counted-kill
+ * objective creation preserve dataset generations. No original quest compile,
+ * condition/reward dispatch, world state or persistence. */
+int dh2_lua_import_quests(dh2_lua *,const void *,size_t,char *,size_t);
 /* Controlled execution helper; instruction budget counts in 1000-op blocks.
  * Installs base/math/table/string, with filesystem loaders and print removed.
  * Returns zero on success; stack and hook are cleared after each call. */

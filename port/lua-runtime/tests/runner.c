@@ -16,6 +16,7 @@ int dh2_lua_equipment_corpus(const char *,const char *,const char *);
 int dh2_lua_gear_tests(void);
 int dh2_lua_combat_tests(void);
 int dh2_lua_combat_corpus(const char *,const char *,const char *,const char *);
+int dh2_lua_quest_corpus(const char *,const char *,const char *,const char *,const char *);
 int dh2_lua_gear_corpus(const char *,const char *,const char *,const char *,const char *);
 static void put32(unsigned char *p,unsigned value) {
     for(unsigned i=0;i<4;++i)p[i]=(unsigned char)(value>>(8*i));
@@ -145,6 +146,7 @@ int main(int argc,char **argv) {
     if (argc==5 && strcmp(argv[1],"--equipment")==0)return dh2_lua_equipment_corpus(argv[2],argv[3],argv[4]);
     if (argc==7 && strcmp(argv[1],"--gears")==0)return dh2_lua_gear_corpus(argv[2],argv[3],argv[4],argv[5],argv[6]);
     if (argc==6 && strcmp(argv[1],"--combat")==0)return dh2_lua_combat_corpus(argv[2],argv[3],argv[4],argv[5]);
+    if (argc==7 && strcmp(argv[1],"--quests")==0)return dh2_lua_quest_corpus(argv[2],argv[3],argv[4],argv[5],argv[6]);
     CHECK(argc==2);FILE *list=fopen(argv[1],"rb");CHECK(list);char path[2048];unsigned index=0;
     while (fgets(path,sizeof(path),list)) {
         size_t length=strlen(path);CHECK(length && path[length-1]=='\n');

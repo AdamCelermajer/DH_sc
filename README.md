@@ -1,5 +1,18 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Real quest data in the source APK:** All 64 cache quest records, 80
+conditions, 194 objective stubs, 222 rewards and 896 script slots match the actual
+original reader on host/source ARM64. All 21,817 host truncations reject. The
+902,051-byte APK passes 19 imports on each Android 17 page size. All 34 supported
+counted-kill objectives use recorded IDs/required counts with recovered melee
+damage, owned health/death and quest progress. Dataset replacement/rejection and
+retained objective generations pass. Native/strict runtime gates pass. Original
+quest compile/world counts, conditions, automatic dispatch, persistence/rewards,
+loot, full combat/world/AI and complete source gameplay remain unfinished. See
+[reader scope](port/quest-data/README.md) and
+[APK evidence](port/android-app/QUEST-DATA-INTEGRATION.md). Earlier entries retain
+their checkpoint identities.
+
 **Kill-objective progress in the source APK:** Four already-dispatched
 native kill/clear handlers pass 14,396 original ARM32/host/source ARM64 comparisons.
 The 873,379-byte source APK passes 14 imports on both Android 17 page sizes:
