@@ -1,0 +1,135 @@
+{
+  "scope": "all original-cache BRES files; static scene/geometry/material draw descriptors only",
+  "all_checks_passed": true,
+  "bounds_and_callback_checks_passed": true,
+  "totals": {
+    "draw_commands": 11311,
+    "files": 2904,
+    "geometry_instances": 10444,
+    "instances": 11648,
+    "nodes": 21472,
+    "resolved_geometry": 10403,
+    "skipped_nontriangle_primitives": 0,
+    "skipped_nonvisual_references": 0,
+    "skipped_unresolved_geometry": 41,
+    "skipped_unresolved_visuals": 0,
+    "skipped_unsupported_geometry": 9,
+    "translated_draw_commands": 9912,
+    "triangles": 995715,
+    "unresolved_materials": 451,
+    "visual_references": 1563,
+    "visual_scenes": 1563
+  },
+  "samples": [
+    {
+      "file": "data/3d/animateddecors/candle_flame.bdae",
+      "commands": [
+        {
+          "geometry": "_mesh_halo_nobatch-mesh",
+          "material": "Standard_14",
+          "world_translation": [
+            9.59823989868164,
+            43.002769470214844,
+            232.6324005126953
+          ],
+          "vertices": 4,
+          "triangles": 2
+        },
+        {
+          "geometry": "_mesh_candle_big-mesh",
+          "material": "Material__12",
+          "world_translation": [
+            -93.66779327392578,
+            -17.410728454589844,
+            -59.42829895019531
+          ],
+          "vertices": 4,
+          "triangles": 2
+        }
+      ]
+    },
+    {
+      "file": "data/3d/animateddecors/castle/chandelier_castle.bdae",
+      "commands": [
+        {
+          "geometry": "_mesh_chandelier-mesh",
+          "material": "solide1",
+          "world_translation": [
+            2464.885986328125,
+            308.5430908203125,
+            -22.066238403320312
+          ],
+          "vertices": 117,
+          "triangles": 27
+        },
+        {
+          "geometry": "_mesh_chandelier-mesh",
+          "material": "Material__14",
+          "world_translation": [
+            2464.885986328125,
+            308.5430908203125,
+            -22.066238403320312
+          ],
+          "vertices": 117,
+          "triangles": 20
+        }
+      ]
+    },
+    {
+      "file": "data/3d/animateddecors/castle/lustre_castle.bdae",
+      "commands": [
+        {
+          "geometry": "TemplateDefs-mesh",
+          "material": "ColorMaterial",
+          "world_translation": [
+            10000.0,
+            10000.0,
+            10000.0
+          ],
+          "vertices": 24,
+          "triangles": 12
+        },
+        {
+          "geometry": "_mesh_lustre-mesh",
+          "material": "Material__12",
+          "world_translation": [
+            7289.466796875,
+            467.6224365234375,
+            -1349.155517578125
+          ],
+          "vertices": 238,
+          "triangles": 16
+        }
+      ]
+    },
+    {
+      "file": "data/3d/animateddecors/crypt/crypt_candle1.bdae",
+      "commands": [
+        {
+          "geometry": "_mesh_halo_nobatch-mesh",
+          "material": "Standard_14",
+          "world_translation": [
+            -79.206787109375,
+            -77.79338073730469,
+            281.4338073730469
+          ],
+          "vertices": 4,
+          "triangles": 2
+        },
+        {
+          "geometry": "_colbox_crypt_candle1-mesh",
+          "material": "ColorMaterial",
+          "world_translation": [
+            -73.29170227050781,
+            -72.82479858398438,
+            159.3159942626953
+          ],
+          "vertices": 24,
+          "triangles": 12
+        }
+      ]
+    }
+  ],
+  "cache_manifest_sha256": "e29d8ab805626f1baf1b69d42963f345861ef2bc25ceb59dc67f127a1c50ebe8",
+  "library_sha256": "de6c45a06b1979a50bd8fba0703baed36b8faf3c5a19632f181b5e41829a03e7"
+}
