@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cmath>
 #include <cstdio>
+#include <cstring>
 #include <fstream>
 #include <iterator>
 #include <limits>
@@ -52,6 +53,40 @@ int main(int argc, char **argv) {
         }
         assert(bytes == before);
     }
+    auto fixture = original;
+    dh2::resources::BresView view{};
+    assert(dh2_bres_open(&view, fixture.data(), fixture.size()) == dh2::resources::BresError::ok);
+    bool checked_defaults = false;
+    const auto count = dh2_bres_library_count(&view, dh2::resources::Library::animation);
+    for (std::uint32_t i = 0; i < count && !checked_defaults; ++i) {
+        dh2::assets::Animation a{};
+        assert(dh2_animation_open(&a, &view, i, 0) == dh2::assets::Error::ok);
+        const auto type = dh2_animation_type(&a, 0);
+        if (type != 9 && !(type >= 2 && type <= 4)) continue;
+        const auto read_word = [&](std::size_t offset) {
+            std::uint32_t value; std::memcpy(&value, fixture.data() + offset, 4); return value;
+        };
+        const auto write_word = [&](std::size_t offset, std::uint32_t value) {
+            std::memcpy(fixture.data() + offset, &value, 4);
+        };
+        const auto defaults = read_word(a.record + 24);
+        const auto pointer = read_word(defaults + 8);
+        float value[4]{77, 77, 77, 77};
+        write_word(defaults + 8, static_cast<std::uint32_t>(fixture.size() - 4));
+        assert(dh2_animation_float_key(&a, 0, value) == dh2::animation::Error::range);
+        assert(value[0] == 77 && value[3] == 77);
+        write_word(defaults + 8, pointer);
+        write_word(a.record + 24, 0);
+        assert(dh2_animation_float_key(&a, 0, value) == dh2::animation::Error::unsupported);
+        write_word(a.record + 24, defaults);
+        const auto saved = read_word(pointer);
+        write_word(pointer, 0x7fc00000);
+        assert(dh2_animation_float_key(&a, 0, value) == dh2::animation::Error::nonfinite);
+        assert(value[0] == 77 && value[3] == 77);
+        write_word(pointer, saved);
+        assert(fixture == original);
+        checked_defaults = true;
+    }
     using Q = dh2::math::Quaternion;
     Q values[3]{{0, 0, 0, 1}, {0, 0, 0, 1}, {0, 0, 0, 1}}, out{7, 8, 9, 10};
     float weights[3]{1, 0, 0};
@@ -72,4 +107,5 @@ int main(int argc, char **argv) {
     assert(out.x == 7 && out.y == 8 && out.z == 9 && out.w == 10);
     std::puts("animation values: 3000 corruption/truncation cases; range, alias and nonfinite "
               "checks passed");
+    if (checked_defaults) std::puts("scalar defaults: truncated, absent and nonfinite checks passed");
 }

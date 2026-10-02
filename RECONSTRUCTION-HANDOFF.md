@@ -1,9 +1,10 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
-**Player animation audit:** 308 of 342 clips produce checked source poses on
-the warrior model, including 302 animated clips. Negative key times are now
-supported. The current source APK passed walk controls on both Android 17
-page sizes and a negative-start aura preview on 16 KiB pages. See the
+**Player animation audit:** 333 of 342 clips produce checked source poses on
+the warrior model, including 327 animated clips. Negative key times are now
+supported. The current source APK passed dual-walk controls on Android 17 with 4 KiB
+pages and a position-component cutscene on 16 KiB pages. Earlier builds
+passed walk and negative-start aura checks. See the
 [pose audit](port/animation-pose/README.md) for rejected formats and bindings.
 The complete source game remains unfinished.
 

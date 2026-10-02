@@ -3,18 +3,18 @@
   "original_animator_equivalence": false,
   "scope": "One locally resolved warrior skin; supported absolute-key poses at selected times",
   "model_sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
-  "library_sha256": "c5f806f65d39467c1d5f4ae7ede3fef8d0c86aaa05cb63016dca17ba497d6a4c",
+  "library_sha256": "e3032a6b623d2edcfbc68071d0301d1ee8f72372cbf041c5da6120b1999b7203",
   "joints": 18,
   "vertices": 335,
   "files": 342,
   "summary": {
-    "supported_pose": 308,
-    "positive_duration": 302,
-    "clip_error_3": 29,
-    "model_binding_error_7": 5
+    "supported_pose": 333,
+    "positive_duration": 327,
+    "model_binding_error_7": 7,
+    "clip_error_3": 2
   },
-  "successful_palette_checks": 912,
-  "successful_position_checks": 2736,
+  "successful_palette_checks": 987,
+  "successful_position_checks": 2961,
   "input_preservation": true,
   "records": [
     {
@@ -33,8 +33,15 @@
     {
       "path": "cs_darkqueen_scene03a_prince.bdae",
       "sha256": "f74d8ada40c3f5b4bb9408014ec809404f5f9983cbaa6b58ce81889ce046b903",
-      "stage": "clip",
-      "error": 3
+      "tracks": 29,
+      "start_ms": 0,
+      "end_ms": 1099,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        549,
+        1099
+      ]
     },
     {
       "path": "cs_darkqueen_scene03b_prince.bdae",
@@ -221,8 +228,15 @@
     {
       "path": "cs_earthtemple_intro_scene09_prince_idle.bdae",
       "sha256": "efb04c40c0c818568623453548f0ed46c197973d6c77b108f9972a7944503ab7",
-      "stage": "clip",
-      "error": 3
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 1833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        916,
+        1833
+      ]
     },
     {
       "path": "cs_earthtemple_intro_scene10_prince.bdae",
@@ -357,8 +371,15 @@
     {
       "path": "cs_earthtemple_outro_scene10_prince.bdae",
       "sha256": "9dba879bb1ef38d55aec3a13718df3fb787c209aac7f742bd8a04a1168de253c",
-      "stage": "clip",
-      "error": 3
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
     },
     {
       "path": "cs_earthtemple_outro_scene11_prince_idle.bdae",
@@ -454,14 +475,28 @@
     {
       "path": "cs_king_intro_prince_scene07_idle.bdae",
       "sha256": "cc543ad0a19e71c923c876256edd2a3ccdeaa4e2beea93d73381921dd9c36d04",
-      "stage": "clip",
-      "error": 3
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
     },
     {
       "path": "cs_king_intro_prince_scene08_idle.bdae",
       "sha256": "6099fec881345a7be9aae805c1b3f4a54f9582162cca0888d6913f173d3b6a49",
-      "stage": "clip",
-      "error": 3
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 2699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1349,
+        2699
+      ]
     },
     {
       "path": "cs_king_intro_prince_scene12.bdae",
@@ -518,14 +553,28 @@
     {
       "path": "cs_madruk_end_scene03_prince.bdae",
       "sha256": "d8ca7f4154264c4f1e195cd1b42c12f7448d6ba02fe7f00e47fe31ce2dc7876f",
-      "stage": "clip",
-      "error": 3
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        849,
+        1699
+      ]
     },
     {
       "path": "cs_madruk_end_scene04_prince.bdae",
       "sha256": "1e282be86a9aab408ddd3c5089c498fb3631b34c8d1ccac944a06a9f48b6ef5f",
-      "stage": "clip",
-      "error": 3
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        416,
+        833
+      ]
     },
     {
       "path": "cs_madruk_end_scene04_prince_idle.bdae",
@@ -543,8 +592,15 @@
     {
       "path": "cs_madruk_end_scene04_prince_talk.bdae",
       "sha256": "41c44fea73ad2355125c1e5178fe487fde9943edfcc6898f55abfd772930dacf",
-      "stage": "clip",
-      "error": 3
+      "tracks": 28,
+      "start_ms": 0,
+      "end_ms": 4199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        2099,
+        4199
+      ]
     },
     {
       "path": "cs_madruk_end_scene05_prince.bdae",
@@ -664,8 +720,15 @@
     {
       "path": "cs_prince_look_around.bdae",
       "sha256": "433c5b2dfb588c083725094896791d23aec8d342be48cf1e173409c1ba450897",
-      "stage": "clip",
-      "error": 3
+      "tracks": 25,
+      "start_ms": 2166,
+      "end_ms": 3966,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        2166,
+        3066,
+        3966
+      ]
     },
     {
       "path": "cs_prince_lying_dead.bdae",
@@ -679,8 +742,15 @@
     {
       "path": "cs_prince_standup.bdae",
       "sha256": "9ac60a3937dd88eb6fe09882943b9b73aada8b507dc3dd8246a8f762422fc6c3",
-      "stage": "clip",
-      "error": 3
+      "tracks": 26,
+      "start_ms": 6999,
+      "end_ms": 8399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        6999,
+        7699,
+        8399
+      ]
     },
     {
       "path": "cs_prince_swamp_intro_part1_01_idle.bdae",
@@ -789,8 +859,15 @@
     {
       "path": "cs_prince_swamp_intro_part1_09_idle.bdae",
       "sha256": "46c7ad4121942d13d5e4ae57486aa80ffc4971254cde20ceac9a08d96a9e7bb9",
-      "stage": "clip",
-      "error": 3
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
     },
     {
       "path": "cs_prince_swamp_intro_part1_10.bdae",
@@ -860,8 +937,15 @@
     {
       "path": "cs_prince_talk_to_fairy.bdae",
       "sha256": "399ac7cfc7ec2678e091bd43aa68e21f84fdbff04a20afbfaaba0cf7642f9782",
-      "stage": "clip",
-      "error": 3
+      "tracks": 26,
+      "start_ms": 5666,
+      "end_ms": 6999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        5666,
+        6332,
+        6999
+      ]
     },
     {
       "path": "cs_prince_wakeup.bdae",
@@ -1439,8 +1523,15 @@
     {
       "path": "cs_swampking_outro_prince_scene07.bdae",
       "sha256": "9c18f23b0f826aba8b17dc9916f9fa5ed72257b0ecf17026ca33be807e7d38e7",
-      "stage": "clip",
-      "error": 3
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 3899,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1949,
+        3899
+      ]
     },
     {
       "path": "cs_swampking_outro_prince_scene07_talk.bdae",
@@ -1497,14 +1588,20 @@
     {
       "path": "cs_witch_intro_prince_scene04.bdae",
       "sha256": "66d01f32e9c388e03a4b8a3fb9c03147971806f955004ee28d064858dadae2c1",
-      "stage": "clip",
-      "error": 3
+      "tracks": 31,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "model_binding",
+      "error": 7
     },
     {
       "path": "cs_witch_intro_prince_scene04_talk.bdae",
       "sha256": "7390a6c9392c97779730185bedda1d0a0757bac4ba5505ce89fec65894d4ff63",
-      "stage": "clip",
-      "error": 3
+      "tracks": 31,
+      "start_ms": 0,
+      "end_ms": 1299,
+      "stage": "model_binding",
+      "error": 7
     },
     {
       "path": "cs_witch_intro_prince_scene05.bdae",
@@ -1912,8 +2009,15 @@
     {
       "path": "prince_2hand_combo_03_to_idle_moving.bdae",
       "sha256": "bdd6f89b8a37493a9360631a1c3ee62301414eaab5a0d4c92ebbccb26b43f1cb",
-      "stage": "clip",
-      "error": 3
+      "tracks": 26,
+      "start_ms": 2599,
+      "end_ms": 3566,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        2599,
+        3082,
+        3566
+      ]
     },
     {
       "path": "prince_2hand_pre_combo_01.bdae",
@@ -2230,8 +2334,15 @@
     {
       "path": "prince_dual_combo_04_moving.bdae",
       "sha256": "776389afecd2125085d2dbe792af07b51e39b1b3098c3df7142f418ccf93ae64",
-      "stage": "clip",
-      "error": 3
+      "tracks": 26,
+      "start_ms": 2199,
+      "end_ms": 2599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        2199,
+        2399,
+        2599
+      ]
     },
     {
       "path": "prince_dual_combo_04_to_idle.bdae",
@@ -2288,8 +2399,15 @@
     {
       "path": "prince_dual_post_combo_04_moving.bdae",
       "sha256": "d74637bc25d937bf15f4c5ce94af4acc3e888561d99be8e6e14f56d14c56012b",
-      "stage": "clip",
-      "error": 3
+      "tracks": 26,
+      "start_ms": 2599,
+      "end_ms": 3233,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        2599,
+        2916,
+        3233
+      ]
     },
     {
       "path": "prince_dual_pre_combo_01.bdae",
@@ -2385,8 +2503,15 @@
     {
       "path": "prince_dual_pre_combo_04_moving.bdae",
       "sha256": "34d4778b17a6888c0e77c8fe5e867f614eec558dc46eefb51a64c52f8366408a",
-      "stage": "clip",
-      "error": 3
+      "tracks": 26,
+      "start_ms": 1833,
+      "end_ms": 2199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1833,
+        2016,
+        2199
+      ]
     },
     {
       "path": "prince_dying_01.bdae",
@@ -2404,8 +2529,15 @@
     {
       "path": "prince_dying_02.bdae",
       "sha256": "c263a23fd902d90f321fb7170f56a8ca9b925143ce0dd16e66cba77741c8e093",
-      "stage": "clip",
-      "error": 3
+      "tracks": 28,
+      "start_ms": 666,
+      "end_ms": 1333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        666,
+        999,
+        1333
+      ]
     },
     {
       "path": "prince_feared.bdae",
@@ -2436,20 +2568,41 @@
     {
       "path": "prince_great_pushback_despawn.bdae",
       "sha256": "df027ddc1a680b116ae0330fb7c55bc45c3dca567540a6333a3d8fa969367fb0",
-      "stage": "clip",
-      "error": 3
+      "tracks": 28,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
     },
     {
       "path": "prince_great_pushback_dying.bdae",
       "sha256": "7ca5c9182f00bf5859599fb6f0f18a00fdbd089f9b42836b7fb7ccb99fd01b89",
-      "stage": "clip",
-      "error": 3
+      "tracks": 31,
+      "start_ms": 1199,
+      "end_ms": 1866,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1199,
+        1532,
+        1866
+      ]
     },
     {
       "path": "prince_great_pushback_standup.bdae",
       "sha256": "3943f7a2cf93ff0061370a95bf29434bd70f3916779d9c1a81c8bd75d751b6a7",
-      "stage": "clip",
-      "error": 3
+      "tracks": 30,
+      "start_ms": 1199,
+      "end_ms": 2199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1199,
+        1699,
+        2199
+      ]
     },
     {
       "path": "prince_hurt_01.bdae",
@@ -3061,20 +3214,41 @@
     {
       "path": "prince_ranged_attack.bdae",
       "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed",
-      "stage": "clip",
-      "error": 3
+      "tracks": 21,
+      "start_ms": 666,
+      "end_ms": 1433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        666,
+        1049,
+        1433
+      ]
     },
     {
       "path": "prince_ranged_attack_02.bdae",
       "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6",
-      "stage": "clip",
-      "error": 3
+      "tracks": 21,
+      "start_ms": 666,
+      "end_ms": 1433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        666,
+        1049,
+        1433
+      ]
     },
     {
       "path": "prince_ranged_attack_03.bdae",
       "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3",
-      "stage": "clip",
-      "error": 3
+      "tracks": 21,
+      "start_ms": 666,
+      "end_ms": 1433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        666,
+        1049,
+        1433
+      ]
     },
     {
       "path": "prince_ranged_post_attack.bdae",
@@ -3597,8 +3771,15 @@
     {
       "path": "prince_walk_dual.bdae",
       "sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
-      "stage": "clip",
-      "error": 3
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        399,
+        799
+      ]
     },
     {
       "path": "prince_walk_dual_start.bdae",

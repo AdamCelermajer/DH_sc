@@ -5,8 +5,8 @@
   "abi": {
     "arm64-v8a": {
       "machine": 183,
-      "sha256": "19964886dc1be6371cb18a9951f6a4ed89300ab07d9ac58782afad281631c24b",
-      "bytes": 98336,
+      "sha256": "4502f6e181aab45c4a4b6fdafe9f6251eb4f929ac82b8349997b28b96a15cec6",
+      "bytes": 99712,
       "pt_load": [
         {
           "alignment": 16384,
@@ -14,22 +14,22 @@
         },
         {
           "alignment": 16384,
-          "offset": 26816
+          "offset": 26952
         },
         {
           "alignment": 16384,
-          "offset": 76352
+          "offset": 77552
         },
         {
           "alignment": 16384,
-          "offset": 78352
+          "offset": 79576
         }
       ]
     },
     "x86_64": {
       "machine": 62,
-      "sha256": "9f4d8cf9c7b87b679d3d47b4e9edaeb700b83c0ce86dd4003c8a50f58168ffbb",
-      "bytes": 101952,
+      "sha256": "30dd133950183c2cbc1494d10ddba653d3313ad62ebe87b210e680c78b9b19e9",
+      "bytes": 103544,
       "pt_load": [
         {
           "alignment": 16384,
@@ -37,29 +37,29 @@
         },
         {
           "alignment": 16384,
-          "offset": 26352
+          "offset": 26480
         },
         {
           "alignment": 16384,
-          "offset": 81744
+          "offset": 83232
         },
         {
           "alignment": 16384,
-          "offset": 83752
+          "offset": 85264
         }
       ]
     }
   },
   "apk": {
-    "sha256": "6c4e50f278348b80c15b0856ea43338e4fe245fb1821343ece5db0fd9d7f688e",
+    "sha256": "c6679410b521bb70dc0374b5449efa4489fe27f04c057d55243b8d81332140d2",
     "bytes": 242208
   },
   "source_sha256": {
     "port/android-app/native.cpp": "3d5c51209c35372428afad80c6560a641fd754c1d8738d177050a628f9755e16",
     "port/android-app/scene_buffers.cpp": "dacb0a950a82bf95dab0bef9f5618f3b43cd695e460d3c6860c61aa06d09c599",
     "port/skin-payloads/skin.cpp": "c3b61a63e47bdd5e37a6f784e5b89f4626fe9499d1232a8f2f3760beb7cc8c83",
-    "port/animation-pose/pose.cpp": "9c0a31ae48e6566f1f0c726d6d5c6aee9f1458156d4a4a07dfbcf805a73d228d",
-    "port/animation-values/values.cpp": "d6a4bc908651ad15f1dd4b19ee2bd21b357cf3e2f17b27fde266dfcdfa1d3916",
+    "port/animation-pose/pose.cpp": "95bbbbd840a5e119a31454a5fe7723fea69b0c3cbd5b581d699813ec28a3cab1",
+    "port/animation-values/values.cpp": "44cb86790f52c50c0ae2d3811cc983911514a1d5f987f37c2a5a692aeed3cb2c",
     "port/scene-draw/draw.cpp": "af6274fadfdc1e9506dd9ec1278ce6bb393b322bb7636b8968f2c96e5e193c48",
     "port/scene-payloads/scene.cpp": "0f64fd02c282b4bb455f94e0c2afd66e757d21707f5e551dd8bb96c72dd81dae",
     "port/asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",

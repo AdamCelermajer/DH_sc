@@ -1,6 +1,29 @@
 # Android 17 source renderer milestone
 
-## Character animation preview milestone
+## Current scalar-track preview milestone
+
+The current 242,208-byte source APK, SHA-256
+`c6679410b521bb70dc0374b5449efa4489fe27f04c057d55243b8d81332140d2`,
+supports scalar angle rotation and individual position components. It passed
+the 25-track, 799 ms dual walk on Android 17 x86_64 with 4 KiB pages and the
+29-track, 1,099 ms Dark Queen scene 03a prince clip with 16 KiB pages. Imports,
+midpoint seek and Play/Pause passed; both showed changing textured poses with
+no fatal error and matching installed APK hashes. [Runtime evidence](scalar-track-runtime-validation.json)
+records these two fixtures and exact binary identity.
+
+Import the warrior model and texture listed below, followed by
+`data/3d/characters/prince/animations/prince_walk_dual.bdae` or
+`data/3d/characters/prince/animations/cs_darkqueen_scene03a_prince.bdae`.
+The repeated UI test accepts `--animation`, `--tracks` and `--duration` for
+these fixtures. The updated calculations passed 4,705 original ARM32/compiled
+ARM64/host comparisons, and 6,000 safety cases. The warrior corpus now produces
+333 supported poses out of 342 player clips (327 animated).
+
+This remains absolute-key diagnostic rendering, with no gameplay. ARM64 is
+built and checked for alignment; execution on ARM64 hardware remains unverified.
+The following runtime records preserve the earlier APKs they actually tested.
+
+## Earlier character animation preview milestone
 
 Import `data/3d/characters/prince/prince_low_poly_warrior.bdae`,
 `data/3d/textures/prince-warrior.tga`, then
@@ -50,7 +73,7 @@ guarding-aura path is
 Its keys span -333 to 466 ms; the slider spans the 799 ms duration.
 [Runtime evidence](negative-time-runtime-validation.json) records the visible
 poses and controls. [The corpus audit](../animation-pose/character-corpus-validation.json)
-records 308 supported poses out of 342 player clips on the warrior model.
+records 333 supported poses out of 342 player clips on the warrior model.
 
 ## Earlier character pose milestone
 
@@ -85,7 +108,7 @@ PATH_TO_ANDROID_SDK/platform-tools/adb install -r port/android-app/build/dh2-sou
 
 Open **DH2 Source Renderer**. Tap **Import BRES scene** and select `data/3d/modules/void_maze/void_maze.bdae` from a private copy of the supplied cache. This larger sample yields 77 static commands, 3,140 vertices, and 4,695 indices; its first resolved material diffuse image is `env_voidmaze.tga`. Tap **Import PVRTC texture** and select `data/3d/textures/env_voidmaze.tga`, then drag the preview to rotate the view. The smaller `data/3d/animateddecors/candle_flame.bdae` plus `data/3d/textures/env_crypt.tga` sample also remains usable. Android's file picker gives the app access only to selected files; it does not require broad storage permission. The source files are read into bounded memory, and the decoded image and scene buffers are not persisted by the app.
 
-`build.py` compiles both ABIs and checks every native `PT_LOAD` segment for 16 KiB alignment. It also checks APK ZIP alignment and signature. The output APK and local debug signing key stay in ignored `build/`. The tracked [`build-validation.json`](build-validation.json) records the current binary hashes; [`animation-runtime-validation.json`](animation-runtime-validation.json) records this build's emulator check. The earlier scene check is in [`scene-3d-runtime-validation.json`](scene-3d-runtime-validation.json). Earlier builds' evidence remains in [`scene-runtime-validation.json`](scene-runtime-validation.json) and [`runtime-validation.json`](runtime-validation.json). The APK and screenshots remain outside Git.
+`build.py` compiles both ABIs and checks every native `PT_LOAD` segment for 16 KiB alignment. It also checks APK ZIP alignment and signature. The output APK and local debug signing key stay in ignored `build/`. The tracked [`build-validation.json`](build-validation.json) records the current binary hashes; [`scalar-track-runtime-validation.json`](scalar-track-runtime-validation.json) records this build's emulator check. The earlier scene check is in [`scene-3d-runtime-validation.json`](scene-3d-runtime-validation.json). Earlier builds' evidence remains in [`scene-runtime-validation.json`](scene-runtime-validation.json) and [`runtime-validation.json`](runtime-validation.json). The APK and screenshots remain outside Git.
 
 The earlier 3D scene APK was installed on Android 17 x86_64 emulators with both 4 KiB (API 37.0) and 16 KiB (API 37.2) pages. On each it loaded the real 199,300-byte void maze BRES, reported 77 draws/3,140 vertices/4,695 indices, decoded its 256×256 PVRTC texture, and visibly displayed textured stone geometry. A touch drag changed the 3D view angle, and the process remained alive. The candle sample also loaded and displayed on the 4 KiB emulator. ARM64 was checked structurally but has not run on an ARM64 device or emulator.
 

@@ -10,7 +10,10 @@ transitions, root motion, gameplay state or streaming.
 One borrowed BRES animation segment contains at most 128 tracks. Supported
 tracks have one channel and sampler, no value scales/offsets, and float
 translation (type 1, three components), quaternion (type 5, four components)
-or scale (type 10, three components). Compressed values and other types return
+or scale (type 10, three components). Float scalar position components
+(types 2/3/4) and angle rotation (type 9) use checked serialized defaults.
+One position and one rotation track per node are supported; conflicting
+component/full-vector tracks are rejected. Compressed values and other types return
 an error. Strictly increasing signed times and finite values are checked
 before a clip is exposed. Negative clip starts are supported; total duration
 must fit a signed 32-bit millisecond value. A clip and its backing bytes must stay alive together.
@@ -55,7 +58,7 @@ reconstructed time accessor can round a frame time to 99 ms while the search
 uses a 100 ms boundary; the checks follow the search result instead of assuming
 that every rounded accessor time is an exact key boundary.
 
-[Safety checks](safety-validation.json) passed 3,000 corruption/truncation
+[Safety checks](safety-validation.json) passed 6,000 corruption/truncation
 cases with AddressSanitizer and UndefinedBehaviorSanitizer, including sampling
 and skeleton traversal. Compile `tests/safety.cpp`, `pose.cpp`, `../animation-values/values.cpp`, and the same
 supporting sources listed in `build.py` with
@@ -77,9 +80,9 @@ frame and uses one imported texture; it is not original game rendering.
 The [character audit](character-corpus-validation.json) checks 342 private
 player animation files against the warrior model. It produces finite palettes
 and sampled skinned positions for 308 clips, including 302 with positive
-duration: 912 palette checks and 2,736 position checks. Inputs remain unchanged.
-The remaining 29 clips use unsupported track formats, primarily scalar-axis
-rotation, and five need model bindings that this warrior does not provide.
+duration: 987 palette checks and 2,961 position checks. Inputs remain unchanged.
+Two remaining clips contain unsupported property tracks, and seven need
+model bindings that this warrior does not provide.
 This is selected-time source validation, not original animator equivalence.
 
 ```sh
@@ -95,3 +98,11 @@ The guarding-aura clip runs from -333 to 466 ms. The source APK imports its
 textured poses and no fatal runtime error. [Evidence](../android-app/negative-time-runtime-validation.json)
 pins the APK, fixture hashes and screenshots. This adds a pose preview;
 spell particles and effects are unfinished.
+
+The latest scalar-track APK was checked with `prince_walk_dual.bdae` (25 tracks,
+799 ms) on Android 17 with 4 KiB pages and `cs_darkqueen_scene03a_prince.bdae`
+(29 tracks, 1,099 ms) with 16 KiB pages. Both show changing textured poses and
+pass import, midpoint seek and Play/Pause with exact installed APK hashes.
+[Runtime evidence](../android-app/scalar-track-runtime-validation.json) belongs
+to this newer build; the walk and negative-time runtime records above preserve
+their earlier build identities.

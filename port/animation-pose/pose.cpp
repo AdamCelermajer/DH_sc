@@ -33,8 +33,9 @@ Error walk(Context &c, const dh2::scene::Node &source, const dh2::math::Matrix4f
     c.ancestors[depth] = source.record;
     ++c.nodes;
     for (std::uint32_t i = 0; i < c.clip->count; ++i) {
-        const auto* target = dh2_animation_target(&c.clip->tracks[i]);
-        if (target && std::strcmp(target, source.id) == 0) ++c.matches[i];
+        const auto *target = dh2_animation_target(&c.clip->tracks[i]);
+        if (target && std::strcmp(target, source.id) == 0)
+            ++c.matches[i];
     }
     dh2::scene::Node posed{};
     auto e = dh2_pose_node(c.clip, c.time, &source, &posed);
@@ -95,14 +96,19 @@ Error dh2_pose_clip_open(Clip *out, const dh2::resources::BresView *image, std::
             dh2_animation_offsets(&a))
             return Error::unsupported;
         const auto type = dh2_animation_type(&a, 0);
-        const auto components = type == 5 ? 4U : 3U;
-        if (type != 1 && type != 5 && type != 10)
+        const auto components = type == 5 ? 4U : (type == 9 || (type >= 2 && type <= 4)) ? 1U : 3U;
+        if (type != 1 && type != 2 && type != 3 && type != 4 && type != 5 && type != 9 &&
+            type != 10)
             return Error::unsupported;
         const auto *target = dh2_animation_target(&a);
         if (!target || !target[0])
             return Error::range;
         for (std::uint32_t j = 0; j < i; ++j)
-            if (dh2_animation_type(&out->tracks[j], 0) == type &&
+            if ((dh2_animation_type(&out->tracks[j], 0) == type ||
+                 ((type >= 1 && type <= 4) && (dh2_animation_type(&out->tracks[j], 0) >= 1 &&
+                                               dh2_animation_type(&out->tracks[j], 0) <= 4)) ||
+                 ((type == 5 || type == 9) && (dh2_animation_type(&out->tracks[j], 0) == 5 ||
+                                               dh2_animation_type(&out->tracks[j], 0) == 9))) &&
                 std::strcmp(dh2_animation_target(&out->tracks[j]), target) == 0)
                 return Error::duplicate;
         dh2::assets::Vector times{}, values{};
@@ -128,6 +134,13 @@ Error dh2_pose_clip_open(Clip *out, const dh2::resources::BresView *image, std::
                     return Error::nonfinite;
             if (type == 5 && !quaternion_ok(v))
                 return Error::nonfinite;
+            if (type == 9 || (type >= 2 && type <= 4)) {
+                const auto result = dh2_animation_float_key(&a, k, v);
+                if (result == dh2::animation::Error::unsupported)
+                    return Error::unsupported;
+                if (result != dh2::animation::Error::ok || (type == 9 && !quaternion_ok(v)))
+                    return Error::nonfinite;
+            }
         }
         const auto start = dh2_animation_start(&a, 0), end = dh2_animation_end(&a, 0);
         if (start < out->start)
@@ -156,15 +169,21 @@ Error dh2_pose_sample(const Clip *clip, std::uint32_t track, std::int32_t ms, fl
     const bool interpolate = dh2_animation_find(&a, 0, ms, &key, &fraction);
     if (key < 0 || std::uint32_t(key) >= values.count)
         return Error::keys;
-    const auto result = interpolate
-        ? dh2_animation_float_interpolate(&a, key, std::uint32_t(key) + 1, fraction, out)
-        : dh2_animation_float_key(&a, key, out);
+    const auto result =
+        interpolate
+            ? dh2_animation_float_interpolate(&a, key, std::uint32_t(key) + 1, fraction, out)
+            : dh2_animation_float_key(&a, key, out);
     switch (result) {
-    case dh2::animation::Error::ok: return Error::ok;
-    case dh2::animation::Error::argument: return Error::argument;
-    case dh2::animation::Error::unsupported: return Error::unsupported;
-    case dh2::animation::Error::nonfinite: return Error::nonfinite;
-    default: return Error::range;
+    case dh2::animation::Error::ok:
+        return Error::ok;
+    case dh2::animation::Error::argument:
+        return Error::argument;
+    case dh2::animation::Error::unsupported:
+        return Error::unsupported;
+    case dh2::animation::Error::nonfinite:
+        return Error::nonfinite;
+    default:
+        return Error::range;
     }
 }
 Error dh2_pose_node(const Clip *clip, std::int32_t ms, const dh2::scene::Node *source,
@@ -186,11 +205,11 @@ Error dh2_pose_node(const Clip *clip, std::int32_t ms, const dh2::scene::Node *s
         if (e != Error::ok)
             return e;
         const auto type = dh2_animation_type(&a, 0);
-        if (type == 5) {
+        if (type == 5 || type == 9) {
             if (!quaternion_ok(v))
                 return Error::nonfinite;
             std::memcpy(result.rotation, v, 16);
-        } else if (type == 1)
+        } else if (type >= 1 && type <= 4)
             std::memcpy(result.position, v, 12);
         else if (type == 10)
             std::memcpy(result.scale, v, 12);
@@ -205,7 +224,8 @@ Error dh2_pose_skin_palette(const Clip *clip, std::int32_t ms, const dh2::skin::
                             std::size_t cap) {
     if (!clip || !skin || !visual || !out || skin->image.bytes != visual->image.bytes)
         return Error::argument;
-    if (!clip->count || clip->count > 128 || !skin->joints || skin->joints > 256 || cap < skin->joints)
+    if (!clip->count || clip->count > 128 || !skin->joints || skin->joints > 256 ||
+        cap < skin->joints)
         return Error::limit;
     Context c{};
     c.clip = clip;
@@ -223,7 +243,8 @@ Error dh2_pose_skin_palette(const Clip *clip, std::int32_t ms, const dh2::skin::
         if (!c.found[j])
             return Error::joint;
     for (std::uint32_t i = 0; i < clip->count; ++i)
-        if (c.matches[i] != 1) return Error::scene;
+        if (c.matches[i] != 1)
+            return Error::scene;
     return dh2_skin_palette(skin, c.worlds, skin->joints, out, cap) == dh2::skin::Error::ok
                ? Error::ok
                : Error::nonfinite;

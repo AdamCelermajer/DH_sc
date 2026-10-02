@@ -1,7 +1,7 @@
 {
   "address_sanitizer": true,
   "undefined_behavior_sanitizer": true,
-  "cases": 3000,
+  "cases": 6000,
   "seed": 20261002,
   "complete_engine": false,
   "tests": [
@@ -12,10 +12,15 @@
     "immutable input"
   ],
   "source_sha256": {
-    "port/animation-pose/pose.cpp": "9c0a31ae48e6566f1f0c726d6d5c6aee9f1458156d4a4a07dfbcf805a73d228d",
+    "port/animation-pose/pose.cpp": "95bbbbd840a5e119a31454a5fe7723fea69b0c3cbd5b581d699813ec28a3cab1",
     "port/animation-pose/pose.hpp": "7a5518739ea390580bbf1f006e50c2a1448b67b6acb220ed317f6fffc6623c83",
     "port/animation-pose/tests/safety.cpp": "f2fa1a6a91323f47bd10b9b2f75f3f20e073abe9eca0619144aedc727dbf9d29",
-    "port/animation-values/values.cpp": "d6a4bc908651ad15f1dd4b19ee2bd21b357cf3e2f17b27fde266dfcdfa1d3916",
+    "port/animation-values/values.cpp": "44cb86790f52c50c0ae2d3811cc983911514a1d5f987f37c2a5a692aeed3cb2c",
     "port/animation-values/values.hpp": "52adf318f1641714fe57d2205ebca310f3934d0a73f6f76223419cd8bfbdcf26"
+  },
+  "cases_per_fixture": 3000,
+  "fixture_sha256": {
+    "data/3d/characters/prince/animations/prince_walk_dual.bdae": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+    "data/3d/characters/prince/animations/cs_darkqueen_scene03a_prince.bdae": "f74d8ada40c3f5b4bb9408014ec809404f5f9983cbaa6b58ce81889ce046b903"
   }
 }

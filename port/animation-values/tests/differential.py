@@ -30,7 +30,15 @@ ROWS = [(1,'key',0x61225c,72),(10,'key',0x612394,72),(5,'key',0x61cf8c,76),
         (1,'lerp',0x6286cc,256),(10,'lerp',0x628850,256),(5,'lerp',0x613294,80),
         (1,'delta',0x6122a4,80),(10,'delta',0x6123dc,80),(5,'delta',0x61cfd8,276),
         (1,'delta_lerp',0x6122f4,124),(10,'delta_lerp',0x61242c,124),(5,'delta_lerp',0x61d100,424),
-        (5,'blend',0x6130d4,448)]
+        (5,'blend',0x6130d4,448),
+        (9,'key',0x61f594,64),(9,'lerp',0x61f94c,60),
+        (9,'delta',0x61f5e4,252),(9,'delta_lerp',0x61f6f4,384),
+        (2,'key',0x61f9a4,112),(2,'lerp',0x61fa24,184),
+        (2,'delta',0x61faf8,108),(2,'delta_lerp',0x61fb78,212),
+        (3,'key',0x61fc70,112),(3,'lerp',0x61fcf0,184),
+        (3,'delta',0x61fdc4,108),(3,'delta_lerp',0x61fe44,212),
+        (4,'key',0x61ff3c,112),(4,'lerp',0x61ffbc,180),
+        (4,'delta',0x615e6c,108),(4,'delta_lerp',0x61db54,212)]
 
 class EngineCpu(Cpu):
     def __init__(self, *args):
@@ -53,6 +61,8 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('--original',type=Path,required=True)
     p.add_argument('--arm64',type=Path,required=True);p.add_argument('--host',type=Path,required=True)
     p.add_argument('--oracle',type=Path,required=True);p.add_argument('--sample',type=Path,required=True)
+    p.add_argument('--angle-sample',type=Path,required=True)
+    p.add_argument('--position-sample',type=Path,required=True)
     p.add_argument('--report',type=Path,required=True);a=p.parse_args()
     sha=lambda path:hashlib.sha256(path.read_bytes()).hexdigest()
     assert sha(a.original)==ORIGINAL_SHA256
@@ -98,14 +108,14 @@ def main():
         owner=api.Input(host,raw)
         for i in range(w(root+36)):
             animation=owner.animation(i,0);typ=host.dh2_animation_type(c.byref(animation),0)
-            if typ not in (1,5,10):continue
+            if typ not in (1,2,3,4,5,9,10):continue
             if host.dh2_animation_scales(c.byref(animation)) or host.dh2_animation_offsets(c.byref(animation)):continue
             vector=api.Vector();assert host.dh2_animation_vector(c.byref(animation),0,True,c.byref(vector))
             if vector.type!=6 or vector.count<2:continue
             rec=w(root+40)+32*i
             old.uc.mem_write(old_acc,struct.pack('<4I',old_image+rec,old_image+blob,0,0))
             assert new.call('dh2_animation_open',[new_acc,new_view,i,0])==0
-            cases=sorted({0,vector.count//2,vector.count-2})
+            cases=sorted({0,min(vector.count//2,vector.count-2),vector.count-2})
             for first in cases:
                 second=first+1;reference=(first+3)%vector.count
                 for t in (0.0,1.0,0.1,0.5,0.9):
@@ -114,9 +124,9 @@ def main():
                         address=next(address for ty,k,address,size in ROWS if ty==typ and k==kind)
                         old.uc.mem_write(old_out,b'\xa5'*32);new.uc.mem_write(new_out,b'\xa5'*32)
                         out=(c.c_float*4)(99,99,99,99)
-                        virtual=(kind=='key' or(kind=='delta'and typ!=5))
+                        virtual=(kind=='key' and typ in (1,5,10)) or (kind=='delta' and typ in (1,10))
                         if kind=='key':
-                            original=[0,old_acc,first,old_out]
+                            original=[0,old_acc,first,old_out] if virtual else [old_acc,first,old_out]
                             native=[new_acc,first,new_out]
                             result=host.dh2_animation_float_key(c.byref(animation),first,out);symbol='dh2_animation_float_key';fp=None
                         elif kind=='lerp':
@@ -133,7 +143,7 @@ def main():
                             result=host.dh2_animation_float_delta(c.byref(animation),reference,first,second,t,True,out);symbol='dh2_animation_float_delta';fp=t
                         assert result==0,(label,i,kind,result)
                         old.call(address,original);assert new.call(symbol,native,fp)==0
-                        size=16 if typ==5 else 12
+                        size=16 if typ in (5,9) else 12
                         expected=bytes(old.uc.mem_read(old_out,size));actual=bytes(new.uc.mem_read(new_out,size))
                         context=(label,i,typ,kind,first,t)
                         equal(expected,actual,context);equal(expected,bytes(out)[:size],context)
@@ -143,12 +153,19 @@ def main():
         assert bytes(owner.bytes.raw[:len(raw)])==raw
         assert bytes(new.uc.mem_read(new_image,len(raw)))==raw
         samples.append({'name':label,'sha256':hashlib.sha256(raw).hexdigest()})
-    check_image(a.sample.read_bytes(),'owner warrior walk')
-    for typ in (1,5,10):
-        raw=bytearray(fixtures.synthetic(list(range(20)),time_type=4,optional=False))
+    for typ in (1,2,3,4,5,9,10):
+        scalar = typ in (2,3,4,9)
+        raw=bytearray(fixtures.synthetic(list(range(20)),time_type=4,optional=scalar))
         w=lambda o:struct.unpack_from('<I',raw,o)[0]
         root=w(32);record=w(root+40);sampler=w(record+8);channel=w(record+16);blob=w(w(w(root+48)+4)+20)
-        struct.pack_into('<I',raw,channel+8,typ);components=4 if typ==5 else 3
+        if scalar:
+            fields=list(struct.unpack_from('<'+'I'*w(16),raw,w(24)))
+            fields=[f for f in fields if f not in (record+28,1044,1048)]
+            struct.pack_into('<I',raw,16,len(fields));struct.pack_into('<'+'I'*len(fields),raw,w(24),*fields)
+            struct.pack_into('<I',raw,28,60+len(fields)*4)
+            struct.pack_into('<I',raw,record+28,0)
+            if typ==9:struct.pack_into('<3f',raw,1080,0.6,0,0.8)
+        struct.pack_into('<I',raw,channel+8,typ);components=4 if typ==5 else 1 if scalar else 3
         struct.pack_into('<I',raw,sampler+20,components)
         slot=blob+16;values=slot+struct.unpack_from('<i',raw,slot)[0]
         vv=[]
@@ -159,6 +176,9 @@ def main():
             vv.extend(vals)
         struct.pack_into('<'+'f'*len(vv),raw,values,*vv)
         check_image(bytes(raw),f'synthetic type {typ}')
+    check_image(a.sample.read_bytes(),'owner warrior walk')
+    check_image(a.angle_sample.read_bytes(),'owner dual walk angle tracks')
+    check_image(a.position_sample.read_bytes(),'owner cutscene component position')
     for count in (0,1,2,3,8):
         for case in range(25):
             values=[]

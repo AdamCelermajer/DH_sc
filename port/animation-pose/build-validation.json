@@ -3,8 +3,8 @@
   "complete_engine": false,
   "original_animator_equivalence": false,
   "source_sha256": {
-    "animation-pose/pose.cpp": "9c0a31ae48e6566f1f0c726d6d5c6aee9f1458156d4a4a07dfbcf805a73d228d",
-    "animation-values/values.cpp": "d6a4bc908651ad15f1dd4b19ee2bd21b357cf3e2f17b27fde266dfcdfa1d3916",
+    "animation-pose/pose.cpp": "95bbbbd840a5e119a31454a5fe7723fea69b0c3cbd5b581d699813ec28a3cab1",
+    "animation-values/values.cpp": "44cb86790f52c50c0ae2d3811cc983911514a1d5f987f37c2a5a692aeed3cb2c",
     "skin-payloads/skin.cpp": "c3b61a63e47bdd5e37a6f784e5b89f4626fe9499d1232a8f2f3760beb7cc8c83",
     "asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
     "scene-payloads/scene.cpp": "0f64fd02c282b4bb455f94e0c2afd66e757d21707f5e551dd8bb96c72dd81dae",
@@ -19,6 +19,6 @@
     "engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
   },
   "artifact_sha256": {
-    "pose-host.so": "c5f806f65d39467c1d5f4ae7ede3fef8d0c86aaa05cb63016dca17ba497d6a4c"
+    "pose-host.so": "e3032a6b623d2edcfbc68071d0301d1ee8f72372cbf041c5da6120b1999b7203"
   }
 }

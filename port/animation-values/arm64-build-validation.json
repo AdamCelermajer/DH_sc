@@ -3,7 +3,7 @@
   "host_build": false,
   "arm64_build": true,
   "source_sha256": {
-    "animation-values/values.cpp": "d6a4bc908651ad15f1dd4b19ee2bd21b357cf3e2f17b27fde266dfcdfa1d3916",
+    "animation-values/values.cpp": "44cb86790f52c50c0ae2d3811cc983911514a1d5f987f37c2a5a692aeed3cb2c",
     "asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
     "engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
     "engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
@@ -13,7 +13,7 @@
     "engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
   },
   "artifact_sha256": {
-    "values-arm64.so": "02296ce6651e0efea17fce9703702cf731d07ef083a18a1313d150b478068563"
+    "values-arm64.so": "2675df45dbf6e2138fe6031538b32abb982248a3a3fe39a36f9f6d3b721d84ba"
   },
   "arm64_pt_load": [
     {
@@ -22,7 +22,7 @@
     },
     {
       "alignment": 16384,
-      "offset": 34272
+      "offset": 35168
     }
   ]
 }
