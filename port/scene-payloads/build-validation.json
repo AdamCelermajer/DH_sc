@@ -1,0 +1,17 @@
+{
+  "host_build": true,
+  "arm64_build": true,
+  "complete_engine": false,
+  "source_sha256": {
+    "scene.cpp": "0f64fd02c282b4bb455f94e0c2afd66e757d21707f5e551dd8bb96c72dd81dae",
+    "scene.hpp": "344df64661ef2ace357eb2f9c21f6fc89c750af637835dec4557edae9fbced0e",
+    "../engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "../engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "../engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "../engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "artifact_sha256": {
+    "libdh2_scene_host.dll": "a08941d43e0ed2aad7e7af429f1b20ad7fdf0a3002f282e2e29c0f58aac4101b",
+    "libdh2_scene_arm64.so": "de805ce159010f2211b872a6529badc99ed93dd5afc2d0c28ce7236f52d94716"
+  }
+}
