@@ -171,8 +171,19 @@ public class Dh2Activity extends Activity {
             if(page!=4096)throw new IOException("This translation runtime currently requires 4096-byte memory pages. This phone reports "+page+". Please share the diagnostic report.");
             setBusy(true,"Starting a fresh diagnostic run...");
             worker.execute(()->{
-                try{stopGuest();configurePath();Dh2Diagnostics.collectExits(this);Dh2Diagnostics.begin(this);
-                    runOnUiThread(()->{setBusy(false,"Logs are saved automatically. Export the diagnostic ZIP after the test.");startActivity(PluginSwitchActivity.intent(this,CacheArchive.GAME));});
+                try{stopGuest();configurePath();
+                    LanguagePreference.Result language;
+                    try { language=LanguagePreference.apply(dataRoot(),getPreferences(0).getBoolean("preferEnglish",true)); }
+                    catch (IOException | SecurityException e) { language=LanguagePreference.Result.UNRECOGNIZED; android.util.Log.w("DH2", "English preference could not be applied", e); }
+                    Dh2Diagnostics.collectExits(this);Dh2Diagnostics.begin(this);
+                    java.nio.file.Files.write(new File(getExternalFilesDir(null),"dh2-session.txt").toPath(),
+                        ("English preference: "+language+"\n").getBytes(StandardCharsets.UTF_8),
+                        java.nio.file.StandardOpenOption.APPEND);
+                    final boolean languageFailed=language==LanguagePreference.Result.UNRECOGNIZED;
+                    runOnUiThread(()->{setBusy(false,languageFailed?
+                        "Saved language setting was not recognized; the game may keep its existing language. Export diagnostics for details.":
+                        "Logs are saved automatically. Export the diagnostic ZIP after the test.");
+                        startActivity(PluginSwitchActivity.intent(this,CacheArchive.GAME));});
                 }catch(Exception e){failed("Launch failed",e);}
             });
         }

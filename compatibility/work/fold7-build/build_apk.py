@@ -38,7 +38,7 @@ if test10_input:
 if cache_input:
     from standalone_inputs import verify_sha256
     verify_sha256(Path(cache_input), COMPLETE_CACHE_SHA256)
-version_code, version_name = ((13, '1.0-test10-initial-size') if test10_input else
+version_code, version_name = ((14, '1.0-test11-language') if test10_input else
                               ((9, '1.0-test9-path') if test9_input else
                               ((8, '1.0-test8-sync') if test8_input else
                                ((7, '1.0-test7') if test7_input else (5, '1.0-test5')))))
@@ -172,7 +172,7 @@ with zipfile.ZipFile(unsigned,'a',zipfile.ZIP_DEFLATED) as z:
     for p in (ZB/'build/launcher/jniLibs/arm64-v8a').glob('*.so'):z.write(p,'lib/arm64-v8a/'+p.name)
 aligned=OUT/'dh2-aligned.apk'
 run([BT/'zipalign','-f','-P','16','4',unsigned,aligned])
-deliverable=Path(os.environ['DH2_OUTPUT_APK']) if 'DH2_OUTPUT_APK' in os.environ else WORK.parent/'deliverables'/('Dungeon-Hunter-2-Android17-test10-initial-size.apk' if test10_input else ('Dungeon-Hunter-2-Android17-test9-path.apk' if test9_input else ('Dungeon-Hunter-2-Android17-test8-sync.apk' if test8_input else ('Dungeon-Hunter-2-Android17-test7.apk' if test7_input else 'Dungeon-Hunter-2-Fold7-test5.apk'))))
+deliverable=Path(os.environ['DH2_OUTPUT_APK']) if 'DH2_OUTPUT_APK' in os.environ else WORK.parent/'deliverables'/('Dungeon-Hunter-2-Android17-test11-language.apk' if test10_input else ('Dungeon-Hunter-2-Android17-test9-path.apk' if test9_input else ('Dungeon-Hunter-2-Android17-test8-sync.apk' if test8_input else ('Dungeon-Hunter-2-Android17-test7.apk' if test7_input else 'Dungeon-Hunter-2-Fold7-test5.apk'))))
 deliverable.parent.mkdir(parents=True,exist_ok=True)
 run([BT/'apksigner','sign','--ks',WORK/'dh2-local-test.p12','--ks-key-alias','dh2-local-test','--ks-pass','pass:dh2-local-test-only','--key-pass','pass:dh2-local-test-only','--out',deliverable,aligned])
 run([BT/'apksigner','verify','--verbose',deliverable])

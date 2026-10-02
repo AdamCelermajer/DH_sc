@@ -143,3 +143,7 @@ This test establishes a working emulator path for the tested cache/save and
 short level interaction. It does not establish compatibility across every
 level, device, or 16 KiB page configuration. The separate 16 KiB translator
 investigation is documented under `compatibility/16k-port`.
+
+The signed Test 10 hash above belongs to source commit `9723cf0`. The later
+saved-language fix has distinct version code 14 and is documented in
+`STANDALONE-TEST11-LANGUAGE.md`; it does not change that Test 10 artifact.
