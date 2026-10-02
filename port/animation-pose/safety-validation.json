@@ -1,0 +1,19 @@
+{
+  "address_sanitizer": true,
+  "undefined_behavior_sanitizer": true,
+  "cases": 3000,
+  "seed": 20261002,
+  "complete_engine": false,
+  "tests": [
+    "corruption",
+    "actual buffer truncation",
+    "before/after sampling",
+    "skeleton traversal",
+    "immutable input"
+  ],
+  "source_sha256": {
+    "port/animation-pose/pose.cpp": "35bc097a6b9aa688943d0e5886b428e3f76d6ff6b9c4842315e360e649b7deed",
+    "port/animation-pose/pose.hpp": "7a5518739ea390580bbf1f006e50c2a1448b67b6acb220ed317f6fffc6623c83",
+    "port/animation-pose/tests/safety.cpp": "f2fa1a6a91323f47bd10b9b2f75f3f20e073abe9eca0619144aedc727dbf9d29"
+  }
+}

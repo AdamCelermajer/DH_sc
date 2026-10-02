@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../engine-resources/resources.hpp"
+#include "../animation-pose/pose.hpp"
 
 #include <cstdint>
 
@@ -22,3 +23,6 @@ struct SceneMesh {
 extern "C" dh2::viewer::SceneMeshError dh2_viewer_scene_mesh(
     dh2::viewer::SceneMesh* output, const dh2::resources::BresView* image);
 extern "C" void dh2_viewer_scene_mesh_free(dh2::viewer::SceneMesh* output);
+extern "C" dh2::viewer::SceneMeshError dh2_viewer_scene_mesh_at(
+    dh2::viewer::SceneMesh*, const dh2::resources::BresView*,
+    const dh2::pose::Clip*, std::int32_t milliseconds);

@@ -1,0 +1,89 @@
+{
+  "scope": "Absolute animation preview, not original animator or gameplay",
+  "no_fold7_testing": true,
+  "arm64_runtime_verified": false,
+  "runs": [
+    {
+      "serial": "emulator-5560",
+      "android_release": "17",
+      "sdk": "37",
+      "page_size": "4096",
+      "apk_sha256": "183b488b1c6b6071920c71d4600e44ef70a3976ac0031957e080e189c6f88a37",
+      "installed_apk_sha256": "183b488b1c6b6071920c71d4600e44ef70a3976ac0031957e080e189c6f88a37",
+      "model_status": [
+        "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it."
+      ],
+      "texture_status": [
+        "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene."
+      ],
+      "animation_status": [
+        "Animation preview: 27 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay."
+      ],
+      "seek_status": [
+        "Animation preview: 400 / 799 ms. No gameplay."
+      ],
+      "play_and_pause": true,
+      "screenshots": [
+        {
+          "file": "DH2-source-walk-preview-Android17-4k-start.png",
+          "sha256": "74039b9db2fd2403d12a4936e060a007825066c35dc45c0e11206e9b22d564be"
+        },
+        {
+          "file": "DH2-source-walk-preview-Android17-4k-middle.png",
+          "sha256": "1263f3c65e468a98334d6d05a131aec1874ac5fb28629c7128f578aa53b1b27e"
+        },
+        {
+          "file": "DH2-source-walk-preview-Android17-4k-playing.png",
+          "sha256": "492f429e0e19aee4521a12210bc7347fedd3ddbde617347fe84f1a14d7031a2d"
+        }
+      ],
+      "pid": "21333",
+      "fatal_in_run": false,
+      "captured_log_start_emulator_gmt": "10-02 12:18:27.000",
+      "complete_game": false,
+      "original_animator_equivalence": false,
+      "visual_inspection": "Textured warrior visible; start and 400 ms screenshots show changed arms and legs."
+    },
+    {
+      "serial": "emulator-5558",
+      "android_release": "17",
+      "sdk": "37",
+      "page_size": "16384",
+      "apk_sha256": "183b488b1c6b6071920c71d4600e44ef70a3976ac0031957e080e189c6f88a37",
+      "installed_apk_sha256": "183b488b1c6b6071920c71d4600e44ef70a3976ac0031957e080e189c6f88a37",
+      "model_status": [
+        "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it."
+      ],
+      "texture_status": [
+        "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene."
+      ],
+      "animation_status": [
+        "Animation preview: 27 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay."
+      ],
+      "seek_status": [
+        "Animation preview: 400 / 799 ms. No gameplay."
+      ],
+      "play_and_pause": true,
+      "screenshots": [
+        {
+          "file": "DH2-source-walk-preview-Android17-16k-start.png",
+          "sha256": "26377b5b86b91bcbd80c6627e884ffa14870f66e7de051bbd98699d4a8f71fc8"
+        },
+        {
+          "file": "DH2-source-walk-preview-Android17-16k-middle.png",
+          "sha256": "972d86cddadcddacbd661a9a812290fda01154028ee2520b798f32096d65d5bf"
+        },
+        {
+          "file": "DH2-source-walk-preview-Android17-16k-playing.png",
+          "sha256": "9d9a88c7f5a799fa7d3321d5fec0bcd2c30f426df56f4ef3ae8e07aad7501834"
+        }
+      ],
+      "pid": "5609",
+      "fatal_in_run": false,
+      "captured_log_start_emulator_gmt": "10-02 12:18:38.000",
+      "complete_game": false,
+      "original_animator_equivalence": false,
+      "visual_inspection": "Textured warrior visible; start and 400 ms screenshots show changed arms and legs."
+    }
+  ]
+}

@@ -11,6 +11,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
+#include <new>
 
 namespace {
 pthread_mutex_t guard = PTHREAD_MUTEX_INITIALIZER;
@@ -18,6 +20,12 @@ float* vertices = nullptr; // normalized world x, y, z, u, v per vertex
 std::uint16_t* indices = nullptr;
 std::uint32_t vertex_count = 0, index_count = 0;
 bool character_z_up = false;
+std::uint8_t* model_bytes = nullptr;
+std::uint8_t* animation_bytes = nullptr;
+dh2::resources::BresView model_image{};
+dh2::pose::Clip animation_clip{};
+bool animation_playing = false;
+double animation_start = 0;
 std::uint8_t* rgba = nullptr;
 int texture_width = 0, texture_height = 0;
 bool texture_dirty = false;
@@ -63,6 +71,22 @@ GLuint compile(GLenum kind, const char* source) {
 
 jstring message(JNIEnv* env, const char* value) { return env->NewStringUTF(value); }
 
+double monotonic_time() {
+    timespec t{}; clock_gettime(CLOCK_MONOTONIC, &t);
+    return double(t.tv_sec) + double(t.tv_nsec) / 1000000000.0;
+}
+
+bool update_pose_locked(std::int32_t time) {
+    if (!model_bytes || !animation_clip.count) return false;
+    dh2::viewer::SceneMesh frame{};
+    if (dh2_viewer_scene_mesh_at(&frame, &model_image, &animation_clip, time)
+        != dh2::viewer::SceneMeshError::ok) return false;
+    std::free(vertices); std::free(indices);
+    vertices = frame.vertices; indices = frame.indices;
+    vertex_count = frame.vertex_count; index_count = frame.index_count;
+    return true;
+}
+
 std::uint8_t* input_copy(JNIEnv* env, jbyteArray source, std::size_t& size) {
     size = source ? static_cast<std::size_t>(env->GetArrayLength(source)) : 0;
     if (!size || size > 32U * 1024U * 1024U) return nullptr;
@@ -85,10 +109,14 @@ Java_local_dh2_sourceviewer_MainActivity_loadBres(JNIEnv* env, jclass, jbyteArra
     }
     dh2::viewer::SceneMesh scene_mesh{};
     const auto result = dh2_viewer_scene_mesh(&scene_mesh, &image);
-    std::free(bytes);
-    if (result != dh2::viewer::SceneMeshError::ok)
+    if (result != dh2::viewer::SceneMeshError::ok) {
+        std::free(bytes);
         return message(env, "BRES scene rejected: unsupported, too large, or malformed static draw data");
+    }
     pthread_mutex_lock(&guard);
+    std::free(model_bytes); model_bytes = bytes; model_image = image;
+    std::free(animation_bytes); animation_bytes = nullptr;
+    animation_clip = {}; animation_playing = false;
     std::free(vertices); std::free(indices);
     vertices = scene_mesh.vertices; indices = scene_mesh.indices;
     vertex_count = scene_mesh.vertex_count; index_count = scene_mesh.index_count;
@@ -104,6 +132,69 @@ Java_local_dh2_sourceviewer_MainActivity_loadBres(JNIEnv* env, jclass, jbyteArra
                       ? scene_mesh.first_diffuse_texture : "unresolved",
                   already_textured ? "Rendering with imported texture." : "Import that texture to render it.");
     return message(env, status);
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_local_dh2_sourceviewer_MainActivity_loadAnimation(JNIEnv* env, jclass, jbyteArray source) {
+    std::size_t size = 0; auto* bytes = input_copy(env, source, size);
+    if (!bytes) return message(env, "Animation rejected: empty, too large, or out of memory");
+    auto* candidate = static_cast<dh2::pose::Clip*>(std::malloc(sizeof(dh2::pose::Clip)));
+    if (!candidate) { std::free(bytes); return message(env, "Animation rejected: out of memory"); }
+    new (candidate) dh2::pose::Clip{};
+    dh2::resources::BresView image{};
+    if (dh2_bres_open(&image, bytes, size) != dh2::resources::BresError::ok ||
+        dh2_pose_clip_open(candidate, &image, 0) != dh2::pose::Error::ok ||
+        candidate->end <= candidate->start) {
+        std::free(candidate); std::free(bytes);
+        return message(env, "Animation rejected: requires an unscaled float position/rotation/scale clip");
+    }
+    pthread_mutex_lock(&guard);
+    dh2::viewer::SceneMesh test{};
+    const bool valid = character_z_up && model_bytes &&
+        dh2_viewer_scene_mesh_at(&test, &model_image, candidate, candidate->start)
+            == dh2::viewer::SceneMeshError::ok;
+    if (!valid) {
+        pthread_mutex_unlock(&guard); std::free(candidate); std::free(bytes);
+        return message(env, "Animation rejected: import a matching skinned character first");
+    }
+    std::free(animation_bytes); animation_bytes = bytes;
+    animation_clip = *candidate; animation_playing = false;
+    std::free(vertices); std::free(indices);
+    vertices = test.vertices; indices = test.indices;
+    vertex_count = test.vertex_count; index_count = test.index_count;
+    const auto tracks = animation_clip.count;
+    const auto duration = animation_clip.end - animation_clip.start;
+    pthread_mutex_unlock(&guard); std::free(candidate);
+    char status[160]{};
+    std::snprintf(status, sizeof(status), "Animation preview: %u tracks, %d ms. Play or seek. Absolute-key preview; no gameplay.", tracks, duration);
+    return message(env, status);
+}
+
+extern "C" JNIEXPORT jint JNICALL
+Java_local_dh2_sourceviewer_MainActivity_animationDuration(JNIEnv*, jclass) {
+    pthread_mutex_lock(&guard);
+    const auto duration = animation_clip.count ? animation_clip.end - animation_clip.start : 0;
+    pthread_mutex_unlock(&guard); return duration;
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_local_dh2_sourceviewer_MainActivity_seekAnimation(JNIEnv*, jclass, jint milliseconds) {
+    pthread_mutex_lock(&guard); animation_playing = false;
+    if (animation_clip.count) {
+        const auto duration = animation_clip.end - animation_clip.start;
+        const auto time = milliseconds < 0 ? 0 : milliseconds > duration ? duration : milliseconds;
+        if (!update_pose_locked(time + animation_clip.start))
+            __android_log_print(ANDROID_LOG_ERROR, "DH2Source", "animation pose rejected");
+    }
+    pthread_mutex_unlock(&guard);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_local_dh2_sourceviewer_MainActivity_playAnimation(JNIEnv*, jclass, jboolean playing) {
+    pthread_mutex_lock(&guard);
+    animation_playing = playing && animation_clip.count;
+    animation_start = monotonic_time();
+    pthread_mutex_unlock(&guard);
 }
 
 extern "C" JNIEXPORT jstring JNICALL
@@ -205,6 +296,14 @@ Java_local_dh2_sourceviewer_MainActivity_draw(JNIEnv*, jclass) {
     };
     static const std::uint16_t placeholder_indices[] = {0,1,2,2,3,0};
     pthread_mutex_lock(&guard);
+    if (animation_playing && animation_clip.count) {
+        const auto duration = animation_clip.end - animation_clip.start;
+        const auto elapsed = std::fmod((monotonic_time() - animation_start) * 1000.0, double(duration));
+        if (!update_pose_locked(static_cast<std::int32_t>(elapsed) + animation_clip.start)) {
+            animation_playing = false;
+            __android_log_print(ANDROID_LOG_ERROR, "DH2Source", "animated frame rejected");
+        }
+    }
     if (texture_dirty && rgba) {
         glBindTexture(GL_TEXTURE_2D, texture);
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.SeekBar;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import javax.microedition.khronos.egl.EGLConfig;
@@ -19,12 +20,20 @@ public final class MainActivity extends Activity {
     static { System.loadLibrary("dh2source"); }
     private static final int BRES = 1;
     private static final int TEXTURE = 2;
+    private static final int ANIMATION = 3;
     private GLSurfaceView surface;
     private TextView status;
+    private SeekBar timeline;
+    private Button playback;
+    private boolean playing;
     private float lastX, lastY, yaw = 0.6f, pitch = 0.9f;
 
     private static native String loadBres(byte[] data);
     private static native String loadTexture(byte[] data);
+    private static native String loadAnimation(byte[] data);
+    private static native int animationDuration();
+    private static native void seekAnimation(int milliseconds);
+    private static native void playAnimation(boolean playing);
     private static native void setView(float yaw, float pitch, float zoom);
     private static native void surfaceCreated();
     private static native void surfaceChanged(int width, int height);
@@ -52,6 +61,39 @@ public final class MainActivity extends Activity {
         texture.setText("Import PVRTC texture");
         texture.setOnClickListener(v -> pick(TEXTURE));
         layout.addView(texture);
+        Button animation = new Button(this);
+        animation.setText("Import character animation");
+        animation.setOnClickListener(view -> pick(ANIMATION));
+        layout.addView(animation);
+        playback = new Button(this);
+        playback.setText("Play animation");
+        playback.setEnabled(false);
+        playback.setOnClickListener(view -> {
+            playing = !playing;
+            playAnimation(playing);
+            playback.setText(playing ? "Pause animation" : "Play animation");
+            surface.setRenderMode(playing ? GLSurfaceView.RENDERMODE_CONTINUOUSLY
+                                        : GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+            surface.requestRender();
+        });
+        layout.addView(playback);
+        timeline = new SeekBar(this);
+        timeline.setEnabled(false);
+        timeline.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override public void onProgressChanged(SeekBar bar, int value, boolean fromUser) {
+                if (!fromUser) return;
+                playing = false;
+                playAnimation(false);
+                playback.setText("Play animation");
+                surface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+                seekAnimation(value);
+                status.setText("Animation preview: " + value + " / " + bar.getMax() + " ms. No gameplay.");
+                surface.requestRender();
+            }
+            @Override public void onStartTrackingTouch(SeekBar bar) {}
+            @Override public void onStopTrackingTouch(SeekBar bar) {}
+        });
+        layout.addView(timeline);
         surface = new GLSurfaceView(this);
         surface.setEGLContextClientVersion(2);
         surface.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
@@ -94,7 +136,7 @@ public final class MainActivity extends Activity {
     @Override protected void onActivityResult(int request, int result, Intent data) {
         super.onActivityResult(request, result, data);
         if (result != RESULT_OK || data == null || data.getData() == null) return;
-        if (request != BRES && request != TEXTURE) return;
+        if (request != BRES && request != TEXTURE && request != ANIMATION) return;
         try (InputStream in = getContentResolver().openInputStream(data.getData());
              ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             if (in == null) throw new IllegalArgumentException("Cannot open selected file");
@@ -104,13 +146,31 @@ public final class MainActivity extends Activity {
                 if (out.size() + n > 32 * 1024 * 1024) throw new IllegalArgumentException("File exceeds 32 MiB limit");
                 out.write(buffer, 0, n);
             }
-            status.setText(request == BRES ? loadBres(out.toByteArray()) : loadTexture(out.toByteArray()));
+            if (request == TEXTURE) status.setText(loadTexture(out.toByteArray()));
+            else {
+                playing = false;
+                playAnimation(false);
+                surface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+                playback.setText("Play animation");
+                status.setText(request == BRES ? loadBres(out.toByteArray()) : loadAnimation(out.toByteArray()));
+                int duration = animationDuration();
+                timeline.setEnabled(duration > 0);
+                playback.setEnabled(duration > 0);
+                timeline.setMax(Math.max(1, duration));
+                timeline.setProgress(0);
+            }
             surface.requestRender();
         } catch (Exception e) {
             status.setText("Import failed: " + e.getMessage());
         }
     }
 
-    @Override protected void onPause() { surface.onPause(); super.onPause(); }
+    @Override protected void onPause() {
+        playing = false;
+        playAnimation(false);
+        playback.setText("Play animation");
+        surface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        surface.onPause(); super.onPause();
+    }
     @Override protected void onResume() { super.onResume(); if (surface != null) surface.onResume(); }
 }

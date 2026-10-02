@@ -1,0 +1,22 @@
+{
+  "host_build": true,
+  "complete_engine": false,
+  "original_animator_equivalence": false,
+  "source_sha256": {
+    "animation-pose/pose.cpp": "35bc097a6b9aa688943d0e5886b428e3f76d6ff6b9c4842315e360e649b7deed",
+    "skin-payloads/skin.cpp": "c3b61a63e47bdd5e37a6f784e5b89f4626fe9499d1232a8f2f3760beb7cc8c83",
+    "asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "scene-payloads/scene.cpp": "0f64fd02c282b4bb455f94e0c2afd66e757d21707f5e551dd8bb96c72dd81dae",
+    "engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "animation-pose/pose.hpp": "7a5518739ea390580bbf1f006e50c2a1448b67b6acb220ed317f6fffc6623c83",
+    "skin-payloads/skin.hpp": "65f95933766b6dfb9461c4faede0e806cf3403672fc311c6a3f1e93d54780e36",
+    "asset-payloads/payloads.hpp": "fdceff59143442d61cec4a587bfc4dd13318a2592fac19d3bf0e15902680fa09",
+    "scene-payloads/scene.hpp": "344df64661ef2ace357eb2f9c21f6fc89c750af637835dec4557edae9fbced0e",
+    "engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "artifact_sha256": {
+    "pose-host.so": "ad04536dd96329a2ed75073c9c8dbe352df9921c5176333751dc5cc8c12cb232"
+  }
+}

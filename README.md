@@ -1,12 +1,21 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Character animation preview update:** The [source pose evaluator](port/animation-pose/README.md)
+now previews the warrior's 27 stored walk tracks on 18 bones. The exact
+source APK passed import, time selection, Play and Pause on Android 17 with
+both 4 KiB and 16 KiB pages; the textured character visibly changed pose.
+Host sampling checks and 3,000 sanitizer corruption/truncation cases passed.
+This is an absolute-key preview. Original animator blending, transitions and
+complete source-built gameplay remain unfinished.
+[Runtime evidence](port/android-app/animation-runtime-validation.json).
+
 **Character reconstruction update:** [Checked skin controllers](port/skin-payloads/README.md)
 now decode 531 locally resolved skins across the complete cache. A software
 bone-palette calculation passed 304 comparisons against original ARM
 instructions; 5,000 damaged-file probes passed memory/undefined-behaviour
 checks. The source Android app resolves 18 warrior bones and visibly renders
 and rotates the textured player pose on Android 17 with both 4 KiB and 16 KiB
-pages. This remains a diagnostic preview: animation and complete source-built
+pages. This remains a diagnostic preview: original animation control and complete source-built
 gameplay are unfinished. [Runtime evidence](port/android-app/character-runtime-validation.json).
 
 **New local input, 2026-10-02:** a separately supplied 433,189,197-byte cache ZIP passed full member CRC/length checks and contains 6,833 files. See [the complete-cache audit](docs/COMPLETE-CACHE.md). Earlier ten-part recovery figures below describe a different, truncated input.
@@ -19,7 +28,7 @@ gameplay are unfinished. [Runtime evidence](port/android-app/character-runtime-v
 
 [Texture views and PVRTC decoding](port/texture-assets/README.md) classify all 363 external cache textures and decode the 234 BTEX/PVRTC images to RGBA8. Every decoded pixel in those 234 images matched the official PowerVR software decoder; the revised component also builds for Android ARM64. [Checked image/material views](port/material-bindings/README.md) cover nested BRES effect/material parameters and image-index links across all 2,904 BRES files. They resolve 3,854 local effect IDs and also build for Android ARM64. These are isolated source components; the ARM64 builds have not been loaded on an Android device.
 
-[Checked scene hierarchy views](port/scene-payloads/README.md) follow visual-scene references, traverse nodes, compose static world matrices and classify geometry instances across the complete 2,904-file BRES cache. The audit traversed 21,472 nodes and 11,648 instances; 10,403 of 10,444 local geometry links resolved. A [static draw descriptor bridge](port/scene-draw/README.md) now joins those transforms with mesh primitives and material IDs, emitting 11,311 checked draw descriptors covering 995,715 triangles. Its Android 17 16 KiB emulator smoke check passed for a real candle scene. The source Android renderer now consumes checked static draw commands: it displayed the crypt background and candle flame from two commands in one imported BRES, then a larger owner-supplied void-maze scene with 77 commands in a touch-rotatable 3D preview. The exact 3D preview APK ran on both Android 17 4 KiB and 16 KiB emulators. This is still an asset preview; animation, level streaming and gameplay remain separate work.
+[Checked scene hierarchy views](port/scene-payloads/README.md) follow visual-scene references, traverse nodes, compose static world matrices and classify geometry instances across the complete 2,904-file BRES cache. The audit traversed 21,472 nodes and 11,648 instances; 10,403 of 10,444 local geometry links resolved. A [static draw descriptor bridge](port/scene-draw/README.md) now joins those transforms with mesh primitives and material IDs, emitting 11,311 checked draw descriptors covering 995,715 triangles. Its Android 17 16 KiB emulator smoke check passed for a real candle scene. The source Android renderer now consumes checked static draw commands: it displayed the crypt background and candle flame from two commands in one imported BRES, then a larger owner-supplied void-maze scene with 77 commands in a touch-rotatable 3D preview. The exact 3D preview APK ran on both Android 17 4 KiB and 16 KiB emulators. This is still an asset preview; original animation control, level streaming and gameplay remain separate work.
 
 The [host WebGL renderer preview](port/renderer-preview/README.md) draws one real candle mesh primitive in flat and textured diagnostic modes. The textured mode follows its BRES diffuse image link, decodes the cached PVRTC texture, uploads RGBA pixels to WebGL and uses an original unlit textured GLSL pair. Both draws passed 53,185-pixel readback; the textured image has 6,460 distinct RGB colors. The shader choice and state are diagnostic, so original game material behavior, scenes, Android engine texture upload and a playable rebuilt engine remain unfinished.
 
@@ -82,7 +91,7 @@ The paths below are in this Git checkout unless marked **external recovery packa
 | Scene hierarchy | Checked node traversal, static world matrices and geometry-instance references across all 2,904 BRES files; host and ARM64 builds | [`port/scene-payloads`](port/scene-payloads/README.md), [`validation`](port/scene-payloads/validation.json) |
 | Static scene draw descriptors | Joins world transforms, mesh primitives and material IDs; 11,311 checked descriptors across the full cache; Android 17 16 KiB smoke check | [`port/scene-draw`](port/scene-draw/README.md), [`validation`](port/scene-draw/validation.json) |
 | Host graphics preview | One candle mesh primitive drawn flat and with its decoded diffuse texture using original unlit GLSL in WebGL1; pixel readback passed | [`port/renderer-preview`](port/renderer-preview/README.md) |
-| Android 17 source renderer | Signed target-SDK-37 APK built from reconstructed asset readers; first-primitive candle rendering, then two-command candle and 77-command rotatable void-maze preview; the latest APK ran on both 4 KiB and 16 KiB Android 17 emulators; no gameplay | [`port/android-app`](port/android-app/README.md), [`3D runtime validation`](port/android-app/scene-3d-runtime-validation.json) |
+| Android 17 source renderer | Signed target-SDK-37 APK built from reconstructed asset readers; first-primitive candle rendering, then two-command candle and 77-command rotatable void-maze preview; character pose and absolute walk animation previews ran on both 4 KiB and 16 KiB Android 17 emulators; no gameplay | [`port/android-app`](port/android-app/README.md), [`3D runtime validation`](port/android-app/scene-3d-runtime-validation.json) |
 | Compatibility preparation | Snapshot unpacking and local-agent preparation scripts | [`unpack_compatibility.py`](unpack_compatibility.py), [`tools/prepare_local_agent.py`](tools/prepare_local_agent.py) |
 
 Selected original instructions for the reconstructed functions are included in the module reference directories. Full generated assembly and symbol text, raw decompiler output and Java/smali exports can now be inspected in Git. The original ELF binaries and recovered configuration/shader exports remain separate. The checked-in `recovered/native/bundles/manifest.json` contains hashes only; the compressed bundle archives are external. See [reproduction steps](docs/REPRODUCING.md) before using `tools/unpack_native.py`.

@@ -18,6 +18,7 @@ SOURCES = [
     HERE / 'native.cpp',
     HERE / 'scene_buffers.cpp',
     REPO / 'port/skin-payloads/skin.cpp',
+    REPO / 'port/animation-pose/pose.cpp',
     REPO / 'port/scene-draw/draw.cpp',
     REPO / 'port/scene-payloads/scene.cpp',
     REPO / 'port/asset-payloads/payloads.cpp',
@@ -101,8 +102,7 @@ def main() -> None:
     if (classes / 'local/dh2/sourceviewer/MainActivity.class').stat().st_mtime_ns < java_source.stat().st_mtime_ns:
         raise RuntimeError('javac did not update MainActivity.class')
     run(tools / 'd8.bat', '--min-api', '26', '--output', dex,
-        classes / 'local/dh2/sourceviewer/MainActivity.class',
-        classes / 'local/dh2/sourceviewer/MainActivity$1.class')
+        *sorted((classes / 'local/dh2/sourceviewer').glob('MainActivity*.class')))
     base = build / 'base.apk'
     run(tools / 'aapt2.exe', 'link', '--manifest', HERE / 'AndroidManifest.xml',
         '-I', jar, '--min-sdk-version', '26', '--target-sdk-version', '37',
