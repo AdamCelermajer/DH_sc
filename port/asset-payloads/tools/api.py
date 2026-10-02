@@ -15,6 +15,9 @@ class Mesh(c.Structure):
                 ['vertices', 'stride', 'attributes', 'primitives', 'stream', 'buffers']] + [
                 ('minimum', c.c_float*3), ('maximum', c.c_float*3)]
 
+class Type1Geometry(c.Structure):
+    _fields_ = [('embedded_mesh', Mesh), ('opaque_header', U*5)]
+
 class Attribute(c.Structure):
     _fields_ = [('data', P)] + [(x, U) for x in ['type', 'components', 'stride', 'vertices']]
 
@@ -34,6 +37,7 @@ def bind(path):
         'dh2_bres_open': (U, [c.POINTER(Bres), P, c.c_size_t]),
         'dh2_bres_library_count': (U, [c.POINTER(Bres), U]),
         'dh2_mesh_open': (U, [c.POINTER(Mesh), c.POINTER(Bres), I]),
+        'dh2_type1_geometry_open': (U, [c.POINTER(Type1Geometry), c.POINTER(Bres), I]),
         'dh2_mesh_attribute': (U, [c.POINTER(Mesh), I, c.POINTER(Attribute)]),
         'dh2_mesh_primitive': (U, [c.POINTER(Mesh), I, c.POINTER(Primitive)]),
         'dh2_attribute_read': (c.c_bool, [c.POINTER(Attribute), U, c.POINTER(c.c_float)]),
@@ -77,6 +81,13 @@ class Input:
         if error:
             raise ValueError(f'Geometry {index} rejected with code {error}')
         return m
+
+    def type1_geometry(self, index):
+        value = Type1Geometry()
+        error = self.dll.dh2_type1_geometry_open(c.byref(value), c.byref(self.view), index)
+        if error:
+            raise ValueError(f'Type-1 geometry {index} rejected with code {error}')
+        return value
 
     def animation(self, index, segment):
         a = Animation(); error = self.dll.dh2_animation_open(c.byref(a), c.byref(self.view), index, segment)

@@ -91,17 +91,8 @@ bool truncated(float f, std::int32_t& result) {
     result = static_cast<std::int32_t>(f); return true;
 }
 std::int32_t difference(std::int32_t a, std::int32_t b) { return signed_word(std::uint32_t(a) - std::uint32_t(b)); }
-}
-
-extern "C" {
-Error dh2_mesh_open(Mesh* out, const BresView* image, std::int32_t geometry) {
-    if (!out) return Error::argument;
-    *out = {};
-    if (!image) return Error::argument;
-    const auto* g = dh2_bres_library_item(image, Library::geometry, geometry);
-    if (!g) return Error::range;
-    if (word(g + 8) != 0) return Error::geometry_type;
-    const auto* m = at(*image, word(g + 12), 44);
+Error open_mesh_record(Mesh* out, const BresView* image, const std::uint8_t* g, std::uint32_t mesh_offset) {
+    const auto* m = at(*image, mesh_offset, 44);
     if (!m) return Error::range;
     if (word(m) != 1) return Error::stream_layout;
     const auto* s = at(*image, word(m + 8), 44);
@@ -131,6 +122,34 @@ Error dh2_mesh_open(Mesh* out, const BresView* image, std::int32_t geometry) {
             if (index >= candidate.vertices || index < p.minimum_index || index > p.maximum_index) return Error::index;
         }
     }
+    *out = candidate; return Error::ok;
+}
+}
+
+extern "C" {
+Error dh2_mesh_open(Mesh* out, const BresView* image, std::int32_t geometry) {
+    if (!out) return Error::argument;
+    *out = {};
+    if (!image) return Error::argument;
+    const auto* g = dh2_bres_library_item(image, Library::geometry, geometry);
+    if (!g) return Error::range;
+    if (word(g + 8) != 0) return Error::geometry_type;
+    return open_mesh_record(out, image, g, word(g + 12));
+}
+Error dh2_type1_geometry_open(Type1Geometry* out, const BresView* image, std::int32_t geometry) {
+    if (!out) return Error::argument;
+    *out = {};
+    if (!image) return Error::argument;
+    const auto* g = dh2_bres_library_item(image, Library::geometry, geometry);
+    if (!g) return Error::range;
+    if (word(g + 8) != 1) return Error::geometry_type;
+    const auto payload = word(g + 12);
+    const auto* header = at(*image, payload, 20);
+    if (!header || payload > std::numeric_limits<std::uint32_t>::max() - 20U) return Error::range;
+    Type1Geometry candidate{};
+    for (std::uint32_t i = 0; i < 5; ++i) candidate.opaque_header[i] = word(header + i * 4);
+    const auto error = open_mesh_record(&candidate.embedded_mesh, image, g, payload + 20U);
+    if (error != Error::ok) return error;
     *out = candidate; return Error::ok;
 }
 Error dh2_mesh_attribute(const Mesh* m, std::int32_t i, Attribute* out) {

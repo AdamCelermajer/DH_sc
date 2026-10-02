@@ -6,6 +6,8 @@ Offsets below are decimal byte offsets within each ARM32 serialized record. Word
 
 The root's geometry count/pointer are at `0x68` / `0x6c`; records occupy 16 bytes. `SGeometry` stores ID/name string offsets at 0/4, a type at 8, and a payload offset at 12. The original `constructGeometry` normal-mesh branch accepts type 0. This cache contains 10,924 type-0 and nine type-1 records.
 
+All nine type-1 records are named `Circle01-spline` or `Line01-spline`. Their payload begins with five 32-bit words, observed as `[0, 15, 3, 0, 0]` in every file. Their meanings are unproven, so `Type1Geometry` exposes them as opaque words. A mesh-shaped record begins at payload+20 and uses the same 44-byte `SMesh`, stream, attribute, primitive, vertex and index layouts below. The separate `dh2_type1_geometry_open` reads that embedded record; `dh2_mesh_open` continues to reject type 1 because the original `constructGeometry` returns null for it. This is a checked asset view, not evidence that the original game draws these records as meshes or interprets the prefix as spline control data.
+
 | `SMesh` offset | Field |
 | ---: | --- |
 | 0 | Stream mode; 1 is interleaved in all recovered type-0 meshes |

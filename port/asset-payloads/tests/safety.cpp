@@ -13,7 +13,11 @@ static void inspect(std::vector<std::uint8_t>& bytes, std::size_t size) {
     const auto n = dh2_bres_library_count(&image, Library::geometry);
     for (std::uint32_t i = 0; i < n; ++i) {
         Mesh mesh{};
-        if (dh2_mesh_open(&mesh, &image, i) != Error::ok) continue;
+        if (dh2_mesh_open(&mesh, &image, i) != Error::ok) {
+            Type1Geometry type1{};
+            if (dh2_type1_geometry_open(&type1, &image, i) != Error::ok) continue;
+            mesh = type1.embedded_mesh;
+        }
         for (std::uint32_t j = 0; j < mesh.attributes; ++j) {
             Attribute a{}; assert(dh2_mesh_attribute(&mesh, j, &a) == Error::ok);
             float f[16]; if (a.vertices) assert(dh2_attribute_read(&a, a.vertices - 1, f));

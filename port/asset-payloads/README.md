@@ -10,6 +10,7 @@ It adds **18 complete animation accessor bodies and 8 complete typed search bodi
 | --- | --- | --- |
 | Original ARM32 versus compiled ARM64 animation access/search | 271,970 comparisons, zero mismatches; all 456 instruction addresses in the 26 complete ranges executed | [ARM report](../../reports/asset-payloads-arm-validation.json) |
 | Full recovered BRES cache | 2,901 files; 10,924 meshes; 1,641,664 vertices; 3,265,266 indices / 1,088,422 triangles | [Cache report](../../reports/asset-payloads-cache-validation.json) |
+| Nine type-1 geometry records | Each has a checked embedded mesh after a 20-byte opaque prefix; 542 embedded vertices and 600 triangles total; 4 malformed cases rejected | [Type-1 report](type1-validation.json) |
 | Animation payloads | 49,060 animation records, 3,732 segments, 82,880 sampler/segment vector pairs and 890,301 time keys decoded and checked | Same cache report |
 | Host / Android ARM64 compilation | Both pass with strict floating-point evaluation and 16 KiB target load alignment | [Build report](../../reports/asset-payloads-build.json) |
 | Corrupted / truncated BRES inputs | 5,000 host ASan/UBSan probes pass; leak detection disabled because of the execution environment | Same build report |
@@ -28,6 +29,7 @@ The original-instruction animation test samples the first/middle/last animation 
 - Frame selection and fraction arithmetic retain 32-bit signed wrap where the assembly performs integer subtraction. Invalid indices and unrepresentable float-to-int conversions are rejected safely.
 - Animation entry pointers are relative to their **pointer word**, not to the BRES base. The decoder resolves them without modifying or widening the input.
 - `prince_modular.bdae` alone uses deferred mesh buffers in this corpus. Its 173 meshes reference 16-byte on-demand records rather than immediate vertex/index bytes. Complete-file offsets are resolved without recreating allocator or GPU ownership.
+- The nine type-1 records have separate `dh2_type1_geometry_open` views. Their five prefix words remain opaque; the embedded mesh uses the checked type-0 mesh readers. The original `constructGeometry` rejects type 1, so `dh2_mesh_open` still does too.
 
 ## Build and reproduce
 
@@ -46,6 +48,8 @@ python tests/differential.py --original /path/to/libDungeonHunter2.so \
   --cache /path/to/cache/files --report arm-validation.json
 python tests/arm64_mesh.py --cache /path/to/cache/files \
   --report arm64-mesh-validation.json
+python tests/type1_geometry.py --cache /path/to/cache/files \
+  --library build/libdh2_asset_payloads_host.so --report type1-validation.json
 ASAN_OPTIONS=detect_leaks=0 python build.py --ndk /path/to/android-ndk-r29 \
   --sanitize /path/to/candle_flame.bdae --report build-validation.json
 ```
@@ -56,6 +60,6 @@ ASAN_OPTIONS=detect_leaks=0 python build.py --ndk /path/to/android-ndk-r29 \
 
 ## Remaining engine work
 
-Nine type-1 geometry records are explicitly rejected and listed in the cache report. All decoded meshes use interleaved streams; separate-stream meshes and already-relocated/runtime-mutated images are unsupported. OBJ currently requires triangle lists. Other primitive map values are retained as engine enums, not mistaken for GL enums.
+The type-1 embedded bytes are now inspectable, but the five prefix words and any spline semantics remain unresolved. The original runtime mesh constructor returns null for type 1; the normal mesh and OBJ paths continue to skip it. All decoded meshes use interleaved streams; separate-stream meshes and already-relocated/runtime-mutated images are unsupported. OBJ currently requires triangle lists. Other primitive map values are retained as engine enums, not mistaken for GL enums.
 
 Default/scale getters expose checked borrowed addresses; their variant payloads are not interpreted. Scene hierarchy, controllers, skin weights, skeletons, track-specific value interpolation/application, cached generic search dispatch, clips, material/image decoding, GPU buffers and rendering still need reconstruction. Deferred bytes are supported only when contained in the complete image; external/split-file loading and the original string/shared ownership ABI remain unfinished. No Android device execution or integrated game build was performed for this module. It is a usable asset and animation foundation, not a complete engine or playable rebuilt APK.

@@ -17,6 +17,13 @@ struct Mesh {
     std::uint32_t stream, buffers;
     float minimum[3], maximum[3];
 };
+// Type-1 records in the recovered cache contain five opaque words followed
+// by a mesh-shaped payload. The original constructGeometry rejects type 1;
+// this view only exposes the serialized payload for inspection.
+struct Type1Geometry {
+    Mesh embedded_mesh;
+    std::uint32_t opaque_header[5];
+};
 struct Attribute {
     const std::uint8_t* data;
     std::uint32_t type, components, stride, vertices;
@@ -41,6 +48,7 @@ struct Animation {
 
 extern "C" {
 dh2::assets::Error dh2_mesh_open(dh2::assets::Mesh*, const dh2::resources::BresView*, std::int32_t geometry);
+dh2::assets::Error dh2_type1_geometry_open(dh2::assets::Type1Geometry*, const dh2::resources::BresView*, std::int32_t geometry);
 dh2::assets::Error dh2_mesh_attribute(const dh2::assets::Mesh*, std::int32_t, dh2::assets::Attribute*);
 dh2::assets::Error dh2_mesh_primitive(const dh2::assets::Mesh*, std::int32_t, dh2::assets::Primitive*);
 // Raw numeric values, without shader normalization or coordinate transforms.
