@@ -14,8 +14,10 @@ or scale (type 10, three components). Compressed values and other types return
 an error. Strictly increasing, nonnegative times and finite values are checked
 before a clip is exposed. A clip and its backing bytes must stay alive together.
 
-`dh2_pose_sample` uses the reconstructed key search and quaternion slerp;
-translation and scale use float linear interpolation. `dh2_pose_node` copies a
+`dh2_pose_sample` uses the reconstructed key search and
+[original-instruction-checked absolute value calculations](../animation-values/README.md).
+These preserve the original weighted interpolation and quaternion blender
+rules; full animator equivalence remains unverified. `dh2_pose_node` copies a
 node and replaces the fields addressed by matching track target IDs.
 `dh2_pose_skin_palette` traverses one visual, applies posed world transforms,
 and resolves skin joints by their scope IDs. Every animation target must match
@@ -54,7 +56,7 @@ that every rounded accessor time is an exact key boundary.
 
 [Safety checks](safety-validation.json) passed 3,000 corruption/truncation
 cases with AddressSanitizer and UndefinedBehaviorSanitizer, including sampling
-and skeleton traversal. Compile `tests/safety.cpp`, `pose.cpp`, and the same
+and skeleton traversal. Compile `tests/safety.cpp`, `pose.cpp`, `../animation-values/values.cpp`, and the same
 supporting sources listed in `build.py` with
 `-fsanitize=address,undefined -fno-omit-frame-pointer`, then run the executable
 with animation and model paths in that order.

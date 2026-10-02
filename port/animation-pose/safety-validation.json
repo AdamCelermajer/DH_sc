@@ -12,8 +12,10 @@
     "immutable input"
   ],
   "source_sha256": {
-    "port/animation-pose/pose.cpp": "35bc097a6b9aa688943d0e5886b428e3f76d6ff6b9c4842315e360e649b7deed",
+    "port/animation-pose/pose.cpp": "a7e4cae0582114f9111c50c86a8a35a9dea587feb255dbd3ed42442c21b10316",
     "port/animation-pose/pose.hpp": "7a5518739ea390580bbf1f006e50c2a1448b67b6acb220ed317f6fffc6623c83",
-    "port/animation-pose/tests/safety.cpp": "f2fa1a6a91323f47bd10b9b2f75f3f20e073abe9eca0619144aedc727dbf9d29"
+    "port/animation-pose/tests/safety.cpp": "f2fa1a6a91323f47bd10b9b2f75f3f20e073abe9eca0619144aedc727dbf9d29",
+    "port/animation-values/values.cpp": "d6a4bc908651ad15f1dd4b19ee2bd21b357cf3e2f17b27fde266dfcdfa1d3916",
+    "port/animation-values/values.hpp": "52adf318f1641714fe57d2205ebca310f3934d0a73f6f76223419cd8bfbdcf26"
   }
 }

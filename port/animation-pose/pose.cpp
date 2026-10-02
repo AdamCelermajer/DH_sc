@@ -1,4 +1,5 @@
 #include "pose.hpp"
+#include "../animation-values/values.hpp"
 #include <cmath>
 #include <cstring>
 #include <limits>
@@ -153,31 +154,16 @@ Error dh2_pose_sample(const Clip *clip, std::uint32_t track, std::int32_t ms, fl
     const bool interpolate = dh2_animation_find(&a, 0, ms, &key, &fraction);
     if (key < 0 || std::uint32_t(key) >= values.count)
         return Error::keys;
-    float first[16]{}, second[16]{};
-    if (!dh2_vector_read(&values, key, first))
-        return Error::range;
-    if (interpolate) {
-        if (std::uint32_t(key) + 1 >= values.count || !dh2_vector_read(&values, key + 1, second))
-            return Error::keys;
-        if (dh2_animation_type(&a, 0) == 5) {
-            const dh2::math::Quaternion q1{first[0], first[1], first[2], first[3]},
-                q2{second[0], second[1], second[2], second[3]};
-            dh2::math::Quaternion result{};
-            dh2_quat_slerp(&result, &q1, &q2, fraction);
-            first[0] = result.x;
-            first[1] = result.y;
-            first[2] = result.z;
-            first[3] = result.w;
-        } else
-            for (std::uint32_t i = 0; i < values.components; ++i)
-                first[i] = first[i] + (second[i] - first[i]) * fraction;
+    const auto result = interpolate
+        ? dh2_animation_float_interpolate(&a, key, std::uint32_t(key) + 1, fraction, out)
+        : dh2_animation_float_key(&a, key, out);
+    switch (result) {
+    case dh2::animation::Error::ok: return Error::ok;
+    case dh2::animation::Error::argument: return Error::argument;
+    case dh2::animation::Error::unsupported: return Error::unsupported;
+    case dh2::animation::Error::nonfinite: return Error::nonfinite;
+    default: return Error::range;
     }
-    for (std::uint32_t i = 0; i < 4; ++i) {
-        if (!std::isfinite(first[i]))
-            return Error::nonfinite;
-        out[i] = first[i];
-    }
-    return Error::ok;
 }
 Error dh2_pose_node(const Clip *clip, std::int32_t ms, const dh2::scene::Node *source,
                     dh2::scene::Node *out) {

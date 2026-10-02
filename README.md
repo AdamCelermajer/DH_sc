@@ -1,5 +1,13 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Original animation calculation update:** [Float track values](port/animation-values/README.md)
+now reproduce 13 original position, scale, quaternion interpolation/delta and
+weighted-blend bodies. All 1,685 original ARM32/compiled ARM64/host cases matched,
+and 3,000 sanitizer cases passed. The updated source Android preview uses these
+absolute calculations and passed walk controls on Android 17 at both page sizes.
+This remains a source component and diagnostic preview; the complete source game
+is unfinished.
+
 **Character animation preview update:** The [source pose evaluator](port/animation-pose/README.md)
 now previews the warrior's 27 stored walk tracks on 18 bones. The exact
 source APK passed import, time selection, Play and Pause on Android 17 with

@@ -1,0 +1,181 @@
+{
+  "complete_engine": false,
+  "gameplay_verified": false,
+  "animator_state_machine": false,
+  "comparison": "Original ARM32 vs compiled ARM64 and host: exact float bits except signed zero",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "02296ce6651e0efea17fce9703702cf731d07ef083a18a1313d150b478068563",
+  "host_sha256": "c3c44d2ad2f6835104a140ea71e3d1586861b3f88cafe88120fd0dfbb096babb",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "seed": 20261002,
+  "function_evidence": [
+    {
+      "type": 1,
+      "kind": "key",
+      "elf_address": "0x0061225c",
+      "size": 72,
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv",
+      "sha256": "8cfd01929c7d19efb918dc2f120abdf0ebde5b8c751d11f7a3d4789e4824d9d2"
+    },
+    {
+      "type": 10,
+      "kind": "key",
+      "elf_address": "0x00612394",
+      "size": 72,
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv",
+      "sha256": "de7f72557ebfa161b96ef1588378fc8e82a0a793a1a8c98160202bb1d274eb9c"
+    },
+    {
+      "type": 5,
+      "kind": "key",
+      "elf_address": "0x0061cf8c",
+      "size": 76,
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_25CSceneNodeQuaternionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiPv",
+      "sha256": "1bcd2b99a2ce08b773e7c7b59f712e52afca9cd21cfdf168bb0b4e2d242f81fb"
+    },
+    {
+      "type": 1,
+      "kind": "lerp",
+      "elf_address": "0x006286cc",
+      "size": 256,
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi3ENS1_18SSceneNodePositionELin1EfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "sha256": "8920cd6b08b73f2b6cad5eda8d63a5ed82e03225340bef9b950ab5b9a7e52a55"
+    },
+    {
+      "type": 10,
+      "kind": "lerp",
+      "elf_address": "0x00628850",
+      "size": 256,
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_20CSceneNodeScaleMixinIfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "sha256": "6337fc51cd454293f3c78e0f932d498624fd4c2a3645c1418f785121b88a0b1c"
+    },
+    {
+      "type": 5,
+      "kind": "lerp",
+      "elf_address": "0x00613294",
+      "size": 80,
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_25CSceneNodeQuaternionMixinIfEEfLi4ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "sha256": "ed4eb477bd0056640b28e659de232b3f150e2adf48a2adb4b23cbeb4d6821e00"
+    },
+    {
+      "type": 1,
+      "kind": "delta",
+      "elf_address": "0x006122a4",
+      "size": 80,
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv",
+      "sha256": "3e424435eabb0b898d5176954f6643c936fd45f4f07d7a7c61540450d429900d"
+    },
+    {
+      "type": 10,
+      "kind": "delta",
+      "elf_address": "0x006123dc",
+      "size": 80,
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiiPv",
+      "sha256": "4cb1ad64f89b0811a78619290d2f26d038600c1dd38ff937b473d5e4e55553d5"
+    },
+    {
+      "type": 5,
+      "kind": "delta",
+      "elf_address": "0x0061cfd8",
+      "size": 276,
+      "original_symbol": "_ZN6glitch7collada15animation_track22CInterpreterQuaternionINS1_25CSceneNodeQuaternionMixinIfEEfE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv",
+      "sha256": "6c8abf322629349921da20a12bb9d0cf925fe2b3ae2dfcd122729e2d3934ef01"
+    },
+    {
+      "type": 1,
+      "kind": "delta_lerp",
+      "elf_address": "0x006122f4",
+      "size": 124,
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi3ENS1_18SSceneNodePositionELin1EfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "sha256": "371a945f24370d224dfd153728f77ba78d4c929cfbe47416520e2c3881e93c45"
+    },
+    {
+      "type": 10,
+      "kind": "delta_lerp",
+      "elf_address": "0x0061242c",
+      "size": 124,
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_20CSceneNodeScaleMixinIfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "sha256": "d9a77afc740491dbf235c0c72342effcbd2f22e2054f1fb0430fae18ee336a1f"
+    },
+    {
+      "type": 5,
+      "kind": "delta_lerp",
+      "elf_address": "0x0061d100",
+      "size": 424,
+      "original_symbol": "_ZN6glitch7collada15animation_track22CInterpreterQuaternionINS1_25CSceneNodeQuaternionMixinIfEEfE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "sha256": "d2f2a02ecda98e1159e09c7e5545381ba4576c82803a1238e117c32ab65f5079"
+    },
+    {
+      "type": 5,
+      "kind": "blend",
+      "elf_address": "0x006130d4",
+      "size": 448,
+      "original_symbol": "_ZN6glitch7collada15animation_track8CBlenderINS_4core10quaternionELi1ES4_E17getBlendedValueExEPvPfiS6_",
+      "sha256": "76547124667f91b7cd041af567af33bf673c552b465c4b04719ced469c6dd57b"
+    }
+  ],
+  "calls": {
+    "5_key": 330,
+    "5_lerp": 330,
+    "5_delta": 330,
+    "5_delta_lerp": 330,
+    "1_key": 45,
+    "1_lerp": 45,
+    "1_delta": 45,
+    "1_delta_lerp": 45,
+    "10_key": 15,
+    "10_lerp": 15,
+    "10_delta": 15,
+    "10_delta_lerp": 15,
+    "quaternion_blend": 125
+  },
+  "comparisons": 1685,
+  "mismatches": 0,
+  "samples": [
+    {
+      "name": "owner warrior walk",
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "name": "synthetic type 1",
+      "sha256": "0b7048424dfc3fd483fb015d90c654a376071ad83958dbbb5fb82463c572c031"
+    },
+    {
+      "name": "synthetic type 5",
+      "sha256": "081e55479e5f78bd8d8aff2a76c95aa59beb4c293540fdfc000251a856467a80"
+    },
+    {
+      "name": "synthetic type 10",
+      "sha256": "07ad0a97d6c098fc864f2d367bbe14d18cc2a9d1911ff383f666f4be614dfba8"
+    }
+  ],
+  "main_instruction_addresses_seen": 592,
+  "input_preservation": true,
+  "output_guards": true,
+  "stack_restoration": true,
+  "import_calls": {
+    "__aeabi_fsub": 6210,
+    "__aeabi_fcmpeq": 1721,
+    "__aeabi_fmul": 23168,
+    "__aeabi_fadd": 11343,
+    "__aeabi_fcmplt": 660,
+    "__aeabi_fcmpgt": 660,
+    "__aeabi_fcmpge": 660,
+    "sqrtf": 377,
+    "__aeabi_fdiv": 956,
+    "acosf": 249,
+    "sinf": 747
+  },
+  "dependency_model": "Host C arithmetic/libm and memcpy/memset; actual engine key/blend routines execute",
+  "source_sha256": {
+    "animation-values/values.cpp": "d6a4bc908651ad15f1dd4b19ee2bd21b357cf3e2f17b27fde266dfcdfa1d3916",
+    "asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "animation-values/values.hpp": "52adf318f1641714fe57d2205ebca310f3934d0a73f6f76223419cd8bfbdcf26",
+    "asset-payloads/payloads.hpp": "fdceff59143442d61cec4a587bfc4dd13318a2592fac19d3bf0e15902680fa09",
+    "engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "test_sha256": "9b35c3535ae17c8237025d56b800e1cc44d46f53cc607320470cb20dcbf87679"
+}

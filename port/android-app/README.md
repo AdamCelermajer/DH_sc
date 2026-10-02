@@ -9,20 +9,39 @@ cache. **Play animation**, **Pause animation** and the time slider show a
 27-track, 799 ms walk preview on the 18-bone warrior. Every animation target
 must resolve once in the imported model; mismatched clips are rejected.
 
-The exact 221,728-byte APK, SHA-256
-`183b488b1c6b6071920c71d4600e44ef70a3976ac0031957e080e189c6f88a37`,
+The exact 242,208-byte APK, SHA-256
+`ab2cd924aea029a0bee7b82bd85160b6fb7860b707fef2311125d9c72807cc5a`,
 was installed and pulled back with matching hashes on Android 17 x86_64
 emulators with both 4 KiB and 16 KiB pages. Import, midpoint seek, Play and
 Pause passed, with visibly different textured leg/arm poses and no fatal
 error during each run. [Runtime evidence](animation-runtime-validation.json)
 records this build. [The pose component](../animation-pose/README.md)
-documents sampling and safety checks.
+documents sampling and safety checks. The latest build uses the
+[verified float track calculations](../animation-values/README.md), which
+passed 1,685 original ARM32/compiled ARM64/host comparisons and another
+3,000 sanitizer checks.
 
 This previews absolute stored keys. Original default-relative blending,
 animation transitions, root motion and gameplay are unfinished. Each frame
 uses diagnostic bounds normalization, one texture and one resolved skin
 controller. ARM64 libraries are structurally checked but have not run on
 ARM64 hardware. Selected input files are bounded to 32 MiB each.
+
+### Repeat the emulator animation check
+
+With an English Android emulator running and the APK built, run:
+
+```powershell
+python port/android-app/tests/animation_runtime.py --adb PATH_TO_ADB --serial emulator-5554 --apk port/android-app/build/dh2-source-renderer-debug.apk --cache PATH_TO_PRIVATE_CACHE --evidence PATH_OUTSIDE_GIT
+```
+
+The script requires an emulator, installs the selected APK, copies three
+owner-supplied fixtures to Downloads, selects them through the system file
+picker, checks the midpoint slider and Play/Pause, and compares the installed
+APK hash. It saves screenshots and runtime logs locally. Visually inspect
+the start and midpoint screenshots; UI text alone does not prove rendering.
+The script was run successfully on the Android 17 16 KiB emulator with this
+exact build. Its file-picker selectors require the tested English system UI.
 
 ## Earlier character pose milestone
 

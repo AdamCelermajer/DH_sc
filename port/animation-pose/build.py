@@ -8,7 +8,7 @@ from pathlib import Path
 import subprocess
 
 ROOT=Path(__file__).resolve().parent
-SOURCES=[ROOT/'pose.cpp',ROOT/'../skin-payloads/skin.cpp',ROOT/'../asset-payloads/payloads.cpp',
+SOURCES=[ROOT/'pose.cpp',ROOT/'../animation-values/values.cpp',ROOT/'../skin-payloads/skin.cpp',ROOT/'../asset-payloads/payloads.cpp',
          ROOT/'../scene-payloads/scene.cpp',ROOT/'../engine-resources/resources.cpp',ROOT/'../engine-math/math.cpp']
 def main():
     p=argparse.ArgumentParser();p.add_argument('--output',type=Path,default=ROOT/'build')

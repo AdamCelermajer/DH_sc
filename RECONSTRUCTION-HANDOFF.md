@@ -1,5 +1,15 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**2026-10-02 continuation:** Current source modules now include checked textures,
+materials, scenes, static draw commands, software skin controllers, and
+[original-instruction-checked float animation calculations](port/animation-values/README.md).
+The [source Android preview](port/android-app/README.md) displays a textured
+18-bone warrior and a selectable 27-track walk on Android 17 x86_64 with
+both 4 KiB and 16 KiB pages. Its exact build and runtime records are under
+`port/android-app/`; an emulator test script is included. This remains an
+absolute-key diagnostic preview with no source-built gameplay. The older
+dated snapshot below must be read alongside these current module reports.
+
 **Snapshot date:** 2026-10-01, Asia/Jerusalem. **Repository reviewed:** [Noamcelermajer/DH_sc](https://github.com/Noamcelermajer/DH_sc), through [ded2115ee60048666e5fd146f80693613e70dadb](https://github.com/Noamcelermajer/DH_sc/commit/ded2115ee60048666e5fd146f80693613e70dadb).
 
 This report consolidates the source-recovery and native-engine reconstruction work, and records the independently maintained APK compatibility work where it affects the handoff. It is a dated evidence snapshot; later commits, release notes and device reports may supersede individual status entries. In particular, the later [verified source import](docs/RECOVERY-SOURCE-IMPORT.md) makes the repaired Java/JNI source and recovery tools browsable in Git; statements below that those paths are absent describe the earlier audited commit. Test numbers below come from the existing reports. This documentation update did not rerun the engine tests or build an APK.
