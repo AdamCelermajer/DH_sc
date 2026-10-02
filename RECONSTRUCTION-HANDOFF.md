@@ -1,5 +1,12 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Original ending timing:** Extra-time and pending fields passed 495 calculations,
+1,980 filtered blender notices and 495 ordinary animator notices against original
+ARM32 and compiled ARM64/host source. 20,000 sanitizer calculation/notification
+calls passed. Active lookup is a controlled stub; object lookup, actual game
+callback effects and Android integration remain open.
+See [ending evidence](port/animation-ending/README.md).
+
 **Original completion dispatch:** Callback registration/checking passed 384
 setters, 768 checks and 144 controlled dispatches against original ARM32 and
 compiled ARM64/host source. Deferred notification, field changes during callback
