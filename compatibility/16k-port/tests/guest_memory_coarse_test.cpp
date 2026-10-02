@@ -43,15 +43,27 @@ int main() {
     std::memset(memory.host_ptr(b, zb::kPageSize, zb::kPageWrite), 0xB2, zb::kPageSize);
     expect(memory.base()[a] == 0xA1 && memory.base()[b] == 0xB2,
            "mapping adjacent subpage preserves live neighbor");
+    expect(memory.private_anonymous(a, 2 * zb::kPageSize),
+           "two private anonymous guest pages retain origin");
+    expect(memory.discard_private_anonymous(b, zb::kPageSize),
+           "discard private 4 KiB anonymous guest page");
+    expect(memory.base()[a] == 0xA1 && memory.base()[b] == 0 &&
+               memory.base()[b + zb::kPageSize - 1] == 0,
+           "discard zeros target without touching 16 KiB host-page neighbor");
+    std::memset(memory.host_ptr(b, zb::kPageSize, zb::kPageWrite), 0xB2, zb::kPageSize);
 
     expect(memory.protect(a, zb::kPageSize, PROT_READ), "protect only first guest subpage");
     expect(memory.host_ptr(a, 1, zb::kPageRead) != nullptr &&
                memory.host_ptr(a, 1, zb::kPageWrite) == nullptr &&
                memory.host_ptr(b, 1, zb::kPageWrite) != nullptr,
            "guest permissions differ inside one host page");
+    expect(memory.private_anonymous(a, zb::kPageSize),
+           "protect preserves private anonymous origin");
     expect(memory.unmap(b, zb::kPageSize), "unmap only second guest subpage");
     expect(memory.base()[a] == 0xA1 && memory.host_ptr(b, 1, zb::kPageRead) == nullptr,
            "unmap preserves first guest subpage");
+    expect(!memory.private_anonymous(b, zb::kPageSize),
+           "unmap clears private anonymous origin");
     expect(memory.map_anon(b, zb::kPageSize, PROT_READ | PROT_WRITE), "remap second guest subpage");
     expect(memory.base()[b] == 0 && memory.base()[a] == 0xA1,
            "remapped subpage is zero without clearing neighbor");
@@ -77,6 +89,12 @@ int main() {
                "replace one private file subpage");
         expect(memory.base()[c] == 0x11 && memory.base()[d] == 0x33,
                "file remap preserves neighboring file subpage");
+        expect(!memory.private_anonymous(c, zb::kPageSize) &&
+                   !memory.private_anonymous(b, 2 * zb::kPageSize),
+               "file-backed pages are excluded from anonymous discard");
+        expect(!memory.discard_private_anonymous(c, zb::kPageSize) &&
+                   memory.base()[c] == 0x11 && memory.base()[d] == 0x33,
+               "discard rejects file mapping and preserves bytes");
         errno = 0;
         expect(!memory.map_file(c, zb::kPageSize, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0) &&
                    errno == ENOTSUP,
@@ -84,6 +102,22 @@ int main() {
         close(fd);
         unlink(path);
     }
+
+    std::memset(memory.host_ptr(b, zb::kPageSize, zb::kPageWrite), 0xB2, zb::kPageSize);
+    memory.mark_guest_backing(b, zb::kPageSize, zb::kBackingSharedAnonymous);
+    expect(!memory.private_anonymous(b, zb::kPageSize),
+           "shared anonymous pages are excluded from anonymous discard");
+    expect(!memory.discard_private_anonymous(b, zb::kPageSize) && memory.base()[b] == 0xB2,
+           "discard rejects shared anonymous mapping");
+    memory.mark_guest_backing(b, zb::kPageSize, zb::kBackingUnknown);
+    expect(!memory.private_anonymous(b, zb::kPageSize),
+           "uncertain pages are excluded from anonymous discard");
+    expect(!memory.discard_private_anonymous(b, zb::kPageSize) &&
+               memory.base()[b] == 0xB2 && memory.base()[a] == 0xA1,
+           "discard rejects unknown mapping and preserves neighbor");
+    memory.mark_guest_backing(b, zb::kPageSize, zb::kBackingPrivateAnonymous);
+    expect(memory.private_anonymous(a, 2 * zb::kPageSize),
+           "private origin restored for tested anonymous pages");
 
     expect(memory.unmap(a, 4 * zb::kPageSize), "unmap whole host page");
     expect(memory.map_anon(a, zb::kPageSize, PROT_READ | PROT_WRITE), "remap after full host unmap");

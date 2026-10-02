@@ -1,6 +1,6 @@
 # Android 17 and 16 KiB page support
 
-This is a source audit for the standalone ARM64 compatibility app, not a device acceptance result. The published DH2 wrapper checks `Os.sysconf(_SC_PAGESIZE)` in `compatibility/work/fold7-build/java/com/zettabridge/launcher/Dh2Activity.java` and refuses to launch the guest unless it is 4096. Keep that check until the translator's guest-memory implementation is changed and tested on a 16384-byte host.
+This is a source audit for the standalone ARM64 compatibility app, not a device acceptance result. The published DH2 wrapper checks `Os.sysconf(_SC_PAGESIZE)` in `compatibility/work/fold7-build/java/com/zettabridge/launcher/Dh2Activity.java` and refuses to launch the guest unless it is 4096. The separate experimental mapper and strict private-anonymous discard patch passed focused tests and moved a player in one saved 3D level on a 16384-byte emulator; they have not passed the full translator and game acceptance checks. Keep the normal wrapper's guard until that work is complete.
 
 Android version and kernel page size are separate test dimensions. An Android 17 image with `adb shell getconf PAGE_SIZE` reporting 4096 can exercise Android 17 behavior with the current runtime. It cannot establish 16 KiB support. Conversely, a 16 KiB Android image is necessary to validate the memory redesign. The x86_64 emulator image is useful for platform checks, but it does not by itself validate the production ARM64 translator library and its translated ARM32 execution path.
 
@@ -18,7 +18,7 @@ The source inspected was public ZettaBridge commit `7c647a4f1ea150eab7978ab0da28
 
 The DH2 patch (`compatibility/work/fold7-build/zettabridge-dh2.patch`) has no guest-memory page-size redesign. The 16 KiB `PT_LOAD` alignment already reported for host ELF files solves a different requirement: loading the ARM64 library. It does not change guest mapping behavior. Android's [16 KiB page guidance](https://developer.android.com/guide/practices/page-sizes) separately calls out code using 4096 and page-aligned `mmap` arguments; its package backcompat mode is not evidence that this translator's explicit mappings work.
 
-An isolated mapper prototype and its 16 KiB emulator component test are in [`compatibility/16k-port`](../compatibility/16k-port/README.md). That test does not validate the ARM64 JIT, host bridges, complete file-mapping semantics, or gameplay.
+An isolated mapper prototype, strict discard patch, 35-check component test, and private Android 17 runtime trial are in [`compatibility/16k-port`](../compatibility/16k-port/README.md). They do not validate the full ARM64 JIT, host bridges, complete file-mapping semantics, or broad gameplay.
 
 ## Required design and proof
 

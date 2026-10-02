@@ -121,6 +121,24 @@ nested guest ZIP entry. The outer APK had 49 unique entries; the nested guest
 had 220 unique entries. The signer is the local development key, certificate
 SHA-256 `daa24cd98557703003fb4518d1ed8504dee071f9620596592819176677772081`.
 
+The exact final APK also passed one save-return and cold-relaunch sequence on
+the API 37.0 4 KiB emulator. Pause → Main Menu → confirmation returned to the
+full character menu with last save `02.10. 02:03`. After a force-stop and cold
+relaunch, the same saved WOLF/Swamps character and timestamp remained visible;
+Start Game → Single Player loaded the saved Swamps 3D level again. A joystick
+swipe moved the player and camera while the guest PID remained alive. The
+guest logged `fit16by9=true preserveContext=false`, initial phone dimensions
+1080×2009 fitted to 1920×1080, a recreated surface and 1920×1080 viewport.
+The nearby enemy respawned on reentry, so this is checkpoint persistence, not
+exact combat-state restoration. Screenshots in task outputs:
+
+| Screenshot | SHA-256 |
+| --- | --- |
+| `DH2-android17-test10-pause-menu.png` | `2d85f92a26b0d9d43aaad23184ff1c03cffe6ff572e6fb368683551dd22d60ec` |
+| `DH2-android17-test10-returned-saved-menu.png` | `91d087c7651280d01e9caa8dcdf24839ed3bcf017ebee6d6725746b826192736` |
+| `DH2-android17-test10-saved-level-after-cold-relaunch.png` | `80ea82c6c06c57d815517da03bb64fbae95fcc80fb62a22062635845b3e121d8` |
+| `DH2-android17-test10-saved-level-after-cold-movement.png` | `e6c5805697ec2fde6fd1055d7fee38ed52a9ee7dea148c106838700a5541712e` |
+
 This test establishes a working emulator path for the tested cache/save and
 short level interaction. It does not establish compatibility across every
 level, device, or 16 KiB page configuration. The separate 16 KiB translator
