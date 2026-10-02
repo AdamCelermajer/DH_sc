@@ -1,5 +1,18 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Source Lua checkpoint:** Official Lua 5.1.4 C/header/license bytes are now
+vendored with a pinned archive/per-file manifest. The owned C runtime builds
+for ARM64/x86_64; host selftests/sanitizers pass. The exact x86_64 runner passed
+on Android 17 with 4 KiB and 16 KiB pages, parsing 218 originals and the separate
+sandworm override, with the unchanged malformed original rejected as expected.
+Authored library/budget/error-recovery snippets passed; no game script was
+executed. Original registration callers expose 175 distinct function names,
+117 matching script global reads. Binder installation remains stubbed in that
+trace. Next implement native callbacks, checked PyData tables and include/object
+lifetimes before executing original AI/skill behavior. The source APK has not
+yet incorporated this runtime. See [runtime scope](port/lua-runtime/README.md)
+and [registration evidence](reports/lua-registration-trace.json).
+
 **Readable game scripts:** The complete cache's 219 `.luac` files are plaintext
 source, not bytecode. All 900,493 original bytes are now preserved with archive
 member hashes. 218 originals pass Lua 5.1.5 syntax, and a separate one-character

@@ -1,5 +1,14 @@
 # Recovery status — updated 2026-10-02
 
+**Source scripting runtime:** Official Lua 5.1.4 source plus an owned C wrapper
+builds for ARM64/x86_64 and passes host selftests/sanitizers. The exact x86_64
+runner passed standard library, memory/instruction budget and error recovery
+tests on Android 17 with 4 KiB and 16 KiB pages. It parses 218 original scripts
+plus the repaired override; the unchanged malformed sandworm fails as expected.
+All staged inputs and runner hashes were verified. Game scripts were not
+executed; game callbacks, APK integration and full gameplay remain unfinished.
+See [scope and evidence](../port/lua-runtime/README.md).
+
 **Cache script source:** 219 exact readable Lua source files (900,493 bytes)
 are preserved from the complete cache: AI, skills, objects, levels and a test.
 218 originals pass Lua 5.1.5 syntax; the sandworm script's missing parenthesis

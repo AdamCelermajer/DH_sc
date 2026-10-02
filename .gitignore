@@ -1,5 +1,6 @@
 # Local build products and private test inputs are reproducible or supplied separately.
 __pycache__/
+port/lua-runtime/build/
 *.py[cod]
 port/android-app/build/
 port/nativeinterface/build/
