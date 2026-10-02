@@ -7,6 +7,13 @@ is repaired in a separate one-character override. No script was executed.
 The native scripting bridge and full game remain unfinished.
 See [source and verification](../recovered/scripts/README.md).
 
+**Script bindings:** Six original ARM32 registration callers now expose 175
+distinct function names; 117 match globals read by recovered scripts. The trace
+records 568 function/method requests, including inherited repeats. Binder
+installation and standard library initialization are explicit stubs; native
+callbacks and script execution remain unimplemented.
+See [the trace](../reports/lua-registration-trace.json).
+
 **Current animation checkpoint:** Checked skins and absolute poses now resolve
 531 local skins and 333 of 342 player clips (327 animated). Float animation
 values passed 4,705 original ARM32/compiled ARM64/host cases. The reconstructed

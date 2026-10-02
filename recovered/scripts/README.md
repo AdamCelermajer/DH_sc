@@ -61,3 +61,25 @@ python3 tools/audit_lua_globals.py --compiler /usr/bin/luac5.1 --report /path/to
 The tool checks source hashes and asks the compiler to list instructions
 without executing scripts. The report pins compiler, manifest, symbol index
 and tool hashes, with per-file global inventories and candidate method addresses.
+
+[The separate original registration trace](../../reports/lua-registration-trace.json)
+executes six original ARM32 registration caller bodies. It observes 568 Binder
+boundary calls: 310 function registrations and 258 method registrations,
+including inherited GameObject registrations repeated in derived classes.
+There are 175 distinct function names; 117 names read by scripts match them.
+It records exact names, callback targets, caller return addresses and contexts.
+The base, math, table and string library initialization requests are observed.
+
+Binder installation and standard library initialization are explicit stubs;
+the original callback bodies and scripts are not executed. This verifies the
+callers' registration arguments, not installation into a live Lua instance,
+availability in every game context or callback behavior. The initial inventory
+above remains a historical name/signature comparison with its original hash.
+
+```sh
+python3 tools/trace_lua_registrations.py --original /path/to/libDungeonHunter2.so --oracle port/skin-payloads/build/oracle.so --report /path/to/registration-report.json
+```
+
+The test needs Unicorn and pyelftools. It checks the original ELF identity and
+pins caller body, symbol index, dependency oracle and test hashes. Six boundary
+addresses are intercepted; inherited registration instructions run normally.
