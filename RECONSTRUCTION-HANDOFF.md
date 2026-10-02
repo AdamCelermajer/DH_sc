@@ -1,5 +1,11 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Original animation movement:** Explicit-position movement delta/reset passed
+800 resets, 4,000 calculations and 100,000 sanitizer operations. Source preserves
+the original repeated-timestamp behavior and position history. It is standalone;
+root sampling, scene movement, collisions and source gameplay remain unfinished.
+See [movement evidence](port/animation-motion/README.md).
+
 **Original transition projection:** The original two-child transition request
 and fade/update state passed 300 requests and 4,800 updates against original
 ARM32 and compiled ARM64/host source. Active-child dispatch order passed,

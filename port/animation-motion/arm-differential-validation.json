@@ -1,0 +1,46 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "root_track_sampling_tested": false,
+  "comparison": "Original ARM32 vs compiled ARM64 and host state: exact bits except signed zero",
+  "scope": "Explicit-position ResetDelta and CalculateDelta, not node/track overloads",
+  "sequences": 400,
+  "reset_calls": 800,
+  "calculate_calls": 4000,
+  "same_timestamp_checks": 1600,
+  "mismatches": 0,
+  "input_preservation": true,
+  "output_guards": true,
+  "stack_restoration": true,
+  "seed": 20261002,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_sha256": "b613e229f903c0dd0300410ef47785da270f30351c5674b474d01572cc0ddb70",
+  "arm64_sha256": "91a4818726f732a8dc65e6b62052ac74457265bc54826a325e65f9dd8a4d53b1",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "function_evidence": [
+    {
+      "elf_address": "0x003644cc",
+      "size": 48,
+      "name": "ResetDelta(position)",
+      "symbol": "_ZN14AnimApplicator10ResetDeltaEjRKN6glitch4core8vector3dIfEE",
+      "sha256": "96cbf33601b6a3ddb2fcf861070690249bcbebb6765d0475c96c92092f5ac0f8"
+    },
+    {
+      "elf_address": "0x00364444",
+      "size": 136,
+      "name": "CalculateDelta(position)",
+      "symbol": "_ZN14AnimApplicator14CalculateDeltaEjRKN6glitch4core8vector3dIfEE",
+      "sha256": "8e139c248b2554b8b027c6e8fc1089b492492e5596ec4cdf998bcb9af27e6795"
+    }
+  ],
+  "source_sha256": {
+    "motion.cpp": "f760cea6dfaa049eb966d6f89f6fb4ebe252245eee07e8c882e1e3ec44ab136e",
+    "motion.hpp": "209b91e9e691cd5c73eb89929eb420b929602461fabc4bcecf2ea0b70c35a2b4",
+    "math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "test_sha256": "07c275e69557675b3db687ffb49f5ad1bad3562366983f4c63020cce963d25c8",
+  "import_calls": {
+    "__aeabi_fsub": 7200
+  },
+  "dependency_model": "Actual original explicit-position methods execute; float subtraction uses existing host C arithmetic dependency model"
+}
