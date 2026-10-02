@@ -11,8 +11,9 @@ One borrowed BRES animation segment contains at most 128 tracks. Supported
 tracks have one channel and sampler, no value scales/offsets, and float
 translation (type 1, three components), quaternion (type 5, four components)
 or scale (type 10, three components). Compressed values and other types return
-an error. Strictly increasing, nonnegative times and finite values are checked
-before a clip is exposed. A clip and its backing bytes must stay alive together.
+an error. Strictly increasing signed times and finite values are checked
+before a clip is exposed. Negative clip starts are supported; total duration
+must fit a signed 32-bit millisecond value. A clip and its backing bytes must stay alive together.
 
 `dh2_pose_sample` uses the reconstructed key search and
 [original-instruction-checked absolute value calculations](../animation-values/README.md).
@@ -70,3 +71,27 @@ records the exact installed APK on Android 17 x86_64 with both 4 KiB and
 16 KiB pages. ARM64 libraries are built and checked for alignment, but ARM64
 hardware execution remains unverified. The preview normalizes its bounds per
 frame and uses one imported texture; it is not original game rendering.
+
+## Player animation corpus
+
+The [character audit](character-corpus-validation.json) checks 342 private
+player animation files against the warrior model. It produces finite palettes
+and sampled skinned positions for 308 clips, including 302 with positive
+duration: 912 palette checks and 2,736 position checks. Inputs remain unchanged.
+The remaining 29 clips use unsupported track formats, primarily scalar-axis
+rotation, and five need model bindings that this warrior does not provide.
+This is selected-time source validation, not original animator equivalence.
+
+```sh
+python3 port/animation-pose/tests/audit_character.py \
+  --library port/animation-pose/build/pose-host.so \
+  --model /private/cache/data/3d/characters/prince/prince_low_poly_warrior.bdae \
+  --animations /private/cache/data/3d/characters/prince/animations \
+  --report port/animation-pose/character-corpus-validation.json
+```
+
+The guarding-aura clip runs from -333 to 466 ms. The source APK imports its
+25 tracks, seeks and plays on Android 17 with 16 KiB pages, with distinct
+textured poses and no fatal runtime error. [Evidence](../android-app/negative-time-runtime-validation.json)
+pins the APK, fixture hashes and screenshots. This adds a pose preview;
+spell particles and effects are unfinished.

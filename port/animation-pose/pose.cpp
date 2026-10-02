@@ -85,7 +85,7 @@ Error dh2_pose_clip_open(Clip *out, const dh2::resources::BresView *image, std::
     // Fill caller storage after each validation; count is committed only when
     // the entire clip passes. Error paths cannot expose partially usable clips.
     out->start = std::numeric_limits<std::int32_t>::max();
-    out->end = 0;
+    out->end = std::numeric_limits<std::int32_t>::min();
     for (std::uint32_t i = 0; i < n; ++i) {
         dh2::assets::Animation a{};
         if (dh2_animation_open(&a, image, i, segment) != dh2::assets::Error::ok)
@@ -114,10 +114,10 @@ Error dh2_pose_clip_open(Clip *out, const dh2::resources::BresView *image, std::
             (times.type != 1 && times.type != 3 && times.type != 4) ||
             dh2_animation_interpolation(&a, 0) > 1)
             return Error::unsupported;
-        std::int32_t previous = -1;
+        std::int32_t previous = 0;
         for (std::uint32_t k = 0; k < values.count; ++k) {
             const auto time = dh2_animation_key_time(&a, 0, k);
-            if (time < 0 || time <= previous)
+            if (k && time <= previous)
                 return Error::keys;
             previous = time;
             float v[16]{};
@@ -136,6 +136,8 @@ Error dh2_pose_clip_open(Clip *out, const dh2::resources::BresView *image, std::
             out->end = end;
         out->tracks[i] = a;
     }
+    if (std::int64_t(out->end) - out->start > std::numeric_limits<std::int32_t>::max())
+        return Error::limit;
     out->count = n;
     return Error::ok;
 }

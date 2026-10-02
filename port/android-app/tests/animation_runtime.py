@@ -24,6 +24,7 @@ class Check:
     def __init__(self, args):
         self.a = args
         self.a.evidence.mkdir(parents=True, exist_ok=True)
+        self.fixtures = [*FIXTURES[:2], (FIXTURES[2][0], args.animation, FIXTURES[2][2])]
 
     def run(self, *args):
         return subprocess.check_output([str(self.a.adb), '-s', self.a.serial, *args],
@@ -61,26 +62,29 @@ class Check:
 
     def check(self):
         assert self.run('shell','getprop','ro.kernel.qemu').strip() == '1', 'This check requires an emulator'
-        for _,relative,_ in FIXTURES:
+        for _,relative,_ in self.fixtures:
             if not (self.a.cache/relative).is_file(): raise FileNotFoundError(self.a.cache/relative)
         self.run('install','-r',str(self.a.apk.resolve()))
         self.run('shell','mkdir','-p','/sdcard/Download/dh2-source-qa')
         fixture_hashes = {}
-        for _,relative,name in FIXTURES:
+        for _,relative,name in self.fixtures:
             path = self.a.cache/relative
             self.run('push',str(path.resolve()),f'/sdcard/Download/dh2-source-qa/{name}')
             fixture_hashes[relative] = hashlib.sha256(path.read_bytes()).hexdigest()
         start = self.run('shell','date','+%m-%d_%H:%M:%S.000').strip().replace('_',' ')
         self.run('shell','am','force-stop',PACKAGE)
         self.run('shell','am','start','-n',PACKAGE+'/.MainActivity')
-        statuses = [self.import_file(button,name) for button,_,name in FIXTURES]
+        statuses = [self.import_file(button,name) for button,_,name in self.fixtures]
         assert any('335 vertices, 1092 indices, 18 bones' in s for s in statuses[0]), statuses[0]
         assert any('256 x 256' in s for s in statuses[1]), statuses[1]
-        assert any('27 tracks, 799 ms' in s for s in statuses[2]), statuses[2]
+        assert any(f'{self.a.tracks} tracks, {self.a.duration} ms' in s for s in statuses[2]), statuses[2]
         shots = [self.capture('start.png')]
         self.click(self.find(**{'class':'android.widget.SeekBar'}))
         text = [n.get('text') for n in self.state() if n.get('text')]
-        assert any('400 / 799 ms' in s for s in text), text
+        midpoints = [int(m.group(1)) for s in text
+            if (m := re.search(r'Animation preview: (\d+) / (\d+) ms', s))
+            and int(m.group(2)) == self.a.duration]
+        assert any(abs(ms - self.a.duration / 2) <= 1 for ms in midpoints), text
         shots.append(self.capture('middle.png'))
         self.click(self.find(text='PLAY ANIMATION')); self.find(text='PAUSE ANIMATION')
         shots.append(self.capture('playing.png'))
@@ -111,6 +115,9 @@ def main():
     p.add_argument('--apk',required=True,type=Path)
     p.add_argument('--cache',required=True,type=Path)
     p.add_argument('--evidence',required=True,type=Path)
+    p.add_argument('--animation',default=FIXTURES[2][1],help='Animation path relative to the private cache')
+    p.add_argument('--tracks',type=int,default=27,help='Expected imported track count')
+    p.add_argument('--duration',type=int,default=799,help='Expected imported duration in milliseconds')
     Check(p.parse_args()).check()
 
 if __name__ == '__main__': main()

@@ -1,0 +1,4232 @@
+{
+  "complete_game": false,
+  "original_animator_equivalence": false,
+  "scope": "One locally resolved warrior skin; supported absolute-key poses at selected times",
+  "model_sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+  "library_sha256": "c5f806f65d39467c1d5f4ae7ede3fef8d0c86aaa05cb63016dca17ba497d6a4c",
+  "joints": 18,
+  "vertices": 335,
+  "files": 342,
+  "summary": {
+    "supported_pose": 308,
+    "positive_duration": 302,
+    "clip_error_3": 29,
+    "model_binding_error_7": 5
+  },
+  "successful_palette_checks": 912,
+  "successful_position_checks": 2736,
+  "input_preservation": true,
+  "records": [
+    {
+      "path": "cs_darkqueen_scene01_prince.bdae",
+      "sha256": "1831369b8ef92f67324e7399c7ac064cb97ebcb6c6e996ba6dc01d0474fafd78",
+      "tracks": 29,
+      "start_ms": 0,
+      "end_ms": 1099,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        549,
+        1099
+      ]
+    },
+    {
+      "path": "cs_darkqueen_scene03a_prince.bdae",
+      "sha256": "f74d8ada40c3f5b4bb9408014ec809404f5f9983cbaa6b58ce81889ce046b903",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_darkqueen_scene03b_prince.bdae",
+      "sha256": "446ebde2f708ec58801037462995179c0816b2bdb59c9087603653dbee2c5cb9",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        849,
+        1699
+      ]
+    },
+    {
+      "path": "cs_darkqueen_scene03c_prince.bdae",
+      "sha256": "47750f30f3795aded95eb35e6ef2fee61855be9268c541f7096bbcf6df54676e",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        499,
+        999
+      ]
+    },
+    {
+      "path": "cs_darkqueen_scene03c_prince_idle.bdae",
+      "sha256": "aa3a12629bf73cdec7f909113f3a4d7087e6f12af8eba62e140ae83b5e928371",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "cs_darkqueen_scene06_prince.bdae",
+      "sha256": "d32aa7abe483cf0d66dbcda7d9cafca71a35da5765d31c5d6a1675b4858b76dc",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        333,
+        666
+      ]
+    },
+    {
+      "path": "cs_darkqueen_scene06_prince_idle.bdae",
+      "sha256": "9c52209c8284422969a6a3d48c1c7633deeb30003dfcc262abd6b2d1050c5264",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        749,
+        1499
+      ]
+    },
+    {
+      "path": "cs_darkqueen_scene07_prince_idle.bdae",
+      "sha256": "17bf33306e68809d7b467cfdeeeebac0d6eecf4319c01e1460f299b43bc59dc3",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "cs_darkqueen_scene07_prince_talk.bdae",
+      "sha256": "73d1ca5d86c9d2f09251b3318b3c901218f750f936134a96c9a5cfef67bc08e3",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        799,
+        1599
+      ]
+    },
+    {
+      "path": "cs_earthtemple_intro_scene01_03_prince.bdae",
+      "sha256": "8274270f65c668e3f684b54fa0b26f5f8e2b851c197f16fd57b4e2215fce196b",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        649,
+        1299
+      ]
+    },
+    {
+      "path": "cs_earthtemple_intro_scene05_prince.bdae",
+      "sha256": "12ed9520e8b6b4f53e758f67943a275da3c287cf342e588c18a236ddbf6e954d",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1766,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        883,
+        1766
+      ]
+    },
+    {
+      "path": "cs_earthtemple_intro_scene05_prince_idle.bdae",
+      "sha256": "8a9e7ffa581089f6b06ea537c53eb7850919a08e531c7b71fc01372314d2c9ed",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        599,
+        1199
+      ]
+    },
+    {
+      "path": "cs_earthtemple_intro_scene06_prince.bdae",
+      "sha256": "fa63b9a841e14ba288d0e6df4ec1a1c4d1e4df3861f0c26d11d56659b0c8fbc6",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 3099,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1549,
+        3099
+      ]
+    },
+    {
+      "path": "cs_earthtemple_intro_scene08a_prince.bdae",
+      "sha256": "1bac059419a484ead437dfd5e87c2fec9c6337139b620675ac17ca3b6491bd0f",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 2066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1033,
+        2066
+      ]
+    },
+    {
+      "path": "cs_earthtemple_intro_scene08b_prince.bdae",
+      "sha256": "111c15d7a7610b53ca199fb2b25ba4d23e2e02fccbff9dcc1713947b4dedf75a",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        499,
+        999
+      ]
+    },
+    {
+      "path": "cs_earthtemple_intro_scene09_prince.bdae",
+      "sha256": "d69169858b86ed773cda6847217325665d60002c86005edd13ab2b0823e17764",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        333,
+        666
+      ]
+    },
+    {
+      "path": "cs_earthtemple_intro_scene09_prince_idle.bdae",
+      "sha256": "efb04c40c0c818568623453548f0ed46c197973d6c77b108f9972a7944503ab7",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_earthtemple_intro_scene10_prince.bdae",
+      "sha256": "8f7021f28143233e2f5b00b07794828f96e7d842ab836b80455d493cca47401d",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene01_prince.bdae",
+      "sha256": "9508ea111ca7596bc8deda7533c6b70fd30ba237347dceb1aa9bde0deabd0030",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        799,
+        1599
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene02_prince.bdae",
+      "sha256": "9879231ae0badf6d3cdf44be1c34f03c0e4810c555bf0acd149d49b963bfa801",
+      "tracks": 23,
+      "start_ms": 3033,
+      "end_ms": 4999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        3033,
+        4016,
+        4999
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene03_prince.bdae",
+      "sha256": "76ef3f44d6496969199ea73d2b912c1d372a40be80b6dd1374d91dccebd4a270",
+      "tracks": 23,
+      "start_ms": 5033,
+      "end_ms": 7699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        5033,
+        6366,
+        7699
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene04_prince_talk.bdae",
+      "sha256": "366d06a987c5b56a7bb60e009c4e1b3d5571864086b25d47df76c1a3c4064a4f",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2099,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1049,
+        2099
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene06_prince_talk.bdae",
+      "sha256": "21f8b89f4087f85c14650366b3651449d0efca726045be55abf7c52a1834e21b",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1149,
+        2299
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene07_prince.bdae",
+      "sha256": "2ea0d7771dfcd9273f9fdd6016078f71ddfcd82db0c4d647806acb2507144a6c",
+      "tracks": 32,
+      "start_ms": 266,
+      "end_ms": 31833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        266,
+        16049,
+        31833
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene08_prince_idle.bdae",
+      "sha256": "02b90e9b20d10bc0454ae3cbb73c9aed5a457ef82d0b5aa4072ed876a500b568",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1149,
+        2299
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene08_prince_talk.bdae",
+      "sha256": "caa591fed9050a986610af26ff26ddb4a2f531efccf48c5a17526534d4576d3c",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1149,
+        2299
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene09_prince.bdae",
+      "sha256": "7703d8ab56cf3c795b89e37038e33c14e376ceaf94381275c17890d24ed567bd",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene10_prince.bdae",
+      "sha256": "9dba879bb1ef38d55aec3a13718df3fb787c209aac7f742bd8a04a1168de253c",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_earthtemple_outro_scene11_prince_idle.bdae",
+      "sha256": "8bbe5dc0aa66a1bf9094fc7a5d06f8d1a049c8021b97302133fc39cd76c476f7",
+      "tracks": 24,
+      "start_ms": 5033,
+      "end_ms": 6833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        5033,
+        5933,
+        6833
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene11_prince_talk.bdae",
+      "sha256": "7e3a63d39de505086afca7983f1851dd29c56fde5e3756b01267190cb9e60f78",
+      "tracks": 24,
+      "start_ms": 5033,
+      "end_ms": 7733,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        5033,
+        6383,
+        7733
+      ]
+    },
+    {
+      "path": "cs_earthtemple_outro_scene12_prince.bdae",
+      "sha256": "d5945f983d5cff974a3ce79bc870a2d58fad51e3f70697f15e548bc52ef29541",
+      "tracks": 22,
+      "start_ms": 11333,
+      "end_ms": 12933,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        11333,
+        12133,
+        12933
+      ]
+    },
+    {
+      "path": "cs_king_intro_prince_scene02.bdae",
+      "sha256": "9c436fec9596894a93087b105694b086ea17e31ea57286551c31777d27d4a214",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        749,
+        1499
+      ]
+    },
+    {
+      "path": "cs_king_intro_prince_scene03.bdae",
+      "sha256": "a43dd142c22e8ffbb49988d2380333ada39eace80e222779c41131d230bd52d1",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 2799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1399,
+        2799
+      ]
+    },
+    {
+      "path": "cs_king_intro_prince_scene05.bdae",
+      "sha256": "0328bce90f49d76ad827f6833878f58ee776a310ce7e74f8f8cabfe68bec2dd0",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        899,
+        1799
+      ]
+    },
+    {
+      "path": "cs_king_intro_prince_scene05_idle.bdae",
+      "sha256": "86ead63a120285c2acc633ed7e1803e46e0a2b0273dc8f6889b841878f501d15",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
+    },
+    {
+      "path": "cs_king_intro_prince_scene07_idle.bdae",
+      "sha256": "cc543ad0a19e71c923c876256edd2a3ccdeaa4e2beea93d73381921dd9c36d04",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_king_intro_prince_scene08_idle.bdae",
+      "sha256": "6099fec881345a7be9aae805c1b3f4a54f9582162cca0888d6913f173d3b6a49",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_king_intro_prince_scene12.bdae",
+      "sha256": "6570a1cef0928cae9d26c80355a16d2f64cf9e01fb01b2b7515aa68444a847d2",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        849,
+        1699
+      ]
+    },
+    {
+      "path": "cs_king_intro_prince_scene12_idle.bdae",
+      "sha256": "f6de1010e70ccd4977057dd01582348dcd326684048b47660ec5140b32220f30",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
+    },
+    {
+      "path": "cs_madruk_end_scene01_prince.bdae",
+      "sha256": "7c0ac84506ace071481d12c85db9191aa866db4b5079d964fda3d2cc5c668581",
+      "tracks": 31,
+      "start_ms": 0,
+      "end_ms": 1333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        666,
+        1333
+      ]
+    },
+    {
+      "path": "cs_madruk_end_scene02_prince.bdae",
+      "sha256": "3f4d5f858c31e4089484d8e67e07517bb728b6bf6214e91524721b8dfe4592b2",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        249,
+        499
+      ]
+    },
+    {
+      "path": "cs_madruk_end_scene03_prince.bdae",
+      "sha256": "d8ca7f4154264c4f1e195cd1b42c12f7448d6ba02fe7f00e47fe31ce2dc7876f",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_madruk_end_scene04_prince.bdae",
+      "sha256": "1e282be86a9aab408ddd3c5089c498fb3631b34c8d1ccac944a06a9f48b6ef5f",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_madruk_end_scene04_prince_idle.bdae",
+      "sha256": "9884e4a8882876e1781a38ff292095fec7f1c9795d175b51aa200653501520db",
+      "tracks": 26,
+      "start_ms": 833,
+      "end_ms": 2333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        833,
+        1583,
+        2333
+      ]
+    },
+    {
+      "path": "cs_madruk_end_scene04_prince_talk.bdae",
+      "sha256": "41c44fea73ad2355125c1e5178fe487fde9943edfcc6898f55abfd772930dacf",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_madruk_end_scene05_prince.bdae",
+      "sha256": "a57673d9f01ea11a87417fe5d10f8142179ce75f4d146b2549446b0b445d9c5d",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1766,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        883,
+        1766
+      ]
+    },
+    {
+      "path": "cs_madruk_end_scene06_prince.bdae",
+      "sha256": "d2b6afbe3b96285aa27f0a601fa5313b7b69fdbf76386b8bf549b74cc524ffc7",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 0,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0
+      ]
+    },
+    {
+      "path": "cs_madruk_intro_prince_scene02.bdae",
+      "sha256": "d5c10ad79674f05dfa71f15da263c90b303b800b1da9771e0a6ca40c4812d248",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1366,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        683,
+        1366
+      ]
+    },
+    {
+      "path": "cs_madruk_intro_prince_scene03.bdae",
+      "sha256": "df8c01cb0c8293737a7c98a998c49682329c57cb2b7966f4c4f7806376fb0215",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        799,
+        1599
+      ]
+    },
+    {
+      "path": "cs_madruk_intro_prince_scene04.bdae",
+      "sha256": "3a93735a7346305da8f9f2f9c9e86c845b085d6416b5632eb0630675ef8d1b15",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "cs_madruk_intro_prince_scene04_idle.bdae",
+      "sha256": "7431a5c77d83429462e347721674d6035e9659a4d0a2d1725ba14c060481b0d3",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "cs_madruk_intro_prince_scene05.bdae",
+      "sha256": "594a2cba529fd838b2dcf74d6b34edc5f88c47209267c4cc4cd9ecf735a5f598",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "cs_madruk_intro_prince_scene06.bdae",
+      "sha256": "9c32805a92c50f960c84a76d85f459f74008d724fef176fba1a374ed48efeede",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        799,
+        1599
+      ]
+    },
+    {
+      "path": "cs_prince_exit_coffin.bdae",
+      "sha256": "c959ca5c2727758da339b8c7b6e78445be2254bb471a83a38411e7bd32aa042e",
+      "tracks": 25,
+      "start_ms": 9499,
+      "end_ms": 10499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        9499,
+        9999,
+        10499
+      ]
+    },
+    {
+      "path": "cs_prince_look_around.bdae",
+      "sha256": "433c5b2dfb588c083725094896791d23aec8d342be48cf1e173409c1ba450897",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_prince_lying_dead.bdae",
+      "sha256": "9c98024df7a440a3347b4b13f563fb8f20e5bd447ea6fb846a6a2b60ba18af84",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 333,
+      "stage": "model_binding",
+      "error": 7
+    },
+    {
+      "path": "cs_prince_standup.bdae",
+      "sha256": "9ac60a3937dd88eb6fe09882943b9b73aada8b507dc3dd8246a8f762422fc6c3",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_01_idle.bdae",
+      "sha256": "0562162a1e7f6553eb6bec8511e3479fdc97d82291808be7b44265796bdee3c0",
+      "tracks": 21,
+      "start_ms": 0,
+      "end_ms": 1499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        749,
+        1499
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_02.bdae",
+      "sha256": "e24ccae6ac139de7242cf90c5e4e8d692b82177bc9e687b1686485da17ba2f99",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_03_idle.bdae",
+      "sha256": "e7a1e8a678f6f850358d23005d21e7cb3e13d00668639a7e3bf51e9c2b3cb3e1",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_04.bdae",
+      "sha256": "390670bc8b337673495c38c9aef893b309353388c4557e40e947a45b9d33e7ad",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 533,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        266,
+        533
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_05_idle.bdae",
+      "sha256": "cce9b5450ae7e871714b00fbfc6d7d95601ac12ed8339d7b75422bf6bba3a94b",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_06.bdae",
+      "sha256": "af3e1ce4162b8feccee272b016c57be6a0dce856b770d95f69b1859a691502b6",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_07_idle.bdae",
+      "sha256": "88a2aaa7f5b9b7678bf1e6dbc605ddeb2937b01c2e074149e2d76a5eb6924df0",
+      "tracks": 22,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_08.bdae",
+      "sha256": "68c6f66604d2083b3c7d6313fc7e22c3742e04b32352011bbc5444d254f02c84",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        216,
+        433
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_09_idle.bdae",
+      "sha256": "46c7ad4121942d13d5e4ae57486aa80ffc4971254cde20ceac9a08d96a9e7bb9",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_10.bdae",
+      "sha256": "67fee382bde4012f19bee073a56617f8f5e818efbe6e922fabfd3cc534f32ad0",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part1_11_idle.bdae",
+      "sha256": "938d761ce00e3f9826cc0209b9cfa71e5e2875aced5ef967208dda563a5bf869",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part2_01.bdae",
+      "sha256": "c9511513c96d617d0bd2fb31bb6d8a61c69cac1b4be2956386154eee34ea5824",
+      "tracks": 22,
+      "start_ms": 0,
+      "end_ms": 4299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        2149,
+        4299
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part2_02_idle.bdae",
+      "sha256": "67c860ef2c9b4e47dd8ecb398095ec09c1fc41f85aea968f819883402f33b221",
+      "tracks": 22,
+      "start_ms": 0,
+      "end_ms": 2999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1499,
+        2999
+      ]
+    },
+    {
+      "path": "cs_prince_swamp_intro_part2_03.bdae",
+      "sha256": "b1a9cf245c5e93d68b05bb2e4ece0a0cdc06db0c864d932d0e1df1ab84d5cecc",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 3666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1833,
+        3666
+      ]
+    },
+    {
+      "path": "cs_prince_talk_to_fairy.bdae",
+      "sha256": "399ac7cfc7ec2678e091bd43aa68e21f84fdbff04a20afbfaaba0cf7642f9782",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_prince_wakeup.bdae",
+      "sha256": "e18967a0fd67c1f2d258cf476066961da5dc274eb3a111d00c160fc1abe9e2af",
+      "tracks": 25,
+      "start_ms": 333,
+      "end_ms": 2166,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        333,
+        1249,
+        2166
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene01.bdae",
+      "sha256": "61209d4795451904612770008a2bba64a37123c56ac7fda3f931d6592f9261a8",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1133,
+        2266
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene02.bdae",
+      "sha256": "e0718d8185d4095736c6369e590806b0524ce7424e84b2f392489e11e3094f56",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1333,
+        2666
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene03.bdae",
+      "sha256": "681579728028e5eecc3016a4496a7e85e65d6a4514f551b8326287d7742eb914",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 5899,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        2949,
+        5899
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene04.bdae",
+      "sha256": "9bac17a8503b867cd7444b32e0f2f88581065bc40a68bfbe02aac8f98f310540",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        799,
+        1599
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene07.bdae",
+      "sha256": "70f340e9cbf8cea84b77df247d1601ff3340312a82c5bac7b65a77b55c893e7c",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 0,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene07_idle.bdae",
+      "sha256": "d3df1c04084e1cd0fc11e1bd8bdf6f59f2b23fd9dc2e5bf631fb11febe8059e5",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 0,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene08.bdae",
+      "sha256": "70f340e9cbf8cea84b77df247d1601ff3340312a82c5bac7b65a77b55c893e7c",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 0,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene08_idle.bdae",
+      "sha256": "83cd6902339dc55d612658992314ddc1596a33e17180aa932b117d9fa3c44492",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 0,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene09.bdae",
+      "sha256": "9416ca0bdb9f60139ac8caea945aa5968d1017686272542272b3f48b3a6c5ca8",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1499,
+        2999
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene10.bdae",
+      "sha256": "a347f79cc3ccb93d3d9b3603104ac19ceb0c2795b8a751b789b0e86aa7c909a9",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1499,
+        2999
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene10_idle.bdae",
+      "sha256": "f6c2273ad20b25e83995e9c8485f3a9920d6cdb1d635aa188f758380c1ec7ee2",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2899,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1449,
+        2899
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene11.bdae",
+      "sha256": "472f0694e32e721e8189284bd9698558d8e07cda7076b7de212eebaee9d82052",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1499,
+        2999
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene11_idle_faerytalk.bdae",
+      "sha256": "eab4737ab758ac4f15f9ab79dfa20a31ca014cdc459eafd73c1d6789e6e23903",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1499,
+        2999
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene11_idle_princetalk.bdae",
+      "sha256": "7d256ee4365e6e026761b67e0d5f49ba7cd3df3ec884a9dfdd540223459b9c94",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1499,
+        2999
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene12.bdae",
+      "sha256": "6922f11665b11c2166fed2cd1087c5d2851753818982f2d04a898c91934f8c1f",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1499,
+        2999
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene12_idle.bdae",
+      "sha256": "fa320c1618ce0646781608bd65eb609f537b11b1ab698cd4d832d56b3f1a8ea3",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1499,
+        2999
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene13.bdae",
+      "sha256": "0db8ae411715062961e0af10dbc1b88be08b7197b46dfa95f3565888f01a1c74",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        599,
+        1199
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene14.bdae",
+      "sha256": "7eab42c4b1d6d0e5598e888efdfb31fe318ae8bf241a38b5b62e3199324d04ac",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        899,
+        1799
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene15.bdae",
+      "sha256": "948b1d8b287621d89cbf15440dd5ce81cf5209a0c06473a6ae8ef822b4558513",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 2733,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1366,
+        2733
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene15_idle.bdae",
+      "sha256": "c817518cb46bf307173bc69372ed6e45ae41fc94e40c3f9b3c1c9ff1ce4efc55",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 4199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        2099,
+        4199
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene16.bdae",
+      "sha256": "5581a293fa5ee8acc355c304c9f92dbe92223956062ed305a7220fc415f224ed",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        599,
+        1199
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene16_idle.bdae",
+      "sha256": "0cbd6e69400cca4a143e93bb095fccc6fbae2dad29600cca2afee2a38ada694a",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        599,
+        1199
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene17.bdae",
+      "sha256": "cb4d4779b02e07ae8fe9aeffe573631f3e8c2c75b0abc3ae34dfd8b0c06db97f",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1899,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        949,
+        1899
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene17_idle_priesttalk.bdae",
+      "sha256": "806d722093beb62333e9cc3671984ff461295567f69d68a67fc5b8b7a5640e76",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        899,
+        1799
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene17_idle_princetalk.bdae",
+      "sha256": "6268c85f2f2539780cdb361df59c9f1b9d98ede16149b83dc2fa6087af23eba2",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1899,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        949,
+        1899
+      ]
+    },
+    {
+      "path": "cs_swamp_intro_prince_scene18.bdae",
+      "sha256": "06f0b29f2f77ca4e3888f9e5101cc3607935b34ffe9f3fb929235ffeaacf6bc0",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        649,
+        1299
+      ]
+    },
+    {
+      "path": "cs_swampking_intro_prince_scene01.bdae",
+      "sha256": "8b4c7f550dbc10cac44407c2c3e6a60ec14bd23d191ccdde51955bea8ea98507",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
+    },
+    {
+      "path": "cs_swampking_intro_prince_scene02.bdae",
+      "sha256": "26b88449178ddb6e64fb58e9f52249c31abd1b52c3324ef344f72d00d7dc5c68",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 4199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        2099,
+        4199
+      ]
+    },
+    {
+      "path": "cs_swampking_intro_prince_scene02_idle.bdae",
+      "sha256": "cbb0b96d264e72a77a92054446ea0e5ad8838c6ce2bbe8e4f87df8cd75a4cd4d",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
+    },
+    {
+      "path": "cs_swampking_intro_prince_scene03.bdae",
+      "sha256": "6b4f681a6ae63a47f325bc75fbf0f6365ee906c9d5761a1470ab4663dba4c947",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_swampking_intro_prince_scene04.bdae",
+      "sha256": "23653e83c61e5f8cf19cd0a3e68f77d03674356382d272b95b573d84cca8bccc",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        499,
+        999
+      ]
+    },
+    {
+      "path": "cs_swampking_intro_prince_scene06.bdae",
+      "sha256": "23001548a0f658782d1e7e47eef59f88b5ed04b80db3b02066a6cb41e6d2cba8",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        499,
+        999
+      ]
+    },
+    {
+      "path": "cs_swampking_intro_prince_scene07.bdae",
+      "sha256": "3fea8f6ccddd418360a2059d09762385fa8bf58e50c586b0c231e94886408923",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        799,
+        1599
+      ]
+    },
+    {
+      "path": "cs_swampking_intro_prince_scene08.bdae",
+      "sha256": "4de9e6f2abaae7dab7ee47dd4ca4bcb18e2ac22000241675677ee09978e71eb1",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        916,
+        1833
+      ]
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene02.bdae",
+      "sha256": "e6cce00acbdc22062b7fe54930ba42db5530b1b8a7aed472fdb27ac40c7abe0b",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1133,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        566,
+        1133
+      ]
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene02_idle.bdae",
+      "sha256": "36aeba1f27d0e800838d42633883b11422d20d4c4d52fd7c7a7102f4568a6db2",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1349,
+        2699
+      ]
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene02_talk.bdae",
+      "sha256": "c76cf19593a49e41ed329e4916d00147af370ca57d49065b86cd9b6a66533931",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 4199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        2099,
+        4199
+      ]
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene03.bdae",
+      "sha256": "547521f3dd8d66aa1a24920cf56de9e7cf511dcdaeb1df157760f449f9cf20fd",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene03_talk.bdae",
+      "sha256": "b8dcf8ca24b2b539aba7b454720b1347738d7a4688d666603f7feda7a130075a",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene04.bdae",
+      "sha256": "675168a6f35b6222f8c4b657ce2e52a997762aa468b600a3a0012ab8546bdb6b",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene05.bdae",
+      "sha256": "dc9d1570f15a6c84ac4107c481a02dcb280c6986b9c5f092a5e78f7288f57a34",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        649,
+        1299
+      ]
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene05_idle.bdae",
+      "sha256": "996730c39ad564c056300c27bbed3e10ad627e3b6453c02ca5150e68a4c78bee",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 3999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1999,
+        3999
+      ]
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene05_talk.bdae",
+      "sha256": "a12e57e47792af6cd41b21f08944bd935280bc60a5809966833e9826424d282c",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene06.bdae",
+      "sha256": "67a4da8d69784695ba8000db226d54f51f91d521996d8570a4d755d935c32bd6",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1499,
+      "stage": "model_binding",
+      "error": 7
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene07.bdae",
+      "sha256": "9c18f23b0f826aba8b17dc9916f9fa5ed72257b0ecf17026ca33be807e7d38e7",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_swampking_outro_prince_scene07_talk.bdae",
+      "sha256": "2780e1e5b5d363c13951a883bb93e29f6c50ab8c3eb1f0e7cc28ed77f26567b7",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 2599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1299,
+        2599
+      ]
+    },
+    {
+      "path": "cs_witch_intro_prince_scene01.bdae",
+      "sha256": "ff1bfd39e170a2c53cc72cfc73f75e5199d5531f795ad3bdb4f651c7d361ded1",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        849,
+        1699
+      ]
+    },
+    {
+      "path": "cs_witch_intro_prince_scene02.bdae",
+      "sha256": "4454006924ca67ef70df0e4d20498473e2e24df8d8f413bb72a195f2b6175e54",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_witch_intro_prince_scene03.bdae",
+      "sha256": "9ad853b0cd52fb6b76ad7fdb4cb411ff0528d3140d02431d02e6bb56cf9719b8",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_witch_intro_prince_scene04.bdae",
+      "sha256": "66d01f32e9c388e03a4b8a3fb9c03147971806f955004ee28d064858dadae2c1",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_witch_intro_prince_scene04_talk.bdae",
+      "sha256": "7390a6c9392c97779730185bedda1d0a0757bac4ba5505ce89fec65894d4ff63",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "cs_witch_intro_prince_scene05.bdae",
+      "sha256": "0561adafdcf61e08b6460411a2c4deb43ef3b13df07bfb8c3ea2057f5425f040",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "cs_witch_intro_prince_scene06.bdae",
+      "sha256": "f6ef62215d7e2a77374e41845ca0d302ae4724ffdb9cc8c249e7c289dffc4070",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        849,
+        1699
+      ]
+    },
+    {
+      "path": "prince_1hand_combo_01.bdae",
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa",
+      "tracks": 26,
+      "start_ms": 266,
+      "end_ms": 599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        266,
+        432,
+        599
+      ]
+    },
+    {
+      "path": "prince_1hand_combo_01_moving.bdae",
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238",
+      "tracks": 25,
+      "start_ms": 199,
+      "end_ms": 533,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        199,
+        366,
+        533
+      ]
+    },
+    {
+      "path": "prince_1hand_combo_01_to_idle.bdae",
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624",
+      "tracks": 27,
+      "start_ms": 599,
+      "end_ms": 1099,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        599,
+        849,
+        1099
+      ]
+    },
+    {
+      "path": "prince_1hand_combo_02.bdae",
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0",
+      "tracks": 26,
+      "start_ms": 833,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        833,
+        1016,
+        1199
+      ]
+    },
+    {
+      "path": "prince_1hand_combo_02_moving.bdae",
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01",
+      "tracks": 25,
+      "start_ms": 799,
+      "end_ms": 1133,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        799,
+        966,
+        1133
+      ]
+    },
+    {
+      "path": "prince_1hand_combo_02_to_idle.bdae",
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091",
+      "tracks": 27,
+      "start_ms": 1199,
+      "end_ms": 1833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1199,
+        1516,
+        1833
+      ]
+    },
+    {
+      "path": "prince_1hand_combo_03.bdae",
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003",
+      "tracks": 26,
+      "start_ms": 1433,
+      "end_ms": 1799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1433,
+        1616,
+        1799
+      ]
+    },
+    {
+      "path": "prince_1hand_combo_03_moving.bdae",
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1",
+      "tracks": 25,
+      "start_ms": 1399,
+      "end_ms": 1733,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1399,
+        1566,
+        1733
+      ]
+    },
+    {
+      "path": "prince_1hand_combo_03_to_idle.bdae",
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260",
+      "tracks": 26,
+      "start_ms": 1799,
+      "end_ms": 2333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1799,
+        2066,
+        2333
+      ]
+    },
+    {
+      "path": "prince_1hand_post_combo_01_moving.bdae",
+      "sha256": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e",
+      "tracks": 25,
+      "start_ms": 533,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        533,
+        866,
+        1199
+      ]
+    },
+    {
+      "path": "prince_1hand_post_combo_02_moving.bdae",
+      "sha256": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af",
+      "tracks": 25,
+      "start_ms": 1133,
+      "end_ms": 1733,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1133,
+        1433,
+        1733
+      ]
+    },
+    {
+      "path": "prince_1hand_post_combo_03_moving.bdae",
+      "sha256": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8",
+      "tracks": 25,
+      "start_ms": 1733,
+      "end_ms": 2399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1733,
+        2066,
+        2399
+      ]
+    },
+    {
+      "path": "prince_1hand_pre_combo_01.bdae",
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        133,
+        266
+      ]
+    },
+    {
+      "path": "prince_1hand_pre_combo_01_moving.bdae",
+      "sha256": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        99,
+        199
+      ]
+    },
+    {
+      "path": "prince_1hand_pre_combo_02.bdae",
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4",
+      "tracks": 26,
+      "start_ms": 599,
+      "end_ms": 833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        599,
+        716,
+        833
+      ]
+    },
+    {
+      "path": "prince_1hand_pre_combo_02_moving.bdae",
+      "sha256": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548",
+      "tracks": 25,
+      "start_ms": 533,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        533,
+        666,
+        799
+      ]
+    },
+    {
+      "path": "prince_1hand_pre_combo_03.bdae",
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058",
+      "tracks": 26,
+      "start_ms": 1199,
+      "end_ms": 1433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1199,
+        1316,
+        1433
+      ]
+    },
+    {
+      "path": "prince_1hand_pre_combo_03_moving.bdae",
+      "sha256": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc",
+      "tracks": 25,
+      "start_ms": 1133,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1133,
+        1266,
+        1399
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_01.bdae",
+      "sha256": "ef877dee487c8c91ee9fd6c4a3a1e9b72db12e9d0288a837341b9a16ba276aa2",
+      "tracks": 25,
+      "start_ms": 266,
+      "end_ms": 599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        266,
+        432,
+        599
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_01_moving.bdae",
+      "sha256": "80da78bee82f732b326b2232dfe0dc30ef8fdc1a52df84a3ad46960dbc625d39",
+      "tracks": 25,
+      "start_ms": 333,
+      "end_ms": 866,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        333,
+        599,
+        866
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_01_to_idle.bdae",
+      "sha256": "08271e2127bcc0baab19ba06bd15af824ad93c45c4319be63f4d0b236eda46bc",
+      "tracks": 25,
+      "start_ms": 599,
+      "end_ms": 1266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        599,
+        932,
+        1266
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_01_to_idle_moving.bdae",
+      "sha256": "fd0ee7b2f3cc16e5f09ec4b854b5bfa3bd37d5fbc559a722cefd706b46a5ba66",
+      "tracks": 25,
+      "start_ms": 866,
+      "end_ms": 1833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        866,
+        1349,
+        1833
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_02.bdae",
+      "sha256": "910ea4514b097281bdc1fcab85e394687baae900838ae0b065c5f1bad28fe44f",
+      "tracks": 25,
+      "start_ms": 999,
+      "end_ms": 1333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        999,
+        1166,
+        1333
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_02_moving.bdae",
+      "sha256": "926d4df45a4cf6290365d12019158a6160b57d68e56e8826eea29cbcbddeb063",
+      "tracks": 25,
+      "start_ms": 1199,
+      "end_ms": 1733,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1199,
+        1466,
+        1733
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_02_to_idle.bdae",
+      "sha256": "84f919b98f461f8606c68e1da4b0ef7c7e827c4ee7616ed22b22a935b16bf9ea",
+      "tracks": 25,
+      "start_ms": 1333,
+      "end_ms": 2166,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1333,
+        1749,
+        2166
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_02_to_idle_moving.bdae",
+      "sha256": "61571532605f9ae76acb0ed2972a098aba27d8d5db59a3f04f431e9f95078785",
+      "tracks": 25,
+      "start_ms": 1733,
+      "end_ms": 2699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1733,
+        2216,
+        2699
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_03.bdae",
+      "sha256": "8a8400e0f65e69c1e338008a2399fc74c05697a3853af9301733fbbf4dfcd3e9",
+      "tracks": 25,
+      "start_ms": 1733,
+      "end_ms": 2066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1733,
+        1899,
+        2066
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_03_moving.bdae",
+      "sha256": "7b998d0a49ad004e69f38af6f1b0dfc795d21a34c9a2d5aa40f6cb6e771ade47",
+      "tracks": 25,
+      "start_ms": 2066,
+      "end_ms": 2599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        2066,
+        2332,
+        2599
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_03_to_idle.bdae",
+      "sha256": "611c1d1ce0da71fd01fda1866d9d4d4b979ab86c4d10b8c04143c74398aff005",
+      "tracks": 25,
+      "start_ms": 2066,
+      "end_ms": 2733,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        2066,
+        2399,
+        2733
+      ]
+    },
+    {
+      "path": "prince_2hand_combo_03_to_idle_moving.bdae",
+      "sha256": "bdd6f89b8a37493a9360631a1c3ee62301414eaab5a0d4c92ebbccb26b43f1cb",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_2hand_pre_combo_01.bdae",
+      "sha256": "7200dcc608afbb10af5ac3aae47042d11e94ffdf828a7a5c266fcfd561f0410d",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        133,
+        266
+      ]
+    },
+    {
+      "path": "prince_2hand_pre_combo_01_moving.bdae",
+      "sha256": "a4ffe99f3747c1458fcab74226fd1dcc8c272c9255f4d8685f0cf4ad0b5a9ab4",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        166,
+        333
+      ]
+    },
+    {
+      "path": "prince_2hand_pre_combo_02.bdae",
+      "sha256": "cb6e4349be2a3426b346cade5da15ad5a9dda63dfeb3405e4f24b73066c02d61",
+      "tracks": 25,
+      "start_ms": 599,
+      "end_ms": 999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        599,
+        799,
+        999
+      ]
+    },
+    {
+      "path": "prince_2hand_pre_combo_02_moving.bdae",
+      "sha256": "c16ecacf1d5d3ac959dc59f0e353e608a0dc6828d857566171b9960e017d59eb",
+      "tracks": 25,
+      "start_ms": 866,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        866,
+        1032,
+        1199
+      ]
+    },
+    {
+      "path": "prince_2hand_pre_combo_03.bdae",
+      "sha256": "de13c3aa34ecb9ad952ba818f823f807593fd98e0c0334b23ac7ca0e5b86d072",
+      "tracks": 25,
+      "start_ms": 1333,
+      "end_ms": 1733,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1333,
+        1533,
+        1733
+      ]
+    },
+    {
+      "path": "prince_2hand_pre_combo_03_moving.bdae",
+      "sha256": "e5e6d8a6898b3cc0979672366f2f8d5c14708409a1a9a3bceb88039f00cb3517",
+      "tracks": 25,
+      "start_ms": 1733,
+      "end_ms": 2066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1733,
+        1899,
+        2066
+      ]
+    },
+    {
+      "path": "prince_block.bdae",
+      "sha256": "f87f34e28201d67f33f0245caeeaf33fd024b3b826343a613c2b924df7efd51c",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        333,
+        666
+      ]
+    },
+    {
+      "path": "prince_despawn_01.bdae",
+      "sha256": "b6aa0d869acf57409e6a8bbdc755e5c24b0e16fa59adda85d87b2761d0411455",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "prince_despawn_02.bdae",
+      "sha256": "b007327b53ccfcd9666d00941bc360d1ab9bf7ee9f55c582c0afd8d53e6eeeb8",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        999,
+        1999
+      ]
+    },
+    {
+      "path": "prince_dialog.bdae",
+      "sha256": "276249c74adfae2cf0c69feb18348751ae8dc6b76c4bccfd559996d201a0fb3a",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 4199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        2099,
+        4199
+      ]
+    },
+    {
+      "path": "prince_dialog_combat.bdae",
+      "sha256": "6edaba897c1aa63d8f794d0eaac3a0694e66c095365caa5c3b3b402bc0e92ff9",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        649,
+        1299
+      ]
+    },
+    {
+      "path": "prince_dodge.bdae",
+      "sha256": "b196c02e2270db944ae6f41d90965d741927fbf5fa37b19878fbf49f2e544af0",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 899,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        449,
+        899
+      ]
+    },
+    {
+      "path": "prince_dramatic.bdae",
+      "sha256": "c636f1c7910fbf0ac97bcb7fb80c8e58e302a148f4fe26c5f7ff8977ef1f3126",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 899,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        449,
+        899
+      ]
+    },
+    {
+      "path": "prince_dramatic_to_idle.bdae",
+      "sha256": "92687a3d6bdac94da2ad2d7b0dfd8c3099e6369d525248351b30d6c5621c2efc",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1099,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        549,
+        1099
+      ]
+    },
+    {
+      "path": "prince_dual_combo_01.bdae",
+      "sha256": "5b836271f1512867c798548b005f0c287c6f8616389ea42435e906113d247df2",
+      "tracks": 25,
+      "start_ms": 266,
+      "end_ms": 566,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        266,
+        416,
+        566
+      ]
+    },
+    {
+      "path": "prince_dual_combo_01_moving.bdae",
+      "sha256": "8b639941320b72e1a42deabeca29b29c889a11c1295d7b4029d4a8f13098983e",
+      "tracks": 25,
+      "start_ms": 199,
+      "end_ms": 599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        199,
+        399,
+        599
+      ]
+    },
+    {
+      "path": "prince_dual_combo_01_to_idle.bdae",
+      "sha256": "ba0ce3649c5112419f83fe964421a83badda3322d5a85b19910cd26937ea98f1",
+      "tracks": 25,
+      "start_ms": 566,
+      "end_ms": 1266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        566,
+        916,
+        1266
+      ]
+    },
+    {
+      "path": "prince_dual_combo_02.bdae",
+      "sha256": "daddcc6db2fd1d71d783039c3e2e02faae32fd7305543b48072d975df8744817",
+      "tracks": 25,
+      "start_ms": 833,
+      "end_ms": 1133,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        833,
+        983,
+        1133
+      ]
+    },
+    {
+      "path": "prince_dual_combo_02_moving.bdae",
+      "sha256": "17ceee4f1f72fba31fc632381478e5c5567fd8108d9da10bafaa018dad36d45d",
+      "tracks": 27,
+      "start_ms": 799,
+      "end_ms": 1133,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        799,
+        966,
+        1133
+      ]
+    },
+    {
+      "path": "prince_dual_combo_02_to_idle.bdae",
+      "sha256": "cfea77fc9d5c841fb4684eb817f79f973858f05ecfb2b37ca6c0ef0aee64a8c0",
+      "tracks": 25,
+      "start_ms": 1133,
+      "end_ms": 2099,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1133,
+        1616,
+        2099
+      ]
+    },
+    {
+      "path": "prince_dual_combo_03.bdae",
+      "sha256": "44b08982c3b21d6bfe9f4c95fc5209920e010dfced75890fe7081e9f5b01e018",
+      "tracks": 25,
+      "start_ms": 1433,
+      "end_ms": 1799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1433,
+        1616,
+        1799
+      ]
+    },
+    {
+      "path": "prince_dual_combo_03_moving.bdae",
+      "sha256": "600a0a395c57fe4af957dc1e56e30c51a9f918a4ac009d044289be32f92233c8",
+      "tracks": 25,
+      "start_ms": 1499,
+      "end_ms": 1833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1499,
+        1666,
+        1833
+      ]
+    },
+    {
+      "path": "prince_dual_combo_03_to_idle.bdae",
+      "sha256": "68964418ac71cc62246c47ef22a5c0b666d0d7291a841cb710a05e70aa68bac7",
+      "tracks": 25,
+      "start_ms": 1799,
+      "end_ms": 2433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1799,
+        2116,
+        2433
+      ]
+    },
+    {
+      "path": "prince_dual_combo_04.bdae",
+      "sha256": "376639964124dad7d0ee5177e0eaced6b4f5a161a5b0069ccbba2adb25b30f98",
+      "tracks": 25,
+      "start_ms": 2099,
+      "end_ms": 2399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        2099,
+        2249,
+        2399
+      ]
+    },
+    {
+      "path": "prince_dual_combo_04_moving.bdae",
+      "sha256": "776389afecd2125085d2dbe792af07b51e39b1b3098c3df7142f418ccf93ae64",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_dual_combo_04_to_idle.bdae",
+      "sha256": "ba92607da20e06bad4d606bf6e8170ae5030bbf26fd0cb6e1cb5d1275c555581",
+      "tracks": 25,
+      "start_ms": 2399,
+      "end_ms": 3099,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        2399,
+        2749,
+        3099
+      ]
+    },
+    {
+      "path": "prince_dual_post_combo_01_moving.bdae",
+      "sha256": "8c4c1478be59b455b21d45c495ae90b7c96c39ead7276189150cd3ea5639a25a",
+      "tracks": 27,
+      "start_ms": 599,
+      "end_ms": 1233,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        599,
+        916,
+        1233
+      ]
+    },
+    {
+      "path": "prince_dual_post_combo_02_moving.bdae",
+      "sha256": "556989752468582c503dadccc757bff3fcdca0ac715dd896f125fa8dbe56f9ec",
+      "tracks": 25,
+      "start_ms": 1133,
+      "end_ms": 1966,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1133,
+        1549,
+        1966
+      ]
+    },
+    {
+      "path": "prince_dual_post_combo_03_moving.bdae",
+      "sha256": "6156454146d2ec9ea36ee2f3a372c1a97cb7c3e1e9d5624adbe91dd4b5ac895c",
+      "tracks": 25,
+      "start_ms": 1833,
+      "end_ms": 2599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1833,
+        2216,
+        2599
+      ]
+    },
+    {
+      "path": "prince_dual_post_combo_04_moving.bdae",
+      "sha256": "d74637bc25d937bf15f4c5ce94af4acc3e888561d99be8e6e14f56d14c56012b",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_dual_pre_combo_01.bdae",
+      "sha256": "2d4086709480be7a0b132175d95661f18f5aba723a4c67b1bf79db9641eab65f",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        133,
+        266
+      ]
+    },
+    {
+      "path": "prince_dual_pre_combo_01_moving.bdae",
+      "sha256": "6da1b197fd7014e94d286d1d041ea8cbf88b3603c6f7fbfa5685d0cef418ec4c",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        99,
+        199
+      ]
+    },
+    {
+      "path": "prince_dual_pre_combo_02.bdae",
+      "sha256": "245e8a74e81cea44afdfc646db77481101704ec10d6cf951e8be00ac36645921",
+      "tracks": 25,
+      "start_ms": 566,
+      "end_ms": 833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        566,
+        699,
+        833
+      ]
+    },
+    {
+      "path": "prince_dual_pre_combo_02_moving.bdae",
+      "sha256": "ba34ee9edb5457dcf93a14a217831fb8b29cc02bf41b26739ec4b73b96da4356",
+      "tracks": 25,
+      "start_ms": 599,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        599,
+        699,
+        799
+      ]
+    },
+    {
+      "path": "prince_dual_pre_combo_03.bdae",
+      "sha256": "c50dd20b885e10e703d8e854cb6b71270060d536c5dee3ca3062aa4222e83086",
+      "tracks": 25,
+      "start_ms": 1133,
+      "end_ms": 1433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1133,
+        1283,
+        1433
+      ]
+    },
+    {
+      "path": "prince_dual_pre_combo_03_moving.bdae",
+      "sha256": "ace53ab8c5b3318027663a7550c818ea58166cd2eb998ba68ce8c46cc8f48271",
+      "tracks": 25,
+      "start_ms": 1133,
+      "end_ms": 1499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1133,
+        1316,
+        1499
+      ]
+    },
+    {
+      "path": "prince_dual_pre_combo_04.bdae",
+      "sha256": "a013e2d9c4df519279717b0bc4f354f03b3b021abcb2811956af5de63aff7370",
+      "tracks": 25,
+      "start_ms": 1799,
+      "end_ms": 2099,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1799,
+        1949,
+        2099
+      ]
+    },
+    {
+      "path": "prince_dual_pre_combo_04_moving.bdae",
+      "sha256": "34d4778b17a6888c0e77c8fe5e867f614eec558dc46eefb51a64c52f8366408a",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_dying_01.bdae",
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 766,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        383,
+        766
+      ]
+    },
+    {
+      "path": "prince_dying_02.bdae",
+      "sha256": "c263a23fd902d90f321fb7170f56a8ca9b925143ce0dd16e66cba77741c8e093",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_feared.bdae",
+      "sha256": "ad14966e8ed054fb44e356b53592740c14b920992cfdc9a9462e9ce78be07262",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 599,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        299,
+        599
+      ]
+    },
+    {
+      "path": "prince_great_pushback.bdae",
+      "sha256": "bdff3bc5dd3f3a95227a29bb042b6c837b56c45f53ff715d0aacb9c3fe8b36b0",
+      "tracks": 30,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        599,
+        1199
+      ]
+    },
+    {
+      "path": "prince_great_pushback_despawn.bdae",
+      "sha256": "df027ddc1a680b116ae0330fb7c55bc45c3dca567540a6333a3d8fa969367fb0",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_great_pushback_dying.bdae",
+      "sha256": "7ca5c9182f00bf5859599fb6f0f18a00fdbd089f9b42836b7fb7ccb99fd01b89",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_great_pushback_standup.bdae",
+      "sha256": "3943f7a2cf93ff0061370a95bf29434bd70f3916779d9c1a81c8bd75d751b6a7",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_hurt_01.bdae",
+      "sha256": "912d6df63b3088f8670d184b3acd5df133edd0791a24568379d206dfdabe7522",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 633,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        316,
+        633
+      ]
+    },
+    {
+      "path": "prince_hurt_02.bdae",
+      "sha256": "ddff33044857266b997546d418c4d2e4599831e57c19e67fd5b6e6397673e768",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 733,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        366,
+        733
+      ]
+    },
+    {
+      "path": "prince_hurt_03.bdae",
+      "sha256": "e0770baf2c5dd3a841c5b3d47660c1c956d56cdab57122f5a7955e9e0fc58682",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 633,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        316,
+        633
+      ]
+    },
+    {
+      "path": "prince_hurt_wind_bomb.bdae",
+      "sha256": "5ebebf603653dcacbe7ff711fc51607cbc06b65a7a288c5b4a8e758c295cc184",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
+    },
+    {
+      "path": "prince_hurt_wind_cone.bdae",
+      "sha256": "2501e654f8328a939aa79bada0e44041148f8551fb23706a497feb0bf5191974",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        499,
+        999
+      ]
+    },
+    {
+      "path": "prince_idle_2hand.bdae",
+      "sha256": "298c9f6f5af13970050a683640790453cf2fe0932d4e59ed6507377c81e2f181",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        833,
+        1666
+      ]
+    },
+    {
+      "path": "prince_idle_2hand_02.bdae",
+      "sha256": "5a9e13430fca5c3ce8eea44e695e300b444b7916245f513bc3636588b25a2ab2",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        849,
+        1699
+      ]
+    },
+    {
+      "path": "prince_idle_dual.bdae",
+      "sha256": "19a673316a0e9d8497ab32c7f9466094993eb78ba4e0bc099c40fa2636906d8c",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "prince_idle_dual_02.bdae",
+      "sha256": "58ec39b964f729c3ef18d7920bf28bde5bb05b02d5c674944e6c72368f51f77e",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        849,
+        1699
+      ]
+    },
+    {
+      "path": "prince_idle_ranged.bdae",
+      "sha256": "d16c517b473d039cf47559229417f9fc6d862f57a98e1f866f71989225c9a14f",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "prince_idle_shield.bdae",
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "prince_idle_shield_02.bdae",
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        599,
+        1199
+      ]
+    },
+    {
+      "path": "prince_idle_to_dramatic.bdae",
+      "sha256": "f4106a15c6a9e6b8986da770ba6a333fc3402860e6abfa01e2c08d965bb862ab",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        349,
+        699
+      ]
+    },
+    {
+      "path": "prince_interaction.bdae",
+      "sha256": "988b7ad3e614e2ecc4fc29bdd6fef71d752476d94b432b8ce46b37759e9eba62",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        599,
+        1199
+      ]
+    },
+    {
+      "path": "prince_interaction_shrine.bdae",
+      "sha256": "cec7e98e19b3e0621e3851932c7f0a54c9e668bd42ee47feb4b14651fcb7842a",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 99,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        49,
+        99
+      ]
+    },
+    {
+      "path": "prince_knight_charge.bdae",
+      "sha256": "bd8b47647e6d44dbce73f2ce2b0b5b96785f1d92946e1f25e6cd9b286bbba815",
+      "tracks": 26,
+      "start_ms": 199,
+      "end_ms": 866,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        199,
+        532,
+        866
+      ]
+    },
+    {
+      "path": "prince_knight_pre_charge.bdae",
+      "sha256": "0f986e69338c96e53a729dfc57b4001f303beaa58f3c3529d872f348842c4005",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        99,
+        199
+      ]
+    },
+    {
+      "path": "prince_knight_pre_shockwave.bdae",
+      "sha256": "3f0c1a43079af27b84809567f27566a3d65fd05b12e4b9913b21954d39718223",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        166,
+        333
+      ]
+    },
+    {
+      "path": "prince_knight_pre_slam.bdae",
+      "sha256": "a9fdcdcf02a7920691b44348d20c89b99e26c95716b33e4560c1b2b554490516",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        166,
+        333
+      ]
+    },
+    {
+      "path": "prince_knight_pre_warcry.bdae",
+      "sha256": "be503258f99dbc0f6ae609acac16b77173467f9cbbd524590d4ecef1ac143aad",
+      "tracks": 28,
+      "start_ms": 0,
+      "end_ms": 466,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        233,
+        466
+      ]
+    },
+    {
+      "path": "prince_knight_pre_whirlwind.bdae",
+      "sha256": "59323da57ca3c479cf6de288d13c365ffcb09c59303a683a0d40adaf4a8148a9",
+      "tracks": 28,
+      "start_ms": 0,
+      "end_ms": 266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        133,
+        266
+      ]
+    },
+    {
+      "path": "prince_knight_shockwave.bdae",
+      "sha256": "2a5853c3b7da4c3e95b41f14097fa4ff813b99b08d8e87a5bc2e6034a4e5b44d",
+      "tracks": 27,
+      "start_ms": 333,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        333,
+        766,
+        1199
+      ]
+    },
+    {
+      "path": "prince_knight_slam.bdae",
+      "sha256": "d5dd0e98875eb0e36e7b7ba522488739d0facaa319727db11a6753381d0e0861",
+      "tracks": 25,
+      "start_ms": 333,
+      "end_ms": 1433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        333,
+        883,
+        1433
+      ]
+    },
+    {
+      "path": "prince_knight_warcry.bdae",
+      "sha256": "d4a0982c529dd407518aad94a8c90e38b7848a802673e0044cb9ab232311ff65",
+      "tracks": 28,
+      "start_ms": 466,
+      "end_ms": 1233,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        466,
+        849,
+        1233
+      ]
+    },
+    {
+      "path": "prince_knight_whirlwind.bdae",
+      "sha256": "94b80227aeea2c8974adc4fb6fbbe16c2e8f32dde604b35928e9bb025ee939ce",
+      "tracks": 28,
+      "start_ms": 266,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        266,
+        732,
+        1199
+      ]
+    },
+    {
+      "path": "prince_mage_elemental_bolt.bdae",
+      "sha256": "0ac3c877db78fdfafa5f9a140bc8edec0e30d34669cdefde77c43380242cc8b2",
+      "tracks": 25,
+      "start_ms": 366,
+      "end_ms": 1266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        366,
+        816,
+        1266
+      ]
+    },
+    {
+      "path": "prince_mage_invoke.bdae",
+      "sha256": "f53a9d1b0ea680323471e6f817d66d77accf3a1f3764a6bb4f11a194e8b5686b",
+      "tracks": 26,
+      "start_ms": 266,
+      "end_ms": 999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        266,
+        632,
+        999
+      ]
+    },
+    {
+      "path": "prince_mage_pre_elemental_bolt.bdae",
+      "sha256": "0f5c27f1d9db3b42c5a42e69225faf89294282004757d809b58f699c98e17527",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 366,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        183,
+        366
+      ]
+    },
+    {
+      "path": "prince_mage_pre_invoke.bdae",
+      "sha256": "2c90d0d1b218cc42b16492880f50382a7572b5469829a8556a971efa1764d4b0",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        133,
+        266
+      ]
+    },
+    {
+      "path": "prince_mage_pre_release.bdae",
+      "sha256": "8a296d7bc740388104536c7ade39dcd53251d511e2881f812bb6b509bbc773c4",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        133,
+        266
+      ]
+    },
+    {
+      "path": "prince_mage_pre_summon.bdae",
+      "sha256": "f0053e99c407047fa0c063a5d0d1d2901dc4e161c6cb93df23fb9a62b4b91c70",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        166,
+        333
+      ]
+    },
+    {
+      "path": "prince_mage_release.bdae",
+      "sha256": "ec56659a712aaa1ff20c830ee402efcd256c7df96baf4056553ddd3bb0398248",
+      "tracks": 26,
+      "start_ms": 266,
+      "end_ms": 1233,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        266,
+        749,
+        1233
+      ]
+    },
+    {
+      "path": "prince_mage_summon.bdae",
+      "sha256": "9c9bcd56a7d56ce0d7337048546addba63a6ea98ed01f7d8c8ce101f02cb4bc4",
+      "tracks": 26,
+      "start_ms": 333,
+      "end_ms": 1233,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        333,
+        783,
+        1233
+      ]
+    },
+    {
+      "path": "prince_menu_idle_knight.bdae",
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a",
+      "tracks": 29,
+      "start_ms": 0,
+      "end_ms": 1499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        749,
+        1499
+      ]
+    },
+    {
+      "path": "prince_menu_idle_knight_02.bdae",
+      "sha256": "f7c2c9da65f17b6bb737062bbdd13d3a2390332e6aa7504daf61af755df66aba",
+      "tracks": 29,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "model_binding",
+      "error": 7
+    },
+    {
+      "path": "prince_menu_idle_mage.bdae",
+      "sha256": "63f1673b3c8074079b8033514087f4f0a614f3d32c983fd2193bc48a14462058",
+      "tracks": 31,
+      "start_ms": 0,
+      "end_ms": 1499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        749,
+        1499
+      ]
+    },
+    {
+      "path": "prince_menu_idle_mage_02.bdae",
+      "sha256": "a9062d260e7b889fc3cf464c0d1edbed0f9b88323f5f0704a98d3d97e6df87c6",
+      "tracks": 31,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
+    },
+    {
+      "path": "prince_menu_idle_rogue.bdae",
+      "sha256": "17dee5ad32e29307c25a83b4db898d14091de5e198ed5e50a5928c61444bbfa0",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 1499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        749,
+        1499
+      ]
+    },
+    {
+      "path": "prince_menu_idle_rogue_02.bdae",
+      "sha256": "69a972b82dec287e392938a2aae3e810b135cec9a278f172b3a3ba7f592bbefe",
+      "tracks": 29,
+      "start_ms": 0,
+      "end_ms": 2699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1349,
+        2699
+      ]
+    },
+    {
+      "path": "prince_post_ranged_attack_02.bdae",
+      "sha256": "94b8595a5a68f52a1cb63b0dc1beb14767d9118f93592d312f14f3333e8706a4",
+      "tracks": 23,
+      "start_ms": 1433,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1433,
+        1716,
+        1999
+      ]
+    },
+    {
+      "path": "prince_post_ranged_attack_03.bdae",
+      "sha256": "3c0b28a6fa65820543a602f0b4a23171e564940a3f0adcb7cc3bd85e3478d311",
+      "tracks": 23,
+      "start_ms": 1433,
+      "end_ms": 1999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1433,
+        1716,
+        1999
+      ]
+    },
+    {
+      "path": "prince_post_stunned.bdae",
+      "sha256": "0d0930697d6de8e84aca96450d02dd1576c96fef1d17bf530f100fd4d7727403",
+      "tracks": 25,
+      "start_ms": 1699,
+      "end_ms": 2499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1699,
+        2099,
+        2499
+      ]
+    },
+    {
+      "path": "prince_pre_ranged_attack_02.bdae",
+      "sha256": "8af323ae3b76637419539898d3ef53dc7df9c9f47a154e71f55ae31274bcbbb6",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        333,
+        666
+      ]
+    },
+    {
+      "path": "prince_pre_ranged_attack_03.bdae",
+      "sha256": "836a8963aab7471bea08a03657d8e82bd2e27d895da6f1da008b1c1f5d7037d0",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        333,
+        666
+      ]
+    },
+    {
+      "path": "prince_pre_stunned.bdae",
+      "sha256": "35eb3d125813c63a3a0aea5a3ce3810339e44dc7c8a13bf40ebb1a4061358532",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        99,
+        199
+      ]
+    },
+    {
+      "path": "prince_pre_unarmed_01.bdae",
+      "sha256": "77087a723598a2923ba5a2ff57ffa0ae6a69308e8ea0aaa4cde9372d15ad394d",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 166,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        83,
+        166
+      ]
+    },
+    {
+      "path": "prince_pushback.bdae",
+      "sha256": "98b725ebc5c5d5de24a10b01cc9936a08d5505adb62919db522a14c6ecd3481e",
+      "tracks": 29,
+      "start_ms": 0,
+      "end_ms": 666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        333,
+        666
+      ]
+    },
+    {
+      "path": "prince_ranged_attack.bdae",
+      "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_ranged_attack_02.bdae",
+      "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_ranged_attack_03.bdae",
+      "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_ranged_post_attack.bdae",
+      "sha256": "c254cd0b61f46688d2cdc5eb1b5632e5253e70751ce437cb4120ab0ce048fed9",
+      "tracks": 23,
+      "start_ms": 733,
+      "end_ms": 1266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        733,
+        999,
+        1266
+      ]
+    },
+    {
+      "path": "prince_ranged_pre_attack.bdae",
+      "sha256": "1c4d3028dd3eab69eac4fe2b02f44bcb3444e491737dc86ca5e0903e9c70274e",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        166,
+        333
+      ]
+    },
+    {
+      "path": "prince_rogue_bladefury.bdae",
+      "sha256": "fc4d588bae57b489bc9a79740ee1a2a81dec59d0257b6c3d3b4d32525e7d5f4f",
+      "tracks": 25,
+      "start_ms": 499,
+      "end_ms": 1466,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        499,
+        982,
+        1466
+      ]
+    },
+    {
+      "path": "prince_rogue_bombthrow.bdae",
+      "sha256": "1f7303026ac1dcaf15e79c938b84e30df94a93ed5e5e19e8e31913df0699d11d",
+      "tracks": 25,
+      "start_ms": 499,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        499,
+        849,
+        1199
+      ]
+    },
+    {
+      "path": "prince_rogue_jumpattack.bdae",
+      "sha256": "899877befe5a1f5c56ac0badaadc0bd0be58a744e503e8bbcc6bf9b09206f032",
+      "tracks": 25,
+      "start_ms": 566,
+      "end_ms": 1233,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        566,
+        899,
+        1233
+      ]
+    },
+    {
+      "path": "prince_rogue_pre_bladefury.bdae",
+      "sha256": "8e6af6d077617c73615227ba67cedd84f270bbb43568a73ff20fff9839ff4f9f",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        249,
+        499
+      ]
+    },
+    {
+      "path": "prince_rogue_pre_bombthrow.bdae",
+      "sha256": "50b4d22531ad6a2ac53134af7ea6733eb0167eeb118f3d14769db4522752bc7f",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        249,
+        499
+      ]
+    },
+    {
+      "path": "prince_rogue_pre_jumpattack.bdae",
+      "sha256": "f30b0910479d86d093d50fa3f4535ec9933858924d87150de3e8337c89f2609d",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 566,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        283,
+        566
+      ]
+    },
+    {
+      "path": "prince_rogue_pre_twinstrike.bdae",
+      "sha256": "ed243c53f71b0fb0747b9c6774506cb249a2c68eed33769fd49ce7f8e6314198",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        133,
+        266
+      ]
+    },
+    {
+      "path": "prince_rogue_pre_viciousstrike.bdae",
+      "sha256": "c6e5eb01a1c166a258075715cbced934cc6b81c04fdc213bfaf84df7a3569003",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        166,
+        333
+      ]
+    },
+    {
+      "path": "prince_rogue_sneak_activate.bdae",
+      "sha256": "bfa55e60c9fdee28926b2696325d814f33a045cc996d0389e16f0ebf4248ea20",
+      "tracks": 25,
+      "start_ms": 199,
+      "end_ms": 999,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        199,
+        599,
+        999
+      ]
+    },
+    {
+      "path": "prince_rogue_sneak_idle.bdae",
+      "sha256": "ba16c7ae983f3afe7c0f7e95836e5412bc7ac3399ee502de9acf5a780f003f9e",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 1299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        649,
+        1299
+      ]
+    },
+    {
+      "path": "prince_rogue_sneak_pre_activate.bdae",
+      "sha256": "a4e9cafff3363c8dd8d2e86c27115eb1bae164618f1482ecd850eded090126de",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        99,
+        199
+      ]
+    },
+    {
+      "path": "prince_rogue_sneak_walk.bdae",
+      "sha256": "64ec13a0132bf52db4c430c64f2b138ca7cc5bd76140ee3ede21b1923a8bc9c1",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 1399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        699,
+        1399
+      ]
+    },
+    {
+      "path": "prince_rogue_twinstrike.bdae",
+      "sha256": "8c417a9a878400f91fe6480ffb58be0276d02ee897c3b6903b48bbc8a2c4d78e",
+      "tracks": 26,
+      "start_ms": 266,
+      "end_ms": 1333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        266,
+        799,
+        1333
+      ]
+    },
+    {
+      "path": "prince_rogue_viciousstrike.bdae",
+      "sha256": "40c07a2d3292365139bb1a4234308f8a033be8694c02474fb5056e6ab9f64486",
+      "tracks": 25,
+      "start_ms": 333,
+      "end_ms": 1299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        333,
+        816,
+        1299
+      ]
+    },
+    {
+      "path": "prince_spell_channeling.bdae",
+      "sha256": "1350178e7a87b8868fb6e4d34acfce79e27a77674058aa09ddd8625bb6f596ec",
+      "tracks": 14,
+      "start_ms": 0,
+      "end_ms": 1299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        649,
+        1299
+      ]
+    },
+    {
+      "path": "prince_spell_hotty.bdae",
+      "sha256": "e80741db58a592071f0fe0f4683a2fb4cec3d5e6c0872a32251ef7266d742fda",
+      "tracks": 25,
+      "start_ms": 399,
+      "end_ms": 1133,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        399,
+        766,
+        1133
+      ]
+    },
+    {
+      "path": "prince_spell_post_channeling.bdae",
+      "sha256": "8c78409b578b202b0043430643b5b10151cd2c32749d4d80ad4487a6e412f71c",
+      "tracks": 25,
+      "start_ms": 733,
+      "end_ms": 1233,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        733,
+        983,
+        1233
+      ]
+    },
+    {
+      "path": "prince_spell_pre_channeling.bdae",
+      "sha256": "e2896749f5446139db984668bb1212783dffc7cce4deab0119e34c4f38509c0d",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 466,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        233,
+        466
+      ]
+    },
+    {
+      "path": "prince_spell_pre_hotty.bdae",
+      "sha256": "20f24c13da52eeccd65e5c1d9e1622eae02eb17c8add83893c7470dd2e5ce59d",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        199,
+        399
+      ]
+    },
+    {
+      "path": "prince_spell_pre_rocky.bdae",
+      "sha256": "df611a7a2610a9bc952ff5bcd2d09c78858a1f03aa9d3e4d0b5f8ec25b54cc7a",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        216,
+        433
+      ]
+    },
+    {
+      "path": "prince_spell_pre_self.bdae",
+      "sha256": "b091e431cd3f5970a3e8f96a51dc36f10f7debfae08c3e1b5dc0b947500d9ff1",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 166,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        83,
+        166
+      ]
+    },
+    {
+      "path": "prince_spell_pre_wetty.bdae",
+      "sha256": "0ab0b2420d0a61797e41f7176b9690d5f56d85d0daac3005e871e7f11b2889fc",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        199,
+        399
+      ]
+    },
+    {
+      "path": "prince_spell_pre_windy.bdae",
+      "sha256": "b291fd40c0eb231aa130312d59fb5a54d9113b8f4931bda477bb3f768caba43a",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        199,
+        399
+      ]
+    },
+    {
+      "path": "prince_spell_rocky.bdae",
+      "sha256": "6a98c5f8a6aacb745ae58f01e13e375bf8489e9c66864870f5d77d91d6b4183a",
+      "tracks": 25,
+      "start_ms": 433,
+      "end_ms": 1299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        433,
+        866,
+        1299
+      ]
+    },
+    {
+      "path": "prince_spell_self.bdae",
+      "sha256": "351965ecfb30d7a1cd31b643c1ef95c6f38f44bb864ec93060885662c4b5eccf",
+      "tracks": 26,
+      "start_ms": 166,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        166,
+        682,
+        1199
+      ]
+    },
+    {
+      "path": "prince_spell_wetty.bdae",
+      "sha256": "e00550d886041df8af1add54e49a5a9c4047bce9b730ddf219f03d1ad4660cf0",
+      "tracks": 25,
+      "start_ms": 399,
+      "end_ms": 1133,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        399,
+        766,
+        1133
+      ]
+    },
+    {
+      "path": "prince_spell_windy.bdae",
+      "sha256": "ad9c13246bb75cb3f7bbc6c8cb2aa5100fdd8c23f25185b45f35acb10d0df36f",
+      "tracks": 27,
+      "start_ms": 399,
+      "end_ms": 1166,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        399,
+        782,
+        1166
+      ]
+    },
+    {
+      "path": "prince_standup.bdae",
+      "sha256": "14f67e0012fcbac97db179cf9304f55d22d537fed2a78c3070c5be758725042d",
+      "tracks": 28,
+      "start_ms": 666,
+      "end_ms": 1833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        666,
+        1249,
+        1833
+      ]
+    },
+    {
+      "path": "prince_stunned.bdae",
+      "sha256": "10a81195712d8a46498104c8e1647296ee7fdf0d4eb488425d1bd987cf3b0214",
+      "tracks": 25,
+      "start_ms": 199,
+      "end_ms": 1699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        199,
+        949,
+        1699
+      ]
+    },
+    {
+      "path": "prince_template_anim.bdae",
+      "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102",
+      "tracks": 81,
+      "start_ms": 0,
+      "end_ms": 0,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0
+      ]
+    },
+    {
+      "path": "prince_unarmed_01.bdae",
+      "sha256": "8c4ab3bbf9e743ac0fbd3881817edbdd1ecb026d260b62e5dc2c9e71dab30c0a",
+      "tracks": 25,
+      "start_ms": 166,
+      "end_ms": 433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        166,
+        299,
+        433
+      ]
+    },
+    {
+      "path": "prince_unarmed_01_to_idle.bdae",
+      "sha256": "22db5186fb0b371670a4336496f6a2509111d768349749243d0920cb6e2a552a",
+      "tracks": 25,
+      "start_ms": 433,
+      "end_ms": 833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        433,
+        633,
+        833
+      ]
+    },
+    {
+      "path": "prince_walk_1hand.bdae",
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        399,
+        799
+      ]
+    },
+    {
+      "path": "prince_walk_1hand_start.bdae",
+      "sha256": "a6023b36d9ec9f7cdfbadcf7e56e9aec4f15e4711facfb0709d8a01274b627d5",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        199,
+        399
+      ]
+    },
+    {
+      "path": "prince_walk_1hand_stop.bdae",
+      "sha256": "3df51181282df54ea32a4900117291bc4ff700965bd78ce7a3908c9a3af69909",
+      "tracks": 28,
+      "start_ms": 0,
+      "end_ms": 666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        333,
+        666
+      ]
+    },
+    {
+      "path": "prince_walk_2hand.bdae",
+      "sha256": "b330021f112da90b286f69ee9afce343bf652aef9ab6de95bc24a143a2cd40e8",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        399,
+        799
+      ]
+    },
+    {
+      "path": "prince_walk_2hand_start.bdae",
+      "sha256": "e297cdd619d1d272de1abaf14d056deedeedaa92a56524aed9ba853d49229510",
+      "tracks": 28,
+      "start_ms": 0,
+      "end_ms": 399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        199,
+        399
+      ]
+    },
+    {
+      "path": "prince_walk_2hand_stop.bdae",
+      "sha256": "31d0d191ea9756b58dab035a2fb43a68af743511327e0f36331259fe937a23a4",
+      "tracks": 28,
+      "start_ms": 0,
+      "end_ms": 666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        333,
+        666
+      ]
+    },
+    {
+      "path": "prince_walk_dual.bdae",
+      "sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "prince_walk_dual_start.bdae",
+      "sha256": "8e44d188f84461bc8ff10e2039b2767664e03e4464e20a2bb84acb0d653bd22b",
+      "tracks": 28,
+      "start_ms": 0,
+      "end_ms": 399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        199,
+        399
+      ]
+    },
+    {
+      "path": "prince_walk_dual_stop.bdae",
+      "sha256": "def2ebc209f5eb30972fcd3d9b63df98f46e0487a1c1ca5dd405fb95d0d375b9",
+      "tracks": 28,
+      "start_ms": 0,
+      "end_ms": 666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        333,
+        666
+      ]
+    },
+    {
+      "path": "prince_walk_ranged.bdae",
+      "sha256": "ca237ed15b4523449f7351a0dd7cb98baa3544debdddba0818bd210d4c93a8eb",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "model_binding",
+      "error": 7
+    },
+    {
+      "path": "prince_walk_ranged_start.bdae",
+      "sha256": "fc97d5abbbc60aaa12dd126f8aee1fda29b7e81f944746da74dbe4583ca8cbde",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 399,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        199,
+        399
+      ]
+    },
+    {
+      "path": "prince_walk_ranged_stop.bdae",
+      "sha256": "e7741917dde1f652821117115503c4ae1d7103dec0d84426ac59465fb0a8cece",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        333,
+        666
+      ]
+    },
+    {
+      "path": "prince_walk_slow.bdae",
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_chain_bolt.bdae",
+      "sha256": "7fbe9cdc1b0c4a58dd83d31eccaec6c421ecd69becc7bac253a2b6293b6b42c8",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        599,
+        1199
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_cold_ray.bdae",
+      "sha256": "4dec51ccd295acc468232d7a12f10c47ca06f87877370a2e3ba90770aa32b213",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_cyclone.bdae",
+      "sha256": "10d9e2b21b6b23bd377f10bb5fc4ff43b2eb55b2d55eb9ed6da780c384671bf3",
+      "tracks": 31,
+      "start_ms": 0,
+      "end_ms": 1299,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        649,
+        1299
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_illusionist_eclipse.bdae",
+      "sha256": "7adb070eb0d134d40878202b9fb757def8085f1c9c64560cd6b26c9c8bfd8a6c",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1166,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        583,
+        1166
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_illusionist_figments.bdae",
+      "sha256": "3757fd6ef731bba1e4897f0500e1daf8aaf93e981d021aec4d031d45a398916c",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        399,
+        799
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_illusionist_terror.bdae",
+      "sha256": "085e2adfc2ad395556c626ceeb287240c1f51a6906baa1576ca2c5d436e4c702",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        399,
+        799
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_illusionist_time_control.bdae",
+      "sha256": "87097e19eaf0cc06d99e51ba6a59978f15a37c459d1e67a95541b598a8d7ea25",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1166,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        583,
+        1166
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_necromancer_death_claw.bdae",
+      "sha256": "e53b62dcebe92ef7b21d0e3907c408c7f9b7a1c1f77b85dc6f79ef522b4a440c",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "skill_dh2_prince_mage_necromancer_fire_skull_rain.bdae",
+      "sha256": "b8c73473a28bbd54c91ddf8ef035f9d930a81107f1f00b999beb9abd3d4355a5",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1366,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        683,
+        1366
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_necromancer_pestilence.bdae",
+      "sha256": "c712b410d4bb23cec14be6411d134e1194f55f01e99cbfb47c0e358b34bce3cb",
+      "tracks": 26,
+      "start_ms": 0,
+      "end_ms": 1666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        833,
+        1666
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_necromancer_rise.bdae",
+      "sha256": "f40a183427e7eb80086936f51db26903976c3cdb4a7a80035a3fb4fdb9aaebb7",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1499,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        749,
+        1499
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_stone_escape.bdae",
+      "sha256": "7cb07bc34f43f43b84907b2cf4c3419ead3b0c3791ac618176ab73a388dbd4b6",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1366,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        683,
+        1366
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_mage_wand_attack.bdae",
+      "sha256": "bfbdf36bcd38aec4411b71b134ec661b66e47ae649fdca09dd800cd2ad5b7762",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 733,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        366,
+        733
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_archer_exploding_arrows.bdae",
+      "sha256": "6fd55b3183439b5757c71a31ad9e914488b8cdbcff71164d3b7733c756d0b3c9",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        633,
+        1266
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_archer_multi_hit.bdae",
+      "sha256": "b07ef7852be5e0f1c646a46a4ad6ec035aa3c398458b025e615698beace4e51c",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        399,
+        799
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_archer_pinning_shot.bdae",
+      "sha256": "6fc83f4880bd6e9edebb8db0548f182229bb278b51c33e126993749d6cb04da6",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        599,
+        1199
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_archer_poison_arrows.bdae",
+      "sha256": "5514d61f2043b8ca8283f6add5eba9535724f41830073a6f443f74b1d1046cea",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        633,
+        1266
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_archer_volley.bdae",
+      "sha256": "0c7d3962528fca7b45cf77114db25c539003276ebfcc900ef4b90047f0505f11",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        633,
+        1266
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_assassin_assassination.bdae",
+      "sha256": "6617af214235c7cbdb8b620428b1eed65c59bb4465efdd4fd773ab37ef0327ee",
+      "tracks": 33,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "model_binding",
+      "error": 7
+    },
+    {
+      "path": "skill_dh2_prince_rogue_assassin_blindness.bdae",
+      "sha256": "db3573082e49a8a6378d7aab04cd1d6bd05b4fb0a57283bdc27995a5cbd1ece5",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1166,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        583,
+        1166
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_assassin_hook.bdae",
+      "sha256": "6b4bf3b02070c0caa6388f4770dfbd3071f51cfc8735c045a513a8e25833042d",
+      "tracks": 23,
+      "start_ms": 699,
+      "end_ms": 1166,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        699,
+        932,
+        1166
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_assassin_hook_post.bdae",
+      "sha256": "b7bb85dbdcb1d637344edc08ef6b85b2bbf5b560560cec41cd2649c367e08509",
+      "tracks": 23,
+      "start_ms": 1166,
+      "end_ms": 1333,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        1166,
+        1249,
+        1333
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_assassin_hook_pre.bdae",
+      "sha256": "ce433039c002d7921ab85d75ad9ff72e93e680f01267ef82e0bc57154cb649f1",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 699,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        349,
+        699
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_assassin_poison_sting.bdae",
+      "sha256": "dae15f584e540545377ff1c7c80316e2d0cc0c74138d50cf4073556427ece209",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1366,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        683,
+        1366
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_jump_kick.bdae",
+      "sha256": "7db240e6e3d9660964c86b6218b0c6d5436afa35e8e1a653aa1487d6222dbdf8",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1199,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        599,
+        1199
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_quickness.bdae",
+      "sha256": "261f8c8215f8e19407517f4cdbf9e4929a5f84ba69a55d2cb5ea18601c0d4d00",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1133,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        566,
+        1133
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_roundhouse.bdae",
+      "sha256": "2d49b491e980e2d4f11828edf88c8e803931389a5289b9903a07f9a259a52950",
+      "tracks": 33,
+      "start_ms": 0,
+      "end_ms": 1466,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        733,
+        1466
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_rogue_vicious_strike.bdae",
+      "sha256": "f5bdab87e02875d343840377e580afdce3dbbf0db35938baa17d5910ebbdb6b6",
+      "tracks": 24,
+      "start_ms": 0,
+      "end_ms": 1166,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        583,
+        1166
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_bash_down.bdae",
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        399,
+        799
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_berseker_bersek.bdae",
+      "sha256": "d4c228e7690a92208a3a47d95cd037258f9a2b8da03753f8699be66259ecf9bd",
+      "tracks": 27,
+      "start_ms": 0,
+      "end_ms": 1266,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        633,
+        1266
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_berseker_intimidate.bdae",
+      "sha256": "6068e0601bc72d28213e665d80cf7f10768bf054335834ae2a65b943e7ee88e0",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1233,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        616,
+        1233
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_berseker_whirlwind.bdae",
+      "sha256": "82963dd20ca37ad1f3b52ec3ae0fff7a95cc8315f69f7483d687f42ba011b146",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1133,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        566,
+        1133
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_charge.bdae",
+      "sha256": "f24d9a28854d0188e611b7ebb4bd120f3dd57957ae132c5d243f2dbb627fd373",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1066,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        533,
+        1066
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_crushing_blow.bdae",
+      "sha256": "5aa608edd801347e338505fb915f6e44033bf51ff98310170accd4dcb232dbfa",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        399,
+        799
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_devastate.bdae",
+      "sha256": "0e288f3f054158269c683c698008fc42fbfa98fb2f3acbd9135a42b5b5cdb4a6",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 1133,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        566,
+        1133
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_ground_slam.bdae",
+      "sha256": "89e8b2569aa036905760382b18b85ea9185dca0b125f6b5a49ccf265a7c59937",
+      "tracks": 25,
+      "start_ms": 0,
+      "end_ms": 799,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        399,
+        799
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_paladin_divine_judgement.bdae",
+      "sha256": "e2fa133f4fa2afda9d85224f02bf55fad34a4cb44fdcbf699b30fe0dec8f4bdd",
+      "tracks": 23,
+      "start_ms": 0,
+      "end_ms": 1433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        716,
+        1433
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_paladin_guarding_aura.bdae",
+      "sha256": "8232e55d6c8c25cf1e7282991f47657e30010715d88e31842d9ee01a920e5421",
+      "tracks": 25,
+      "start_ms": -333,
+      "end_ms": 466,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        -333,
+        66,
+        466
+      ]
+    },
+    {
+      "path": "skill_dh2_prince_warrior_paladin_offensive_aura.bdae",
+      "sha256": "ce17bf9aa698623b5ae010623c4f34a51bb21cb228285c93a3ca414c79086b9c",
+      "stage": "clip",
+      "error": 3
+    },
+    {
+      "path": "skill_dh2_prince_warrior_paladin_purifying_aura.bdae",
+      "sha256": "f4e4719d25bfad92d1aa433ad84f1a0e82f315401df4a4c4f1cd9fcb73aa7c50",
+      "tracks": 25,
+      "start_ms": -333,
+      "end_ms": 466,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        -333,
+        66,
+        466
+      ]
+    },
+    {
+      "path": "spell_dh2_prince_drained_life.bdae",
+      "sha256": "27d6db8d0bd67e32a4552cf7ca6d66bb94fbeb8d3fd6b0843c5d7cf607ed78ec",
+      "tracks": 31,
+      "start_ms": 0,
+      "end_ms": 1833,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        916,
+        1833
+      ]
+    },
+    {
+      "path": "spell_dh2_prince_drained_life_complete.bdae",
+      "sha256": "61656a479d50661b4fc51bd204f88b3f77740f7ec420ee1538d87670524b38d1",
+      "tracks": 31,
+      "start_ms": 0,
+      "end_ms": 3433,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1716,
+        3433
+      ]
+    },
+    {
+      "path": "spell_dh2_prince_drained_life_post.bdae",
+      "sha256": "c8d0e946f563b291c97f255ed454fe3356d1e7d8b54ba6f7ec2bf50a306bb5a3",
+      "tracks": 31,
+      "start_ms": 0,
+      "end_ms": 2666,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        1333,
+        2666
+      ]
+    },
+    {
+      "path": "spell_dh2_prince_drained_life_pre.bdae",
+      "sha256": "dccbac1f590983804cae0008288182ff060351d61d2d82c958dfd88714e41c83",
+      "tracks": 31,
+      "start_ms": 0,
+      "end_ms": 766,
+      "stage": "supported_pose",
+      "sampled_times_ms": [
+        0,
+        383,
+        766
+      ]
+    }
+  ]
+}

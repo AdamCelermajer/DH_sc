@@ -5,8 +5,8 @@
   "abi": {
     "arm64-v8a": {
       "machine": 183,
-      "sha256": "afa1dd5eca1ec38c2f3394a47ed5bee11e985d75b1a66e67288ed92a2412affe",
-      "bytes": 98328,
+      "sha256": "19964886dc1be6371cb18a9951f6a4ed89300ab07d9ac58782afad281631c24b",
+      "bytes": 98336,
       "pt_load": [
         {
           "alignment": 16384,
@@ -18,18 +18,18 @@
         },
         {
           "alignment": 16384,
-          "offset": 76320
+          "offset": 76352
         },
         {
           "alignment": 16384,
-          "offset": 78320
+          "offset": 78352
         }
       ]
     },
     "x86_64": {
       "machine": 62,
-      "sha256": "7ed8027eda748f6f669f592b201c9c2596d0718e93c3d048fc147f787d1459dc",
-      "bytes": 101920,
+      "sha256": "9f4d8cf9c7b87b679d3d47b4e9edaeb700b83c0ce86dd4003c8a50f58168ffbb",
+      "bytes": 101952,
       "pt_load": [
         {
           "alignment": 16384,
@@ -41,24 +41,24 @@
         },
         {
           "alignment": 16384,
-          "offset": 81712
+          "offset": 81744
         },
         {
           "alignment": 16384,
-          "offset": 83720
+          "offset": 83752
         }
       ]
     }
   },
   "apk": {
-    "sha256": "ab2cd924aea029a0bee7b82bd85160b6fb7860b707fef2311125d9c72807cc5a",
+    "sha256": "6c4e50f278348b80c15b0856ea43338e4fe245fb1821343ece5db0fd9d7f688e",
     "bytes": 242208
   },
   "source_sha256": {
     "port/android-app/native.cpp": "3d5c51209c35372428afad80c6560a641fd754c1d8738d177050a628f9755e16",
     "port/android-app/scene_buffers.cpp": "dacb0a950a82bf95dab0bef9f5618f3b43cd695e460d3c6860c61aa06d09c599",
     "port/skin-payloads/skin.cpp": "c3b61a63e47bdd5e37a6f784e5b89f4626fe9499d1232a8f2f3760beb7cc8c83",
-    "port/animation-pose/pose.cpp": "a7e4cae0582114f9111c50c86a8a35a9dea587feb255dbd3ed42442c21b10316",
+    "port/animation-pose/pose.cpp": "9c0a31ae48e6566f1f0c726d6d5c6aee9f1458156d4a4a07dfbcf805a73d228d",
     "port/animation-values/values.cpp": "d6a4bc908651ad15f1dd4b19ee2bd21b357cf3e2f17b27fde266dfcdfa1d3916",
     "port/scene-draw/draw.cpp": "af6274fadfdc1e9506dd9ec1278ce6bb393b322bb7636b8968f2c96e5e193c48",
     "port/scene-payloads/scene.cpp": "0f64fd02c282b4bb455f94e0c2afd66e757d21707f5e551dd8bb96c72dd81dae",

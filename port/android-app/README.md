@@ -10,7 +10,7 @@ cache. **Play animation**, **Pause animation** and the time slider show a
 must resolve once in the imported model; mismatched clips are rejected.
 
 The exact 242,208-byte APK, SHA-256
-`ab2cd924aea029a0bee7b82bd85160b6fb7860b707fef2311125d9c72807cc5a`,
+`6c4e50f278348b80c15b0856ea43338e4fe245fb1821343ece5db0fd9d7f688e`,
 was installed and pulled back with matching hashes on Android 17 x86_64
 emulators with both 4 KiB and 16 KiB pages. Import, midpoint seek, Play and
 Pause passed, with visibly different textured leg/arm poses and no fatal
@@ -41,7 +41,16 @@ picker, checks the midpoint slider and Play/Pause, and compares the installed
 APK hash. It saves screenshots and runtime logs locally. Visually inspect
 the start and midpoint screenshots; UI text alone does not prove rendering.
 The script was run successfully on the Android 17 16 KiB emulator with this
-exact build. Its file-picker selectors require the tested English system UI.
+exact build and the negative-start guarding-aura fixture (25 tracks, 799 ms). Its file-picker selectors require the tested English system UI.
+
+The optional `--animation` cache-relative path, `--tracks` and `--duration`
+arguments select a different clip and its expected metadata. The tested
+guarding-aura path is
+`data/3d/characters/prince/animations/skill_dh2_prince_warrior_paladin_guarding_aura.bdae`.
+Its keys span -333 to 466 ms; the slider spans the 799 ms duration.
+[Runtime evidence](negative-time-runtime-validation.json) records the visible
+poses and controls. [The corpus audit](../animation-pose/character-corpus-validation.json)
+records 308 supported poses out of 342 player clips on the warrior model.
 
 ## Earlier character pose milestone
 
