@@ -13,6 +13,22 @@ int main(int argc,char **argv) {
         "assert(GetPyCst==nil and GetPyOID==nil and PlayAnim==nil);"
         "assert(getfenv~=nil and setfenv~=nil);";
     CHECK(dh2_lua_execute(runtime,basic,strlen(basic),100,error,sizeof(error))==0);
+    const char *bridge="assert(ToFixed(-1.9)==-256);assert(ToFixed(8388608)==-2147483648);"
+        "assert(ToFixed(16777216)==0);local whole,fractional=FromFixed(-1);"
+        "assert(whole==-1 and fractional==-1/256);assert(select('#',FromFixed(256))==2);"
+        "assert(MulFixed(256,128)==128);assert(MulFixed(65536,65536)==0);"
+        "assert(DivFixed(512,384)==512);assert(BitNot(0)==-1);"
+        "assert(BitAnd(15,7,3)==3);assert(BitOr(1,2,4)==7);assert(BitXOr(15,3)==12);"
+        "assert(select('#',BitOr(1))==0);assert(select('#',BitNot('1'))==0);"
+        "assert(select('#',BitXOr(1))==0);assert(select('#',Trace('no output'))==0);"
+        "assert(pcall(DivFixed,1,1)==false);assert(pcall(ToFixed,0/0)==false);"
+        "assert(pcall(ToFixed,2147483648)==false);";
+    CHECK(dh2_lua_execute(runtime,bridge,strlen(bridge),100,error,sizeof(error))==0);
+    const char *table_edges="local t={}; local keys={-2147483648,2147483648,1/0,-1/0,1,2};"
+        "for i,k in ipairs(keys) do t[k]=i;assert(t[k]==i)end;"
+        "local n=0;for k,v in pairs(t)do n=n+1;assert(t[k]==v)end;assert(n==6);"
+        "local nan=0/0;assert(t[nan]==nil);assert(pcall(function()t[nan]=1 end)==false);";
+    CHECK(dh2_lua_execute(runtime,table_edges,strlen(table_edges),100,error,sizeof(error))==0);
     const char *loop="while true do end";
     CHECK(dh2_lua_execute(runtime,loop,strlen(loop),3,error,sizeof(error))!=0);
     CHECK(strstr(error,"instruction budget exhausted"));

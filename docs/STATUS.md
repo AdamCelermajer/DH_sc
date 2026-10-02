@@ -8,7 +8,11 @@ runner passed standard library, memory/instruction budget and error recovery
 tests on Android 17 with 4 KiB and 16 KiB pages. It parses 218 original scripts
 plus the repaired override; the unchanged malformed sandworm fails as expected.
 All staged inputs and runner hashes were verified. Game scripts were not
-executed; game callbacks, APK integration and full gameplay remain unfinished.
+executed. Nine numeric callbacks pass 2,375 original ARM32/compiled ARM64/host
+comparisons and integrated authored Lua assertions on host and both Android
+test environments. The runtime passes strict sanitizers after a documented
+table-key safety repair; preserved vendor bytes remain exact. Gameplay object
+callbacks, APK integration and full gameplay remain unfinished.
 See [scope and evidence](../port/lua-runtime/README.md).
 
 **Cache script source:** 219 exact readable Lua source files (900,493 bytes)
@@ -22,7 +26,8 @@ See [source and verification](../recovered/scripts/README.md).
 distinct function names; 117 match globals read by recovered scripts. The trace
 records 568 function/method requests, including inherited repeats. Binder
 installation and standard library initialization are explicit stubs; native
-callbacks and script execution remain unimplemented.
+callback installation in that trace is stubbed. Nine numeric callbacks now have
+separately checked source implementations; script execution remains unfinished.
 See [the trace](../reports/lua-registration-trace.json).
 
 **Current animation checkpoint:** Checked skins and absolute poses now resolve

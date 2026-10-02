@@ -1,0 +1,106 @@
+{
+  "complete_game": false,
+  "numeric_callbacks_installed": true,
+  "gameplay_object_callbacks_installed": false,
+  "original_lua_equivalence_tested": false,
+  "vendor_manifest_sha256": "7061a96d44cf17297e377ed79c9aea5da9a0ef46a9b036d2417193a0c9c0c6d0",
+  "number_profile": "float32 / int32 via LUA_USER_H",
+  "upstream_patches": [
+    {
+      "path": "patches\\ltable-array-index.json",
+      "sha256": "a1cbf8a328a915a1ecbc09fb11c5531db9c1c0a2930a72fa5eb3f596f2700062",
+      "original_sha256": "3a853ce89bf5e834ec53f2a0dd2386eb8b84accbe5fdc18dabd7515b819f0f7c",
+      "compiled_sha256": "3cd758ec6c6c3577af67e7a603579a6bc5b04dd56a5e6596ddaea3c167f85f8a"
+    }
+  ],
+  "artifacts": {
+    "lua-arm64.so": {
+      "sha256": "ab7525e20128b4b52f4c7addf349aea684c8e7cc9ec6f209f75588112d3fed79",
+      "bytes": 196440,
+      "layout": {
+        "machine": 183,
+        "pt_load": [
+          {
+            "offset": 0,
+            "alignment": 16384
+          },
+          {
+            "offset": 167344,
+            "alignment": 16384
+          }
+        ]
+      }
+    },
+    "lua-arm64-runner": {
+      "sha256": "6aeb817a980bef3521bfcdbf22870763d98b9ac7a3d36fcb0d9b02e220c3caf6",
+      "bytes": 201600,
+      "layout": {
+        "machine": 183,
+        "pt_load": [
+          {
+            "offset": 0,
+            "alignment": 16384
+          },
+          {
+            "offset": 172256,
+            "alignment": 16384
+          },
+          {
+            "offset": 175608,
+            "alignment": 16384
+          }
+        ]
+      }
+    },
+    "lua-x86_64.so": {
+      "sha256": "f95ef5b011f7c42df36a44e00f4903f10c7af1636f4efe735f726b35037505b5",
+      "bytes": 190144
+    },
+    "lua-x86_64-runner": {
+      "sha256": "f272387a521330d34c2d4bb8574beff6291449fa57af29279f89192ac6955865",
+      "bytes": 195024
+    }
+  },
+  "compiler_warnings": {
+    "lua-arm64.so": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\lauxlib.c:577:61: warning: while loop has empty body [-Wempty-body]\n  577 |    while ((c = getc(lf.f)) != EOF && c != LUA_SIGNATURE[0]) ;\n      |                                                             ^\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\lauxlib.c:577:61: note: put the semicolon on a separate line to silence this warning\n1 warning generated.\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\ltablib.c:140:5: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]\n  140 |     luaL_addvalue(b);\n      |     ^\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\ltablib.c:137:3: note: previous statement is here\n  137 |   if (!lua_isstring(L, -1))\n      |   ^\n1 warning generated.\n",
+    "lua-arm64-runner": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\lauxlib.c:577:61: warning: while loop has empty body [-Wempty-body]\n  577 |    while ((c = getc(lf.f)) != EOF && c != LUA_SIGNATURE[0]) ;\n      |                                                             ^\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\lauxlib.c:577:61: note: put the semicolon on a separate line to silence this warning\n1 warning generated.\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\ltablib.c:140:5: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]\n  140 |     luaL_addvalue(b);\n      |     ^\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\ltablib.c:137:3: note: previous statement is here\n  137 |   if (!lua_isstring(L, -1))\n      |   ^\n1 warning generated.\n",
+    "lua-x86_64.so": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\lauxlib.c:577:61: warning: while loop has empty body [-Wempty-body]\n  577 |    while ((c = getc(lf.f)) != EOF && c != LUA_SIGNATURE[0]) ;\n      |                                                             ^\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\lauxlib.c:577:61: note: put the semicolon on a separate line to silence this warning\n1 warning generated.\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\ltablib.c:140:5: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]\n  140 |     luaL_addvalue(b);\n      |     ^\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\ltablib.c:137:3: note: previous statement is here\n  137 |   if (!lua_isstring(L, -1))\n      |   ^\n1 warning generated.\n",
+    "lua-x86_64-runner": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\lauxlib.c:577:61: warning: while loop has empty body [-Wempty-body]\n  577 |    while ((c = getc(lf.f)) != EOF && c != LUA_SIGNATURE[0]) ;\n      |                                                             ^\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\lauxlib.c:577:61: note: put the semicolon on a separate line to silence this warning\n1 warning generated.\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\ltablib.c:140:5: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]\n  140 |     luaL_addvalue(b);\n      |     ^\nC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\lua-runtime\\vendor\\lua-5.1.4\\src\\ltablib.c:137:3: note: previous statement is here\n  137 |   if (!lua_isstring(L, -1))\n      |   ^\n1 warning generated.\n"
+  },
+  "source_sha256": {
+    "vendor/lua-5.1.4/src/lapi.c": "6aa0d9fdd88b13fe46568ad6722ecf44164fb84476cfdf6480cf05b5704935f8",
+    "vendor/lua-5.1.4/src/lcode.c": "f8026741a3e6ea3520c751ef2e7f6c0b88e0e36b4dab93a238d2a5ef0dab18a5",
+    "vendor/lua-5.1.4/src/ldebug.c": "afa5840195befaec55177273c8168748026b38df3243767fc740cc7ced0c4c8f",
+    "vendor/lua-5.1.4/src/ldo.c": "1839bd9227430c5344b348f57e5cd680f56e854932abde31f402282d95882326",
+    "vendor/lua-5.1.4/src/ldump.c": "30d83d766351bb053b3d20793a6bcd2ef0210e8fad76a7032abbe574bafa0ca3",
+    "vendor/lua-5.1.4/src/lfunc.c": "525681d79098958530e5c937f7cbe94a4dafa679746ffdb16258f82b7ece29ce",
+    "vendor/lua-5.1.4/src/lgc.c": "c0876e9ed23c43aa2de1ee3f77bdf6933b163a41456e2367a39880a7ea39ab96",
+    "vendor/lua-5.1.4/src/llex.c": "aecb5f00908832222e62fb1b970825278dc460a65a080d79a3693f82438e52c8",
+    "vendor/lua-5.1.4/src/lmem.c": "e63c50cb1c75356bd4123c9ca05f77bd0cd99e05c099cf6d1bf472086761e9c5",
+    "vendor/lua-5.1.4/src/lobject.c": "d704915c79c721556cc5850d741ed3bef1611221356f0e3a2f0ee5cfd5fd3632",
+    "vendor/lua-5.1.4/src/lopcodes.c": "63cd74edc75970092a8ce078c4ab970efa1ee18de960d00eb826d49fe98d8a76",
+    "vendor/lua-5.1.4/src/lparser.c": "61c85a7c4f5387d36b91d53a60df3802d7639928b1d76675ede6fb0868ad2510",
+    "vendor/lua-5.1.4/src/lstate.c": "c36d6b9354aaa30b5323b4984f3172783f69e0deb3186c2ef6f16a8281c59c29",
+    "vendor/lua-5.1.4/src/lstring.c": "aa7e934c435d870b9d937ac2fb03dbfa15d367012d46e7e995a2ad8d440f2f6d",
+    "build/ltable.c": "3cd758ec6c6c3577af67e7a603579a6bc5b04dd56a5e6596ddaea3c167f85f8a",
+    "vendor/lua-5.1.4/src/ltm.c": "9759ae5d1aa3b11e1c7faa6c0f65e05c7126417f7f8f3f989d82fc170b07f891",
+    "vendor/lua-5.1.4/src/lundump.c": "55ccb55abde44e94e6c4d0bafc94f5870d2674d1944e9a81f6537d9ac92e8ebc",
+    "vendor/lua-5.1.4/src/lvm.c": "f9f0979df389c571193c4b5d20ae80180d9857ca5a9873c601c42055583cf19d",
+    "vendor/lua-5.1.4/src/lzio.c": "892bc24d898c19cbedceba419c68f910b99321c0b462be2c2c00b9d763563173",
+    "vendor/lua-5.1.4/src/lauxlib.c": "b564650bf4aca2757b9966311d32c8d5fea8803f6f33d72a856448d3b5d6d992",
+    "vendor/lua-5.1.4/src/lbaselib.c": "703b8c0de8142d486bc6d6082cf6427583189319a4aed3a02dd8c1653e0fd42b",
+    "vendor/lua-5.1.4/src/lmathlib.c": "e2933a56332d567cdd69f0fe514d638a8f82da6878754ff259e77cf2157263c3",
+    "vendor/lua-5.1.4/src/lstrlib.c": "a978166ca36525de2708ac931834d575c8df057719bc2da39dbe3befe810ec1d",
+    "vendor/lua-5.1.4/src/ltablib.c": "e934dc4b2fc117a501c717302a00147f7b44eea978ef87a58a3e40e9bfe45d20",
+    "runtime.c": "8b56a2633470568a1e45097706d4e7900caafd2dd5c195e4bdf8d7ef63b957d5",
+    "../lua-numeric/numeric.c": "3f089b267266a19838121d9e6e2c933da6b2588b8188ccf0853cdcb34695fee8",
+    "../lua-numeric/bridge.c": "bed00c0501122ca8d1ea03c480fb3df1c527702062c1bf6b778fc9f0d04b597e",
+    "runtime.h": "af40e8f3598b3b483be63b2dc6ce08fb22e0c0a9bd02f8b0553add68e339b1be",
+    "dh2_lua_config.h": "ce2f3d4463fc7bd0083404b00003dedb4ccf515943abd1e824d2d45f601fc189",
+    "tests/runner.c": "b8f0dcf27650281f4a49fc4dc0217555934048068bf1f02737548482fd4e348c",
+    "tests/numeric.c": "31a3f29caa1a851610d1e8eade2c26ad0e4c6fd08080ac48c30e49374bebded0",
+    "tests/numeric-vectors.h": "88bd377642576f9da8f690ae226cb1aab05200dc78efdbc18a0583c096b85454",
+    "../lua-numeric/numeric.h": "03237985e1b5d0e10f61cacbbbc6320a75a052f9d8e08a9f94b8ba24a7467475"
+  },
+  "build_tool_sha256": "a33c317391229352c92a151ef174d1410b6cf4f69ddfbb5bd009a2260da0e03c"
+}

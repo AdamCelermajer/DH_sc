@@ -9,7 +9,7 @@ typedef struct dh2_lua dh2_lua;
 /* Modern owned runtime, not the original engine's C++ object layout.
  * Single owner/thread, no reentry. Bytes are borrowed only during the call.
  * Diagnostics are truncated to the caller's capacity and always terminated.
- * No game engine callbacks are installed. */
+ * Numeric bridge callbacks are installed; gameplay object callbacks are absent. */
 dh2_lua *dh2_lua_create(size_t memory_limit);
 void dh2_lua_destroy(dh2_lua *runtime);
 /* Source-only compiler. Does not execute the chunk. */

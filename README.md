@@ -7,7 +7,11 @@ Android page sizes. The exact x86_64 runner passed on both
 4 KiB and 16 KiB Android 17 emulators: 218 original scripts and the separate
 sandworm repair parse, while the unchanged malformed original fails as expected.
 Authored library, memory/instruction budget and error-recovery tests passed.
-Game scripts were not executed and game callbacks are not installed.
+Nine numeric callbacks now pass 2,375 original ARM32/compiled ARM64/host
+comparisons and authored Lua checks on both Android test environments.
+Strict sanitizers also pass after a documented table-key safety repair that
+preserves the imported vendor files. Game scripts were not executed;
+gameplay object callbacks and source-built gameplay remain unfinished.
 See [runtime source and evidence](port/lua-runtime/README.md).
 
 **Readable game scripts:** The owner's complete cache contains 219 plaintext

@@ -6,6 +6,7 @@
 #include <string.h>
 
 struct dh2_lua { lua_State *state; size_t used,limit; uint32_t blocks; };
+void dh2_lua_register_numeric(lua_State *state);
 static void *allocate(void *opaque, void *pointer, size_t old_size, size_t new_size) {
     dh2_lua *runtime=(dh2_lua *)opaque;
     if (!pointer) old_size=0;
@@ -25,6 +26,7 @@ static int libraries(lua_State *state) {
     }
     const char *removed[]={"dofile","loadfile","print",NULL};
     for (const char **name=removed;*name;++name) { lua_pushnil(state);lua_setglobal(state,*name); }
+    dh2_lua_register_numeric(state);
     return 0;
 }
 dh2_lua *dh2_lua_create(size_t memory_limit) {

@@ -32,7 +32,9 @@ coercion, integer edge conversions or full interpreter equivalence.
 
 The new owned C wrapper installs the base, math, table and string libraries
 observed in the original registration callers. It removes filesystem loaders
-and `print`; it does not install the game engine callbacks. The base opener
+and `print`; it installs nine reconstructed numeric callbacks (see
+[numeric bridge scope](../lua-numeric/README.md)). Gameplay object callbacks
+are not installed. The base opener
 also supplies upstream coroutine support. This environment is a reconstruction
 component, not the complete original scripting environment or a security sandbox.
 
@@ -46,10 +48,18 @@ through 64 MiB. No file path resolver or engine object model is implemented.
 
 ## Checked results
 
-Host builds and selftests pass, including ASan/UBSan for the selftest.
+Host builds and selftests pass, including ASan/UBSan and float-cast overflow
+checks that stop on the first error. These run bridge assertions, extreme
+numeric table keys and the 504 arithmetic vectors.
 NDK r29 builds ARM64 and x86_64 shared libraries and standalone runners.
 ARM64 load segments align to 16 KiB. Upstream indentation/empty-body warnings
-are retained in build reports; no upstream source was changed to silence them.
+are retained in build reports. Sanitizers exposed signed subtraction overflow
+and out-of-range integer conversion in upstream table lookup. A separate
+[tracked patch](patches/ltable-array-index.json) uses unsigned subtraction and
+guards numeric-to-int conversion. It is applied to a generated build copy;
+all 56 imported files remain exact. Patch and compiled-copy hashes are recorded
+in build evidence. This is an authored modern safety repair, not an established
+original-engine change.
 
 The exact x86_64 runner passed on both official Android 17 emulators:
 SDK 37, 4 KiB pages and 16 KiB pages. All 220 staged source inputs, the list
@@ -57,21 +67,24 @@ and runner were hash-checked on each device. In all three environments,
 218 exact original game scripts pass parsing, the unchanged sandworm original
 returns syntax status 3, and its separate override passes. Original scripts
 are compiled only and **never executed**. Runtime tests execute authored snippets
-for standard library access, missing game callbacks, instruction/memory limits,
+for standard library access, nine numeric callbacks, missing gameplay callbacks, instruction/memory limits,
 error recovery, compile-only behavior and invalid/bytecode inputs.
 
-- [Current host build/sanitizer evidence](float-host-build-validation.json)
-- [Current Android cross-build evidence](float-android-build-validation.json)
-- [Current host corpus/arithmetic](float-host-corpus-validation.json)
-- [Current Android 17 / 4 KiB](float-android-4k-validation.json)
-- [Current Android 17 / 16 KiB](float-android-16k-validation.json)
+- [Current host build/sanitizer evidence](bridge-host-build-validation.json)
+- [Current Android cross-build evidence](bridge-android-build-validation.json)
+- [Current host corpus/arithmetic](bridge-host-corpus-validation.json)
+- [Current Android 17 / 4 KiB](bridge-android-4k-validation.json)
+- [Current Android 17 / 16 KiB](bridge-android-16k-validation.json)
+
+The `float-` reports record the previous float32 build before numeric callbacks
+and the table safety repair, with their distinct source/binary identities.
 
 The earlier reports without the `float-` prefix record the initial upstream
 double-number builds and their distinct binary/source identities. They confirm
 parse/selftest behavior for those earlier builds, not the current number profile.
 
 This is a standalone source runtime. It is not packaged in the Android preview
-APK yet. ARM64 runtime, native game callbacks, includes, AI/skills, world state
+APK yet. ARM64 runtime execution, remaining native game callbacks, includes, AI/skills, world state
 and full source-built gameplay remain unfinished. No Android 9 or physical
 device was tested for this module.
 

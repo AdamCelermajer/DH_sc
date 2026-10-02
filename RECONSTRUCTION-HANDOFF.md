@@ -11,7 +11,12 @@ sandworm override, with the unchanged malformed original rejected as expected.
 Authored library/budget/error-recovery snippets passed; no game script was
 executed. Original registration callers expose 175 distinct function names,
 117 matching script global reads. Binder installation remains stubbed in that
-trace. Next implement native callbacks, checked PyData tables and include/object
+trace. Nine numeric callbacks now have source implementations passing 2,375
+original ARM32/compiled ARM64/host comparisons, 54,000 sanitizer calls and
+authored Lua assertions on both Android 17 page sizes. Strict runtime sanitizers
+pass after a separately documented table-key overflow/conversion repair applied
+only to a generated build copy. Vendor bytes remain exact. Next implement
+remaining native callbacks, checked PyData tables and include/object
 lifetimes before executing original AI/skill behavior. The source APK has not
 yet incorporated this runtime. See [runtime scope](port/lua-runtime/README.md)
 and [registration evidence](reports/lua-registration-trace.json).

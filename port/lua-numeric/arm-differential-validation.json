@@ -1,0 +1,95 @@
+{
+  "complete_game": false,
+  "lua_bridge_runtime_tested_here": false,
+  "comparison": "Original ARM32 numeric callback outputs vs compiled ARM64/host numeric-only projection: exact integers and float bits",
+  "checks": 2375,
+  "per_callback": {
+    "ToFixed": 264,
+    "FromFixed": 264,
+    "MulFixed": 264,
+    "DivFixed": 263,
+    "BitNot": 264,
+    "BitXOr": 264,
+    "BitAnd": 264,
+    "BitOr": 264,
+    "Trace": 264
+  },
+  "mismatches": 0,
+  "numeric_only": true,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "host_sha256": "7d053afdb26ec8c8f72fcaabeb9d0168a293c34ee6adc7805c66724c240441b6",
+  "arm64_sha256": "8c88a9062f9aeb744f943a2d2b0ee47eb0ef594faf71782977a571708a5fad3c",
+  "function_evidence": [
+    {
+      "elf_address": "0x0037ebc4",
+      "size": 80,
+      "name": "ToFixed",
+      "sha256": "3b52cd83c8b608b86b420554d5fd89d5f581f726d8e9396759fde06b59930c36"
+    },
+    {
+      "elf_address": "0x0037ee84",
+      "size": 184,
+      "name": "FromFixed",
+      "sha256": "7a09f419abd923f9df9a914cf88f74d8f756163bc887cbbfa7d835213ced8a41"
+    },
+    {
+      "elf_address": "0x0037e1a4",
+      "size": 308,
+      "name": "MulFixed",
+      "sha256": "0dca27135cba20f6bff43b82982a880179de65937ecc4db5e7af8a00ad0d52e8"
+    },
+    {
+      "elf_address": "0x0037e068",
+      "size": 316,
+      "name": "DivFixed",
+      "sha256": "12c6e00a84603946d0d7426bccf511c01df8f50e887e48e41a0e409fdf8fa8d6"
+    },
+    {
+      "elf_address": "0x0037f814",
+      "size": 100,
+      "name": "BitNot",
+      "sha256": "8083a5cbbe9d3d9a1956d0b3a248ceda88bc2882f141dad0cef82a40b7c5d7a8"
+    },
+    {
+      "elf_address": "0x0037f750",
+      "size": 196,
+      "name": "BitXOr",
+      "sha256": "d2b3d0235f4f8fa3cea906419a78bfc9030e2b6686e8af90ce01ae4eaf3e377f"
+    },
+    {
+      "elf_address": "0x0037e9ec",
+      "size": 472,
+      "name": "BitAnd",
+      "sha256": "214cd04dc8348d59140f34ee51bf579dc9c181e1f0f18eba988a7935c8c67214"
+    },
+    {
+      "elf_address": "0x0037e814",
+      "size": 472,
+      "name": "BitOr",
+      "sha256": "f23c932b4a4b5edab322b7c796abffc5d8865d3a8a64565e583f73883dd959a0"
+    },
+    {
+      "elf_address": "0x0037ee80",
+      "size": 4,
+      "name": "Trace",
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    }
+  ],
+  "source_sha256": {
+    "numeric.c": "3f089b267266a19838121d9e6e2c933da6b2588b8188ccf0853cdcb34695fee8",
+    "numeric.h": "03237985e1b5d0e10f61cacbbbc6320a75a052f9d8e08a9f94b8ba24a7467475"
+  },
+  "test_sha256": "6df76b3afca99525e5ab0a0088bebbcf48f6bbbde7707214d25ced8be2065f70",
+  "input_preservation": true,
+  "output_guards": true,
+  "stack_restoration": true,
+  "import_calls": {
+    "__aeabi_f2iz": 4985,
+    "__aeabi_i2f": 263,
+    "__aeabi_fmul": 263,
+    "__aeabi_idiv": 256
+  },
+  "seed": 20261002,
+  "dependency_model": "Actual callback, Arguments indexing and numeric Value getters execute; ReturnValues integer/number push boundaries capture output without running allocation; arithmetic imports use host model; defined signed division model excludes zero and INT_MIN/-1"
+}
