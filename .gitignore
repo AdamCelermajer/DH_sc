@@ -5,6 +5,7 @@ port/lua-numeric/build/
 port/pydata-constants/build/
 port/pydata-names/build/
 port/character-properties/build/
+port/property-composition/build/
 *.py[cod]
 port/android-app/build/
 port/nativeinterface/build/

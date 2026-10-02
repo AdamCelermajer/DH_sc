@@ -1,5 +1,12 @@
 # Recovery status — updated 2026-10-02
 
+**Character stat composition:** The original calculation, tree traversal and
+deque iterator bodies match source ARM64/host across 585 cases, including all
+224 cache types, buff priority and container block boundaries. Strict sanitizers
+pass 10,000 safety iterations. This remains standalone: character ownership,
+property write routing, Lua methods and Android game integration are unfinished.
+See [source scope and evidence](../port/property-composition/README.md). Earlier checkpoints retain their identities.
+
 **Character property data:** Original readers fully consume all three tables in
 the 401,608-byte character cache file. Source ARM64/host loading matches all
 100,352 character values, and 2,022 original property-operation checks pass.

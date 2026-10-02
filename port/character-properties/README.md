@@ -3,8 +3,10 @@
 Source C reads the owner's complete `character_properties_pyarray.bin` and
 provides owned 224-integer sheets. Original record vtables and ARM32 pointers
 are absent from the source representation. This is a standalone component;
-entity ownership, aggregate base/equipment/buff calculation, Lua object callbacks,
+entity ownership, Lua object callbacks,
 Android APK integration and full source-built gameplay remain unfinished.
+The later [stat composition module](../property-composition/README.md) provides
+the original base/equipment/buff calculation with explicit borrowed sheets.
 
 ## Original reader evidence
 
