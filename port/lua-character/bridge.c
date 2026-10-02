@@ -3,6 +3,7 @@
 #include "../equipment-bonuses/equipment.h"
 #include "../gear-properties/gears.h"
 #include "../character-health/health.h"
+#include "../character-damage/damage.h"
 #include "lua.h"
 #include "lauxlib.h"
 #include <math.h>
@@ -52,6 +53,39 @@ static struct dataset *data_for(lua_State *L,int object) {
     struct dataset *data=(struct dataset *)lua_touserdata(L,-1);
     if(!data)luaL_error(L,"property dataset unavailable");
     return data;
+}
+/* Authored access to the non-player HitFor projection. Required policy values
+ * expose unresolved engine boundaries instead of inventing network/AI/death
+ * ownership. Results: processed, death requested, damage whole, death reason.
+ * Requesting death deliberately does not change an actor's dead flag. */
+static int nonplayer_hit(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);
+    if(lua_gettop(L)!=4 || lua_type(L,2)!=LUA_TNUMBER || lua_type(L,3)!=LUA_TTABLE || lua_type(L,4)!=LUA_TNUMBER)
+        return luaL_error(L,"nonplayer hit requires unsigned raw damage, policy and death reason");
+    lua_Number damage=lua_tonumber(L,2),reason=lua_tonumber(L,4);
+    if(!isfinite(damage) || damage<0 || damage>=4294967296.0 ||
+       !isfinite(reason) || reason< -2147483648.0 || reason>=2147483648.0 || (lua_Number)(int32_t)reason!=reason)
+        return luaL_error(L,"invalid damage or death reason");
+    struct dh2_hit_policy p;memset(&p,0,sizeof(p));
+    const char *keys[]={"target_dead","target_monster","local_player_alive","online","manager_present",
+        "monster_invincible","force_kill_config","force_kill_switch","target_network"};
+    uint32_t *fields[]={&p.target_dead,&p.target_monster,&p.local_player_alive,&p.online,&p.manager_present,
+        &p.monster_invincible,&p.force_kill_config,&p.force_kill_switch,&p.target_network};
+    for(unsigned i=0;i<9;++i) {
+        lua_pushstring(L,keys[i]);lua_rawget(L,3);
+        if(lua_type(L,-1)!=LUA_TBOOLEAN)return luaL_error(L,"hit policy flags must be booleans");
+        *fields[i]=(uint32_t)lua_toboolean(L,-1);lua_pop(L,1);
+    }
+    lua_pushliteral(L,"manager_mode");lua_rawget(L,3);
+    if(lua_type(L,-1)!=LUA_TNUMBER)return luaL_error(L,"hit manager mode must be an integer");
+    lua_Number mode=lua_tonumber(L,-1);
+    if(!isfinite(mode) || mode< -2147483648.0 || mode>=2147483648.0 || (lua_Number)(int32_t)mode!=mode)
+        return luaL_error(L,"invalid hit manager mode");
+    p.manager_mode=(int32_t)mode;lua_pop(L,1);
+    struct dataset *data=data_for(L,1);struct dh2_hit_state hit={(int32_t)reason};struct dh2_hit_result result;
+    if(dh2_hit_nonplayer(&data->table,&obj->state,&hit,&p,(uint32_t)damage,&result))return luaL_error(L,"invalid nonplayer hit data");
+    lua_pushboolean(L,result.processed);lua_pushboolean(L,result.death_requested);
+    lua_pushinteger(L,result.damage_whole);lua_pushinteger(L,hit.death_reason);return 4;
 }
 static int health_hp(lua_State *L) {
     struct object *obj=luaL_checkudata(L,1,STATE_TYPE);int32_t values[3];
@@ -307,6 +341,7 @@ void dh2_lua_register_characters(lua_State *L) {
     lua_pushcfunction(L,get_hit_count);lua_setfield(L,-2,"GetHitCount");
     lua_pushcfunction(L,get_name);lua_setfield(L,-2,"GetName");
     lua_pushcfunction(L,combat_context);lua_setfield(L,-2,"SetCombatContext");
+    lua_pushcfunction(L,nonplayer_hit);lua_setfield(L,-2,"ApplyNonplayerHit");
     lua_pushcfunction(L,health_hp);lua_setfield(L,-2,"GetHP");
     lua_pushcfunction(L,regen_hp);lua_setfield(L,-2,"RegenHP");
     lua_pushcfunction(L,regen_mp);lua_setfield(L,-2,"RegenMP");

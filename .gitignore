@@ -64,3 +64,4 @@ recovered/android/*
 !recovered/android/java/
 !recovered/android/smali/
 recovered/assets/source-data/
+port/character-damage/build/

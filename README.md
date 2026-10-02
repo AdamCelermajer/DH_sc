@@ -1,5 +1,19 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Non-player damage in the source APK:** The numeric non-player HitFor
+projection passes 2,835 original ARM32/source ARM64/host comparisons, including
+health routing, suppression, forced kills, death requests and death reason.
+The 865,187-byte source APK passes 11 imports on Android 17 4 KiB/16 KiB:
+recovered melee formula damage feeds health, two five-point hits request death
+on a ten-point diagnostic actor, policy/argument rollback and retained dataset
+recovery pass, then textured walk preview loads. Native runtime selftests pass
+on both page sizes and strict host sanitizers. Original Character/death command
+ownership, player warnings, resolved attacker achievements, full result dispatch,
+world/AI, progression, saves and source gameplay remain unfinished. See
+[damage scope](port/character-damage/README.md) and
+[APK evidence](port/android-app/DAMAGE-INTEGRATION.md). Earlier entries
+retain their checkpoint identities.
+
 **Recovered health and mana in the source APK:** Health setters/getters,
 validation, regeneration and mana use pass 4,156 original ARM32/source ARM64/host
 comparisons. Owned script actors pass 520 controlled and all 446 real character

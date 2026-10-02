@@ -30,7 +30,7 @@ def main():
         ROOT/'../character-properties/properties.c',ROOT/'../property-composition/composition.c',
         ROOT/'../character-state/state.c',ROOT/'../lua-character/methods.c',ROOT/'../lua-character/bridge.c',
         ROOT/'../character-classes/classes.c',ROOT/'../loot-tables/loot.c',ROOT/'../equipment-bonuses/equipment.c',ROOT/'../gear-properties/gears.c',
-        ROOT/'../random/random.c',ROOT/'../random/lua-bridge.c',ROOT/'../character-health/health.c']
+        ROOT/'../random/random.c',ROOT/'../random/lua-bridge.c',ROOT/'../character-health/health.c',ROOT/'../character-damage/damage.c']
     build=ROOT/'build';build.mkdir(exist_ok=True)
     # Preserve the upstream import; apply the reviewed repair only to a build copy.
     patch_path=ROOT/'patches/ltable-array-index.json'
@@ -89,6 +89,7 @@ def main():
             'owned_power_dataset_and_empty_buff_gear_lifecycle_installed':True,
             'owned_offline_random_and_character_combat_context_installed':True,
             'owned_health_mana_methods_installed':True,
+            'authored_nonplayer_hit_projection_installed':True,
             'builtin_struct_name_tables':71,'builtin_struct_field_entries':636,
             'vendor_manifest_sha256':sha(manifest_path),'number_profile':'float32 / int32 via LUA_USER_H',
             'upstream_patches':[{'path':str(patch_path.relative_to(ROOT)),
@@ -99,7 +100,7 @@ def main():
                  ROOT/'tests/numeric-vectors.h',ROOT/'tests/constants.c',ROOT/'tests/names.c',ROOT/'tests/execution.c',ROOT/'tests/properties.c',ROOT/'../lua-numeric/numeric.h',
                  ROOT/'../pydata-constants/constants.h',ROOT/'../pydata-names/names.h',ROOT/'../pydata-names/struct-names.h',
                  ROOT/'../character-properties/properties.h',ROOT/'../property-composition/composition.h',
-                 ROOT/'../character-state/state.h',ROOT/'../lua-character/methods.h',ROOT/'../character-classes/classes.h',ROOT/'tests/classes.c',ROOT/'../loot-tables/loot.h',ROOT/'../equipment-bonuses/equipment.h',ROOT/'tests/equipment.c',ROOT/'../gear-properties/gears.h',ROOT/'tests/gears.c',ROOT/'../random/random.h',ROOT/'tests/combat.c',ROOT/'../character-health/health.h']},'build_tool_sha256':sha(Path(__file__))}
+                 ROOT/'../character-state/state.h',ROOT/'../lua-character/methods.h',ROOT/'../character-classes/classes.h',ROOT/'tests/classes.c',ROOT/'../loot-tables/loot.h',ROOT/'../equipment-bonuses/equipment.h',ROOT/'tests/equipment.c',ROOT/'../gear-properties/gears.h',ROOT/'tests/gears.c',ROOT/'../random/random.h',ROOT/'tests/combat.c',ROOT/'../character-health/health.h',ROOT/'../character-damage/damage.h']},'build_tool_sha256':sha(Path(__file__))}
     if safety:result['safety']=safety
     a.report.write_text(json.dumps(result,indent=2)+'\n');print('Built:',', '.join(artifacts))
 if __name__=='__main__':main()

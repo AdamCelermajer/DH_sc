@@ -40,6 +40,29 @@ int dh2_lua_combat_tests(void) {
         "p:SetProp(38,0);hp,max,percent=p:GetHP();assert(hp==0 and max==0 and percent==0);"
         "assert(p:GetHPFraction()==-1/0);p:SetHP(0);assert(p:GetHPFraction()~=p:GetHPFraction());"
         "p:SetProp(38,25600);p:SetHP(1);assert(p:GetHP()==1 and p:GetTotalHP()==100)"));
+    CHECK(!execute(r,"local p=DH2CreatePropertyState(2);p:SetProp(38,25600);p:SetHP(100);"
+        "local policy={target_dead=false,target_monster=true,local_player_alive=true,online=false,"
+        "manager_present=true,manager_mode=0,monster_invincible=false,force_kill_config=false,force_kill_switch=false,target_network=false};"
+        "local processed,death,damage,reason=p:ApplyNonplayerHit(2560,policy,17);"
+        "assert(processed and not death and damage==10 and reason==17 and p:GetHP()==90);"
+        "processed,death,damage,reason=p:ApplyNonplayerHit(25600,policy,17);"
+        "assert(processed and death and damage==100 and reason==3 and p:GetHP()==0);"
+        "policy.target_dead=true;p:SetHP(90);processed,death,damage,reason=p:ApplyNonplayerHit(25600,policy,17);"
+        "assert(not processed and not death and damage==0 and reason==17 and p:GetHP()==90);"
+        "policy.target_dead=false;policy.local_player_alive=false;processed,death,damage,reason=p:ApplyNonplayerHit(2560,policy,17);"
+        "assert(processed and not death and damage==0 and reason==17 and p:GetHP()==90);"
+        "policy.local_player_alive=true;policy.monster_invincible=true;p:ApplyNonplayerHit(2560,policy,17);assert(p:GetHP()==90);"
+        "policy.monster_invincible=false;policy.online=true;policy.manager_mode=2;p:ApplyNonplayerHit(2560,policy,17);assert(p:GetHP()==90);"
+        "policy.manager_mode=5;p:ApplyNonplayerHit(2560,policy,17);assert(p:GetHP()==80);"
+        "policy.target_network=true;policy.force_kill_config=true;processed,death,damage,reason=p:ApplyNonplayerHit(0,policy,17);"
+        "assert(processed and death and damage==0 and reason==17 and p:GetHP()==0);"
+        "p:SetHP(50);local before=p:GetProp(36);"
+        "for _,v in ipairs({-1,4294967296,1/0,0/0,'10'})do assert(not pcall(function()p:ApplyNonplayerHit(v,policy,17)end));assert(p:GetProp(36)==before)end;"
+        "policy.manager_mode=1.5;assert(not pcall(function()p:ApplyNonplayerHit(0,policy,17)end));assert(p:GetProp(36)==before);"
+        "policy.manager_mode=0;policy.target_dead=0;assert(not pcall(function()p:ApplyNonplayerHit(0,policy,17)end));assert(p:GetProp(36)==before);"
+        "policy.target_dead=false;assert(not pcall(function()p:ApplyNonplayerHit(0,policy,1.5)end));assert(p:GetProp(36)==before);"
+        "assert(not pcall(function()p:ApplyNonplayerHit(0,{},17)end));assert(p:GetProp(36)==before);"
+        "policy.online=false;policy.force_kill_config=false;policy.target_network=false;p:ApplyNonplayerHit(256,policy,17);assert(p:GetHP()==49)"));
     dh2_lua_destroy(r);return 0;
 }
 static int file(dh2_lua *r,const char *path,int kind) {

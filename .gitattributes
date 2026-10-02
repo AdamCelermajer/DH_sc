@@ -28,5 +28,8 @@ port/random/*validation.json -text
 port/character-health/*validation.json -text whitespace=cr-at-eol
 port/lua-runtime/health-*validation.json -text whitespace=cr-at-eol
 port/android-app/health-*validation.json -text whitespace=cr-at-eol
+port/character-damage/*validation.json -text whitespace=cr-at-eol
+port/lua-runtime/damage-*validation.json -text whitespace=cr-at-eol
+port/android-app/damage-*validation.json -text whitespace=cr-at-eol
 port/lua-runtime/combat-*validation.json -text
 port/android-app/combat-*validation.json -text

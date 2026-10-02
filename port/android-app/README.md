@@ -1,6 +1,18 @@
 # Android 17 source renderer milestone
 
-## Current health/mana APK milestone
+## Current non-player damage APK milestone
+
+The current source APK is 865,187 bytes, SHA-256
+`1692549ee46c4ca241dd1c31ce1334a3d7a8bc20865816bbb22d146e66ed63d9`.
+Recovered melee formula damage feeds the original-matched non-player health
+projection. Both Android 17 page sizes pass 11 imports, a lethal two-hit sequence,
+boundary policies, rejection/recovery, retained property generations and textured
+walk preview. Native runner selftests also pass. See
+[instructions/evidence](DAMAGE-INTEGRATION.md). Original Character, real death
+owner, full result dispatch, world/AI, progression, saves and source gameplay
+remain unfinished.
+
+## Earlier health/mana APK milestone
 
 The current source APK is 848,803 bytes, SHA-256
 `991355b1c6dcd9a42e595ec5e0e56c12b2aedcde055efb1821b770d9eb3b89f8`.
