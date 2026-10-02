@@ -1,13 +1,29 @@
 # Source-built Lua runtime for modern Android
 
+## Current structured fields and shared scripts
+
+`GetPyStruct` now shares the `GetPyOID` map and installs 636 original static field
+entries from 71 registrations at runtime creation. The original initializer and
+all registered field lookup bodies establish 693 cases. Three unchanged recovered
+shared scripts execute: AI helpers, skill helpers and combat formula definitions.
+Authored checks exercise animation events, skill selection and no-combatant paths;
+entity callbacks, real combat and the game loop remain unfinished. See
+[field and script scope](../pydata-names/STRUCT-FIELDS.md).
+
+All field queries/shared-script checks pass on host, strict host sanitizers and
+both Android 17 page sizes. Updated array names, constants, arithmetic and parse
+regressions also pass. Current reports use the `structs-` prefix; older `names-`,
+`constants-` and `bridge-` reports retain their checkpoint identities. Source APK
+integration remains unfinished at this checkpoint.
+
 ## Current ordered array names
 
 `GetPyOID` now resolves 8,863 names in 71 imported array tables. Original readers
 and 266 original lookup cases establish ordered names/IDs; the source loader
 matches every name. All authored Lua queries pass on host, strict host sanitizers
 and both Android 17 page sizes. Imports own names, atomically replace one class
-and retain prior data on malformed input/OOM. `GetPyStruct`, array records,
-includes, game objects and original script execution remain unfinished.
+and retain prior data on malformed input/OOM. Array records,
+includes, game objects and full original script behavior remain unfinished.
 See [name-table scope](../pydata-names/README.md).
 
 Current builds: [host/sanitizers](names-host-build-validation.json),
@@ -68,7 +84,7 @@ coercion, integer edge conversions or full interpreter equivalence.
 
 The new owned C wrapper installs the base, math, table and string libraries
 observed in the original registration callers. It removes filesystem loaders
-and `print`; it installs `GetPyCst`, `GetPyOID` and nine reconstructed numeric callbacks (see
+and `print`; it installs `GetPyCst`, `GetPyOID`, `GetPyStruct` and nine reconstructed numeric callbacks (see
 [numeric bridge scope](../lua-numeric/README.md)). Gameplay object callbacks
 are not installed. The base opener
 also supplies upstream coroutine support. This environment is a reconstruction

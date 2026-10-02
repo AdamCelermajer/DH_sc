@@ -15,3 +15,6 @@ recovered/native/debug/** -text -whitespace linguist-generated=true
 recovered/scripts/original/** -text -whitespace linguist-language=Lua
 port/lua-scripts/overrides/** -text -whitespace linguist-language=Lua
 port/lua-runtime/vendor/** -text -whitespace
+reports/pydata-array-name-trace.json -text
+reports/pydata-struct-name-trace.json -text
+port/pydata-names/struct-names.h -text

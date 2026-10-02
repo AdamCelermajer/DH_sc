@@ -1,5 +1,14 @@
 # Recovery status — updated 2026-10-02
 
+**Structured field IDs:** Actual original static initialization and lookup bodies
+establish 636 entries in 71 registrations and 693 lookup cases. Owned source
+`GetPyStruct` uses the same map as `GetPyOID`; 1,272 alias queries and controlled
+execution of three unchanged AI/skill/combat shared scripts pass on host, strict
+sanitizers and both Android 17 page sizes. Array/constants/arithmetic/parse
+regressions pass. Real combat, typed entity access, source APK integration and
+full gameplay remain unfinished. See [scope](../port/pydata-names/STRUCT-FIELDS.md).
+The earlier checkpoint entries below retain their original execution scope.
+
 **Array name IDs:** Original readers decode 8,863 names in 71 tables from 35
 files; 266 original ID lookups pass. Source ARM64/host matches every name and
 those lookup cases. Owned `GetPyOID` imports pass all authored queries on host,

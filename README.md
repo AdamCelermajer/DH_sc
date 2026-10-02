@@ -1,5 +1,14 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Structured fields and shared scripts:** The source runtime now supplies
+`GetPyStruct` for 636 original field entries, including all 224 character
+properties. Original initializer/lookup tracing passes 693 checks. Three unchanged
+shared scripts execute, with authored animation-event, skill-selection and
+no-combatant checks passing on host, strict sanitizers and both Android 17 page
+sizes. Actual combat, entity callbacks, source APK integration and full source
+gameplay remain unfinished. See [source and exact scope](port/pydata-names/STRUCT-FIELDS.md).
+Earlier checkpoints below preserve their original test scope.
+
 **Named script records:** Source `GetPyOID` now resolves 8,863 names across 71
 array tables. Original reader output and 266 original lookup cases are checked;
 all authored Lua ID queries pass on host and both Android 17 page sizes.

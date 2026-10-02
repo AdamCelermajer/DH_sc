@@ -1,9 +1,18 @@
 # Ordered array names and source GetPyOID
 
+## Current structured fields
+
+The Lua bridge also installs the original 636 static field entries from 71
+Structs registrations and provides `GetPyStruct` through the same class map.
+Three exact recovered shared scripts now execute with controlled authored calls
+on host, strict sanitizers and both Android 17 page sizes. See
+[field evidence and execution scope](STRUCT-FIELDS.md). The array checkpoint
+below records the earlier state before this addition.
+
 This module reads one count/length/name table and supplies its first matching
 zero-based ID. Unknown names return -1. Names remain ordered; duplicates select
 the first entry. The owned Lua importer installs `GetPyOID` for imported classes.
-It does not implement array records, structured fields or game objects.
+It does not implement array records, typed field access or game objects.
 
 ## Original evidence
 

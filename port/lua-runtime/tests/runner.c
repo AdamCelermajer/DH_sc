@@ -6,6 +6,7 @@
 int dh2_lua_numeric_tests(void);
 int dh2_lua_constant_corpus(const char *,const char *);
 int dh2_lua_name_corpus(const char *,const char *);
+int dh2_lua_execution_corpus(const char *,const char *);
 static void put32(unsigned char *p,unsigned value) {
     for(unsigned i=0;i<4;++i)p[i]=(unsigned char)(value>>(8*i));
 }
@@ -15,7 +16,12 @@ int main(int argc,char **argv) {
         "assert(string.upper('dh2')=='DH2'); local t={3,1,2};table.sort(t);assert(t[1]==1);"
         "assert(io==nil and os==nil and debug==nil and package==nil);"
         "assert(dofile==nil and loadfile==nil and print==nil);"
-        "assert(type(GetPyCst)=='function' and type(GetPyOID)=='function' and GetPyStruct==nil and PlayAnim==nil);"
+        "assert(type(GetPyCst)=='function' and type(GetPyOID)=='function' and type(GetPyStruct)=='function' and PlayAnim==nil);"
+        "assert(GetPyStruct('CharacterProperties','HP')==36);assert(GetPyStruct('CharAnim','Attack')==0);"
+        "assert(GetPyStruct('CharAnim','Attack2H')==-1);assert(GetPyStruct('Item','')==23);"
+        "assert(GetPyOID('CharacterProperties','HP')==36);assert(GetPyStruct('missing','HP')==-1);"
+        "assert(select('#',GetPyStruct('CharacterProperties'))==0);assert(select('#',GetPyStruct(1,'HP'))==0);"
+        "assert(GetPyStruct('CharacterProperties\\000suffix','HP\\000suffix','ignored')==36);"
         "assert(getfenv~=nil and setfenv~=nil);";
     CHECK(dh2_lua_execute(runtime,basic,strlen(basic),100,error,sizeof(error))==0);
     const char *bridge="assert(ToFixed(-1.9)==-256);assert(ToFixed(8388608)==-2147483648);"
@@ -52,10 +58,17 @@ int main(int argc,char **argv) {
         "assert(select('#',GetPyOID('Names'))==0);assert(select('#',GetPyOID(1,'dup'))==0);"
         "assert(GetPyOID('Names\\000suffix','dup\\000suffix','ignored')==0);";
     CHECK(dh2_lua_execute(runtime,ids,strlen(ids),100,error,sizeof(error))==0);
+    const unsigned char replacement[]={1,0,0,0,3,0,0,0,'n','e','w'};
+    CHECK(dh2_lua_import_names(runtime,"Empty",5,replacement,sizeof(replacement),error,sizeof(error))==0);
+    const char *replaced="assert(GetPyStruct('Empty','new')==0);assert(GetPyStruct('Empty','missing')==-1);"
+        "assert(GetPyStruct('CharacterProperties','HP')==36);";
+    CHECK(dh2_lua_execute(runtime,replaced,strlen(replaced),100,error,sizeof(error))==0);
     CHECK(dh2_lua_import_names(runtime,"Names",5,names,1,error,sizeof(error))!=0);
     CHECK(dh2_lua_execute(runtime,ids,strlen(ids),100,error,sizeof(error))==0);
     const unsigned char empty_names[4]={0};
     CHECK(dh2_lua_import_names(runtime,"Empty",5,empty_names,4,error,sizeof(error))==0);
+    CHECK(dh2_lua_import_names(runtime,"Empty",5,replacement,sizeof(replacement),error,sizeof(error))==0);
+    CHECK(dh2_lua_execute(runtime,replaced,strlen(replaced),100,error,sizeof(error))==0);
     CHECK(dh2_lua_execute(runtime,ids,strlen(ids),100,error,sizeof(error))==0);
     CHECK(dh2_lua_import_constants(runtime,constants,1,error,sizeof(error))!=0);
     CHECK(dh2_lua_execute(runtime,lookup,strlen(lookup),100,error,sizeof(error))==0);
@@ -111,6 +124,7 @@ int main(int argc,char **argv) {
     if (argc==1)return 0;
     if (argc==4 && strcmp(argv[1],"--constants")==0)return dh2_lua_constant_corpus(argv[2],argv[3]);
     if (argc==4 && strcmp(argv[1],"--names")==0)return dh2_lua_name_corpus(argv[2],argv[3]);
+    if (argc==4 && strcmp(argv[1],"--execute")==0)return dh2_lua_execution_corpus(argv[2],argv[3]);
     CHECK(argc==2);FILE *list=fopen(argv[1],"rb");CHECK(list);char path[2048];unsigned index=0;
     while (fgets(path,sizeof(path),list)) {
         size_t length=strlen(path);CHECK(length && path[length-1]=='\n');

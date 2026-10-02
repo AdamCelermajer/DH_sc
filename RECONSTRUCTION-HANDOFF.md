@@ -1,5 +1,17 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Structured fields / first shared-script execution:** Static initialization in
+the original ARM32 engine establishes 636 entries in 71 registered Structs tables
+(67 unique class names), with 693 original lookup checks. The source runtime now
+installs owned field names at creation and supplies `GetPyStruct` through the same
+map as `GetPyOID`. All 1,272 alias queries and controlled execution of three exact
+AI/skill/combat shared sources pass on host, strict sanitizers and Android 17
+4 KiB/16 KiB. Current reports use `structs-`. Array names, constants, arithmetic
+and parse regressions pass on the same current runner. Entity callbacks, includes,
+record layouts, real combat and source APK integration remain unfinished; full
+source gameplay is not complete. See [scope](port/pydata-names/STRUCT-FIELDS.md).
+Earlier entries below retain historical test identities and execution scope.
+
 **Ordered array names:** `port/pydata-names` matches all 8,863 names in 71 array
 tables from 35 files to actual original reader output; 266 original lookup cases
 pass and match source ARM64/host. Constructor tracing captures 142 class and 142

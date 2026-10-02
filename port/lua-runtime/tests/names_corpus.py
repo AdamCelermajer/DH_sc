@@ -32,7 +32,7 @@ def main():
             statements.append(f'assert(GetPyOID({json.dumps(name)},"__missing__")==-1);')
     assert len(inputs)==71 and queries==8863
     listing=staging/'list.txt';listing.write_text('\n'.join(lines)+'\n',encoding='utf-8',newline='\n')
-    statements.append('assert(GetPyOID("__missing__","__missing__")==-1);assert(GetPyStruct==nil);')
+    statements.append('assert(GetPyOID("__missing__","__missing__")==-1);assert(GetPyStruct("CharacterProperties","HP")==36);')
     assertions=staging/'assertions.lua';assertions.write_text('\n'.join(statements)+'\n',encoding='ascii',newline='\n')
     def run(*args):return subprocess.run(list(map(str,args)),capture_output=True,text=True,check=True).stdout.strip()
     device=None;hashes={}
@@ -64,7 +64,7 @@ def main():
     result={'complete_game':False,'game_scripts_executed':False,'authored_getpyoid_queries':queries,
             'tables_imported':71,'original_files_hash_checked':35,'staged_table_segments':71,
             'caller_buffers_released_before_queries':True,'malformed_import_rollback':True,
-            'memory_failure_rollback':True,'struct_field_names_installed':False,
+            'memory_failure_rollback':True,'struct_field_names_installed':True,
             'inputs':inputs,'reader_trace_sha256':sha(trace_path),'runner_sha256':sha(a.runner),
             'test_sha256':sha(Path(__file__)),'assertions_sha256':sha(assertions),
             'lookup_expectations':'Ordered original reader names; 266 original lookup cases separately established by trace. This test uses authored queries, with array-record size agreement and original game scripts outside scope.',

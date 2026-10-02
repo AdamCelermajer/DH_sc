@@ -2,6 +2,8 @@
 #include "lua.h"
 #include "lauxlib.h"
 #include <string.h>
+#include "struct-names.h"
+int dh2_lua_names_load(lua_State *,const struct dh2_pynames_view *,const char *,size_t);
 static char registry_key;
 static void existing(lua_State *state) {
     lua_pushlightuserdata(state,&registry_key);lua_rawget(state,LUA_REGISTRYINDEX);
@@ -23,6 +25,14 @@ static int get_oid(lua_State *state) {
 void dh2_lua_register_names(lua_State *state) {
     lua_pushlightuserdata(state,&registry_key);lua_newtable(state);lua_rawset(state,LUA_REGISTRYINDEX);
     lua_pushcfunction(state,get_oid);lua_setglobal(state,"GetPyOID");
+    /* Both original callbacks call the same PyDataArrays::GetOID manager. */
+    lua_pushcfunction(state,get_oid);lua_setglobal(state,"GetPyStruct");
+    for(size_t i=0;i<sizeof(dh2_struct_name_tables)/sizeof(dh2_struct_name_tables[0]);++i) {
+        const struct dh2_builtin_name_table *table=dh2_struct_name_tables+i;
+        struct dh2_pynames_view view;
+        if(dh2_pynames_open(&view,table->bytes,table->size))luaL_error(state,"invalid built-in field names");
+        if(dh2_lua_names_load(state,&view,table->name,strlen(table->name)))lua_error(state);
+    }
 }
 static uint32_t word(const unsigned char *raw,uint32_t *offset) {
     const unsigned char *p=raw+*offset;*offset+=4;

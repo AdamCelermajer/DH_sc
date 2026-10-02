@@ -21,7 +21,9 @@ int dh2_lua_compile(dh2_lua *runtime, const void *source, size_t bytes,
 int dh2_lua_import_constants(dh2_lua *runtime,const void *bytes,size_t size,
                              char *error,size_t capacity);
 /* Import one complete ordered name table as a named class. Atomic replacement;
- * first duplicate wins. GetPyOID returns -1 for unknown class/member. Names and
+ * first duplicate wins. GetPyOID/GetPyStruct use the same installed class maps
+ * and return -1 for unknown class/member. Original static Structs field tables
+ * are installed at creation; runtime imports can replace a class. Names and
  * values are owned by Lua; name must be 1..255 bytes without NUL. */
 int dh2_lua_import_names(dh2_lua *runtime,const char *name,size_t length,
                          const void *bytes,size_t size,char *error,size_t capacity);
