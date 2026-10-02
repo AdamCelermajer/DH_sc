@@ -1,0 +1,902 @@
+{
+  "complete_game": false,
+  "gameplay_tested": false,
+  "scripts_executed": false,
+  "files_checked": 219,
+  "bytes_checked": 900493,
+  "cache_bytes_checked": true,
+  "git_index_original_files_checked": 219,
+  "cache_archive_checked": true,
+  "script_archive_members_checked": 219,
+  "source_manifest_sha256": "e2f8be060240b4ffc504ab80486b949671939737a61bb34cd432ad3b40c2c677",
+  "test_sha256": "2b6588344aade88ec4989f8fe4df8540b560c981ee83629783db41905bda157a",
+  "compiler_version": "Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio",
+  "compiler_sha256": "9d0f08a15c5b5a35aa76c17602c409ffb30539a5bbd388cfed8ea482c4d9492a",
+  "original_syntax_passed": 218,
+  "original_syntax_failed": 1,
+  "syntax_results": [
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/_commons.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/assassin1.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/assassin1_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/assassin2.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/assassin2_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/assassin3.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/assassin3_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/assassindemon.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/assassindemon_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/attacking_follower.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/balrog.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/balrog_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/coward.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/coward_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/darkqueen1.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/darkqueen1_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/darkqueen1_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/darkqueen2.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/darkqueen2_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/dummy.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/dw_statue.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/dw_statue_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/edwardboss.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/edwardboss_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/edwardboss_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/emissary.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/emissary_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/energyspawner.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/flaminite.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/flaminite_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/flaminite_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/flaminiteed.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/flaminiteed_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/follower.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/generic_boss_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/largeplant.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/largeplant_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/machineroom/referee.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/machineroom/referee_vip_escort.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/machineroom/referee_vip_escort_big.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/machineroom/vip_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/machineroom/waves_easy.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/madruk.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/madruk_buffer.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/madruk_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/madruk_healer.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/madruk_torso.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/madruk_torso_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/miniboss.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/miniboss_state.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/monster.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/mothcocoon.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/mothcocoon_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/mybossname.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/mybossname_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/rene.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/resurrectinggod.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/roottroll.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/roottroll_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/roottroll_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/sandworm01.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/sandworm02.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/sandworm_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/sandworm_queen.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/sandworm_small.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/sandworm_small_core.luac",
+      "syntax_ok": false,
+      "diagnostic": "/usr/bin/luac5.1: ...H_sc/recovered/scripts/original/data/scripts/ai/sandworm_small_core.luac:159: ')' expected near ';'\n"
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/soundtest/referee_sdd.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/soundtest/waves_sdd.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/swampking_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/winddragon.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/winddragon_core.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/winddragon_settings.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/witch.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/level/combat_formulas.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/level/death_scripts.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/container.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/desert_spider_spawn_container.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/lighthouse_spawn_container.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/moth_spawn_container.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/plant_spawn_container.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/plant_spawn_container2.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/shrine.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/shrine_buff.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/shrine_resto.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/shrine_xp_major.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/shrine_xp_minor.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/swampking_trap.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/trap.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/trigger.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/objects/zombie_spawn_container.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/_commons.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/balrog_flames_skill.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/darkqueen2_melee_00.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/darkqueen2_ranged_00.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/darkqueen2_slave_ranged_00.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/darkqueen2_summons_00.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/edward_melee_00.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/edward_melee_01.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/edward_ranged_00.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/edward_rise.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/example.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/faerie_celest.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/faerie_hotty.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/faerie_rocky.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/faerie_wetty.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/faerie_windy.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/flaminite_slam.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/flaminite_sp_attack.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/generic_teleport_skill.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/lighthouseemissary_melee_00.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/lighthouseemissary_ranged_00.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madruk_aoeknockback.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madruk_dyingattack.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madruk_fastenergybolt.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madruk_slam.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madruk_slowenergybolt.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madrukminion_bufferspell.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madrukminion_healerspell.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madruktorso_beamray.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madruktorso_bite.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madruktorso_drainlife.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/madruktorso_dyingattack.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/npc_arrow_default.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/npc_dummy.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/npc_energybolt.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/npc_fireball.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/npc_poisonball.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_archer_bowmastery.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_archer_exploding_arrows.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_archer_multihit.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_archer_pin_shot.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_archer_poison_arrows.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_archer_precision.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_archer_sidestep.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_archer_volley.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_assassin_assassinate.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_assassin_assassination.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_assassin_blade_deflect.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_assassin_blindness.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_assassin_contaminate.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_assassin_grapling_hook.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_assassin_poison_sting.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_assassin_treasure_hunter.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_berseeker_berserk.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_berseeker_killing_frenzy.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_berseeker_killing_streak.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_berseeker_ravager.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_berseeker_survival.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_berseeker_toughness.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_berseeker_warcry.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_berseeker_whirling_drift.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_illusionist_disciples.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_illusionist_eclipse.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_illusionist_figments.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_illusionist_mesmerize.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_illusionist_mirror.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_illusionist_petrify.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_illusionist_terror.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_illusionist_timecontrol.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_mage_chain_lightning.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_mage_coldray.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_mage_cyclone.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_mage_elemental_mastery.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_mage_faeryblood.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_mage_magi_shielding.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_mage_staffmaster.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_mage_stone_escape.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_necromancer_carrioneater.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_necromancer_deathclaw.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_necromancer_fireskullrain.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_necromancer_leecher.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_necromancer_pestilence.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_necromancer_putrid.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_necromancer_rise.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_necromancer_wrath.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_paladin_conversion.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_paladin_divine_judgement.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_paladin_energy_balance.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_paladin_guarding_aura.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_paladin_holy_weapon.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_paladin_offensive_aura.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_paladin_purifying_aura.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_paladin_shield.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_rogue_acrobat.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_rogue_ambidextrous.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_rogue_combomaster.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_rogue_findweakness.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_rogue_jump_kick.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_rogue_quickness.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_rogue_roundhouse.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_rogue_vicious_strike.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_warrior_bashdown.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_warrior_charge.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_warrior_combat_master.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_warrior_fast_metabolism.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_warrior_ground_slam.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_warrior_hardiness.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_warrior_leadership.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/prince_warrior_potion_addict.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/resgod_dying_attack.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/root_troll_attack.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/root_troll_attack_noskill.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/root_troll_charge.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/sandworm_emerge.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/sandworm_spit.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/swamp_king_attack_1.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/swamp_king_attack_2.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/swamp_king_attack_3.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/swamp_king_attack_4.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/swampking_atk_spit.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/winddragon_aoebombs.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/winddragon_bite.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/winddragon_breathsweep.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/winddragon_insidesweep.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/winddragon_outsidesweep.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/witch_ranged_00.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/worm_attack_1.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/worm_attack_2.luac",
+      "syntax_ok": true
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/test.luac",
+      "syntax_ok": true
+    }
+  ],
+  "overrides": [
+    {
+      "path": "port/lua-scripts/overrides/data/scripts/ai/sandworm_small_core.luac",
+      "syntax_ok": true
+    }
+  ]
+}

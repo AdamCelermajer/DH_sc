@@ -4,6 +4,14 @@ This inventory distinguishes source that can be browsed in Git from source-like 
 
 ## In the Git checkout
 
+The full-cache script import adds 219 **actual plaintext Lua source files**
+(900,493 exact bytes) under `recovered/scripts/original/`, with archive-member
+hashes and a verifier. They retain `.luac` filenames and original byte encodings.
+218 originals pass Lua 5.1.5 syntax; one sandworm error is repaired in a separate
+override under `port/lua-scripts/`. These are cache source, distinct from generated
+native pseudocode. Script execution and native bridge integration remain open.
+See [the script inventory](../recovered/scripts/README.md).
+
 At the audited baseline, Git tracks **309 paths**: 225 under `compatibility/`, 55 under `port/`, 13 under `reports/`, and the remaining documentation, tools and four root-level snapshot ZIPs. The directly browsable independent C++ components now include `port/engine-math/`, `port/engine-resources/`, `port/asset-payloads/`, `port/texture-assets/`, `port/material-bindings/`, `port/scene-payloads/`, `port/scene-draw/`, `port/skin-payloads/`, `port/animation-values/`, `port/animation-pose/`, `port/animation-timeline/`, `port/animation-mixing/`, `port/animation-layers/`, `port/animation-transition/`, `port/animation-motion/`, `port/animation-completion/` and `port/animation-ending/`. The source Android app is under `port/android-app/`; it builds ARM64 and x86_64 libraries and previews imported scenes and character poses on Android 17. Their READMEs and test reports specify which isolated behavior was reconstructed and checked. The compatibility tree contains authored wrapper, patch, test and selected Java/C/C++ sources. It is a development wrapper around the original ARM32 engine, not a source replacement for that engine.
 
 At that baseline, `recovered/`, `port/nativeinterface/`, `port/android-java/`, `tools/unpack_native.py` and `docs/REPRODUCING.md` were absent. A later selected source import added the browsable repaired Java/JNI source, recovery scripts, reproduction guide and a checksum manifest at `recovered/native/bundles/manifest.json`. Subsequent exact imports added raw Java/smali, native pseudocode/index exports, generated assembly/symbol text, shader/configuration resources and native debug exports described below. The compressed native bundle archives and original APK/cache files remain outside Git.

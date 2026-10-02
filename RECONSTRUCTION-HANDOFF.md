@@ -1,5 +1,12 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Readable game scripts:** The complete cache's 219 `.luac` files are plaintext
+source, not bytecode. All 900,493 original bytes are now preserved with archive
+member hashes. 218 originals pass Lua 5.1.5 syntax, and a separate one-character
+sandworm override passes. Original files remain exact. Engine API integration,
+script execution and full source gameplay remain unfinished.
+See [source scope](recovered/scripts/README.md).
+
 **Original ending timing:** Extra-time and pending fields passed 495 calculations,
 1,980 filtered blender notices and 495 ordinary animator notices against original
 ARM32 and compiled ARM64/host source. 20,000 sanitizer calculation/notification

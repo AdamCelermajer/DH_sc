@@ -1,5 +1,12 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Readable game scripts:** The owner's complete cache contains 219 plaintext
+Lua source files despite their `.luac` extensions. Their exact 900,493 bytes
+are now browsable in Git. 218 originals pass syntax; a separate one-character
+sandworm repair also passes. Source hashes match the pinned cache archive and
+Git index. The native scripting bridge and full source game remain unfinished.
+See [the script source](recovered/scripts/README.md).
+
 **Two-motion source preview:** Checked absolute layers now combine the warrior's
 dual walk and Dark Queen scene 03a motion. The exact updated APK passed imports,
 midpoint seek, 0/50/100% mix, advancing Play and stable Pause on Android 17 with

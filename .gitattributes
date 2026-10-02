@@ -12,3 +12,5 @@ recovered/native/symbols/** -text -whitespace linguist-generated=true
 recovered/assets/source-data/** -text -whitespace linguist-generated=true
 recovered/assets/cache-manifest.json -text -whitespace linguist-generated=true
 recovered/native/debug/** -text -whitespace linguist-generated=true
+recovered/scripts/original/** -text -whitespace linguist-language=Lua
+port/lua-scripts/overrides/** -text -whitespace linguist-language=Lua

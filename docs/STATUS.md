@@ -1,5 +1,12 @@
 # Recovery status — updated 2026-10-02
 
+**Cache script source:** 219 exact readable Lua source files (900,493 bytes)
+are preserved from the complete cache: AI, skills, objects, levels and a test.
+218 originals pass Lua 5.1.5 syntax; the sandworm script's missing parenthesis
+is repaired in a separate one-character override. No script was executed.
+The native scripting bridge and full game remain unfinished.
+See [source and verification](../recovered/scripts/README.md).
+
 **Current animation checkpoint:** Checked skins and absolute poses now resolve
 531 local skins and 333 of 342 player clips (327 animated). Float animation
 values passed 4,705 original ARM32/compiled ARM64/host cases. The reconstructed
