@@ -1,5 +1,15 @@
 # Recovery status — updated 2026-10-02
 
+**Class calculations in the source APK:** Owned script property objects now
+retain class datasets and expose authored `ApplyClass`. All 260 real classes /
+116,480 final-field queries pass on host, strict sanitizers and both Android 17
+page sizes. The 779,171-byte source APK imports property/class data and passes
+40 real applications / 8,960 final values, retained generations, guarded failure
+and recovery. Shared-script and textured animation regressions pass in the same
+package. Full Character lifecycle, equipment/buffs, combat and source gameplay
+remain unfinished. See [binding scope](../port/lua-character/CLASS-BINDING.md)
+and [APK evidence](../port/android-app/CLASS-INTEGRATION.md). Earlier entries keep their checkpoint identities.
+
 **Derived property class rules:** Original readers recover 260 classes / 1,659
 rules. Original application, group traversal and calculation bodies match source
 ARM64/host in 3,270 cases across all four state sheets and temporary storage.

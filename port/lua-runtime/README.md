@@ -1,5 +1,16 @@
 # Source-built Lua runtime for modern Android
 
+## Current owned class rules
+
+The runtime now imports owned class datasets. Diagnostic property objects retain
+class generations and expose an authored `ApplyClass` method, applying checked
+native rules to base before recomposing final fields with empty buffs. All 260
+real classes / 116,480 field queries pass on host, strict sanitizers and both
+Android 17 page sizes. Import replacement/rejection, cyclic-application atomic
+failure and existing property/script regressions also pass. Current reports use
+the `classes-` prefix. Complete Character lifecycle and full gameplay remain
+unfinished. See [binding scope](../lua-character/CLASS-BINDING.md).
+
 ## Current owned property userdata
 
 The runtime now imports complete character property data into owned Lua storage.

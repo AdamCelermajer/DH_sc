@@ -1,8 +1,18 @@
 # Android 17 source renderer milestone
 
-## Current property data APK milestone
+## Current class calculation APK milestone
 
-The current source APK is 775,075 bytes, SHA-256
+The current source APK is 779,171 bytes, SHA-256
+`7d2c82ab3ba433e06c006bbe962f35b78f8266b4cd030d2be2440942a8231c79`.
+It imports owned property and class data and executes checked class rules through
+diagnostic script objects. Both Android 17 page sizes pass 40 real applications /
+8,960 final queries, retained generations, rejection/recovery, shared-script
+checks and the textured animation preview. See [instructions and evidence](CLASS-INTEGRATION.md).
+Actual Character lifecycle and full source gameplay remain unfinished.
+
+## Earlier property data APK milestone
+
+The earlier source APK is 775,075 bytes, SHA-256
 `31c8e586004ce0932cc9853ec6a03b3140c6752f9b29d4ebcc1c16cfc3e61be7`.
 It imports character property data and exposes owned typed property state to
 scripts. Data replacement/rejection/recovery, shared scripts and character

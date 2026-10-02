@@ -1,5 +1,9 @@
 # Property data and scripts in the Android 17 source preview
 
+The newer [class integration checkpoint](CLASS-INTEGRATION.md) adds retained class
+data and native rule application. The package and reports below keep their
+earlier identities.
+
 The current APK is **775,075 bytes**, SHA-256
 `31c8e586004ce0932cc9853ec6a03b3140c6752f9b29d4ebcc1c16cfc3e61be7`.
 It builds ARM64 and x86_64 renderer/Lua libraries with 16 KiB ELF/ZIP alignment,

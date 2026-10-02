@@ -1,9 +1,17 @@
 # Typed character property methods and owned Lua state
 
+## Current class-rule extension
+
+Objects can now retain owned class datasets and call the authored `ApplyClass`
+diagnostic method. All 260 real classes / 116,480 final-field queries pass on
+host, strict sanitizers and both Android 17 page sizes. See [class binding and
+limits](CLASS-BINDING.md). Earlier numeric/boolean callback evidence below keeps
+its original scope; full Character and gameplay lifecycles remain unfinished.
+
 This component reconstructs the numeric/boolean `Character:GetProp` and
 `Character:SetProp` paths. It also supplies an authored, owned Lua property
 userdata. It does not implement the original Character constructor, derived
-base stats, buffs, combat, navigation or the game loop.
+base-stat lifecycle, buffs, combat, navigation or the game loop.
 
 ## Original callback evidence
 
@@ -36,7 +44,8 @@ dataset generation after replacement and caller buffer release.
 
 `DH2CreatePropertyState(row)` is an **authored diagnostic factory**. It initializes
 four owned sheets, loads a base record and recomposes all fields with no buffs.
-The userdata exposes only numeric/boolean `GetProp` and `SetProp`. It is not an
+This initial checkpoint exposes numeric/boolean `GetProp` and `SetProp`; the
+newer class extension is described above. It is not an
 original Character object. Unsupported pointer arguments and unsafe casts raise
 controlled errors. Global `GetProp`/`SetProp` callbacks remain absent.
 

@@ -5,6 +5,7 @@
 #include "../pydata-constants/constants.h"
 #include "../pydata-names/names.h"
 #include "../character-properties/properties.h"
+#include "../character-classes/classes.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -16,6 +17,7 @@ void dh2_lua_register_names(lua_State *state);
 int dh2_lua_names_load(lua_State *state,const struct dh2_pynames_view *,const char *,size_t);
 void dh2_lua_register_characters(lua_State *state);
 int dh2_lua_characters_load(lua_State *state,const struct dh2_property_table *);
+int dh2_lua_classes_load(lua_State *state,const struct dh2_class_table *);
 static void *allocate(void *opaque, void *pointer, size_t old_size, size_t new_size) {
     dh2_lua *runtime=(dh2_lua *)opaque;
     if (!pointer) old_size=0;
@@ -119,6 +121,20 @@ int dh2_lua_import_character_properties(dh2_lua *runtime,const void *bytes,size_
     }
     lua_State *state=runtime->state;lua_settop(state,0);
     int status=dh2_lua_characters_load(state,&view);
+    if(status)diagnostic(error,capacity,lua_tostring(state,-1));
+    lua_settop(state,0);return status;
+}
+int dh2_lua_import_character_classes(dh2_lua *runtime,const void *bytes,size_t size,char *error,size_t capacity) {
+    if(error && capacity)error[0]='\0';
+    if(!runtime || !bytes || size>4*1024*1024) {
+        diagnostic(error,capacity,"invalid character class arguments");return -1;
+    }
+    struct dh2_class_table view;
+    if(dh2_class_open(&view,bytes,(uint32_t)size)) {
+        diagnostic(error,capacity,"malformed character class file");return -1;
+    }
+    lua_State *state=runtime->state;lua_settop(state,0);
+    int status=dh2_lua_classes_load(state,&view);
     if(status)diagnostic(error,capacity,lua_tostring(state,-1));
     lua_settop(state,0);return status;
 }

@@ -26,6 +26,7 @@ public final class MainActivity extends Activity {
     private static final int BLEND = 4;
     private static final int SCRIPT = 5;
     private static final int PROPERTIES = 6;
+    private static final int CLASSES = 7;
     private GLSurfaceView surface;
     private TextView status;
     private TextView scriptStatus;
@@ -49,6 +50,7 @@ public final class MainActivity extends Activity {
     private static native void destroyScriptSession(long session);
     private static native String executeScript(long session, byte[] source);
     private static native String importProperties(long session, byte[] data);
+    private static native String importClasses(long session, byte[] data);
     private static native String loadTexture(byte[] data);
     private static native String loadAnimation(byte[] data);
     private static native String loadBlendAnimation(byte[] data);
@@ -196,6 +198,10 @@ public final class MainActivity extends Activity {
         properties.setText("Import character properties");
         properties.setOnClickListener(view -> pick(PROPERTIES));
         layout.addView(properties);
+        Button classes = new Button(this);
+        classes.setText("Import character classes");
+        classes.setOnClickListener(view -> pick(CLASSES));
+        layout.addView(classes);
         startScripts();
         surface = new GLSurfaceView(this);
         surface.setEGLContextClientVersion(2);
@@ -250,6 +256,13 @@ public final class MainActivity extends Activity {
                 scriptStatus.setText(importProperties(scriptSession,
                     readLimited(getContentResolver().openInputStream(data.getData()), 4 * 1024 * 1024)));
             } catch (Exception error) { scriptStatus.setText("Properties rejected: " + error.getMessage()); }
+            return;
+        }
+        if (request == CLASSES) {
+            try {
+                scriptStatus.setText(importClasses(scriptSession,
+                    readLimited(getContentResolver().openInputStream(data.getData()), 4 * 1024 * 1024)));
+            } catch (Exception error) { scriptStatus.setText("Classes rejected: " + error.getMessage()); }
             return;
         }
         if (request != BRES && request != TEXTURE && request != ANIMATION && request != BLEND) return;

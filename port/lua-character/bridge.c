@@ -1,11 +1,14 @@
 #include "methods.h"
+#include "../character-classes/classes.h"
 #include "lua.h"
 #include "lauxlib.h"
 #include <math.h>
 #include <string.h>
 static char data_key;
+static char class_key;
 #define STATE_TYPE "dh2.source.property-state"
 struct dataset { struct dh2_property_table table;unsigned char bytes[]; };
+struct class_dataset { struct dh2_class_table table;unsigned char bytes[]; };
 struct object { struct dh2_character_props state; };
 static struct dataset *data_for(lua_State *L,int object) {
     lua_getfenv(L,object);lua_rawgeti(L,-1,1);
@@ -31,6 +34,28 @@ static int method(lua_State *L,uint32_t op) {
 }
 static int get_prop(lua_State *L) { return method(L,0); }
 static int set_prop(lua_State *L) { return method(L,1); }
+static int apply_class(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);
+    int count=lua_gettop(L);
+    if(count<2 || count>3 || lua_type(L,2)!=LUA_TNUMBER ||
+       (count==3 && lua_type(L,3)!=LUA_TBOOLEAN))return luaL_error(L,"invalid class arguments");
+    lua_Number id=lua_tonumber(L,2);uint32_t flag=count==3?(uint32_t)lua_toboolean(L,3):0;
+    struct dataset *data=data_for(L,1);
+    lua_getfenv(L,1);lua_rawgeti(L,-1,2);
+    struct class_dataset *classes=lua_touserdata(L,-1);
+    if(!classes)return luaL_error(L,"character class data is not loaded for this object");
+    if(!isfinite(id) || id<0 || id>=classes->table.count || (lua_Number)(uint32_t)id!=id)
+        return luaL_error(L,"invalid class index");
+    /* Authored diagnostic method: apply to base, then recompose all final fields.
+     * It does not reset/reload base or implement the original Character lifecycle. */
+    struct dh2_character_props next=obj->state;
+    if(dh2_class_apply(&classes->table,&data->table,&next,0,NULL,(int32_t)id,flag))
+        return luaL_error(L,"invalid class data or application limit exceeded");
+    struct dh2_property_inputs inputs={&next.base,&next.saved,&next.gears,NULL,0};
+    for(uint32_t field=0;field<224;++field)if(dh2_property_recalc(&data->table,&inputs,field,&next.final))
+        return luaL_error(L,"invalid character property data");
+    obj->state=next;return 0;
+}
 static int create(lua_State *L) {
     if(lua_type(L,1)!=LUA_TNUMBER)return luaL_error(L,"property row must be a number");
     lua_Number row=lua_tonumber(L,1);
@@ -48,13 +73,16 @@ static int create(lua_State *L) {
         return luaL_error(L,"invalid character property data");
     luaL_getmetatable(L,STATE_TYPE);lua_setmetatable(L,-2);
     /* Each state retains its exact dataset generation after replacement. */
-    lua_newtable(L);lua_pushvalue(L,dataset_index);lua_rawseti(L,-2,1);lua_setfenv(L,-2);
+    lua_newtable(L);lua_pushvalue(L,dataset_index);lua_rawseti(L,-2,1);
+    lua_pushlightuserdata(L,&class_key);lua_rawget(L,LUA_REGISTRYINDEX);lua_rawseti(L,-2,2);
+    lua_setfenv(L,-2);
     return 1;
 }
 void dh2_lua_register_characters(lua_State *L) {
     luaL_newmetatable(L,STATE_TYPE);lua_newtable(L);
     lua_pushcfunction(L,get_prop);lua_setfield(L,-2,"GetProp");
     lua_pushcfunction(L,set_prop);lua_setfield(L,-2,"SetProp");
+    lua_pushcfunction(L,apply_class);lua_setfield(L,-2,"ApplyClass");
     lua_setfield(L,-2,"__index");lua_pushboolean(L,0);lua_setfield(L,-2,"__metatable");lua_pop(L,1);
     lua_pushcfunction(L,create);lua_setglobal(L,"DH2CreatePropertyState");
 }
@@ -68,4 +96,15 @@ static int import(lua_State *L) {
 }
 int dh2_lua_characters_load(lua_State *L,const struct dh2_property_table *view) {
     return lua_cpcall(L,import,(void *)view);
+}
+static int import_classes(lua_State *L) {
+    const struct dh2_class_table *input=lua_touserdata(L,1);
+    struct class_dataset *data=lua_newuserdata(L,sizeof(*data)+input->size);
+    memcpy(data->bytes,input->bytes,input->size);
+    if(dh2_class_open(&data->table,data->bytes,input->size))return luaL_error(L,"invalid class dataset");
+    lua_pushlightuserdata(L,&class_key);lua_pushvalue(L,-2);lua_rawset(L,LUA_REGISTRYINDEX);
+    return 0;
+}
+int dh2_lua_classes_load(lua_State *L,const struct dh2_class_table *view) {
+    return lua_cpcall(L,import_classes,(void *)view);
 }

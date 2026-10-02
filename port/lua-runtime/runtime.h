@@ -34,6 +34,13 @@ int dh2_lua_import_names(dh2_lua *runtime,const char *name,size_t length,
  * base-stat calculation and actual Character/gameplay objects remain absent. */
 int dh2_lua_import_character_properties(dh2_lua *runtime,const void *bytes,size_t size,
                                        char *error,size_t capacity);
+/* Atomically import an owned complete class-rule file (<=4 MiB). Newly created
+ * diagnostic property objects retain the current class dataset generation.
+ * ApplyClass(id[,fromFinal]) applies to base and recomposes with empty buffs;
+ * it does not reset/reload base or implement an original Character lifecycle.
+ * Objects created before class import lack class data until recreated. */
+int dh2_lua_import_character_classes(dh2_lua *runtime,const void *bytes,size_t size,
+                                    char *error,size_t capacity);
 /* Controlled execution helper; instruction budget counts in 1000-op blocks.
  * Installs base/math/table/string, with filesystem loaders and print removed.
  * Returns zero on success; stack and hook are cleared after each call. */
