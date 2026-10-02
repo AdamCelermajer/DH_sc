@@ -1,5 +1,11 @@
 # Recovery status — updated 2026-10-02
 
+**Owned character property writes:** Source state owns four 224-field sheets.
+Original property Set/Add/Int operations and current-final integer reads match
+source ARM64/host in 3,352 checks. Strict sanitizers pass 12,000 safety iterations.
+Lua object methods, derived base stats, Android integration and full source game
+remain unfinished. See [source and evidence](../port/character-state/README.md). Earlier entries keep their scope.
+
 **Character stat composition:** The original calculation, tree traversal and
 deque iterator bodies match source ARM64/host across 585 cases, including all
 224 cache types, buff priority and container block boundaries. Strict sanitizers
