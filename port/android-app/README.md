@@ -1,6 +1,18 @@
 # Android 17 source renderer milestone
 
-## Current equipment calculation APK milestone
+## Current gear/power stat APK milestone
+
+The current source APK is 836,515 bytes, SHA-256
+`d0005277e5839989c63a38cb2e86add55347b99150181e0baf944ca9db26e40f`.
+It imports owned property, class, item and power data. Gear/base update order,
+retained generations, typed/index rejection and recovery pass 20 imports /
+15,680 selected final queries on each Android 17 page size. The same package
+passes textured two-motion animation; all paused mix screenshots were inspected.
+See [instructions and evidence](GEAR-INTEGRATION.md). Full Character/inventory
+ownership, equip requirements, random powers, buffs, combat and source gameplay
+remain unfinished.
+
+## Earlier equipment calculation APK milestone
 
 The current source APK is 807,843 bytes, SHA-256
 `2974a802e258582a13c20a0d38aad19a44ceff313170473a85c0ff68322cafdd`.

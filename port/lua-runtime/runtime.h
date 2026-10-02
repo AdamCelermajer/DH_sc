@@ -31,7 +31,8 @@ int dh2_lua_import_names(dh2_lua *runtime,const char *name,size_t length,
  * DH2CreatePropertyState(row) creates a diagnostic property userdata with
  * GetProp/SetProp numeric/boolean methods. Each object retains its dataset
  * generation. It loads the base row and recomposes with empty buffs; derived
- * base-stat calculation and actual Character/gameplay objects remain absent. */
+ * stat lifecycle is available through the separately imported class/item/power
+ * diagnostic methods. Actual Character/gameplay objects remain absent. */
 int dh2_lua_import_character_properties(dh2_lua *runtime,const void *bytes,size_t size,
                                        char *error,size_t capacity);
 /* Atomically import an owned complete class-rule file (<=4 MiB). Newly created
@@ -45,9 +46,17 @@ int dh2_lua_import_character_classes(dh2_lua *runtime,const void *bytes,size_t s
  * retain its generation. EquipItem(set,slot,row) and SelectEquipmentSet(set)
  * are authored snapshot controls. Original named bonus methods and HasShield
  * use the source projection; numeric/boolean/nil first bonus arguments only.
- * No gear-sheet contributions, equip restrictions or full inventory lifecycle. */
+ * Equip requirements and full inventory lifecycle remain unimplemented. */
 int dh2_lua_import_loot_tables(dh2_lua *runtime,const void *bytes,size_t size,
                              char *error,size_t capacity);
+/* Atomic owned complete item-power tables. New property objects retain their
+ * power generation. Authored EquipGear (16 slots in two sets), SetItemPowers
+ * (up to 32 per slot), UpdateBaseProperties, UpdateGearsProperties and
+ * RecalculateProperties expose reconstructed empty-buff stat lifecycle through
+ * diagnostic objects. EquipItem/EquipGear clear that slot's assigned powers.
+ * Equipment selection and power assignment require an explicit gear update.
+ * These objects are not original Character, inventory or gameplay objects. */
+int dh2_lua_import_item_powers(dh2_lua *,const void *,size_t,char *,size_t);
 /* Controlled execution helper; instruction budget counts in 1000-op blocks.
  * Installs base/math/table/string, with filesystem loaders and print removed.
  * Returns zero on success; stack and hook are cleared after each call. */

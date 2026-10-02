@@ -7,6 +7,7 @@
 #include "../character-properties/properties.h"
 #include "../character-classes/classes.h"
 #include "../loot-tables/loot.h"
+#include "../gear-properties/gears.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -20,6 +21,7 @@ void dh2_lua_register_characters(lua_State *state);
 int dh2_lua_characters_load(lua_State *state,const struct dh2_property_table *);
 int dh2_lua_classes_load(lua_State *state,const struct dh2_class_table *);
 int dh2_lua_loot_load(lua_State *state,const struct dh2_loot_tables *);
+int dh2_lua_powers_load(lua_State *state,const struct dh2_power_tables *);
 static void *allocate(void *opaque, void *pointer, size_t old_size, size_t new_size) {
     dh2_lua *runtime=(dh2_lua *)opaque;
     if (!pointer) old_size=0;
@@ -151,6 +153,20 @@ int dh2_lua_import_loot_tables(dh2_lua *runtime,const void *bytes,size_t size,ch
     }
     lua_State *state=runtime->state;lua_settop(state,0);int status=dh2_lua_loot_load(state,&view);
     if(status)diagnostic(error,capacity,lua_tostring(state,-1));lua_settop(state,0);return status;
+}
+int dh2_lua_import_item_powers(dh2_lua *runtime,const void *bytes,size_t size,char *error,size_t capacity) {
+    if(error && capacity)error[0]='\0';
+    if(!runtime || !bytes || size>4*1024*1024) {
+        diagnostic(error,capacity,"invalid item power arguments");return -1;
+    }
+    struct dh2_power_tables view;
+    if(dh2_power_open(&view,bytes,(uint32_t)size)) {
+        diagnostic(error,capacity,"malformed item power file");return -1;
+    }
+    lua_State *state=runtime->state;lua_settop(state,0);
+    int status=dh2_lua_powers_load(state,&view);
+    if(status)diagnostic(error,capacity,lua_tostring(state,-1));
+    lua_settop(state,0);return status;
 }
 static void instruction_limit(lua_State *state,lua_Debug *debug) {
     (void)debug;void *opaque=NULL;lua_getallocf(state,&opaque);dh2_lua *runtime=(dh2_lua *)opaque;

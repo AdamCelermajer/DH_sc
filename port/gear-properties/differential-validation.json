@@ -1,0 +1,224 @@
+{
+  "complete_game": false,
+  "scripts_executed": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "host_sha256": "fb19589a5b269eccd57b3aaadbdd3f6018e76c4ba0c14a9354987a4d17b89936",
+  "arm64_sha256": "7eb2b4cdd1ffc049ee8fd31c6ef0d9322a628827da2ba2554a68d4677658baa5",
+  "test_sha256": "bf6cf7923ed439fe5586a1dae0496f27c703dafc962b0fffae9c23d767c5c05d",
+  "cache_sha256": {
+    "properties": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "classes": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "loot": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    "powers": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e"
+  },
+  "cases": {
+    "actual power reader destinations": 937,
+    "actual item gear stats": 2644,
+    "actual power gear stats": 1874,
+    "synthetic opcode/sentinel/overflow powers": 624,
+    "all class lifecycle recalculations": 520,
+    "base update/reset/load/class/recalc": 452,
+    "full gear load / actual instance getters": 32,
+    "gear update/reset/load/class/recalc": 64
+  },
+  "comparisons": 7147,
+  "mismatches": 0,
+  "function_entries": {
+    "0x3e3154": 3355,
+    "0x3df140": 334852,
+    "0x3deca0": 588371,
+    "0x3e32b4": 3212,
+    "0x3e0810": 1036,
+    "0x3dfe60": 253056,
+    "0x3e087c": 452,
+    "0x3defbc": 452,
+    "0x3df2a4": 452,
+    "0x3df250": 452,
+    "0x3df480": 96,
+    "0x3ffd20": 984,
+    "0x3e08a8": 64,
+    "0x3defac": 64,
+    "0x3ffe3c": 888,
+    "0x40022c": 1425
+  },
+  "function_evidence": [
+    {
+      "elf_address": "0x3e3154",
+      "size": 352,
+      "symbol": "_ZN14CharProperties14_LoadGearStatsEib",
+      "sha256": "0bccbb9468eec29197b630bc2c3051123fe06a14e6f81ec144e2479991b296aa"
+    },
+    {
+      "elf_address": "0x3e32b4",
+      "size": 2660,
+      "symbol": "_ZN14CharProperties14_LoadGearPowerEib",
+      "sha256": "654f8443e3f3e877d11f39d77cb94eb59f572c04bb6ebafa9d419d6645364c5d"
+    },
+    {
+      "elf_address": "0x3df480",
+      "size": 200,
+      "symbol": "_ZN14CharProperties19LoadGearsPropertiesEv",
+      "sha256": "29e14f0559f8e10e5fbbb497f836dbfc7254b9793db2c28329f4ee6a21d035fe"
+    },
+    {
+      "elf_address": "0x3e08a8",
+      "size": 36,
+      "symbol": "_ZN14CharProperties21UpdateGearsPropertiesEv",
+      "sha256": "a6e6393033840308385123b125dee49f4b6d157c5bdb26228a1a07d36936304a"
+    },
+    {
+      "elf_address": "0x3e087c",
+      "size": 44,
+      "symbol": "_ZN14CharProperties20UpdateBasePropertiesEi",
+      "sha256": "9ac840ef18607d97efefe86e5c5a54b4918bf6919f22c25163282a9c7c6d7df0"
+    },
+    {
+      "elf_address": "0x3e0810",
+      "size": 68,
+      "symbol": "_ZN14CharProperties16RecalcPropertiesEb",
+      "sha256": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9"
+    },
+    {
+      "elf_address": "0x3defac",
+      "size": 8,
+      "symbol": "_ZN14CharProperties20ResetGearsPropertiesEv",
+      "sha256": "3f77b4414e6ee3c3feccdb753b8dfb22f382a12822cb6361d700c0ba6f78ea95"
+    },
+    {
+      "elf_address": "0x3defbc",
+      "size": 8,
+      "symbol": "_ZN14CharProperties19ResetBasePropertiesEv",
+      "sha256": "6df98f9e5196b34a1a0e14a8bbbca928abedeb8d6c3cbfeab98088d8b799ee00"
+    },
+    {
+      "elf_address": "0x3df2a4",
+      "size": 12,
+      "symbol": "_ZN14CharProperties18LoadBasePropertiesEi",
+      "sha256": "3ed336411ed10ef85e6a82bd121fb3f065854cf7d1a4378a334acf938ef06e30"
+    },
+    {
+      "elf_address": "0x3df250",
+      "size": 84,
+      "symbol": "_ZN14CharProperties18_LoadFromCharTableERN7Structs19CharacterPropertiesEi",
+      "sha256": "64632e1381f967cb747d5071e8b93b6e36135fd51b6eadd01b31595f17743a45"
+    },
+    {
+      "elf_address": "0x3df140",
+      "size": 96,
+      "symbol": "_ZN14CharProperties12_AddPropertyERN7Structs19CharacterPropertiesEii",
+      "sha256": "4d850624c15803158ef818077afaa6307d142de37f14c28fa56c85c65a15911e"
+    },
+    {
+      "elf_address": "0x3deca0",
+      "size": 276,
+      "symbol": "_ZN14CharProperties12_SetPropertyERN7Structs19CharacterPropertiesEii",
+      "sha256": "61d5cdfabfb0a114c233ebf4a4b867830a9f1c087009a5a5f8bf7503a4370510"
+    },
+    {
+      "elf_address": "0x3dfe60",
+      "size": 1972,
+      "symbol": "_ZN14CharProperties14RecalcPropertyEi",
+      "sha256": "9df07709d1780dd22c056b6bdca240de845b4c118b7b4b3d6719595193ec9030"
+    },
+    {
+      "elf_address": "0x3ffd20",
+      "size": 24,
+      "symbol": "_ZNK13ItemInventory20GetNumEquipmentSlotsEv",
+      "sha256": "39113843180ae8a2410dfc8afe704ca4feb65036fe3571ae2ae0f5d00a00c9d0"
+    },
+    {
+      "elf_address": "0x40022c",
+      "size": 172,
+      "symbol": "_ZNK13ItemInventory23IsEquipmentSlotLeftHandEj",
+      "sha256": "744a2f191379425578067f55efb62184b985b9ccb04bd7b52801c6de506480a4"
+    },
+    {
+      "elf_address": "0x3ffe3c",
+      "size": 80,
+      "symbol": "_ZN13ItemInventory15GetEquippedItemEj",
+      "sha256": "69cf53b6cff74ab550cd32f132e5a8a15b3b86fb9fa35be16a195bf20c2f918f"
+    },
+    {
+      "elf_address": "0x3f9ec4",
+      "size": 196,
+      "symbol": "_ZNK12ItemInstance8GetPowerEj",
+      "sha256": "cf336d3dda18aa05d6f2bcb75df055cafc695151f25eb752ad7a0b5529bf9e30"
+    },
+    {
+      "elf_address": "0x313a90",
+      "size": 184,
+      "symbol": "_ZN12StreamReader6readAsIjEET_P11IStreamBase",
+      "calls": 2,
+      "sha256": "aa0ca3fa275c748cd04a9694d9d0f3a6112241e79cdf905fcbed0485c9930c79"
+    },
+    {
+      "elf_address": "0x3df1a0",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIjEEvP11IStreamBasePT_",
+      "calls": 1058,
+      "sha256": "80fbe74a694f45c71b183a970e0501cda9ffd07e1544dedbaeccd1926968aafa"
+    },
+    {
+      "elf_address": "0x459090",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "calls": 11712,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    },
+    {
+      "elf_address": "0x4bab7c",
+      "size": 332,
+      "symbol": "_ZN6Arrays14ItemPowerTable4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "90caa751da38ff84fffbaa1a02ca1a83473b558d8fb63a5d693f8d593d2bcd32"
+    },
+    {
+      "elf_address": "0x4bacc8",
+      "size": 332,
+      "symbol": "_ZN6Arrays13ItemPowerList4readEP11IStreamBase",
+      "calls": 1,
+      "sha256": "11d7a8e7819817da911bd17f85a9501b873dc18e65d7393669e94acbe5317092"
+    },
+    {
+      "elf_address": "0x4db9fc",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIaEEvP11IStreamBasePT_",
+      "calls": 3355,
+      "sha256": "ea0dc44358bcd1753b66faa89e097ce4e831859120f16e333ed8fa3ba6cf7557"
+    },
+    {
+      "elf_address": "0x4dc8fc",
+      "size": 364,
+      "symbol": "_ZN7Structs18ItemPowerEntryList4readEP11IStreamBase",
+      "calls": 121,
+      "sha256": "d44eb2c59671b5d639ddbc244239ee1726aee7e0c0df6f78070b7006f92078d3"
+    },
+    {
+      "elf_address": "0x4ecdc8",
+      "size": 912,
+      "symbol": "_ZN7Structs12ItemPowerRef4readEP11IStreamBase",
+      "calls": 937,
+      "sha256": "7a0ab08d6c8c5aafe45b8ce79ac515542cc4ae9f9ec2374ab890bfe513eb658a"
+    },
+    {
+      "elf_address": "0x4ed200",
+      "size": 128,
+      "symbol": "_ZN7Structs14ItemPowerEntry4readEP11IStreamBase",
+      "calls": 2418,
+      "sha256": "48a3da37036461f80d84357a77e5e187ab65a6773b411aa4af932439d1595a8c"
+    },
+    {
+      "elf_address": "0x4fef00",
+      "size": 300,
+      "symbol": "_ZN7Structs14AttrBonusEntry4readEP11IStreamBase",
+      "calls": 1224,
+      "sha256": "a5d2ce0a83b1be69fccb8f601afa1eb39ec41109cc1e27638b180ddefc5e6ad1"
+    }
+  ],
+  "whole_four_sheet_comparison": true,
+  "input_preservation": true,
+  "reserved_fields_and_output_guards": true,
+  "stack_restoration": true,
+  "scope": "Actual original gear stat/power helpers, load/update/base/reset and complete 224-field recalculation execute with empty buffs, including all 1322 items/937 powers, all 260 classes and 448 base rows. Inventory slots and item instances are explicit bounded fixtures; actual getters execute. Invalid original memory/assert paths are not run. Random power generation, equip requirements, original Character ownership, buff-inclusive class application, Lua integration, Android APK and hardware execution remain unverified. Source ARM64 executes in Unicorn."
+}

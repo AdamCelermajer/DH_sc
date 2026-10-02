@@ -13,6 +13,8 @@ int dh2_lua_class_tests(void);
 int dh2_lua_class_corpus(const char *,const char *,const char *);
 int dh2_lua_equipment_tests(void);
 int dh2_lua_equipment_corpus(const char *,const char *,const char *);
+int dh2_lua_gear_tests(void);
+int dh2_lua_gear_corpus(const char *,const char *,const char *,const char *,const char *);
 static void put32(unsigned char *p,unsigned value) {
     for(unsigned i=0;i<4;++i)p[i]=(unsigned char)(value>>(8*i));
 }
@@ -130,6 +132,7 @@ int main(int argc,char **argv) {
     CHECK(dh2_lua_property_tests()==0);
     CHECK(dh2_lua_class_tests()==0);
     CHECK(dh2_lua_equipment_tests()==0);
+    CHECK(dh2_lua_gear_tests()==0);
     if (argc==1)return 0;
     if (argc==4 && strcmp(argv[1],"--constants")==0)return dh2_lua_constant_corpus(argv[2],argv[3]);
     if (argc==4 && strcmp(argv[1],"--names")==0)return dh2_lua_name_corpus(argv[2],argv[3]);
@@ -137,6 +140,7 @@ int main(int argc,char **argv) {
     if (argc==4 && strcmp(argv[1],"--properties")==0)return dh2_lua_property_corpus(argv[2],argv[3]);
     if (argc==5 && strcmp(argv[1],"--classes")==0)return dh2_lua_class_corpus(argv[2],argv[3],argv[4]);
     if (argc==5 && strcmp(argv[1],"--equipment")==0)return dh2_lua_equipment_corpus(argv[2],argv[3],argv[4]);
+    if (argc==7 && strcmp(argv[1],"--gears")==0)return dh2_lua_gear_corpus(argv[2],argv[3],argv[4],argv[5],argv[6]);
     CHECK(argc==2);FILE *list=fopen(argv[1],"rb");CHECK(list);char path[2048];unsigned index=0;
     while (fgets(path,sizeof(path),list)) {
         size_t length=strlen(path);CHECK(length && path[length-1]=='\n');

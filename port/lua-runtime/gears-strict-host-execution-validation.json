@@ -1,0 +1,744 @@
+{
+  "complete_game": false,
+  "runner_sha256": "af04efb5d4206d600923c9ec1b24beffb3ba258174b82d629223f02d832f60da",
+  "test_sha256": "1d3cea4e177b2fe45042c56ecacaeafc705502cf8ddc597a2810e9b742d3befd",
+  "reference_sha256": "fb19589a5b269eccd57b3aaadbdd3f6018e76c4ba0c14a9354987a4d17b89936",
+  "comparison_report_sha256": "ef29cefd20f08d13cd549417f0a198886233cde6d61d5f6cab6e29001adb1396",
+  "cache_sha256": {
+    "properties": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "classes": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "loot": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    "powers": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e"
+  },
+  "cases": 4518,
+  "categories": {
+    "items": 2644,
+    "powers": 1874
+  },
+  "final_queries": 1012032,
+  "device": null,
+  "remote_input_hashes_verified": 0,
+  "assertions": [
+    {
+      "name": "000.lua",
+      "sha256": "d597a53acf40ddea8c419828d4338fc889f37424a8632dc2f84a769c54a300bd",
+      "bytes": 232776
+    },
+    {
+      "name": "001.lua",
+      "sha256": "1eea1e2fdda0145eb0211507b0860e1775381ca9bc5bdcbf0c635e1b7904d36c",
+      "bytes": 233890
+    },
+    {
+      "name": "002.lua",
+      "sha256": "23ab2b169931a08b97b80cec3fe2df693646e2daf23fa27af3a7d6f7c04e4b45",
+      "bytes": 233930
+    },
+    {
+      "name": "003.lua",
+      "sha256": "ea9cae963ee15cc63634aad4b0ec587e1037cbcdedb680a2723526432e700ac2",
+      "bytes": 234148
+    },
+    {
+      "name": "004.lua",
+      "sha256": "d053b2d0f2684be78f61ca095bb25c74b667d750049643b3a9a70043b8bb49e0",
+      "bytes": 234482
+    },
+    {
+      "name": "005.lua",
+      "sha256": "7e5ccf630ec184642e1424501089b919db9d3f5cbb5f62328dfd22bd61127ed4",
+      "bytes": 234148
+    },
+    {
+      "name": "006.lua",
+      "sha256": "378dcf6df0758fc59f70e2d25ddb554eb28024ab7bbf2c4407b06d8133ce6548",
+      "bytes": 233092
+    },
+    {
+      "name": "007.lua",
+      "sha256": "07c9812a4ec46cd388ed2926549cb82240be02a27b2c962aa430a812ab1668d5",
+      "bytes": 233596
+    },
+    {
+      "name": "008.lua",
+      "sha256": "a5580442ffa6918b40f5f11a3f8008ae4edcccd8f2e491390e1d143d78952e1e",
+      "bytes": 234112
+    },
+    {
+      "name": "009.lua",
+      "sha256": "2e75a8f7c36d193bec524427b58cadd6fa5caa5ad6f911a09514d158f29b0f65",
+      "bytes": 232450
+    },
+    {
+      "name": "010.lua",
+      "sha256": "7bcd5f3647dec92f83a8ff91d1e33816f92758a55ce0c9f314498934474bdaee",
+      "bytes": 233270
+    },
+    {
+      "name": "011.lua",
+      "sha256": "12bcccbf84f199ed86d1c99d8860d071f0a689902912c2961d56574904ab24c8",
+      "bytes": 232156
+    },
+    {
+      "name": "012.lua",
+      "sha256": "faa793e11cce151a65da0a72b05d18c9ce924f2e31b048c1382acd5720485ece",
+      "bytes": 232060
+    },
+    {
+      "name": "013.lua",
+      "sha256": "4f646d3cfc4cc9398b1e25be99098f9c82e0296d49ba6dd5ed2eab1dca476fc5",
+      "bytes": 233308
+    },
+    {
+      "name": "014.lua",
+      "sha256": "253988dad49cca201793f9a645e870f7da3ccb95f3becb89dd6b99880bf817ef",
+      "bytes": 233000
+    },
+    {
+      "name": "015.lua",
+      "sha256": "be0b8a5be7060b3eacf5fa8dbbce0d9eaaf8fb4ccd6a7bceabe35508a6c07bc9",
+      "bytes": 232874
+    },
+    {
+      "name": "016.lua",
+      "sha256": "f2cd04d815a180d49f653faecb0d9899584c560c0cc26cb7ad1c79e8c7d210e6",
+      "bytes": 234136
+    },
+    {
+      "name": "017.lua",
+      "sha256": "155bd0d68756f8bc4fad376002c14cba866da7973d6e761aadc2fa41cf6260b7",
+      "bytes": 234058
+    },
+    {
+      "name": "018.lua",
+      "sha256": "029d6d041b17cc971e114924101cdeb94406e64447ae58b0d0192ae9ac576a79",
+      "bytes": 233604
+    },
+    {
+      "name": "019.lua",
+      "sha256": "d3e547e7feb8858bc84bed6ce731c7151b212528b96359b0e878da5d6a0f5d07",
+      "bytes": 233350
+    },
+    {
+      "name": "020.lua",
+      "sha256": "23c2bef4727a3dc1449c8ff90f4d1f5209d5d57ec917664a6bff8ac6db4556a4",
+      "bytes": 234840
+    },
+    {
+      "name": "021.lua",
+      "sha256": "931c402af97319977c97a764eb75661ef5b2ed3a47e7d41c34bfd250d4683b9b",
+      "bytes": 232628
+    },
+    {
+      "name": "022.lua",
+      "sha256": "13d2ed1eba492f8eb40ed8acf7968279763d4a1cc7a24750ee0ec36d8c232d6b",
+      "bytes": 233514
+    },
+    {
+      "name": "023.lua",
+      "sha256": "58e7dfc749b88b88e6b80b51935da2b84e74a5fba60fa530777108a487164982",
+      "bytes": 233658
+    },
+    {
+      "name": "024.lua",
+      "sha256": "e2258f6d12aa9cca16c46d5175e4d6346a90fbf83e2d1c12d2a1d5b84d6278bd",
+      "bytes": 234063
+    },
+    {
+      "name": "025.lua",
+      "sha256": "4ea335876186b56503f046478154629141cd7689544658eb8edde8b1e149a609",
+      "bytes": 233942
+    },
+    {
+      "name": "026.lua",
+      "sha256": "1deaeb6742a9a54008fd94aea9360a9965f1763c0ff7b0bbb066162fd1096b30",
+      "bytes": 233791
+    },
+    {
+      "name": "027.lua",
+      "sha256": "f4863eee1a73c42d1b8dd74365ac3ff4a015515a95adf4907ff0effdad718ce7",
+      "bytes": 232404
+    },
+    {
+      "name": "028.lua",
+      "sha256": "687be7b6f92962b4140487229386d882ba5c9213b1eb81aed2278a73b6390398",
+      "bytes": 232958
+    },
+    {
+      "name": "029.lua",
+      "sha256": "9a97652675e9b2680e10697c84cba9fcc66d12914bfdbd566418cb5d523ca52c",
+      "bytes": 233910
+    },
+    {
+      "name": "030.lua",
+      "sha256": "7d1841b5b049f9a29a0c62a783007e3dcab84cde4e0f53fa67f349416ccf23fc",
+      "bytes": 233948
+    },
+    {
+      "name": "031.lua",
+      "sha256": "5eafc76457e900f96936fdefc4e90279930d65a395ddff878987155f287981cd",
+      "bytes": 234202
+    },
+    {
+      "name": "032.lua",
+      "sha256": "097a05ec42465e782469727d96f846c3ca25fed39105cc085b43ef94249f48da",
+      "bytes": 234400
+    },
+    {
+      "name": "033.lua",
+      "sha256": "7c22c071ce5a4fb59fb79c47fc9214424743b3959fa05d435025f9d02f994d78",
+      "bytes": 233978
+    },
+    {
+      "name": "034.lua",
+      "sha256": "55fc0edc6794ad9915e9fc576595cc5fa42110ceb01cf646625350925a9cd03f",
+      "bytes": 232996
+    },
+    {
+      "name": "035.lua",
+      "sha256": "d419b941fd9b62fcc67b055d9e079783858e719ca49b51b8d6f0ca999796a04d",
+      "bytes": 233880
+    },
+    {
+      "name": "036.lua",
+      "sha256": "94a60b3147c0188dc83ecce08ed2b86e832f3d2322130e7f6a5585150df543e3",
+      "bytes": 233828
+    },
+    {
+      "name": "037.lua",
+      "sha256": "f2132121a30c68b5f0b1976b036ea3af4b680b0e9865f11107173c4e291cf725",
+      "bytes": 232650
+    },
+    {
+      "name": "038.lua",
+      "sha256": "b38cd7b29a0dc447e8abc310aa435244eea071ca509032219ab7341d6df7ab90",
+      "bytes": 232980
+    },
+    {
+      "name": "039.lua",
+      "sha256": "65c5bb04ad168de150ad4c1ce503ecdb7cda24674b9f9b7de8b55141032e63bc",
+      "bytes": 232064
+    },
+    {
+      "name": "040.lua",
+      "sha256": "dbf8c35f4d70609819dedb3bf1abe193ac9fa6862aef37b8dbd92edb4fbdf72a",
+      "bytes": 232048
+    },
+    {
+      "name": "041.lua",
+      "sha256": "08bd528c7764f3afb00adc0834c86a236cb3b65d8fc037ac679775837baa6854",
+      "bytes": 233560
+    },
+    {
+      "name": "042.lua",
+      "sha256": "131143c7fed72048f5edccc5c3e68edd8c3560518ef714fe544627196e265a02",
+      "bytes": 232869
+    },
+    {
+      "name": "043.lua",
+      "sha256": "78b289621ad0481cdfcfdbe798d69a992a329671ce91bb9c5a2334bded16553b",
+      "bytes": 233213
+    },
+    {
+      "name": "044.lua",
+      "sha256": "4c46231e5527a96e0ab9f423e2829963d9c3b369ae9eed2ef62a6a62e37446b1",
+      "bytes": 234133
+    },
+    {
+      "name": "045.lua",
+      "sha256": "b5570b1f525be10f357ee812dc1cadf9fa07dae94ece3ae8c7d55cd39e1fbc6b",
+      "bytes": 234444
+    },
+    {
+      "name": "046.lua",
+      "sha256": "ef89e4f9327188bdd213441da97ab961512b9df9bb149c1475079798aabb02f6",
+      "bytes": 233236
+    },
+    {
+      "name": "047.lua",
+      "sha256": "c4a00846a07327693ac546583df73f493eeed5e2f965a3a955dfdc3e0fc5e435",
+      "bytes": 233238
+    },
+    {
+      "name": "048.lua",
+      "sha256": "e5fb17addd6593cb3d75950cdb8bbd7a7cf17240f4910671a605c5e075da8572",
+      "bytes": 234734
+    },
+    {
+      "name": "049.lua",
+      "sha256": "5670d1b146273d996dca521a36a9b4cabf6b1430f19252492d2623837be1c593",
+      "bytes": 232842
+    },
+    {
+      "name": "050.lua",
+      "sha256": "ae806b0e9d9c2f2f0c77db4ab31753e346b65e5da45a4184843641daff208be1",
+      "bytes": 233488
+    },
+    {
+      "name": "051.lua",
+      "sha256": "22da5fdc5064958391072a7acf8b81858c15d6f2c7c2798f0cc401c7b56d0e4c",
+      "bytes": 233684
+    },
+    {
+      "name": "052.lua",
+      "sha256": "79b913f3868beb713e6eb30d7c26f8782d91da2f8a07f6145d783082bcffe659",
+      "bytes": 234068
+    },
+    {
+      "name": "053.lua",
+      "sha256": "71aa26e61805c71f5f5b7a8e2ab7b3bc26e6a08d551957e1bf76325e3328e461",
+      "bytes": 233916
+    },
+    {
+      "name": "054.lua",
+      "sha256": "c184f8fea5fc84fbdf949246310d3afca80932331503d30c9faa408e0c4a1947",
+      "bytes": 233944
+    },
+    {
+      "name": "055.lua",
+      "sha256": "9377d4c25f471d4f89eb149f8e8aa6107c9e45aa2f12ab2c059d3e2af5ef77b9",
+      "bytes": 232206
+    },
+    {
+      "name": "056.lua",
+      "sha256": "ac43c6256c9d61e59c67c5e8463cbb5aea3a39d732737afaa2d8cbc73be5a2b2",
+      "bytes": 233276
+    },
+    {
+      "name": "057.lua",
+      "sha256": "b80373eb0776df170ec9b55e48c4d38874323ac9ab9e9cc5cb90a111ac1f0763",
+      "bytes": 233942
+    },
+    {
+      "name": "058.lua",
+      "sha256": "e8d2c7ac34694a9d1c40020de8a6a42a9a512b6ce32f8a49d9a343c46a58235a",
+      "bytes": 233834
+    },
+    {
+      "name": "059.lua",
+      "sha256": "1fe8d0efee4443153cc3e26e6126a6d3822a71a007aa1d0feb86d31f3c2641f8",
+      "bytes": 234224
+    },
+    {
+      "name": "060.lua",
+      "sha256": "46c60ccb75cf9e67604645e9b76ba9f9304da0fd0f9d556d587e662c2c7dea37",
+      "bytes": 234272
+    },
+    {
+      "name": "061.lua",
+      "sha256": "91d998e395cd731bb30a07f7bd7cbc68eb7c50f0992153f60fc513602ba98c5a",
+      "bytes": 234058
+    },
+    {
+      "name": "062.lua",
+      "sha256": "460eb9798fd17efc3f18b73b494a9e64dd3a47a060cc7da0f8b4095f6e908c8d",
+      "bytes": 233152
+    },
+    {
+      "name": "063.lua",
+      "sha256": "7a4e541e72dadf8ca625e82c448bfc348b19128ada231fb2231613cf4d0bf05f",
+      "bytes": 233964
+    },
+    {
+      "name": "064.lua",
+      "sha256": "68564bc8a7b9523266d1e8d8fbb78327b9b15c39d6cd73d5ae2bafedce5df93e",
+      "bytes": 233600
+    },
+    {
+      "name": "065.lua",
+      "sha256": "79a767f5a538c2751a38db1467dcea246022e6f22ad7b5e79856f4e9aa696f92",
+      "bytes": 232976
+    },
+    {
+      "name": "066.lua",
+      "sha256": "074c9d2b1586b4bdaea7d9e60e9ea6a4b7e61e8b644320c612296b92e13a6b55",
+      "bytes": 232800
+    },
+    {
+      "name": "067.lua",
+      "sha256": "f52e1891b635600b56cddc0c0a1ad9cc6a9ccbfb9fd074295ce5b2c6167b1414",
+      "bytes": 232110
+    },
+    {
+      "name": "068.lua",
+      "sha256": "440aa40f4a80ad922da4ce50aae56f488ec3306a10d0774054ca2b79e455aa48",
+      "bytes": 232190
+    },
+    {
+      "name": "069.lua",
+      "sha256": "81283baebbce8d011baafeea18366d7c3a9c0b6624fb9a7219a956531e840c8f",
+      "bytes": 233798
+    },
+    {
+      "name": "070.lua",
+      "sha256": "4f644dbbccb5ef941efa8a7708e55b64eec96f89e36776fd543ee0f3f299b2bf",
+      "bytes": 232658
+    },
+    {
+      "name": "071.lua",
+      "sha256": "fb19a86074f4ab55270b0748ddeabbae31530d0fec72ed0f1a5a9fbee864f28e",
+      "bytes": 233194
+    },
+    {
+      "name": "072.lua",
+      "sha256": "32cf2d7b7adee980b4fafe0598ace0d745c72b0fb1d174b503d6146126d8ce91",
+      "bytes": 234348
+    },
+    {
+      "name": "073.lua",
+      "sha256": "61d82834eb0255ff9b15855b044085d2b0aeaafe53614ead3352b62a8d389b21",
+      "bytes": 234540
+    },
+    {
+      "name": "074.lua",
+      "sha256": "ae8fe528f81b632c5591c23590eda8b36e5423fcdd84260193b69b55d1c0f122",
+      "bytes": 233196
+    },
+    {
+      "name": "075.lua",
+      "sha256": "6964055288c26c4eab54bfebf28a67d4ff5791f36914531596b4ceeb4100f7ee",
+      "bytes": 233536
+    },
+    {
+      "name": "076.lua",
+      "sha256": "e830c5d716fe60a52c3977945639c6d6984fe630330a9641f6f697356286c6f7",
+      "bytes": 234328
+    },
+    {
+      "name": "077.lua",
+      "sha256": "146cf7e63835228b3504448821485dbb5e76cfe1445958b242ee725e0087b552",
+      "bytes": 233086
+    },
+    {
+      "name": "078.lua",
+      "sha256": "bbe1720a22533f0644a929a97e853f1dc674bed1904924a2e580e6602b1f4edd",
+      "bytes": 233466
+    },
+    {
+      "name": "079.lua",
+      "sha256": "ac2185609b19aa8ecdeca99de122d245791a1091e6059b63130647219ae983cf",
+      "bytes": 233790
+    },
+    {
+      "name": "080.lua",
+      "sha256": "ce1cbe2fa72d99c98fcdd20364eed29d7c4e97a51280025e344e950f27d4945a",
+      "bytes": 234033
+    },
+    {
+      "name": "081.lua",
+      "sha256": "a516d7eaca2b3506f4b11d53437a1934c6a178c575ff2bb74f848935b6aa084d",
+      "bytes": 233875
+    },
+    {
+      "name": "082.lua",
+      "sha256": "d7a06066df514c3c804ded69aa573234e4517fa551de2132a644b857e18822b4",
+      "bytes": 233637
+    },
+    {
+      "name": "083.lua",
+      "sha256": "3646a123fe32868f9429b2e3638bab5ce3f40f7e4c75371d34c5c758c3ed9ae0",
+      "bytes": 234368
+    },
+    {
+      "name": "084.lua",
+      "sha256": "619320f72f99e36c4686a7c5cfd421b68b373b29092a3b9c5193725aa1708b04",
+      "bytes": 234788
+    },
+    {
+      "name": "085.lua",
+      "sha256": "933a7f11337dd78a0c3c2d922c1dd5b05be520a0d32bc3b5f47d75fd679bf4a8",
+      "bytes": 234919
+    },
+    {
+      "name": "086.lua",
+      "sha256": "fcfa9154fd89cfc654bb6a5a7fe56b6918ae1024e92c71c658a9e55c86b28a78",
+      "bytes": 235488
+    },
+    {
+      "name": "087.lua",
+      "sha256": "ff5f471b5df92901257bf3558295dada4588d334df57aa3dd3bc471b96e1ede3",
+      "bytes": 235174
+    },
+    {
+      "name": "088.lua",
+      "sha256": "f166b91ab2d355b61b98b2c0b4dedc1e9179f81474fbc67e1e7d246e384afb62",
+      "bytes": 234730
+    },
+    {
+      "name": "089.lua",
+      "sha256": "ddcd4318ef89ddf511693721b7c0483b6595a9c49a4eb624c6e079a022495815",
+      "bytes": 233739
+    },
+    {
+      "name": "090.lua",
+      "sha256": "6367cd94775a5bace47066f8f391ea2796dd9cf29b876b2f8bacb4ce356ebccf",
+      "bytes": 234862
+    },
+    {
+      "name": "091.lua",
+      "sha256": "41c0b232b179cff3bfc05f23f9dd9c625f12bad145ca049191a38819c103be1b",
+      "bytes": 234240
+    },
+    {
+      "name": "092.lua",
+      "sha256": "d6d9d59262f09eaec7093325f2a54866ddf9ef34cd53ab847b463ad6b8b1b01b",
+      "bytes": 234123
+    },
+    {
+      "name": "093.lua",
+      "sha256": "31d9816e2264fa172938804aeea9c8a701b6431c899a6b1c332ede7524c50fe4",
+      "bytes": 233397
+    },
+    {
+      "name": "094.lua",
+      "sha256": "0ab8503aa1b79a45fd2c6e8bff7a172afb86c36aadc97e942a00f385408f7496",
+      "bytes": 233036
+    },
+    {
+      "name": "095.lua",
+      "sha256": "cf4c0ecc084e48e0832e0b84a1d25e03095599d5a169eeb5ba5fc06db610f3fe",
+      "bytes": 232920
+    },
+    {
+      "name": "096.lua",
+      "sha256": "910c699bc311acec5270c8e1c03590ac7cc26c17a701d9fcecd8af7f34b66e98",
+      "bytes": 234922
+    },
+    {
+      "name": "097.lua",
+      "sha256": "74319b244b0a719783bf6faf201c22bea612106c77f17d38544f312c3c14b2b9",
+      "bytes": 233256
+    },
+    {
+      "name": "098.lua",
+      "sha256": "61e246e3a21aa151cdf29ad5e6565439aa6a9ca22321e1cc4560c06cd03bb3ae",
+      "bytes": 234328
+    },
+    {
+      "name": "099.lua",
+      "sha256": "2754cbbd41cae803519bc7f407f0b43ca9eed62f357f0356c10a8c832b4552f8",
+      "bytes": 235011
+    },
+    {
+      "name": "100.lua",
+      "sha256": "692c6569d03df4c14295ea982ab376ab1ca819e4b9798bad7927ed57fa778b52",
+      "bytes": 235385
+    },
+    {
+      "name": "101.lua",
+      "sha256": "a1f26e774635859205521b64062026e6eb2596c9f9d8c0eb6130425fc2acd70a",
+      "bytes": 234322
+    },
+    {
+      "name": "102.lua",
+      "sha256": "00fe9b06416dbc82b6b6ec2843822d605727040e93b3d148fb42b9e33afbcf9e",
+      "bytes": 234772
+    },
+    {
+      "name": "103.lua",
+      "sha256": "a22f1f6c1cf49c7e91380bfda06fa72bbcf494ab30f1c9080973d46c49265a2b",
+      "bytes": 234540
+    },
+    {
+      "name": "104.lua",
+      "sha256": "eaf57fee51228bb9065211d6f8811a0a863ac02dde2b29c166bf0626374081aa",
+      "bytes": 234259
+    },
+    {
+      "name": "105.lua",
+      "sha256": "49cce6705ae2b2898b000b2b1dad1a40ed210b4747768bb76e644cb506056991",
+      "bytes": 234166
+    },
+    {
+      "name": "106.lua",
+      "sha256": "14bd326abd66e4f57b08b34bc35c0a5734df2146a40ae79cd9145ce8afbe2210",
+      "bytes": 234780
+    },
+    {
+      "name": "107.lua",
+      "sha256": "e231fe4d560ffcf1c954d253649411b087b598ddcb2fd02589c527d87aefb365",
+      "bytes": 234757
+    },
+    {
+      "name": "108.lua",
+      "sha256": "e0e74690b18e74b8fe1f87f9de4a953bc015f9ef1daa084620c61f8700b59981",
+      "bytes": 234690
+    },
+    {
+      "name": "109.lua",
+      "sha256": "c9d1e567a49e0e69548869fdb128103421454fdc098c2f27abfc32bbf61460e4",
+      "bytes": 234688
+    },
+    {
+      "name": "110.lua",
+      "sha256": "55916b9a4986794bbb552e3399a33483f95f02a86395b6f8118e87d06dd9b8d2",
+      "bytes": 232858
+    },
+    {
+      "name": "111.lua",
+      "sha256": "5369b9ecf852f753b69eac17bf588caacaa21a47c84fcea3f9d7a3167f671ce2",
+      "bytes": 234688
+    },
+    {
+      "name": "112.lua",
+      "sha256": "b16e8c3a633dcdb921b4ed93e3b24fcd26b4291b4ac05f5d9eb589c80618ea25",
+      "bytes": 234808
+    },
+    {
+      "name": "113.lua",
+      "sha256": "27e5fc68409b6cc25226cce48e66abfb890ff5112d21b0e54055219ce058d100",
+      "bytes": 234819
+    },
+    {
+      "name": "114.lua",
+      "sha256": "d2ac06f38a10633db0d71d929f434f1e4c7e1255819173756e01878d58cf93d8",
+      "bytes": 235396
+    },
+    {
+      "name": "115.lua",
+      "sha256": "337ecefe5cdaa0a7976c92bfd8045c83a696b596c1f4273f6404a1828dadd0a9",
+      "bytes": 235160
+    },
+    {
+      "name": "116.lua",
+      "sha256": "eab67f33a396e4bfe4805f35e7148a4664469266532ae5c3b36b64dbff09998d",
+      "bytes": 234768
+    },
+    {
+      "name": "117.lua",
+      "sha256": "fff8efefe587cc29ede3518484ad5a0574c26e835592d7a26a79e173d88265a1",
+      "bytes": 233780
+    },
+    {
+      "name": "118.lua",
+      "sha256": "269d1efb5fe5f0b4d4bfe3d7647a71ba6983a7ce7f159f60e48c0dca23adf9c0",
+      "bytes": 234834
+    },
+    {
+      "name": "119.lua",
+      "sha256": "57b7227ed28e893854175a64b79594a0ec64bc2fba1d86f3a4956a69e82b7e49",
+      "bytes": 233942
+    },
+    {
+      "name": "120.lua",
+      "sha256": "d7180352112d7b42d9205db694bd8149d6320d96a59ffb6afec569dd88878264",
+      "bytes": 234240
+    },
+    {
+      "name": "121.lua",
+      "sha256": "f2a7d7b22149554a3c49a9aaa4b8c96b6e7b594e24e47f7d9c834bea64b365b8",
+      "bytes": 233434
+    },
+    {
+      "name": "122.lua",
+      "sha256": "4200196dfa6095eb3bc545106a4fb6517bc62b7d7996c40fca89104dd739bff5",
+      "bytes": 233370
+    },
+    {
+      "name": "123.lua",
+      "sha256": "6e5c3d3cda6107f84c1345816dc13fc76f3d9af270ff5cec14017f4aae46ea99",
+      "bytes": 233288
+    },
+    {
+      "name": "124.lua",
+      "sha256": "583343b71db455e61ba568a0620f7d9fe2e24369ca3bd87d7401c7ce3c93a7ea",
+      "bytes": 234889
+    },
+    {
+      "name": "125.lua",
+      "sha256": "759e8602546ed4d790639d096e9dcce09f13a30a423e909807516c1482c17faf",
+      "bytes": 233070
+    },
+    {
+      "name": "126.lua",
+      "sha256": "a3be0acfcc58d05327682c237533e45aea15b1e8bdedd5bd8ec2d8fd331e4caa",
+      "bytes": 234853
+    },
+    {
+      "name": "127.lua",
+      "sha256": "daf8fb39072a99cb350385cceb142135deaaba8c56ae4f1cd714c99014d330e6",
+      "bytes": 234650
+    },
+    {
+      "name": "128.lua",
+      "sha256": "2af18b56ce2705edac173c1c332ecfa0e015a2a3d5503c33fb60c00e793cba30",
+      "bytes": 235201
+    },
+    {
+      "name": "129.lua",
+      "sha256": "fff62771183f8d1c7c19f46c49915a91d7d2398bd9e7f96b7418b8df685045b4",
+      "bytes": 234496
+    },
+    {
+      "name": "130.lua",
+      "sha256": "c4d9f24a3da2f57859b928eb038da36953c4a4caf7f0f66b25aa27e153025a3c",
+      "bytes": 234910
+    },
+    {
+      "name": "131.lua",
+      "sha256": "ba84e0691184d7e2c0c768cc48a48cd60f6d5b5cfc5d1f21f559af9c8029950a",
+      "bytes": 234623
+    },
+    {
+      "name": "132.lua",
+      "sha256": "19c04dd1e95f21487465d32d46713a65e48c7a555692a38d5fb6baf62a000715",
+      "bytes": 234571
+    },
+    {
+      "name": "133.lua",
+      "sha256": "b8844144815251afd611d6826b42c0db0c58d3a89b2472fe589e36a582ba99fd",
+      "bytes": 234160
+    },
+    {
+      "name": "134.lua",
+      "sha256": "cb886ec4d6f8c39878ccf0108fc07ec36890236a90839f35d4e00de36c7b5965",
+      "bytes": 234826
+    },
+    {
+      "name": "135.lua",
+      "sha256": "04f56d6d1bc2edaeed12e8c7e779f9a08b9be74ac11b6ff160f2b2ed418c345a",
+      "bytes": 234804
+    },
+    {
+      "name": "136.lua",
+      "sha256": "1b2d2d0977cc2957267770ddd83c24c0c63b58fb5c5b53bf4c08a55daa7d6499",
+      "bytes": 234783
+    },
+    {
+      "name": "137.lua",
+      "sha256": "587c45381fa1721e9bc593969545fef649a4e4d42e1504f1ca3a39087d8a9635",
+      "bytes": 234391
+    },
+    {
+      "name": "138.lua",
+      "sha256": "990b1a7e559bed7c1d4edf1cde2b52f9b4bd6b0c9f0a2dfb0d408c3e6350ce1b",
+      "bytes": 232872
+    },
+    {
+      "name": "139.lua",
+      "sha256": "c93cb467f432c3fd44350e91c3f8ecf083326cf44a7e49beb42bbf3abd6796bb",
+      "bytes": 234885
+    },
+    {
+      "name": "140.lua",
+      "sha256": "f39f4879451321db793f68c6c551626a9acd47ab90cd56d9739b26550e0a197a",
+      "bytes": 234840
+    },
+    {
+      "name": "141.lua",
+      "sha256": "3be685b0658a8aefcf0bcc8e6571f5c31f8797a98fa3625aab06fca8ebb92a7a",
+      "bytes": 44021
+    }
+  ],
+  "stdout": "SELFTEST PASS\nNUMERIC PASS 504\nGEAR CORPUS PASS 142",
+  "scope": "All 1322 real items and 937 real powers in main/off hand through authored owned Lua gear controls and empty-buff lifecycle, with all 224 final fields checked. Expected queries use the separately original-checked standalone C module; returned values use Lua float32 numeric representation. Original Lua/gameplay equivalence and full inventory ownership are not claimed.",
+  "source_sha256": {
+    "runtime.c": "b5f5377e72af46e72fb6ae861de77b2d63988703f1129712a9b4aca6d0ba144b",
+    "runtime.h": "6973b1bef567fb6ad717e978d3b7df52326819fe871723cd9ccd1e656b0e30d3",
+    "tests/runner.c": "6cb6b35aa27e2d3051b9f299689637836b8383ad5a495f26c21f33067ba313ba",
+    "tests/gears.c": "b08bd9ce206837da20238134ef719410f28ee8a364c5bb35e4f14d8f1ead970c",
+    "../lua-character/bridge.c": "8e12c121e8d8e4048c73dc484bf63b76ffa502722a4043640581ff994997921f",
+    "../gear-properties/gears.c": "b7d142f84cc08a63388ffce62a5d47ac131e734b86302e926a89b6a4772504aa",
+    "../gear-properties/gears.h": "77ecd3a042d9c0c8ad5fb24096f670e76a6fd75a87f1ac8029a54f16b4803d04"
+  }
+}

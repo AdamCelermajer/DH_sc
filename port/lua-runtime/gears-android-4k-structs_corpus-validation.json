@@ -1,0 +1,52 @@
+{
+  "complete_game": false,
+  "original_game_scripts_executed": 3,
+  "original_gameplay_equivalence_tested": false,
+  "field_entries_checked": 636,
+  "getpystruct_and_getpyoid_alias_queries": 1272,
+  "builtin_tables": 71,
+  "unique_registered_classes": 67,
+  "original_initializer_lookup_checks": 693,
+  "scope": "Exact AI/skill shared scripts and combat formula definitions execute. Authored tests cover animation-event dispatch/detach, skill registration/defaults/select/unselect, and combat without combatants. No entity callbacks, timers, real combat, AI behavior or game loop execute.",
+  "inputs": [
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/_commons.luac",
+      "bytes": 13535,
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c"
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/_commons.luac",
+      "bytes": 11291,
+      "sha256": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d"
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/level/combat_formulas.luac",
+      "bytes": 36004,
+      "sha256": "f83639a12c5c1910f9a23fff494f4013330943ad4ef8f4d91c33fe1eb975565f"
+    }
+  ],
+  "field_trace_sha256": "94201dae07d7dee055afef052670d65433b8f9fae53f2db42556803e2002b464",
+  "script_manifest_sha256": "e2f8be060240b4ffc504ab80486b949671939737a61bb34cd432ad3b40c2c677",
+  "runner_sha256": "ab9bb3fdbe4bc5e70868e7df73ff99388d9563e00904625478e29b523b282cb5",
+  "test_sha256": "6d5989e57e8ab94b312dd7a39dcbde8378f8a3cdb99f02804e87a5644a98f200",
+  "assertions_sha256": "70794588461a284485fee5b27d10e9fa317f96eab9a7b10b9356523bf8b43b9d",
+  "authored_calls_sha256": "f908b852c99445e8612094bbfdb128fe2ffa2829c4557f1901af96489abbd49e",
+  "source_sha256": {
+    "runtime.c": "b5f5377e72af46e72fb6ae861de77b2d63988703f1129712a9b4aca6d0ba144b",
+    "runtime.h": "6973b1bef567fb6ad717e978d3b7df52326819fe871723cd9ccd1e656b0e30d3",
+    "tests/runner.c": "6cb6b35aa27e2d3051b9f299689637836b8383ad5a495f26c21f33067ba313ba",
+    "tests/execution.c": "6875f2690f1e6efaa63f521a21a6c4bbece3d612a502e2e84e27b75d975fbb43",
+    "../pydata-names/lua-bridge.c": "53420721ed935da014276d83e30284684afd5bb26cc60d679227b2a2342735a3",
+    "../pydata-names/struct-names.h": "0794326ef975a457e49af38deb365c7d21afcbc56df30e94101fcb1cd735ef6d"
+  },
+  "stdout": "SELFTEST PASS\nNUMERIC PASS 504\nEXECUTED 0 0\nEXECUTED 1 0\nEXECUTED 2 0\nORIGINAL SHARED SCRIPTS PASS 3",
+  "device": {
+    "serial": "emulator-5560",
+    "android_release": "17",
+    "sdk": 37,
+    "page_size": 4096,
+    "abi": "x86_64",
+    "fingerprint": "google/sdk_gphone64_x86_64/emu64xa:17/CE2A.260420.019/15611780:userdebug/dev-keys"
+  },
+  "pushed_input_hashes_verified": 6
+}

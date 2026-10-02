@@ -1,5 +1,17 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Gear stats and powers in the source APK:** Item/power stat contributions
+and base/gear/class recalculation now match 7,147 original ARM32 versus source
+ARM64/host comparisons. Owned script objects retain all four datasets and pass
+1,012,032 final-field queries across all 1,322 items and 937 powers in both hands
+on host, strict sanitizers and Android 17 4 KiB/16 KiB. The 836,515-byte source
+APK passes 20 imports / 15,680 selected final-field queries and textured animation
+checks on both page sizes. Original Character/inventory ownership, equip
+requirements, random powers, buffs, combat and full source gameplay remain
+unfinished. See [source scope](port/gear-properties/README.md) and
+[APK evidence](port/android-app/GEAR-INTEGRATION.md). Earlier entries retain
+their checkpoint identities.
+
 **Equipment calculations in the source APK:** All eight loot tables are
 decoded from checked reader layouts, including 1,322 item records. Owned script
 objects retain item data and expose supported attack/critical/damage bonuses and

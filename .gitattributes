@@ -22,3 +22,5 @@ reports/character-property-reader-trace.json -text
 reports/character-class-reader-trace.json -text
 reports/loot-table-reader-trace.json -text
 reports/equipment-callback-trace.json -text
+reports/item-power-reader-trace.json -text
+port/gear-properties/differential-validation.json -text

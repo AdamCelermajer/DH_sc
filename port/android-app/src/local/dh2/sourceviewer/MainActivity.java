@@ -28,6 +28,7 @@ public final class MainActivity extends Activity {
     private static final int PROPERTIES = 6;
     private static final int CLASSES = 7;
     private static final int ITEMS = 8;
+    private static final int POWERS = 9;
     private GLSurfaceView surface;
     private TextView status;
     private TextView scriptStatus;
@@ -53,6 +54,7 @@ public final class MainActivity extends Activity {
     private static native String importProperties(long session, byte[] data);
     private static native String importClasses(long session, byte[] data);
     private static native String importItems(long session, byte[] data);
+    private static native String importPowers(long session, byte[] data);
     private static native String loadTexture(byte[] data);
     private static native String loadAnimation(byte[] data);
     private static native String loadBlendAnimation(byte[] data);
@@ -208,6 +210,10 @@ public final class MainActivity extends Activity {
         items.setText("Import item data");
         items.setOnClickListener(view -> pick(ITEMS));
         layout.addView(items);
+        Button powers = new Button(this);
+        powers.setText("Import item powers");
+        powers.setOnClickListener(view -> pick(POWERS));
+        layout.addView(powers);
         startScripts();
         surface = new GLSurfaceView(this);
         surface.setEGLContextClientVersion(2);
@@ -269,6 +275,13 @@ public final class MainActivity extends Activity {
                 scriptStatus.setText(importClasses(scriptSession,
                     readLimited(getContentResolver().openInputStream(data.getData()), 4 * 1024 * 1024)));
             } catch (Exception error) { scriptStatus.setText("Classes rejected: " + error.getMessage()); }
+            return;
+        }
+        if (request == POWERS) {
+            try {
+                scriptStatus.setText(importPowers(scriptSession,
+                    readLimited(getContentResolver().openInputStream(data.getData()), 4 * 1024 * 1024)));
+            } catch (Exception error) { scriptStatus.setText("Powers rejected: " + error.getMessage()); }
             return;
         }
         if (request == ITEMS) {
