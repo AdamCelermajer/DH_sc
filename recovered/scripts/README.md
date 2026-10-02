@@ -25,8 +25,9 @@ records the compiler identity, per-file results and exact source/test hashes.
 
 Syntax checks do not validate engine APIs, native object lifetimes, include
 resolution, skill behavior, enemy behavior or gameplay. The original library
-exports Lua 5.1-era APIs including `lua_getfenv` and `lua_setfenv`; that evidence
-supports this syntax target, without establishing exact interpreter equivalence.
+exports Lua 5.1-era APIs including `lua_getfenv` and `lua_setfenv`, and contains
+a `Lua 5.1.4` copyright/version string. The syntax checker is explicitly Lua
+5.1.5; these observations do not establish interpreter equivalence.
 The native scripting bridge and a source-built game remain unfinished. These
 files are not packaged into the current source preview APK.
 
@@ -40,3 +41,23 @@ python3 tools/verify_lua_source.py --cache /path/to/files --archive /path/to/cac
 The archive/cache/compiler/index checks are optional. Hash verification of all
 tracked original and override files always runs. The full-cache ZIP and generated
 bytecode are not committed.
+
+## Native bridge inventory
+
+[The compiler-based inventory](../../reports/lua-global-bridge-audit.json)
+counts 8,022 global reads and 1,103 global writes across all 219 selected
+scripts, including nested function bodies. It uses the checked override for
+the one malformed original. There are 317 distinct names read and 445 written.
+Matching original native method names and Lua argument signatures identify
+104 candidate bridge names. Registration and runtime behavior have not been
+verified. A global read can refer to a value or a function; these counts are
+not counts of calls or executed paths. Source-defined globals and Lua standard
+library names are also present.
+
+```sh
+python3 tools/audit_lua_globals.py --compiler /usr/bin/luac5.1 --report /path/to/bridge-report.json
+```
+
+The tool checks source hashes and asks the compiler to list instructions
+without executing scripts. The report pins compiler, manifest, symbol index
+and tool hashes, with per-file global inventories and candidate method addresses.
