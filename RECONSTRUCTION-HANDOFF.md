@@ -1,5 +1,14 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Original timeline update:** The source Android app now uses reconstructed
+range-clock arithmetic for animation playback, seeking and resume. All 400
+original ARM32/compiled ARM64/host sequences matched (4,000 updates and 400 jumps);
+50,000 sanitizer updates passed. The exact updated APK passed advancing Play,
+stable Pause and visible pose changes on Android 17 with 4 KiB and 16 KiB pages.
+See [the timeline component](port/animation-timeline/README.md) and
+[Android runtime evidence](port/android-app/timeline-runtime-validation.json).
+Full source-built gameplay remains unfinished.
+
 **Player animation audit:** 333 of 342 clips produce checked source poses on
 the warrior model, including 327 animated clips. Negative key times are now
 supported. The current source APK passed dual-walk controls on Android 17 with 4 KiB

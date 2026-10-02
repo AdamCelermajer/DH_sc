@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -26,18 +28,33 @@ public final class MainActivity extends Activity {
     private SeekBar timeline;
     private Button playback;
     private boolean playing;
+    private final Handler clockUi = new Handler(Looper.getMainLooper());
+    private final Runnable showPosition = new Runnable() {
+        @Override public void run() {
+            if (!playing) return;
+            updatePosition();
+            clockUi.postDelayed(this, 100);
+        }
+    };
     private float lastX, lastY, yaw = 0.6f, pitch = 0.9f;
 
     private static native String loadBres(byte[] data);
     private static native String loadTexture(byte[] data);
     private static native String loadAnimation(byte[] data);
     private static native int animationDuration();
+    private static native int animationPosition();
     private static native void seekAnimation(int milliseconds);
     private static native void playAnimation(boolean playing);
     private static native void setView(float yaw, float pitch, float zoom);
     private static native void surfaceCreated();
     private static native void surfaceChanged(int width, int height);
     private static native void draw();
+
+    private void updatePosition() {
+        int position = animationPosition();
+        timeline.setProgress(position);
+        status.setText("Animation preview: " + position + " / " + timeline.getMax() + " ms. No gameplay.");
+    }
 
     @Override public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -71,6 +88,9 @@ public final class MainActivity extends Activity {
         playback.setOnClickListener(view -> {
             playing = !playing;
             playAnimation(playing);
+            clockUi.removeCallbacks(showPosition);
+            if (playing) clockUi.post(showPosition);
+            else updatePosition();
             playback.setText(playing ? "Pause animation" : "Play animation");
             surface.setRenderMode(playing ? GLSurfaceView.RENDERMODE_CONTINUOUSLY
                                         : GLSurfaceView.RENDERMODE_WHEN_DIRTY);
@@ -84,6 +104,7 @@ public final class MainActivity extends Activity {
                 if (!fromUser) return;
                 playing = false;
                 playAnimation(false);
+                clockUi.removeCallbacks(showPosition);
                 playback.setText("Play animation");
                 surface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
                 seekAnimation(value);
@@ -168,6 +189,7 @@ public final class MainActivity extends Activity {
     @Override protected void onPause() {
         playing = false;
         playAnimation(false);
+        clockUi.removeCallbacks(showPosition);
         playback.setText("Play animation");
         surface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         surface.onPause(); super.onPause();

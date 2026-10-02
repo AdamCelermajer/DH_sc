@@ -20,6 +20,7 @@ SOURCES = [
     REPO / 'port/skin-payloads/skin.cpp',
     REPO / 'port/animation-pose/pose.cpp',
     REPO / 'port/animation-values/values.cpp',
+    REPO / 'port/animation-timeline/timeline.cpp',
     REPO / 'port/scene-draw/draw.cpp',
     REPO / 'port/scene-payloads/scene.cpp',
     REPO / 'port/asset-payloads/payloads.cpp',

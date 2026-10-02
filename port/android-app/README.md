@@ -1,8 +1,29 @@
 # Android 17 source renderer milestone
 
-## Current scalar-track preview milestone
+## Current reconstructed timeline milestone
 
-The current 242,208-byte source APK, SHA-256
+The current source APK is 246,304 bytes, SHA-256
+`56f57478bea49e60c787a318c0852786f464d9d277fcd5031ac81103fcc5592d`.
+It uses the [reconstructed original range timeline](../animation-timeline/README.md)
+for playback, seek and resume. The on-screen time now follows native playback.
+The module passed 400 original ARM32/compiled ARM64/host sequences (4,000 updates
+and 400 jumps), plus 50,000 sanitizer valid/corrupted-state updates.
+
+The exact APK passed the 25-track dual walk on Android 17 with 4 KiB pages and
+29-track Dark Queen scene 03a prince clip with 16 KiB pages. The installed hashes
+matched; imports, midpoint seek, Play/Pause, advancing playback positions and
+stable paused positions passed. Start/midpoint screenshots visibly show different
+textured poses, with no fatal error in either run.
+[Runtime evidence](timeline-runtime-validation.json) preserves the results.
+
+The source preview still has no gameplay, original event dispatch, animator
+transitions or blending. Its Play/resume clock epoch and diagnostic rendering
+are documented separately from the original arithmetic. ARM64 is built and
+checked for alignment; execution on ARM64 hardware remains unverified.
+
+## Earlier scalar-track preview milestone
+
+The earlier 242,208-byte source APK, SHA-256
 `c6679410b521bb70dc0374b5449efa4489fe27f04c057d55243b8d81332140d2`,
 supports scalar angle rotation and individual position components. It passed
 the 25-track, 799 ms dual walk on Android 17 x86_64 with 4 KiB pages and the

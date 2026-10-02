@@ -1,6 +1,7 @@
 #include "../engine-resources/resources.hpp"
 #include "../texture-assets/texture.hpp"
 #include "scene_buffers.hpp"
+#include "../animation-timeline/timeline.hpp"
 
 #include <GLES2/gl2.h>
 #include <android/log.h>
@@ -26,6 +27,7 @@ dh2::resources::BresView model_image{};
 dh2::pose::Clip animation_clip{};
 bool animation_playing = false;
 double animation_start = 0;
+dh2::timeline::State animation_clock{};
 std::uint8_t* rgba = nullptr;
 int texture_width = 0, texture_height = 0;
 bool texture_dirty = false;
@@ -117,6 +119,7 @@ Java_local_dh2_sourceviewer_MainActivity_loadBres(JNIEnv* env, jclass, jbyteArra
     std::free(model_bytes); model_bytes = bytes; model_image = image;
     std::free(animation_bytes); animation_bytes = nullptr;
     animation_clip = {}; animation_playing = false;
+    animation_clock = {};
     std::free(vertices); std::free(indices);
     vertices = scene_mesh.vertices; indices = scene_mesh.indices;
     vertex_count = scene_mesh.vertex_count; index_count = scene_mesh.index_count;
@@ -142,9 +145,11 @@ Java_local_dh2_sourceviewer_MainActivity_loadAnimation(JNIEnv* env, jclass, jbyt
     if (!candidate) { std::free(bytes); return message(env, "Animation rejected: out of memory"); }
     new (candidate) dh2::pose::Clip{};
     dh2::resources::BresView image{};
+    dh2::timeline::State clock{};
     if (dh2_bres_open(&image, bytes, size) != dh2::resources::BresError::ok ||
         dh2_pose_clip_open(candidate, &image, 0) != dh2::pose::Error::ok ||
-        candidate->end <= candidate->start) {
+        dh2_timeline_init(&clock, candidate->start, candidate->end, 1.0f, true)
+            != dh2::timeline::Error::ok) {
         std::free(candidate); std::free(bytes);
         return message(env, "Animation rejected: requires an unscaled float position/rotation/scale clip");
     }
@@ -159,6 +164,7 @@ Java_local_dh2_sourceviewer_MainActivity_loadAnimation(JNIEnv* env, jclass, jbyt
     }
     std::free(animation_bytes); animation_bytes = bytes;
     animation_clip = *candidate; animation_playing = false;
+    animation_clock = clock;
     std::free(vertices); std::free(indices);
     vertices = test.vertices; indices = test.indices;
     vertex_count = test.vertex_count; index_count = test.index_count;
@@ -177,13 +183,22 @@ Java_local_dh2_sourceviewer_MainActivity_animationDuration(JNIEnv*, jclass) {
     pthread_mutex_unlock(&guard); return duration;
 }
 
+extern "C" JNIEXPORT jint JNICALL
+Java_local_dh2_sourceviewer_MainActivity_animationPosition(JNIEnv*, jclass) {
+    pthread_mutex_lock(&guard);
+    const auto position = animation_clip.count ? animation_clock.current_ms - animation_clip.start : 0;
+    pthread_mutex_unlock(&guard); return position;
+}
+
 extern "C" JNIEXPORT void JNICALL
 Java_local_dh2_sourceviewer_MainActivity_seekAnimation(JNIEnv*, jclass, jint milliseconds) {
     pthread_mutex_lock(&guard); animation_playing = false;
     if (animation_clip.count) {
         const auto duration = animation_clip.end - animation_clip.start;
         const auto time = milliseconds < 0 ? 0 : milliseconds > duration ? duration : milliseconds;
-        if (!update_pose_locked(time + animation_clip.start))
+        if (dh2_timeline_jump(&animation_clock, time + animation_clip.start)
+                != dh2::timeline::Error::ok ||
+            !update_pose_locked(animation_clock.current_ms))
             __android_log_print(ANDROID_LOG_ERROR, "DH2Source", "animation pose rejected");
     }
     pthread_mutex_unlock(&guard);
@@ -194,6 +209,9 @@ Java_local_dh2_sourceviewer_MainActivity_playAnimation(JNIEnv*, jclass, jboolean
     pthread_mutex_lock(&guard);
     animation_playing = playing && animation_clip.count;
     animation_start = monotonic_time();
+    if (animation_playing)
+        animation_playing = dh2_timeline_jump(&animation_clock, animation_clock.current_ms)
+            == dh2::timeline::Error::ok;
     pthread_mutex_unlock(&guard);
 }
 
@@ -297,9 +315,16 @@ Java_local_dh2_sourceviewer_MainActivity_draw(JNIEnv*, jclass) {
     static const std::uint16_t placeholder_indices[] = {0,1,2,2,3,0};
     pthread_mutex_lock(&guard);
     if (animation_playing && animation_clip.count) {
-        const auto duration = animation_clip.end - animation_clip.start;
-        const auto elapsed = std::fmod((monotonic_time() - animation_start) * 1000.0, double(duration));
-        if (!update_pose_locked(static_cast<std::int32_t>(elapsed) + animation_clip.start)) {
+        const auto elapsed = (monotonic_time() - animation_start) * 1000.0;
+        // Keep Android uptime outside the original bounded millisecond clock.
+        // A session reaching the bound starts a new clock epoch at its current pose.
+        if (elapsed > 1000000000.0) {
+            animation_start = monotonic_time();
+            dh2_timeline_jump(&animation_clock, animation_clock.current_ms);
+        }
+        const auto input = elapsed > 1000000000.0 ? 0 : static_cast<std::int32_t>(elapsed);
+        if (dh2_timeline_update(&animation_clock, input) != dh2::timeline::Error::ok ||
+            !update_pose_locked(animation_clock.current_ms)) {
             animation_playing = false;
             __android_log_print(ANDROID_LOG_ERROR, "DH2Source", "animated frame rejected");
         }

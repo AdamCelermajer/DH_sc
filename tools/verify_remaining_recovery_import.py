@@ -8,6 +8,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path, PurePosixPath
+import subprocess
 import zipfile
 
 ARCHIVE_SHA256='b3ff974e2b74f50387465d5665f60d56ac79c29a449c6299745461998045c4d8'
@@ -20,6 +21,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--repo-root',type=Path,default=Path(__file__).resolve().parents[1])
     p.add_argument('--archive',type=Path)
+    p.add_argument('--git-index',action='store_true',help='Also verify every imported file is tracked with these exact bytes')
     a=p.parse_args();root=a.repo_root.resolve()
     ledger=json.loads((root/'reports/remaining-recovery-evidence-import.json').read_text())
     if ledger.get('schema_version')!=1 or ledger.get('source_archive_sha256')!=ARCHIVE_SHA256:
@@ -41,6 +43,19 @@ def main():
     actual={p.relative_to(root).as_posix()for prefix in PREFIXES
             for p in (root/prefix).rglob('*')if p.is_file()}|{EXTRA}
     if actual!=seen:raise ValueError('Unrecorded or missing evidence: '+str(sorted(actual^seen)))
+    if a.git_index:
+        raw_index=subprocess.check_output(['git','-C',str(root),'ls-files','--stage','-z','--',*PREFIXES,EXTRA])
+        index={}
+        for item in raw_index.split(b'\0'):
+            if not item:continue
+            metadata,path=item.split(b'\t',1);mode,identity,stage=metadata.split()
+            if stage!=b'0' or mode!=b'100644':raise ValueError('Unexpected index mode/stage')
+            index[path.decode('utf-8')]=identity.decode('ascii')
+        if set(index)!=seen:raise ValueError('Git index evidence set differs')
+        for row in rows:
+            raw=(root/row['path']).read_bytes()
+            identity=hashlib.sha1(b'blob '+str(len(raw)).encode('ascii')+b'\0'+raw).hexdigest()
+            if index[row['path']]!=identity:raise ValueError('Git index content differs: '+row['path'])
     provenance=json.loads((root/'recovered/assets/source-data/provenance.json').read_text())
     if len(provenance['files'])!=2164 or provenance['cache_archive_complete']:
         raise ValueError('Unexpected historical cache provenance')
@@ -67,6 +82,7 @@ def main():
                     raise ValueError('Source ZIP member differs: '+row['path'])
     print(json.dumps({'files_verified':len(rows),'bytes_verified':sum(r['bytes']for r in rows),
                       'resource_provenance_verified':len(names),'archive_verified':bool(a.archive),
+                      'git_index_verified':a.git_index,
                       'complete_game_source':False,'historical_cache_complete':False},indent=2))
 
 if __name__=='__main__':main()

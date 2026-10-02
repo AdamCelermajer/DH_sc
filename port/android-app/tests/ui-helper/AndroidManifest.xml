@@ -1,0 +1,5 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="local.dh2.uitest">
+    <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="37" />
+    <application android:label="DH2 local test helper" android:debuggable="true" />
+    <instrumentation android:name="local.dh2.uitest.Snapshot" android:targetPackage="local.dh2.uitest" />
+</manifest>

@@ -13,7 +13,8 @@ Every selected archive member passed the recovery ZIP CRC check and its
 recorded SHA-256. The imported text resource hashes also matched their original
 provenance. [The per-file ledger](../reports/remaining-recovery-evidence-import.json)
 records exact member names and hashes; [the verifier](../tools/verify_remaining_recovery_import.py)
-checks a clone, optionally against the original ZIP. Git attributes preserve
+checks a clone, optionally against the original ZIP. `--git-index` additionally
+verifies that Git records every member with the exact same content. Git attributes preserve
 archival bytes without line-ending conversion.
 
 ## Where the evidence is
