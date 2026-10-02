@@ -23,6 +23,7 @@ struct Context {
     const dh2::math::Matrix4f* palette;
     const dh2::pose::Clip* clip;
     std::int32_t time;
+    const dh2::layers::Layers* layers;
 };
 
 void first_diffuse(const dh2::draw::Command* draw, Context& context) {
@@ -145,7 +146,10 @@ bool append_first_skin(Context& context) {
         for (std::uint32_t j = 0; j < scene.visuals; ++j) {
             dh2::scene::Visual visual{}; dh2::math::Matrix4f palette[256]{};
             if (dh2_scene_visual(&scene, j, &visual) != dh2::scene::Error::ok) continue;
-            if (context.clip) {
+            if (context.layers) {
+                if (dh2_layers_skin_palette(context.layers, &skin, &visual, palette, 256)
+                    != dh2::pose::Error::ok) continue;
+            } else if (context.clip) {
                 if (dh2_pose_skin_palette(context.clip, context.time, &skin, &visual, palette, 256)
                     != dh2::pose::Error::ok) continue;
             } else if (dh2_skin_scene_palette(&skin, &visual, palette, 256) != dh2::skin::Error::ok)
@@ -191,9 +195,10 @@ extern "C" void dh2_viewer_scene_mesh_free(SceneMesh* output) {
     *output = {};
 }
 
-extern "C" SceneMeshError dh2_viewer_scene_mesh_at(
+static SceneMeshError mesh_at(
     SceneMesh* output, const dh2::resources::BresView* image,
-    const dh2::pose::Clip* clip, std::int32_t milliseconds) {
+    const dh2::pose::Clip* clip, std::int32_t milliseconds,
+    const dh2::layers::Layers* layers) {
     if (!output) return SceneMeshError::argument;
     *output = {};
     if (!image || !image->bytes) return SceneMeshError::argument;
@@ -207,7 +212,7 @@ extern "C" SceneMeshError dh2_viewer_scene_mesh_at(
     }
     Context context{output, image, SceneMeshError::ok,
                     {INFINITY, INFINITY, INFINITY},
-                    {-INFINITY, -INFINITY, -INFINITY}, nullptr, nullptr, clip, milliseconds};
+                    {-INFINITY, -INFINITY, -INFINITY}, nullptr, nullptr, clip, milliseconds, layers};
     dh2::draw::Stats stats{};
     const auto walked = dh2_static_scene_draws(&stats, image, append_draw,
                                                 &context, 20000, max_commands);
@@ -243,6 +248,19 @@ extern "C" SceneMeshError dh2_viewer_scene_mesh_at(
                 (output->vertices[5 * i + axis] - center[axis]) / span;
     }
     return SceneMeshError::ok;
+}
+
+extern "C" SceneMeshError dh2_viewer_scene_mesh_at(
+    SceneMesh* output, const dh2::resources::BresView* image,
+    const dh2::pose::Clip* clip, std::int32_t milliseconds) {
+    return mesh_at(output, image, clip, milliseconds, nullptr);
+}
+
+extern "C" SceneMeshError dh2_viewer_scene_mesh_layers(
+    SceneMesh* output, const dh2::resources::BresView* image,
+    const dh2::layers::Layers* layers) {
+    if (!layers) return SceneMeshError::argument;
+    return mesh_at(output, image, nullptr, 0, layers);
 }
 
 extern "C" SceneMeshError dh2_viewer_scene_mesh(

@@ -1,5 +1,14 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Two-motion source preview:** Checked absolute layers now combine the warrior's
+dual walk and Dark Queen scene 03a motion. The exact updated APK passed imports,
+midpoint seek, 0/50/100% mix, advancing Play and stable Pause on Android 17 with
+both 4 KiB and 16 KiB pages. Visually inspected screenshots show distinct textured
+poses. Host endpoint/palette and 3,000 damaged-input probes passed.
+See [layer scope](port/animation-layers/README.md) and
+[current runtime evidence](port/android-app/layers-runtime-validation.json).
+Original transition scheduling and full source-built gameplay remain unfinished.
+
 **Original timeline update:** The source Android app now uses reconstructed
 range-clock arithmetic for animation playback, seeking and resume. All 400
 original ARM32/compiled ARM64/host sequences matched (4,000 updates and 400 jumps);

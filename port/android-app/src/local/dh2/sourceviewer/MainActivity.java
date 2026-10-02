@@ -23,9 +23,11 @@ public final class MainActivity extends Activity {
     private static final int BRES = 1;
     private static final int TEXTURE = 2;
     private static final int ANIMATION = 3;
+    private static final int BLEND = 4;
     private GLSurfaceView surface;
     private TextView status;
     private SeekBar timeline;
+    private SeekBar mix;
     private Button playback;
     private boolean playing;
     private final Handler clockUi = new Handler(Looper.getMainLooper());
@@ -41,6 +43,10 @@ public final class MainActivity extends Activity {
     private static native String loadBres(byte[] data);
     private static native String loadTexture(byte[] data);
     private static native String loadAnimation(byte[] data);
+    private static native String loadBlendAnimation(byte[] data);
+    private static native boolean blendAvailable();
+    private static native int blendPercent();
+    private static native void setBlendPercent(int percent);
     private static native int animationDuration();
     private static native int animationPosition();
     private static native void seekAnimation(int milliseconds);
@@ -82,6 +88,10 @@ public final class MainActivity extends Activity {
         animation.setText("Import character animation");
         animation.setOnClickListener(view -> pick(ANIMATION));
         layout.addView(animation);
+        Button second = new Button(this);
+        second.setText("Import second animation");
+        second.setOnClickListener(view -> pick(BLEND));
+        layout.addView(second);
         playback = new Button(this);
         playback.setText("Play animation");
         playback.setEnabled(false);
@@ -98,6 +108,7 @@ public final class MainActivity extends Activity {
         });
         layout.addView(playback);
         timeline = new SeekBar(this);
+        timeline.setContentDescription("Animation time");
         timeline.setEnabled(false);
         timeline.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override public void onProgressChanged(SeekBar bar, int value, boolean fromUser) {
@@ -115,6 +126,26 @@ public final class MainActivity extends Activity {
             @Override public void onStopTrackingTouch(SeekBar bar) {}
         });
         layout.addView(timeline);
+        mix = new SeekBar(this);
+        mix.setContentDescription("Motion mix");
+        mix.setMax(100);
+        mix.setEnabled(false);
+        mix.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override public void onProgressChanged(SeekBar bar, int value, boolean fromUser) {
+                if (!fromUser) return;
+                playing = false;
+                playAnimation(false);
+                clockUi.removeCallbacks(showPosition);
+                playback.setText("Play animation");
+                surface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+                setBlendPercent(value);
+                status.setText("Motion mix: " + value + "% second animation. No gameplay.");
+                surface.requestRender();
+            }
+            @Override public void onStartTrackingTouch(SeekBar bar) {}
+            @Override public void onStopTrackingTouch(SeekBar bar) {}
+        });
+        layout.addView(mix);
         surface = new GLSurfaceView(this);
         surface.setEGLContextClientVersion(2);
         surface.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
@@ -157,7 +188,7 @@ public final class MainActivity extends Activity {
     @Override protected void onActivityResult(int request, int result, Intent data) {
         super.onActivityResult(request, result, data);
         if (result != RESULT_OK || data == null || data.getData() == null) return;
-        if (request != BRES && request != TEXTURE && request != ANIMATION) return;
+        if (request != BRES && request != TEXTURE && request != ANIMATION && request != BLEND) return;
         try (InputStream in = getContentResolver().openInputStream(data.getData());
              ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             if (in == null) throw new IllegalArgumentException("Cannot open selected file");
@@ -173,12 +204,15 @@ public final class MainActivity extends Activity {
                 playAnimation(false);
                 surface.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
                 playback.setText("Play animation");
-                status.setText(request == BRES ? loadBres(out.toByteArray()) : loadAnimation(out.toByteArray()));
+                status.setText(request == BRES ? loadBres(out.toByteArray()) :
+                    request == BLEND ? loadBlendAnimation(out.toByteArray()) : loadAnimation(out.toByteArray()));
                 int duration = animationDuration();
                 timeline.setEnabled(duration > 0);
                 playback.setEnabled(duration > 0);
                 timeline.setMax(Math.max(1, duration));
-                timeline.setProgress(0);
+                timeline.setProgress(animationPosition());
+                mix.setEnabled(blendAvailable());
+                mix.setProgress(blendPercent());
             }
             surface.requestRender();
         } catch (Exception e) {

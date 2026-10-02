@@ -4,7 +4,10 @@ This bounded source component implements original weight normalization,
 position/scale weighted sums, scalar weighted sums and ordered quaternion
 addition. These calculations are needed for animation blending, but this
 module does not implement the animator state machine, transitions, events,
-scene targets or gameplay. It has not yet been integrated into the Android app.
+scene targets or gameplay. Its weight normalization and vector mixing are now used by the source Android
+[absolute-layer preview](../animation-layers/README.md). The additive quaternion
+API remains a standalone tested component; Android runtime checks do not cover
+that operation.
 
 ## Preserved behavior
 

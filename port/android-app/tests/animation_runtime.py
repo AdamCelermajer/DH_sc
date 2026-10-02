@@ -27,6 +27,8 @@ class Check:
         self.a = args
         self.a.evidence.mkdir(parents=True, exist_ok=True)
         self.fixtures = [*FIXTURES[:2], (FIXTURES[2][0], args.animation, FIXTURES[2][2])]
+        if args.blend_animation:
+            self.fixtures.append(('IMPORT SECOND ANIMATION',args.blend_animation,'dh2qa_second.bdae'))
 
     def run(self, *args):
         return subprocess.check_output([str(self.a.adb), '-s', self.a.serial, *args],
@@ -102,14 +104,25 @@ class Check:
         assert any('335 vertices, 1092 indices, 18 bones' in s for s in statuses[0]), statuses[0]
         assert any('256 x 256' in s for s in statuses[1]), statuses[1]
         assert any(f'{self.a.tracks} tracks, {self.a.duration} ms' in s for s in statuses[2]), statuses[2]
+        if self.a.blend_animation:
+            assert any(f'Second animation: {self.a.blend_tracks} tracks' in s for s in statuses[3]),statuses[3]
         shots = [self.capture('start.png')]
-        self.click(self.find(**{'class':'android.widget.SeekBar'}))
+        self.click(self.find(**{'class':'android.widget.SeekBar','content-desc':'Animation time'}))
         text = [n.get('text') for n in self.state() if n.get('text')]
         midpoints = [int(m.group(1)) for s in text
             if (m := re.search(r'Animation preview: (\d+) / (\d+) ms', s))
             and int(m.group(2)) == self.a.duration]
         assert any(abs(ms - self.a.duration / 2) <= 1 for ms in midpoints), text
         shots.append(self.capture('middle.png'))
+        mix_checks=[]
+        if self.a.blend_animation:
+            for percent in (0,50,100):
+                node=self.find(**{'class':'android.widget.SeekBar','content-desc':'Motion mix'})
+                x1,y1,x2,y2=map(int,re.findall(r'\d+',node.get('bounds')))
+                self.run('shell','input','tap',str(x1+1+(x2-x1-2)*percent//100),str((y1+y2)//2))
+                self.find(text=f'Motion mix: {percent}% second animation. No gameplay.')
+                mix_checks.append(percent)
+                shots.append(self.capture(f'mix-{percent}.png'))
         self.click(self.find(text='PLAY ANIMATION')); self.find(text='PAUSE ANIMATION')
         positions=[self.position() for _ in range(4)]
         assert len(set(positions))>1, ('Playback clock did not advance',positions)
@@ -119,7 +132,7 @@ class Check:
         assert paused[0]==paused[1], ('Paused clock moved',paused)
         pid = self.run('shell','pidof',PACKAGE).strip(); assert pid
         log = self.run('logcat','-d','-T',start,'--pid='+pid)
-        assert not any(s in log for s in ('FATAL EXCEPTION','Fatal signal','animated frame rejected','animation pose rejected'))
+        assert not any(s in log for s in ('FATAL EXCEPTION','Fatal signal','animated frame rejected','animation pose rejected','blended frame rejected'))
         (self.a.evidence/'runtime.log').write_text(log,encoding='utf-8')
         installed = self.run('shell','pm','path',PACKAGE).strip().removeprefix('package:')
         pulled = self.a.evidence/'installed.apk'; self.run('pull',installed,str(pulled))
@@ -132,6 +145,7 @@ class Check:
             'fixture_sha256':fixture_hashes, 'statuses':statuses, 'seek_status':text,
             'play_and_pause':True, 'pid':pid, 'fatal_in_run':False, 'log_start_emulator_gmt':start,
             'playing_positions_ms':positions,'paused_positions_ms':paused,
+            'blend_percent_checks':mix_checks,
             'ui_helper_sha256':sha(self.a.ui_helper) if self.a.ui_helper else None,
             'test_sha256':sha(Path(__file__)),
             'screenshots':shots, 'visual_inspection_required':True,
@@ -150,6 +164,8 @@ def main():
     p.add_argument('--animation',default=FIXTURES[2][1],help='Animation path relative to the private cache')
     p.add_argument('--tracks',type=int,default=27,help='Expected imported track count')
     p.add_argument('--duration',type=int,default=799,help='Expected imported duration in milliseconds')
+    p.add_argument('--blend-animation',help='Optional second cache-relative animation path')
+    p.add_argument('--blend-tracks',type=int,default=29,help='Expected second animation track count')
     Check(p.parse_args()).check()
 
 if __name__ == '__main__': main()

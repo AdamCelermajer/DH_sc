@@ -7,9 +7,12 @@ range timeline passed 400 sequences/4,000 updates and drives the source Android
 preview, whose exact current APK passed advancing Play, stable Pause and visible
 pose changes on Android 17 with both 4 KiB and 16 KiB pages. A separate original
 mixing component passed 842 three-way cases and 24,000 sanitizer API calls;
-its scene integration remains open. See [timeline](../port/animation-timeline/README.md),
+Absolute layers now integrate normalization, vector mixing and quaternion blending
+in the Android preview. The original scheduler, relative application and events
+remain open. See [layers](../port/animation-layers/README.md),
+[timeline](../port/animation-timeline/README.md),
 [mixing](../port/animation-mixing/README.md) and
-[Android runtime evidence](../port/android-app/timeline-runtime-validation.json).
+[Android runtime evidence](../port/android-app/layers-runtime-validation.json).
 Full source-built gameplay remains unfinished.
 
 **Complete-cache note:** a separately supplied local cache ZIP is valid and contains 6,833 files, including the previously truncated WAV. See [COMPLETE-CACHE.md](COMPLETE-CACHE.md). The original recovery counts below document the earlier ten-part partial input; newer module checks explicitly identify their full-cache scope.

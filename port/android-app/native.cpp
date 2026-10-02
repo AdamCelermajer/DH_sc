@@ -23,8 +23,11 @@ std::uint32_t vertex_count = 0, index_count = 0;
 bool character_z_up = false;
 std::uint8_t* model_bytes = nullptr;
 std::uint8_t* animation_bytes = nullptr;
+std::uint8_t* second_animation_bytes = nullptr;
 dh2::resources::BresView model_image{};
 dh2::pose::Clip animation_clip{};
+dh2::pose::Clip second_animation_clip{};
+int blend_percent = 0;
 bool animation_playing = false;
 double animation_start = 0;
 dh2::timeline::State animation_clock{};
@@ -81,8 +84,20 @@ double monotonic_time() {
 bool update_pose_locked(std::int32_t time) {
     if (!model_bytes || !animation_clip.count) return false;
     dh2::viewer::SceneMesh frame{};
-    if (dh2_viewer_scene_mesh_at(&frame, &model_image, &animation_clip, time)
-        != dh2::viewer::SceneMeshError::ok) return false;
+    auto result = dh2::viewer::SceneMeshError::argument;
+    if (second_animation_clip.count) {
+        const auto duration = animation_clip.end - animation_clip.start;
+        const auto raw = std::int64_t(time) - animation_clip.start;
+        const auto offset = raw < 0 ? 0 : raw > duration ? duration : raw;
+        const auto second_time = second_animation_clip.start +
+            offset * (second_animation_clip.end - second_animation_clip.start) / duration;
+        const float weight = blend_percent / 100.0f;
+        dh2::layers::Layers layers{}; layers.count = 2;
+        layers.items[0] = {&animation_clip, time, 1.0f - weight};
+        layers.items[1] = {&second_animation_clip, static_cast<std::int32_t>(second_time), weight};
+        result = dh2_viewer_scene_mesh_layers(&frame, &model_image, &layers);
+    } else result = dh2_viewer_scene_mesh_at(&frame, &model_image, &animation_clip, time);
+    if (result != dh2::viewer::SceneMeshError::ok) return false;
     std::free(vertices); std::free(indices);
     vertices = frame.vertices; indices = frame.indices;
     vertex_count = frame.vertex_count; index_count = frame.index_count;
@@ -120,6 +135,8 @@ Java_local_dh2_sourceviewer_MainActivity_loadBres(JNIEnv* env, jclass, jbyteArra
     std::free(animation_bytes); animation_bytes = nullptr;
     animation_clip = {}; animation_playing = false;
     animation_clock = {};
+    std::free(second_animation_bytes); second_animation_bytes = nullptr;
+    second_animation_clip = {}; blend_percent = 0;
     std::free(vertices); std::free(indices);
     vertices = scene_mesh.vertices; indices = scene_mesh.indices;
     vertex_count = scene_mesh.vertex_count; index_count = scene_mesh.index_count;
@@ -137,8 +154,7 @@ Java_local_dh2_sourceviewer_MainActivity_loadBres(JNIEnv* env, jclass, jbyteArra
     return message(env, status);
 }
 
-extern "C" JNIEXPORT jstring JNICALL
-Java_local_dh2_sourceviewer_MainActivity_loadAnimation(JNIEnv* env, jclass, jbyteArray source) {
+static jstring load_animation(JNIEnv* env, jbyteArray source, bool second) {
     std::size_t size = 0; auto* bytes = input_copy(env, source, size);
     if (!bytes) return message(env, "Animation rejected: empty, too large, or out of memory");
     auto* candidate = static_cast<dh2::pose::Clip*>(std::malloc(sizeof(dh2::pose::Clip)));
@@ -155,13 +171,35 @@ Java_local_dh2_sourceviewer_MainActivity_loadAnimation(JNIEnv* env, jclass, jbyt
     }
     pthread_mutex_lock(&guard);
     dh2::viewer::SceneMesh test{};
-    const bool valid = character_z_up && model_bytes &&
+    const bool valid = character_z_up && model_bytes && (!second || animation_clip.count) &&
         dh2_viewer_scene_mesh_at(&test, &model_image, candidate, candidate->start)
             == dh2::viewer::SceneMeshError::ok;
     if (!valid) {
         pthread_mutex_unlock(&guard); std::free(candidate); std::free(bytes);
         return message(env, "Animation rejected: import a matching skinned character first");
     }
+    if (second) {
+        dh2_viewer_scene_mesh_free(&test);
+        const auto previous = second_animation_clip;
+        auto* previous_bytes = second_animation_bytes;
+        const int previous_percent = blend_percent;
+        second_animation_clip = *candidate; second_animation_bytes = bytes;
+        blend_percent = 50; animation_playing = false;
+        if (!update_pose_locked(animation_clock.current_ms)) {
+            second_animation_clip = previous; second_animation_bytes = previous_bytes;
+            blend_percent = previous_percent;
+            pthread_mutex_unlock(&guard); std::free(candidate); std::free(bytes);
+            return message(env, "Animation rejected: motions cannot be combined on this character");
+        }
+        std::free(previous_bytes);
+        const auto tracks = candidate->count;
+        pthread_mutex_unlock(&guard); std::free(candidate);
+        char status[160]{};
+        std::snprintf(status, sizeof(status), "Second animation: %u tracks. Motion mix: 50%%. No gameplay.", tracks);
+        return message(env, status);
+    }
+    std::free(second_animation_bytes); second_animation_bytes = nullptr;
+    second_animation_clip = {}; blend_percent = 0;
     std::free(animation_bytes); animation_bytes = bytes;
     animation_clip = *candidate; animation_playing = false;
     animation_clock = clock;
@@ -174,6 +212,35 @@ Java_local_dh2_sourceviewer_MainActivity_loadAnimation(JNIEnv* env, jclass, jbyt
     char status[160]{};
     std::snprintf(status, sizeof(status), "Animation preview: %u tracks, %d ms. Play or seek. Absolute-key preview; no gameplay.", tracks, duration);
     return message(env, status);
+}
+
+extern "C" JNIEXPORT jstring JNICALL
+Java_local_dh2_sourceviewer_MainActivity_loadAnimation(JNIEnv* env, jclass, jbyteArray source) {
+    return load_animation(env, source, false);
+}
+extern "C" JNIEXPORT jstring JNICALL
+Java_local_dh2_sourceviewer_MainActivity_loadBlendAnimation(JNIEnv* env, jclass, jbyteArray source) {
+    return load_animation(env, source, true);
+}
+extern "C" JNIEXPORT jboolean JNICALL
+Java_local_dh2_sourceviewer_MainActivity_blendAvailable(JNIEnv*, jclass) {
+    pthread_mutex_lock(&guard);
+    const bool available = second_animation_clip.count != 0;
+    pthread_mutex_unlock(&guard); return available;
+}
+extern "C" JNIEXPORT jint JNICALL
+Java_local_dh2_sourceviewer_MainActivity_blendPercent(JNIEnv*, jclass) {
+    pthread_mutex_lock(&guard);
+    const int value = blend_percent;
+    pthread_mutex_unlock(&guard); return value;
+}
+extern "C" JNIEXPORT void JNICALL
+Java_local_dh2_sourceviewer_MainActivity_setBlendPercent(JNIEnv*, jclass, jint value) {
+    pthread_mutex_lock(&guard);
+    blend_percent = value < 0 ? 0 : value > 100 ? 100 : value;
+    if (second_animation_clip.count && !update_pose_locked(animation_clock.current_ms))
+        __android_log_print(ANDROID_LOG_ERROR, "DH2Source", "blended frame rejected");
+    pthread_mutex_unlock(&guard);
 }
 
 extern "C" JNIEXPORT jint JNICALL

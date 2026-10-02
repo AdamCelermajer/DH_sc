@@ -1,8 +1,29 @@
 # Android 17 source renderer milestone
 
-## Current reconstructed timeline milestone
+## Current two-motion preview milestone
 
-The current source APK is 246,304 bytes, SHA-256
+The current source APK is 254,496 bytes, SHA-256
+`2e9b30c1560aee54083dfe7ba77273bc9a610ad78a828bba16a0885027c9b71d`.
+It combines two absolute poses using reconstructed weight/vector and quaternion
+mixing calculations. Import the warrior and texture, the dual walk as the primary
+animation, then Dark Queen scene 03a prince through **Import second animation**.
+The upper slider selects time; the lower slider mixes the second motion.
+
+The exact package passed import, midpoint seek, 0/50/100% mixing, advancing Play
+and stable Pause on both Android 17 4 KiB and 16 KiB emulators. Installed hashes
+matched. Visually inspected screenshots show three distinct textured poses with
+no fatal error or rejected frame. Play was checked after selecting 100%; other
+weights were checked while paused. [Runtime evidence](layers-runtime-validation.json)
+and [source layer scope](../animation-layers/README.md) record the limits.
+
+This combines source poses in a diagnostic viewer. Original target compilation,
+relative application, transition scheduling, synchronization, events and gameplay
+remain unfinished. The UI aligns the clips by normalized phase; that timing
+choice has not been compared to the original synchronized animator.
+
+## Earlier reconstructed timeline milestone
+
+The earlier source APK is 246,304 bytes, SHA-256
 `56f57478bea49e60c787a318c0852786f464d9d277fcd5031ac81103fcc5592d`.
 It uses the [reconstructed original range timeline](../animation-timeline/README.md)
 for playback, seek and resume. The on-screen time now follows native playback.
@@ -76,9 +97,11 @@ ARM64 hardware. Selected input files are bounded to 32 MiB each.
 With an English Android emulator running and the APK built, run:
 
 ```powershell
-python port/android-app/tests/animation_runtime.py --adb PATH_TO_ADB --serial emulator-5554 --apk port/android-app/build/dh2-source-renderer-debug.apk --cache PATH_TO_PRIVATE_CACHE --evidence PATH_OUTSIDE_GIT
+python port/android-app/tests/animation_runtime.py --adb PATH_TO_ADB --serial emulator-5554 --apk port/android-app/build/dh2-source-renderer-debug.apk --cache PATH_TO_PRIVATE_CACHE --evidence PATH_OUTSIDE_GIT --ui-helper port/android-app/tests/ui-helper/build/dh2-ui-helper.apk
 ```
 
+Build the local [UI snapshot helper](tests/ui-helper/README.md) first. It reads
+the live playback interface without requiring it to become idle.
 The script requires an emulator, installs the selected APK, copies three
 owner-supplied fixtures to Downloads, selects them through the system file
 picker, checks the midpoint slider and Play/Pause, and compares the installed
@@ -134,3 +157,12 @@ Open **DH2 Source Renderer**. Tap **Import BRES scene** and select `data/3d/modu
 The earlier 3D scene APK was installed on Android 17 x86_64 emulators with both 4 KiB (API 37.0) and 16 KiB (API 37.2) pages. On each it loaded the real 199,300-byte void maze BRES, reported 77 draws/3,140 vertices/4,695 indices, decoded its 256×256 PVRTC texture, and visibly displayed textured stone geometry. A touch drag changed the 3D view angle, and the process remained alive. The candle sample also loaded and displayed on the 4 KiB emulator. ARM64 was checked structurally but has not run on an ARM64 device or emulator.
 
 This app is an asset renderer milestone. Its coordinate normalization, orthographic camera, shader, texture sampling, and UI are new diagnostic choices. It applies one imported texture to every command, with no per-command material/shader state, transparency rules, or draw ordering reconstruction. A BRES with more than 256 static commands, 8,192 vertices, or 24,000 indices is rejected rather than partially drawn. It does not include the original game engine, level streaming, original animation state control, combat, input controls, audio, saved-game handling, or gameplay. Importing a BRES and a texture does not verify that the chosen files belong together; use the filename returned by the material link. The original rights situation remains described in [`RIGHTS.md`](../../RIGHTS.md).
+
+### Repeat the two-motion check
+
+Use the same runtime script with the primary dual-walk arguments
+`--animation data/3d/characters/prince/animations/prince_walk_dual.bdae --tracks 25 --duration 799`
+and add `--blend-animation data/3d/characters/prince/animations/cs_darkqueen_scene03a_prince.bdae --blend-tracks 29`.
+The script stages four owner fixtures, checks the second import and 0/50/100%
+mixing, then checks advancing Play and stable Pause. Inspect all three mix
+screenshots; status text alone does not prove a changed character pose.
