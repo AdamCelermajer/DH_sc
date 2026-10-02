@@ -1,0 +1,216 @@
+{
+  "complete_game": false,
+  "original_interpreter_or_gameplay_equivalence_tested": false,
+  "mode": "controlled",
+  "combat_cases": 216,
+  "asserted_values_and_counts": 1896,
+  "constant_files": 26,
+  "original_script_sha256": "f83639a12c5c1910f9a23fff494f4013330943ad4ef8f4d91c33fe1eb975565f",
+  "runner_sha256": "da9529e3885dc345d551e406dcb008b60255c361c162b85d166ef4bb0bcfa217",
+  "test_sha256": "2b0e67481e487990ad97ff0a8ad1bb0f584dec633e57740ac55c5b6db51af61f",
+  "files": [
+    {
+      "name": "ai_pycst.bin",
+      "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e",
+      "bytes": 1042
+    },
+    {
+      "name": "animations_pycst.bin",
+      "sha256": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f",
+      "bytes": 1089
+    },
+    {
+      "name": "character_classes_pycst.bin",
+      "sha256": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84",
+      "bytes": 251
+    },
+    {
+      "name": "character_properties_pycst.bin",
+      "sha256": "48024ac14ed9994cfb899cb83d161b461bf78f0b7c10ff6efee0860277f14f52",
+      "bytes": 762
+    },
+    {
+      "name": "common_text_pycst.bin",
+      "sha256": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5",
+      "bytes": 155738
+    },
+    {
+      "name": "design_pycst.bin",
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+      "bytes": 3999
+    },
+    {
+      "name": "dialogs_pycst.bin",
+      "sha256": "9625936dfb9f0fc86da76f36ae66c435e5b56f89c896918bd752243b1387ea06",
+      "bytes": 492
+    },
+    {
+      "name": "effects_pycst.bin",
+      "sha256": "f821c078e34e22df340cac5d6b4e88ae02a0698ad9d9df7e4cbc6bede6a7a625",
+      "bytes": 124
+    },
+    {
+      "name": "engine_core_pycst.bin",
+      "sha256": "2b61a269d8feefbcf1419e213c887d00fe9bcc8febf63b43340d37391e27376c",
+      "bytes": 1217
+    },
+    {
+      "name": "faeries_pycst.bin",
+      "sha256": "559a9e44bfa3d1c6cbb9b234523a893d241f6021f464e86b6589da7c0d4930d5",
+      "bytes": 165
+    },
+    {
+      "name": "fonts_pycst.bin",
+      "sha256": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa",
+      "bytes": 163
+    },
+    {
+      "name": "game_objects_pycst.bin",
+      "sha256": "055dadeb6982ebfa47220574b10999a4f9eb78375dfd3f33f69a475313ee4597",
+      "bytes": 1570
+    },
+    {
+      "name": "item_powers_pycst.bin",
+      "sha256": "0bc21dbcee7dfe61394968f758d2eca5c08bd68af04b8ed1d251878b38c4c981",
+      "bytes": 1414
+    },
+    {
+      "name": "levels_pycst.bin",
+      "sha256": "a620d7813bdd92b63b0863cf95f840389d9f358b56d823d8e31313f80ff87c10",
+      "bytes": 308
+    },
+    {
+      "name": "loot_audiovisual_pycst.bin",
+      "sha256": "ff1b4a1a5faee0ee2d8cac9bf5113db0eff1a991632b120c4335e8b1b7dc1b34",
+      "bytes": 85
+    },
+    {
+      "name": "loot_table_pycst.bin",
+      "sha256": "bf60c406ba80b49d337bc82dda35f2f6bc2848d1d6983a37cfb0f881d24cb6fe",
+      "bytes": 1680
+    },
+    {
+      "name": "multiplayer_pycst.bin",
+      "sha256": "5026e0c6aedf643403685deee33defdf2a3f3b56be4a3b6cd1d443e9fe4a5466",
+      "bytes": 97
+    },
+    {
+      "name": "projectiles_pycst.bin",
+      "sha256": "6be57b10285fdf43c112e00130b00654054597b28b38d34de7ca7cc0142f8595",
+      "bytes": 47
+    },
+    {
+      "name": "scripts_pycst.bin",
+      "sha256": "8a48588048c3eb7dbe559aae89804a947b391eab67894aaa73f588437a497fd1",
+      "bytes": 1731
+    },
+    {
+      "name": "skills_pycst.bin",
+      "sha256": "302879d1b1bb035380f7be9e87c385ceadbc2e58a94e8f1b9285747a307801f1",
+      "bytes": 83
+    },
+    {
+      "name": "specs_pycst.bin",
+      "sha256": "a1a29eb6918860afc8d9c264c4d1856da9a3dae157536de40b3e2c3e9d5930f5",
+      "bytes": 73
+    },
+    {
+      "name": "trophies_pycst.bin",
+      "sha256": "30813ee63573f83bf39e5766eb024e086c702c3ef7fec42f49f4488c6c32fd14",
+      "bytes": 2928
+    },
+    {
+      "name": "v2conditions_pycst.bin",
+      "sha256": "6a5bef06a0eff222c6cae50312bf5c42dfef421f3fed85e3d3122ede2d6550e7",
+      "bytes": 230
+    },
+    {
+      "name": "v2eventmanager_pycst.bin",
+      "sha256": "13e1ace862c6a8c0857a42fd0476e2ddf7a002389e004a055fb3363ace60e8c8",
+      "bytes": 84
+    },
+    {
+      "name": "v2quests_pycst.bin",
+      "sha256": "35feff579bdb6b36fef849afea06044830af9dd6180953727179ecc12926ac6a",
+      "bytes": 805
+    },
+    {
+      "name": "worldmap_pycst.bin",
+      "sha256": "0d4151ee2f104b13e0f1607d7927d238121041e9fbb37084ddfe1ecc17a0c0e6",
+      "bytes": 163
+    },
+    {
+      "name": "properties.bin",
+      "sha256": "3f5dfb29872294afff63d2f37fc4173adb91e8008d630376ae87eb12438a7ae1",
+      "bytes": 2700
+    },
+    {
+      "name": "loot.bin",
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "bytes": 284104
+    },
+    {
+      "name": "combat_formulas.luac",
+      "sha256": "f83639a12c5c1910f9a23fff494f4013330943ad4ef8f4d91c33fe1eb975565f",
+      "bytes": 36004
+    },
+    {
+      "name": "assertions-000.lua",
+      "sha256": "b89f4683208344738e837ef44eedf3a77ab3ddea7090845a9d44bc9bf98862d0",
+      "bytes": 48328
+    },
+    {
+      "name": "assertions-001.lua",
+      "sha256": "a590239586fcfecdd4fd9db72339b157bba5b0444c458076c84168c6dc19a6ce",
+      "bytes": 43329
+    },
+    {
+      "name": "assertions-002.lua",
+      "sha256": "f97b38e337d2be47ae24ff325c7e4a251fce3e34934551d4765602139dbbb5db",
+      "bytes": 46591
+    },
+    {
+      "name": "assertions-003.lua",
+      "sha256": "d3f6e7e38649f7b3a8885f42e359817d53a8fb5960d6251fdfb5e1363c2a37c9",
+      "bytes": 41411
+    },
+    {
+      "name": "assertions-004.lua",
+      "sha256": "ccfb1b90b601d941512afa8ee493138c7b03115a00608abc0cf236d5bf753b08",
+      "bytes": 48784
+    },
+    {
+      "name": "assertions-005.lua",
+      "sha256": "800e0e41ade4356e68661626de91672b7c7352080b2d466ad05a6c8bc9cf37ed",
+      "bytes": 43291
+    },
+    {
+      "name": "assertions-006.lua",
+      "sha256": "6f3fe0bc3641945ba07f8f8c7946a6c6a00c87cc5ecf9dfaa61a1a0c74a3578e",
+      "bytes": 49310
+    },
+    {
+      "name": "constants.txt",
+      "sha256": "244be67804d1f2ea1d3c5b831a66cce9dd7d3748ff32b3bb00f91e4ce6ab3a08",
+      "bytes": 4096
+    },
+    {
+      "name": "scripts.txt",
+      "sha256": "b1c9d3db85cc632dc9bce5dd172365987cade37476f0cab3591e93a4f929540a",
+      "bytes": 1250
+    }
+  ],
+  "stdout": "SELFTEST PASS\nNUMERIC PASS 504\nCOMBAT CORPUS PASS 26 8",
+  "source_sha256": {
+    "runtime.c": "c7164f8d1c0a6c98b268274a1adbcc25a15a0d0119914d17a6206ba4f216c503",
+    "runtime.h": "6973b1bef567fb6ad717e978d3b7df52326819fe871723cd9ccd1e656b0e30d3",
+    "build.py": "afe0e828c173a9e213392c4b0de1cd8b59e2b1be9f39988e8f77ef6b573fb3a1",
+    "tests/runner.c": "ab2abf4cf7a3da900de260ccc84465e3faa88d7b76361c77d90fbfe797ce230b",
+    "tests/combat.c": "4e538ccc3fe43c58fa3a79451bcfb9f38ebf044e048e17577414c25dff69fcdb",
+    "../lua-character/bridge.c": "95b99141be98e34bf92a7966dd5b3e938d24eee8e2e32c4453016ed65697801d",
+    "../random/random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "../random/random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6",
+    "../random/lua-bridge.c": "301f239854a8c2804c826ae1671bd87da9c253b8d09f6feb27b6bbbb296e38cf"
+  },
+  "scope": "Unchanged recovered combat formula executes with owned property actors and 26 exact constant files. Damage, leech, elements, DoT, block/critical flags, state/sneak/combo bonuses, minimum damage and chance thresholds compare an independent authored Python float32/integer reference. Controlled fixtures use type-8 property writes; real mode uses all 446 actual gameplay rows, both hands, melee/range/magic/DoT. No original Lua VM, original combat dispatcher, Character/buff/state machine, HP application, damage events, AI, level or game loop executes. The unchanged CF_CalcDodge live path calls an absent CF__CalcDodge and is explicitly checked to error; no formula repair is silently applied."
+}

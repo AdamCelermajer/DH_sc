@@ -29,6 +29,7 @@ public final class MainActivity extends Activity {
     private static final int CLASSES = 7;
     private static final int ITEMS = 8;
     private static final int POWERS = 9;
+    private static final int CONSTANTS = 10;
     private GLSurfaceView surface;
     private TextView status;
     private TextView scriptStatus;
@@ -55,6 +56,7 @@ public final class MainActivity extends Activity {
     private static native String importClasses(long session, byte[] data);
     private static native String importItems(long session, byte[] data);
     private static native String importPowers(long session, byte[] data);
+    private static native String importConstants(long session, byte[] data);
     private static native String loadTexture(byte[] data);
     private static native String loadAnimation(byte[] data);
     private static native String loadBlendAnimation(byte[] data);
@@ -214,6 +216,10 @@ public final class MainActivity extends Activity {
         powers.setText("Import item powers");
         powers.setOnClickListener(view -> pick(POWERS));
         layout.addView(powers);
+        Button constants = new Button(this);
+        constants.setText("Import script constants");
+        constants.setOnClickListener(view -> pick(CONSTANTS));
+        layout.addView(constants);
         startScripts();
         surface = new GLSurfaceView(this);
         surface.setEGLContextClientVersion(2);
@@ -261,6 +267,13 @@ public final class MainActivity extends Activity {
             try {
                 scriptStatus.setText(executeScript(scriptSession, readScript(getContentResolver().openInputStream(data.getData()))));
             } catch (Exception error) { scriptStatus.setText("Script rejected: " + error.getMessage()); }
+            return;
+        }
+        if (request == CONSTANTS) {
+            try {
+                scriptStatus.setText(importConstants(scriptSession,
+                    readLimited(getContentResolver().openInputStream(data.getData()), 4 * 1024 * 1024)));
+            } catch (Exception error) { scriptStatus.setText("Constants rejected: " + error.getMessage()); }
             return;
         }
         if (request == PROPERTIES) {

@@ -1,0 +1,88 @@
+{
+  "complete_game": false,
+  "original_interpreter_or_combat_dispatch_tested": false,
+  "core_comparisons": 768,
+  "callback_comparisons": 351,
+  "character_projection_cases": 35,
+  "mismatches": 0,
+  "stack_restoration": true,
+  "input_preservation": true,
+  "output_guards": true,
+  "seed": 20261002,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "host_sha256": "e39a2a2ed6b0df4aeb24a319a50df97ce6cae6d0ddbd7d6cd07090d249b165b4",
+  "arm64_sha256": "adb7f1356078af981a85132eccef010b24986b7aa9fac5dc3018cbc53e8ecb5d",
+  "source_sha256": {
+    "random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6"
+  },
+  "test_sha256": "4c339228dde0f0f208061f5a4f7531f83ef37e9f2e7d13b6622bd1c2c7febf09",
+  "function_evidence": [
+    {
+      "elf_address": "0x33ff90",
+      "size": 196,
+      "name": "Random::GetRandom",
+      "sha256": "fc93b6feb58616e89b16d0bee33193af6b6cc36b6b29442fdca3e75c832ab665"
+    },
+    {
+      "elf_address": "0x38e578",
+      "size": 148,
+      "name": "ordinary clone",
+      "sha256": "272a1a6e7a8b846af3fed053ac8cfc1caca839f30abfbab074e8be8cc5242f0a"
+    },
+    {
+      "elf_address": "0x393310",
+      "size": 308,
+      "name": "GameObject::_Rand",
+      "sha256": "b8094bd75f36b6c60ba6ccbc5f7392823bdd98af6e3be2de8041272174825f39"
+    },
+    {
+      "elf_address": "0x38d798",
+      "size": 16,
+      "name": "Value::getUInteger",
+      "sha256": "0553d12ea35fd62a6857d3f01e2f1f7c8385bff2bcfd8f834f888d28a3eed1f2"
+    },
+    {
+      "elf_address": "0x31bbf0",
+      "size": 144,
+      "name": "Value::getNumber",
+      "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de"
+    },
+    {
+      "elf_address": "0x3b6cc8",
+      "size": 16,
+      "name": "Character::_GetHitCount",
+      "sha256": "fd64320e9c4296e82dbcd0dc18b62f79eee8d384c5fda2d4c0e79f59d148228d"
+    },
+    {
+      "elf_address": "0x3b6d78",
+      "size": 40,
+      "name": "Character::_GetState",
+      "sha256": "135a6c6970122375b66964dbceaf84e5ed2c0282c409fe1046254a51c3d18b5f"
+    },
+    {
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "name": "SM_GetState",
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "elf_address": "0x38ebf0",
+      "size": 12,
+      "name": "GameObject::_GetName",
+      "sha256": "f57d50206ecdecbdb9652d4086434c3b592019c23115562713a670851652b733"
+    }
+  ],
+  "imports": {
+    "__aeabi_uidivmod": 1092
+  },
+  "scope": "Actual Random core, ordinary clone, Rand callback, Arguments/Value numeric conversion bodies execute. Defined ELF global relocations installed. Imported unsigned quotient/remainder uses an explicit mathematical model, with nonzero divisors. GetOnline is a fixed boundary fixture and ReturnValues pushes capture values; original online runtime and Lua VM are not exercised. Sequential draws cover both streams, zero bounds/counter wrap, upper/lower order, finite negative clamp, missing/extra/tag-rejected arguments, offline/online object seed and global state. GetState/HitCount/Name projections execute on explicit bounded object/node/string fixtures; full Character/state-machine ownership remains absent.",
+  "runtime_sha256": "6a939606cbe568179189b33ebacbedbc59cc0b96e60cbe31498431d9b84b7ee4",
+  "owned_lua_callback_and_context_checks": 147,
+  "lua_scope": "Offline Rand original integer returns are compared after float32 Lua conversion; online remains standalone only. State inputs representable as float32 signed int and hit/name inputs compare original captured values. Authored seeding/context setters are controls, not original callbacks.",
+  "bridge_sha256": {
+    "lua-bridge.c": "301f239854a8c2804c826ae1671bd87da9c253b8d09f6feb27b6bbbb296e38cf",
+    "../lua-character/bridge.c": "95b99141be98e34bf92a7966dd5b3e938d24eee8e2e32c4453016ed65697801d"
+  }
+}

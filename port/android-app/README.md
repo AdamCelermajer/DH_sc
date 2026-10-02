@@ -1,6 +1,17 @@
 # Android 17 source renderer milestone
 
-## Current gear/power stat APK milestone
+## Current combat calculation APK milestone
+
+The current source APK is 840,611 bytes, SHA-256
+`122af9795982829d6f15e7c45a417824b465461d6d9f9cfd660cbb3bbe55c795`.
+It adds owned script constant imports, offline Rand and actor state/hit/name
+projections for the unchanged recovered combat formula. Both Android 17 page
+sizes pass 26 imports, 80 real and 216 controlled combat cases, replacement/error
+recovery and textured two-motion preview. See [instructions/evidence](COMBAT-INTEGRATION.md).
+Damage application, original Character/state/buff lifecycle, AI and full source
+gameplay remain unfinished.
+
+## Earlier gear/power stat APK milestone
 
 The current source APK is 836,515 bytes, SHA-256
 `d0005277e5839989c63a38cb2e86add55347b99150181e0baf944ca9db26e40f`.

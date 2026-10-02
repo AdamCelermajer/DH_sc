@@ -1,5 +1,17 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Recovered combat calculations in the source APK:** Reconstructed random
+streams match 768 original ARM32/source ARM64/host draws and 351 callbacks.
+The unchanged combat script runs through owned actor projections: 3,568 real
+record/hand/attack cases and 216 controlled cases pass host, strict sanitizers
+and Android 17 4 KiB/16 KiB checks. The 840,611-byte source APK passes 26 imports,
+80 selected real and all 216 controlled cases, constant replacement/recovery
+and textured two-motion preview on both page sizes. Damage application,
+Character/state/buff ownership, AI and full source gameplay remain unfinished.
+See [binding scope](port/lua-character/COMBAT-BINDING.md) and
+[APK evidence](port/android-app/COMBAT-INTEGRATION.md). Earlier entries
+retain their checkpoint identities.
+
 **Gear stats and powers in the source APK:** Item/power stat contributions
 and base/gear/class recalculation now match 7,147 original ARM32 versus source
 ARM64/host comparisons. Owned script objects retain all four datasets and pass

@@ -24,3 +24,6 @@ reports/loot-table-reader-trace.json -text
 reports/equipment-callback-trace.json -text
 reports/item-power-reader-trace.json -text
 port/gear-properties/differential-validation.json -text
+port/random/*validation.json -text
+port/lua-runtime/combat-*validation.json -text
+port/android-app/combat-*validation.json -text

@@ -21,7 +21,31 @@ struct object {
     struct dh2_character_props state;struct dh2_equipment equipment;
     int32_t gear_ids[2][GEAR_SLOTS],power_ids[2][GEAR_SLOTS][GEAR_POWERS];
     uint32_t power_counts[2][GEAR_SLOTS];
+    int32_t combat_state;uint16_t hit_count;
 };
+static int get_state(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);lua_pushinteger(L,obj->combat_state);return 1;
+}
+static int get_hit_count(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);lua_pushinteger(L,obj->hit_count);return 1;
+}
+static int get_name(lua_State *L) {
+    luaL_checkudata(L,1,STATE_TYPE);lua_getfenv(L,1);lua_rawgeti(L,-1,5);return 1;
+}
+/* Authored inputs for exact recovered combat formulas; this does not execute
+ * an original state machine, combo counter or Character constructor. */
+static int combat_context(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);
+    if(lua_gettop(L)!=4 || lua_type(L,2)!=LUA_TNUMBER || lua_type(L,3)!=LUA_TNUMBER || lua_type(L,4)!=LUA_TSTRING)
+        return luaL_error(L,"combat context requires state, hit count and name");
+    lua_Number state=lua_tonumber(L,2),hit=lua_tonumber(L,3);size_t length;
+    const char *name=lua_tolstring(L,4,&length);
+    if(!isfinite(state) || state< -2147483648.0 || state>=2147483648.0 || (lua_Number)(int32_t)state!=state ||
+       !isfinite(hit) || hit<0 || hit>65535 || (lua_Number)(uint16_t)hit!=hit || !length || length>255 || memchr(name,0,length))
+        return luaL_error(L,"invalid combat context");
+    lua_getfenv(L,1);lua_pushvalue(L,4);lua_rawseti(L,-2,5);
+    obj->combat_state=(int32_t)state;obj->hit_count=(uint16_t)hit;return 0;
+}
 static struct dataset *data_for(lua_State *L,int object) {
     lua_getfenv(L,object);lua_rawgeti(L,-1,1);
     struct dataset *data=(struct dataset *)lua_touserdata(L,-1);
@@ -182,6 +206,7 @@ static int create(lua_State *L) {
     int dataset_index=lua_gettop(L);
     struct object *obj=lua_newuserdata(L,sizeof(*obj));
     memset(obj,0,sizeof(*obj));
+    obj->combat_state=-1;
     for(unsigned s=0;s<2;++s)for(unsigned i=0;i<3;++i)obj->equipment.slots[s][i].item_id= -1;
     for(unsigned s=0;s<2;++s)for(unsigned i=0;i<GEAR_SLOTS;++i)obj->gear_ids[s][i]=-1;
     if(dh2_character_props_init(&data->table,&obj->state) || dh2_property_load(&data->table,(uint32_t)row,&obj->state.base))
@@ -195,6 +220,7 @@ static int create(lua_State *L) {
     lua_pushlightuserdata(L,&class_key);lua_rawget(L,LUA_REGISTRYINDEX);lua_rawseti(L,-2,2);
     lua_pushlightuserdata(L,&loot_key);lua_rawget(L,LUA_REGISTRYINDEX);lua_rawseti(L,-2,3);
     lua_pushlightuserdata(L,&power_key);lua_rawget(L,LUA_REGISTRYINDEX);lua_rawseti(L,-2,4);
+    lua_pushliteral(L,"source character");lua_rawseti(L,-2,5);
     lua_setfenv(L,-2);
     return 1;
 }
@@ -214,6 +240,10 @@ void dh2_lua_register_characters(lua_State *L) {
     lua_pushcfunction(L,update_base);lua_setfield(L,-2,"UpdateBaseProperties");
     lua_pushcfunction(L,update_gears);lua_setfield(L,-2,"UpdateGearsProperties");
     lua_pushcfunction(L,recalculate);lua_setfield(L,-2,"RecalculateProperties");
+    lua_pushcfunction(L,get_state);lua_setfield(L,-2,"GetState");
+    lua_pushcfunction(L,get_hit_count);lua_setfield(L,-2,"GetHitCount");
+    lua_pushcfunction(L,get_name);lua_setfield(L,-2,"GetName");
+    lua_pushcfunction(L,combat_context);lua_setfield(L,-2,"SetCombatContext");
     lua_setfield(L,-2,"__index");lua_pushboolean(L,0);lua_setfield(L,-2,"__metatable");lua_pop(L,1);
     lua_pushcfunction(L,create);lua_setglobal(L,"DH2CreatePropertyState");
 }

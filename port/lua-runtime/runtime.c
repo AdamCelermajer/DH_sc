@@ -13,6 +13,7 @@
 
 struct dh2_lua { lua_State *state; size_t used,limit; uint32_t blocks; };
 void dh2_lua_register_numeric(lua_State *state);
+void dh2_lua_register_random(lua_State *state);
 void dh2_lua_register_constants(lua_State *state);
 int dh2_lua_constants_load(lua_State *state,const struct dh2_pycst_view *view);
 void dh2_lua_register_names(lua_State *state);
@@ -42,6 +43,7 @@ static int libraries(lua_State *state) {
     const char *removed[]={"dofile","loadfile","print",NULL};
     for (const char **name=removed;*name;++name) { lua_pushnil(state);lua_setglobal(state,*name); }
     dh2_lua_register_numeric(state);
+    dh2_lua_register_random(state);
     dh2_lua_register_constants(state);
     dh2_lua_register_names(state);
     dh2_lua_register_characters(state);
