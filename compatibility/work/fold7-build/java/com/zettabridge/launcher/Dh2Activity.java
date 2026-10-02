@@ -91,7 +91,7 @@ public class Dh2Activity extends Activity {
         Button report=new Button(this);report.setText("View / share diagnostic report");report.setOnClickListener(v -> showReport());panel.addView(report);
         Button export=new Button(this);export.setText("Export diagnostic ZIP");export.setOnClickListener(v -> startActivityForResult(new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/zip").putExtra(Intent.EXTRA_TITLE,"DH2-diagnostics.zip"),EXPORT));panel.addView(export);
         option(panel,"Prefer English (cache translations may override)","preferEnglish",true);
-        option(panel,"Fit game to 16:9 (experimental)","fit16by9",false);
+        option(panel,"Fit game to 16:9 (experimental)","fit16by9",true);
         option(panel,"Keep graphics context during cinematics","preserveContext",false);
         location=new TextView(this);location.setTextIsSelectable(true);location.setText("Cache destination:\n"+dataRoot().getAbsolutePath());panel.addView(location);
         TextView credit=new TextView(this);credit.setPadding(0,24,0,0);credit.setText("Uses ZettaBridge and Dynarmic for ARM32 translation. Private compatibility build; upstream notices are included.");panel.addView(credit);
@@ -133,7 +133,7 @@ public class Dh2Activity extends Activity {
     }
     private void configurePath() throws IOException {
         File root=dataRoot();if (!root.isDirectory() && !root.mkdirs()) throw new IOException("External game storage is unavailable");
-        String options="{\"preferEnglish\":"+getPreferences(0).getBoolean("preferEnglish",true)+",\"fit16by9\":"+getPreferences(0).getBoolean("fit16by9",false)+",\"preserveContext\":"+getPreferences(0).getBoolean("preserveContext",false)+"}";
+        String options="{\"preferEnglish\":"+getPreferences(0).getBoolean("preferEnglish",true)+",\"fit16by9\":"+getPreferences(0).getBoolean("fit16by9",true)+",\"preserveContext\":"+getPreferences(0).getBoolean("preserveContext",false)+"}";
         java.nio.file.Files.write(new File(root,"dh2-options.json").toPath(),options.getBytes(StandardCharsets.UTF_8));
         getSharedPreferences(CacheArchive.GAME+"__DungeonHunter2Prefs",0).edit().putString("SDFolder",root.getAbsolutePath()).commit();
     }

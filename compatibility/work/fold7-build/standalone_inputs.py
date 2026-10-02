@@ -17,6 +17,9 @@ TEST8_GUEST_SHA256 = "8168af36b2d82cf6b897da2fe4ec382c816f6498840e3bb61aede2f23c
 TEST8_ENGINE_SHA256 = "ad33304fe17654ff5e05606323d977c89687c96bc8ce4722983ec6e092bb5f5f"
 TEST9_GUEST_SHA256 = "310adb7117104fbb5de0f0542586e3eb9d3e23fe8f06b30d8036faea442733f1"
 TEST9_STORM_SHA256 = "2489c037d75cd2a3c994b7bc349aac767c34f96acf25a79188a72c77dc7502de"
+TEST10_GUEST_SHA256 = "57cefd15cba47116a98fa96e406ba8d8a4ef90fb0e82185802a8f09210ba2b7e"
+TEST10_PRIMARY_DEX_SHA256 = "03c71b7a981b15ac8d28129d9a0abe38d9356d8890c0d4f1374cbac654b9df72"
+TEST10_HELPER_DEX_SHA256 = "bba5f019caf2a0cc0c6f6c8a8f673dc69ec792355af272b7f5020693820d3efe"
 COMPLETE_CACHE_SHA256 = "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679"
 
 
@@ -44,6 +47,15 @@ def verify_test8_guest(path: Path) -> None:
 
 def verify_test9_guest(path: Path) -> None:
     _verify_guest(path, TEST9_GUEST_SHA256, TEST8_ENGINE_SHA256, TEST9_STORM_SHA256)
+
+
+def verify_test10_guest(path: Path) -> None:
+    _verify_guest(path, TEST10_GUEST_SHA256, TEST8_ENGINE_SHA256, TEST9_STORM_SHA256)
+    with zipfile.ZipFile(path) as archive:
+        if hashlib.sha256(archive.read("classes.dex")).hexdigest() != TEST10_PRIMARY_DEX_SHA256:
+            raise ValueError("Test 10 primary DEX differs from the pinned viewport patch")
+        if hashlib.sha256(archive.read("classes2.dex")).hexdigest() != TEST10_HELPER_DEX_SHA256:
+            raise ValueError("Test 10 helper DEX differs from the pinned viewport patch")
 
 
 def _verify_guest(path: Path, expected_outer: str, expected_engine: str, expected_storm: str) -> None:

@@ -3,9 +3,9 @@
 from pathlib import Path
 import os,subprocess,shutil,zipfile,json,hashlib,xml.etree.ElementTree as ET
 from standalone_inputs import (COMPLETE_CACHE_SHA256, TEST7_GUEST_SHA256,
-                               TEST8_GUEST_SHA256, TEST9_GUEST_SHA256,
+                               TEST8_GUEST_SHA256, TEST9_GUEST_SHA256, TEST10_GUEST_SHA256,
                                copy_verified_cache, verify_test7_guest,
-                               verify_test8_guest, verify_test9_guest)
+                               verify_test8_guest, verify_test9_guest, verify_test10_guest)
 
 ROOT=Path(__file__).resolve().parent
 WORK=ROOT.parent
@@ -19,10 +19,11 @@ ENV=dict(os.environ,JAVA_HOME=str(JDK));ENV['PATH']=str(JDK/'bin')+os.pathsep+EN
 test7_input = os.environ.get('DH2_TEST7_GUEST_APK')
 test8_input = os.environ.get('DH2_TEST8_GUEST_APK')
 test9_input = os.environ.get('DH2_TEST9_GUEST_APK')
+test10_input = os.environ.get('DH2_TEST10_GUEST_APK')
 cache_input = os.environ.get('DH2_CACHE_ZIP')
-if sum(bool(value) for value in (test7_input,test8_input,test9_input)) > 1:
+if sum(bool(value) for value in (test7_input,test8_input,test9_input,test10_input)) > 1:
     raise SystemExit('Choose exactly one pinned DH2_TEST*_GUEST_APK')
-guest_input = test9_input or test8_input or test7_input
+guest_input = test10_input or test9_input or test8_input or test7_input
 if cache_input and not guest_input:
     raise SystemExit('DH2_CACHE_ZIP requires a pinned standalone guest APK')
 guest_source = Path(guest_input) if guest_input else ROOT/'game-unsigned.apk'
@@ -32,12 +33,15 @@ if test8_input:
     verify_test8_guest(guest_source)
 if test9_input:
     verify_test9_guest(guest_source)
+if test10_input:
+    verify_test10_guest(guest_source)
 if cache_input:
     from standalone_inputs import verify_sha256
     verify_sha256(Path(cache_input), COMPLETE_CACHE_SHA256)
-version_code, version_name = ((9, '1.0-test9-path') if test9_input else
+version_code, version_name = ((13, '1.0-test10-initial-size') if test10_input else
+                              ((9, '1.0-test9-path') if test9_input else
                               ((8, '1.0-test8-sync') if test8_input else
-                               ((7, '1.0-test7') if test7_input else (5, '1.0-test5'))))
+                               ((7, '1.0-test7') if test7_input else (5, '1.0-test5')))))
 
 def run(args):
     program=Path(args[0])
@@ -168,10 +172,10 @@ with zipfile.ZipFile(unsigned,'a',zipfile.ZIP_DEFLATED) as z:
     for p in (ZB/'build/launcher/jniLibs/arm64-v8a').glob('*.so'):z.write(p,'lib/arm64-v8a/'+p.name)
 aligned=OUT/'dh2-aligned.apk'
 run([BT/'zipalign','-f','-P','16','4',unsigned,aligned])
-deliverable=Path(os.environ['DH2_OUTPUT_APK']) if 'DH2_OUTPUT_APK' in os.environ else WORK.parent/'deliverables'/('Dungeon-Hunter-2-Android17-test9-path.apk' if test9_input else ('Dungeon-Hunter-2-Android17-test8-sync.apk' if test8_input else ('Dungeon-Hunter-2-Android17-test7.apk' if test7_input else 'Dungeon-Hunter-2-Fold7-test5.apk')))
+deliverable=Path(os.environ['DH2_OUTPUT_APK']) if 'DH2_OUTPUT_APK' in os.environ else WORK.parent/'deliverables'/('Dungeon-Hunter-2-Android17-test10-initial-size.apk' if test10_input else ('Dungeon-Hunter-2-Android17-test9-path.apk' if test9_input else ('Dungeon-Hunter-2-Android17-test8-sync.apk' if test8_input else ('Dungeon-Hunter-2-Android17-test7.apk' if test7_input else 'Dungeon-Hunter-2-Fold7-test5.apk'))))
 deliverable.parent.mkdir(parents=True,exist_ok=True)
 run([BT/'apksigner','sign','--ks',WORK/'dh2-local-test.p12','--ks-key-alias','dh2-local-test','--ks-pass','pass:dh2-local-test-only','--key-pass','pass:dh2-local-test-only','--out',deliverable,aligned])
 run([BT/'apksigner','verify','--verbose',deliverable])
 run([BT/'zipalign','-c','-P','16','4',deliverable])
-(ROOT/'build-result.json').write_text(json.dumps({'apk':str(deliverable),'sha256':hashlib.sha256(deliverable.read_bytes()).hexdigest(),'bytes':deliverable.stat().st_size,'upstream_commit':subprocess.check_output(['git','-C',str(ZB),'rev-parse','HEAD'],text=True).strip(),'host_abi':'arm64-v8a','guest_abi':'armeabi-v7a','guest_input_sha256':TEST9_GUEST_SHA256 if test9_input else (TEST8_GUEST_SHA256 if test8_input else (TEST7_GUEST_SHA256 if test7_input else None)),'cache_bundled':bool(cache_input),'cache_input_sha256':COMPLETE_CACHE_SHA256 if cache_input else None,'device_tested':False,'gameplay_tested':False},indent=2)+'\n')
+(ROOT/'build-result.json').write_text(json.dumps({'apk':str(deliverable),'sha256':hashlib.sha256(deliverable.read_bytes()).hexdigest(),'bytes':deliverable.stat().st_size,'upstream_commit':subprocess.check_output(['git','-c',f'safe.directory={ZB.resolve()}','-C',str(ZB),'rev-parse','HEAD'],text=True).strip(),'host_abi':'arm64-v8a','guest_abi':'armeabi-v7a','guest_input_sha256':TEST10_GUEST_SHA256 if test10_input else (TEST9_GUEST_SHA256 if test9_input else (TEST8_GUEST_SHA256 if test8_input else (TEST7_GUEST_SHA256 if test7_input else None))),'cache_bundled':bool(cache_input),'cache_input_sha256':COMPLETE_CACHE_SHA256 if cache_input else None,'device_tested':False,'gameplay_tested':False},indent=2)+'\n')
 print('Built signed ARM64 local test package:',deliverable,flush=True)
