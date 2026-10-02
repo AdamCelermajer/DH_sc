@@ -1,0 +1,26 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "source_sha256": {
+    "mixing.cpp": "356e356741497dd002f917e4ce7109eb2340f6093d230a388f30df25d8113ef5",
+    "mixing.hpp": "e694a012b78b14f049bb1010c44291a3893c37ac2aec4bec294d3a09fcc07a06",
+    "math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "artifact_sha256": {
+    "mixing-arm64.so": "c7435bb40dba9446f2fcbe4728995ee805a5b4b5512467a36cd2912f56d0e100"
+  },
+  "arm64_layout": {
+    "machine": 183,
+    "pt_load": [
+      {
+        "offset": 0,
+        "alignment": 16384
+      },
+      {
+        "offset": 10832,
+        "alignment": 16384
+      }
+    ]
+  }
+}
