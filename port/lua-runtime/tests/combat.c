@@ -85,6 +85,27 @@ int dh2_lua_combat_tests(void) {
         "policy.kill_enemies=0;policy.forced=0;assert(not pcall(function()p:KillNonplayer(policy)end));assert(not p:IsDead() and p:GetProp(36)==before);"
         "policy.forced=false;assert(not pcall(function()p:KillNonplayer({})end));assert(not p:IsDead() and p:GetProp(36)==before);"
         "collectgarbage('collect');r=p:KillNonplayer(policy);assert(r.processed and p:IsDead() and p:GetHP()==0)"));
+    CHECK(!execute(r,"local p=DH2CreatePropertyState(2);p:SetProp(38,25600);"
+        "local ctx={dead=false,network=false,suppress_events=false,target_id=734,property_id=5,template_id=7};"
+        "local policy={forced=false,loot_manager_present=true,kill_enemies=0,clear_enemies=1,kill_template=10,clear_template=11};local qs={};"
+        "for k=0,3 do qs[k+1]=DH2CreateKillObjective{kind=k,match_id=k<2 and 5 or 7,current=0,required=2,completed=false}end;"
+        "for kill=1,3 do p:SetDeathContext(ctx);p:SetHP(10);local d=p:KillNonplayer(policy);"
+        "for _,q in ipairs(qs)do for _,e in ipairs(d.events)do local r=q:ConsumeKillEvent(e);"
+        "if r.matched then assert(r.changed and r.progress.current==kill and r.event.quantity==kill and r.event.outbound);"
+        "assert(r.completion_requested==(kill>=2) and r.newly_completed==(kill==2))end end;"
+        "local v=q:GetProgress();assert(v.current==kill and v.completed==(kill>=2))end;"
+        "assert(#p:KillNonplayer(policy).events==0)end;"
+        "local q=qs[1];local e={kind=0,match_id=5,synchronized=true,quantity=2,outbound=false};"
+        "local v=q:ConsumeKillEvent(e);assert(v.matched and not v.changed and not v.completion_requested and v.progress.current==3);"
+        "e.quantity=8;v=q:ConsumeKillEvent(e);assert(v.changed and v.completion_requested and not v.newly_completed and v.progress.current==8 and not v.event.outbound);"
+        "assert(e.quantity==8 and e.outbound==false);"
+        "e.match_id=6;v=q:ConsumeKillEvent(e);assert(not v.matched and not v.changed and v.progress.current==8);e.match_id=5;e.kind=1;"
+        "v=q:ConsumeKillEvent(e);assert(not v.matched and q:GetProgress().current==8);e.kind=0;"
+        "for _,bad in ipairs({0/0,1/0,1.5,2147483648,'8'})do e.quantity=bad;assert(not pcall(function()q:ConsumeKillEvent(e)end));assert(q:GetProgress().current==8)end;"
+        "e.quantity=9;e.synchronized=0;assert(not pcall(function()q:ConsumeKillEvent(e)end));assert(q:GetProgress().current==8);"
+        "assert(not pcall(function()q:ConsumeKillEvent({})end));assert(not pcall(function()DH2CreateKillObjective{}end));"
+        "local thrown=false;local raw=setmetatable({kind=0,match_id=5},{__index=function()thrown=true;error('metamethod')end});"
+        "v=q:ConsumeKillEvent(raw);assert(v.changed and v.progress.current==9 and not thrown);collectgarbage('collect');assert(q:GetProgress().current==9)"));
     dh2_lua_destroy(r);return 0;
 }
 static int file(dh2_lua *r,const char *path,int kind) {

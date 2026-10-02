@@ -1,5 +1,18 @@
 # Recovery status — updated 2026-10-02
 
+**Kill-objective progress in the source APK:** Four already-dispatched
+native kill/clear handlers pass 14,396 original ARM32/host/source ARM64 comparisons.
+The 873,379-byte source APK passes 14 imports on both Android 17 page sizes:
+three recovered-formula two-hit deaths feed four owned quest counters, complete
+at the second kill and preserve progress after replacement/rejection. Stale and
+increasing synchronization, repeated completion requests, kind/ID filtering and
+argument rollback pass. Native runtime and strict sanitizer checks pass. Actual
+quest data loading/compile, automatic dispatch, persistence/rewards, loot, killer
+credit/XP, player death, full combat/world/AI and complete source gameplay remain
+pending. See [quest scope](../port/quest-kill/README.md) and
+[APK evidence](../port/android-app/QUEST-INTEGRATION.md). Earlier entries retain
+their checkpoint identities.
+
 **Non-player death in the source APK:** The null-killer Kill projection
 passes 2,510 original ARM32/source ARM64/host comparisons. Owned dead state,
 HP zeroing, loot request/ID and four ordered quest requests match. Event match
