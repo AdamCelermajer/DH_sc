@@ -25,5 +25,8 @@ reports/equipment-callback-trace.json -text
 reports/item-power-reader-trace.json -text
 port/gear-properties/differential-validation.json -text
 port/random/*validation.json -text
+port/character-health/*validation.json -text whitespace=cr-at-eol
+port/lua-runtime/health-*validation.json -text whitespace=cr-at-eol
+port/android-app/health-*validation.json -text whitespace=cr-at-eol
 port/lua-runtime/combat-*validation.json -text
 port/android-app/combat-*validation.json -text

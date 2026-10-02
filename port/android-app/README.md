@@ -1,6 +1,17 @@
 # Android 17 source renderer milestone
 
-## Current combat calculation APK milestone
+## Current health/mana APK milestone
+
+The current source APK is 848,803 bytes, SHA-256
+`991355b1c6dcd9a42e595ec5e0e56c12b2aedcde055efb1821b770d9eb3b89f8`.
+It adds health reporting, validation, regeneration and normal offline mana use
+on owned script actors. Both Android 17 page sizes pass 14 imports, 86 selected
+original-derived cases / 19,264 final-field queries, retained property generations,
+rejection/recovery and textured character walk preview. See
+[instructions/evidence](HEALTH-INTEGRATION.md). Full damage/result dispatch,
+death/events, Character ownership, AI and source gameplay remain unfinished.
+
+## Earlier combat calculation APK milestone
 
 The current source APK is 840,611 bytes, SHA-256
 `122af9795982829d6f15e7c45a417824b465461d6d9f9cfd660cbb3bbe55c795`.

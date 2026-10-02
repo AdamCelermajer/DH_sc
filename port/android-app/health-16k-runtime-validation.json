@@ -1,0 +1,161 @@
+{
+  "complete_game": false,
+  "original_gameplay_equivalence_tested": false,
+  "device": {
+    "serial": "emulator-5558",
+    "release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "apk_sha256": "991355b1c6dcd9a42e595ec5e0e56c12b2aedcde055efb1821b770d9eb3b89f8",
+  "installed_apk_hash_matches": true,
+  "controlled_actor_cases": 40,
+  "real_actor_cases": 46,
+  "final_field_queries": 19264,
+  "cases": [
+    {
+      "name": "controlled_properties",
+      "kind": "properties",
+      "bytes": 2700,
+      "sha256": "3f5dfb29872294afff63d2f37fc4173adb91e8008d630376ae87eb12438a7ae1",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "name": "controlled_0",
+      "kind": "script",
+      "bytes": 102355,
+      "sha256": "780df25e39b34cb4a28e396f65aa2070ee9f1b4883f2b627a48eff340a306bca",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "controlled_16",
+      "kind": "script",
+      "bytes": 102414,
+      "sha256": "d1bd760c5261bc42a2ef9711f8a638fa0d97285ef2d3f1505ccf03571e14bd06",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "controlled_32",
+      "kind": "script",
+      "bytes": 51743,
+      "sha256": "950e71cced2beaf1d5d66859d9d6155b19ab52811815a299d64297b0d06789a7",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "retained_actor",
+      "kind": "script",
+      "bytes": 214,
+      "sha256": "e1784cad16d7a85983e98afa45cd3f6ebc87798535a4613bc9eb4cd52dd3cf30",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "real_properties",
+      "kind": "properties",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "name": "real_0",
+      "kind": "script",
+      "bytes": 111836,
+      "sha256": "21ada42b9dee841c5f5378517ecc9e66b3ddbdd3c1b74b4b78c1ca59302c3044",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "real_13",
+      "kind": "script",
+      "bytes": 111829,
+      "sha256": "8b2a695a586d447af57e9ef632bbf7a81c5518a1f2026f3820892e8c3a89cb91",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "real_27",
+      "kind": "script",
+      "bytes": 97838,
+      "sha256": "ff715e8f27e1d516c6174291e13b7f269bd8afc9eeac4521aad22e0cc2b0b05a",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "retained_generation",
+      "kind": "script",
+      "bytes": 160,
+      "sha256": "4def59b0d90dff9d1e31d32b3c6ed4d3ce8b7ab5d978db0be42cd72e3492e0bd",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "malformed",
+      "kind": "properties",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "status": "Properties rejected: malformed character property file"
+    },
+    {
+      "name": "rollback",
+      "kind": "script",
+      "bytes": 390,
+      "sha256": "01d2bf75f2c71777d7c9730689a738ca507eec2d51aae6cee276053f556db179",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "oversized",
+      "kind": "properties",
+      "bytes": 4194305,
+      "sha256": "95e441ca65cd41fa01b2a71799e79fd60db59ed34f13af32a91e85f90378676c",
+      "status": "Properties rejected: File exceeds 4 MiB limit"
+    },
+    {
+      "name": "recovery",
+      "kind": "script",
+      "bytes": 350,
+      "sha256": "7f03d8d19db9302248cb325f99b89281340b0fcfb8d9df5399c2d9c0aea1e0b2",
+      "status": "Script loaded. Game objects are not connected yet."
+    }
+  ],
+  "visual_imports": [
+    {
+      "path": "data/3d/characters/prince/prince_low_poly_warrior.bdae",
+      "sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+      "statuses": [
+        "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    },
+    {
+      "path": "data/3d/textures/prince-warrior.tga",
+      "sha256": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+      "statuses": [
+        "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    },
+    {
+      "path": "data/3d/characters/prince/animations/prince_walk_dual.bdae",
+      "sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+      "statuses": [
+        "Animation preview: 25 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    }
+  ],
+  "process_survived_all_cases": true,
+  "fatal_in_run": false,
+  "screenshot": {
+    "file": "health-ready.png",
+    "sha256": "ee72efe6421d37cff3b0a9f6b26550775a7b2e0be0ea1a896862b4b68ce7ae8f"
+  },
+  "test_sha256": "d2d9420f424ec4001d483ca9bd13c372cfe60eeb70013c9bd354b6c851f86725",
+  "corpus_report_sha256": {
+    "controlled": "89cd21d5d32d11c95414f61a56d7f36242dc7ce6ae625bd53d138e37888815d8",
+    "real": "57f742bcecac65de88b61a7a0bf47dfb89b1693724ad6d44d185fed77ae7768d"
+  },
+  "source_sha256": {
+    "scripts.cpp": "bd67122f365f31a76b708036a843d9e21eec97bd8022586a74c6b342487a3e98",
+    "src/local/dh2/sourceviewer/MainActivity.java": "c32a6014324e199a084d5f7b7d214b691227aa4c4d3f9c824981afefd5f9cfa5",
+    "build.py": "6836dc6cf8b5eddf458f741354a251b5d9977e459aed7d3536a5f07fdadbda22",
+    "../lua-character/bridge.c": "5d76ad4e72079c8396ee91974d16cd380c8676b56730c6d987a4b094dd6c3f14",
+    "../character-health/health.c": "f8697ae6b99d03571dfa4dae922b6ba29a45ee796b5f5d49f2897d4f669f95fb"
+  },
+  "scope": "Installed pure source APK executes selected original-derived health assertion chunks: 40 controlled cases and 46 real character cases, all 224 final fields per case, health/mana results, retained property generation, invalid percentage/numeric argument rollback, malformed/oversized import retention and recovery. Real character model/texture/walk preview loads afterwards in the same process. Full combat damage/death/events, AI, savegame and game loop remain unfinished."
+}

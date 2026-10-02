@@ -1,5 +1,17 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Recovered health and mana in the source APK:** Health setters/getters,
+validation, regeneration and mana use pass 4,156 original ARM32/source ARM64/host
+comparisons. Owned script actors pass 520 controlled and all 446 real character
+cases / 216,384 final-field queries on host, strict sanitizers and Android 17
+4 KiB/16 KiB. The 848,803-byte source APK passes 14 imports, 86 selected actor
+cases / 19,264 queries, retained generations/error recovery and textured walk
+preview on both page sizes. Full damage/result dispatch, death/events, Character
+ownership, AI and source gameplay remain unfinished. See
+[health scope](port/character-health/README.md) and
+[APK evidence](port/android-app/HEALTH-INTEGRATION.md). Earlier entries
+retain their checkpoint identities.
+
 **Recovered combat calculations in the source APK:** Reconstructed random
 streams match 768 original ARM32/source ARM64/host draws and 351 callbacks.
 The unchanged combat script runs through owned actor projections: 3,568 real

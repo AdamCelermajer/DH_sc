@@ -23,6 +23,23 @@ int dh2_lua_combat_tests(void) {
         "assert(pcall(function()p:SetCombatContext(0/0,0,'changed')end)==false);"
         "assert(p:GetState()==17 and p:GetHitCount()==65535 and p:GetName()=='warrior');"
         "assert(p:GetState('ignored')==17 and p:GetHitCount(nil)==65535 and p:GetName(false)=='warrior')"));
+    CHECK(!execute(r,"local p=DH2CreatePropertyState(2);p:SetProp(38,25600);p:SetProp(43,5120);p:SetHP(50);p:SetMP(10);"
+        "local hp,max,percent=p:GetHP();assert(hp==50 and max==100 and percent==50);"
+        "assert(p:GetHPFraction()==.5 and p:GetMPFraction()==.5 and p:GetMP()==10 and p:GetTotalMP()==20);"
+        "assert(select('#',p:RegenHP(256))==0);assert(p:GetHP()==51);p:RegenHP(-1);assert(p:GetHP()==100);"
+        "p:RegenMP(1);assert(p:GetProp(41)==2561);assert(p:HasMana(2561) and not p:HasMana(2562));"
+        "assert(not p:UseMana(2562) and p:GetProp(41)==2561);assert(p:UseMana(256) and p:GetProp(41)==2305);"
+        "assert(p:UseMana(-1) and p:GetProp(41)==2306);p:RegenMP(-1);assert(p:GetProp(41)==5120);"
+        "p:SetHP(101);p:SetMP(21);p:ValidateHPMP();assert(p:GetHP()==100 and p:GetMP()==20);"
+        "p:SetHP(-1);p:ValidateHPMP();assert(p:GetHP()==-1);"
+        "assert(select('#',p:RegenHP())==0 and select('#',p:RegenMP('1'))==0);"
+        "assert(select('#',p:HasMana(false))==0 and select('#',p:UseMana())==0);"
+        "local before=p:GetProp(36);assert(not pcall(function()p:RegenHP(0/0)end));assert(p:GetProp(36)==before);"
+        "assert(not pcall(function()p:SetHP(2147483648)end));assert(p:GetProp(36)==before);"
+        "p:SetProp(38,1);assert(not pcall(function()return p:GetHP()end));assert(p:GetProp(36)==before);"
+        "p:SetProp(38,0);hp,max,percent=p:GetHP();assert(hp==0 and max==0 and percent==0);"
+        "assert(p:GetHPFraction()==-1/0);p:SetHP(0);assert(p:GetHPFraction()~=p:GetHPFraction());"
+        "p:SetProp(38,25600);p:SetHP(1);assert(p:GetHP()==1 and p:GetTotalHP()==100)"));
     dh2_lua_destroy(r);return 0;
 }
 static int file(dh2_lua *r,const char *path,int kind) {

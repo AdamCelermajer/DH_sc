@@ -2,6 +2,7 @@
 #include "../character-classes/classes.h"
 #include "../equipment-bonuses/equipment.h"
 #include "../gear-properties/gears.h"
+#include "../character-health/health.h"
 #include "lua.h"
 #include "lauxlib.h"
 #include <math.h>
@@ -52,6 +53,68 @@ static struct dataset *data_for(lua_State *L,int object) {
     if(!data)luaL_error(L,"property dataset unavailable");
     return data;
 }
+static int health_hp(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);int32_t values[3];
+    if(dh2_health_script_hp(&obj->state,values))return luaL_error(L,"undefined HP percentage division");
+    for(unsigned i=0;i<3;++i)lua_pushinteger(L,values[i]);
+    return 3;
+}
+/* Original callbacks consume the first numeric argument as a raw fixed amount;
+ * missing/wrong-tag first arguments produce no result. Offline normal mana
+ * policy is used; no network/config/debug exemption is fabricated. */
+static int health_callback(lua_State *L,uint32_t op) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);int count=lua_gettop(L)-1;
+    if(count>32)return luaL_error(L,"health argument limit exceeded");
+    if(!count || lua_type(L,2)!=LUA_TNUMBER)return 0;
+    lua_Number number=lua_tonumber(L,2);
+    if(!isfinite(number) || number< -2147483648.0 || number>=2147483648.0)
+        return luaL_error(L,"invalid raw health or mana amount");
+    int32_t value=(int32_t)number,result=0;struct dataset *data=data_for(L,1);uint32_t status;
+    if(op<2)status=dh2_health_regen(&data->table,&obj->state,op,value);
+    else if(op==2)status=dh2_health_has_mana(&obj->state,value,0,&result);
+    else status=dh2_health_use_mana(&data->table,&obj->state,value,0,&result);
+    if(status)return luaL_error(L,"invalid health data");
+    if(op>=2) {lua_pushboolean(L,result);return 1;}return 0;
+}
+static int regen_hp(lua_State *L) {return health_callback(L,0);}
+static int regen_mp(lua_State *L) {return health_callback(L,1);}
+static int has_mana(lua_State *L) {return health_callback(L,2);}
+static int use_mana(lua_State *L) {return health_callback(L,3);}
+/* Explicit source access to reconstructed native methods. These additional Lua
+ * method names are authored controls, not recovered registration claims. */
+static int health_set(lua_State *L,uint32_t channel) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);
+    if(lua_gettop(L)!=2 || lua_type(L,2)!=LUA_TNUMBER)return luaL_error(L,"whole health value required");
+    lua_Number number=lua_tonumber(L,2);
+    if(!isfinite(number) || number< -2147483648.0 || number>=2147483648.0)return luaL_error(L,"invalid whole health value");
+    struct dataset *data=data_for(L,1);
+    if(dh2_health_set(&data->table,&obj->state,channel,(int32_t)number))return luaL_error(L,"invalid health data");
+    return 0;
+}
+static int set_hp(lua_State *L) {return health_set(L,0);}
+static int set_mp(lua_State *L) {return health_set(L,1);}
+static int health_validate(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);
+    if(lua_gettop(L)!=1)return luaL_error(L,"health validation takes no arguments");
+    struct dataset *data=data_for(L,1);
+    if(dh2_health_validate(&data->table,&obj->state))return luaL_error(L,"invalid health data");
+    return 0;
+}
+static int health_get(lua_State *L,uint32_t channel,uint32_t total) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);int32_t value;
+    if(dh2_health_get(&obj->state,channel,total,&value))return luaL_error(L,"invalid health state");
+    lua_pushinteger(L,value);return 1;
+}
+static int get_mp(lua_State *L) {return health_get(L,1,0);}
+static int get_total_hp(lua_State *L) {return health_get(L,0,1);}
+static int get_total_mp(lua_State *L) {return health_get(L,1,1);}
+static int health_fraction(lua_State *L,uint32_t channel) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);float value;
+    if(dh2_health_fraction(&obj->state,channel,&value))return luaL_error(L,"invalid health state");
+    lua_pushnumber(L,value);return 1;
+}
+static int hp_fraction(lua_State *L) {return health_fraction(L,0);}
+static int mp_fraction(lua_State *L) {return health_fraction(L,1);}
 static int method(lua_State *L,uint32_t op) {
     struct object *obj=luaL_checkudata(L,1,STATE_TYPE);
     int count=lua_gettop(L)-1;if(count>32)return luaL_error(L,"property argument limit exceeded");
@@ -244,6 +307,19 @@ void dh2_lua_register_characters(lua_State *L) {
     lua_pushcfunction(L,get_hit_count);lua_setfield(L,-2,"GetHitCount");
     lua_pushcfunction(L,get_name);lua_setfield(L,-2,"GetName");
     lua_pushcfunction(L,combat_context);lua_setfield(L,-2,"SetCombatContext");
+    lua_pushcfunction(L,health_hp);lua_setfield(L,-2,"GetHP");
+    lua_pushcfunction(L,regen_hp);lua_setfield(L,-2,"RegenHP");
+    lua_pushcfunction(L,regen_mp);lua_setfield(L,-2,"RegenMP");
+    lua_pushcfunction(L,has_mana);lua_setfield(L,-2,"HasMana");
+    lua_pushcfunction(L,use_mana);lua_setfield(L,-2,"UseMana");
+    lua_pushcfunction(L,set_hp);lua_setfield(L,-2,"SetHP");
+    lua_pushcfunction(L,set_mp);lua_setfield(L,-2,"SetMP");
+    lua_pushcfunction(L,health_validate);lua_setfield(L,-2,"ValidateHPMP");
+    lua_pushcfunction(L,get_mp);lua_setfield(L,-2,"GetMP");
+    lua_pushcfunction(L,get_total_hp);lua_setfield(L,-2,"GetTotalHP");
+    lua_pushcfunction(L,get_total_mp);lua_setfield(L,-2,"GetTotalMP");
+    lua_pushcfunction(L,hp_fraction);lua_setfield(L,-2,"GetHPFraction");
+    lua_pushcfunction(L,mp_fraction);lua_setfield(L,-2,"GetMPFraction");
     lua_setfield(L,-2,"__index");lua_pushboolean(L,0);lua_setfield(L,-2,"__metatable");lua_pop(L,1);
     lua_pushcfunction(L,create);lua_setglobal(L,"DH2CreatePropertyState");
 }
