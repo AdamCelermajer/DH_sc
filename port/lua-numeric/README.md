@@ -43,8 +43,10 @@ Checks stop on AddressSanitizer, undefined behavior or float-cast overflow.
 
 The [integrated runtime](../lua-runtime/README.md) executes authored bridge
 assertions and compiles the original script corpus. Original game scripts are
-not executed. No engine objects, includes, PyData tables, AI or skill behavior
-are installed; this component is not packaged in the source Android APK yet.
+not executed. Integer PyData constants are now supplied by the separate
+[table bridge](../pydata-constants/README.md). Engine objects, includes,
+structured PyData, AI and skill behavior remain unfinished; this component
+is not packaged in the source Android APK yet.
 
 ## Reproduce
 

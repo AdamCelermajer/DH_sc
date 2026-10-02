@@ -19,6 +19,24 @@ int32 integers** through Lua's supported `LUA_USER_H` hook and the separate
 configuration choices retain upstream defaults and are not established as
 engine equivalents.
 
+## Integer game constants
+
+`GetPyCst` now reads owned mappings imported from checked integer constant files.
+The [table module](../pydata-constants/README.md) documents the format, original
+reader trace and authored ownership rules. All 5,608 values in 26 complete files
+match original reader writes and pass authored Lua queries on host and both
+Android 17 page sizes, after releasing caller buffers. The mixed sound file is
+rejected completely; the original reader stops partway through it. Malformed
+input and allocation failure preserve earlier mappings. Host sanitizer corpus
+checks pass. No original game script is executed.
+
+Current build/selftest evidence: [host](constants-host-build-validation.json),
+[NDK](constants-android-build-validation.json). Current script parse/arithmetic
+evidence: [host](constants-host-script-validation.json),
+[4 KiB](constants-android-4k-script-validation.json),
+[16 KiB](constants-android-16k-script-validation.json). The `bridge-` reports
+below retain the previous checkpoint before `GetPyCst` integration.
+
 [Original instruction evidence](original-numeric-validation.json) checks 13
 push/read cases, including both signed zeros, subnormals, infinities and a NaN
 payload, through positive and negative stack indexes. It also records 504
@@ -32,7 +50,7 @@ coercion, integer edge conversions or full interpreter equivalence.
 
 The new owned C wrapper installs the base, math, table and string libraries
 observed in the original registration callers. It removes filesystem loaders
-and `print`; it installs nine reconstructed numeric callbacks (see
+and `print`; it installs `GetPyCst` and nine reconstructed numeric callbacks (see
 [numeric bridge scope](../lua-numeric/README.md)). Gameplay object callbacks
 are not installed. The base opener
 also supplies upstream coroutine support. This environment is a reconstruction
@@ -70,11 +88,11 @@ are compiled only and **never executed**. Runtime tests execute authored snippet
 for standard library access, nine numeric callbacks, missing gameplay callbacks, instruction/memory limits,
 error recovery, compile-only behavior and invalid/bytecode inputs.
 
-- [Current host build/sanitizer evidence](bridge-host-build-validation.json)
-- [Current Android cross-build evidence](bridge-android-build-validation.json)
-- [Current host corpus/arithmetic](bridge-host-corpus-validation.json)
-- [Current Android 17 / 4 KiB](bridge-android-4k-validation.json)
-- [Current Android 17 / 16 KiB](bridge-android-16k-validation.json)
+- [Earlier numeric bridge host build](bridge-host-build-validation.json)
+- [Earlier numeric bridge Android build](bridge-android-build-validation.json)
+- [Earlier numeric bridge host corpus](bridge-host-corpus-validation.json)
+- [Earlier numeric bridge Android / 4 KiB](bridge-android-4k-validation.json)
+- [Earlier numeric bridge Android / 16 KiB](bridge-android-16k-validation.json)
 
 The `float-` reports record the previous float32 build before numeric callbacks
 and the table safety repair, with their distinct source/binary identities.

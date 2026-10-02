@@ -1,0 +1,21 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "constants-host.so": {
+      "sha256": "4c152ae6d2568a636b078b0311996575880fc80984c54b5532c053945da264ca"
+    }
+  },
+  "source_sha256": {
+    "constants.c": "08de59987e05ed27ac89263395f48d99fa81a1a38c4bf6ffd63731815169a377",
+    "constants.h": "bf5ea5bcb1ac5112c71c0351e7841721bba6c20f761ac5891af28bb344270fa6"
+  },
+  "build_tool_sha256": "53422204174b4606b50909acf47b75d9723065885a9749066f1937780af16d42",
+  "safety": {
+    "iterations": 12000,
+    "address_sanitizer": true,
+    "undefined_behavior_sanitizer": true,
+    "recover": false,
+    "test_sha256": "f9ca0d4a8376f3d8ac0118e6a6422b5d72099da9ee70de4f3b435a25a7e38461",
+    "seed": 20261002
+  }
+}

@@ -14,6 +14,13 @@ preserves the imported vendor files. Game scripts were not executed;
 gameplay object callbacks and source-built gameplay remain unfinished.
 See [runtime source and evidence](port/lua-runtime/README.md).
 
+**Checked script constants:** The source loader matches all 5,608 integer entries
+from 26 complete files against original reader writes. Owned `GetPyCst` mappings
+pass every authored query on host and both Android 17 page sizes. Malformed and
+allocation-failing imports retain existing data. The mixed sound file is rejected;
+original scripts and source gameplay remain unfinished.
+See [table source and scope](port/pydata-constants/README.md).
+
 **Readable game scripts:** The owner's complete cache contains 219 plaintext
 Lua source files despite their `.luac` extensions. Their exact 900,493 bytes
 are now browsable in Git. 218 originals pass syntax; a separate one-character

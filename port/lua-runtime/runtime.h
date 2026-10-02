@@ -15,6 +15,11 @@ void dh2_lua_destroy(dh2_lua *runtime);
 /* Source-only compiler. Does not execute the chunk. */
 int dh2_lua_compile(dh2_lua *runtime, const void *source, size_t bytes,
                     char *error, size_t capacity);
+/* Validate a complete integer constant file, then atomically merge owned Lua
+ * mappings. Duplicate keys use the last value. Unknown GetPyCst returns zero;
+ * wrong argument types/count return no results. Rejection preserves mappings. */
+int dh2_lua_import_constants(dh2_lua *runtime,const void *bytes,size_t size,
+                             char *error,size_t capacity);
 /* Controlled execution helper; instruction budget counts in 1000-op blocks.
  * Installs base/math/table/string, with filesystem loaders and print removed.
  * Returns zero on success; stack and hook are cleared after each call. */

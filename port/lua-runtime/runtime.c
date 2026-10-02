@@ -2,11 +2,14 @@
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
+#include "../pydata-constants/constants.h"
 #include <stdlib.h>
 #include <string.h>
 
 struct dh2_lua { lua_State *state; size_t used,limit; uint32_t blocks; };
 void dh2_lua_register_numeric(lua_State *state);
+void dh2_lua_register_constants(lua_State *state);
+int dh2_lua_constants_load(lua_State *state,const struct dh2_pycst_view *view);
 static void *allocate(void *opaque, void *pointer, size_t old_size, size_t new_size) {
     dh2_lua *runtime=(dh2_lua *)opaque;
     if (!pointer) old_size=0;
@@ -27,6 +30,7 @@ static int libraries(lua_State *state) {
     const char *removed[]={"dofile","loadfile","print",NULL};
     for (const char **name=removed;*name;++name) { lua_pushnil(state);lua_setglobal(state,*name); }
     dh2_lua_register_numeric(state);
+    dh2_lua_register_constants(state);
     return 0;
 }
 dh2_lua *dh2_lua_create(size_t memory_limit) {
@@ -45,6 +49,7 @@ void dh2_lua_destroy(dh2_lua *runtime) {
 }
 static void diagnostic(char *out,size_t capacity,const char *message) {
     if (!out || !capacity)return;
+    if (!message)message="non-string Lua error";
     size_t length=strlen(message);if (length>=capacity)length=capacity-1;
     memcpy(out,message,length);out[length]='\0';
 }
@@ -65,6 +70,20 @@ int dh2_lua_compile(dh2_lua *runtime,const void *source,size_t bytes,char *error
     int status=load(runtime,source,bytes,error,capacity);
     if (runtime)lua_settop(runtime->state,0);
     return status;
+}
+int dh2_lua_import_constants(dh2_lua *runtime,const void *bytes,size_t size,char *error,size_t capacity) {
+    if(error && capacity)error[0]='\0';
+    if(!runtime || !bytes || size>16*1024*1024) {
+        diagnostic(error,capacity,"invalid constant source arguments");return -1;
+    }
+    struct dh2_pycst_view view;
+    if(dh2_pycst_open(&view,bytes,(uint32_t)size)) {
+        diagnostic(error,capacity,"malformed or unsupported integer constant file");return -1;
+    }
+    lua_State *state=runtime->state;lua_settop(state,0);
+    int status=dh2_lua_constants_load(state,&view);
+    if(status)diagnostic(error,capacity,lua_tostring(state,-1));
+    lua_settop(state,0);return status;
 }
 static void instruction_limit(lua_State *state,lua_Debug *debug) {
     (void)debug;void *opaque=NULL;lua_getallocf(state,&opaque);dh2_lua *runtime=(dh2_lua *)opaque;

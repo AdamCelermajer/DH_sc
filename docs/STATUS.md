@@ -1,5 +1,14 @@
 # Recovery status — updated 2026-10-02
 
+**Integer script constants:** Original ARM32 reader tracing covers all 27 constant
+files; 26 load fully with 5,608 entries. Source ARM64/host decoding matches those
+entries, and owned `GetPyCst` imports pass every authored Lua query on host and
+both Android 17 page sizes. Strict host sanitizers pass, including allocation
+failure rollback. The mixed sound file is rejected instead of reproducing the
+original partial/misread import. Original map lookup and scripts are not executed.
+Array IDs, structured data, includes and source gameplay remain unfinished.
+See [scope](../port/pydata-constants/README.md).
+
 **Source scripting runtime:** Official Lua 5.1.4 source plus an owned C wrapper
 uses the original observed float32 number profile, builds for ARM64/x86_64 and
 passes host selftests/sanitizers. All 504 original numeric arithmetic vectors

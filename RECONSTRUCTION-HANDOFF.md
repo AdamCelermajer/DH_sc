@@ -1,5 +1,16 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Checked PyData constants:** `port/pydata-constants` matches 5,608 integer rows
+from 26 complete files to actual original reader insertion writes. A standalone
+source Lua importer clones staging mappings and commits atomically, preserving
+previous data on malformed input/OOM. Every authored `GetPyCst` query passes on
+host, strict host sanitizers and both Android 17 page sizes; caller buffers are
+released first. The original reader consumes 994/1,283 bytes of the mixed sound
+file and misreads one string length as integer 13; the source rejects it wholly.
+Original map lookup and scripts remain unexecuted. Next reconstruct array IDs,
+structured data and includes/object lifetimes before original AI/skill behavior.
+See [scope and evidence](port/pydata-constants/README.md).
+
 **Source Lua checkpoint:** Official Lua 5.1.4 C/header/license bytes are now
 vendored with a pinned archive/per-file manifest. The owned C runtime uses the
 observed original float32/int32 profile through a separate configuration header.

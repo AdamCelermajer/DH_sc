@@ -4,13 +4,17 @@
 #include <string.h>
 #define CHECK(x) do { if (!(x)) { fprintf(stderr,"check failed at line %d: %s\n",__LINE__,#x);return 2; } } while(0)
 int dh2_lua_numeric_tests(void);
+int dh2_lua_constant_corpus(const char *,const char *);
+static void put32(unsigned char *p,unsigned value) {
+    for(unsigned i=0;i<4;++i)p[i]=(unsigned char)(value>>(8*i));
+}
 int main(int argc,char **argv) {
     char error[512];dh2_lua *runtime=dh2_lua_create(2*1024*1024);CHECK(runtime);
     const char *basic="assert(_VERSION=='Lua 5.1'); assert(math.floor(1.9)==1);"
         "assert(string.upper('dh2')=='DH2'); local t={3,1,2};table.sort(t);assert(t[1]==1);"
         "assert(io==nil and os==nil and debug==nil and package==nil);"
         "assert(dofile==nil and loadfile==nil and print==nil);"
-        "assert(GetPyCst==nil and GetPyOID==nil and PlayAnim==nil);"
+        "assert(type(GetPyCst)=='function' and GetPyOID==nil and PlayAnim==nil);"
         "assert(getfenv~=nil and setfenv~=nil);";
     CHECK(dh2_lua_execute(runtime,basic,strlen(basic),100,error,sizeof(error))==0);
     const char *bridge="assert(ToFixed(-1.9)==-256);assert(ToFixed(8388608)==-2147483648);"
@@ -29,6 +33,35 @@ int main(int argc,char **argv) {
         "local n=0;for k,v in pairs(t)do n=n+1;assert(t[k]==v)end;assert(n==6);"
         "local nan=0/0;assert(t[nan]==nil);assert(pcall(function()t[nan]=1 end)==false);";
     CHECK(dh2_lua_execute(runtime,table_edges,strlen(table_edges),100,error,sizeof(error))==0);
+    unsigned char constants[]={1,0,0,0,1,0,0,0,'G',2,0,0,0,
+        1,0,0,0,'K',1,0,0,0,1,0,0,0,'K',0xff,0xff,0xff,0xff};
+    CHECK(dh2_lua_import_constants(runtime,constants,sizeof(constants),error,sizeof(error))==0);
+    memset(constants,0,sizeof(constants)); /* Installed strings/values must be owned. */
+    const char *lookup="assert(GetPyCst('G','K')==-1);assert(GetPyCst('G','K','ignored')==-1);"
+        "assert(GetPyCst('G','missing')==0);assert(GetPyCst('missing','K')==0);"
+        "assert(select('#',GetPyCst('G'))==0);assert(select('#',GetPyCst(1,'K'))==0);"
+        "assert(GetPyCst('G\\000suffix','K\\000suffix')==-1);";
+    CHECK(dh2_lua_execute(runtime,lookup,strlen(lookup),100,error,sizeof(error))==0);
+    CHECK(dh2_lua_import_constants(runtime,constants,1,error,sizeof(error))!=0);
+    CHECK(dh2_lua_execute(runtime,lookup,strlen(lookup),100,error,sizeof(error))==0);
+    dh2_lua *small=dh2_lua_create(256*1024);CHECK(small);
+    const unsigned char baseline[]={1,0,0,0,1,0,0,0,'G',1,0,0,0,1,0,0,0,'K',7,0,0,0};
+    CHECK(dh2_lua_import_constants(small,baseline,sizeof(baseline),error,sizeof(error))==0);
+    size_t big_size=13+6000*24;unsigned char *big=malloc(big_size);CHECK(big);
+    put32(big,1);put32(big+4,1);big[8]='H';put32(big+9,6000);
+    for(unsigned i=0;i<6000;++i) {
+        unsigned char *p=big+13+i*24;put32(p,16);
+        char key[17];CHECK(snprintf(key,sizeof(key),"missing-%08u",i)==16);
+        memcpy(p+4,key,16);put32(p+20,i);
+    }
+    CHECK(dh2_lua_import_constants(small,big,big_size,error,sizeof(error))!=0);
+    CHECK(strstr(error,"memory"));free(big);
+    const char *retained="assert(GetPyCst('G','K')==7);assert(GetPyCst('H','missing-00000000')==0);";
+    CHECK(dh2_lua_execute(small,retained,strlen(retained),100,error,sizeof(error))==0);
+    CHECK(dh2_lua_memory_used(small)<=256*1024);dh2_lua_destroy(small);
+    const char *non_string="error({})";
+    CHECK(dh2_lua_execute(runtime,non_string,strlen(non_string),100,error,sizeof(error))!=0);
+    CHECK(strcmp(error,"non-string Lua error")==0);
     const char *loop="while true do end";
     CHECK(dh2_lua_execute(runtime,loop,strlen(loop),3,error,sizeof(error))!=0);
     CHECK(strstr(error,"instruction budget exhausted"));
@@ -50,6 +83,7 @@ int main(int argc,char **argv) {
     printf("SELFTEST PASS\n");
     CHECK(dh2_lua_numeric_tests()==0);
     if (argc==1)return 0;
+    if (argc==4 && strcmp(argv[1],"--constants")==0)return dh2_lua_constant_corpus(argv[2],argv[3]);
     CHECK(argc==2);FILE *list=fopen(argv[1],"rb");CHECK(list);char path[2048];unsigned index=0;
     while (fgets(path,sizeof(path),list)) {
         size_t length=strlen(path);CHECK(length && path[length-1]=='\n');
