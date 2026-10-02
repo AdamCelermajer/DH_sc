@@ -4,6 +4,7 @@
 #include "lualib.h"
 #include "../pydata-constants/constants.h"
 #include "../pydata-names/names.h"
+#include "../character-properties/properties.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -13,6 +14,8 @@ void dh2_lua_register_constants(lua_State *state);
 int dh2_lua_constants_load(lua_State *state,const struct dh2_pycst_view *view);
 void dh2_lua_register_names(lua_State *state);
 int dh2_lua_names_load(lua_State *state,const struct dh2_pynames_view *,const char *,size_t);
+void dh2_lua_register_characters(lua_State *state);
+int dh2_lua_characters_load(lua_State *state,const struct dh2_property_table *);
 static void *allocate(void *opaque, void *pointer, size_t old_size, size_t new_size) {
     dh2_lua *runtime=(dh2_lua *)opaque;
     if (!pointer) old_size=0;
@@ -35,6 +38,7 @@ static int libraries(lua_State *state) {
     dh2_lua_register_numeric(state);
     dh2_lua_register_constants(state);
     dh2_lua_register_names(state);
+    dh2_lua_register_characters(state);
     return 0;
 }
 dh2_lua *dh2_lua_create(size_t memory_limit) {
@@ -101,6 +105,20 @@ int dh2_lua_import_names(dh2_lua *runtime,const char *name,size_t length,
     }
     lua_State *state=runtime->state;lua_settop(state,0);
     int status=dh2_lua_names_load(state,&view,name,length);
+    if(status)diagnostic(error,capacity,lua_tostring(state,-1));
+    lua_settop(state,0);return status;
+}
+int dh2_lua_import_character_properties(dh2_lua *runtime,const void *bytes,size_t size,char *error,size_t capacity) {
+    if(error && capacity)error[0]='\0';
+    if(!runtime || !bytes || size>4*1024*1024) {
+        diagnostic(error,capacity,"invalid character property arguments");return -1;
+    }
+    struct dh2_property_table view;
+    if(dh2_property_open(&view,bytes,(uint32_t)size)) {
+        diagnostic(error,capacity,"malformed character property file");return -1;
+    }
+    lua_State *state=runtime->state;lua_settop(state,0);
+    int status=dh2_lua_characters_load(state,&view);
     if(status)diagnostic(error,capacity,lua_tostring(state,-1));
     lua_settop(state,0);return status;
 }

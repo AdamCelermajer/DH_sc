@@ -1,5 +1,18 @@
 # Source-built Lua runtime for modern Android
 
+## Current owned property userdata
+
+The runtime now imports complete character property data into owned Lua storage.
+`DH2CreatePropertyState(row)` creates an authored diagnostic userdata with typed
+`GetProp`/`SetProp` methods and four owned sheets. All 448 real records / 100,352
+composed values pass on host, strict sanitizers and both Android 17 page sizes;
+dataset replacement, old-object lifetime and malformed/OOM recovery also pass.
+The existing parse, arithmetic, name, constant and shared-script regressions pass
+with the same runtime. Reports use the `properties-` prefix. Original Character,
+derived stats, buffs and full gameplay remain unfinished. See
+[callback evidence and binding scope](../lua-character/README.md). Earlier
+checkpoints below retain their scopes and binary identities.
+
 ## Current Android APK integration
 
 The activity-owned source runtime now initializes three unchanged shared scripts

@@ -1,5 +1,9 @@
 # Source scripts inside the Android 17 character preview
 
+The newer [property integration checkpoint](PROPERTY-INTEGRATION.md) adds owned
+property data imports and typed script methods. The package and reports below
+retain their earlier identities.
+
 The source APK is **730,019 bytes**, SHA-256
 `ffcb32a34ed5de300ca05420bfb67637a89e64264b581a855f918a1e79d8b211`.
 It contains source-built ARM64 and x86_64 renderer/Lua libraries, with 16 KiB

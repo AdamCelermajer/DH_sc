@@ -7,6 +7,8 @@ int dh2_lua_numeric_tests(void);
 int dh2_lua_constant_corpus(const char *,const char *);
 int dh2_lua_name_corpus(const char *,const char *);
 int dh2_lua_execution_corpus(const char *,const char *);
+int dh2_lua_property_tests(void);
+int dh2_lua_property_corpus(const char *,const char *);
 static void put32(unsigned char *p,unsigned value) {
     for(unsigned i=0;i<4;++i)p[i]=(unsigned char)(value>>(8*i));
 }
@@ -121,10 +123,12 @@ int main(int argc,char **argv) {
     dh2_lua_destroy(runtime);
     printf("SELFTEST PASS\n");
     CHECK(dh2_lua_numeric_tests()==0);
+    CHECK(dh2_lua_property_tests()==0);
     if (argc==1)return 0;
     if (argc==4 && strcmp(argv[1],"--constants")==0)return dh2_lua_constant_corpus(argv[2],argv[3]);
     if (argc==4 && strcmp(argv[1],"--names")==0)return dh2_lua_name_corpus(argv[2],argv[3]);
     if (argc==4 && strcmp(argv[1],"--execute")==0)return dh2_lua_execution_corpus(argv[2],argv[3]);
+    if (argc==4 && strcmp(argv[1],"--properties")==0)return dh2_lua_property_corpus(argv[2],argv[3]);
     CHECK(argc==2);FILE *list=fopen(argv[1],"rb");CHECK(list);char path[2048];unsigned index=0;
     while (fgets(path,sizeof(path),list)) {
         size_t length=strlen(path);CHECK(length && path[length-1]=='\n');

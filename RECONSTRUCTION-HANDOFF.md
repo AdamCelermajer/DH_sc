@@ -1,5 +1,16 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Typed script property state in Android:** Numeric/boolean `GetProp`/`SetProp`
+matches original ARM32 and source ARM64/host in 1,586 callback checks. Owned Lua
+userdata checks all 448 real records / 100,352 composed fields on host, strict
+sanitizers and both Android 17 page sizes. The 775,075-byte source APK now imports
+character data through Android's document picker. Real queries, typed calls,
+dataset replacement/rejection/recovery, shared scripts and character animation
+regressions pass on both page sizes. Original Character, derived class stats,
+buffs, real combat and full source gameplay remain unfinished. See [binding
+evidence](port/lua-character/README.md) and [APK checks](port/android-app/PROPERTY-INTEGRATION.md).
+Earlier entries retain their checkpoint scope and binary identities.
+
 **Owned character property writes:** Source state owns four 224-field sheets.
 Original property Set/Add/Int operations and current-final integer reads match
 source ARM64/host in 3,352 checks. Strict sanitizers pass 12,000 safety iterations.

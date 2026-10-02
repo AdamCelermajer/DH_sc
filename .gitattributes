@@ -18,3 +18,4 @@ port/lua-runtime/vendor/** -text -whitespace
 reports/pydata-array-name-trace.json -text
 reports/pydata-struct-name-trace.json -text
 port/pydata-names/struct-names.h -text
+reports/character-property-reader-trace.json -text

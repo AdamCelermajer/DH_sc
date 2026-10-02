@@ -16,6 +16,27 @@ Java_local_dh2_sourceviewer_MainActivity_destroyScriptSession(JNIEnv*,jclass,jlo
     dh2_lua_destroy(reinterpret_cast<dh2_lua*>(static_cast<std::uintptr_t>(handle)));
 }
 extern "C" JNIEXPORT jstring JNICALL
+Java_local_dh2_sourceviewer_MainActivity_importProperties(JNIEnv* env,jclass,jlong handle,jbyteArray source) {
+    auto* runtime=reinterpret_cast<dh2_lua*>(static_cast<std::uintptr_t>(handle));
+    if(!runtime || !source)return env->NewStringUTF("Properties rejected: session unavailable");
+    const auto length=env->GetArrayLength(source);
+    if(length<0 || length>4*1024*1024)return env->NewStringUTF("Properties rejected: exceeds 4 MiB limit");
+    auto* bytes=static_cast<unsigned char*>(std::malloc(length?static_cast<std::size_t>(length):1));
+    if(!bytes)return env->NewStringUTF("Properties rejected: out of memory");
+    if(length)env->GetByteArrayRegion(source,0,length,reinterpret_cast<jbyte*>(bytes));
+    if(env->ExceptionCheck()) { std::free(bytes);return nullptr; }
+    char error[512]{};
+    const int status=dh2_lua_import_character_properties(runtime,bytes,length,error,sizeof(error));
+    std::free(bytes);
+    if(!status)return env->NewStringUTF("Properties loaded. Script property objects are ready; gameplay is unfinished.");
+    char message[560]="Properties rejected: ";const std::size_t start=std::strlen(message);
+    for(std::size_t i=0;error[i] && i<sizeof(error)-1 && start+i<sizeof(message)-1;++i) {
+        const auto byte=static_cast<unsigned char>(error[i]);
+        message[start+i]=byte>=32 && byte<127?static_cast<char>(byte):' ';
+    }
+    return env->NewStringUTF(message);
+}
+extern "C" JNIEXPORT jstring JNICALL
 Java_local_dh2_sourceviewer_MainActivity_executeScript(JNIEnv* env,jclass,jlong handle,jbyteArray source) {
     auto* runtime=reinterpret_cast<dh2_lua*>(static_cast<std::uintptr_t>(handle));
     if(!runtime || !source)return env->NewStringUTF("Script rejected: session unavailable");

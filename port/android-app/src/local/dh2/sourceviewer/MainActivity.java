@@ -25,6 +25,7 @@ public final class MainActivity extends Activity {
     private static final int ANIMATION = 3;
     private static final int BLEND = 4;
     private static final int SCRIPT = 5;
+    private static final int PROPERTIES = 6;
     private GLSurfaceView surface;
     private TextView status;
     private TextView scriptStatus;
@@ -47,6 +48,7 @@ public final class MainActivity extends Activity {
     private static native long createScriptSession();
     private static native void destroyScriptSession(long session);
     private static native String executeScript(long session, byte[] source);
+    private static native String importProperties(long session, byte[] data);
     private static native String loadTexture(byte[] data);
     private static native String loadAnimation(byte[] data);
     private static native String loadBlendAnimation(byte[] data);
@@ -69,11 +71,15 @@ public final class MainActivity extends Activity {
     }
 
     private byte[] readScript(InputStream input) throws Exception {
-        if (input == null) throw new IllegalArgumentException("Cannot open script");
+        return readLimited(input, 1024 * 1024);
+    }
+
+    private byte[] readLimited(InputStream input, int limit) throws Exception {
+        if (input == null) throw new IllegalArgumentException("Cannot open selected file");
         try (InputStream in = input; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[65536]; int count;
             while ((count = in.read(buffer)) >= 0) {
-                if (out.size() + count > 1024 * 1024) throw new IllegalArgumentException("Script exceeds 1 MiB limit");
+                if (out.size() + count > limit) throw new IllegalArgumentException("File exceeds " + (limit / (1024 * 1024)) + " MiB limit");
                 out.write(buffer, 0, count);
             }
             return out.toByteArray();
@@ -186,6 +192,10 @@ public final class MainActivity extends Activity {
         scripts.setText("Import script source");
         scripts.setOnClickListener(view -> pick(SCRIPT));
         layout.addView(scripts);
+        Button properties = new Button(this);
+        properties.setText("Import character properties");
+        properties.setOnClickListener(view -> pick(PROPERTIES));
+        layout.addView(properties);
         startScripts();
         surface = new GLSurfaceView(this);
         surface.setEGLContextClientVersion(2);
@@ -233,6 +243,13 @@ public final class MainActivity extends Activity {
             try {
                 scriptStatus.setText(executeScript(scriptSession, readScript(getContentResolver().openInputStream(data.getData()))));
             } catch (Exception error) { scriptStatus.setText("Script rejected: " + error.getMessage()); }
+            return;
+        }
+        if (request == PROPERTIES) {
+            try {
+                scriptStatus.setText(importProperties(scriptSession,
+                    readLimited(getContentResolver().openInputStream(data.getData()), 4 * 1024 * 1024)));
+            } catch (Exception error) { scriptStatus.setText("Properties rejected: " + error.getMessage()); }
             return;
         }
         if (request != BRES && request != TEXTURE && request != ANIMATION && request != BLEND) return;
