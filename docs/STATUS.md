@@ -1,5 +1,13 @@
 # Recovery status — updated 2026-10-02
 
+**Array name IDs:** Original readers decode 8,863 names in 71 tables from 35
+files; 266 original ID lookups pass. Source ARM64/host matches every name and
+those lookup cases. Owned `GetPyOID` imports pass all authored queries on host,
+strict host sanitizers and both Android 17 page sizes; malformed/OOM imports
+retain prior IDs. Updated constant, arithmetic and parse-corpus regressions pass.
+Array-record count agreement, Structs fields, script execution and source
+gameplay remain unfinished. See [scope](../port/pydata-names/README.md).
+
 **Integer script constants:** Original ARM32 reader tracing covers all 27 constant
 files; 26 load fully with 5,608 entries. Source ARM64/host decoding matches those
 entries, and owned `GetPyCst` imports pass every authored Lua query on host and

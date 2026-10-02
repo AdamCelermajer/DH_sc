@@ -1,5 +1,12 @@
 # Dungeon Hunter 2 — source reconstruction
 
+**Named script records:** Source `GetPyOID` now resolves 8,863 names across 71
+array tables. Original reader output and 266 original lookup cases are checked;
+all authored Lua ID queries pass on host and both Android 17 page sizes.
+The updated runtime still passes constant/arithmetic/script parsing checks.
+Structured fields, array records, original scripts and full source gameplay
+remain unfinished. See [name-table source](port/pydata-names/README.md).
+
 **Source Lua on Android 17:** The official Lua 5.1.4 source and a new owned
 runtime use the observed original float32 number profile and build for ARM64/x86_64.
 504 original arithmetic outputs match the source runtime on host and both

@@ -20,6 +20,11 @@ int dh2_lua_compile(dh2_lua *runtime, const void *source, size_t bytes,
  * wrong argument types/count return no results. Rejection preserves mappings. */
 int dh2_lua_import_constants(dh2_lua *runtime,const void *bytes,size_t size,
                              char *error,size_t capacity);
+/* Import one complete ordered name table as a named class. Atomic replacement;
+ * first duplicate wins. GetPyOID returns -1 for unknown class/member. Names and
+ * values are owned by Lua; name must be 1..255 bytes without NUL. */
+int dh2_lua_import_names(dh2_lua *runtime,const char *name,size_t length,
+                         const void *bytes,size_t size,char *error,size_t capacity);
 /* Controlled execution helper; instruction budget counts in 1000-op blocks.
  * Installs base/math/table/string, with filesystem loaders and print removed.
  * Returns zero on success; stack and hook are cleared after each call. */

@@ -1,5 +1,23 @@
 # Source-built Lua runtime for modern Android
 
+## Current ordered array names
+
+`GetPyOID` now resolves 8,863 names in 71 imported array tables. Original readers
+and 266 original lookup cases establish ordered names/IDs; the source loader
+matches every name. All authored Lua queries pass on host, strict host sanitizers
+and both Android 17 page sizes. Imports own names, atomically replace one class
+and retain prior data on malformed input/OOM. `GetPyStruct`, array records,
+includes, game objects and original script execution remain unfinished.
+See [name-table scope](../pydata-names/README.md).
+
+Current builds: [host/sanitizers](names-host-build-validation.json),
+[NDK](names-android-build-validation.json). Current script parsing/arithmetic:
+[host](names-host-script-validation.json), [4 KiB](names-android-4k-script-validation.json),
+[16 KiB](names-android-16k-script-validation.json). Current constant queries:
+[host](names-host-constants-validation.json), [4 KiB](names-android-4k-constants-validation.json),
+[16 KiB](names-android-16k-constants-validation.json). Older `constants-` and
+`bridge-` records below retain their distinct checkpoint identities.
+
 The original engine contains a Lua 5.1.4 version string. This module imports
 56 exact C/header/license files from the official
 [Lua 5.1.4 archive](https://www.lua.org/ftp/lua-5.1.4.tar.gz), whose published
@@ -30,8 +48,8 @@ rejected completely; the original reader stops partway through it. Malformed
 input and allocation failure preserve earlier mappings. Host sanitizer corpus
 checks pass. No original game script is executed.
 
-Current build/selftest evidence: [host](constants-host-build-validation.json),
-[NDK](constants-android-build-validation.json). Current script parse/arithmetic
+Earlier constant checkpoint build/selftest evidence: [host](constants-host-build-validation.json),
+[NDK](constants-android-build-validation.json). Earlier constant script parse/arithmetic
 evidence: [host](constants-host-script-validation.json),
 [4 KiB](constants-android-4k-script-validation.json),
 [16 KiB](constants-android-16k-script-validation.json). The `bridge-` reports
@@ -50,7 +68,7 @@ coercion, integer edge conversions or full interpreter equivalence.
 
 The new owned C wrapper installs the base, math, table and string libraries
 observed in the original registration callers. It removes filesystem loaders
-and `print`; it installs `GetPyCst` and nine reconstructed numeric callbacks (see
+and `print`; it installs `GetPyCst`, `GetPyOID` and nine reconstructed numeric callbacks (see
 [numeric bridge scope](../lua-numeric/README.md)). Gameplay object callbacks
 are not installed. The base opener
 also supplies upstream coroutine support. This environment is a reconstruction

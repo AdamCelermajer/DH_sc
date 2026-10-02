@@ -58,6 +58,7 @@ def main():
     assert output.splitlines()[-1]=='CONSTANT LOOKUPS PASS 5608'
     result={'complete_game':False,'game_scripts_executed':False,'authored_getpycst_queries':5608,
             'full_constant_files_imported':26,'mixed_sound_file_rejected':True,
+            'ordered_names_bridge_installed':True,
             'caller_buffers_released_before_queries':True,'malformed_import_rollback':True,
             'memory_failure_rollback':True,'native_bridge_selftest':True,'missing_game_objects_explicit':True,
             'inputs':inputs,'reader_trace_sha256':sha(trace_path),'runner_sha256':sha(a.runner),
@@ -65,7 +66,8 @@ def main():
             'lookup_expectations':'Original reader insertion values converted by the float32 source Lua profile; original game scripts and original map lookup are not executed',
             'source_sha256':{name:sha(ROOT/name)for name in ('runtime.c','runtime.h','tests/runner.c',
                             'tests/constants.c','../pydata-constants/constants.c',
-                            '../pydata-constants/constants.h','../pydata-constants/lua-bridge.c')},
+                            '../pydata-constants/constants.h','../pydata-constants/lua-bridge.c',
+                            '../pydata-names/names.c','../pydata-names/names.h','../pydata-names/lua-bridge.c')},
             'stdout':output}
     if device:result['device']=device;result['pushed_input_hashes_verified']=len(hashes)
     a.report.write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:v for k,v in result.items()if k not in ('inputs','stdout')}))

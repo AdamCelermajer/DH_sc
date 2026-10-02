@@ -3,6 +3,7 @@ __pycache__/
 port/lua-runtime/build/
 port/lua-numeric/build/
 port/pydata-constants/build/
+port/pydata-names/build/
 *.py[cod]
 port/android-app/build/
 port/nativeinterface/build/

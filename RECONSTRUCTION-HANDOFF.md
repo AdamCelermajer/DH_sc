@@ -1,5 +1,16 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Ordered array names:** `port/pydata-names` matches all 8,863 names in 71 array
+tables from 35 files to actual original reader output; 266 original lookup cases
+pass and match source ARM64/host. Constructor tracing captures 142 class and 142
+reader registrations. Source Lua `GetPyOID` owns imported strings/IDs, atomically
+replaces classes and preserves previous mappings on malformed input/OOM.
+All authored ID queries pass on host, strict host sanitizers and both Android 17
+page sizes, with all 74 staged hashes checked per emulator. Updated constant,
+arithmetic and script parse regressions pass. Original record-size agreement,
+Structs field names, includes, game objects and script behavior remain open.
+See [scope](port/pydata-names/README.md).
+
 **Checked PyData constants:** `port/pydata-constants` matches 5,608 integer rows
 from 26 complete files to actual original reader insertion writes. A standalone
 source Lua importer clones staging mappings and commits atomically, preserving

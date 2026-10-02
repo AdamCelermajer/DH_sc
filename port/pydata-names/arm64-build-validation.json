@@ -1,0 +1,26 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "names-arm64.so": {
+      "sha256": "0ead76b09f035c8104680a57f5c95450f1d637c6ef585ee456cc658890223ac7",
+      "layout": {
+        "machine": 183,
+        "pt_load": [
+          {
+            "offset": 0,
+            "alignment": 16384
+          },
+          {
+            "offset": 3760,
+            "alignment": 16384
+          }
+        ]
+      }
+    }
+  },
+  "source_sha256": {
+    "names.c": "4786464afc0428fa2540da7954247e52b93294420e2059ed6d0956792734b659",
+    "names.h": "91e3597cf9c6c32093c225d937279eceed0b89c5a85f58f403ed53d2091d5e90"
+  },
+  "build_tool_sha256": "a0e1665113dbd0552556b08da74cba88edb6174812f2f8d458b47f9765cc3e1b"
+}

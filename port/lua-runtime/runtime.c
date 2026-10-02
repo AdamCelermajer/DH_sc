@@ -3,6 +3,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 #include "../pydata-constants/constants.h"
+#include "../pydata-names/names.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -10,6 +11,8 @@ struct dh2_lua { lua_State *state; size_t used,limit; uint32_t blocks; };
 void dh2_lua_register_numeric(lua_State *state);
 void dh2_lua_register_constants(lua_State *state);
 int dh2_lua_constants_load(lua_State *state,const struct dh2_pycst_view *view);
+void dh2_lua_register_names(lua_State *state);
+int dh2_lua_names_load(lua_State *state,const struct dh2_pynames_view *,const char *,size_t);
 static void *allocate(void *opaque, void *pointer, size_t old_size, size_t new_size) {
     dh2_lua *runtime=(dh2_lua *)opaque;
     if (!pointer) old_size=0;
@@ -31,6 +34,7 @@ static int libraries(lua_State *state) {
     for (const char **name=removed;*name;++name) { lua_pushnil(state);lua_setglobal(state,*name); }
     dh2_lua_register_numeric(state);
     dh2_lua_register_constants(state);
+    dh2_lua_register_names(state);
     return 0;
 }
 dh2_lua *dh2_lua_create(size_t memory_limit) {
@@ -82,6 +86,21 @@ int dh2_lua_import_constants(dh2_lua *runtime,const void *bytes,size_t size,char
     }
     lua_State *state=runtime->state;lua_settop(state,0);
     int status=dh2_lua_constants_load(state,&view);
+    if(status)diagnostic(error,capacity,lua_tostring(state,-1));
+    lua_settop(state,0);return status;
+}
+int dh2_lua_import_names(dh2_lua *runtime,const char *name,size_t length,
+                         const void *bytes,size_t size,char *error,size_t capacity) {
+    if(error && capacity)error[0]='\0';
+    if(!runtime || !name || !length || length>255 || memchr(name,0,length) || !bytes || size>16*1024*1024) {
+        diagnostic(error,capacity,"invalid name table arguments");return -1;
+    }
+    struct dh2_pynames_view view;
+    if(dh2_pynames_open(&view,bytes,(uint32_t)size)) {
+        diagnostic(error,capacity,"malformed or unsupported name table");return -1;
+    }
+    lua_State *state=runtime->state;lua_settop(state,0);
+    int status=dh2_lua_names_load(state,&view,name,length);
     if(status)diagnostic(error,capacity,lua_tostring(state,-1));
     lua_settop(state,0);return status;
 }
