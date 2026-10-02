@@ -1,6 +1,16 @@
 # Android 17 source renderer milestone
 
-## Current non-player damage APK milestone
+## Current non-player death APK milestone
+
+Current source APK: 869,283 bytes, SHA-256 `7ab0f1e1b8e61405c4221f9e33d4b46c2efc150538306c2e8b643abb3be32599`.
+Recovered melee damage feeds the owned health/death transition. Both Android 17
+page sizes pass 14 imports, four ordered quest request IDs/match identifiers,
+loot requests, dead-state retention and repeated-kill no-op. Strict host and
+device native runtime checks pass. See [instructions/evidence](DEATH-INTEGRATION.md).
+Actual event/loot consumers, resolved killer/XP, full combat and world ownership,
+progression/saves and complete source gameplay remain unfinished.
+
+## Earlier non-player damage APK milestone
 
 The current source APK is 865,187 bytes, SHA-256
 `1692549ee46c4ca241dd1c31ce1334a3d7a8bc20865816bbb22d146e66ed63d9`.

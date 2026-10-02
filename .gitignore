@@ -65,3 +65,4 @@ recovered/android/*
 !recovered/android/smali/
 recovered/assets/source-data/
 port/character-damage/build/
+port/character-death/build/

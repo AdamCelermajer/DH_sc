@@ -1,0 +1,16 @@
+{
+  "complete_game": false,
+  "device": {
+    "serial": "emulator-5558",
+    "release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "runner_sha256": "a77e58b6890b68ac199ff920aa5f198de209ac636f68f84c3b2bd5ea2cbb5106",
+  "build_report_sha256": "05e223f8e7c5274ff4696dcf08d6c1230755a5e766e3f7e4875ade8e04d5d179",
+  "test_sha256": "33295ca8145afaa026f38b78dd6b0bd75a75597df44e3b960722319aef853834",
+  "output": "SELFTEST PASS\nNUMERIC PASS 504",
+  "passed": true,
+  "scope": "Current compiled x86_64 runner executes all source runtime selftests, including health/mana, non-player hit policy/rollback, legacy properties/classes/equipment/gears, random and 504 numeric vectors. This is an emulator native runner, not original gameplay or ARM64 hardware execution."
+}

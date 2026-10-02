@@ -1,5 +1,18 @@
 # Recovery status — updated 2026-10-02
 
+**Non-player death in the source APK:** The null-killer Kill projection
+passes 2,510 original ARM32/source ARM64/host comparisons. Owned dead state,
+HP zeroing, loot request/ID and four ordered quest requests match. Event match
+fields are property/template IDs, not quantities. The 869,283-byte source APK
+passes 14 imports on both Android 17 page sizes, including real objective
+constants, melee-to-health-to-death, repeated kills, suppression, rollback and
+retained state after data replacement. Native runtime and strict sanitizer
+checks pass. Actual loot/quest consumers, resolved killer credit/XP, player
+death, full combat dispatch, world/AI, progression and saves remain pending.
+Full source gameplay is unfinished. See [death scope](../port/character-death/README.md)
+and [APK evidence](../port/android-app/DEATH-INTEGRATION.md). Earlier entries retain
+their checkpoint identities.
+
 **Non-player damage in the source APK:** The numeric non-player HitFor
 projection passes 2,835 original ARM32/source ARM64/host comparisons, including
 health routing, suppression, forced kills, death requests and death reason.

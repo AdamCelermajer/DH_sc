@@ -63,6 +63,28 @@ int dh2_lua_combat_tests(void) {
         "policy.target_dead=false;assert(not pcall(function()p:ApplyNonplayerHit(0,policy,1.5)end));assert(p:GetProp(36)==before);"
         "assert(not pcall(function()p:ApplyNonplayerHit(0,{},17)end));assert(p:GetProp(36)==before);"
         "policy.online=false;policy.force_kill_config=false;policy.target_network=false;p:ApplyNonplayerHit(256,policy,17);assert(p:GetHP()==49)"));
+    CHECK(!execute(r,"local p=DH2CreatePropertyState(2);assert(not p:IsDead());p:SetProp(38,25600);p:SetHP(10);p:SetProp(9,123);"
+        "local ctx={dead=false,network=false,suppress_events=false,target_id=734,property_id=5,template_id=7};"
+        "local policy={forced=false,loot_manager_present=false,kill_enemies=0,clear_enemies=1,kill_template=10,clear_template=11};"
+        "p:SetDeathContext(ctx);local r=p:KillNonplayer(policy);assert(r.processed and r.dead and r.drop_loot_requested and r.drop_loot_id==123);"
+        "assert(p:IsDead() and p:GetHP()==0 and #r.events==4);"
+        "for i,e in ipairs(r.events)do assert(e.kind==i-1 and e.target_id==734 and e.match_id==(i<3 and 5 or 7))end;"
+        "assert(r.events[1].objective_id==0 and r.events[2].objective_id==1 and r.events[3].objective_id==10 and r.events[4].objective_id==11);"
+        "p:SetHP(10);r=p:KillNonplayer(policy);assert(not r.processed and r.dead and not r.drop_loot_requested and #r.events==0 and p:GetHP()==10);"
+        "ctx.template_id=-1;p:SetDeathContext(ctx);policy.loot_manager_present=true;r=p:KillNonplayer(policy);"
+        "assert(r.processed and r.dead and not r.drop_loot_requested and #r.events==2 and p:GetHP()==0);"
+        "ctx.network=true;p:SetDeathContext(ctx);r=p:KillNonplayer(policy);assert(r.processed and #r.events==0);"
+        "ctx.network=false;ctx.suppress_events=true;p:SetDeathContext(ctx);r=p:KillNonplayer(policy);assert(r.processed and #r.events==0);"
+        "ctx.suppress_events=false;p:SetDeathContext(ctx);policy.forced=true;policy.loot_manager_present=false;"
+        "r=p:KillNonplayer(policy);assert(r.processed and r.drop_loot_requested and #r.events==0);"
+        "ctx.target_id=4294967040;p:SetDeathContext(ctx);policy.forced=false;r=p:KillNonplayer(policy);assert(r.events[1].target_id==4294967040);"
+        "ctx.target_id=734;p:SetDeathContext(ctx);p:SetHP(10);local before=p:GetProp(36);"
+        "ctx.property_id=32768;assert(not pcall(function()p:SetDeathContext(ctx)end));assert(not p:IsDead() and p:GetProp(36)==before);"
+        "ctx.property_id=5;ctx.target_id=-1;assert(not pcall(function()p:SetDeathContext(ctx)end));assert(not p:IsDead() and p:GetProp(36)==before);"
+        "ctx.target_id=734;policy.kill_enemies=0/0;assert(not pcall(function()p:KillNonplayer(policy)end));assert(not p:IsDead() and p:GetProp(36)==before);"
+        "policy.kill_enemies=0;policy.forced=0;assert(not pcall(function()p:KillNonplayer(policy)end));assert(not p:IsDead() and p:GetProp(36)==before);"
+        "policy.forced=false;assert(not pcall(function()p:KillNonplayer({})end));assert(not p:IsDead() and p:GetProp(36)==before);"
+        "collectgarbage('collect');r=p:KillNonplayer(policy);assert(r.processed and p:IsDead() and p:GetHP()==0)"));
     dh2_lua_destroy(r);return 0;
 }
 static int file(dh2_lua *r,const char *path,int kind) {

@@ -4,6 +4,7 @@
 #include "../gear-properties/gears.h"
 #include "../character-health/health.h"
 #include "../character-damage/damage.h"
+#include "../character-death/death.h"
 #include "lua.h"
 #include "lauxlib.h"
 #include <math.h>
@@ -24,6 +25,7 @@ struct object {
     int32_t gear_ids[2][GEAR_SLOTS],power_ids[2][GEAR_SLOTS][GEAR_POWERS];
     uint32_t power_counts[2][GEAR_SLOTS];
     int32_t combat_state;uint16_t hit_count;
+    struct dh2_death_actor death;
 };
 static int get_state(lua_State *L) {
     struct object *obj=luaL_checkudata(L,1,STATE_TYPE);lua_pushinteger(L,obj->combat_state);return 1;
@@ -53,6 +55,63 @@ static struct dataset *data_for(lua_State *L,int object) {
     struct dataset *data=(struct dataset *)lua_touserdata(L,-1);
     if(!data)luaL_error(L,"property dataset unavailable");
     return data;
+}
+static uint32_t context_bool(lua_State *L,int index,const char *key) {
+    lua_pushstring(L,key);lua_rawget(L,index);
+    if(lua_type(L,-1)!=LUA_TBOOLEAN)luaL_error(L,"death context flags must be booleans");
+    uint32_t value=(uint32_t)lua_toboolean(L,-1);lua_pop(L,1);return value;
+}
+static int32_t context_integer(lua_State *L,int index,const char *key) {
+    lua_pushstring(L,key);lua_rawget(L,index);
+    if(lua_type(L,-1)!=LUA_TNUMBER)luaL_error(L,"death context requires integers");
+    lua_Number value=lua_tonumber(L,-1);
+    if(!isfinite(value) || value< -2147483648.0 || value>=2147483648.0 || (lua_Number)(int32_t)value!=value)
+        luaL_error(L,"invalid death context integer");
+    lua_pop(L,1);return (int32_t)value;
+}
+/* Authored metadata and native Kill projection; actual original Character and
+ * death event queue ownership remain pending. */
+static int death_context(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);
+    if(lua_gettop(L)!=2 || lua_type(L,2)!=LUA_TTABLE)return luaL_error(L,"death context table required");
+    struct dh2_death_actor actor;
+    actor.dead=context_bool(L,2,"dead");actor.network=context_bool(L,2,"network");actor.suppress_events=context_bool(L,2,"suppress_events");
+    actor.property_id=context_integer(L,2,"property_id");actor.template_id=context_integer(L,2,"template_id");
+    lua_pushliteral(L,"target_id");lua_rawget(L,2);
+    if(lua_type(L,-1)!=LUA_TNUMBER)return luaL_error(L,"death target id required");
+    lua_Number target_id=lua_tonumber(L,-1);
+    if(!isfinite(target_id) || target_id<0 || target_id>=4294967296.0 || (lua_Number)(uint32_t)target_id!=target_id ||
+       actor.property_id< -32768 || actor.property_id>32767 || actor.template_id< -32768 || actor.template_id>32767)
+        return luaL_error(L,"invalid death metadata");
+    actor.target_id=(uint32_t)target_id;obj->death=actor;return 0;
+}
+static int is_dead(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);lua_pushboolean(L,obj->death.dead);return 1;
+}
+static void result_integer(lua_State *L,const char *key,lua_Integer value) {lua_pushinteger(L,value);lua_setfield(L,-2,key);}
+static void result_boolean(lua_State *L,const char *key,uint32_t value) {lua_pushboolean(L,value);lua_setfield(L,-2,key);}
+static int kill_nonplayer(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);
+    if(lua_gettop(L)!=2 || lua_type(L,2)!=LUA_TTABLE)return luaL_error(L,"death policy table required");
+    struct dh2_death_policy policy;
+    policy.forced=context_bool(L,2,"forced");policy.loot_manager_present=context_bool(L,2,"loot_manager_present");
+    const char *keys[]={"kill_enemies","clear_enemies","kill_template","clear_template"};
+    for(unsigned i=0;i<4;++i)policy.objective_ids[i]=context_integer(L,2,keys[i]);
+    struct dataset *data=data_for(L,1);struct dh2_character_props next=obj->state;
+    struct dh2_death_actor actor=obj->death;struct dh2_death_result result;
+    if(dh2_death_nonplayer(&data->table,&next,&actor,&policy,&result))return luaL_error(L,"invalid nonplayer death data");
+    lua_newtable(L);result_boolean(L,"processed",result.processed);result_boolean(L,"dead",actor.dead);
+    result_boolean(L,"drop_loot_requested",result.drop_loot_requested);result_integer(L,"drop_loot_id",result.drop_loot_id);
+    lua_newtable(L);
+    for(unsigned i=0;i<result.event_count;++i) {
+        const struct dh2_death_event *event=&result.events[i];lua_newtable(L);
+        result_integer(L,"kind",event->kind);lua_pushnumber(L,(lua_Number)event->target_id);lua_setfield(L,-2,"target_id");
+        result_integer(L,"objective_id",event->objective_id);result_integer(L,"match_id",event->match_id);
+        lua_rawseti(L,-2,(int)i+1);
+    }
+    lua_setfield(L,-2,"events");
+    /* Commit only after constructing every return table, including allocations. */
+    obj->state=next;obj->death=actor;return 1;
 }
 /* Authored access to the non-player HitFor projection. Required policy values
  * expose unresolved engine boundaries instead of inventing network/AI/death
@@ -304,6 +363,7 @@ static int create(lua_State *L) {
     struct object *obj=lua_newuserdata(L,sizeof(*obj));
     memset(obj,0,sizeof(*obj));
     obj->combat_state=-1;
+    obj->death.template_id=-1;
     for(unsigned s=0;s<2;++s)for(unsigned i=0;i<3;++i)obj->equipment.slots[s][i].item_id= -1;
     for(unsigned s=0;s<2;++s)for(unsigned i=0;i<GEAR_SLOTS;++i)obj->gear_ids[s][i]=-1;
     if(dh2_character_props_init(&data->table,&obj->state) || dh2_property_load(&data->table,(uint32_t)row,&obj->state.base))
@@ -342,6 +402,9 @@ void dh2_lua_register_characters(lua_State *L) {
     lua_pushcfunction(L,get_name);lua_setfield(L,-2,"GetName");
     lua_pushcfunction(L,combat_context);lua_setfield(L,-2,"SetCombatContext");
     lua_pushcfunction(L,nonplayer_hit);lua_setfield(L,-2,"ApplyNonplayerHit");
+    lua_pushcfunction(L,death_context);lua_setfield(L,-2,"SetDeathContext");
+    lua_pushcfunction(L,is_dead);lua_setfield(L,-2,"IsDead");
+    lua_pushcfunction(L,kill_nonplayer);lua_setfield(L,-2,"KillNonplayer");
     lua_pushcfunction(L,health_hp);lua_setfield(L,-2,"GetHP");
     lua_pushcfunction(L,regen_hp);lua_setfield(L,-2,"RegenHP");
     lua_pushcfunction(L,regen_mp);lua_setfield(L,-2,"RegenMP");

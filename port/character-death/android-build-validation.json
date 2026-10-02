@@ -1,0 +1,32 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "death-arm64.so": {
+      "sha256": "ad5a077da6c4c4bcbad9be5285e7b7f7f88fe4e6b0f5f6ebf964704d36507935",
+      "layout": {
+        "machine": 183,
+        "pt_load": [
+          {
+            "offset": 0,
+            "alignment": 16384
+          },
+          {
+            "offset": 8544,
+            "alignment": 16384
+          }
+        ]
+      }
+    }
+  },
+  "source_sha256": {
+    "death.c": "47d1ff67a1ebcbeadf4b0e5d6413ec4bd0060d6a3ad663f4cf07d9dc570f8313",
+    "../character-state/state.c": "a1a2dc4ef4e789216aae2a9f00b7a677c537158bf8edee2331f2c7f5f0dab03a",
+    "../property-composition/composition.c": "171c943e47e8887ac901f756681456b4249e758fffa1bef3ff80860fc4e1c7ee",
+    "../character-properties/properties.c": "d41c1333ec01405c6e674b4fd1f06217796652ff011c864553962bc67771aafa",
+    "death.h": "f62d33869a3e3a7e4112718b81239fbafccb836cfaef0805f9fc1af2e903b4b5",
+    "../character-state/state.h": "77a92e2339a292e8ab80e0f6d6a5ed4c4a7914414b3faad4a0092b671c6e92e7",
+    "../property-composition/composition.h": "a540c780f3292779f83e0454620892fcf27acaab23ca4cc32ced2f6150bcde42",
+    "../character-properties/properties.h": "9192ed0b67c15a323535b9593c4b9158d29ab2a3472fd374012ac98af1fb1ff4"
+  },
+  "build_tool_sha256": "227441673499fde5a323b978291b3a2aade5891251f347b62d0375a13558f0d2"
+}
