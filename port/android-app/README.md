@@ -1,8 +1,18 @@
 # Android 17 source renderer milestone
 
-## Current two-motion preview milestone
+## Current shared-script APK milestone
 
-The current source APK is 254,496 bytes, SHA-256
+The current source APK is 730,019 bytes, SHA-256
+`ffcb32a34ed5de300ca05420bfb67637a89e64264b581a855f918a1e79d8b211`.
+Three exact recovered shared scripts now initialize in an activity-owned source
+Lua runtime. Script imports, budget/error rejection and recovery pass in the
+same process on Android 17 with both page sizes. The same package passes the
+textured two-motion character preview checks. See [instructions, evidence and
+remaining work](SCRIPT-INTEGRATION.md). Actual source gameplay is unfinished.
+
+## Earlier two-motion preview milestone
+
+The earlier source APK is 254,496 bytes, SHA-256
 `2e9b30c1560aee54083dfe7ba77273bc9a610ad78a828bba16a0885027c9b71d`.
 It combines two absolute poses using reconstructed weight/vector and quaternion
 mixing calculations. Import the warrior and texture, the dual walk as the primary

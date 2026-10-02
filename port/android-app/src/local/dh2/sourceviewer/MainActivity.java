@@ -19,13 +19,16 @@ import javax.microedition.khronos.opengles.GL10;
 
 /** A deliberately small source-based renderer, not the reconstructed game. */
 public final class MainActivity extends Activity {
-    static { System.loadLibrary("dh2source"); }
+    static { System.loadLibrary("dh2lua"); System.loadLibrary("dh2source"); }
     private static final int BRES = 1;
     private static final int TEXTURE = 2;
     private static final int ANIMATION = 3;
     private static final int BLEND = 4;
+    private static final int SCRIPT = 5;
     private GLSurfaceView surface;
     private TextView status;
+    private TextView scriptStatus;
+    private long scriptSession;
     private SeekBar timeline;
     private SeekBar mix;
     private Button playback;
@@ -41,6 +44,9 @@ public final class MainActivity extends Activity {
     private float lastX, lastY, yaw = 0.6f, pitch = 0.9f;
 
     private static native String loadBres(byte[] data);
+    private static native long createScriptSession();
+    private static native void destroyScriptSession(long session);
+    private static native String executeScript(long session, byte[] source);
     private static native String loadTexture(byte[] data);
     private static native String loadAnimation(byte[] data);
     private static native String loadBlendAnimation(byte[] data);
@@ -60,6 +66,33 @@ public final class MainActivity extends Activity {
         int position = animationPosition();
         timeline.setProgress(position);
         status.setText("Animation preview: " + position + " / " + timeline.getMax() + " ms. No gameplay.");
+    }
+
+    private byte[] readScript(InputStream input) throws Exception {
+        if (input == null) throw new IllegalArgumentException("Cannot open script");
+        try (InputStream in = input; ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            byte[] buffer = new byte[65536]; int count;
+            while ((count = in.read(buffer)) >= 0) {
+                if (out.size() + count > 1024 * 1024) throw new IllegalArgumentException("Script exceeds 1 MiB limit");
+                out.write(buffer, 0, count);
+            }
+            return out.toByteArray();
+        }
+    }
+
+    private void startScripts() {
+        scriptSession = createScriptSession();
+        if (scriptSession == 0) { scriptStatus.setText("Scripts unavailable: out of memory"); return; }
+        try {
+            for (String name : new String[]{"ai-commons.lua", "skills-commons.lua", "combat-formulas.lua"}) {
+                String result = executeScript(scriptSession, readScript(getAssets().open("dh2/scripts/" + name)));
+                if (!result.startsWith("Script loaded.")) throw new IllegalArgumentException(result);
+            }
+            scriptStatus.setText("Scripts ready: 3 shared files. Game objects are not connected yet.");
+        } catch (Exception error) {
+            destroyScriptSession(scriptSession); scriptSession = 0;
+            scriptStatus.setText("Scripts unavailable: " + error.getMessage());
+        }
     }
 
     @Override public void onCreate(Bundle state) {
@@ -146,6 +179,14 @@ public final class MainActivity extends Activity {
             @Override public void onStopTrackingTouch(SeekBar bar) {}
         });
         layout.addView(mix);
+        scriptStatus = new TextView(this);
+        scriptStatus.setContentDescription("Script status");
+        layout.addView(scriptStatus);
+        Button scripts = new Button(this);
+        scripts.setText("Import script source");
+        scripts.setOnClickListener(view -> pick(SCRIPT));
+        layout.addView(scripts);
+        startScripts();
         surface = new GLSurfaceView(this);
         surface.setEGLContextClientVersion(2);
         surface.setEGLConfigChooser(8, 8, 8, 8, 16, 0);
@@ -188,6 +229,12 @@ public final class MainActivity extends Activity {
     @Override protected void onActivityResult(int request, int result, Intent data) {
         super.onActivityResult(request, result, data);
         if (result != RESULT_OK || data == null || data.getData() == null) return;
+        if (request == SCRIPT) {
+            try {
+                scriptStatus.setText(executeScript(scriptSession, readScript(getContentResolver().openInputStream(data.getData()))));
+            } catch (Exception error) { scriptStatus.setText("Script rejected: " + error.getMessage()); }
+            return;
+        }
         if (request != BRES && request != TEXTURE && request != ANIMATION && request != BLEND) return;
         try (InputStream in = getContentResolver().openInputStream(data.getData());
              ByteArrayOutputStream out = new ByteArrayOutputStream()) {
@@ -229,4 +276,9 @@ public final class MainActivity extends Activity {
         surface.onPause(); super.onPause();
     }
     @Override protected void onResume() { super.onResume(); if (surface != null) surface.onResume(); }
+    @Override protected void onDestroy() {
+        clockUi.removeCallbacks(showPosition);
+        destroyScriptSession(scriptSession); scriptSession = 0;
+        super.onDestroy();
+    }
 }

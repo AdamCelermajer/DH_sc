@@ -10,6 +10,7 @@ from pathlib import Path
 import shutil
 import struct
 import subprocess
+import sys
 import zipfile
 
 HERE = Path(__file__).resolve().parent
@@ -17,6 +18,7 @@ REPO = HERE.parent.parent
 SOURCES = [
     HERE / 'native.cpp',
     HERE / 'scene_buffers.cpp',
+    HERE / 'scripts.cpp',
     REPO / 'port/skin-payloads/skin.cpp',
     REPO / 'port/animation-pose/pose.cpp',
     REPO / 'port/animation-values/values.cpp',
@@ -87,6 +89,19 @@ def main() -> None:
     if not javac or not keytool:
         raise FileNotFoundError('JDK javac/keytool required; set JAVA_HOME')
     result = {}
+    lua_root = REPO / 'port/lua-runtime'
+    run(sys.executable, lua_root / 'build.py', '--ndk', ndk,
+        '--report', build / 'lua-build-validation.json')
+    manifest = json.loads((REPO / 'recovered/scripts/manifest.json').read_text())
+    known = {row['path']: row for row in manifest['files']}
+    script_assets = {}
+    for asset, source in [('ai-commons.lua', 'ai/_commons.luac'),
+                          ('skills-commons.lua', 'skills/_commons.luac'),
+                          ('combat-formulas.lua', 'level/combat_formulas.luac')]:
+        path = REPO / 'recovered/scripts/original/data/scripts' / source
+        row = known[path.relative_to(REPO).as_posix()]
+        if sha(path) != row['sha256']: raise ValueError('Changed original script: ' + source)
+        script_assets['assets/dh2/scripts/' + asset] = path
     for abi, target, machine in (
         ('arm64-v8a', 'aarch64-linux-android35', 183),
         ('x86_64', 'x86_64-linux-android35', 62),
@@ -94,12 +109,16 @@ def main() -> None:
         directory = lib / abi
         directory.mkdir(exist_ok=True)
         output = directory / 'libdh2source.so'
+        lua_library = directory / 'libdh2lua.so'
+        variant = 'arm64' if abi == 'arm64-v8a' else 'x86_64'
+        shutil.copyfile(lua_root / ('build/lua-' + variant + '.so'), lua_library)
         run(clang, f'--target={target}', '-std=c++17', '-O2', '-Wall', '-Wextra',
             '-Werror', '-fPIC', '-shared', '-fno-exceptions', '-fno-rtti',
             '-fno-fast-math', '-ffp-contract=off',
             '-nostdlib++', '-Wl,-z,max-page-size=16384', '-Wl,--no-undefined',
-            *SOURCES, '-llog', '-lGLESv2', '-landroid', '-o', output)
+            *SOURCES, '-L', directory, '-ldh2lua', '-llog', '-lGLESv2', '-landroid', '-o', output)
         result[abi] = check_elf(output, machine)
+        result[abi]['lua_library'] = check_elf(lua_library, machine)
     java_source = HERE / 'src/local/dh2/sourceviewer/MainActivity.java'
     run(javac, '-Xlint:-options', '-source', '8', '-target', '8', '-classpath', jar,
         '-d', classes, java_source)
@@ -114,8 +133,10 @@ def main() -> None:
     with zipfile.ZipFile(base, 'a') as apk:
         apk.write(dex / 'classes.dex', 'classes.dex', compress_type=zipfile.ZIP_DEFLATED)
         for abi in result:
-            item = lib / abi / 'libdh2source.so'
-            apk.write(item, f'lib/{abi}/libdh2source.so', compress_type=zipfile.ZIP_STORED)
+            for name in ('libdh2source.so', 'libdh2lua.so'):
+                apk.write(lib / abi / name, f'lib/{abi}/{name}', compress_type=zipfile.ZIP_STORED)
+        for name, path in script_assets.items():
+            apk.write(path, name, compress_type=zipfile.ZIP_DEFLATED)
     aligned = build / 'aligned.apk'
     run(tools / 'zipalign.exe', '-f', '-P', '16', '4', base, aligned)
     key = build / 'debug.jks'
@@ -132,6 +153,10 @@ def main() -> None:
     report = {'scope': 'source-based Android asset renderer; not a playable game',
               'target_sdk': 37, 'min_sdk': 26, 'abi': result,
               'apk': {'sha256': sha(signed), 'bytes': signed.stat().st_size},
+              'lua_build_sha256': sha(build / 'lua-build-validation.json'),
+              'lua_build': json.loads((build / 'lua-build-validation.json').read_text()),
+              'script_assets': {name: {'sha256': sha(path), 'bytes': path.stat().st_size}
+                                for name, path in script_assets.items()},
               'source_sha256': {str(p.relative_to(REPO)).replace('\\', '/'): sha(p)
                                 for p in SOURCES}}
     (HERE / 'build-validation.json').write_text(json.dumps(report, indent=2) + '\n')

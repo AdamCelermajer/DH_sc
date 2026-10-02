@@ -1,5 +1,13 @@
 # Recovery status — updated 2026-10-02
 
+**Source scripts in the Android APK:** The 730,019-byte source package now
+initializes three exact recovered shared scripts inside the character preview.
+Imports, budget/error rejection and recovery pass in the same process on Android
+17 with both 4 KiB and 16 KiB pages. The same APK passes textured character
+import, seeking, mixing, Play and Pause. Native game objects, real combat and full
+source gameplay remain unfinished. See [APK source and evidence](../port/android-app/SCRIPT-INTEGRATION.md).
+Earlier checkpoints below retain their original scope and binary identities.
+
 **Structured field IDs:** Actual original static initialization and lookup bodies
 establish 636 entries in 71 registrations and 693 lookup cases. Owned source
 `GetPyStruct` uses the same map as `GetPyOID`; 1,272 alias queries and controlled

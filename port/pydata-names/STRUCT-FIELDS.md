@@ -67,8 +67,10 @@ its separate repaired override passes. Current build reports:
 [host/sanitizers](../lua-runtime/structs-host-build-validation.json),
 [Android NDK](../lua-runtime/structs-android-build-validation.json).
 
-This checkpoint is a standalone source runtime component. Source APK integration
-and full source-built gameplay remain unfinished. The [rights statement](../../RIGHTS.md)
+This checkpoint describes the standalone source runtime component. A later
+[source APK integration](../android-app/SCRIPT-INTEGRATION.md) initializes the
+three shared scripts inside the character preview. Full source-built gameplay
+remains unfinished. The [rights statement](../../RIGHTS.md)
 applies to recovered game metadata and scripts.
 
 ## Reproduce

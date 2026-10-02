@@ -1,5 +1,13 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+**Source scripts in the Android APK:** The 730,019-byte source package now
+initializes three exact recovered shared scripts inside the character preview.
+Imports, budget/error rejection and recovery pass in the same process on Android
+17 with both 4 KiB and 16 KiB pages. The same APK passes textured character
+import, seeking, mixing, Play and Pause. Native game objects, real combat and full
+source gameplay remain unfinished. See [APK source and evidence](port/android-app/SCRIPT-INTEGRATION.md).
+Earlier checkpoints below retain their original scope and binary identities.
+
 **Structured fields / first shared-script execution:** Static initialization in
 the original ARM32 engine establishes 636 entries in 71 registered Structs tables
 (67 unique class names), with 693 original lookup checks. The source runtime now

@@ -1,5 +1,12 @@
 # Source-built Lua runtime for modern Android
 
+## Current Android APK integration
+
+The activity-owned source runtime now initializes three unchanged shared scripts
+inside the Android 17 character preview. Exact APK imports, memory/instruction
+rejection and error recovery pass on both page sizes. Native game objects and
+full gameplay remain unfinished. See [APK scope and checks](../android-app/SCRIPT-INTEGRATION.md).
+
 ## Current structured fields and shared scripts
 
 `GetPyStruct` now shares the `GetPyOID` map and installs 636 original static field
@@ -14,7 +21,8 @@ All field queries/shared-script checks pass on host, strict host sanitizers and
 both Android 17 page sizes. Updated array names, constants, arithmetic and parse
 regressions also pass. Current reports use the `structs-` prefix; older `names-`,
 `constants-` and `bridge-` reports retain their checkpoint identities. Source APK
-integration remains unfinished at this checkpoint.
+integration was unfinished at this component checkpoint; the current integration
+is described above.
 
 ## Current ordered array names
 
