@@ -160,7 +160,7 @@ def main() -> None:
             '-Werror', '-fPIC', '-shared', '-fno-exceptions', '-fno-rtti',
             '-fno-fast-math', '-ffp-contract=off',
             '-nostdlib++', '-Wl,-z,max-page-size=16384', '-Wl,--no-undefined',
-            *SOURCES, '-L', directory, '-ldh2lua', '-llog', '-lGLESv2', '-landroid', '-o', output)
+            *SOURCES, '-L', directory, '-ldh2lua', '-llog', '-lGLESv2', '-lEGL', '-landroid', '-o', output)
         result[abi] = check_elf(output, machine)
         result[abi]['lua_library'] = check_elf(lua_library, machine)
     java_sources = sorted((HERE / 'src/local/dh2/sourceviewer').glob('*.java'))
@@ -202,6 +202,8 @@ def main() -> None:
               'lua_build': json.loads((build / 'lua-build-validation.json').read_text()),
               'script_assets': {name: {'sha256': sha(path), 'bytes': path.stat().st_size}
                                 for name, path in script_assets.items()},
+              'java_source_sha256': {p.relative_to(HERE).as_posix(): sha(p)
+                                     for p in java_sources},
               'encounter_assets': encounter_manifest,
               'source_sha256': {str(p.relative_to(REPO)).replace('\\', '/'): sha(p)
                                 for p in SOURCES}}

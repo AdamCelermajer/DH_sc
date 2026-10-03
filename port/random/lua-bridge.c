@@ -1,4 +1,5 @@
 #include "random.h"
+#include "../persistence/binary.h"
 #include "lua.h"
 #include "lauxlib.h"
 #include <math.h>
@@ -25,8 +26,31 @@ static int seed(lua_State *L) {
     }
     memcpy(state->seeds,seeds,sizeof(seeds));memset(state->counters,0,sizeof(state->counters));return 0;
 }
+static int export_state(lua_State *L) {
+    struct dh2_random_state *state=lua_touserdata(L,lua_upvalueindex(1));
+    if(lua_gettop(L))return luaL_error(L,"random export takes no arguments");
+    unsigned char bytes[DH2_RANDOM_SAVE_BYTES];memcpy(bytes,"DHR1",4);
+    for(unsigned i=0;i<2;++i) {
+        dh2_save_write32(bytes+4+i*4,state->seeds[i]);
+        dh2_save_write32(bytes+12+i*4,state->counters[i]);
+    }
+    lua_pushlstring(L,(const char *)bytes,sizeof(bytes));return 1;
+}
+static int import_state(lua_State *L) {
+    struct dh2_random_state *state=lua_touserdata(L,lua_upvalueindex(1));size_t size=0;
+    if(lua_gettop(L)!=1 || lua_type(L,1)!=LUA_TSTRING)return luaL_error(L,"binary random state required");
+    const unsigned char *bytes=(const unsigned char *)lua_tolstring(L,1,&size);
+    if(size!=DH2_RANDOM_SAVE_BYTES || memcmp(bytes,"DHR1",4))return luaL_error(L,"unsupported random checkpoint");
+    struct dh2_random_state next;
+    for(unsigned i=0;i<2;++i) {
+        next.seeds[i]=dh2_save_read32(bytes+4+i*4);next.counters[i]=dh2_save_read32(bytes+12+i*4);
+    }
+    *state=next;return 0;
+}
 void dh2_lua_register_random(lua_State *L) {
     struct dh2_random_state *state=lua_newuserdata(L,sizeof(*state));memset(state,0,sizeof(*state));
     lua_pushvalue(L,-1);lua_pushcclosure(L,draw,1);lua_setglobal(L,"Rand");
-    lua_pushcclosure(L,seed,1);lua_setglobal(L,"DH2SeedRandom");
+    lua_pushvalue(L,-1);lua_pushcclosure(L,seed,1);lua_setglobal(L,"DH2SeedRandom");
+    lua_pushvalue(L,-1);lua_pushcclosure(L,export_state,1);lua_setglobal(L,"DH2ExportRandomState");
+    lua_pushcclosure(L,import_state,1);lua_setglobal(L,"DH2ImportRandomState");
 }

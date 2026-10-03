@@ -1,5 +1,62 @@
 # Dungeon Hunter 2: reconstruction findings, current state and continuation guide
 
+## Latest continuation checkpoint — Android 17 persistence and SWAMP source data
+
+The current downloadable APK is a **source-built authored development encounter**,
+not a complete Dungeon Hunter 2 source rebuild. It runs on Android 17/API 37 with
+an NDK-built ARM64 and x86_64 library, and includes the recovered combat/property/
+health/death/counted-kill code wired into one authored `void_maze` cross-room
+encounter. The player can defeat two test sentries; the HUD reaches `2/2 COMPLETE`.
+Touch movement, steering, camera, floor bounds, encounter control flow, sentry
+setup and the room composition remain authored. This app does not execute the
+original engine binary.
+
+The current milestone adds a checksummed `DH2S` encounter checkpoint, candidate
+restore/reset, stable named-spawn matching, exact owned actor/quest/RNG state and
+a two-slot atomic app-private save store. The installed APK passed victory and
+cold-process restore on both Android 17 x86_64 emulators: API 37.0 with 4 KiB
+pages and API 37.2 with 16 KiB pages. The installed APK SHA-256 is
+`aa557d05aa9d6bdacb63f61f879289402de418f00c43a52d0a2b38c0a3504094`;
+size is 1,234,908 bytes. [Download this exact APK from Drive](https://drive.google.com/file/d/1ZGjquZoWE-mXx8iB4OtpaqxlhlgyPzPP/view?usp=drivesdk).
+See [persistence source/test scope](port/android-app/PERSISTENCE-INTEGRATION.md)
+and [device runtime evidence](port/android-app/persistence-runtime-validation.json).
+
+In parallel, `port/world-data/` now parses original SWAMP `001_swamp.mlx` and
+selected MGP/MVP source records and correctly binds all nine module subtrees in
+the catalogue BRES. Independent host checks cover 372 synthetic cases, all 195
+selected original entities and exact placement records; ARM64 compilation
+passes. **That importer is not yet wired to the APK renderer or playable world.**
+See [importer scope, provenance and limitations](port/world-data/README.md).
+
+### Remaining work for the requested complete rebuild
+
+1. Connect SWAMP and then other original levels to runtime rendering; reconstruct
+   per-material/shader/texture batches, correct geometry, lighting and visual
+   decor. The current renderer still loads the authored cross-room floor.
+2. Implement world/module streaming and navigation, collision/height, object
+   factories and stable runtime IDs; activate original actors, doors, triggers,
+   containers, checkpoints, exits and visual objects from recovered records.
+3. Reconstruct original Character lifecycle, default properties/class/equipment,
+   inventory mutation, buffs, AI/state machines, animation transitions/root
+   motion, targeting and combat dispatch. Existing combat/quest kernels cover
+   several methods, not the whole orchestration.
+4. Execute original level scripts and commands safely: conditions, scripts,
+   spawning/limbo, dialogs, tutorials, camera, rewards, loot and story/level
+   transitions. The new save is not compatible with original `.savegame` files
+   and stores no campaign, inventory or reward progression.
+5. Expand automated and interactive Android 17 tests across real source levels,
+   record recoveries/bugs, fix visual/gameplay findings, and rebuild/release after
+   each coherent milestone. ARM64 is currently compiled and structurally checked
+   but not executed on an ARM64 device.
+6. Resolve the [asset/code rights notes](RIGHTS.md) before calling the project
+   fully open-source or redistributing recovered copyrighted material. Authored
+   replacement code and recovered owner-supplied material must be identified
+   separately.
+
+The APK builder and source coverage are in [port/android-app](port/android-app/README.md).
+Historical checkpoint notes below describe older binaries; their sizes and
+limitations refer to those checkpoints rather than the current APK.
+
 **Quest activation in the source APK:** Actual native population helpers and
 four kill/clear Compile methods match 27,516 population and 21,372 compilation
 cases on host/source ARM64. The 906,147-byte source APK passes 23 imports on each

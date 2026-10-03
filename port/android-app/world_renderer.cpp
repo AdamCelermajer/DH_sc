@@ -6,6 +6,7 @@
 
 #include <GLES2/gl2.h>
 #include <android/log.h>
+#include <EGL/egl.h>
 #include <jni.h>
 #include <pthread.h>
 #include <cmath>
@@ -36,8 +37,9 @@ World world{};
 GLuint world_program = 0, stone_texture = 0, character_texture = 0;
 GLint position = -1, uv = -1, offset = -1, heading = -1, camera = -1;
 GLint aspect = -1, color = -1, textured = -1, sampler = -1;
+EGLContext resource_context = EGL_NO_CONTEXT;
 int width = 1, height = 1;
-bool textures_dirty = true;
+bool textures_dirty = true, textures_ready = false;
 float camera_x = 0, camera_y = 0;
 double previous_frame = 0, walk_clock = 0, idle_clock = 0;
 
@@ -153,6 +155,10 @@ bool floor_at(const SceneMesh& room, float x, float y, float* z) {
 }
 GLuint shader(GLenum kind, const char* source) {
     const GLuint result = glCreateShader(kind);
+    if (!result) {
+        __android_log_print(ANDROID_LOG_ERROR, "DH2World", "glCreateShader failed (%u)", kind);
+        return 0;
+    }
     glShaderSource(result, 1, &source, nullptr); glCompileShader(result);
     GLint valid = GL_FALSE; glGetShaderiv(result, GL_COMPILE_STATUS, &valid);
     if (!valid) {
@@ -174,6 +180,38 @@ void upload(GLuint texture, const Pixels& pixels) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, pixels.width, pixels.height, 0,
                  GL_RGBA, GL_UNSIGNED_BYTE, pixels.bytes);
+}
+GLenum take_gl_error() {
+    GLenum error = GL_NO_ERROR;
+    for (unsigned i = 0; i < 16; ++i) {
+        const GLenum current = glGetError();
+        if (current == GL_NO_ERROR) break;
+        if (error == GL_NO_ERROR) error = current;
+    }
+    return error;
+}
+const char* gl_error_name(GLenum error) {
+    switch (error) {
+        case GL_INVALID_ENUM: return "GL_INVALID_ENUM";
+        case GL_INVALID_VALUE: return "GL_INVALID_VALUE";
+        case GL_INVALID_OPERATION: return "GL_INVALID_OPERATION";
+        case GL_OUT_OF_MEMORY: return "GL_OUT_OF_MEMORY";
+        default: return "unknown GLES error";
+    }
+}
+void forget_gl_locations() {
+    world_program = stone_texture = character_texture = 0;
+    position = uv = offset = heading = camera = aspect = color = textured = sampler = -1;
+    textures_dirty = true;
+    textures_ready = false;
+}
+void release_gl_resources(bool context_is_current) {
+    if (context_is_current) {
+        if (stone_texture) glDeleteTextures(1, &stone_texture);
+        if (character_texture) glDeleteTextures(1, &character_texture);
+        if (world_program) glDeleteProgram(world_program);
+    }
+    forget_gl_locations();
 }
 void mesh_draw(const SceneMesh& mesh, GLuint texture, float x, float y, float z,
                float angle, float r, float g, float b, float alpha = 1.0f) {
@@ -298,48 +336,125 @@ extern "C" JNIEXPORT jboolean JNICALL
 Java_local_dh2_sourceviewer_GameplayActivity_walkable(JNIEnv*, jclass, jfloat x, jfloat y) {
     return dh2_world_walkable(x,y);
 }
-extern "C" JNIEXPORT void JNICALL
-Java_local_dh2_sourceviewer_GameplayActivity_surfaceCreated(JNIEnv*, jclass) {
-    const GLuint vs = shader(GL_VERTEX_SHADER,vs_source), fs = shader(GL_FRAGMENT_SHADER,fs_source);
-    if (!vs || !fs) { if (vs) glDeleteShader(vs); if (fs) glDeleteShader(fs); return; }
-    world_program = glCreateProgram(); glAttachShader(world_program,vs); glAttachShader(world_program,fs);
-    glLinkProgram(world_program); glDeleteShader(vs); glDeleteShader(fs);
-    GLint linked = GL_FALSE; glGetProgramiv(world_program,GL_LINK_STATUS,&linked);
-    if (!linked) { glDeleteProgram(world_program); world_program = 0; return; }
-    position = glGetAttribLocation(world_program,"aPosition"); uv = glGetAttribLocation(world_program,"aUv");
-    offset = glGetUniformLocation(world_program,"uOffset"); heading = glGetUniformLocation(world_program,"uHeading");
-    camera = glGetUniformLocation(world_program,"uCamera"); aspect = glGetUniformLocation(world_program,"uAspect");
-    color = glGetUniformLocation(world_program,"uColor"); textured = glGetUniformLocation(world_program,"uTextured");
-    sampler = glGetUniformLocation(world_program,"uTexture");
-    glGenTextures(1,&stone_texture); glGenTextures(1,&character_texture);
-    pthread_mutex_lock(&world_guard); textures_dirty = true; pthread_mutex_unlock(&world_guard);
+extern "C" JNIEXPORT jstring JNICALL
+Java_local_dh2_sourceviewer_GameplayActivity_surfaceCreated(JNIEnv* env, jclass) {
+    const EGLContext current = eglGetCurrentContext();
+    if (current == EGL_NO_CONTEXT)
+        return env->NewStringUTF("Graphics initialization failed: no current EGL context.");
+
+    // The activity may recreate the renderer in the same EGL context or after
+    // Android replaced it. Delete names only when their owning context remains
+    // current; names from a lost context are stale and must only be forgotten.
+    release_gl_resources(resource_context == current);
+    resource_context = current;
+    (void)take_gl_error();
+    auto fail = [env](const char* message) -> jstring {
+        __android_log_print(ANDROID_LOG_ERROR, "DH2World", "%s", message);
+        return env->NewStringUTF(message);
+    };
+
+    const GLuint vs = shader(GL_VERTEX_SHADER,vs_source);
+    const GLuint fs = shader(GL_FRAGMENT_SHADER,fs_source);
+    if (!vs || !fs) {
+        if (vs) glDeleteShader(vs);
+        if (fs) glDeleteShader(fs);
+        (void)take_gl_error();
+        return fail("Graphics initialization failed: a shader could not be compiled.");
+    }
+
+    const GLuint program = glCreateProgram();
+    if (!program) {
+        glDeleteShader(vs); glDeleteShader(fs); (void)take_gl_error();
+        return fail("Graphics initialization failed: GLES could not create a program.");
+    }
+    glAttachShader(program,vs); glAttachShader(program,fs); glLinkProgram(program);
+    glDeleteShader(vs); glDeleteShader(fs);
+    GLint linked = GL_FALSE; glGetProgramiv(program,GL_LINK_STATUS,&linked);
+    if (!linked) {
+        char log[512]{}; glGetProgramInfoLog(program,sizeof(log),nullptr,log);
+        __android_log_print(ANDROID_LOG_ERROR,"DH2World","program rejected: %s",log);
+        glDeleteProgram(program); (void)take_gl_error();
+        return fail("Graphics initialization failed: the shader program could not link.");
+    }
+
+    const GLint new_position = glGetAttribLocation(program,"aPosition");
+    const GLint new_uv = glGetAttribLocation(program,"aUv");
+    const GLint new_offset = glGetUniformLocation(program,"uOffset");
+    const GLint new_heading = glGetUniformLocation(program,"uHeading");
+    const GLint new_camera = glGetUniformLocation(program,"uCamera");
+    const GLint new_aspect = glGetUniformLocation(program,"uAspect");
+    const GLint new_color = glGetUniformLocation(program,"uColor");
+    const GLint new_textured = glGetUniformLocation(program,"uTextured");
+    const GLint new_sampler = glGetUniformLocation(program,"uTexture");
+    if (new_position < 0 || new_uv < 0 || new_offset < 0 || new_heading < 0 ||
+        new_camera < 0 || new_aspect < 0 || new_color < 0 || new_textured < 0 || new_sampler < 0) {
+        glDeleteProgram(program); (void)take_gl_error();
+        return fail("Graphics initialization failed: a required shader input is missing.");
+    }
+
+    GLuint new_textures[2]{};
+    glGenTextures(2,new_textures);
+    if (!new_textures[0] || !new_textures[1] || take_gl_error() != GL_NO_ERROR) {
+        if (new_textures[0]) glDeleteTextures(1,&new_textures[0]);
+        if (new_textures[1]) glDeleteTextures(1,&new_textures[1]);
+        glDeleteProgram(program); (void)take_gl_error();
+        return fail("Graphics initialization failed: GLES could not allocate textures.");
+    }
     glEnable(GL_DEPTH_TEST); glDepthFunc(GL_LEQUAL); glDisable(GL_CULL_FACE);
     glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
+    const GLenum state_error = take_gl_error();
+    if (state_error != GL_NO_ERROR) {
+        glDeleteTextures(2,new_textures); glDeleteProgram(program); (void)take_gl_error();
+        __android_log_print(ANDROID_LOG_ERROR,"DH2World","GLES setup failed: 0x%04x",state_error);
+        return fail("Graphics initialization failed: GLES rejected the renderer state.");
+    }
+
+    world_program = program; stone_texture = new_textures[0]; character_texture = new_textures[1];
+    position = new_position; uv = new_uv; offset = new_offset; heading = new_heading;
+    camera = new_camera; aspect = new_aspect; color = new_color;
+    textured = new_textured; sampler = new_sampler;
+    pthread_mutex_lock(&world_guard);
+    textures_dirty = true; textures_ready = false;
+    pthread_mutex_unlock(&world_guard);
+    return env->NewStringUTF("World renderer ready.");
 }
 extern "C" JNIEXPORT void JNICALL
 Java_local_dh2_sourceviewer_GameplayActivity_surfaceChanged(JNIEnv*, jclass, jint w, jint h) {
     width = w > 0 ? w : 1; height = h > 0 ? h : 1; glViewport(0,0,width,height);
 }
-extern "C" JNIEXPORT void JNICALL
+extern "C" JNIEXPORT jboolean JNICALL
 Java_local_dh2_sourceviewer_GameplayActivity_drawFrame(JNIEnv* env, jclass, jfloatArray snapshot) {
     glClearColor(.025f,.035f,.055f,1); glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    if (!world_program || !snapshot) return;
+    if (!world_program || !snapshot) return JNI_FALSE;
     const jsize size = env->GetArrayLength(snapshot);
-    if (size < 6 || size > static_cast<jsize>(6+max_enemies*5)) return;
+    if (size < 6 || size > static_cast<jsize>(6+max_enemies*5)) return JNI_FALSE;
     float state[6+max_enemies*5]{}; env->GetFloatArrayRegion(snapshot,0,size,state);
-    for (jsize i = 0; i < size; ++i) if (!std::isfinite(state[i])) return;
-    if (state[5] < 0 || state[5] > max_enemies || std::floor(state[5]) != state[5]) return;
+    for (jsize i = 0; i < size; ++i) if (!std::isfinite(state[i])) return JNI_FALSE;
+    if (state[5] < 0 || state[5] > max_enemies || std::floor(state[5]) != state[5]) return JNI_FALSE;
     const int enemies = static_cast<int>(state[5]);
-    if (enemies < 0 || enemies > static_cast<int>(max_enemies) || size != 6+enemies*5) return;
+    if (enemies < 0 || enemies > static_cast<int>(max_enemies) || size != 6+enemies*5) return JNI_FALSE;
     pthread_mutex_lock(&world_guard);
-    if (!world.ready) { pthread_mutex_unlock(&world_guard); return; }
+    if (!world.ready || (!textures_ready && !textures_dirty)) { pthread_mutex_unlock(&world_guard); return JNI_FALSE; }
     const double time = now(); double dt = previous_frame ? time-previous_frame : 0;
     previous_frame = time; if (dt > .1) dt = .1; if (dt < 0) dt = 0;
     const float follow = static_cast<float>(1-std::exp(-dt*5));
     camera_x += (state[0]*.45f-camera_x)*follow; camera_y += (state[1]*.45f-camera_y)*follow;
     if (state[3] > .5f) walk_clock += dt;
     idle_clock += dt;
-    if (textures_dirty) { upload(stone_texture,world.stone); upload(character_texture,world.character); textures_dirty = false; }
+    if (textures_dirty) {
+        (void)take_gl_error();
+        upload(stone_texture,world.stone); upload(character_texture,world.character);
+        const GLenum upload_error = take_gl_error();
+        textures_dirty = false;
+        textures_ready = upload_error == GL_NO_ERROR;
+        if (!textures_ready) {
+            __android_log_print(ANDROID_LOG_ERROR,"DH2World","texture upload failed: %s (0x%04x)",
+                gl_error_name(upload_error),upload_error);
+            pthread_mutex_unlock(&world_guard);
+            return JNI_FALSE;
+        }
+    }
+    if (!textures_ready) { pthread_mutex_unlock(&world_guard); return JNI_FALSE; }
     glUseProgram(world_program); glActiveTexture(GL_TEXTURE0); glUniform1i(sampler,0);
     glUniform2f(camera,camera_x,camera_y); glUniform1f(aspect,static_cast<float>(width)/height);
     glEnableVertexAttribArray(position); glEnableVertexAttribArray(uv);
@@ -375,5 +490,12 @@ Java_local_dh2_sourceviewer_GameplayActivity_drawFrame(JNIEnv* env, jclass, jflo
         glDepthMask(GL_FALSE); ring(state[0],state[1],floor+.07f,.40f+.55f*(1-pulse),1,.75f,.15f,pulse*.45f); glDepthMask(GL_TRUE);
     }
     glDisableVertexAttribArray(position); glDisableVertexAttribArray(uv);
+    const GLenum draw_error = take_gl_error();
     pthread_mutex_unlock(&world_guard);
+    if (draw_error != GL_NO_ERROR) {
+        __android_log_print(ANDROID_LOG_ERROR,"DH2World","frame draw failed: %s (0x%04x)",
+            gl_error_name(draw_error),draw_error);
+        return JNI_FALSE;
+    }
+    return JNI_TRUE;
 }

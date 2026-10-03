@@ -5,6 +5,7 @@
 #include "../character-health/health.h"
 #include "../character-damage/damage.h"
 #include "../character-death/death.h"
+#include "../persistence/binary.h"
 #include "lua.h"
 #include "lauxlib.h"
 #include <math.h>
@@ -381,6 +382,49 @@ static int create(lua_State *L) {
     lua_setfenv(L,-2);
     return 1;
 }
+/* Exact binary checkpoint of the current empty-equipment authored encounter.
+ * Base/profile/name are definition inputs. Only HP may differ in its saved
+ * sheet; extending gameplay requires a new format and explicit field policy. */
+static int export_encounter(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);
+    if(lua_gettop(L)!=1)return luaL_error(L,"encounter export takes no arguments");
+    unsigned char bytes[DH2_ACTOR_SAVE_BYTES];memcpy(bytes,"DHA1",4);
+    for(unsigned i=0;i<224;++i)dh2_save_write32(bytes+4+i*4,(uint32_t)obj->state.saved.values[i]);
+    dh2_save_write32(bytes+900,(uint32_t)obj->combat_state);
+    dh2_save_write32(bytes+904,obj->hit_count);
+    const uint32_t fields[]={obj->death.dead,obj->death.network,obj->death.suppress_events,
+        obj->death.target_id,(uint32_t)obj->death.property_id,(uint32_t)obj->death.template_id};
+    for(unsigned i=0;i<6;++i)dh2_save_write32(bytes+908+i*4,fields[i]);
+    lua_pushlstring(L,(const char *)bytes,sizeof(bytes));return 1;
+}
+static int import_encounter(lua_State *L) {
+    struct object *obj=luaL_checkudata(L,1,STATE_TYPE);size_t size=0;
+    if(lua_gettop(L)!=2 || lua_type(L,2)!=LUA_TSTRING)return luaL_error(L,"binary encounter actor required");
+    const unsigned char *bytes=(const unsigned char *)lua_tolstring(L,2,&size);
+    if(size!=DH2_ACTOR_SAVE_BYTES || memcmp(bytes,"DHA1",4))return luaL_error(L,"unsupported actor checkpoint");
+    struct object next=*obj;
+    for(unsigned i=0;i<224;++i) {
+        int32_t value=dh2_save_read_i32(bytes+4+i*4);
+        if(i!=36 && value!=obj->state.saved.values[i])return luaL_error(L,"encounter saved property differs from definition");
+        next.state.saved.values[i]=value;
+    }
+    next.combat_state=dh2_save_read_i32(bytes+900);uint32_t hits=dh2_save_read32(bytes+904);
+    if(next.combat_state!=obj->combat_state || hits!=obj->hit_count)return luaL_error(L,"encounter combat state differs from definition");
+    next.death.dead=dh2_save_read32(bytes+908);next.death.network=dh2_save_read32(bytes+912);
+    next.death.suppress_events=dh2_save_read32(bytes+916);next.death.target_id=dh2_save_read32(bytes+920);
+    next.death.property_id=dh2_save_read_i32(bytes+924);next.death.template_id=dh2_save_read_i32(bytes+928);
+    if(next.death.dead>1 || next.death.network!=obj->death.network ||
+       next.death.suppress_events!=obj->death.suppress_events || next.death.target_id!=obj->death.target_id ||
+       next.death.property_id!=obj->death.property_id || next.death.template_id!=obj->death.template_id)
+        return luaL_error(L,"encounter death identity differs from definition");
+    struct dataset *data=data_for(L,1);
+    struct dh2_property_inputs inputs={&next.state.base,&next.state.saved,&next.state.gears,NULL,0};
+    for(unsigned i=0;i<224;++i)if(dh2_property_recalc(&data->table,&inputs,i,&next.state.final))
+        return luaL_error(L,"invalid checkpoint property composition");
+    if(next.state.final.values[36]<0 || next.state.final.values[36]>next.state.final.values[38] ||
+       (next.death.dead && next.state.final.values[36]!=0))return luaL_error(L,"invalid checkpoint health");
+    *obj=next;return 0;
+}
 void dh2_lua_register_characters(lua_State *L) {
     luaL_newmetatable(L,STATE_TYPE);lua_newtable(L);
     lua_pushcfunction(L,get_prop);lua_setfield(L,-2,"GetProp");
@@ -400,6 +444,8 @@ void dh2_lua_register_characters(lua_State *L) {
     lua_pushcfunction(L,get_state);lua_setfield(L,-2,"GetState");
     lua_pushcfunction(L,get_hit_count);lua_setfield(L,-2,"GetHitCount");
     lua_pushcfunction(L,get_name);lua_setfield(L,-2,"GetName");
+    lua_pushcfunction(L,export_encounter);lua_setfield(L,-2,"ExportEncounterState");
+    lua_pushcfunction(L,import_encounter);lua_setfield(L,-2,"ImportEncounterState");
     lua_pushcfunction(L,combat_context);lua_setfield(L,-2,"SetCombatContext");
     lua_pushcfunction(L,nonplayer_hit);lua_setfield(L,-2,"ApplyNonplayerHit");
     lua_pushcfunction(L,death_context);lua_setfield(L,-2,"SetDeathContext");

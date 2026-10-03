@@ -2,22 +2,24 @@
 
 ## Current source encounter checkpoint
 
-The default launcher now opens a bundled development encounter with movement,
-floor collision, original idle/walk/attack clips, enemy attacks, HP, death and a
-real counted objective advancing to **2/2 COMPLETE**. Reset restarts the room.
-Native ARM64 and x86_64 libraries are built entirely from repository source.
+The default launcher opens a bundled development encounter with movement, floor
+collision, original idle/walk/attack clips, enemy attacks, HP, death and a real
+counted objective advancing to **2/2 COMPLETE**. Native ARM64 and x86_64
+libraries are built from repository source. A versioned native checkpoint now
+preserves combat, quest, RNG and actor state through cold process restarts.
 
-APK: 1,161,180 bytes, SHA-256
-`9e87332d0f715da02912c32c8341f010fadebd197c603dcbf28919aa598c93ff`.
-Practical checks passed on Android 17 4 KiB and 16 KiB emulators. The installed
-16 KiB APK hash matched the build; original floor tiling was corrected after
-visual review. A pale center patch remains. No physical-device testing was done.
+Current APK: 1,234,908 bytes, SHA-256
+`aa557d05aa9d6bdacb63f61f879289402de418f00c43a52d0a2b38c0a3504094`.
+Both Android 17 x86_64 emulators passed install, gameplay victory and cold
+restart restoration: API 37.0 / 4 KiB pages and API 37.2 / 16 KiB pages. The
+installed APK hashes matched the build on both devices. A download is available
+[from Drive](https://drive.google.com/file/d/1ZGjquZoWE-mXx8iB4OtpaqxlhlgyPzPP/view?usp=drivesdk).
 
-This is one authored development encounter, not the complete original game.
-It loads the required supplied-cache assets automatically; previous diagnostic
-imports are still available through **Diagnostics**. Cold launching starts fresh.
-See [scope, build and controls](SOURCE-ENCOUNTER.md) and
-[verification record](../../reports/source-encounter-android17.json).
+This remains one authored development encounter, not the complete original
+game. It loads required supplied-cache assets automatically; diagnostics remain
+available through **Diagnostics**. See [scope, build and controls](SOURCE-ENCOUNTER.md),
+[persistence integration](PERSISTENCE-INTEGRATION.md), and
+[current device validation](persistence-runtime-validation.json).
 
 ## Earlier quest activation APK milestone
 

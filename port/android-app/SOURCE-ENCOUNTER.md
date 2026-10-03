@@ -9,8 +9,14 @@ binary is loaded by this app.
 Move with the left pad, approach the red sentries and hold **Attack**. Their
 health decreases, defeated sentries disappear, and the selected original kill
 objective advances to **2/2 COMPLETE**. Staying near a sentry allows its attacks
-to reduce the player's health to **DEFEATED**. **Reset** starts a fresh encounter.
-**Diagnostics** opens the earlier asset and script testing screen.
+to reduce the player's health to **DEFEATED**. **Reset** starts a fresh encounter
+and replaces its saved run. **Diagnostics** opens the earlier asset and script
+testing screen.
+
+In-progress and completed encounter state is saved to app-private storage and
+restored after a cold process restart. These are authored development saves,
+not files compatible with the original game. See
+[persistence scope and verification](PERSISTENCE-INTEGRATION.md).
 
 The room, warrior, textures and idle/walk/attack clips come from the supplied
 cache. They are packaged during the build, so the encounter needs no file
@@ -48,9 +54,10 @@ derivation in `build-validation.json` and the APK asset manifest.
 ## Remaining work
 
 The original world/level lifecycle, full AI and animation controller, actual
-enemy appearances, weapon attachments, inventory UI, rewards, progression,
-audio and persistent saves remain unfinished. Cold launching this encounter
-starts fresh. This checkpoint does not complete the source game rebuild.
+enemy appearances, weapon attachments, inventory UI, rewards, campaign
+progression and audio remain unfinished. The new save format covers only this
+development room; it does not restore original campaign saves. This checkpoint
+does not complete the source game rebuild.
 
 The original-engine Test11 compatibility APKs are separate builds. Their
 playable original game must not be confused with this source encounter.

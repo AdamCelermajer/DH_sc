@@ -25,7 +25,8 @@ class SceneMesh(c.Structure):
                 ('indices', c.POINTER(c.c_uint16)),
                 ('vertex_count', U), ('index_count', U), ('draw_commands', U),
                 ('skin_joints', U),
-                ('first_diffuse_texture', c.c_char * 96)]
+                ('first_diffuse_texture', c.c_char * 96),
+                ('vertex_capacity', U), ('index_capacity', U)]
 
 
 def main() -> None:

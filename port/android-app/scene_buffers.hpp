@@ -18,6 +18,9 @@ struct SceneMesh {
     std::uint32_t vertex_count, index_count, draw_commands;
     std::uint32_t skin_joints; // Nonzero for the first-controller pose fallback.
     char first_diffuse_texture[96];
+    // Capacity is tracked so large original modules can grow to their actual
+    // payload size without reserving the same maximum for every animation frame.
+    std::uint32_t vertex_capacity, index_capacity;
 };
 }
 
@@ -39,3 +42,11 @@ extern "C" dh2::viewer::SceneMeshError dh2_world_scene_mesh(
 extern "C" dh2::viewer::SceneMeshError dh2_world_scene_mesh_at(
     dh2::viewer::SceneMesh*, const dh2::resources::BresView*,
     const dh2::pose::Clip*, std::int32_t milliseconds);
+
+// Assemble one selected original module from its complete node-record list.
+// A source-derived correction matrix replaces the catalogue placement with
+// the level placement while retaining every descendant transform.
+extern "C" dh2::viewer::SceneMeshError dh2_world_scene_mesh_nodes(
+    dh2::viewer::SceneMesh*, const dh2::resources::BresView*,
+    const std::uint32_t* node_records, std::uint32_t node_count,
+    const dh2::math::Matrix4f* placement_correction);

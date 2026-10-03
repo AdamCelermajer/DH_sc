@@ -16,6 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.File;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -25,23 +30,33 @@ public final class GameplayActivity extends Activity {
     static { System.loadLibrary("dh2lua"); System.loadLibrary("dh2source"); }
     private static native String loadWorld(byte[] room, byte[] floor, byte[] hero, byte[] texture, byte[] walk);
     private static native String loadMotions(byte[] idle, byte[] attack);
-    private static native void surfaceCreated();
+    private static native String surfaceCreated();
     private static native void surfaceChanged(int width, int height);
-    private static native void drawFrame(float[] snapshot);
-    private static native String sessionInit(byte[] properties, byte[] classes, byte[] loot,
-        byte[] powers, byte[] quests, byte[] constants, byte[] combat);
-    private static native float[] sessionStep(float x, float y, float dt, boolean attack);
-    private static native String sessionStatus();
-    private static native String sessionReset();
+    private static native boolean drawFrame(float[] snapshot);
+    private static native long sessionInit(byte[] properties, byte[] classes, byte[] loot,
+        byte[] powers, byte[] quests, byte[] constants, byte[] combat, byte[] generation);
+    private static native float[] sessionStep(long session, float x, float y, float dt, boolean attack);
+    private static native String sessionStatus(long session);
+    private static native String sessionReset(long session);
+    private static native byte[] sessionSnapshot(long session);
+    private static native String sessionRestore(long session, byte[] save);
     private GLSurfaceView surface;
     private TextView status;
     private volatile float moveX, moveY;
     private volatile boolean attackHeld;
     private final AtomicBoolean attackTap = new AtomicBoolean();
     private final AtomicBoolean resetRequested = new AtomicBoolean();
+    private final AtomicBoolean resetClock = new AtomicBoolean(true);
+    private final Object stateGuard = new Object();
+    private volatile boolean paused = true;
     private boolean initialized;
     private boolean failed;
     private long previousFrame, lastHud;
+    private long sessionId;
+    private EncounterSaveStore saveStore;
+    private byte[] latestCheckpoint;
+    private boolean allowSave;
+    private String restoreNote = "";
 
     private int dp(float value) { return Math.round(value * getResources().getDisplayMetrics().density); }
     private byte[] asset(String name) throws Exception {
@@ -54,7 +69,25 @@ public final class GameplayActivity extends Activity {
             return out.toByteArray();
         }
     }
-    private void showStatus(String text) { runOnUiThread(() -> status.setText(text)); }
+    private void showStatus(String text) { runOnUiThread(() -> {
+        if (!isFinishing() && !isDestroyed()) status.setText(text);
+    }); }
+    private byte[] generation(byte[][] world, byte[][] game) throws Exception {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        // Change this definition revision when encounter orchestration/balance changes.
+        digest.update("DH2 authored cross encounter r1; persistent schema 1".getBytes(StandardCharsets.UTF_8));
+        for (byte[][] group : new byte[][][]{world, game}) for (byte[] bytes : group) {
+            digest.update(ByteBuffer.allocate(4).putInt(bytes.length).array()); digest.update(bytes);
+        }
+        return digest.digest();
+    }
+    private String hud() {
+        String text = sessionStatus(sessionId);
+        if (!restoreNote.isEmpty()) text += "\n" + restoreNote;
+        String saved = saveStore != null && allowSave ? saveStore.status() : "";
+        if (!saved.isEmpty()) text += "\n" + saved;
+        return text;
+    }
     private Button button(String title) {
         Button b = new Button(this); b.setText(title); b.setAllCaps(false);
         return b;
@@ -71,36 +104,84 @@ public final class GameplayActivity extends Activity {
         surface.setPreserveEGLContextOnPause(true);
         surface.setRenderer(new GLSurfaceView.Renderer() {
             @Override public void onSurfaceCreated(GL10 ignored, EGLConfig config) {
+                synchronized (stateGuard) {
                 try {
-                    String loaded = loadWorld(asset("dh2/encounter/room.bdae"), asset("dh2/encounter/floor.tga"),
-                        asset("dh2/encounter/hero.bdae"), asset("dh2/encounter/hero.tga"), asset("dh2/encounter/walk.bdae"));
+                    byte[][] world = {asset("dh2/encounter/room.bdae"), asset("dh2/encounter/floor.tga"),
+                        asset("dh2/encounter/hero.bdae"), asset("dh2/encounter/hero.tga"), asset("dh2/encounter/walk.bdae"),
+                        asset("dh2/encounter/idle.bdae"), asset("dh2/encounter/attack.bdae")};
+                    String loaded = loadWorld(world[0], world[1], world[2], world[3], world[4]);
                     if (!loaded.startsWith("Development room ready")) throw new IllegalStateException(loaded);
-                    String motions = loadMotions(asset("dh2/encounter/idle.bdae"), asset("dh2/encounter/attack.bdae"));
+                    String motions = loadMotions(world[5], world[6]);
+                    if (!"Original idle and attack motions ready.".equals(motions)) throw new IllegalStateException(motions);
+                    String graphics = surfaceCreated();
+                    if (!"World renderer ready.".equals(graphics)) throw new IllegalStateException(graphics);
                     if (!initialized) {
-                        String ready = sessionInit(asset("dh2/encounter/properties.bin"), asset("dh2/encounter/classes.bin"),
+                        byte[][] game = {asset("dh2/encounter/properties.bin"), asset("dh2/encounter/classes.bin"),
                             asset("dh2/encounter/loot.bin"), asset("dh2/encounter/powers.bin"),
                             asset("dh2/encounter/quests.bin"), asset("dh2/encounter/constants.bin"),
-                            asset("dh2/scripts/combat-formulas.lua"));
+                            asset("dh2/scripts/combat-formulas.lua")};
+                        sessionId = sessionInit(game[0], game[1], game[2], game[3], game[4], game[5], game[6], generation(world, game));
+                        String ready = sessionStatus(sessionId);
                         if (!ready.startsWith("HP ")) throw new IllegalStateException(ready);
+                        saveStore = EncounterSaveStore.get(new File(getFilesDir(), "source-encounter-saves"));
+                        saveStore.attach(sessionId);
+                        boolean restored = false;
+                        for (byte[] checkpoint : saveStore.candidates()) {
+                            String result = sessionRestore(sessionId, checkpoint);
+                            if ("Encounter restored.".equals(result)) { restored = true; break; }
+                            saveStore.rejected(checkpoint);
+                        }
+                        allowSave = restored || !saveStore.hasFiles();
+                        restoreNote = restored ? "Progress restored." : allowSave ? "" :
+                            "Saved progress could not restore. Reset starts a new saved run.";
+                        latestCheckpoint = sessionSnapshot(sessionId);
+                        if (latestCheckpoint == null) throw new IllegalStateException("Initial checkpoint could not be captured");
+                        if (allowSave) saveStore.checkpoint(latestCheckpoint, sessionId, true, false);
                         initialized = true;
                     }
-                    surfaceCreated(); previousFrame = 0; failed = false;
-                    showStatus(sessionStatus());
+                    previousFrame = 0; failed = false;
+                    showStatus(hud());
                 } catch (Exception error) {
                     failed = true; showStatus("Encounter could not start: " + error.getMessage());
+                }
                 }
             }
             @Override public void onSurfaceChanged(GL10 ignored, int width, int height) { surfaceChanged(width, height); }
             @Override public void onDrawFrame(GL10 ignored) {
-                if (!initialized || failed) return;
-                long now = System.nanoTime();
-                float dt = previousFrame == 0 ? 0 : Math.min(0.1f, (now - previousFrame) / 1000000000f);
-                previousFrame = now;
-                if (resetRequested.getAndSet(false)) sessionReset();
-                float[] snapshot = sessionStep(moveX, moveY, dt, attackHeld | attackTap.getAndSet(false));
-                if (snapshot == null) { failed = true; showStatus(sessionStatus()); return; }
-                drawFrame(snapshot);
-                if (now - lastHud > 200000000L) { lastHud = now; showStatus(sessionStatus()); }
+                synchronized (stateGuard) {
+                    if (!initialized || failed || paused) return;
+                    if (resetClock.getAndSet(false)) previousFrame = 0;
+                    long now = System.nanoTime();
+                    float dt = previousFrame == 0 ? 0 : Math.min(0.1f, (now - previousFrame) / 1000000000f);
+                    previousFrame = now;
+                    if (resetRequested.getAndSet(false)) {
+                        String result = sessionReset(sessionId);
+                        if (!result.startsWith("HP ")) { showStatus("Reset failed: " + result); return; }
+                        allowSave = true; restoreNote = ""; latestCheckpoint = sessionSnapshot(sessionId);
+                        if (latestCheckpoint == null) { failed = true; showStatus("Reset checkpoint failed"); return; }
+                        saveStore.checkpoint(latestCheckpoint, sessionId, true, true);
+                    }
+                    float[] snapshot = sessionStep(sessionId, moveX, moveY, dt, attackHeld | attackTap.getAndSet(false));
+                    if (snapshot == null) { failed = true; showStatus(sessionStatus(sessionId)); return; }
+                    byte[] checkpoint = sessionSnapshot(sessionId);
+                    if (checkpoint == null) { failed = true; showStatus("Checkpoint failed: " + sessionStatus(sessionId)); return; }
+                    // Quest/death/RNG changes make combat checkpoints urgent. Position
+                    // changes are coalesced; every frame still publishes exact state.
+                    boolean combatChanged = latestCheckpoint != null && !Arrays.equals(
+                        Arrays.copyOfRange(latestCheckpoint, latestCheckpoint.length - 72, latestCheckpoint.length),
+                        Arrays.copyOfRange(checkpoint, checkpoint.length - 72, checkpoint.length));
+                    latestCheckpoint = checkpoint;
+                    if (allowSave) saveStore.checkpoint(checkpoint, sessionId, combatChanged, false);
+                    if (!drawFrame(snapshot)) {
+                        failed = true;
+                        if (allowSave) {
+                            saveStore.checkpoint(checkpoint, sessionId, true, false);
+                            waitForSave();
+                        }
+                        showStatus("Encounter renderer failed. Progress is retained if the save store reports saved; reopen this screen."); return;
+                    }
+                    if (now - lastHud > 200000000L) { lastHud = now; showStatus(hud()); }
+                }
             }
         });
         root.addView(surface, new FrameLayout.LayoutParams(-1, -1));
@@ -172,7 +253,32 @@ public final class GameplayActivity extends Activity {
         @Override public boolean performClick() { super.performClick(); return true; }
     }
     @Override protected void onPause() {
-        moveX = moveY = 0; attackHeld = false; attackTap.set(false); surface.onPause(); super.onPause();
+        paused = true; moveX = moveY = 0; attackHeld = false; attackTap.set(false);
+        flushCheckpoint();
+        surface.onPause(); super.onPause();
     }
-    @Override protected void onResume() { super.onResume(); if (surface != null) surface.onResume(); previousFrame = 0; }
+    @Override protected void onStop() {
+        flushCheckpoint();
+        super.onStop();
+    }
+    private void flushCheckpoint() {
+        synchronized (stateGuard) {
+            if (saveStore != null && allowSave && latestCheckpoint != null) {
+                saveStore.checkpoint(latestCheckpoint, sessionId, true, false);
+                waitForSave();
+            }
+        }
+    }
+    private void waitForSave() {
+        try {
+            if (saveStore != null && !saveStore.awaitIdle(2000))
+                showStatus("Progress is still being saved.");
+        } catch (InterruptedException interrupted) {
+            Thread.currentThread().interrupt();
+            showStatus("Progress save was interrupted.");
+        }
+    }
+    @Override protected void onResume() {
+        super.onResume(); resetClock.set(true); paused = false; if (surface != null) surface.onResume();
+    }
 }

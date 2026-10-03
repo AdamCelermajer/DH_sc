@@ -246,3 +246,35 @@ int dh2_lua_call_numbers(dh2_lua *runtime,const char *function,
     else if(result_count)memcpy(results,call.values,result_count*sizeof(*results));
     lua_settop(state,0);return status;
 }
+struct bytes_call {
+    const char *name;const void *input;size_t input_size;
+    void *output;size_t capacity,size;
+};
+static int call_bytes(lua_State *state) {
+    struct bytes_call *call=lua_touserdata(state,1);
+    lua_getglobal(state,call->name);
+    if(lua_type(state,-1)!=LUA_TFUNCTION)return luaL_error(state,"binary session function is absent");
+    if(call->input)lua_pushlstring(state,call->input,call->input_size);
+    lua_call(state,call->input?1:0,LUA_MULTRET);
+    if(lua_gettop(state)!=2 || lua_type(state,2)!=LUA_TSTRING)return luaL_error(state,"binary session result required");
+    size_t size=0;const char *bytes=lua_tolstring(state,2,&size);
+    if(size>call->capacity)return luaL_error(state,"binary session result exceeds capacity");
+    if(size)memcpy(call->output,bytes,size);call->size=size;return 0;
+}
+int dh2_lua_call_bytes(dh2_lua *runtime,const char *function,const void *input,size_t input_size,
+                       void *output,size_t output_capacity,size_t *output_size,
+                       uint32_t blocks,char *error,size_t capacity) {
+    if(error && capacity)error[0]=0;
+    if(!runtime || !function || !*function || strlen(function)>127 ||
+       (!input && input_size) || input_size>65536 || output_capacity>65536 ||
+       (!output && output_capacity) || !output_size || !blocks) {
+        diagnostic(error,capacity,"invalid binary session call");return -1;
+    }
+    struct bytes_call call={function,input,input_size,output,output_capacity,0};
+    lua_State *state=runtime->state;lua_settop(state,0);runtime->blocks=blocks;
+    lua_sethook(state,instruction_limit,LUA_MASKCOUNT,1000);
+    int status=lua_cpcall(state,call_bytes,&call);
+    lua_sethook(state,NULL,0,0);runtime->blocks=0;
+    if(status)diagnostic(error,capacity,lua_tostring(state,-1));else *output_size=call.size;
+    lua_settop(state,0);return status;
+}

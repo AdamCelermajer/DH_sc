@@ -1,8 +1,10 @@
 #include "quest.h"
 #include "../quest-compile/compile.h"
+#include "../persistence/binary.h"
 #include "lua.h"
 #include "lauxlib.h"
 #include <math.h>
+#include <string.h>
 #define QUEST_TYPE "dh2.source.kill-objective"
 struct objective {struct dh2_kill_objective state;uint32_t kind,active,has_record;int32_t record_level,record_required;};
 void dh2_lua_quest_world_context(lua_State *,int,uint32_t,int32_t,int32_t *,int32_t *);
@@ -81,9 +83,36 @@ static int create(lua_State *L) {
     value.state.completed=boolean(L,1,"completed",0);
     dh2_lua_push_kill_objective(L,&value.state,value.kind);return 1;
 }
+static int export_progress(lua_State *L) {
+    struct objective *o=luaL_checkudata(L,1,QUEST_TYPE);
+    if(lua_gettop(L)!=1)return luaL_error(L,"progress export takes no arguments");
+    unsigned char bytes[DH2_QUEST_SAVE_BYTES];memcpy(bytes,"DHQ1",4);
+    const uint32_t fields[]={o->kind,(uint32_t)o->state.match_id,(uint32_t)o->state.current,
+        (uint32_t)o->state.required,o->state.completed,o->active,o->has_record,
+        (uint32_t)o->record_level,(uint32_t)o->record_required};
+    for(unsigned i=0;i<9;++i)dh2_save_write32(bytes+4+i*4,fields[i]);
+    lua_pushlstring(L,(const char *)bytes,sizeof(bytes));return 1;
+}
+static int import_progress(lua_State *L) {
+    struct objective *o=luaL_checkudata(L,1,QUEST_TYPE);size_t size=0;
+    if(lua_gettop(L)!=2 || lua_type(L,2)!=LUA_TSTRING)return luaL_error(L,"binary progress required");
+    const unsigned char *bytes=(const unsigned char *)lua_tolstring(L,2,&size);
+    if(size!=DH2_QUEST_SAVE_BYTES || memcmp(bytes,"DHQ1",4))return luaL_error(L,"unsupported quest checkpoint");
+    struct objective next=*o;next.state.current=dh2_save_read_i32(bytes+12);
+    next.state.completed=dh2_save_read32(bytes+20);next.active=dh2_save_read32(bytes+24);
+    if(dh2_save_read32(bytes+4)!=o->kind || dh2_save_read_i32(bytes+8)!=o->state.match_id ||
+       dh2_save_read_i32(bytes+16)!=o->state.required || dh2_save_read32(bytes+28)!=o->has_record ||
+       dh2_save_read_i32(bytes+32)!=o->record_level || dh2_save_read_i32(bytes+36)!=o->record_required ||
+       next.state.current<0 || next.state.current>next.state.required || next.state.completed>1 ||
+       next.active!=o->active || next.state.completed!=(uint32_t)(next.state.current>=next.state.required))
+        return luaL_error(L,"quest checkpoint differs from encounter definition");
+    *o=next;return 0;
+}
 void dh2_lua_register_kill_objectives(lua_State *L) {
     luaL_newmetatable(L,QUEST_TYPE);lua_pushvalue(L,-1);lua_setfield(L,-2,"__index");
     lua_pushcfunction(L,progress);lua_setfield(L,-2,"GetProgress");lua_pushcfunction(L,consume);lua_setfield(L,-2,"ConsumeKillEvent");
     lua_pushcfunction(L,compile_against);lua_setfield(L,-2,"CompileAgainst");
+    lua_pushcfunction(L,export_progress);lua_setfield(L,-2,"ExportEncounterProgress");
+    lua_pushcfunction(L,import_progress);lua_setfield(L,-2,"ImportEncounterProgress");
     lua_pop(L,1);lua_pushcfunction(L,create);lua_setglobal(L,"DH2CreateKillObjective");
 }

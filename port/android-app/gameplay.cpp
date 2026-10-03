@@ -1,6 +1,7 @@
 #include "gameplay.h"
 #include "../lua-runtime/runtime.h"
 #include "../character-properties/properties.h"
+#include "../persistence/binary.h"
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -16,7 +17,7 @@ extern "C" bool dh2_world_walkable(float x,float y);
  * overrides deliberately make a short, testable encounter; enemy placement,
  * controls and AI are not claims about original level behavior. */
 static const char encounter_lua[]=R"lua(
-local enemies,player,quest,record,enemyCount,matchId,questRow
+local enemies,player,quest,record,enemyCount,matchId,questRow,objectiveIndex
 local deathEvents,lootRequests,lastDamage=0,0,0
 local policy={target_dead=false,target_monster=true,local_player_alive=true,
  online=false,manager_present=true,manager_mode=0,monster_invincible=false,
@@ -40,7 +41,7 @@ local function balanced(a,hp,damage,name)
  a:SetCombatContext(0,0,name)
 end
 function DH2EncounterReset()
- local objectiveIndex
+ objectiveIndex=nil
  -- Choose an actual small property-kill objective. Only the condition/reward
  -- and original level dispatch are omitted in this development scene.
  for row=0,DH2GetQuestCount()-1 do
@@ -58,7 +59,7 @@ function DH2EncounterReset()
  for i=1,enemyCount do
   local a=DH2CreatePropertyState(DH2EncounterEnemyRow);balanced(a,18,3,'Sentry '..i)
   a:SetDeathContext{dead=false,network=false,suppress_events=false,
-   target_id=1000+i,property_id=matchId,template_id=-1}
+   target_id=({1001,1002,1003})[i],property_id=matchId,template_id=-1}
   enemies[i]=a;population[i]={property_id=matchId,template_id=-1}
  end
  local level=record.objectives[objectiveIndex+1].args[2]
@@ -100,8 +101,43 @@ function DH2EncounterState()
  return health(player),80,eh(1),eh(2),eh(3),q.current,q.required,
   q.completed and 1 or 0,deathEvents,lootRequests,questRow,matchId,lastDamage
 end
+local function pack(n)
+ assert(n>=0 and n<=16777215 and n==math.floor(n),'invalid encounter counter')
+ return string.char(n%256,math.floor(n/256)%256,math.floor(n/65536)%256,0)
+end
+local function unpack32(s,p)
+ local a,b,c,d=string.byte(s,p,p+3);assert(d==0,'encounter counter outside exact range')
+ return a+b*256+c*65536
+end
+function DH2EncounterExport()
+ local parts={'DHE1',pack(enemyCount),pack(questRow),pack(objectiveIndex),pack(matchId),player:ExportEncounterState()}
+ for i=1,enemyCount do parts[#parts+1]=enemies[i]:ExportEncounterState()end
+ parts[#parts+1]=quest:ExportEncounterProgress();parts[#parts+1]=DH2ExportRandomState()
+ parts[#parts+1]=pack(deathEvents)..pack(lootRequests)..pack(lastDamage)
+ return table.concat(parts)
+end
+function DH2EncounterImport(bytes)
+ assert(type(bytes)=='string' and #bytes==20+(enemyCount+1)*932+72,'invalid encounter checkpoint length')
+ assert(string.sub(bytes,1,4)=='DHE1' and unpack32(bytes,5)==enemyCount,'invalid encounter checkpoint header')
+ assert(unpack32(bytes,9)==questRow and unpack32(bytes,13)==objectiveIndex and unpack32(bytes,17)==matchId,'quest definition changed')
+ local p=21;player:ImportEncounterState(string.sub(bytes,p,p+931));p=p+932
+ local dead=0
+ for i=1,enemyCount do
+  enemies[i]:ImportEncounterState(string.sub(bytes,p,p+931));p=p+932
+  assert(enemies[i]:IsDead()==(health(enemies[i])==0),'inconsistent sentry health/death')
+  if enemies[i]:IsDead()then dead=dead+1 end
+ end
+ quest:ImportEncounterProgress(string.sub(bytes,p,p+39));p=p+40
+ DH2ImportRandomState(string.sub(bytes,p,p+19));p=p+20
+ local d,l,last=unpack32(bytes,p),unpack32(bytes,p+4),unpack32(bytes,p+8)
+ assert(quest:GetProgress().current==dead and d==dead*2 and l==dead and last<=7,'inconsistent encounter events')
+ deathEvents=d;lootRequests=l;lastDamage=last
+ return 'ok'
+end
 )lua";
 
+struct Spawn {const char *id;float x,y;};
+static const Spawn spawns[]={{"sentry_a",1.4f,0.0f},{"sentry_b",0.5f,0.4f},{"sentry_c",0.9f,-0.3f}};
 struct Enemy {float x,y,heading,pulse,cooldown;};
 struct dh2_gameplay {
     dh2_lua *lua;
@@ -110,6 +146,9 @@ struct dh2_gameplay {
     float state[13];
     unsigned count;
     char error[256];
+    dh2_gameplay_bytes assets[7];
+    unsigned char generation[32];
+    bool generation_set;
 };
 static void copy_text(char *out,size_t capacity,const char *text) {
     if(out && capacity)std::snprintf(out,capacity,"%s",text?text:"");
@@ -154,6 +193,14 @@ extern "C" dh2_gameplay *dh2_gameplay_create(const dh2_gameplay_bytes assets[7],
     if(!g) {copy_text(error,capacity,"Encounter allocation failed");return nullptr;}
     g->lua=dh2_lua_create(32U*1024U*1024U);
     if(!g->lua) {copy_text(error,capacity,"Source runtime allocation failed");std::free(g);return nullptr;}
+    for(unsigned i=0;i<7;++i) {
+        if(!assets[i].data || !assets[i].size || assets[i].size>4U*1024U*1024U) {
+            copy_text(error,capacity,"Invalid retained encounter assets");dh2_gameplay_destroy(g);return nullptr;
+        }
+        void *copy=std::malloc(assets[i].size);
+        if(!copy) {copy_text(error,capacity,"Encounter asset retention failed");dh2_gameplay_destroy(g);return nullptr;}
+        std::memcpy(copy,assets[i].data,assets[i].size);g->assets[i]={copy,assets[i].size};
+    }
     using Import=int(*)(dh2_lua*,const void*,size_t,char*,size_t);
     const Import imports[]={dh2_lua_import_character_properties,dh2_lua_import_character_classes,
         dh2_lua_import_loot_tables,dh2_lua_import_item_powers,dh2_lua_import_quests,dh2_lua_import_constants};
@@ -179,7 +226,7 @@ extern "C" dh2_gameplay *dh2_gameplay_create(const dh2_gameplay_bytes assets[7],
     copy_text(error,capacity,"");return g;
 }
 extern "C" void dh2_gameplay_destroy(dh2_gameplay *g) {
-    if(g) {dh2_lua_destroy(g->lua);std::free(g);}
+    if(g) {dh2_lua_destroy(g->lua);for(auto &asset:g->assets)std::free(const_cast<void*>(asset.data));std::free(g);}
 }
 extern "C" int dh2_gameplay_reset(dh2_gameplay *g) {
     if(!g)return 0;
@@ -187,8 +234,7 @@ extern "C" int dh2_gameplay_reset(dh2_gameplay *g) {
     if(!call(g,"DH2EncounterReset",nullptr,0,&count,1) || count<1 || count>3 || std::floor(count)!=count ||
        !update_state(g))return 0;
     g->count=static_cast<unsigned>(count);g->x=g->y=g->heading=g->attack_pulse=g->cooldown=0;
-    const float placement[][2]={{1.4f,0.0f},{0.5f,0.4f},{0.9f,-0.3f}};
-    for(unsigned i=0;i<3;++i)g->enemies[i]={placement[i][0],placement[i][1],0,0,0.8f+0.4f*i};
+    for(unsigned i=0;i<3;++i)g->enemies[i]={spawns[i].x,spawns[i].y,0,0,0.8f+0.4f*i};
     g->error[0]=0;return 1;
 }
 static float distance(float x,float y) {return std::sqrt(x*x+y*y);}
@@ -255,15 +301,108 @@ extern "C" void dh2_gameplay_status(const dh2_gameplay *g,char *text,size_t capa
 }
 extern "C" int dh2_gameplay_player_hp(const dh2_gameplay *g) {return g?static_cast<int>(g->state[0]):0;}
 
+static constexpr size_t save_header=64,record_size=48+DH2_ACTOR_SAVE_BYTES;
+static constexpr size_t lua_header=20,lua_tail=DH2_QUEST_SAVE_BYTES+DH2_RANDOM_SAVE_BYTES+12;
+static const char *actor_id(unsigned slot) {return slot?spawns[slot-1].id:"player";}
+static void write_float(unsigned char *p,float value) {
+    uint32_t bits;std::memcpy(&bits,&value,4);dh2_save_write32(p,bits);
+}
+static float read_float(const unsigned char *p) {
+    uint32_t bits=dh2_save_read32(p);float value;std::memcpy(&value,&bits,4);return value;
+}
+extern "C" int dh2_gameplay_set_generation(dh2_gameplay *g,const unsigned char generation[32]) {
+    if(!g || !generation || g->generation_set)return 0;
+    std::memcpy(g->generation,generation,32);g->generation_set=true;return 1;
+}
+extern "C" size_t dh2_gameplay_save(dh2_gameplay *g,void *output,size_t capacity) {
+    if(!g || !output || !g->generation_set || g->error[0] || g->count<1 || g->count>3)return 0;
+    const size_t size=save_header+lua_header+(g->count+1)*record_size+lua_tail;
+    if(capacity<size)return 0;
+    unsigned char lua[8192];size_t lua_size=0;
+    if(dh2_lua_call_bytes(g->lua,"DH2EncounterExport",nullptr,0,lua,sizeof(lua),&lua_size,1000,g->error,sizeof(g->error)) ||
+       lua_size!=lua_header+(g->count+1)*DH2_ACTOR_SAVE_BYTES+lua_tail)return 0;
+    auto *out=static_cast<unsigned char*>(output);std::memset(out,0,size);
+    std::memcpy(out,"DH2S",4);dh2_save_write32(out+4,1);dh2_save_write32(out+8,static_cast<uint32_t>(size));
+    std::memcpy(out+16,g->generation,32);dh2_save_write32(out+48,0x43525331U); // dev.cross_junction
+    dh2_save_write32(out+52,1);dh2_save_write32(out+56,g->count);dh2_save_write32(out+60,0);
+    std::memcpy(out+save_header,lua,lua_header);
+    for(unsigned slot=0;slot<=g->count;++slot) {
+        unsigned char *record=out+save_header+lua_header+slot*record_size;
+        std::memcpy(record,actor_id(slot),std::strlen(actor_id(slot)));
+        const float position[]={slot?g->enemies[slot-1].x:g->x,slot?g->enemies[slot-1].y:g->y,
+            slot?g->enemies[slot-1].heading:g->heading,slot?g->enemies[slot-1].cooldown:g->cooldown};
+        for(unsigned i=0;i<4;++i)write_float(record+32+i*4,position[i]);
+        std::memcpy(record+48,lua+lua_header+slot*DH2_ACTOR_SAVE_BYTES,DH2_ACTOR_SAVE_BYTES);
+    }
+    std::memcpy(out+size-lua_tail,lua+lua_size-lua_tail,lua_tail);
+    dh2_save_write32(out+12,dh2_save_crc32(out+save_header,size-save_header));return size;
+}
+extern "C" int dh2_gameplay_restore(dh2_gameplay **slot,const void *input,size_t size,char *error,size_t capacity) {
+    auto fail=[&](const char *text){copy_text(error,capacity,text);return 0;};
+    if(!slot || !*slot || !input || size<save_header || size>8192)return fail("Save length is invalid");
+    dh2_gameplay *old=*slot;const auto *bytes=static_cast<const unsigned char*>(input);
+    if(std::memcmp(bytes,"DH2S",4) || dh2_save_read32(bytes+4)!=1 || dh2_save_read32(bytes+8)!=size ||
+       dh2_save_read32(bytes+48)!=0x43525331U || dh2_save_read32(bytes+52)!=1 || dh2_save_read32(bytes+60)!=0)
+        return fail("Save format or encounter definition is unsupported");
+    if(!old->generation_set || std::memcmp(bytes+16,old->generation,32))return fail("Saved encounter uses different assets or rules");
+    const unsigned count=dh2_save_read32(bytes+56);
+    if(count!=old->count || count<1 || count>3 || size!=save_header+lua_header+(count+1)*record_size+lua_tail ||
+       dh2_save_read32(bytes+12)!=dh2_save_crc32(bytes+save_header,size-save_header))return fail("Save checksum or actor count is invalid");
+    unsigned char lua[8192];std::memcpy(lua,bytes+save_header,lua_header);
+    float positions[4][4]{};bool seen[4]{};
+    for(unsigned source=0;source<=count;++source) {
+        const unsigned char *record=bytes+save_header+lua_header+source*record_size;unsigned target=count+1;
+        for(unsigned i=0;i<=count;++i) {
+            char name[32]{};std::memcpy(name,actor_id(i),std::strlen(actor_id(i)));
+            if(!std::memcmp(record,name,32)) {target=i;break;}
+        }
+        if(target>count || seen[target])return fail("Save contains an unknown or duplicate spawn ID");
+        seen[target]=true;
+        for(unsigned i=0;i<4;++i)positions[target][i]=read_float(record+32+i*4);
+        const float *p=positions[target];
+        for(unsigned i=0;i<4;++i)if(!std::isfinite(p[i]))return fail("Saved transform or cooldown is not finite");
+        if(std::fabs(p[0])>4 || std::fabs(p[1])>4 || std::fabs(p[2])>3.1417f || p[3]<0 ||
+           p[3]>(target?1.6001f:0.4201f) || !dh2_world_walkable(p[0],p[1]))return fail("Saved position or cooldown is outside the encounter");
+        std::memcpy(lua+lua_header+target*DH2_ACTOR_SAVE_BYTES,record+48,DH2_ACTOR_SAVE_BYTES);
+    }
+    const size_t lua_size=lua_header+(count+1)*DH2_ACTOR_SAVE_BYTES+lua_tail;
+    std::memcpy(lua+lua_size-lua_tail,bytes+size-lua_tail,lua_tail);
+    char detail[256]{};dh2_gameplay *candidate=dh2_gameplay_create(old->assets,detail,sizeof(detail));
+    if(!candidate)return fail(detail);
+    dh2_gameplay_set_generation(candidate,old->generation);
+    char result[4]{};size_t result_size=0;
+    if(dh2_lua_call_bytes(candidate->lua,"DH2EncounterImport",lua,lua_size,result,sizeof(result),&result_size,1000,
+           detail,sizeof(detail)) || result_size!=2 || std::memcmp(result,"ok",2) || !update_state(candidate)) {
+        dh2_gameplay_destroy(candidate);return fail(detail[0]?detail:"Saved state did not validate");
+    }
+    candidate->x=positions[0][0];candidate->y=positions[0][1];candidate->heading=positions[0][2];candidate->cooldown=positions[0][3];
+    for(unsigned i=0;i<count;++i) {
+        Enemy &e=candidate->enemies[i];e.x=positions[i+1][0];e.y=positions[i+1][1];
+        e.heading=positions[i+1][2];e.cooldown=positions[i+1][3];e.pulse=0;
+    }
+    *slot=candidate;dh2_gameplay_destroy(old);copy_text(error,capacity,"");return 1;
+}
+extern "C" int dh2_gameplay_reset_transactional(dh2_gameplay **slot,char *error,size_t capacity) {
+    if(!slot || !*slot) {copy_text(error,capacity,"No encounter is running");return 0;}
+    dh2_gameplay *old=*slot;dh2_gameplay *candidate=dh2_gameplay_create(old->assets,error,capacity);
+    if(!candidate)return 0;
+    if(old->generation_set)dh2_gameplay_set_generation(candidate,old->generation);
+    *slot=candidate;dh2_gameplay_destroy(old);copy_text(error,capacity,"");return 1;
+}
+
 #ifdef __ANDROID__
 static pthread_mutex_t session_guard=PTHREAD_MUTEX_INITIALIZER;
 static dh2_gameplay *session=nullptr;
-extern "C" JNIEXPORT jstring JNICALL
+static jlong session_token=0;
+extern "C" JNIEXPORT jlong JNICALL
 Java_local_dh2_sourceviewer_GameplayActivity_sessionInit(JNIEnv *env,jclass,
         jbyteArray properties,jbyteArray classes,jbyteArray loot,jbyteArray powers,
-        jbyteArray quests,jbyteArray constants,jbyteArray combat) {
+        jbyteArray quests,jbyteArray constants,jbyteArray combat,jbyteArray generation) {
     jbyteArray inputs[]={properties,classes,loot,powers,quests,constants,combat};
     dh2_gameplay_bytes assets[7]{};jbyte *held[7]{};char error[256]{};bool valid=true;
+    unsigned char fingerprint[32]{};
+    if(!generation || env->GetArrayLength(generation)!=32)valid=false;
+    else env->GetByteArrayRegion(generation,0,32,reinterpret_cast<jbyte*>(fingerprint));
     for(unsigned i=0;i<7 && valid;++i) {
         const jsize length=inputs[i]?env->GetArrayLength(inputs[i]):0;
         if(length<=0 || length>4*1024*1024) {valid=false;break;}
@@ -273,16 +412,20 @@ Java_local_dh2_sourceviewer_GameplayActivity_sessionInit(JNIEnv *env,jclass,
     }
     dh2_gameplay *candidate=valid?dh2_gameplay_create(assets,error,sizeof(error)):nullptr;
     for(unsigned i=0;i<7;++i)if(held[i])env->ReleaseByteArrayElements(inputs[i],held[i],JNI_ABORT);
-    if(env->ExceptionCheck())return nullptr;
-    if(!candidate)return env->NewStringUTF(error[0]?error:"Source encounter assets rejected");
+    if(env->ExceptionCheck()) {dh2_gameplay_destroy(candidate);return 0;}
+    if(!candidate) {
+        jclass type=env->FindClass("java/lang/IllegalStateException");
+        if(type)env->ThrowNew(type,error[0]?error:"Source encounter assets rejected");return 0;
+    }
+    dh2_gameplay_set_generation(candidate,fingerprint);
     pthread_mutex_lock(&session_guard);dh2_gameplay_destroy(session);session=candidate;
-    dh2_gameplay_status(session,error,sizeof(error));pthread_mutex_unlock(&session_guard);
-    return env->NewStringUTF(error);
+    session_token=session_token==INT64_MAX?1:session_token+1;jlong token=session_token;
+    pthread_mutex_unlock(&session_guard);return token;
 }
 extern "C" JNIEXPORT jfloatArray JNICALL
-Java_local_dh2_sourceviewer_GameplayActivity_sessionStep(JNIEnv *env,jclass,jfloat mx,jfloat my,jfloat dt,jboolean attack) {
+Java_local_dh2_sourceviewer_GameplayActivity_sessionStep(JNIEnv *env,jclass,jlong token,jfloat mx,jfloat my,jfloat dt,jboolean attack) {
     float snapshot[21];pthread_mutex_lock(&session_guard);
-    const size_t size=dh2_gameplay_step(session,mx,my,dt,attack?1:0,snapshot);
+    const size_t size=token==session_token?dh2_gameplay_step(session,mx,my,dt,attack?1:0,snapshot):0;
     pthread_mutex_unlock(&session_guard);
     if(!size)return nullptr;
     jfloatArray result=env->NewFloatArray(static_cast<jsize>(size));
@@ -290,15 +433,38 @@ Java_local_dh2_sourceviewer_GameplayActivity_sessionStep(JNIEnv *env,jclass,jflo
     return result;
 }
 extern "C" JNIEXPORT jstring JNICALL
-Java_local_dh2_sourceviewer_GameplayActivity_sessionStatus(JNIEnv *env,jclass) {
-    char text[256];pthread_mutex_lock(&session_guard);dh2_gameplay_status(session,text,sizeof(text));
+Java_local_dh2_sourceviewer_GameplayActivity_sessionStatus(JNIEnv *env,jclass,jlong token) {
+    char text[256];pthread_mutex_lock(&session_guard);
+    if(token!=session_token)copy_text(text,sizeof(text),"Encounter owner changed; reopen this screen");
+    else dh2_gameplay_status(session,text,sizeof(text));
     pthread_mutex_unlock(&session_guard);return env->NewStringUTF(text);
 }
 extern "C" JNIEXPORT jstring JNICALL
-Java_local_dh2_sourceviewer_GameplayActivity_sessionReset(JNIEnv *env,jclass) {
+Java_local_dh2_sourceviewer_GameplayActivity_sessionReset(JNIEnv *env,jclass,jlong token) {
     char text[256];pthread_mutex_lock(&session_guard);
-    if(session)dh2_gameplay_reset(session);
-    dh2_gameplay_status(session,text,sizeof(text));
+    if(token!=session_token)copy_text(text,sizeof(text),"Encounter owner changed; reopen this screen");
+    else if(dh2_gameplay_reset_transactional(&session,text,sizeof(text)))dh2_gameplay_status(session,text,sizeof(text));
+    pthread_mutex_unlock(&session_guard);return env->NewStringUTF(text);
+}
+extern "C" JNIEXPORT jbyteArray JNICALL
+Java_local_dh2_sourceviewer_GameplayActivity_sessionSnapshot(JNIEnv *env,jclass,jlong token) {
+    unsigned char bytes[8192];pthread_mutex_lock(&session_guard);
+    const size_t size=token==session_token?dh2_gameplay_save(session,bytes,sizeof(bytes)):0;
+    pthread_mutex_unlock(&session_guard);if(!size)return nullptr;
+    jbyteArray result=env->NewByteArray(static_cast<jsize>(size));
+    if(result)env->SetByteArrayRegion(result,0,static_cast<jsize>(size),reinterpret_cast<const jbyte*>(bytes));
+    return result;
+}
+extern "C" JNIEXPORT jstring JNICALL
+Java_local_dh2_sourceviewer_GameplayActivity_sessionRestore(JNIEnv *env,jclass,jlong token,jbyteArray save) {
+    const jsize size=save?env->GetArrayLength(save):0;
+    if(size<=0 || size>8192)return env->NewStringUTF("Save length is invalid");
+    unsigned char bytes[8192];env->GetByteArrayRegion(save,0,size,reinterpret_cast<jbyte*>(bytes));
+    if(env->ExceptionCheck())return nullptr;
+    char text[256];pthread_mutex_lock(&session_guard);
+    if(token!=session_token)copy_text(text,sizeof(text),"Encounter owner changed; reopen this screen");
+    else if(dh2_gameplay_restore(&session,bytes,static_cast<size_t>(size),text,sizeof(text)))
+        copy_text(text,sizeof(text),"Encounter restored.");
     pthread_mutex_unlock(&session_guard);return env->NewStringUTF(text);
 }
 #endif

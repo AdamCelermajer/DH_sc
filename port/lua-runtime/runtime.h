@@ -76,6 +76,13 @@ int dh2_lua_call_numbers(dh2_lua *,const char *function,
                          float *results,size_t result_count,
                          uint32_t instruction_blocks,char *error,size_t capacity);
 size_t dh2_lua_memory_used(const dh2_lua *runtime);
+/* Exact binary string transport for authored persistence. At most 64 KiB per
+ * input/output; no float conversion of integers. If input is NULL, calls with
+ * no arguments; otherwise passes one string. Requires one string result.
+ * Output is copied only after validation; Lua side effects are not rolled back. */
+int dh2_lua_call_bytes(dh2_lua *,const char *function,const void *input,size_t input_size,
+                       void *output,size_t output_capacity,size_t *output_size,
+                       uint32_t instruction_blocks,char *error,size_t error_capacity);
 #ifdef __cplusplus
 }
 #endif

@@ -10,9 +10,32 @@
 namespace {
 using dh2::viewer::SceneMesh;
 using dh2::viewer::SceneMeshError;
-constexpr std::uint32_t max_vertices = 8192;
-constexpr std::uint32_t max_indices = 24000;
-constexpr std::uint32_t max_commands = 256;
+// One original module can exceed the former 8,192 vertex allocation (the
+// SWAMP starting module contains 10,816). Grow only as needed; animated frames
+// remain small, while one module is still bounded to the 16-bit index range.
+constexpr std::uint32_t max_vertices = 65535;
+constexpr std::uint32_t max_indices = 1000000;
+constexpr std::uint32_t max_commands = 8192;
+
+template<typename T>
+bool reserve(T*& buffer, std::uint32_t& capacity, std::uint32_t required,
+             std::uint32_t maximum, std::uint32_t elements_per_unit = 1) {
+    if (required > maximum) return false;
+    if (required <= capacity) return true;
+    std::uint32_t next = capacity ? capacity : 1024;
+    while (next < required) {
+        if (next > maximum / 2) { next = maximum; break; }
+        next *= 2;
+    }
+    const std::size_t unit_bytes = sizeof(T) * std::size_t(elements_per_unit);
+    if (!elements_per_unit || next < required || std::size_t(next) > SIZE_MAX / unit_bytes)
+        return false;
+    void* resized = std::realloc(buffer, std::size_t(next) * unit_bytes);
+    if (!resized) return false;
+    buffer = static_cast<T*>(resized);
+    capacity = next;
+    return true;
+}
 
 struct Context {
     SceneMesh* output;
@@ -25,7 +48,47 @@ struct Context {
     std::int32_t time;
     const dh2::layers::Layers* layers;
     const char* node_prefix;
+    const std::uint32_t* node_records;
+    std::uint32_t node_count;
+    const dh2::math::Matrix4f* placement_correction;
 };
+
+bool contains_node(const Context& context, std::uint32_t record) {
+    if (!context.node_records) return true;
+    for (std::uint32_t i = 0; i < context.node_count; ++i)
+        if (context.node_records[i] == record) return true;
+    return false;
+}
+
+bool finite_affine(const dh2::math::Matrix4f& matrix) {
+    for (float value : matrix.m) if (!std::isfinite(value)) return false;
+    return matrix.m[3] == 0 && matrix.m[7] == 0 &&
+           matrix.m[11] == 0 && matrix.m[15] == 1;
+}
+
+void multiply_affine(dh2::math::Matrix4f* out,
+                     const dh2::math::Matrix4f& left,
+                     const dh2::math::Matrix4f& right) {
+    dh2::math::Matrix4f product{};
+    for (std::uint32_t column = 0; column < 3; ++column) {
+        for (std::uint32_t row = 0; row < 3; ++row) {
+            const auto a = left.m[row] * right.m[column * 4];
+            const auto b = left.m[4 + row] * right.m[column * 4 + 1];
+            const auto c = left.m[8 + row] * right.m[column * 4 + 2];
+            product.m[column * 4 + row] = (a + b) + c;
+        }
+        product.m[column * 4 + 3] = 0;
+    }
+    for (std::uint32_t row = 0; row < 3; ++row) {
+        const auto a = left.m[row] * right.m[12];
+        const auto b = left.m[4 + row] * right.m[13];
+        const auto c = left.m[8 + row] * right.m[14];
+        product.m[12 + row] = ((a + b) + c) + left.m[12 + row];
+    }
+    product.m[15] = 1;
+    product.identity_hint = 0;
+    *out = product;
+}
 
 void first_diffuse(const dh2::draw::Command* draw, Context& context) {
     if (draw->material_index < 0 || context.output->first_diffuse_texture[0]) return;
@@ -53,9 +116,20 @@ void first_diffuse(const dh2::draw::Command* draw, Context& context) {
 
 bool append_draw(const dh2::draw::Command* draw, void* user) {
     auto& context = *static_cast<Context*>(user);
+    if (!contains_node(context,draw->node_record)) return true;
     if (context.node_prefix && (!draw->node_id ||
         std::strncmp(draw->node_id, context.node_prefix,
                      std::strlen(context.node_prefix)) != 0)) return true;
+    dh2::draw::Command adjusted{};
+    if (context.placement_correction) {
+        adjusted = *draw;
+        multiply_affine(&adjusted.world,*context.placement_correction,draw->world);
+        if (!finite_affine(adjusted.world)) {
+            context.error = SceneMeshError::unsupported;
+            return false;
+        }
+        draw = &adjusted;
+    }
     auto& output = *context.output;
     dh2::assets::Mesh mesh{};
     dh2::assets::Primitive primitive{};
@@ -77,11 +151,17 @@ bool append_draw(const dh2::draw::Command* draw, void* user) {
         return false;
     }
     if (mesh.vertices > max_vertices - output.vertex_count ||
-        primitive.index_count > max_indices - output.index_count) {
+        primitive.index_count > max_indices - output.index_count ||
+        output.draw_commands >= max_commands) {
         context.error = SceneMeshError::limit;
         return false;
     }
     const auto base = output.vertex_count;
+    if (!reserve(output.vertices,output.vertex_capacity,base+mesh.vertices,max_vertices,5) ||
+        !reserve(output.indices,output.index_capacity,output.index_count+primitive.index_count,max_indices)) {
+        context.error = SceneMeshError::allocation;
+        return false;
+    }
     const auto* m = draw->world.m;
     for (std::uint32_t i = 0; i < mesh.vertices; ++i) {
         float position[16]{}, texcoord[16]{};
@@ -203,22 +283,18 @@ static SceneMeshError mesh_at(
     SceneMesh* output, const dh2::resources::BresView* image,
     const dh2::pose::Clip* clip, std::int32_t milliseconds,
     const dh2::layers::Layers* layers, bool normalized = true,
-    const char* node_prefix = nullptr) {
+    const char* node_prefix = nullptr,
+    const std::uint32_t* node_records = nullptr, std::uint32_t node_count = 0,
+    const dh2::math::Matrix4f* placement_correction = nullptr) {
     if (!output) return SceneMeshError::argument;
     *output = {};
-    if (!image || !image->bytes) return SceneMeshError::argument;
-    output->vertices = static_cast<float*>(std::malloc(
-        std::size_t(max_vertices) * 5 * sizeof(float)));
-    output->indices = static_cast<std::uint16_t*>(std::malloc(
-        std::size_t(max_indices) * sizeof(std::uint16_t)));
-    if (!output->vertices || !output->indices) {
-        dh2_viewer_scene_mesh_free(output);
-        return SceneMeshError::allocation;
-    }
+    if (!image || !image->bytes || (node_records == nullptr) != (node_count == 0) ||
+        node_count > 20000 || (placement_correction && !finite_affine(*placement_correction)))
+        return SceneMeshError::argument;
     Context context{output, image, SceneMeshError::ok,
                     {INFINITY, INFINITY, INFINITY},
                     {-INFINITY, -INFINITY, -INFINITY}, nullptr, nullptr, clip, milliseconds, layers,
-                    node_prefix};
+                    node_prefix, node_records, node_count, placement_correction};
     dh2::draw::Stats stats{};
     const auto walked = dh2_static_scene_draws(&stats, image, append_draw,
                                                 &context, 20000, max_commands);
@@ -230,9 +306,9 @@ static SceneMeshError mesh_at(
         dh2_viewer_scene_mesh_free(output);
         return error;
     }
-    if (!output->draw_commands && !node_prefix) append_first_skin(context);
+    if (!output->draw_commands && !node_prefix && !node_records) append_first_skin(context);
     if (context.error != SceneMeshError::ok || !output->vertex_count || !output->index_count ||
-        (!output->skin_joints && !node_prefix && output->draw_commands != stats.draw_commands)) {
+        (!output->skin_joints && !node_prefix && !node_records && output->draw_commands != stats.draw_commands)) {
         dh2_viewer_scene_mesh_free(output);
         return SceneMeshError::no_draw;
     }
@@ -284,4 +360,13 @@ extern "C" SceneMeshError dh2_world_scene_mesh_at(
     SceneMesh* output, const dh2::resources::BresView* image,
     const dh2::pose::Clip* clip, std::int32_t milliseconds) {
     return mesh_at(output, image, clip, milliseconds, nullptr, false);
+}
+
+extern "C" SceneMeshError dh2_world_scene_mesh_nodes(
+    SceneMesh* output, const dh2::resources::BresView* image,
+    const std::uint32_t* node_records, std::uint32_t node_count,
+    const dh2::math::Matrix4f* placement_correction) {
+    if (!node_records || !node_count) return SceneMeshError::argument;
+    return mesh_at(output,image,nullptr,0,nullptr,false,nullptr,
+                   node_records,node_count,placement_correction);
 }
