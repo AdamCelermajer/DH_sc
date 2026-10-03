@@ -1,22 +1,22 @@
 {
   "validation": "PASS",
-  "comparisons": 408,
-  "ordered_callbacks": 26236,
-  "accepted_records": 1432,
+  "comparisons": 412,
+  "ordered_callbacks": 26580,
+  "accepted_records": 1480,
   "synchronous_same_list_reentries": 9,
-  "atomic_rejection_checks": 2040,
-  "provider_failure_checks": 408,
-  "libm_fixture_records": 34,
+  "atomic_rejection_checks": 2060,
+  "provider_failure_checks": 412,
+  "libm_fixture_records": 37,
   "mismatches": 0,
   "source_bindings": {
-    "port\\level-world\\character_target_search.cpp": "192a1c2354873cf73f0d9a5c3c22b6c2490edaee1682ec9c810bef7941c66432",
-    "port\\level-world\\character_target_search.hpp": "d47ab39154484455d2dbc23eca7457dd520a773939e091ddbf1a02e8eb60afbc",
-    "port\\level-world\\tests\\character_target_search.cpp": "259ddc55d9bb40ef47d228806b32f9af7cd77c6d94aa71590642704f5c2bc72a",
+    "port\\level-world\\character_target_search.cpp": "a5ae15fd5818a1d7646061adc536af30383295324594ecaeef29cbefbf5c1063",
+    "port\\level-world\\character_target_search.hpp": "38ce6f1b5742642abe5e79e222330264d2a67933dddfa38bb81569b40b2e9c8a",
+    "port\\level-world\\tests\\character_target_search.cpp": "2362685f9b27606cd71e930c3ed389e78f526c12710e7d5346a0203a80a000cd",
     "port\\level-world\\tests\\character_target_search_host.py": "03b3fe612074f54a1fa309e0c4f7709bd13c224c50b5e9ba5a4546052fedadd8",
-    "port\\level-world\\tests\\character_target_search_differential.py": "09d7949352e26abe4772696817ba9d568ac885dfa25a93dc15f3f36c295fedc3",
-    "port\\level-world\\tests\\character_target_search_discovery.py": "395b61340d67d18f7683a158c56f2f88103c0d0c53c2a7f849f035e99e7f41e0",
-    "port\\level-world\\reference\\character-target-search\\search-fixtures.bin": "d90dc61e026ce5e7a864b920d675a7d56e77413297d94a63c104b78b178f4daf",
-    "port\\level-world\\reports\\character-target-search-arm64-differential.json": "c7d4d18a95d09752a014b6bc4a0561aaed3176faaf9b4d0fc90feecc653fd503"
+    "port\\level-world\\tests\\character_target_search_differential.py": "8e880ad290a4b10c873654c1a30b323790cfd983f87d1d7136bb92ca9fe628c8",
+    "port\\level-world\\tests\\character_target_search_discovery.py": "e391c5f144114eb1a40926cf0019fcb699ef12acc5f8b25397b877f185344694",
+    "port\\level-world\\reference\\character-target-search\\search-fixtures.bin": "f48d4de780870ec72570ae37d36831c87e1b7c5351bb8e5f0b29c72889ccd9f9",
+    "port\\level-world\\reports\\character-target-search-arm64-differential.json": "a83483cb36d7e0ea2abda3ff5119a78e60b234a03326f2d8bf7f96065e189486"
   },
   "asan_ubsan": true,
   "sanitizer_findings": 0,
@@ -44,5 +44,5 @@
     "-o",
     "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-target-search-discovery/character_target_search_host"
   ],
-  "executable_sha256": "d0af4f50f2a569d0a6c4647de960adfc541656817e358f07edd2a946928cd479"
+  "executable_sha256": "19f811b1dd2eff724887f539d63ee9fc80152e7e274e100e1970b3a3efa9801f"
 }
