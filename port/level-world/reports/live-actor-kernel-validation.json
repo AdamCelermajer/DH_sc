@@ -1,0 +1,1210 @@
+{
+  "validation": "PASS",
+  "apk_sha256": {
+    "packaged": "f6840449644a25b41ce688f2360239ec03e37150ec05a14252cddefb21c3db8b",
+    "studio": "c09b99359df1dcf498f93bd76402a92e3cc515d9e94db7ba4fd9aecda7e18daa"
+  },
+  "libraries": {
+    "packaged": {
+      "level_world": {
+        "apk_member": "lib/arm64-v8a/libdh2_level_world.so",
+        "sha256": "2cc1703de3ce33e009d1065d0ccc179f8ee596178b8e4a61b339a36e4608ed9b",
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\live-actor-kernel-checks\\packaged-level_world.so"
+      },
+      "scene_materials": {
+        "apk_member": "lib/arm64-v8a/libdh2_scene_materials.so",
+        "sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\live-actor-kernel-checks\\packaged-scene_materials.so"
+      }
+    },
+    "studio": {
+      "level_world": {
+        "apk_member": "lib/arm64-v8a/libdh2_level_world.so",
+        "sha256": "b1913ab896a6506bfd7cff379c300f3b2703c1fad7f2b2cf699934df0bc4c102",
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\live-actor-kernel-checks\\studio-level_world.so"
+      },
+      "scene_materials": {
+        "apk_member": "lib/arm64-v8a/libdh2_scene_materials.so",
+        "sha256": "a1930fd7b9ea40fbb876cf5746d8d790bf2d1a0e0ef361eff4d61bb84a7138c0",
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\live-actor-kernel-checks\\studio-scene_materials.so"
+      }
+    }
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "asset_samples_sha256": "56a6a68fad89f303cfad83a72025f87f958942ffd52493116ae0486ac184b311",
+  "dependencies": {
+    "packaged": {
+      "prince_model_sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    "studio": {
+      "prince_model_sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    }
+  },
+  "packaged_differentials": {
+    "packaged": {
+      "actor-rotation": {
+        "report": "port\\level-world\\reports\\live-actor-packaged-actor-rotation-arm64-differential.json",
+        "report_sha256": "2e7ac4fa7e40f944403bef01a41c82d20d1dcd7d5d2c33d399d2922740edffad",
+        "library_sha256": "2cc1703de3ce33e009d1065d0ccc179f8ee596178b8e4a61b339a36e4608ed9b",
+        "scene_math_library_sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+        "reference_sha256": "b77af2fe9f0bbf99c75a0ea1442c4fe497baed7ec2123593b1f586d2d4be9fe7",
+        "comparisons": 5590,
+        "mismatches": 0,
+        "executed_for_tags": [
+          "packaged"
+        ],
+        "differential": {
+          "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+          "arm64_library_sha256": "2cc1703de3ce33e009d1065d0ccc179f8ee596178b8e4a61b339a36e4608ed9b",
+          "reference_sha256": "b77af2fe9f0bbf99c75a0ea1442c4fe497baed7ec2123593b1f586d2d4be9fe7",
+          "comparisons": 5590,
+          "atomic_rejection_checks": 15,
+          "mismatches": 0,
+          "totals": {
+            "snap_sentinel": 2711,
+            "visual_sync": 1984,
+            "increment_positive": 799,
+            "increment_negative": 823,
+            "snap_to_target": 3968,
+            "zero_dt": 1018,
+            "dt_getter_calls": 2879
+          },
+          "boundary_snapshots": [
+            {
+              "case": "exact step boundary dt0 target0.0",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                0,
+                0,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt0 target-0.0",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                0,
+                2147483648,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt0 target-1.0000000116860974e-07",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                0,
+                3017195413,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt0 target1.0000000116860974e-07",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                0,
+                869711765,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1 target0.012566371820867062",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1011737391,
+                1011737391,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1 target-0.012566371820867062",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3159221039,
+                3159221039,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1 target0.012566272169351578",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1011737284,
+                1011737284,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1 target-0.012566272169351578",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3159220932,
+                3159220932,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt16 target0.20106194913387299",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1045291823,
+                1045291823,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt16 target-0.20106194913387299",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3192775471,
+                3192775471,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt16 target0.20106184482574463",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1045291816,
+                1045291816,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt16 target-0.20106184482574463",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3192775464,
+                3192775464,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt33 target0.414690226316452",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1054102087,
+                1054102087,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt33 target-0.414690226316452",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3201585735,
+                3201585735,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt33 target0.41469013690948486",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1054102084,
+                1054102084,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt33 target-0.41469013690948486",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3201585732,
+                3201585732,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1000 target12.566370964050293",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1095307227,
+                1095307227,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1000 target-12.566370964050293",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3242790875,
+                3242790875,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1000 target12.566370964050293",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1095307227,
+                1095307227,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1000 target-12.566370964050293",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3242790875,
+                3242790875,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "angle boundary -0.0,0.0",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                0,
+                0,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "angle boundary 0.0,-0.0",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                2147483648,
+                2147483648,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "angle boundary 1e+30,-1e+30",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1900671690,
+                4048155338,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "angle boundary -1e+30,1e+30",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                4048155338,
+                1900671690,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            }
+          ],
+          "scope": "Complete original UpdateRotation coordinator versus native ARM64.\nActual Character rotation-rate/visual policy and Application dt getters execute.\nVisualObject::SyncRotation is an observer of call order and final Euler angles;\nits quaternion/scene writes are separately reconstructed visual services.\n",
+          "elapsed_seconds": 3.62
+        }
+      },
+      "decor-scene": {
+        "report": "port\\level-world\\reports\\live-actor-packaged-decor-scene-arm64-differential.json",
+        "report_sha256": "f50715437a98b87320f3ed0e6287bb96d4570cf94fae6ec0375fc823a0d4a3cf",
+        "library_sha256": "2cc1703de3ce33e009d1065d0ccc179f8ee596178b8e4a61b339a36e4608ed9b",
+        "scene_math_library_sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+        "reference_sha256": "51e390036131767351ad0bbab0cd914df909310e32c56473a6d78e1d36b58748",
+        "comparisons": 503,
+        "mismatches": 0,
+        "executed_for_tags": [
+          "packaged"
+        ],
+        "differential": {
+          "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+          "arm64_library_sha256": "2cc1703de3ce33e009d1065d0ccc179f8ee596178b8e4a61b339a36e4608ed9b",
+          "reference_sha256": "51e390036131767351ad0bbab0cd914df909310e32c56473a6d78e1d36b58748",
+          "comparisons": 503,
+          "authored_placements": 82,
+          "authored_group_bound_checks": 82,
+          "authored_templates": 8,
+          "mismatches": 0,
+          "original_coverage": {
+            "_ZN14ColladaFactory14createMeshNodeERKN6glitch7collada16CColladaDatabaseERKN5boost13intrusive_ptrINS1_5IMeshEEEPv@0x3508a4": 0,
+            "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeERKSsb@0x352b74": 0,
+            "_ZN6glitch7collada10CSceneNode18computeBoundingBoxEv@0x65cda8": 68,
+            "_ZN12VisualObject11CalcMeshBoxEv@0x47211c": 187,
+            "_ZNK6glitch5scene10ISceneNode25getRelativeTransformationEv@0x598908": 55,
+            "_ZN6glitch4core10quaternion3setEfff@0x35c9d8": 141,
+            "_ZNK6glitch4core8CMatrix4IfE14transformBoxExERNS0_8aabbox3dIfEE@0x597548": 113,
+            "_ZN12VisualObject10SetScalingERK7Point3DIfE@0x4727ac": 45,
+            "_ZN12VisualObject11SetRotationERK7Point3DIfE@0x472874": 52,
+            "_ZNK6glitch4core10quaternion20getMatrix_transposedERNS0_8CMatrix4IfEE@0x5602d0": 109,
+            "_ZN6glitch7collada14CRootSceneNode10onPostLoadEv@0x65b3dc": 0,
+            "_ZN6glitch7collada15CColladaFactory10createNodeERKNS0_16CColladaDatabaseEPNS0_5SNodeE@0x631800": 0,
+            "_ZN6glitch4core10quaternion9normalizeEv@0x35c8f0": 58,
+            "_ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPNS0_5SNodeEPNS0_14CRootSceneNodeE@0x61b2f4": 0,
+            "_ZN6glitch4core8CMatrix4IfE9postScaleERKNS0_8vector3dIfEE@0x597788": 45,
+            "_ZN10GameObject8InitPostEv@0x38be5c": 46
+          },
+          "scope": "Original placement conversion, quaternion/node matrix and marker bounds.\n\nImports use common IEEE/libm services on both CPUs. Mesh bounds are read from\nthe authored BRES fixture; original CSceneNode group bounds execute with the\nfactory-created identity mesh child. No original matrix or extent algorithm\nis replaced. Complete Collada allocation/material/animation factories are\ntraced source boundaries, not executed by this bounded oracle.\n",
+          "elapsed_seconds": 4.3
+        }
+      },
+      "character-scene": {
+        "report": "port\\level-world\\reports\\live-actor-packaged-character-scene-arm64-differential.json",
+        "report_sha256": "de7da980c89df2fdc275212fe3868af02fe3a8c114a638c85c39f0d221730fee",
+        "library_sha256": "2cc1703de3ce33e009d1065d0ccc179f8ee596178b8e4a61b339a36e4608ed9b",
+        "scene_math_library_sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+        "reference_sha256": "a5f05813f0760e28b5fd723ce9f5eb75d2567746a7027a3dfaf64fe884ec4119",
+        "comparisons": 514,
+        "mismatches": 0,
+        "executed_for_tags": [
+          "packaged"
+        ],
+        "differential": {
+          "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+          "arm64_library_sha256": "2cc1703de3ce33e009d1065d0ccc179f8ee596178b8e4a61b339a36e4608ed9b",
+          "reference_sha256": "a5f05813f0760e28b5fd723ce9f5eb75d2567746a7027a3dfaf64fe884ec4119",
+          "skin_comparisons": 206,
+          "original_skin_technique_observations": 824,
+          "mesh_comparisons": 202,
+          "visual_scale_comparisons": 5,
+          "owner_bounds_comparisons": 101,
+          "mismatches": 0,
+          "scope": "Original skin-technique joint-box/point bounds and non-marker CalcMeshBox.\n\nCached joint absolute matrices, mesh providers, scene collection and root\nmatrix are explicit services. The native bridge's actual Prince controllers\nare tested with authored joint boxes and the model's factory/rest matrices.\nOuter Euler conversion is separately verified by decor_scene_differential.\n",
+          "prince": {
+            "model_sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+            "selected_controllers": [
+              {
+                "controller": 42,
+                "name": "MC_Feet_default_warrior-mesh-skin",
+                "joint_count": 8,
+                "box_count": 8,
+                "bounds": [
+                  -54.002525329589844,
+                  -34.560401916503906,
+                  0.5546398162841797,
+                  47.560604095458984,
+                  24.318178176879883,
+                  222.24444580078125
+                ]
+              },
+              {
+                "controller": 85,
+                "name": "MC_Hands_default_warrior-mesh-skin",
+                "joint_count": 6,
+                "box_count": 6,
+                "bounds": [
+                  -147.89683532714844,
+                  -17.930267333984375,
+                  214.89508056640625,
+                  149.35714721679688,
+                  16.028120040893555,
+                  277.61199951171875
+                ]
+              },
+              {
+                "controller": 128,
+                "name": "MC_Head_default_warrior-mesh-skin",
+                "joint_count": 3,
+                "box_count": 3,
+                "bounds": [
+                  -19.88494300842285,
+                  -28.95282554626465,
+                  283.0447998046875,
+                  19.090471267700195,
+                  44.900047302246094,
+                  355.0706787109375
+                ]
+              },
+              {
+                "controller": 171,
+                "name": "MC_Torso_default_warrior-mesh-skin",
+                "joint_count": 10,
+                "box_count": 10,
+                "bounds": [
+                  -81.08868408203125,
+                  -35.50712585449219,
+                  191.4457244873047,
+                  91.01348876953125,
+                  29.41879653930664,
+                  321.373291015625
+                ]
+              }
+            ],
+            "provider_parent_scale": [
+              1.0,
+              1.0,
+              1.0
+            ],
+            "selected_modular_union": [
+              -147.89683532714844,
+              -35.50712585449219,
+              0.5546398162841797,
+              149.35714721679688,
+              44.900047302246094,
+              355.0706787109375
+            ],
+            "mesh_box": [
+              -148.62698364257812,
+              -40.20358657836914,
+              -177.25802612304688,
+              148.62698364257812,
+              40.20358657836914,
+              177.25802612304688
+            ],
+            "knight_base_scale_properties": [
+              100,
+              100,
+              100
+            ],
+            "knight_visual_scale": [
+              0.8999999761581421,
+              0.8999999761581421,
+              1.0
+            ],
+            "knight_resolved_collision_scale": 85,
+            "knight_scaled_mesh_box": [
+              -133.7642822265625,
+              -36.1832275390625,
+              -177.25802612304688,
+              133.7642822265625,
+              36.1832275390625,
+              177.25802612304688
+            ],
+            "knight_owner_relative_box": [
+              -113.69963836669922,
+              -30.7557430267334,
+              -150.6693115234375,
+              113.69963836669922,
+              30.7557430267334,
+              150.6693115234375
+            ],
+            "joint_pose": "Complete authored factory/rest node matrices; no outer owner transform and no sampled rendered vertices."
+          },
+          "original_coverage": {
+            "_ZNK6glitch4core8CMatrix4IfE12transformBoxERNS0_8aabbox3dIfEE@0x587398": 155,
+            "_ZN6glitch7collada6detail33CColladaHardwareQuatSkinTechnique18computeBoundingBoxEv@0x66e384": 172,
+            "_ZN10GameObject11SetPositionERK7Point3DIfEb@0x393db4": 0,
+            "_ZN6glitch7collada6detail35CColladaHardwareMatrixSkinTechnique18computeBoundingBoxEv@0x66c5f4": 172,
+            "_ZN9Character8InitPostEv@0x3b4d60": 20,
+            "_ZN9Character6ReviveEP10GameObjectb@0x3a59ac": 0,
+            "_ZN12VisualObject11SetPositionERK7Point3DIfE@0x470c24": 0,
+            "_ZN6glitch7collada12CSkinnedMesh18computeBoundingBoxEv@0x663648": 0,
+            "_ZN9Character15SetRelativeAABBERK4aabbIfEb@0x3a4398": 54,
+            "_ZN6glitch7collada6detail36CColladaHardwareTextureSkinTechnique18computeBoundingBoxEv@0x66ef44": 172,
+            "_ZN12VisualObject11CalcMeshBoxEv@0x47211c": 313,
+            "_ZN6glitch5scene10ISceneNode22updateAbsolutePositionEb@0x597c60": 0,
+            "_ZN6glitch7collada19CModularSkinnedMesh18computeBoundingBoxEv@0x646c1c": 44,
+            "_ZN12VisualObject12SyncPositionEv@0x470cb8": 0,
+            "_ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique18computeBoundingBoxEv@0x66fb84": 172,
+            "_ZN10GameObject15SetRelativeAABBERK4aabbIfEb@0x38b110": 70,
+            "_ZN10GameObject18UpdateAbsoluteAABBEv@0x38aac8": 38
+          },
+          "elapsed_seconds": 4.59
+        }
+      },
+      "visual-motion": {
+        "report": "port\\level-world\\reports\\live-actor-packaged-visual-motion-arm64-differential.json",
+        "report_sha256": "392db059268e2d58ea7c5ecad8ef8d837bb6e4a8d5a522da2bc0aa9600199ace",
+        "library_sha256": "2cc1703de3ce33e009d1065d0ccc179f8ee596178b8e4a61b339a36e4608ed9b",
+        "scene_math_library_sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+        "reference_sha256": "523f24079f703a5df42631010de7d6cc9d7d8094f6efc2daaebb53a4702cb03f",
+        "comparisons": 1796,
+        "mismatches": 0,
+        "executed_for_tags": [
+          "packaged"
+        ],
+        "differential": {
+          "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+          "native_sha256": "2cc1703de3ce33e009d1065d0ccc179f8ee596178b8e4a61b339a36e4608ed9b",
+          "corpus_sha256": "523f24079f703a5df42631010de7d6cc9d7d8094f6efc2daaebb53a4702cb03f",
+          "counts": {
+            "calculate": 480,
+            "reset": 480,
+            "displace": 644,
+            "apply": 32,
+            "sync": 32,
+            "rotation": 128,
+            "ordered_calls": 20,
+            "asset_samples": 3567
+          },
+          "cases": 1796,
+          "mismatches": 0,
+          "seconds": 11.235,
+          "fidelity": "Actual original root/applicator/game and visual routines. AbsolutePosition and SetXForm services observed; timeline/animator type/ownership fixtures. Full animator blending, culling and frame scheduling remain external.",
+          "math_dependency_sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131"
+        }
+      }
+    },
+    "studio": {
+      "actor-rotation": {
+        "report": "port\\level-world\\reports\\live-actor-studio-actor-rotation-arm64-differential.json",
+        "report_sha256": "03e034da7955ba29dbc60b95ca2fc892e0d09e2a9455878304f84e23e03f8161",
+        "library_sha256": "b1913ab896a6506bfd7cff379c300f3b2703c1fad7f2b2cf699934df0bc4c102",
+        "scene_math_library_sha256": "a1930fd7b9ea40fbb876cf5746d8d790bf2d1a0e0ef361eff4d61bb84a7138c0",
+        "reference_sha256": "b77af2fe9f0bbf99c75a0ea1442c4fe497baed7ec2123593b1f586d2d4be9fe7",
+        "comparisons": 5590,
+        "mismatches": 0,
+        "executed_for_tags": [
+          "studio"
+        ],
+        "differential": {
+          "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+          "arm64_library_sha256": "b1913ab896a6506bfd7cff379c300f3b2703c1fad7f2b2cf699934df0bc4c102",
+          "reference_sha256": "b77af2fe9f0bbf99c75a0ea1442c4fe497baed7ec2123593b1f586d2d4be9fe7",
+          "comparisons": 5590,
+          "atomic_rejection_checks": 15,
+          "mismatches": 0,
+          "totals": {
+            "snap_sentinel": 2711,
+            "visual_sync": 1984,
+            "increment_positive": 799,
+            "increment_negative": 823,
+            "snap_to_target": 3968,
+            "zero_dt": 1018,
+            "dt_getter_calls": 2879
+          },
+          "boundary_snapshots": [
+            {
+              "case": "exact step boundary dt0 target0.0",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                0,
+                0,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt0 target-0.0",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                0,
+                2147483648,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt0 target-1.0000000116860974e-07",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                0,
+                3017195413,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt0 target1.0000000116860974e-07",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                0,
+                869711765,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1 target0.012566371820867062",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1011737391,
+                1011737391,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1 target-0.012566371820867062",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3159221039,
+                3159221039,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1 target0.012566272169351578",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1011737284,
+                1011737284,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1 target-0.012566272169351578",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3159220932,
+                3159220932,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt16 target0.20106194913387299",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1045291823,
+                1045291823,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt16 target-0.20106194913387299",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3192775471,
+                3192775471,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt16 target0.20106184482574463",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1045291816,
+                1045291816,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt16 target-0.20106184482574463",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3192775464,
+                3192775464,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt33 target0.414690226316452",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1054102087,
+                1054102087,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt33 target-0.414690226316452",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3201585735,
+                3201585735,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt33 target0.41469013690948486",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1054102084,
+                1054102084,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt33 target-0.41469013690948486",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3201585732,
+                3201585732,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1000 target12.566370964050293",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1095307227,
+                1095307227,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1000 target-12.566370964050293",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3242790875,
+                3242790875,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1000 target12.566370964050293",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1095307227,
+                1095307227,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "exact step boundary dt1000 target-12.566370964050293",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                3242790875,
+                3242790875,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "angle boundary -0.0,0.0",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                0,
+                0,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "angle boundary 0.0,-0.0",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                2147483648,
+                2147483648,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "angle boundary 1e+30,-1e+30",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                1900671690,
+                4048155338,
+                0,
+                0
+              ],
+              "visual_sync": 1
+            },
+            {
+              "case": "angle boundary -1e+30,1e+30",
+              "rate_word": "0x3f800000",
+              "state_words": [
+                1045220557,
+                3197737370,
+                4048155338,
+                1900671690,
+                1,
+                0
+              ],
+              "visual_sync": 1
+            }
+          ],
+          "scope": "Complete original UpdateRotation coordinator versus native ARM64.\nActual Character rotation-rate/visual policy and Application dt getters execute.\nVisualObject::SyncRotation is an observer of call order and final Euler angles;\nits quaternion/scene writes are separately reconstructed visual services.\n",
+          "elapsed_seconds": 3.8
+        }
+      },
+      "decor-scene": {
+        "report": "port\\level-world\\reports\\live-actor-studio-decor-scene-arm64-differential.json",
+        "report_sha256": "644828916ef9a6af826e65a625f5acb77b3636d24a25660432a5fad1717ed41b",
+        "library_sha256": "b1913ab896a6506bfd7cff379c300f3b2703c1fad7f2b2cf699934df0bc4c102",
+        "scene_math_library_sha256": "a1930fd7b9ea40fbb876cf5746d8d790bf2d1a0e0ef361eff4d61bb84a7138c0",
+        "reference_sha256": "51e390036131767351ad0bbab0cd914df909310e32c56473a6d78e1d36b58748",
+        "comparisons": 503,
+        "mismatches": 0,
+        "executed_for_tags": [
+          "studio"
+        ],
+        "differential": {
+          "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+          "arm64_library_sha256": "b1913ab896a6506bfd7cff379c300f3b2703c1fad7f2b2cf699934df0bc4c102",
+          "reference_sha256": "51e390036131767351ad0bbab0cd914df909310e32c56473a6d78e1d36b58748",
+          "comparisons": 503,
+          "authored_placements": 82,
+          "authored_group_bound_checks": 82,
+          "authored_templates": 8,
+          "mismatches": 0,
+          "original_coverage": {
+            "_ZN14ColladaFactory14createMeshNodeERKN6glitch7collada16CColladaDatabaseERKN5boost13intrusive_ptrINS1_5IMeshEEEPv@0x3508a4": 0,
+            "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeERKSsb@0x352b74": 0,
+            "_ZN6glitch7collada10CSceneNode18computeBoundingBoxEv@0x65cda8": 68,
+            "_ZN12VisualObject11CalcMeshBoxEv@0x47211c": 187,
+            "_ZNK6glitch5scene10ISceneNode25getRelativeTransformationEv@0x598908": 55,
+            "_ZN6glitch4core10quaternion3setEfff@0x35c9d8": 141,
+            "_ZNK6glitch4core8CMatrix4IfE14transformBoxExERNS0_8aabbox3dIfEE@0x597548": 113,
+            "_ZN12VisualObject10SetScalingERK7Point3DIfE@0x4727ac": 45,
+            "_ZN12VisualObject11SetRotationERK7Point3DIfE@0x472874": 52,
+            "_ZNK6glitch4core10quaternion20getMatrix_transposedERNS0_8CMatrix4IfEE@0x5602d0": 109,
+            "_ZN6glitch7collada14CRootSceneNode10onPostLoadEv@0x65b3dc": 0,
+            "_ZN6glitch7collada15CColladaFactory10createNodeERKNS0_16CColladaDatabaseEPNS0_5SNodeE@0x631800": 0,
+            "_ZN6glitch4core10quaternion9normalizeEv@0x35c8f0": 58,
+            "_ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPNS0_5SNodeEPNS0_14CRootSceneNodeE@0x61b2f4": 0,
+            "_ZN6glitch4core8CMatrix4IfE9postScaleERKNS0_8vector3dIfEE@0x597788": 45,
+            "_ZN10GameObject8InitPostEv@0x38be5c": 46
+          },
+          "scope": "Original placement conversion, quaternion/node matrix and marker bounds.\n\nImports use common IEEE/libm services on both CPUs. Mesh bounds are read from\nthe authored BRES fixture; original CSceneNode group bounds execute with the\nfactory-created identity mesh child. No original matrix or extent algorithm\nis replaced. Complete Collada allocation/material/animation factories are\ntraced source boundaries, not executed by this bounded oracle.\n",
+          "elapsed_seconds": 4.41
+        }
+      },
+      "character-scene": {
+        "report": "port\\level-world\\reports\\live-actor-studio-character-scene-arm64-differential.json",
+        "report_sha256": "012f2ebcebf1d23895d28c2f5f4af861316beb4b8ed96612dc03b4e4f41f1680",
+        "library_sha256": "b1913ab896a6506bfd7cff379c300f3b2703c1fad7f2b2cf699934df0bc4c102",
+        "scene_math_library_sha256": "a1930fd7b9ea40fbb876cf5746d8d790bf2d1a0e0ef361eff4d61bb84a7138c0",
+        "reference_sha256": "a5f05813f0760e28b5fd723ce9f5eb75d2567746a7027a3dfaf64fe884ec4119",
+        "comparisons": 514,
+        "mismatches": 0,
+        "executed_for_tags": [
+          "studio"
+        ],
+        "differential": {
+          "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+          "arm64_library_sha256": "b1913ab896a6506bfd7cff379c300f3b2703c1fad7f2b2cf699934df0bc4c102",
+          "reference_sha256": "a5f05813f0760e28b5fd723ce9f5eb75d2567746a7027a3dfaf64fe884ec4119",
+          "skin_comparisons": 206,
+          "original_skin_technique_observations": 824,
+          "mesh_comparisons": 202,
+          "visual_scale_comparisons": 5,
+          "owner_bounds_comparisons": 101,
+          "mismatches": 0,
+          "scope": "Original skin-technique joint-box/point bounds and non-marker CalcMeshBox.\n\nCached joint absolute matrices, mesh providers, scene collection and root\nmatrix are explicit services. The native bridge's actual Prince controllers\nare tested with authored joint boxes and the model's factory/rest matrices.\nOuter Euler conversion is separately verified by decor_scene_differential.\n",
+          "prince": {
+            "model_sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+            "selected_controllers": [
+              {
+                "controller": 42,
+                "name": "MC_Feet_default_warrior-mesh-skin",
+                "joint_count": 8,
+                "box_count": 8,
+                "bounds": [
+                  -54.002525329589844,
+                  -34.560401916503906,
+                  0.5546398162841797,
+                  47.560604095458984,
+                  24.318178176879883,
+                  222.24444580078125
+                ]
+              },
+              {
+                "controller": 85,
+                "name": "MC_Hands_default_warrior-mesh-skin",
+                "joint_count": 6,
+                "box_count": 6,
+                "bounds": [
+                  -147.89683532714844,
+                  -17.930267333984375,
+                  214.89508056640625,
+                  149.35714721679688,
+                  16.028120040893555,
+                  277.61199951171875
+                ]
+              },
+              {
+                "controller": 128,
+                "name": "MC_Head_default_warrior-mesh-skin",
+                "joint_count": 3,
+                "box_count": 3,
+                "bounds": [
+                  -19.88494300842285,
+                  -28.95282554626465,
+                  283.0447998046875,
+                  19.090471267700195,
+                  44.900047302246094,
+                  355.0706787109375
+                ]
+              },
+              {
+                "controller": 171,
+                "name": "MC_Torso_default_warrior-mesh-skin",
+                "joint_count": 10,
+                "box_count": 10,
+                "bounds": [
+                  -81.08868408203125,
+                  -35.50712585449219,
+                  191.4457244873047,
+                  91.01348876953125,
+                  29.41879653930664,
+                  321.373291015625
+                ]
+              }
+            ],
+            "provider_parent_scale": [
+              1.0,
+              1.0,
+              1.0
+            ],
+            "selected_modular_union": [
+              -147.89683532714844,
+              -35.50712585449219,
+              0.5546398162841797,
+              149.35714721679688,
+              44.900047302246094,
+              355.0706787109375
+            ],
+            "mesh_box": [
+              -148.62698364257812,
+              -40.20358657836914,
+              -177.25802612304688,
+              148.62698364257812,
+              40.20358657836914,
+              177.25802612304688
+            ],
+            "knight_base_scale_properties": [
+              100,
+              100,
+              100
+            ],
+            "knight_visual_scale": [
+              0.8999999761581421,
+              0.8999999761581421,
+              1.0
+            ],
+            "knight_resolved_collision_scale": 85,
+            "knight_scaled_mesh_box": [
+              -133.7642822265625,
+              -36.1832275390625,
+              -177.25802612304688,
+              133.7642822265625,
+              36.1832275390625,
+              177.25802612304688
+            ],
+            "knight_owner_relative_box": [
+              -113.69963836669922,
+              -30.7557430267334,
+              -150.6693115234375,
+              113.69963836669922,
+              30.7557430267334,
+              150.6693115234375
+            ],
+            "joint_pose": "Complete authored factory/rest node matrices; no outer owner transform and no sampled rendered vertices."
+          },
+          "original_coverage": {
+            "_ZNK6glitch4core8CMatrix4IfE12transformBoxERNS0_8aabbox3dIfEE@0x587398": 155,
+            "_ZN6glitch7collada6detail33CColladaHardwareQuatSkinTechnique18computeBoundingBoxEv@0x66e384": 172,
+            "_ZN10GameObject11SetPositionERK7Point3DIfEb@0x393db4": 0,
+            "_ZN6glitch7collada6detail35CColladaHardwareMatrixSkinTechnique18computeBoundingBoxEv@0x66c5f4": 172,
+            "_ZN9Character8InitPostEv@0x3b4d60": 20,
+            "_ZN9Character6ReviveEP10GameObjectb@0x3a59ac": 0,
+            "_ZN12VisualObject11SetPositionERK7Point3DIfE@0x470c24": 0,
+            "_ZN6glitch7collada12CSkinnedMesh18computeBoundingBoxEv@0x663648": 0,
+            "_ZN9Character15SetRelativeAABBERK4aabbIfEb@0x3a4398": 54,
+            "_ZN6glitch7collada6detail36CColladaHardwareTextureSkinTechnique18computeBoundingBoxEv@0x66ef44": 172,
+            "_ZN12VisualObject11CalcMeshBoxEv@0x47211c": 313,
+            "_ZN6glitch5scene10ISceneNode22updateAbsolutePositionEb@0x597c60": 0,
+            "_ZN6glitch7collada19CModularSkinnedMesh18computeBoundingBoxEv@0x646c1c": 44,
+            "_ZN12VisualObject12SyncPositionEv@0x470cb8": 0,
+            "_ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique18computeBoundingBoxEv@0x66fb84": 172,
+            "_ZN10GameObject15SetRelativeAABBERK4aabbIfEb@0x38b110": 70,
+            "_ZN10GameObject18UpdateAbsoluteAABBEv@0x38aac8": 38
+          },
+          "elapsed_seconds": 5.38
+        }
+      },
+      "visual-motion": {
+        "report": "port\\level-world\\reports\\live-actor-studio-visual-motion-arm64-differential.json",
+        "report_sha256": "f0f6c8f00b72ade872d495c52b526efbe7f58a91994122a459f2dadd8b8c95c0",
+        "library_sha256": "b1913ab896a6506bfd7cff379c300f3b2703c1fad7f2b2cf699934df0bc4c102",
+        "scene_math_library_sha256": "a1930fd7b9ea40fbb876cf5746d8d790bf2d1a0e0ef361eff4d61bb84a7138c0",
+        "reference_sha256": "523f24079f703a5df42631010de7d6cc9d7d8094f6efc2daaebb53a4702cb03f",
+        "comparisons": 1796,
+        "mismatches": 0,
+        "executed_for_tags": [
+          "studio"
+        ],
+        "differential": {
+          "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+          "native_sha256": "b1913ab896a6506bfd7cff379c300f3b2703c1fad7f2b2cf699934df0bc4c102",
+          "corpus_sha256": "523f24079f703a5df42631010de7d6cc9d7d8094f6efc2daaebb53a4702cb03f",
+          "counts": {
+            "calculate": 480,
+            "reset": 480,
+            "displace": 644,
+            "apply": 32,
+            "sync": 32,
+            "rotation": 128,
+            "ordered_calls": 20,
+            "asset_samples": 3567
+          },
+          "cases": 1796,
+          "mismatches": 0,
+          "seconds": 11.375,
+          "fidelity": "Actual original root/applicator/game and visual routines. AbsolutePosition and SetXForm services observed; timeline/animator type/ownership fixtures. Full animator blending, culling and frame scheduling remain external.",
+          "math_dependency_sha256": "a1930fd7b9ea40fbb876cf5746d8d790bf2d1a0e0ef361eff4d61bb84a7138c0"
+        }
+      }
+    }
+  },
+  "unique_library_dependency_pairs_executed": 2,
+  "cases_per_apk": 8403,
+  "real_asset_samples_per_apk": 3567,
+  "script_sha256": "b9ab43bfd2489dfecada1e8a6a18460729c57094bc9312c008240902ef8d690c",
+  "test_source_sha256": {
+    "actor_rotation": "0b8792b82f4bdc66b309d867c818c1da2763f71254ebb6dcf597fdda9fd08b2c",
+    "decor_scene": "1c9f35e4d40d0bf5db85d0508b6d7fae45b97567a535a6fd91a4033916a9fd05",
+    "character_scene": "7ffa7b17ce40b6759a885bf8ab0f72a461826c65dea2196247a78b0a1ed06469",
+    "visual_motion": "ca8566819c2571830c34ad90ed9d6187d3ecc99961d409b55f987ec18bb1ed6f"
+  },
+  "scope": "Audit current packaged actor kernels without rebuilding or running Android.\n\nOriginal ARM32 instructions are a desktop oracle only. Existing fixture/service\nboundaries remain those documented by each differential. Packaged scene math\nexecutes as ARM64 instructions across an explicit ABI/memory bridge.\n",
+  "emulator_tested": false,
+  "production_rebuilt": false,
+  "full_original_frame_parity_claimed": false,
+  "elapsed_seconds": 51.188
+}

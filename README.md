@@ -1,3 +1,15 @@
+# Dungeon Hunter 2 ? native Android reconstruction
+
+This public fork preserves the native reconstruction work built on [Noamcelermajer/DH_sc](https://github.com/Noamcelermajer/DH_sc). Start with the [native Android project](port/android-native/README.md) and [current publication status](docs/NATIVE-PUBLICATION-STATUS.md).
+
+The source-built prototype bundles the original eight-room Crypt, animated Prince and monsters, textures, movement, collision, and authored-event combat inside one APK. Native C++ modules build for ARM64 and x86_64; the native APKs contain no original ARM32 engine or compatibility runtime. The fork includes current reconstruction source, original-instruction comparison fixtures, validation reports, third-party notices, and all 233 prototype assets needed by the Android project.
+
+[Download the APK checkpoints and frozen source snapshots](https://github.com/AdamCelermajer/DH_sc/releases/tag/native-checkpoint-2026-10-04). The latest candidate is **b4493ed5**, with native Lua timers, AI event routing, function aliases, and attack geometry compiled into the backend. Its build and asset checks pass; movement, lifecycle, and animation-bank emulator suites pass, while combat testing is incomplete. The earlier **4f5b7d11 Prince-bank checkpoint** passed all four recorded emulator suites. Physical ARM64 device testing and the complete game remain unfinished. See the [roadmap](port/android-native/ROADMAP.md).
+
+The original recovery and ARM32 compatibility documentation below is retained as historical context. [Provenance and rights](RIGHTS.md) apply; public publication does not assert a studio license grant.
+
+---
+
 # Dungeon Hunter 2 — source reconstruction
 
 **Local agent: start with [LOCAL_AGENT_HANDOFF.md](LOCAL_AGENT_HANDOFF.md).** It includes the current Test 5 diagnosis, device retest, exact build layout, open issues, emulator failure evidence, and a verified workspace-preparation helper. For the independent native-source route, read [RECONSTRUCTION-HANDOFF.md](RECONSTRUCTION-HANDOFF.md).

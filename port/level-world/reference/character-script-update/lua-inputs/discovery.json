@@ -1,0 +1,331 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "capture_script_sha256": "906b07984cd1f080d6e4e192625367fe4aa84b09f8b9ec9cf82e4e6e035cf610",
+  "embedded_version": "$Lua: Lua 5.1.4 Copyright (C) 1994-2008 Lua.org, PUC-Rio $\n$Authors: R. Ierusalimschy, L. H. de Figueiredo & W. Celes $\n$URL: www.lua.org $\n",
+  "version_file_offset": "0x90f5b8",
+  "original_luaU_header_address": "0x85bc64",
+  "executed_original_header_hex": "1b4c75615100010404040400",
+  "header_fields": {
+    "version": 81,
+    "format": 0,
+    "little_endian": 1,
+    "sizeof_int": 4,
+    "sizeof_size_t": 4,
+    "sizeof_Instruction": 4,
+    "sizeof_lua_Number": 4,
+    "number_is_integral": 0
+  },
+  "script_files": 219,
+  "script_format_counts": {
+    "nonbinary_text_ascii": 217,
+    "other": 2
+  },
+  "commons": [
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/_commons.luac",
+      "bytes": 13535,
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+      "reference_copy": "port/level-world/reference/character-script-update/lua-inputs/ai-commons.luac",
+      "format": "plaintext Lua source; .luac is filename suffix",
+      "functions": [
+        {
+          "name": "AttachToAnimEvent",
+          "arguments": "event_name, callback, refData",
+          "line": 5
+        },
+        {
+          "name": "DetachFromAnimEvent",
+          "arguments": "event_name, callback",
+          "line": 14
+        },
+        {
+          "name": "StartTimerCB",
+          "arguments": "timeMs, loop, callback, refData",
+          "line": 26
+        },
+        {
+          "name": "StopTimerCB",
+          "arguments": "timerId",
+          "line": 38
+        },
+        {
+          "name": "OnInit",
+          "arguments": "",
+          "line": 51
+        },
+        {
+          "name": "OnInitPost",
+          "arguments": "",
+          "line": 57
+        },
+        {
+          "name": "OnInitFinal",
+          "arguments": "",
+          "line": 63
+        },
+        {
+          "name": "OnTerminate",
+          "arguments": "",
+          "line": 70
+        },
+        {
+          "name": "OnUpdate",
+          "arguments": "timestamp",
+          "line": 81
+        },
+        {
+          "name": "OnTimer",
+          "arguments": "timerId",
+          "line": 95
+        },
+        {
+          "name": "OnAnimEvent",
+          "arguments": "ev",
+          "line": 111
+        },
+        {
+          "name": "OnEndOfAnim",
+          "arguments": "",
+          "line": 122
+        },
+        {
+          "name": "OnDied",
+          "arguments": "killer",
+          "line": 133
+        },
+        {
+          "name": "OnRevived",
+          "arguments": "reviver",
+          "line": 139
+        },
+        {
+          "name": "OnFriendSpotted",
+          "arguments": "friend",
+          "line": 150
+        },
+        {
+          "name": "OnNeutralSpotted",
+          "arguments": "neutral",
+          "line": 164
+        },
+        {
+          "name": "OnEnemySpotted",
+          "arguments": "enemy",
+          "line": 170
+        },
+        {
+          "name": "OnTargetDied",
+          "arguments": "",
+          "line": 181
+        },
+        {
+          "name": "OnTargetOutOfSight",
+          "arguments": "",
+          "line": 190
+        },
+        {
+          "name": "OnTargetInSight",
+          "arguments": "",
+          "line": 196
+        },
+        {
+          "name": "OnTargetOutOfRange",
+          "arguments": "",
+          "line": 205
+        },
+        {
+          "name": "OnTargetInRangedRange",
+          "arguments": "",
+          "line": 219
+        },
+        {
+          "name": "OnTargetInCloseRange",
+          "arguments": "",
+          "line": 233
+        },
+        {
+          "name": "OnTargetInMeleeRange",
+          "arguments": "",
+          "line": 247
+        },
+        {
+          "name": "OnProjectileHit",
+          "arguments": "",
+          "line": 264
+        },
+        {
+          "name": "OnTargetMissed",
+          "arguments": "",
+          "line": 273
+        },
+        {
+          "name": "OnTargetHit",
+          "arguments": "",
+          "line": 279
+        },
+        {
+          "name": "OnCombatResults",
+          "arguments": "",
+          "line": 285
+        },
+        {
+          "name": "OnMasterDied",
+          "arguments": "",
+          "line": 296
+        },
+        {
+          "name": "OnMasterOutOfSight",
+          "arguments": "",
+          "line": 305
+        },
+        {
+          "name": "OnMasterInSight",
+          "arguments": "",
+          "line": 311
+        },
+        {
+          "name": "OnMasterOutOfRange",
+          "arguments": "",
+          "line": 320
+        },
+        {
+          "name": "OnMasterInRangedRange",
+          "arguments": "",
+          "line": 335
+        },
+        {
+          "name": "OnMasterInCloseRange",
+          "arguments": "",
+          "line": 350
+        },
+        {
+          "name": "OnMasterInMeleeRange",
+          "arguments": "",
+          "line": 365
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/skills/_commons.luac",
+      "bytes": 11291,
+      "sha256": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d",
+      "reference_copy": "port/level-world/reference/character-script-update/lua-inputs/skills-commons.luac",
+      "format": "plaintext Lua source; .luac is filename suffix",
+      "functions": [
+        {
+          "name": "DeclareSkill",
+          "arguments": "skillName, skillId",
+          "line": 34
+        },
+        {
+          "name": "RegisterSkill",
+          "arguments": "callback_update, callback_check, callback_pre, callback, callback_post, callback_delayed, callback_info",
+          "line": 41
+        },
+        {
+          "name": "RegisterSkillEx",
+          "arguments": "callbacks",
+          "line": 52
+        },
+        {
+          "name": "SetSkill",
+          "arguments": "skillName, skillId",
+          "line": 91
+        },
+        {
+          "name": "UnsetSkill",
+          "arguments": "",
+          "line": 111
+        },
+        {
+          "name": "StartSkillTimerCB",
+          "arguments": "timeMs, loop, callback, refData",
+          "line": 146
+        },
+        {
+          "name": "AttachToSkillAnimEvent",
+          "arguments": "event_name, callback, refData",
+          "line": 164
+        },
+        {
+          "name": "GetCurrentSkillInfo",
+          "arguments": "",
+          "line": 172
+        },
+        {
+          "name": "SkillCombatRoll",
+          "arguments": "object",
+          "line": 177
+        },
+        {
+          "name": "SpawnSkillProjectile",
+          "arguments": "...",
+          "line": 182
+        },
+        {
+          "name": "StopSkill",
+          "arguments": "",
+          "line": 187
+        },
+        {
+          "name": "SetSkillCooldown",
+          "arguments": "delay",
+          "line": 205
+        },
+        {
+          "name": "HasSkillCooldown",
+          "arguments": "",
+          "line": 215
+        },
+        {
+          "name": "SetSpellCooldown",
+          "arguments": "delay",
+          "line": 227
+        },
+        {
+          "name": "HasSpellCooldown",
+          "arguments": "",
+          "line": 237
+        },
+        {
+          "name": "SetTempProps",
+          "arguments": "class_id, skill_level",
+          "line": 245
+        },
+        {
+          "name": "CalcManaCost",
+          "arguments": "class_id, skill_level",
+          "line": 252
+        },
+        {
+          "name": "IsBoss",
+          "arguments": "target",
+          "line": 258
+        },
+        {
+          "name": "IsMiniBoss",
+          "arguments": "target",
+          "line": 266
+        },
+        {
+          "name": "IsWeak",
+          "arguments": "target",
+          "line": 275
+        },
+        {
+          "name": "StealAIEvent",
+          "arguments": "eventName, func",
+          "line": 294
+        }
+      ]
+    }
+  ],
+  "official_release": {
+    "url": "https://www.lua.org/ftp/lua-5.1.4.tar.gz",
+    "published_sha256": "b038e225eaf2a5b57c9bcc35cd13aa8c6c8288ef493d52970c9545074098af3a",
+    "index": "https://www.lua.org/ftp/",
+    "downloaded": false
+  },
+  "scope": "Original binary and supplied-cache identity evidence. No alternative VM downloaded/included; float32 configuration proven, complete fork equivalence remains unverified."
+}

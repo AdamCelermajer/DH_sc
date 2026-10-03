@@ -1,0 +1,52 @@
+{
+  "comparisons": 3910,
+  "ordered_service_requests": 8773,
+  "operation_counts": {
+    "0": 937,
+    "1": 975,
+    "2": 906,
+    "3": 1010,
+    "4": 82
+  },
+  "malformed_no_mutation_cases": 21,
+  "callback_context_and_target_identity_above_4gib": true,
+  "finite_scalar_words_and_all_nonfloat_words_exact": true,
+  "arithmetic_nan_comparison": "cached speed/scalar NaN class only; all other words exact",
+  "mismatches": 0,
+  "scope": "Packaged coordinator exports replay original-derived bounded state/service gold. Controller/body/animation/AI/timer/FX backends are controlled fixtures; no full FSM or frame parity claim.",
+  "apk_sha256": "2241cfe95b4aeae6ff949816fe00260e3ab5f19cec07a12de816d90aae9dcc1b",
+  "apk_member": "lib/arm64-v8a/libdh2_level_world.so",
+  "arm64_library_sha256": "02b1ae5da34d0dfc9e424bcd0f13a68e515e1af1241fc9451ee55d82d7732fe7",
+  "library_sha256": "02b1ae5da34d0dfc9e424bcd0f13a68e515e1af1241fc9451ee55d82d7732fe7",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reference_sha256": "9e11a899a29f9682959c00e988ad4fc04ee4a3f610de9044e933d47997d27a57",
+  "original_instruction_evidence": {
+    "reference": "port/level-world/reference/character-state/state-reference.bin",
+    "reference_sha256": "9e11a899a29f9682959c00e988ad4fc04ee4a3f610de9044e933d47997d27a57",
+    "original_report": "port/level-world/reports/character-state-arm64-differential.json",
+    "original_report_sha256": "1a00cef207482900e5d6c09619ea9fa99898bb25e7b4687f318aa36a10af873f"
+  },
+  "source_sha256": {
+    "port/level-world/character_state.hpp": "ab9313e4e675b8ad5944a98544a1f177291e3fc072a94a8e5a205ce9d61c179b",
+    "port/level-world/character_state.cpp": "3dd58f40124ceb7123d5e123ebace01ad25bd799eddcdf95b6c0cbef343501d9",
+    "port/level-world/tests/character_state_differential.py": "1e06e6c28f040a7e25b31b1e52e9d76af2b11f17a16d63635ad51411594c5478",
+    "port/level-world/tests/character_state.cpp": "f4b06e24e1b37ca7cfaf9b38eb65fb82ddb14348d1c847bd491c45e8c1f5c2bd"
+  },
+  "native_import_calls": {
+    "__memcpy_chk": 3
+  },
+  "defined_exports": [
+    "dh2_character_state_transition",
+    "dh2_character_state_event",
+    "dh2_character_state_update",
+    "dh2_character_attack_speed",
+    "dh2_character_state_is_idle"
+  ],
+  "global_data_relocations_resolved": 321,
+  "actual_packaged_library_executed": true,
+  "original_instructions_executed_this_run": false,
+  "original_gold_replayed": true,
+  "production_rebuilt": false,
+  "emulator_tested": false,
+  "physical_arm64_tested": false
+}

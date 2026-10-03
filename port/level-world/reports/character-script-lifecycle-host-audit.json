@@ -1,0 +1,47 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "corpus_sha256": "8ff18ce9715ab8307970fb9d724224209d106d66d20d60a995ec8558f8cf9202",
+  "comparisons": 1480,
+  "ordered_service_requests": 4339,
+  "atomic_rejection_checks": 13,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/level-world/character_script_lifecycle.hpp": "bf7916e299901b3e46fbb1b1a388165f1f2a90895f55c808792c52e0f59ef9c7",
+    "port/level-world/character_script_lifecycle.cpp": "7161ac627879454dfb6166d1db46108ef238bb171e64eb85b5a0d50248c4a6df",
+    "port/level-world/tests/character_script_lifecycle_differential.py": "841bbf6afc464eeff1b07849e538a26c78efbf516ce9572a35c14ad25bf40ff8",
+    "port/level-world/tests/character_script_lifecycle.cpp": "2dd7accbcc5564633f6c0405248acd572e1cbfb6ac8f45888d033b29a570d3db"
+  },
+  "reference_sha256": {
+    "port/level-world/reference/character-script-lifecycle/helpers/original-functions.json": "d27fbabb47d621bef95aa51920d52cea5d87bad408d3c2f05043ab01ce480799",
+    "port/level-world/reference/character-script-lifecycle/helpers/reference/original-functions.asm": "69b6e721b716909f59da7c810d173bb806f0fca576370deab85e854d0683c4a4",
+    "port/level-world/reference/character-script-lifecycle/original-functions.json": "69e36a972a8b65dead4d20235f1f7d83125bca761b406354282dea3d88795eb7",
+    "port/level-world/reference/character-script-lifecycle/reference/original-functions.asm": "4751bf595e78ac8c6e199b57b9127616d276b1524ff7b0d08302be183bb0c531",
+    "port/level-world/reference/character-script-lifecycle/steps/original-functions.json": "741834fe821ce661f631ad7896b339ce0fe11f53f34f3e439e4cb5bd8eb9b08f",
+    "port/level-world/reference/character-script-lifecycle/steps/reference/original-functions.asm": "d12d6e974b921d26086704db15bbd3688b8b5b13518d7381407cd3772dc841f2",
+    "port/level-world/reference/character-script-lifecycle/termination/original-functions.json": "c728a66cb2fd9cbe4a26ff264af115a64882ae78cf8ebff05835b83c00682870",
+    "port/level-world/reference/character-script-lifecycle/termination/reference/original-functions.asm": "13a37d31fc4f890319b323e3b7a22a645b374f4b5de804791c4fea6d2caa5611",
+    "port/level-world/reference/character-script-lifecycle/vtables-and-strings.json": "4898dbb2164ed0da5410872fb014dc8235f0baeb0d7469b36c5bef870272d415"
+  },
+  "scope": "Direct source ASan/UBSan replay of original-derived lifecycle gold including64 nested initialization chains. Explicit allocation/AIS/Lua/skills/property/timer services remain; no APK/fullAIS claim.",
+  "execution_exit_code": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "captured_stdout": "{\"validation\":\"PASS\",\"comparisons\":1480,\"ordered_service_requests\":4339,\"atomic_rejection_checks\":13,\"mismatches\":0}",
+  "host_binary_sha256": "b1b7de8082039ebb3e3231a7b922cf5c32155f7dd889c7a720308345e86f72eb",
+  "arm64_report_sha256": "26520c64755b0340624b056fe019e91c302b8ea4f5de1f2ba45a884bc1595ba3",
+  "compiler_flags": [
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror"
+  ]
+}

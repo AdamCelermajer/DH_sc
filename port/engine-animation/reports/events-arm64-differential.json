@@ -1,0 +1,95 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "ab77a0543a834357e6b9bbea705054c29a664c608ea7484758e50584e1b2b8b1",
+  "comparisons": 30775,
+  "calls": {
+    "find": 8225,
+    "lookup": 550,
+    "interval": 11000,
+    "loop_update": 11000
+  },
+  "callback_events_compared": 109462,
+  "authored_tracks": [
+    {
+      "file": "ghost_attack_01.bdae",
+      "sha256": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a",
+      "type": 1,
+      "keys": [
+        30
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    },
+    {
+      "file": "skeleton_attack_01.bdae",
+      "sha256": "65162e55af222d0231fb25027f5406e47d4a1b9e4b89864680cbca3ed738461a",
+      "type": 1,
+      "keys": [
+        3
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    },
+    {
+      "file": "skeleton_attack_02.bdae",
+      "sha256": "83276482fa53b376495a791792fb381eaa6f7cf9ce493cf7d5f39095ac222cb2",
+      "type": 1,
+      "keys": [
+        3
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    },
+    {
+      "file": "slime_attack_01.bdae",
+      "sha256": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0",
+      "type": 1,
+      "keys": [
+        8
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    },
+    {
+      "file": "slime_attack_02.bdae",
+      "sha256": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1",
+      "type": 1,
+      "keys": [
+        9
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    }
+  ],
+  "synthetic_tracks": 105,
+  "mismatches": 0,
+  "arm64_pointers_above_4gib": true,
+  "original_import_calls": {
+    "__aeabi_i2f": 681357,
+    "__aeabi_fdiv": 39691,
+    "__aeabi_fcmplt": 403023,
+    "strcmp": 10305,
+    "__aeabi_fmul": 84961,
+    "__aeabi_f2iz": 111523,
+    "__aeabi_fadd": 83473,
+    "caller_completion": 109462,
+    "__aeabi_fsub": 25989
+  },
+  "scope": "Immutable event-track lookup, callback order/lag, interval and single-wrap dispatch plus last-entry state; libc and imported soft-float helpers modeled; callback mutation, full timeline and combat not validated",
+  "elapsed_seconds": 52.42
+}

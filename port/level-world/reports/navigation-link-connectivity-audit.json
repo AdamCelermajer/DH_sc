@@ -1,0 +1,79 @@
+{
+  "reference_sha256": "19a3212ee52ab7544c08fc62e4d8f87d37514f57cc8ec9e3df48623ee9c1daaa",
+  "nodes": 335,
+  "edges": 838,
+  "actual_cross_floor_edge_pairs": [
+    [
+      0,
+      1
+    ],
+    [
+      1,
+      0
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      6,
+      7
+    ],
+    [
+      7,
+      6
+    ]
+  ],
+  "graph_components": [
+    {
+      "nodes": 335,
+      "floors": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    }
+  ],
+  "scope": "Connectivity of the original-verified linked Crypt graph. This diagnostic traversal does not reconstruct route search."
+}

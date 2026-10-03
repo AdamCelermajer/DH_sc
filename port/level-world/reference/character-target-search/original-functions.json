@@ -1,0 +1,191 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList11SetSortTypeEi.clone.1",
+      "elf_address": "0x3d015c",
+      "size": 80,
+      "sha256": "6ab171b518e98b29c32c5d38eecb5e9d4ca7d43e12b623046f87109785737b45"
+    },
+    {
+      "original_symbol": "_ZNSaIN14ObjectSearcher10TargetInfoEE8allocateEjPKv.clone.7",
+      "elf_address": "0x4a1e0c",
+      "size": 32,
+      "sha256": "1c6501d3c813b82f6be4edf2599278262bdcc1f50ed729c1b16717c3a9ad7734"
+    },
+    {
+      "original_symbol": "_ZNSt4priv11_Deque_baseIN14ObjectSearcher10TargetInfoESaIS2_EE17_M_initialize_mapEj.clone.4",
+      "elf_address": "0x4a2240",
+      "size": 116,
+      "sha256": "7e979de3b1d8415f5ea45c2c429668ffbde00fbb1e83415309036e85d49b189f"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList6SearchEffRNS_11IObjectListE",
+      "elf_address": "0x4a3428",
+      "size": 100,
+      "sha256": "940cc0a5eac7a2b4d371fed4a90b4441a86c0b53e462a792b82e94e321e181e1"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject12GetLookAtVecER7Point3DIfE",
+      "elf_address": "0x393ae4",
+      "size": 56,
+      "sha256": "1e5b3d921d7d5f82cfa2557bfbbfdcdb3248b93a8530e9f9e92ea03c82817066"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList6SearchERK7Point3DIfEfS4_fRNS_11IObjectListE",
+      "elf_address": "0x4a2f34",
+      "size": 1172,
+      "sha256": "09e52604dce572790bf238dae055d88b063b8a685d692de73e0421085ba1a0b6"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList3GetEv",
+      "elf_address": "0x4a1840",
+      "size": 12,
+      "sha256": "a5c3ade801b7b8b280f267268d322b3761676d0091038f28693f67f96f467a47"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList18_IsGameObjectValidEP10GameObject",
+      "elf_address": "0x4a1950",
+      "size": 116,
+      "sha256": "e4993162123bc1a08943c119ee83f30618ac82f757fa3d04d2f71330db6bd1f5"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList5AtEndEv",
+      "elf_address": "0x4a17fc",
+      "size": 24,
+      "sha256": "f6edf94a43490806743cec12db3891324f139e5c2bc5cadc597964b206b1348e"
+    },
+    {
+      "original_symbol": "_ZSt15__push_heap_auxINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEENS2_12TargetSorterEiS3_EvT_S8_T0_PT1_PT2_",
+      "elf_address": "0x4a1f30",
+      "size": 156,
+      "sha256": "198057f64a8ef233d422d026c52626e4142e460a4495179aebc538e68c51174b"
+    },
+    {
+      "original_symbol": "_ZNSaIPN14ObjectSearcher10TargetInfoEE8allocateEjPKv",
+      "elf_address": "0x4a21e0",
+      "size": 96,
+      "sha256": "27c9c21d304680411040048f4dd6dc9787a6d469477e745fe005c2dbd20eaa5e"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject17GetTargetPositionEv",
+      "elf_address": "0x3935dc",
+      "size": 36,
+      "sha256": "23b9afb6e9da429cee1083622c12e650a4ffd51918974d9636817a74943dee7f"
+    },
+    {
+      "original_symbol": "_ZSt14__pop_heap_auxINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEES3_NS2_12TargetSorterEEvT_S8_PT0_T1_",
+      "elf_address": "0x38fa54",
+      "size": 196,
+      "sha256": "8d54c8df48ea182ea25c4341795a8a95ed1427d0df09085928c35e0ae93591e7"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList6SearchEff",
+      "elf_address": "0x3d0020",
+      "size": 96,
+      "sha256": "a2c856d63b496b56ddbf0fb85c9e0215c4bff1700dba2a3335811b242192b3f2"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList4NextEv",
+      "elf_address": "0x4a18ec",
+      "size": 16,
+      "sha256": "dbd95cb43df664ac0dfb7f1ad5173c7cabc47c571e68f55e4c176a3a5fbb3a8e"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher12TargetSorter12_sortFrontalERKNS_10TargetInfoES3_",
+      "elf_address": "0x38d5b4",
+      "size": 68,
+      "sha256": "855eb1c188e30e00385781ef08c3bf42e07110d0a0ebfdf9de03ca8093fba35f"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList5ResetEv",
+      "elf_address": "0x4a18fc",
+      "size": 32,
+      "sha256": "0c4696db7cc14c9f779a1ba05c35ce8afac84cb120ef3cb419e29d2935c4c6d5"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList16_ValidateCurrentEv",
+      "elf_address": "0x4a18a8",
+      "size": 68,
+      "sha256": "6028c4e35455b059dcc8017232e40091e723c9fdd28778f44c0d59c281680016"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList7GetCharEv",
+      "elf_address": "0x4a1cfc",
+      "size": 52,
+      "sha256": "b498aeb9b89e12b04a3285ffe4cf3b39d8413a903cd751d1fa05fbb7b34073c1"
+    },
+    {
+      "original_symbol": "_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE4pushERKS1_",
+      "elf_address": "0x4a2440",
+      "size": 164,
+      "sha256": "32bb191ceb2c71c9e795ed76f839558298c47b1eb33b5e31a5c2248af0d955d4"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher12TargetSorter11_sortNoSortERKNS_10TargetInfoES3_",
+      "elf_address": "0x38d568",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZSt10__pop_heapINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEES3_NS2_12TargetSorterEiEvT_S8_S8_T0_T1_PT2_",
+      "elf_address": "0x38f7cc",
+      "size": 648,
+      "sha256": "5da475741182668efad3987889e332ad795badd4dd3ac82da98bff1a2ff2a6e7"
+    },
+    {
+      "original_symbol": "_ZSt13__adjust_heapINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEEiS3_NS2_12TargetSorterEEvT_T0_S9_T1_T2_",
+      "elf_address": "0x4a24e4",
+      "size": 368,
+      "sha256": "f92f3bc8bc5e23c1efc3174d92a07244f51c418e0177316fe657f1511b521f20"
+    },
+    {
+      "original_symbol": "_ZNK7Point3DIfE8angleCosERKS0_",
+      "elf_address": "0x312f40",
+      "size": 280,
+      "sha256": "064c4cd988221b0a1c0ffea4a63555a690ce14b004515b679d4072a552135e2c"
+    },
+    {
+      "original_symbol": "_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE3popEv",
+      "elf_address": "0x38fb18",
+      "size": 160,
+      "sha256": "edd7c1f63d0651ed403629b5afffb028408d06321570fd3033591d3b1154d42d"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii",
+      "elf_address": "0x4a2730",
+      "size": 296,
+      "sha256": "d91cd6624877041b7b8bae61aae1b85691210bfa839a68916ccf9b138d36d88a"
+    },
+    {
+      "original_symbol": "_ZNK7Point3DIfE5angleERKS0_",
+      "elf_address": "0x313058",
+      "size": 16,
+      "sha256": "2ab8b06f7dff28bef28748d2f64fee044c4986bc6785154b31f9a58227f1c972"
+    },
+    {
+      "original_symbol": "_ZNSt5dequeIN14ObjectSearcher10TargetInfoESaIS1_EE18_M_push_back_aux_vERKS1_",
+      "elf_address": "0x4a22b4",
+      "size": 396,
+      "sha256": "0c7476471b193c200c353f34f0daf922c8647af4eec714d4b51424a98d5f16d8"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher12TargetSorter12_sortClosestERKNS_10TargetInfoES3_",
+      "elf_address": "0x38d570",
+      "size": 68,
+      "sha256": "01061f19ab8fe537095924fdfa80819876c93870b643e48c3c3e132389704061"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList17_IsCharacterValidEP9Character",
+      "elf_address": "0x4a1ab8",
+      "size": 528,
+      "sha256": "c3f7b4fd5555b4d8c2d5a6a9c0eab6d450959f43c553561f6f3ff60eddfe965d"
+    },
+    {
+      "original_symbol": "_ZSt11__push_heapINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEEiS3_NS2_12TargetSorterEEvT_T0_S9_T1_T2_",
+      "elf_address": "0x4a1e2c",
+      "size": 260,
+      "sha256": "6009b42a9f0d0de62fab6d328d376c074dbec8281c42801b91762372c7b813d0"
+    }
+  ]
+}

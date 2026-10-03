@@ -1,0 +1,15 @@
+{
+  "comparisons": 1796,
+  "ordered_callbacks": 20,
+  "atomic_rejection_checks": 9,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "corpus_sha256": "523f24079f703a5df42631010de7d6cc9d7d8094f6efc2daaebb53a4702cb03f",
+  "asset_samples_sha256": "56a6a68fad89f303cfad83a72025f87f958942ffd52493116ae0486ac184b311",
+  "asset_clips": 39,
+  "asset_root_samples": 3567,
+  "source": "Parent integrated visual_motion_audit and visual_motion_assets_audit in /home/adampalace/dh2-world-build; GCC host source with ASan/UBSan."
+}

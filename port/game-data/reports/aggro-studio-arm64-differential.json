@@ -1,0 +1,163 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "f016386fb2a7fc390a2d4e12a3eaf5be6015cc0698643a6c63031486cfb283d7",
+  "comparisons": 6114,
+  "synthetic_cases": 5000,
+  "boundary_cases": 675,
+  "explicit_behavior_cases": 13,
+  "captured_combat_threat_cases": 426,
+  "mismatches": 0,
+  "full_outgoing_and_reciprocal_tables_compared": true,
+  "finite_float_bits_and_all_query_fields_compared": true,
+  "set_preserves_all_supplied_bits": true,
+  "arithmetic_nan_comparison": "unordered NaN class; sign/payload implementation dependent",
+  "nan_payload_field_differences": 41,
+  "arm64_storage_and_character_keys_above_4gib": true,
+  "original_tree_insertion_rebalancing_and_erase_execute": true,
+  "original_dead_queries_executed": 4528,
+  "caller_node_allocations": 1252,
+  "caller_node_deallocations": 236,
+  "original_import_calls": {
+    "__aeabi_fcmpgt": 3910,
+    "__aeabi_fadd": 697,
+    "__aeabi_fsub": 697
+  },
+  "totals": {
+    "set": 2163,
+    "add": 2279,
+    "clear": 1672,
+    "inserted": 626,
+    "removed": 118,
+    "aggro_notifications": 626,
+    "deaggro_notifications": 118,
+    "target_clear_requests": 805,
+    "gated_set_add": 2984
+  },
+  "behavior_snapshots": [
+    {
+      "case": "first target",
+      "returned_bits": 1084227584,
+      "requests": 1,
+      "outgoing_count": 1,
+      "incoming_count": 0,
+      "highest": 4328550400
+    },
+    {
+      "case": "positive tie chooses lower key",
+      "returned_bits": 1084227584,
+      "requests": 1,
+      "outgoing_count": 2,
+      "incoming_count": 0,
+      "highest": 4328534016
+    },
+    {
+      "case": "negative retained",
+      "returned_bits": 3231711232,
+      "requests": 1,
+      "outgoing_count": 3,
+      "incoming_count": 0,
+      "highest": 4328534016
+    },
+    {
+      "case": "zero retained",
+      "returned_bits": 0,
+      "requests": 0,
+      "outgoing_count": 3,
+      "incoming_count": 0,
+      "highest": 4328534016
+    },
+    {
+      "case": "rejected add returns negative previous",
+      "returned_bits": 3231711232,
+      "requests": 0,
+      "outgoing_count": 3,
+      "incoming_count": 0,
+      "highest": 4328534016
+    },
+    {
+      "case": "negative add",
+      "returned_bits": 3221225472,
+      "requests": 0,
+      "outgoing_count": 3,
+      "incoming_count": 0,
+      "highest": 4328534016
+    },
+    {
+      "case": "remove reciprocal",
+      "returned_bits": 0,
+      "requests": 2,
+      "outgoing_count": 2,
+      "incoming_count": 0,
+      "highest": 0
+    },
+    {
+      "case": "absent entry still clears current target",
+      "returned_bits": 0,
+      "requests": 12,
+      "outgoing_count": 2,
+      "incoming_count": 0,
+      "highest": 0
+    },
+    {
+      "case": "remove and clear target",
+      "returned_bits": 0,
+      "requests": 14,
+      "outgoing_count": 1,
+      "incoming_count": 0,
+      "highest": 0
+    },
+    {
+      "case": "self relation",
+      "returned_bits": 1065353216,
+      "requests": 1,
+      "outgoing_count": 2,
+      "incoming_count": 1,
+      "highest": 4328525824
+    },
+    {
+      "case": "remove self relation",
+      "returned_bits": 0,
+      "requests": 2,
+      "outgoing_count": 1,
+      "incoming_count": 0,
+      "highest": 0
+    },
+    {
+      "case": "incoming aggro count independent",
+      "returned_bits": 1092616192,
+      "requests": 1,
+      "outgoing_count": 1,
+      "incoming_count": 0,
+      "highest": 4328525824
+    },
+    {
+      "case": "empty outgoing with incoming relation",
+      "returned_bits": 0,
+      "requests": 0,
+      "outgoing_count": 1,
+      "incoming_count": 1,
+      "highest": 0
+    }
+  ],
+  "combat_reference_sources": [
+    {
+      "file": "combat-application-arm64-differential.json",
+      "sha256": "1fbe59202a22034fe7273d5f93285e785039d736a80132c8fb057e04cd80f6d0"
+    },
+    {
+      "file": "player-application-arm64-differential.json",
+      "sha256": "63b55c224734cbafb076c88689b66b22856ad390b641256615fe0da4c7e01f61"
+    },
+    {
+      "file": "player-defender-arm64-differential.json",
+      "sha256": "6fc5587608f4b0ecac7e6924464e6f1e4f0b2dc02a626c5a563e50b4d02cad98"
+    }
+  ],
+  "reference_sha256": "77600593bad25ee60d3845e90ee57fe236ec595c28c7deb5ffdcbd2496daf3cc",
+  "scope": "Aggression table Set/Add/Clear/Get/Highest/Count/Has/IsAggroed with reciprocal incoming relations. Original node allocator replaced by fixture storage; IsPlayer and target callbacks/SetTarget/controller Stop are observers. Original IsDead/map traversal/insertion/rebalancing/erase instructions execute. Imported IEEE float add/sub/greater-than modeled; finite bits exact, arithmetic NaNs compared by unordered class without payload/sign parity. Full callback backends, acquisition, range/visibility/decay, target selection and AI/FSM remain pending.",
+  "elapsed_seconds": 4.92,
+  "native_import_calls": {
+    "__memcpy_chk": 8092
+  },
+  "packaged_native_tls_canary_supplied": true
+}

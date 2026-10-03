@@ -1,0 +1,100 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "cases": 7,
+    "ordered_targets": 147,
+    "bindings": 967,
+    "samples": 117030,
+    "retained": 29380,
+    "libm": 15070,
+    "atomic_rejections": 27,
+    "event_names": 37,
+    "input_player_independence": true,
+    "sanitizer_findings": 0
+  },
+  "static_compiler_regression": {
+    "validation": "PASS",
+    "original_raw_samples": 11656,
+    "ordered_targets": 62,
+    "mode_default_bindings": 558,
+    "retained_samples": 3000,
+    "libm_fixture_calls": 1475,
+    "atomic_rejections": 8,
+    "retained_event_names": 9,
+    "input_player_independence": true,
+    "sanitizer_findings": 0
+  },
+  "static_reference_sha256": "d5999b9cd6f9bec206d13dfd17b4e24101623f9a0126c0fb8831d6e15ca2ca31",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "executable": "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/dynamic_compiled_transforms_audit",
+  "executable_sha256": "02c5291ba5e3da938426e5cd96b5a6ad647f5e57918c88eb07108732162cc826",
+  "static_executable": "/home/adampalace/dh2-world-build/dynamic-static-regression-audit",
+  "static_executable_sha256": "4367f0a1ba0090571a236ca780725f013fd8d3e7293fede280da7e7389b45166",
+  "source_sha256": {
+    "port/engine-animation/animation.hpp": "3a5b3af0b1c2221e1e132e397a83d16188462a0dd8215e7f68498d55aa622d48",
+    "port/engine-animation/animation.cpp": "476bff4e192d4cdb091b1e235e1d9204ff4802a4e626600a87d69782e2155fb8",
+    "port/engine-animation/tests/dynamic_compiled_transforms_differential.py": "c94ad1705068c94341d438cbe34c7f8016dd68d9bccdebd39b6eb7711cee31b6",
+    "port/engine-animation/tests/dynamic_compiled_transforms.cpp": "212493483f540c4d35e5d766de09af45b9a3df2a307b714ebf5171a409172d2a",
+    "port/engine-animation/events.cpp": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+    "port/engine-animation/event_track.cpp": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+    "port/engine-animation/events.hpp": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+    "port/scene-materials/scene.cpp": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+    "port/scene-materials/scene.hpp": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/asset-payloads/payloads.hpp": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+    "port/engine-animation/tests/dynamic_compiled_transforms_host.py": "7e18775a741c6cb977711a4dc45db354428b80a3f837df37ba14b35fb472dba2",
+    "port/engine-animation/tests/compiled_transforms.cpp": "465ae318722db88f7c2da0f86e3a27751706578b38786b40d09c6fe885289acb"
+  },
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "original_instruction_evidence": {
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "report": "port/engine-animation/reports/dynamic-compiled-transforms-arm64-differential.json",
+    "report_sha256": "b61f073105b57571d4ee3ae66dc46a76fa57e99aa42d5c3b5e4a31b0744efae3",
+    "reference_sha256": "773efd7506761ccd66d33707573ce2823b9c079d8665869afe4d8969f287d518",
+    "manifest_sha256": "583c32e52dcbbebd5bae9887c868cef6338d82b0e2cf2552f4c6d9ef01103cb7"
+  },
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "cache_inputs": [
+    {
+      "asset": "models/prince_modular.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/prince_modular.bdae",
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "asset": "animations/prince_idle_shield.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    {
+      "asset": "animations/prince_walk_1hand.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "asset": "animations/prince_1hand_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    {
+      "asset": "animations/prince_1hand_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238"
+    },
+    {
+      "asset": "animations/prince_dying_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dying_01.bdae",
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a"
+    }
+  ],
+  "libm_contract": "Test-only sinf/acosf/sqrtf wrappers verify original kind and input bits, then supply audited UCRT outputs. Direct source linkage, no DSO and no arbitrary output tolerance; production math unchanged.",
+  "scope": "Full node1/5/10 dynamic ordered union/pruning/default/bounds and raw target sampling. Caller registration schedule, cache mutation, unsupported component/material/compressed channels, whole blended scene and historical Bionic libm remain outside this proof."
+}

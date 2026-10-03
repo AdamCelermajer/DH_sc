@@ -1,0 +1,38 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "all_symbol_counts": {
+    "6glitch": 11928,
+    "CGUI": 1027,
+    "CSceneManager": 167,
+    "IVideoDriver": 343,
+    "COpenGLDriver": 0,
+    "COGLESDriver": 0,
+    "CIrrDeviceStub": 0,
+    "CAndroidOSDevice": 41,
+    "CProgrammableGLDriver": 175,
+    "CGLSLShaderHandler": 181,
+    "AnimatorBlender": 65,
+    "CSceneNodeAnimatorBlender": 28,
+    "CAnimationSet": 54
+  },
+  "global_initializer_irrlicht_paths": [
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_FileSystemBase.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_FileSystemWin32.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_ColladaFactory.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_IrrFactory.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_SceneManager.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_MeshSceneNode.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_RootSceneNode.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_ShadowMeshSceneNode.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_SkyBoxMeshSceneNode.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_XrayMeshSceneNode.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_Animators_AnimApplicator.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_Animators_AnimationSet.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_Animators_Animator.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_Animators_AnimatorBlender.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_Animators_AnimatorSet.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_Animators_AnimatorSynchronizedBlender.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_Animators_AnimatorSynchronizedSet.cpp",
+    "_GLOBAL__I_.._.._sources_Core_Irrlicht_Nodes_Animators_AnimatorTypes.cpp"
+  ]
+}

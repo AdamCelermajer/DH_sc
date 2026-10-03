@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13PhysicalWorld3AddEPK14b2ContactPoint",
+      "elf_address": "0x34c6c4",
+      "size": 296,
+      "sha256": "9d1ca0fda83b730266d9440203537a3a787ca88f939f1eba237b3049dca1d001"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld13ShouldCollideEP7b2ShapeS1_",
+      "elf_address": "0x34c304",
+      "size": 188,
+      "sha256": "824cf84b06172b11a97838e1e99d22265832bbd8062cba9652ba14404c039521"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld4loadEffff",
+      "elf_address": "0x34c048",
+      "size": 276,
+      "sha256": "7f32d471f2a7d01f90c2d7480a5cf399028a677d998ffbe25104eda808740218"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld7PersistEPK14b2ContactPoint",
+      "elf_address": "0x34c7f4",
+      "size": 296,
+      "sha256": "a0a0a7fc3c9cf55347c1cbf206bddc5a90afef272da83129e38d24297bb241e9"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld11destroyBodyERP6b2Body",
+      "elf_address": "0x34bcc8",
+      "size": 40,
+      "sha256": "6562c672119587264ac4c3ec24e714d4082958de005aec7d33f42c9c65078a20"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld10createBodyEP9b2BodyDef",
+      "elf_address": "0x34bcf0",
+      "size": 24,
+      "sha256": "2ae798f1834e03fc1a654532b6a0f4914207780c5a354067b9b95887deed9957"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld6updateEv",
+      "elf_address": "0x34bd08",
+      "size": 104,
+      "sha256": "61c621d1c749fbda062569f8abeacba0abd1dc822e28ad2d3174825703be9a39"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld6ResultEPK15b2ContactResult",
+      "elf_address": "0x34c548",
+      "size": 228,
+      "sha256": "5288e2e756ca2a858a7eda3d66095e0415cca8d30d7a6a98c2a69579d0ca6878"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld19_IsShape1InstigatorEPK14b2ContactPointP18PhysicalBaseObjectS4_",
+      "elf_address": "0x34c1e4",
+      "size": 224,
+      "sha256": "ba0c151c6680cf55aa338d2f2a74f4d9c1a7d504263907d681d46e37a9026307"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld6RemoveEPK14b2ContactPoint",
+      "elf_address": "0x34c418",
+      "size": 296,
+      "sha256": "9151007cf5c1bfa26d33da3072d2bd7d20e0e36426b29eb1c37595df812a130e"
+    }
+  ]
+}

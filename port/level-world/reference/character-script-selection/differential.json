@@ -1,0 +1,24 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "2d8028a786176029b312b0adfaf12703ab0b9ec05bed7de5bc74e94a1b50a463",
+  "library_sha256": "7b85885c10dd012cda4cda1c7691f1de37167b171ca87ea980accc96a9fda594",
+  "source_sha256": {
+    "character_script_selection.cpp": "7be3767ab0b91a18d965862ab2ebaef6e0c8469ce1ee2ef0dfb29e55caa0e93a",
+    "character_script_selection.hpp": "4414d0203ca20c90d40460863f75c3f0d373b43017664547386e41c43c73514e",
+    "tests/character_script_selection_differential.py": "66289b2477efdc98b11a7a82b2db2bf89bd67d88c2756fe7b83f92316c4973db"
+  },
+  "reference_sha256": "1996966fbe0fe67da0a3591b7c4927277af2e9863b9ad1276fcf68c500b0c1dc",
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "comparisons": 1080,
+  "ordered_factory_callbacks": 1080,
+  "native_rejections": 4,
+  "mismatches": 0,
+  "pointer_identities_above_4gib": true,
+  "original_imports": {
+    "strncmp": 360,
+    "strcmp": 1536
+  },
+  "scope": "Original script-choice instructions versus optimized native ARM64.\n\nAIS construction/ownership and logging are explicit synchronous services;\nSetScriptByName/StepCreateScript selection and post-service field stores execute.\n"
+}

@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character6HitForEjP10GameObject",
+      "elf_address": "0x3a8bc4",
+      "size": 1704,
+      "sha256": "b01deb99cff30fee694bd246951f00f863c82a3c0135b3302290a475443f8230"
+    },
+    {
+      "original_symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+      "elf_address": "0x3b10b4",
+      "size": 3388,
+      "sha256": "ee29784fc33effd4a01e9098593d2348dbfaf35bb9d0568a121d89c52aefd1da"
+    },
+    {
+      "original_symbol": "_ZN9Character9Ctrl_KillEP10GameObjectb",
+      "elf_address": "0x3ad528",
+      "size": 76,
+      "sha256": "1b242e0090fb2cfa8f7b50c59bd2285f341ec0368ca7bc7e84294cf8d0516c53"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenMPEi",
+      "elf_address": "0x3bdbb8",
+      "size": 236,
+      "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a"
+    },
+    {
+      "original_symbol": "_ZN9Character4KillEP10GameObjectb",
+      "elf_address": "0x3a5b18",
+      "size": 1776,
+      "sha256": "5d0c8880d8d9fa1d5e73d3be9b69320b019f3dfcee5babbd79b6700de76abf6b"
+    },
+    {
+      "original_symbol": "_ZNK9Character27GetEffectiveThreatPerDamageEv",
+      "elf_address": "0x3bd394",
+      "size": 40,
+      "sha256": "0fdea6b457655923c2347fadb4eea38ed16039ba7fb5c15ad262e2ecbc759381"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenHPEi",
+      "elf_address": "0x3bdca4",
+      "size": 236,
+      "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d"
+    }
+  ]
+}

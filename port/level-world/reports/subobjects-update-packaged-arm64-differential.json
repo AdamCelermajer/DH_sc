@@ -1,0 +1,3525 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "04a76d6d625a5d9b6a062d4b8050eb2e932d100b9e757f5b094a782e9f567c17",
+  "reference_sha256": "895c42b2a128b9a207931320cf21c6fa17da6256d3f174b0b7e21ee46d48a767",
+  "comparisons": 1479,
+  "random_cases": 1024,
+  "state_carry_ticks": 32,
+  "atomic_rejection_checks": 11,
+  "mismatches": 0,
+  "ordered_event_counts": {
+    "2": 807,
+    "7": 803,
+    "6": 1030,
+    "17": 417,
+    "1": 758,
+    "4": 1071,
+    "11": 758,
+    "3": 323,
+    "9": 336,
+    "10": 445,
+    "8": 166,
+    "5": 527,
+    "12": 589,
+    "13": 284,
+    "14": 616,
+    "15": 217,
+    "16": 114
+  },
+  "behavior_snapshots": [
+    {
+      "case": "physics strict epsilon 0 0.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "physics strict epsilon 1 0.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "physics strict epsilon 0 0.999999",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "physics strict epsilon 1 0.999999",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "physics strict epsilon 0 1.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "physics strict epsilon 1 1.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "physics strict epsilon 0 1.000001",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "physics strict epsilon 1 1.000001",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "physics strict epsilon 0 -1.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "physics strict epsilon 1 -1.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "physics strict epsilon 0 -1.000001",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "physics strict epsilon 1 -1.000001",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "distance 0.0 Z 0.0",
+      "events": [
+        2,
+        6
+      ],
+      "result": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "distance 0.0 Z 1000.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "distance 19.999998 Z 0.0",
+      "events": [
+        2,
+        17,
+        7,
+        6,
+        6
+      ],
+      "result": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "distance 19.999998 Z 1000.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "distance 20.0 Z 0.0",
+      "events": [
+        2,
+        17,
+        7,
+        6,
+        6
+      ],
+      "result": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "distance 20.0 Z 1000.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "distance 20.000002 Z 0.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "distance 20.000002 Z 1000.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "distance 79.99999 Z 0.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "distance 79.99999 Z 1000.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        1,
+        0
+      ]
+    },
+    {
+      "case": "distance 80.0 Z 0.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "distance 80.0 Z 1000.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "distance 80.00001 Z 0.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "distance 80.00001 Z 1000.0",
+      "events": [
+        2,
+        17,
+        7,
+        6
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "validation 0 floor 0 camera 0 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 0 camera 0 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 0 camera 0 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 0 camera 0 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 0 camera 1 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        12,
+        5,
+        6,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 0 camera 1 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        12,
+        5,
+        6,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 0 camera 1 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        12,
+        13,
+        6,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 0 camera 1 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        12,
+        13,
+        5,
+        6,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 1 camera 0 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        5,
+        6,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "validation 0 floor 1 camera 0 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        5,
+        6,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "validation 0 floor 1 camera 0 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        5,
+        6,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "validation 0 floor 1 camera 0 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        5,
+        6,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "validation 0 floor 1 camera 1 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        5,
+        6,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "validation 0 floor 1 camera 1 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        5,
+        6,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "validation 0 floor 1 camera 1 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        5,
+        6,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "validation 0 floor 1 camera 1 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        5,
+        6,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "validation 0 floor 2 camera 0 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 2 camera 0 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 2 camera 0 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 2 camera 0 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 2 camera 1 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 2 camera 1 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 2 camera 1 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 0 floor 2 camera 1 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 0 camera 0 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 0 camera 0 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 0 camera 0 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 0 camera 0 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 0 camera 1 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        12,
+        5,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 0 camera 1 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        12,
+        5,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 0 camera 1 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        12,
+        13,
+        6,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 0 camera 1 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        12,
+        13,
+        5,
+        4
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 1 camera 0 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 1 camera 0 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 1 camera 0 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 1 camera 0 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 1 camera 1 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 1 camera 1 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 1 camera 1 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 1 camera 1 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 2 camera 0 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 2 camera 0 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 2 camera 0 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 2 camera 0 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 2 camera 1 present 0 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 2 camera 1 present 0 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 2 camera 1 present 1 allowed 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "validation 1 floor 2 camera 1 present 1 allowed 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "aux 1 mode 0 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 0 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 0 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 0 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 0 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 0 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 0 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 0 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 0 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 0 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 0 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 0 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 1 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 1 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 1 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 1 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 1 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 1 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 1 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 1 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 1 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 1 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 1 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 1 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        15
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 2 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 2 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 2 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 2 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 2 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 2 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 2 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 2 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 2 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 2 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 2 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 2 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 3 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 3 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 3 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 3 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 3 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 3 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 3 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 3 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 3 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 3 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 3 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 3 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 4 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 4 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 4 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 4 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 4 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 4 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 4 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 4 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 4 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 4 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 4 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 4 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14,
+        12,
+        15
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 5 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 5 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 5 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 5 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 5 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 1 mode 5 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 5 enabled 0 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 5 enabled 0 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 5 enabled 0 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 5 enabled 1 distance 0.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 5 enabled 1 distance 1.7320508075688772",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "aux 2 mode 5 enabled 1 distance 2.0",
+      "events": [
+        2,
+        7,
+        6,
+        14
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 0 0.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 1 0.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 2 0.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 0 -0.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 1 -0.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 2 -0.0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 0 inf",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "IEEE position 1 inf",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "IEEE position 2 inf",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 0 -inf",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "IEEE position 1 -inf",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "IEEE position 2 -inf",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 0 nan",
+      "events": [
+        1,
+        2,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 1 nan",
+      "events": [
+        1,
+        2,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 2 nan",
+      "events": [
+        1,
+        2,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 0 1e+30",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "IEEE position 1 1e+30",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "IEEE position 2 1e+30",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "IEEE position 0 -1e+30",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "IEEE position 1 -1e+30",
+      "events": [
+        1,
+        2,
+        5,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "IEEE position 2 -1e+30",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 0",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 1",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 2",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 3",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 4",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 5",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 6",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 7",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 8",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 9",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 10",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 11",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 12",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 13",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 14",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 15",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 16",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 17",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 18",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 19",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 20",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 21",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 22",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 23",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 24",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 25",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 26",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 27",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 28",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 29",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "case": "carry tick 30",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        4,
+        6,
+        10,
+        11,
+        5,
+        6,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        1
+      ]
+    },
+    {
+      "case": "carry tick 31",
+      "events": [
+        1,
+        2,
+        17,
+        7,
+        3,
+        8,
+        4,
+        6,
+        10,
+        11,
+        5,
+        4,
+        14,
+        12,
+        15,
+        16
+      ],
+      "result": [
+        0,
+        0
+      ]
+    }
+  ],
+  "finite_bits_exact": true,
+  "arithmetic_nan_comparison": "NaN class; payload/sign not portable",
+  "original_functions_seen": [
+    "_ZN10GameObject16UpdateSubObjectsEv",
+    "_ZN10GameObject18UpdateAbsoluteAABBEv",
+    "_ZN12VisualObject11SyncScalingEv",
+    "_ZN12VisualObject12SyncPositionEv",
+    "_ZN12VisualObject12SyncRotationEv",
+    "_ZN12VisualObject13ApplyPositionEv",
+    "_ZN12VisualObject13ApplyRotationEv",
+    "_ZN14PhysicalObject11setPositionEff",
+    "_ZN14PhysicalObject17setLinearVelocityEff",
+    "_ZN7Point3DIfE9normalizeEv",
+    "_ZN7Point3DIfEdVERKf",
+    "_ZNK10GameObject15IsAtDestinationEv",
+    "_ZNK14PhysicalObject11getPositionEv",
+    "_ZNK14PhysicalObject8getAngleEv",
+    "_ZNK9Character24IsValidatingCameraLimitsEv",
+    "_ZNK9Character25IsValidatingFloorPositionEv",
+    "_ZNK9Character28IsUpdatingPositionFromVisualEv",
+    "_ZNK9Character28IsUpdatingRotationFromVisualEv",
+    "_ZNK9Character28IsUpdatingVisualWithRotationEv",
+    "_ZNK9Character29IsUpdatingPositionFromPhysicsEv",
+    "_ZNK9Character29IsUpdatingRotationFromPhysicsEv"
+  ],
+  "coordinator_executable_instructions": 374,
+  "coordinator_instructions_observed": 374,
+  "coordinator_unobserved_instructions": [],
+  "scope": "Original GameObject::UpdateSubObjects versus compiled native ARM64 source.\n\nComplete original coordinator, Character flag getters, IsAtDestination, AABB,\nnormalization and physical getter/setter instructions execute. Visual/root,\nPFWorld validation, camera and auxiliary callbacks are explicit service fixtures.\nSetXForm is a synchronous XY/angle fixture, with its exact arguments compared;\nthere is no Box2D frame integration. Finite bits/order are exact; NaNs use class.\n",
+  "elapsed_seconds": 4.55,
+  "crypt_floor_registry_integration": {
+    "coordinator_cases": 128,
+    "validation_calls": 128,
+    "floor_queries": 240,
+    "registry_relocations": 112,
+    "mismatches": 0,
+    "validation_output_sha256": "d02e9a34ba7fe982b9305c6e07b382d4423d300f85abe592c539f971d2b35462",
+    "floor_source_sha256": "05fed3c646ac7e2f1e188cc5abbd2975db063cdbe7517c87709bf8c911581fe0",
+    "floor_library_sha256": "04a76d6d625a5d9b6a062d4b8050eb2e932d100b9e757f5b094a782e9f567c17",
+    "linked_reference_sha256": "19a3212ee52ab7544c08fc62e4d8f87d37514f57cc8ec9e3df48623ee9c1daaa",
+    "scope": "Callback bridge executes complete original and compiled ARM64 PF position validation, selectors and obstacle parent registry in independent instruction CPUs. Crypt authored floor geometry and PFObject initialization are attached; no supplied validity answers. Visual/root, transform, camera and auxiliary backends remain fixtures."
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character11GetCharTypeEv",
+      "elf_address": "0x3a3054",
+      "size": 16,
+      "sha256": "c3c6ac60324ce38733ebad4c0210947ae208b7fc052d6d8e0a6ec2aef2ca3a69"
+    },
+    {
+      "original_symbol": "_ZN9Character6HitForEjP10GameObject",
+      "elf_address": "0x3a8bc4",
+      "size": 1704,
+      "sha256": "b01deb99cff30fee694bd246951f00f863c82a3c0135b3302290a475443f8230"
+    },
+    {
+      "original_symbol": "_ZN7COnline11GetInstanceEv",
+      "elf_address": "0x7fd744",
+      "size": 80,
+      "sha256": "b273bf258bd59ac3ca06aee6f42345042e154e72a7eedc3a9b4fca47100b754b"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsMonsterEv",
+      "elf_address": "0x3a3064",
+      "size": 24,
+      "sha256": "7a90ee5513b9d9e9dd9a9c68da50030bd562d38e10153554b9fd4f4ed3471e98"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase17IsRemotelyUpdatedEv",
+      "elf_address": "0x33dd10",
+      "size": 20,
+      "sha256": "e747e9aff56cd8e56b5a34d6570c86fbf70910645922ff428d0b43b9e6d3a821"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties9PROPS_SetEii",
+      "elf_address": "0x3e07a0",
+      "size": 104,
+      "sha256": "e8dba6a3ac25d476f2bded4744830d789ad77a4b18271d7ae04b14f111422051"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller8Cmd_KillEP10GameObjectb",
+      "elf_address": "0x40570c",
+      "size": 28,
+      "sha256": "0a2c77862173fe1e153fc8803367a7ef0de280e3ec56f1102133d9b273fb9f28"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsDeadEv",
+      "elf_address": "0x3a2ed4",
+      "size": 12,
+      "sha256": "80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties9PROPS_AddEii",
+      "elf_address": "0x3e0708",
+      "size": 144,
+      "sha256": "0e4a2cdfe4feef368849e8823b05d451f55b4178b762f3fa9fcaf27d8abf79c3"
+    }
+  ]
+}

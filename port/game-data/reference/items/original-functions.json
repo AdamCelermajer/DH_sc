@@ -1,0 +1,179 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Arrays9ItemTable4readEP11IStreamBase",
+      "elf_address": "0x4ba12c",
+      "size": 336,
+      "sha256": "29ca3fa18018c5ab934a299718c1cea15eeea6af0bd094e090e86d3ceb3a4dd3"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIbEEvP11IStreamBasePT_",
+      "elf_address": "0x4db89c",
+      "size": 176,
+      "sha256": "74ad7d2721470ff297fa1b4d2d6959fed75456af87600b2ac5e31af684ce8156"
+    },
+    {
+      "original_symbol": "_ZN7Structs9Inventory4readEP11IStreamBase",
+      "elf_address": "0x4dbb5c",
+      "size": 112,
+      "sha256": "9988b500810315e64da0069a1c5225c4fd725cb8fe1ef957f57d7587e4575896"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19GetMemberIDByStringINS_9ItemTableEEEiPKc",
+      "elf_address": "0x4ad5f8",
+      "size": 116,
+      "sha256": "0d02fc652808f57e93913264968aaef884d5e832b3af34de9e924f573f1916d7"
+    },
+    {
+      "original_symbol": "_ZNK9Character14CanRangeAttackEv",
+      "elf_address": "0x3a4d3c",
+      "size": 32,
+      "sha256": "822ce8055c08b622826f6350032ff8ab3f340e6b990e0ca04c3c2f6b471b72ae"
+    },
+    {
+      "original_symbol": "_ZN6Arrays8ItemList4readEP11IStreamBase",
+      "elf_address": "0x4ba27c",
+      "size": 332,
+      "sha256": "b60ffe0c1f10c2c1dacbdf595f6f9bb9d54bb7f523fbd91f68d84d8d89487eee"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory15HasRangedWeaponEv",
+      "elf_address": "0x3fffa4",
+      "size": 112,
+      "sha256": "ca77ed45367f9721b071f87bb3025f11806a33b9234a75c416177cf2893f7eb4"
+    },
+    {
+      "original_symbol": "_ZN6Arrays21DropTilePriorityTable4readEP11IStreamBase",
+      "elf_address": "0x4ba4fc",
+      "size": 332,
+      "sha256": "ff2ae4b23d569a8905be9e602c2efe1c0050cd17586db22b511c7a0ec66991f3"
+    },
+    {
+      "original_symbol": "_ZN6Arrays9ItemTable13finalizeNamesEv",
+      "elf_address": "0x4a5ee4",
+      "size": 156,
+      "sha256": "f7babc3851926537b757c45f519368c4e53628751ea6604b3b2dff0f4ed47ba4"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIsEEvP11IStreamBasePT_",
+      "elf_address": "0x4dbaac",
+      "size": 176,
+      "sha256": "8656605484773844be9a9050e7041de36457acf352cea7d92e7008d10b74d4a6"
+    },
+    {
+      "original_symbol": "_ZN6Arrays9ItemTable8finalizeEv",
+      "elf_address": "0x4a5f80",
+      "size": 228,
+      "sha256": "b909ef5b81bef94274ccad33a4793ca86773038b43e9e6ada2e2a46ae8b34527"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader12readStringExEP11IStreamBasePcy",
+      "elf_address": "0x317454",
+      "size": 60,
+      "sha256": "4b98c1070f5b1fde5e9ea6a9ee65e66080cc78d4bc12e5694e9c24abc08cfdec"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance7GetItemEv",
+      "elf_address": "0x3f9e08",
+      "size": 44,
+      "sha256": "df3cef6ad94f3333a35c215c39f1330df860704814086e3f08133ee6333836b2"
+    },
+    {
+      "original_symbol": "_ZN7Structs4Item4readEP11IStreamBase",
+      "elf_address": "0x4fc068",
+      "size": 2216,
+      "sha256": "b30bf8ce31421ff4f116d12658de9a89710c33f1782a545996c8311ae4859e2d"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIjEEvP11IStreamBasePT_",
+      "elf_address": "0x3df1a0",
+      "size": 176,
+      "sha256": "80fbe74a694f45c71b183a970e0501cda9ffd07e1544dedbaeccd1926968aafa"
+    },
+    {
+      "original_symbol": "_ZN6Arrays8ItemList9skipNamesEP11IStreamBase",
+      "elf_address": "0x4b4a54",
+      "size": 4,
+      "sha256": "35e585234b098bdb44c90e47d3cc1f0f0dba89aad6eefd8591641039eb1a6889"
+    },
+    {
+      "original_symbol": "_ZN7Structs17ItemListEntryList4readEP11IStreamBase",
+      "elf_address": "0x4dc790",
+      "size": 364,
+      "sha256": "27c6b8317132d55ae312563bc732317d4041a74d9eef02cd982615726fd98dea"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIaEEvP11IStreamBasePT_",
+      "elf_address": "0x4db9fc",
+      "size": 176,
+      "sha256": "ea0dc44358bcd1753b66faa89e097ce4e831859120f16e333ed8fa3ba6cf7557"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIfEEvP11IStreamBasePT_",
+      "elf_address": "0x4db94c",
+      "size": 176,
+      "sha256": "3d2ddb81b8cf07eb6da9482254ecfc8dc6fc3752731d50f5595977fbfdc42243"
+    },
+    {
+      "original_symbol": "_ZN7Structs8ItemBase4readEP11IStreamBase",
+      "elf_address": "0x4ec47c",
+      "size": 1396,
+      "sha256": "7b7a782839919633a3bb135a78ca4083ab3d2a0e3ecf709f9058adff29491a4b"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac"
+    },
+    {
+      "original_symbol": "_ZN7Structs13ItemListEntry4readEP11IStreamBase",
+      "elf_address": "0x4ed280",
+      "size": 220,
+      "sha256": "6644a8b9e9850b0761c4f361507110820aa7fd07621c85695d937167427cbb61"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14InventoryTable4readEP11IStreamBase",
+      "elf_address": "0x4ba3c8",
+      "size": 308,
+      "sha256": "b450be06a3b97bc37fb120c0a3af76b0c3f4fee1090b92da7aa5a34c12a63fce"
+    },
+    {
+      "original_symbol": "_ZN6Arrays21DropTilePriorityTable9skipNamesEP11IStreamBase",
+      "elf_address": "0x4b53f4",
+      "size": 4,
+      "sha256": "35e585234b098bdb44c90e47d3cc1f0f0dba89aad6eefd8591641039eb1a6889"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14InventoryTable9skipNamesEP11IStreamBase",
+      "elf_address": "0x4b5258",
+      "size": 4,
+      "sha256": "35e585234b098bdb44c90e47d3cc1f0f0dba89aad6eefd8591641039eb1a6889"
+    },
+    {
+      "original_symbol": "_ZN6Arrays9ItemTable9readNamesEP11IStreamBase",
+      "elf_address": "0x4b4724",
+      "size": 408,
+      "sha256": "d1f2f12ca1c24b5e05ebf305425c6f2d83cb7530aa8cc8201103d69989dbf3cb"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIjEET_P11IStreamBase",
+      "elf_address": "0x313a90",
+      "size": 184,
+      "sha256": "aa0ca3fa275c748cd04a9694d9d0f3a6112241e79cdf905fcbed0485c9930c79"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "elf_address": "0x459090",
+      "size": 176,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory14CanRangeAttackEv",
+      "elf_address": "0x400014",
+      "size": 4,
+      "sha256": "ac9b01cb603af08a72da64e387bbb73b7fcb6d75a1aacd79bd3bef2afcbbae67"
+    }
+  ]
+}

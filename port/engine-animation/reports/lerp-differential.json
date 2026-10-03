@@ -1,0 +1,8 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "5df21a8fc789b2dc3420555740b322bcdf6466d7208d1fc1327fa7ccea243a1d",
+  "original_address": "0x628850",
+  "bit_exact_cases": 284,
+  "bit_exact_components": 852,
+  "scope": "float-3 interpolation arithmetic; original getter executed with a relocated caller fixture; no full-game equivalence"
+}

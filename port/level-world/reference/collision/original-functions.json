@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch5scene22CSceneCollisionManager17getCollisionPointERKNS_4core6line3dIfEEPNS0_17ITriangleSelectorERNS2_8vector3dIfEERNS2_10triangle3dIfEE",
+      "elf_address": "0x6c62e8",
+      "size": 2332,
+      "sha256": "c912c709afe636a13b304e20171d00e620b05231148b7419687d435faab1143c"
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10triangle3dIfE12isOnSameSideERKNS0_8vector3dIfEES6_S6_S6_",
+      "elf_address": "0x585bb8",
+      "size": 560,
+      "sha256": "257a1ba2ba0459852b1706bb8ac173bc1339d497acb2fa377b661778450e11ed"
+    },
+    {
+      "original_symbol": "_ZN7PFFloor14GetCollisionAtERK7Point3DIfERS1_RN6glitch4core10triangle3dIfEE",
+      "elf_address": "0x51b96c",
+      "size": 368,
+      "sha256": "314b1d97ab775b5d7102d95fa083be6a829fbfeca3ffbb194cb1a1e61069edae"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core8vector3dIfE9normalizeEv",
+      "elf_address": "0x35e8e0",
+      "size": 184,
+      "sha256": "4985016000445c4963541bf6b6f0657b0c27f46bc746f69a18713582d6be289d"
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10triangle3dIfE23getIntersectionWithLineERKNS0_8vector3dIfEES6_RS4_",
+      "elf_address": "0x58615c",
+      "size": 44,
+      "sha256": "d9cdf4348858c4983eae04229b60b4b2ab0f26442b8b440c253f169554adc2de"
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10triangle3dIfE30getIntersectionOfPlaneWithLineERKNS0_8vector3dIfEES6_RS4_",
+      "elf_address": "0x585e80",
+      "size": 732,
+      "sha256": "c49e8bc0469067be9fe257cc0d9422401aa6fd052b38643d285de63fbfbb6177"
+    },
+    {
+      "original_symbol": "_ZN7PFFloor16GetFloorHeightAtERK7Point3DIfEPfPS1_",
+      "elf_address": "0x51badc",
+      "size": 356,
+      "sha256": "a036ea2779d7be14c3b7888f80dd47cf42d186e607eaff4f9a5a4520b66ab69a"
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10triangle3dIfE13isPointInsideERKNS0_8vector3dIfEE",
+      "elf_address": "0x585de8",
+      "size": 120,
+      "sha256": "e92e21700c47a363fead0b47dc2c5fe84b50424318b5e21043b5cf8adfd6bf38"
+    }
+  ]
+}

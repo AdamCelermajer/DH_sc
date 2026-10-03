@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK10GameObject12GetLookAtVecER7Point3DIfE",
+      "elf_address": "0x393ae4",
+      "size": 56,
+      "sha256": "1e5b3d921d7d5f82cfa2557bfbbfdcdb3248b93a8530e9f9e92ea03c82817066"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList6SearchERK7Point3DIfEfS4_fRNS_11IObjectListE",
+      "elf_address": "0x4a2f34",
+      "size": 1172,
+      "sha256": "09e52604dce572790bf238dae055d88b063b8a685d692de73e0421085ba1a0b6"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject17GetTargetPositionEv",
+      "elf_address": "0x3935dc",
+      "size": 36,
+      "sha256": "23b9afb6e9da429cee1083622c12e650a4ffd51918974d9636817a74943dee7f"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAIFactionIdEv",
+      "elf_address": "0x3a3180",
+      "size": 56,
+      "sha256": "2a53a61c549259bea3a75c1fdfcf3a86b4777279f92ea7bdb9df76cf334ac3c6"
+    },
+    {
+      "original_symbol": "_ZNK12ObjectHandle9GetObjectEb",
+      "elf_address": "0x33ff8c",
+      "size": 4,
+      "sha256": "bbe541507356f02d76d32afb005cbfd21cac1ec8ea70548cacca670dd2c8cdbb"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI17AI_GetMeleeRadiusEv",
+      "elf_address": "0x3d4c34",
+      "size": 104,
+      "sha256": "932a35ac97f40a439164ae885fffc1f09baefedd284c488905a231159d753373"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI23AI_IsInInteractionRangeEPK10GameObject",
+      "elf_address": "0x3d4f98",
+      "size": 388,
+      "sha256": "01abb46509a0339bdf919adc5fc263f6cfecc2c602354717a631190dfba59884"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory14CanRangeAttackEv",
+      "elf_address": "0x400014",
+      "size": 4,
+      "sha256": "ac9b01cb603af08a72da64e387bbb73b7fcb6d75a1aacd79bd3bef2afcbbae67"
+    }
+  ]
+}

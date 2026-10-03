@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI9AISPlayerEEvv",
+      "elf_address": "0x3cd11c",
+      "size": 292,
+      "sha256": "ce024c9ca689d19fa3ef03cc35666aa205e23391e44f673fbff72bbd442b4d82"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI10AISDefaultEEvv",
+      "elf_address": "0x3cce14",
+      "size": 276,
+      "sha256": "b63d56cca95f5a8a9553a368240ba10139d3cd2be2a7f40ce08af3a821cc1a33"
+    }
+  ]
+}

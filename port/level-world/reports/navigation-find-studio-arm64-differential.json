@@ -1,0 +1,2851 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "89e0617957aa6bf0ce63ab3c96e1013d6e75461adf248f2448a70c23d191722f",
+  "linked_reference_sha256": "19a3212ee52ab7544c08fc62e4d8f87d37514f57cc8ec9e3df48623ee9c1daaa",
+  "floor_source_sha256": "05fed3c646ac7e2f1e188cc5abbd2975db063cdbe7517c87709bf8c911581fe0",
+  "reference_sha256": "46804399df59eaf2f8b0ba20a58d91ca4c29d635da3c2593ca7ae2d43c9c9384",
+  "comparisons": 366,
+  "sessions": 46,
+  "totals": {
+    "direct": 9,
+    "graph": 127,
+    "failed": 230,
+    "floor_queries": 669,
+    "cached_failures": 45,
+    "replaced_paths": 131
+  },
+  "mismatches": 0,
+  "behavior_snapshots": [
+    {
+      "case": "Crypt-0-0",
+      "fields": [
+        1,
+        1,
+        72,
+        2,
+        1,
+        44,
+        102,
+        102,
+        46,
+        13
+      ],
+      "owned": 1,
+      "segments": 13
+    },
+    {
+      "case": "Crypt-0-1",
+      "fields": [
+        1,
+        1,
+        82,
+        2,
+        1,
+        2,
+        5,
+        5,
+        3,
+        2
+      ],
+      "owned": 1,
+      "segments": 2
+    },
+    {
+      "case": "Crypt-0-2",
+      "fields": [
+        1,
+        1,
+        98,
+        2,
+        1,
+        76,
+        178,
+        178,
+        79,
+        19
+      ],
+      "owned": 1,
+      "segments": 19
+    },
+    {
+      "case": "Crypt-0-3",
+      "fields": [
+        1,
+        1,
+        139,
+        2,
+        1,
+        116,
+        267,
+        267,
+        118,
+        30
+      ],
+      "owned": 1,
+      "segments": 30
+    },
+    {
+      "case": "Crypt-0-4",
+      "fields": [
+        1,
+        1,
+        156,
+        2,
+        1,
+        156,
+        359,
+        359,
+        157,
+        40
+      ],
+      "owned": 1,
+      "segments": 40
+    },
+    {
+      "case": "Crypt-0-5",
+      "fields": [
+        1,
+        1,
+        180,
+        2,
+        1,
+        192,
+        442,
+        442,
+        193,
+        58
+      ],
+      "owned": 1,
+      "segments": 58
+    },
+    {
+      "case": "Crypt-0-6",
+      "fields": [
+        1,
+        1,
+        193,
+        2,
+        1,
+        198,
+        456,
+        456,
+        199,
+        56
+      ],
+      "owned": 1,
+      "segments": 56
+    },
+    {
+      "case": "Crypt-0-7",
+      "fields": [
+        1,
+        1,
+        321,
+        2,
+        1,
+        322,
+        824,
+        824,
+        324,
+        92
+      ],
+      "owned": 1,
+      "segments": 92
+    },
+    {
+      "case": "Crypt-1-0",
+      "fields": [
+        1,
+        73,
+        72,
+        2,
+        1,
+        68,
+        159,
+        159,
+        70,
+        19
+      ],
+      "owned": 1,
+      "segments": 19
+    },
+    {
+      "case": "Crypt-1-1",
+      "fields": [
+        1,
+        73,
+        82,
+        2,
+        1,
+        9,
+        19,
+        19,
+        10,
+        3
+      ],
+      "owned": 1,
+      "segments": 3
+    },
+    {
+      "case": "Crypt-1-2",
+      "fields": [
+        1,
+        73,
+        98,
+        2,
+        1,
+        35,
+        84,
+        84,
+        38,
+        13
+      ],
+      "owned": 1,
+      "segments": 13
+    },
+    {
+      "case": "Crypt-1-3",
+      "fields": [
+        1,
+        73,
+        139,
+        2,
+        1,
+        88,
+        206,
+        206,
+        93,
+        24
+      ],
+      "owned": 1,
+      "segments": 24
+    },
+    {
+      "case": "Crypt-1-4",
+      "fields": [
+        1,
+        73,
+        156,
+        2,
+        1,
+        157,
+        362,
+        362,
+        158,
+        34
+      ],
+      "owned": 1,
+      "segments": 34
+    },
+    {
+      "case": "Crypt-1-5",
+      "fields": [
+        1,
+        73,
+        180,
+        2,
+        1,
+        193,
+        445,
+        445,
+        194,
+        52
+      ],
+      "owned": 1,
+      "segments": 52
+    },
+    {
+      "case": "Crypt-1-6",
+      "fields": [
+        1,
+        73,
+        193,
+        2,
+        1,
+        199,
+        459,
+        459,
+        200,
+        50
+      ],
+      "owned": 1,
+      "segments": 50
+    },
+    {
+      "case": "Crypt-1-7",
+      "fields": [
+        1,
+        73,
+        321,
+        2,
+        1,
+        323,
+        827,
+        827,
+        325,
+        86
+      ],
+      "owned": 1,
+      "segments": 86
+    },
+    {
+      "case": "Crypt-2-0",
+      "fields": [
+        1,
+        83,
+        72,
+        2,
+        1,
+        147,
+        343,
+        343,
+        151,
+        31
+      ],
+      "owned": 1,
+      "segments": 31
+    },
+    {
+      "case": "Crypt-2-1",
+      "fields": [
+        1,
+        83,
+        82,
+        2,
+        1,
+        71,
+        163,
+        163,
+        72,
+        15
+      ],
+      "owned": 1,
+      "segments": 15
+    },
+    {
+      "case": "Crypt-2-2",
+      "fields": [
+        1,
+        83,
+        98,
+        2,
+        1,
+        11,
+        27,
+        27,
+        12,
+        4
+      ],
+      "owned": 1,
+      "segments": 4
+    },
+    {
+      "case": "Crypt-2-3",
+      "fields": [
+        1,
+        83,
+        139,
+        2,
+        1,
+        27,
+        66,
+        66,
+        31,
+        12
+      ],
+      "owned": 1,
+      "segments": 12
+    },
+    {
+      "case": "Crypt-2-4",
+      "fields": [
+        1,
+        83,
+        156,
+        2,
+        1,
+        88,
+        208,
+        208,
+        92,
+        22
+      ],
+      "owned": 1,
+      "segments": 22
+    },
+    {
+      "case": "Crypt-2-5",
+      "fields": [
+        1,
+        83,
+        180,
+        2,
+        1,
+        162,
+        376,
+        376,
+        166,
+        40
+      ],
+      "owned": 1,
+      "segments": 40
+    },
+    {
+      "case": "Crypt-2-6",
+      "fields": [
+        1,
+        83,
+        193,
+        2,
+        1,
+        170,
+        395,
+        395,
+        174,
+        38
+      ],
+      "owned": 1,
+      "segments": 38
+    },
+    {
+      "case": "Crypt-2-7",
+      "fields": [
+        1,
+        83,
+        321,
+        2,
+        1,
+        323,
+        827,
+        827,
+        325,
+        74
+      ],
+      "owned": 1,
+      "segments": 74
+    },
+    {
+      "case": "Crypt-3-0",
+      "fields": [
+        1,
+        99,
+        72,
+        2,
+        1,
+        207,
+        519,
+        519,
+        217,
+        41
+      ],
+      "owned": 1,
+      "segments": 41
+    },
+    {
+      "case": "Crypt-3-1",
+      "fields": [
+        1,
+        99,
+        82,
+        2,
+        1,
+        109,
+        252,
+        252,
+        110,
+        25
+      ],
+      "owned": 1,
+      "segments": 25
+    },
+    {
+      "case": "Crypt-3-2",
+      "fields": [
+        1,
+        99,
+        98,
+        2,
+        1,
+        52,
+        122,
+        122,
+        53,
+        14
+      ],
+      "owned": 1,
+      "segments": 14
+    },
+    {
+      "case": "Crypt-3-3",
+      "fields": [
+        1,
+        99,
+        139,
+        2,
+        1,
+        11,
+        31,
+        31,
+        15,
+        5
+      ],
+      "owned": 1,
+      "segments": 5
+    },
+    {
+      "case": "Crypt-3-4",
+      "fields": [
+        1,
+        99,
+        156,
+        2,
+        1,
+        73,
+        172,
+        172,
+        75,
+        15
+      ],
+      "owned": 1,
+      "segments": 15
+    },
+    {
+      "case": "Crypt-3-5",
+      "fields": [
+        1,
+        99,
+        180,
+        2,
+        1,
+        121,
+        281,
+        281,
+        124,
+        33
+      ],
+      "owned": 1,
+      "segments": 33
+    },
+    {
+      "case": "Crypt-3-6",
+      "fields": [
+        1,
+        99,
+        193,
+        2,
+        1,
+        130,
+        304,
+        304,
+        133,
+        31
+      ],
+      "owned": 1,
+      "segments": 31
+    },
+    {
+      "case": "Crypt-3-7",
+      "fields": [
+        1,
+        99,
+        321,
+        2,
+        1,
+        314,
+        809,
+        809,
+        317,
+        67
+      ],
+      "owned": 1,
+      "segments": 67
+    },
+    {
+      "case": "Crypt-4-0",
+      "fields": [
+        1,
+        141,
+        72,
+        2,
+        1,
+        308,
+        793,
+        793,
+        309,
+        52
+      ],
+      "owned": 1,
+      "segments": 52
+    },
+    {
+      "case": "Crypt-4-1",
+      "fields": [
+        1,
+        141,
+        82,
+        2,
+        1,
+        261,
+        684,
+        684,
+        262,
+        36
+      ],
+      "owned": 1,
+      "segments": 36
+    },
+    {
+      "case": "Crypt-4-2",
+      "fields": [
+        1,
+        141,
+        98,
+        2,
+        1,
+        146,
+        380,
+        380,
+        156,
+        25
+      ],
+      "owned": 1,
+      "segments": 25
+    },
+    {
+      "case": "Crypt-4-3",
+      "fields": [
+        1,
+        141,
+        139,
+        2,
+        1,
+        47,
+        112,
+        112,
+        49,
+        8
+      ],
+      "owned": 1,
+      "segments": 8
+    },
+    {
+      "case": "Crypt-4-4",
+      "fields": [
+        1,
+        141,
+        156,
+        2,
+        1,
+        3,
+        9,
+        9,
+        5,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "Crypt-4-5",
+      "fields": [
+        1,
+        141,
+        180,
+        2,
+        1,
+        48,
+        115,
+        115,
+        50,
+        19
+      ],
+      "owned": 1,
+      "segments": 19
+    },
+    {
+      "case": "Crypt-4-6",
+      "fields": [
+        1,
+        141,
+        193,
+        2,
+        1,
+        73,
+        173,
+        173,
+        74,
+        20
+      ],
+      "owned": 1,
+      "segments": 20
+    },
+    {
+      "case": "Crypt-4-7",
+      "fields": [
+        1,
+        141,
+        321,
+        2,
+        1,
+        246,
+        652,
+        652,
+        249,
+        56
+      ],
+      "owned": 1,
+      "segments": 56
+    },
+    {
+      "case": "Crypt-5-0",
+      "fields": [
+        1,
+        157,
+        72,
+        2,
+        1,
+        308,
+        793,
+        793,
+        309,
+        56
+      ],
+      "owned": 1,
+      "segments": 56
+    },
+    {
+      "case": "Crypt-5-1",
+      "fields": [
+        1,
+        157,
+        82,
+        2,
+        1,
+        261,
+        684,
+        684,
+        262,
+        40
+      ],
+      "owned": 1,
+      "segments": 40
+    },
+    {
+      "case": "Crypt-5-2",
+      "fields": [
+        1,
+        157,
+        98,
+        2,
+        1,
+        146,
+        380,
+        380,
+        156,
+        29
+      ],
+      "owned": 1,
+      "segments": 29
+    },
+    {
+      "case": "Crypt-5-3",
+      "fields": [
+        1,
+        157,
+        139,
+        2,
+        1,
+        55,
+        130,
+        130,
+        55,
+        12
+      ],
+      "owned": 1,
+      "segments": 12
+    },
+    {
+      "case": "Crypt-5-4",
+      "fields": [
+        1,
+        157,
+        156,
+        2,
+        1,
+        2,
+        4,
+        4,
+        3,
+        2
+      ],
+      "owned": 1,
+      "segments": 2
+    },
+    {
+      "case": "Crypt-5-5",
+      "fields": [
+        1,
+        157,
+        180,
+        2,
+        1,
+        28,
+        67,
+        67,
+        30,
+        15
+      ],
+      "owned": 1,
+      "segments": 15
+    },
+    {
+      "case": "Crypt-5-6",
+      "fields": [
+        1,
+        157,
+        193,
+        2,
+        1,
+        73,
+        173,
+        173,
+        74,
+        24
+      ],
+      "owned": 1,
+      "segments": 24
+    },
+    {
+      "case": "Crypt-5-7",
+      "fields": [
+        1,
+        157,
+        321,
+        2,
+        1,
+        246,
+        652,
+        652,
+        249,
+        60
+      ],
+      "owned": 1,
+      "segments": 60
+    },
+    {
+      "case": "Crypt-6-0",
+      "fields": [
+        1,
+        181,
+        72,
+        2,
+        1,
+        309,
+        796,
+        796,
+        310,
+        61
+      ],
+      "owned": 1,
+      "segments": 61
+    },
+    {
+      "case": "Crypt-6-1",
+      "fields": [
+        1,
+        181,
+        82,
+        2,
+        1,
+        272,
+        707,
+        707,
+        271,
+        45
+      ],
+      "owned": 1,
+      "segments": 45
+    },
+    {
+      "case": "Crypt-6-2",
+      "fields": [
+        1,
+        181,
+        98,
+        2,
+        1,
+        242,
+        644,
+        644,
+        244,
+        34
+      ],
+      "owned": 1,
+      "segments": 34
+    },
+    {
+      "case": "Crypt-6-3",
+      "fields": [
+        1,
+        181,
+        139,
+        2,
+        1,
+        85,
+        227,
+        227,
+        94,
+        17
+      ],
+      "owned": 1,
+      "segments": 17
+    },
+    {
+      "case": "Crypt-6-4",
+      "fields": [
+        1,
+        181,
+        156,
+        2,
+        1,
+        30,
+        73,
+        73,
+        32,
+        13
+      ],
+      "owned": 1,
+      "segments": 13
+    },
+    {
+      "case": "Crypt-6-5",
+      "fields": [
+        1,
+        181,
+        180,
+        2,
+        1,
+        139,
+        399,
+        399,
+        145,
+        31
+      ],
+      "owned": 1,
+      "segments": 31
+    },
+    {
+      "case": "Crypt-6-6",
+      "fields": [
+        1,
+        181,
+        193,
+        2,
+        1,
+        24,
+        59,
+        59,
+        26,
+        8
+      ],
+      "owned": 1,
+      "segments": 8
+    },
+    {
+      "case": "Crypt-6-7",
+      "fields": [
+        1,
+        181,
+        321,
+        2,
+        1,
+        218,
+        592,
+        592,
+        222,
+        44
+      ],
+      "owned": 1,
+      "segments": 44
+    },
+    {
+      "case": "Crypt-7-0",
+      "fields": [
+        1,
+        195,
+        72,
+        2,
+        1,
+        309,
+        796,
+        796,
+        310,
+        75
+      ],
+      "owned": 1,
+      "segments": 75
+    },
+    {
+      "case": "Crypt-7-1",
+      "fields": [
+        1,
+        195,
+        82,
+        2,
+        1,
+        272,
+        707,
+        707,
+        271,
+        59
+      ],
+      "owned": 1,
+      "segments": 59
+    },
+    {
+      "case": "Crypt-7-2",
+      "fields": [
+        1,
+        195,
+        98,
+        2,
+        1,
+        248,
+        657,
+        657,
+        249,
+        48
+      ],
+      "owned": 1,
+      "segments": 48
+    },
+    {
+      "case": "Crypt-7-3",
+      "fields": [
+        1,
+        195,
+        139,
+        2,
+        1,
+        191,
+        521,
+        521,
+        191,
+        31
+      ],
+      "owned": 1,
+      "segments": 31
+    },
+    {
+      "case": "Crypt-7-4",
+      "fields": [
+        1,
+        195,
+        156,
+        2,
+        1,
+        170,
+        476,
+        476,
+        171,
+        27
+      ],
+      "owned": 1,
+      "segments": 27
+    },
+    {
+      "case": "Crypt-7-5",
+      "fields": [
+        1,
+        195,
+        180,
+        2,
+        1,
+        206,
+        562,
+        562,
+        208,
+        45
+      ],
+      "owned": 1,
+      "segments": 45
+    },
+    {
+      "case": "Crypt-7-6",
+      "fields": [
+        1,
+        195,
+        193,
+        2,
+        1,
+        16,
+        49,
+        49,
+        23,
+        5
+      ],
+      "owned": 1,
+      "segments": 5
+    },
+    {
+      "case": "Crypt-7-7",
+      "fields": [
+        1,
+        195,
+        321,
+        2,
+        1,
+        138,
+        404,
+        404,
+        141,
+        30
+      ],
+      "owned": 1,
+      "segments": 30
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        124,
+        294,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        167,
+        165,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        163,
+        193,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        215,
+        190,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        150,
+        70,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        122,
+        150,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        188,
+        161,
+        2,
+        1,
+        73,
+        191,
+        172,
+        73,
+        30
+      ],
+      "owned": 1,
+      "segments": 30
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        185,
+        133,
+        2,
+        1,
+        187,
+        516,
+        516,
+        191,
+        25
+      ],
+      "owned": 1,
+      "segments": 25
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        73,
+        149,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        190,
+        154,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        150,
+        188,
+        2,
+        1,
+        79,
+        185,
+        185,
+        81,
+        23
+      ],
+      "owned": 1,
+      "segments": 23
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        278,
+        70,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        149,
+        19,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        173,
+        13,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        32,
+        76,
+        2,
+        1,
+        65,
+        153,
+        147,
+        65,
+        28
+      ],
+      "owned": 1,
+      "segments": 28
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        306,
+        94,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        74,
+        167,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        16,
+        165,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        122,
+        156,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        89,
+        175,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        96,
+        74,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        87,
+        136,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        220,
+        99,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        294,
+        211,
+        2,
+        1,
+        93,
+        261,
+        261,
+        97,
+        29
+      ],
+      "owned": 1,
+      "segments": 29
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        87,
+        80,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        178,
+        193,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        110,
+        74,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        39,
+        89,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        39,
+        175,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        56,
+        209,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        80,
+        190,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        193,
+        126,
+        2,
+        1,
+        231,
+        617,
+        617,
+        233,
+        39
+      ],
+      "owned": 1,
+      "segments": 39
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        161,
+        39,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        58,
+        76,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        181,
+        98,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        98,
+        185,
+        2,
+        1,
+        162,
+        375,
+        375,
+        164,
+        37
+      ],
+      "owned": 1,
+      "segments": 37
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        151,
+        76,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        188,
+        61,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        106,
+        85,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        80,
+        11,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        296,
+        28,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        149,
+        123,
+        2,
+        1,
+        76,
+        181,
+        181,
+        82,
+        18
+      ],
+      "owned": 1,
+      "segments": 18
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        73,
+        199,
+        2,
+        1,
+        211,
+        484,
+        484,
+        210,
+        58
+      ],
+      "owned": 1,
+      "segments": 58
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        32,
+        1,
+        2,
+        1,
+        44,
+        107,
+        101,
+        45,
+        18
+      ],
+      "owned": 1,
+      "segments": 18
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        271,
+        176,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        156,
+        176,
+        2,
+        1,
+        21,
+        48,
+        48,
+        22,
+        11
+      ],
+      "owned": 1,
+      "segments": 11
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        152,
+        124,
+        2,
+        1,
+        94,
+        242,
+        242,
+        108,
+        22
+      ],
+      "owned": 1,
+      "segments": 22
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        302,
+        126,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        164,
+        185,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        76,
+        154,
+        2,
+        1,
+        158,
+        364,
+        364,
+        159,
+        32
+      ],
+      "owned": 1,
+      "segments": 32
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        122,
+        91,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        83,
+        89,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        141,
+        156,
+        2,
+        1,
+        3,
+        9,
+        9,
+        5,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        141,
+        187,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        58,
+        80,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        264,
+        99,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        172,
+        80,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        141,
+        317,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        218,
+        195,
+        2,
+        1,
+        16,
+        54,
+        42,
+        17,
+        5
+      ],
+      "owned": 1,
+      "segments": 5
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        172,
+        82,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "repeated cached/replaced request",
+      "fields": [
+        1,
+        92,
+        44,
+        2,
+        1,
+        151,
+        349,
+        349,
+        154,
+        38
+      ],
+      "owned": 1,
+      "segments": 38
+    },
+    {
+      "case": "direct-with-missing-tree-0",
+      "fields": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "missing-midpoint-tree-0",
+      "fields": [
+        0,
+        0,
+        82,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "special-floor-filter-0",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "capability-floor-0",
+      "fields": [
+        0,
+        73,
+        72,
+        0,
+        0,
+        272,
+        706,
+        704,
+        271,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "direct-with-missing-tree-1",
+      "fields": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "missing-midpoint-tree-1",
+      "fields": [
+        0,
+        0,
+        98,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "special-floor-filter-1",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "capability-floor-1",
+      "fields": [
+        0,
+        83,
+        82,
+        0,
+        0,
+        260,
+        680,
+        678,
+        259,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "direct-with-missing-tree-2",
+      "fields": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "missing-midpoint-tree-2",
+      "fields": [
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "special-floor-filter-2",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "capability-floor-2",
+      "fields": [
+        0,
+        99,
+        98,
+        0,
+        0,
+        242,
+        638,
+        636,
+        241,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "direct-with-missing-tree-3",
+      "fields": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "missing-midpoint-tree-3",
+      "fields": [
+        0,
+        0,
+        156,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "special-floor-filter-3",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "capability-floor-3",
+      "fields": [
+        0,
+        141,
+        139,
+        0,
+        0,
+        199,
+        540,
+        538,
+        198,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "direct-with-missing-tree-4",
+      "fields": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "missing-midpoint-tree-4",
+      "fields": [
+        0,
+        0,
+        180,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "special-floor-filter-4",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "capability-floor-4",
+      "fields": [
+        1,
+        157,
+        156,
+        2,
+        1,
+        2,
+        4,
+        3,
+        2,
+        2
+      ],
+      "owned": 1,
+      "segments": 2
+    },
+    {
+      "case": "direct-with-missing-tree-5",
+      "fields": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "missing-midpoint-tree-5",
+      "fields": [
+        0,
+        0,
+        193,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "special-floor-filter-5",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "capability-floor-5",
+      "fields": [
+        0,
+        181,
+        180,
+        0,
+        0,
+        323,
+        825,
+        823,
+        322,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "direct-with-missing-tree-6",
+      "fields": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "missing-midpoint-tree-6",
+      "fields": [
+        0,
+        0,
+        321,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "special-floor-filter-6",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "capability-floor-6",
+      "fields": [
+        0,
+        195,
+        193,
+        0,
+        0,
+        138,
+        398,
+        396,
+        137,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "direct-with-missing-tree-7",
+      "fields": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "missing-midpoint-tree-7",
+      "fields": [
+        0,
+        0,
+        72,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "special-floor-filter-7",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "capability-floor-7",
+      "fields": [
+        0,
+        1,
+        321,
+        0,
+        0,
+        207,
+        474,
+        472,
+        206,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "direct path",
+      "fields": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "owned": 1,
+      "segments": 1
+    },
+    {
+      "case": "missing source replaces path",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    },
+    {
+      "case": "missing target",
+      "fields": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "owned": 0,
+      "segments": 0
+    }
+  ],
+  "crypt_findpath_probe": {
+    "floor_pairs": 64,
+    "successful": 64,
+    "owned": 64,
+    "segments": 2086,
+    "state_fnv1a64": "9356b419cae2bc57"
+  },
+  "scope": "Full original FindPath, ordinary world search and smoothing versus ARM64.\n\nThe original drop/search/smooth/waypoint sequence executes with previous paths,\nfailed caches and actual Crypt floor queries. Profiling/string/debug timing\nservices and allocator ownership are fixtures. Original floor queries delegate\nto independent original selector/octree/collision execution. Full PFObject\ninitialization, cache invalidation and position/controller movement are pending.\n",
+  "elapsed_seconds": 67.38
+}

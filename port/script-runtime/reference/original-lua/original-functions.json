@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "luaU_undump",
+      "elf_address": "0x85c320",
+      "size": 260,
+      "sha256": "371361775bff4145c800764f42abef2a81e9109d26c99e7af7e77bccdeb81cff"
+    },
+    {
+      "original_symbol": "luaO_str2d",
+      "elf_address": "0x854d74",
+      "size": 168,
+      "sha256": "17c755b72e0b7b6469f75180b94b2ffd3d7dba115c821c82bda721d8298ce867"
+    },
+    {
+      "original_symbol": "luaU_header",
+      "elf_address": "0x85bc64",
+      "size": 100,
+      "sha256": "6c968d3b1fb3f0a6019a10ce5adb83036e29238ee72de21e5d296a0c7b90af52"
+    },
+    {
+      "original_symbol": "luaV_execute",
+      "elf_address": "0x85d09c",
+      "size": 5028,
+      "sha256": "fa6defdcf65413361f4d46888c0a03fbcde711652dce355745045060ef890a64"
+    }
+  ]
+}

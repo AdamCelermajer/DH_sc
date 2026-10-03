@@ -1,0 +1,118 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "759eda4ee61c92960c7527bb980b952f90fa12f5af4c7dc846a6a3e3ceb788e6",
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "arm64_library_sha256": "91a98807fceba6886e85be99a0805e9399902741a91c85ebaf4e2d604be5f6fd",
+  "reference_sha256": "5df40ca79b2e96fc70a892a7d8b3d1af5dda0b0c695622ff8a1c784275675874",
+  "source_sha256": {
+    "port/engine-animation/component_applicator.hpp": "dd30a665ff1ad58ddceb04c8d204ac597237a17761eee9055fb985b219af945d",
+    "port/engine-animation/component_applicator.cpp": "9abca1a630447b10b7ea871f66af1e523511af5328fd03189e8be13dd1bb57bd",
+    "port/engine-animation/tests/component_applicator.cpp": "05068866b9034099a6fda72c3e24300df1ef6ab6212c8776b8d9e65d96407491",
+    "port/engine-animation/tests/component_applicator_differential.py": "584f255601ece1d095b7c498953f3c46975b2951d3613fa648bd4c74a0190eb2",
+    "port/engine-animation/animation_blend.hpp": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3",
+    "port/engine-animation/animation_blend.cpp": "5066e683add9d92643f350aa91819f694a7b2be82201785be40cc7812536d2ac",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/scene-materials/scene.hpp": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90"
+  },
+  "handlers": {
+    "2": {
+      "size": "0x60efe0",
+      "get": "0x626df8",
+      "apply": "0x623d90",
+      "blend": "0x629b14"
+    },
+    "3": {
+      "size": "0x60efc8",
+      "get": "0x6270a4",
+      "apply": "0x623d48",
+      "blend": "0x62949c"
+    },
+    "4": {
+      "size": "0x60efb0",
+      "get": "0x627350",
+      "apply": "0x622cb8",
+      "blend": "0x628e24"
+    },
+    "11": {
+      "size": "0x60ef4c",
+      "get": "0x6278a8",
+      "apply": "0x6238f4",
+      "blend": "0x62d0b4"
+    },
+    "12": {
+      "size": "0x60ef34",
+      "get": "0x62a034",
+      "apply": "0x622c40",
+      "blend": "0x62ca3c"
+    },
+    "13": {
+      "size": "0x60ef1c",
+      "get": "0x62a2e0",
+      "apply": "0x622bf8",
+      "blend": "0x62c3c4"
+    }
+  },
+  "factory_type_checks": 10,
+  "factory_methods": {
+    "2": [
+      "0x60efe0",
+      "0x626df8"
+    ],
+    "3": [
+      "0x60efc8",
+      "0x6270a4"
+    ],
+    "4": [
+      "0x60efb0",
+      "0x627350"
+    ],
+    "6": [
+      "0x60f07c",
+      "0x61333c"
+    ],
+    "7": [
+      "0x60f07c",
+      "0x61333c"
+    ],
+    "8": [
+      "0x60f07c",
+      "0x61333c"
+    ],
+    "9": [
+      "0x60f07c",
+      "0x61333c"
+    ],
+    "11": [
+      "0x60ef4c",
+      "0x6278a8"
+    ],
+    "12": [
+      "0x60ef34",
+      "0x62a034"
+    ],
+    "13": [
+      "0x60ef1c",
+      "0x62a2e0"
+    ]
+  },
+  "factory_imports": {
+    "__cxa_guard_acquire": 7,
+    "__cxa_guard_release": 7,
+    "__aeabi_atexit": 7
+  },
+  "value_size_checks": 6,
+  "cases": 1872,
+  "contributions": 624,
+  "direct_applies": 624,
+  "blended_applies": 624,
+  "position_setter_calls": 624,
+  "scale_setter_calls": 624,
+  "virtual_getter_calls": 0,
+  "arithmetic_nan_payload_differences": 68,
+  "mismatches": 0,
+  "elapsed_seconds": 3.23,
+  "scope": "Concrete float Position2/3/4 and Scale11/12/13 ComponentMixin tracks: actual factory and lazy singleton instructions establish numeric tags; C++ guard/atexit services modeled. Full12byte typed contribution, direct/applyBlended wrappers and actual original fullvector setters with dirty8/2. Node virtual table targets actual setters; any other virtual call fails. Imported soft-float dependencies modeled. No liveaxis getter/merge, quaternion/Euler6..9, raw defaults/compatibility/accessor/firstunion type dispatch or whole scene/runtime/GPU parity claim."
+}

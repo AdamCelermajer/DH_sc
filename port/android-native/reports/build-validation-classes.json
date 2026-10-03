@@ -1,0 +1,579 @@
+{
+  "apk_sha256": "f41a1346f1ea808bef165e6980293f8fdccbef7ca5896d95aaf099d06b5bfabf",
+  "apk_bytes": 16424577,
+  "studio_apk_sha256": "e9f1eab2276043a59a53140d6287f5213ff2d326f7351ec439bbdb6ae4d27db9",
+  "source_sync_verified": true,
+  "studio_source_sha256": {
+    "cpp/CMakeLists.txt": "3662e4544544a53b24e4780b3f31299a9f8fd1310f1b5b09cce33bde188e00bb",
+    "cpp/native_app.cpp": "a6f276bf30233babdff82fdb3bd5ba30c675c6d09ceb23af6f43fb3fc8acaa38",
+    "cpp/model_renderer.cpp": "232310e381fd9414a77c2b083762ba11ea4656b893fa615bcc9c4b160d768266",
+    "cpp/model_renderer.hpp": "482a6e6fa17d49caae595eb7e335879f42c035c05c76397bd868cfc58e4b67d7",
+    "java/com/example/dh2/MainActivity.java": "5659d9a86ebcc09d83ab80b5d309321287a23eb41f1deeff9b5a4f7f128f62f8",
+    "java/com/example/dh2/NativeBridge.java": "f125ac0609341973615ca130c28be88311ce390ae449b4651d334175cfe01d47"
+  },
+  "module_source_sha256": {
+    "engine-animation/animation.cpp": "ab931fa29a692c8533438483ff06a9aa84684b4b9a40a73cbbbc904a4419ff94",
+    "engine-animation/animation.hpp": "d88c44e3a9838d850c5be50da60b4ac0470edbd1715f93e8f5d5be07169eac56",
+    "engine-skinning/skinning.cpp": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102",
+    "engine-skinning/skinning.hpp": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2",
+    "game-data/CMakeLists.txt": "ae954e95b22629938d3d1cccc40ec04ee2a3fae6a72165b77d6d545404e20cca",
+    "game-data/animation_scheduler.cpp": "ad99450151a5b2cdc6e3e0f21a9cc3bfb11716b2bab3febd1e5e6f21a8992783",
+    "game-data/animation_scheduler.hpp": "2e26b2720e3a301c00554e58b72105af4c03ef3d4464285b96237c17fa05bfa0",
+    "game-data/animation_selection.cpp": "3c45ece50511df67d7885388d8f56e64f1a979e9ed2a52d1983b6fa1dbea2880",
+    "game-data/animation_tables.cpp": "edf5d8fc71d225e975a4b7459a5ef2169ea3a84a8964b39290cfa9d91abc4b67",
+    "game-data/animation_tables.hpp": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d",
+    "game-data/class_tables.cpp": "a7605639c94ac8d84cfd77180f817519e5842c81bb1186d04717192ad76bbeb6",
+    "game-data/class_tables.hpp": "b7f7e39fcb7a8c9cfb9b7d434bc2385f046cb293df0fad460655799790aec6dc",
+    "game-data/data.cpp": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+    "game-data/data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+    "game-data/tests/animation_scheduler.cpp": "1cb3f4c900505d194f68640331a6f65c421c4fac5cb468e0fffbafc028e46ca2",
+    "game-data/tests/classes.cpp": "828a587cf2d7c13e33c84ee5d471d5dc8e8214cf33221a11b845df235b6c053d",
+    "game-data/tests/classes_differential.py": "c778dcf414193bbe842680a8db1bcfd7f56a732c0c22fb0e874bf1266a37c4b1",
+    "game-data/tools/inspect_class_tables.py": "7981979eb837206ec8c55d5edfe2dbbe72cac5e3e5334df9dc2b2cce7615ca23",
+    "game-data/tools/inspect_property_layout.py": "a54f8ee1050ba84ea407430e21f4671c6f1d977004d7cc689177b865b0206ec8",
+    "level-world/CMakeLists.txt": "d0388baf4ca6c96b62753c3394c5258149221e36c0c24ccbcbab2a72a1047485",
+    "level-world/objects.cpp": "0468f80973f478b4e141b0e16ef732b2692211df1db4d7d0fd2c46b61baf548b",
+    "level-world/objects.hpp": "530f0686b0c189119aa7f44bd9c796543116cb6c500857ced69aa55e966bde05",
+    "level-world/tests/actor_clips.cpp": "06ef0280dc524fcf3cc9bde106143c1c9c3ada738d71b1d84e97c1e97b23be27",
+    "level-world/tools/prepare_actor_states.py": "fc16aae0f9ea53abf4c874ecf919ed312a73ab4519d3361771805f7b8ef387a2",
+    "level-world/tools/prepare_class_tables.py": "cf1368527a63ef343771e0145e6ec4f3e6ac8923c8c52fe4bac02e1b6b8db6c7",
+    "level-world/world.cpp": "e30d918a07cd1718d29c36bbac515b9d740b3f6f176fc33ba1413e9b01caa57b",
+    "level-world/world.hpp": "394a505ad712b74bc3f0192144d413519061c8d35006a635e0e425fea8470ff0"
+  },
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "27f28f6f653c92e0274692b380ccc3700314df22016de98266d0981c3934d939",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "17c40127e95ae37e60b5759bfbace61a4fd6e8b84de12d3d5ceae67b1420b3f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "a265318afe0c882c4701d8a2f21e8e88c241d0b262c1aac4bd82b1054fe13c40",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "c2c49f01ce6c8504d9bd0f857a34e9d4aa150125bcd7023c16d6d3ce45dd80a2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "db959e6e1b5377ae7a3f516b2e79f50b0c2fe4a635b7e1254c9dcd90853fbb1d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "d8e69f1b4b9b2f0642de36313a4ae8b15b2c4e1626fb69cfc8d42e967c71e19a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "7ef89410892f595d1fb9c68f70ab0c96de205a9b73991087a02cbfd562cb21a4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "20030da1dc3833f77ec581e8e52a579e85cad425787c3309a66dfd3a8872285e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "2ecac3b88ca4ccc3199a61cf19f524798a57ac2b8c253adcc608ff2ba0c1c662",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "b12980ae2a6484843dc52b006d2d8edc1557b272d29cedef972dd74cbadd51a9",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "apk_16k_zip_alignment_verified": true,
+  "assets_verified": {
+    "textures/pvr2_env_darktemple_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714"
+    },
+    "textures/skybox_wind.tga": {
+      "bytes": 131132,
+      "sha256": "7e89b7ac4e2e8daea82e2f0f8397259af24b44c33e6cc88ef799eec15fa7074f"
+    },
+    "textures/env_selectorcharactere_solide.tga": {
+      "bytes": 524348,
+      "sha256": "afced3f99c4d32d04a173066cbd10ce4cabe9c1d9a896fededa6d23b6d05f7ec"
+    },
+    "textures/godparticle_face.tga": {
+      "bytes": 2108,
+      "sha256": "8e15108e74b443ee6c11bc2cfb05af23c046a53e0dac37df24973e848b6117ea"
+    },
+    "textures/env_crypt_spec.tga": {
+      "bytes": 131132,
+      "sha256": "d74002ba771e1ba50fc421cf1066d1b0f977d5377dbd4971d92643f007f1b737"
+    },
+    "textures/fx_smoke_03.tga": {
+      "bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0"
+    },
+    "textures/pvr2_env_crypt_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    "textures/skybox_selector.tga": {
+      "bytes": 131132,
+      "sha256": "d41ace06bf91f57b2bea7658414b4d6dfb04d0856f0575c8f2d250a8a6831594"
+    },
+    "textures/pvr2_env_darkwoods_alpha_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "087d110133be72b9a5f9e4339fbd6707ea3e6e834d1e6d8a97bbde4cc4ac1413"
+    },
+    "textures/atlas_modular_warrior.tga": {
+      "bytes": 524348,
+      "sha256": "b78abd158902679a467f4c86794c90554deca06a97bf3b4bdf8beba88ef10a5a"
+    },
+    "textures/env_crypt.tga": {
+      "bytes": 524348,
+      "sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad"
+    },
+    "textures/menugraphics03.tga": {
+      "bytes": 1048620,
+      "sha256": "0f0ec6784f20c469fc05becf9e82251fee19b4856ed15b14e3e01a695b92ca7b"
+    },
+    "textures/env_darkwoods_alpha.tga": {
+      "bytes": 524348,
+      "sha256": "e904c2fc1534b5708689903a650693e1f52acbe8b59483553fe002eef5551832"
+    },
+    "models/candle_flame.bdae": {
+      "bytes": 16856,
+      "sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6"
+    },
+    "models/main_menu_charactere_swamp.bdae": {
+      "bytes": 158440,
+      "sha256": "8a3462863a3d6ca2255d96989d53a21cddfba821e42c8a13e676f10e51d1300b"
+    },
+    "models/prince_modular.bdae": {
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    "animations/prince_menu_idle_knight.bdae": {
+      "bytes": 19400,
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a"
+    },
+    "animations/prince_walk_1hand.bdae": {
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    "animations/prince_idle_shield.bdae": {
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    "worlds/x07_crypt_backup.mlx": {
+      "bytes": 8124,
+      "sha256": "706b1e23ea7ca9c3c1695d6cf8679c177bdfb70e71d202e351a2b0c8564023c7"
+    },
+    "worlds/crypt_cemetery_entrance_01.mgp": {
+      "bytes": 10841,
+      "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+    },
+    "worlds/crypt_cemetery_entrance_01.mvp": {
+      "bytes": 8569,
+      "sha256": "3d85527d704c1b74869bfbb2f39be1585a905e66575a4cf251adac0cdeb80de7"
+    },
+    "worlds/crypt_straight_ns_01.mgp": {
+      "bytes": 3365,
+      "sha256": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25"
+    },
+    "worlds/crypt2_straight_ns_01.mvp": {
+      "bytes": 3135,
+      "sha256": "ee4cea2740331782278fd56f4bf7c064ca778a78d8c426696a0ce6bbabbe0007"
+    },
+    "worlds/crypt_corner_sw_02.mgp": {
+      "bytes": 1897,
+      "sha256": "ff4defedde868b53eeb5d5c9ac39dc41fc6b85d55cd27891e3009d3ad3e04168"
+    },
+    "worlds/crypt_corner_sw_01.mvp": {
+      "bytes": 4172,
+      "sha256": "7ccc9938cdf0e6ae58bb61d6c74e1908c6087874a161a4ac8b55fabc862873db"
+    },
+    "worlds/crypt_corner_ne_02.mgp": {
+      "bytes": 3523,
+      "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+    },
+    "worlds/crypt_corner_ne_01.mvp": {
+      "bytes": 5571,
+      "sha256": "2500af6ebb2d01126f739ae1ced635c6e46365cf3f13ed34cc1ae8e7fa885e78"
+    },
+    "worlds/crypt_t_sew_01.mgp": {
+      "bytes": 1731,
+      "sha256": "a34d860d4b94cbcb936ecc9ab1ad2d8ee8450c15067a44298ac88d0a5c3c8189"
+    },
+    "worlds/crypt_t_sew_01.mvp": {
+      "bytes": 5057,
+      "sha256": "5bdb426a45eef5d9edb2abc4cc5e9281a35ad4df27076e16ca0c252e55a9345f"
+    },
+    "worlds/crypt_deadend_e_01.mgp": {
+      "bytes": 2260,
+      "sha256": "41604cc014bfeeef32b93432f49d2dc7643915f8112a123f1d0de9c3e6e47c8b"
+    },
+    "worlds/crypt_deadend_e_01.mvp": {
+      "bytes": 3410,
+      "sha256": "d3f69fe0ffba96b35414d8db0399e7e6acbda0fb658ec2ec3fb8abfb1dc72440"
+    },
+    "worlds/crypt_corner_nw_02.mgp": {
+      "bytes": 1355,
+      "sha256": "5652c6b5d64cf75e9b8c043cc61f6308ea6ca67784b2342c836b22469aa03179"
+    },
+    "worlds/crypt_corner_nw_02.mvp": {
+      "bytes": 4127,
+      "sha256": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134"
+    },
+    "worlds/crypt_straight_c_ns_01.mgp": {
+      "bytes": 10307,
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    },
+    "worlds/crypt_straight_c_ns_01.mvp": {
+      "bytes": 8594,
+      "sha256": "bd06bd5a12043c40f028f5faeb059d531f6ea628770c05166ade227cfbc778b8"
+    },
+    "worlds/crypt.bdae": {
+      "bytes": 3922816,
+      "sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b"
+    },
+    "worlds/007_crypt_01.rule.xml": {
+      "bytes": 3684,
+      "sha256": "2970183f1be3b6a01470d45f0db124afb3bf6582e4ed166780e431ccdaff8b07"
+    },
+    "data/character_properties_pyarray.bin": {
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    "data/character_properties_pyarraynames.bin": {
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    "data/character_properties_pystructnames.bin": {
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    "data/character_models_dictionary_pyarray.bin": {
+      "bytes": 5366,
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+    },
+    "data/character_models_dictionary_pyarraynames.bin": {
+      "bytes": 1755,
+      "sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9"
+    },
+    "actors/skeleton.bdae": {
+      "bytes": 70736,
+      "sha256": "2cf63468a00c934f9b3d7b15b1c846ce575b9c62fc3aff83c7cd2bfbefacfb36"
+    },
+    "actors/skeleton_idle_01.bdae": {
+      "bytes": 49520,
+      "sha256": "bea7b628675e9bebf64a4da6e90b9cc8ca9f7411e053d6ce354eff7c38f0982d"
+    },
+    "textures/atlas_dh2_game_objects_001.tga": {
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c"
+    },
+    "textures/atlas_dh2_game_objects_001_alpha.tga": {
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79"
+    },
+    "textures/atlas_dh2_game_objects_001_specular.tga": {
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398"
+    },
+    "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga": {
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83"
+    },
+    "actors/slime_green_v2.bdae": {
+      "bytes": 27812,
+      "sha256": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1"
+    },
+    "actors/slime_idle.bdae": {
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472"
+    },
+    "textures/atlas_fx_particles_002.tga": {
+      "bytes": 524348,
+      "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18"
+    },
+    "actors/crypt_candles2_small.bdae": {
+      "bytes": 28448,
+      "sha256": "7e79edbbdde7b36d71876bc7f1250928096cffb90ed24bee3cced946b0c30fe4"
+    },
+    "textures/env_crypt_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    "actors/crypt_candlestand_big.bdae": {
+      "bytes": 33752,
+      "sha256": "89a313c943fb74445666ef373fea5bc091184ba849373daa84751b0ee1a44967"
+    },
+    "actors/crypt_candlestand.bdae": {
+      "bytes": 44268,
+      "sha256": "104c43a624272a223132b97808dc6c405d61ca94f97563fdefe33218d8af6bcf"
+    },
+    "actors/crypt_candle2.bdae": {
+      "bytes": 24532,
+      "sha256": "3cb10850b6acbafae8c296daa4bf466dcd95debd878cb0cf324a180eb8a9e502"
+    },
+    "actors/crypt_candle1_small.bdae": {
+      "bytes": 24772,
+      "sha256": "72455d1133489b8fb4c3c3f0365f02d3dee9c19df7f7ba231ef8a05099ead00e"
+    },
+    "actors/crypt_candles.bdae": {
+      "bytes": 31880,
+      "sha256": "0b0b0a5b001bc2fa5991207cf11eb3b03a84a73a6bbc1aa6e1b2e972b1bbb409"
+    },
+    "actors/swamp_caveentrance_effect.bdae": {
+      "bytes": 18208,
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    "textures/atlas_fx_particles_001.tga": {
+      "bytes": 131132,
+      "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b"
+    },
+    "textures/fx_magic_lenz_flares_008.tga": {
+      "bytes": 8252,
+      "sha256": "3b3153829a922c4328099b031c57d09d823daad52775cc2901fe5f7c105e90cc"
+    },
+    "textures/fx_spark_01.tga": {
+      "bytes": 2108,
+      "sha256": "bf4eccee918a7d440760b93b1f18666b5e3de62c147784bec7dbb3bca7a7d720"
+    },
+    "actors/crypt_candle_big.bdae": {
+      "bytes": 24668,
+      "sha256": "eca0dc98fbdf0f77c4ce00877546c5c153cf93c78745778cbfbfe0b02666e190"
+    },
+    "actors/crypt_candle1.bdae": {
+      "bytes": 24628,
+      "sha256": "d4ccf2aa24f9d6102ed0f7fad1a387a391536193dc422eec60ce4bcb0687e51d"
+    },
+    "actors/ghost.bdae": {
+      "bytes": 67104,
+      "sha256": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183"
+    },
+    "actors/ghost_idle_01.bdae": {
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895"
+    },
+    "worlds/crypt01.dwld": {
+      "bytes": 1048,
+      "sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+    },
+    "worlds/crypt01.dact": {
+      "bytes": 24336,
+      "sha256": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca"
+    },
+    "texture-provenance.json": {
+      "bytes": 5381,
+      "sha256": "fa58aabe2acfc31f07bcc386cdc442948deb217ca75c9b88de97c32c8625b190"
+    },
+    "actor-provenance.json": {
+      "bytes": 67099,
+      "sha256": "311703e439347808c5b37373bdb793a390d1d05d17feb8d750cc62e5f91d4117"
+    },
+    "worlds/crypt01-provenance.json": {
+      "bytes": 102896,
+      "sha256": "a38bbcfbde007bd328de9152ea1e5499a97903f472b36c9ccbac37f36de94126"
+    },
+    "data/animations_pyarray.bin": {
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    "data/animations_pyarraynames.bin": {
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+    },
+    "data/animations_pystructnames.bin": {
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    "data/animations_dictionary_pyarray.bin": {
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    "data/animations_dictionary_pyarraynames.bin": {
+      "bytes": 42616,
+      "sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3"
+    },
+    "actors/skeleton_idle_02.bdae": {
+      "bytes": 28632,
+      "sha256": "b468b9db81c8534e7b43691dcad66d6f57b3dd94feee4c684aa1885a14429349"
+    },
+    "actors/slime_idle_02.bdae": {
+      "bytes": 5728,
+      "sha256": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf"
+    },
+    "animation-provenance.json": {
+      "bytes": 11572,
+      "sha256": "e76052e803f4b4326415e1fd0d47811beade71a89ac8b5ec54b1e3f54a2e9f8b"
+    },
+    "actors/ghost_attack_01.bdae": {
+      "bytes": 8980,
+      "sha256": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a"
+    },
+    "actors/ghost_dying_01.bdae": {
+      "bytes": 11416,
+      "sha256": "10d0454f550b1aa90de4f22a2ffba2af585feb84b23d90fd62040c292e917327"
+    },
+    "actors/ghost_post_attack_01.bdae": {
+      "bytes": 8036,
+      "sha256": "7c0639fcfa028b2fc2595da67c2dfaaeecbbcbb3993ec3916d3586010f59c994"
+    },
+    "actors/ghost_pre_attack_01.bdae": {
+      "bytes": 7476,
+      "sha256": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0"
+    },
+    "actors/ghost_walk_01.bdae": {
+      "bytes": 39896,
+      "sha256": "bd381b8bdcd2e948620fcd90ca8bf5f4e54c156285584e4e130cd369933c3ddc"
+    },
+    "actors/skeleton_attack_01.bdae": {
+      "bytes": 11604,
+      "sha256": "65162e55af222d0231fb25027f5406e47d4a1b9e4b89864680cbca3ed738461a"
+    },
+    "actors/skeleton_attack_01_to_idle.bdae": {
+      "bytes": 16960,
+      "sha256": "8df25c9d89c7e3c343329fa6694661fa1968645f6176919312b5b64824a7ac17"
+    },
+    "actors/skeleton_attack_02.bdae": {
+      "bytes": 9824,
+      "sha256": "83276482fa53b376495a791792fb381eaa6f7cf9ce493cf7d5f39095ac222cb2"
+    },
+    "actors/skeleton_attack_02_to_idle.bdae": {
+      "bytes": 17120,
+      "sha256": "53bf12257a1df6411cd6e95c492cf6c0fbb50f557a17407f0a28176e3148b082"
+    },
+    "actors/skeleton_dying.bdae": {
+      "bytes": 12700,
+      "sha256": "4a66caf03f98ee89c008fda99372f8c8bdbd76f932f38ec79032031d0bc8af90"
+    },
+    "actors/skeleton_pre_attack_01.bdae": {
+      "bytes": 11004,
+      "sha256": "3c9c0f3f72c8ade5bca121ba172036f33b32bdc181a57ccc41cbff7012ca1d1e"
+    },
+    "actors/skeleton_pre_attack_02.bdae": {
+      "bytes": 11572,
+      "sha256": "97220c3139e1eee33616b4aee973d0272c156970a1c235ef41c608fe29608f0f"
+    },
+    "actors/skeleton_walk.bdae": {
+      "bytes": 18816,
+      "sha256": "0fcb603c72a725dbae62d4bc061ebf98ba9b0a504e40645f9ba09fe4fcc589b0"
+    },
+    "actors/slime_attack_01.bdae": {
+      "bytes": 3256,
+      "sha256": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0"
+    },
+    "actors/slime_attack_01_to_idle.bdae": {
+      "bytes": 4136,
+      "sha256": "19194ac919bcce58739a8df48b9448c251a09d0b598f7b597ee828361693843f"
+    },
+    "actors/slime_attack_02.bdae": {
+      "bytes": 3776,
+      "sha256": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1"
+    },
+    "actors/slime_attack_02_to_idle.bdae": {
+      "bytes": 4452,
+      "sha256": "86f01551aa577f5c86beac627914c288f5c3cacb05a08ef7d03dd3511c6f5238"
+    },
+    "actors/slime_dying.bdae": {
+      "bytes": 6992,
+      "sha256": "60057288188a3c56f4690e66529c7663ca67f7f05e9ff15d7d26bb6fa43321fc"
+    },
+    "actors/slime_pre_attack_01.bdae": {
+      "bytes": 3168,
+      "sha256": "eb07914aadac438e79cd901a05f0f90b2b7e08a6822494b08be68047dc8293ae"
+    },
+    "actors/slime_pre_attack_02.bdae": {
+      "bytes": 3252,
+      "sha256": "315a2f52e8cbcabc3899dd8763d1bfa36696ca23911f36a26c40ca4a52480a19"
+    },
+    "actors/slime_walk.bdae": {
+      "bytes": 5212,
+      "sha256": "966d248d406756d06f028570f79208ac3f047d0bb0c537103405b60694b80f05"
+    },
+    "actor-state-provenance.json": {
+      "bytes": 12618,
+      "sha256": "aa4f4b053e8536bf2a19181490a6e903ce952566e982b20d4bf7495c7e6d35f1"
+    },
+    "data/character_classes_pyarray.bin": {
+      "bytes": 34224,
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55"
+    },
+    "data/character_classes_pyarraynames.bin": {
+      "bytes": 6607,
+      "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"
+    },
+    "data/character_classes_pystructnames.bin": {
+      "bytes": 750,
+      "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+    },
+    "data/character_classes_pycst.bin": {
+      "bytes": 251,
+      "sha256": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84"
+    },
+    "class-provenance.json": {
+      "bytes": 1450,
+      "sha256": "dbd16c0372d611a5ed6806da326415204e934081d0446a8ba12e88e0349af9ec"
+    }
+  },
+  "original_input_count": 98,
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "classes_asan_ubsan": {
+    "classes": 260,
+    "formulas": 1659,
+    "serialized_bytes": 34224,
+    "native_roundtrip_matches_original": true,
+    "class_level_applications": 1040,
+    "character_row_applications": 448,
+    "mutations_and_truncations": 3000,
+    "rejected": 2347,
+    "recursive_failure_atomic": true,
+    "buff_fallthrough_and_early_return_verified": true,
+    "base_monster_level_one_max_hp_raw": 12160,
+    "base_monster_level_ten_max_hp_raw": 29440
+  },
+  "class_original_arm64_comparisons": {
+    "class_cases": 3120,
+    "original_character_cases": 448,
+    "buff_cases": 1560,
+    "arm64_library_sha256": "cdd44eb2e09cba865fffae9f04f9d6ba5104eb1ae46d8b04dd36ce58af960e12",
+    "report_sha256": "e52983dcccb39f401aac5c32e5312f9554185525cd890d0d87a66d19ec8a9293"
+  },
+  "actor_state_cases": 24,
+  "world_cases": 10,
+  "prior_completion_checkpoint_apk_sha256": "5ca9bbf873b5fef31efa0dbfa4db34176f374d7c5c6c15c09a2cefe87e77b5f3",
+  "cached_base_class_instances_verified": 11,
+  "dynamic_property_resolution_implemented": false,
+  "combat_or_ai_implemented": false,
+  "physical_arm64_tested": false,
+  "full_cache_bundled": false,
+  "full_game_playable": false,
+  "goal_status": "active"
+}

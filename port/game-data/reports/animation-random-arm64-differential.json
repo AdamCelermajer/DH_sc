@@ -1,0 +1,8 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "2777895111e02362df79f8f2d6e51e1c61ac56ce41dad4a789262d089a04cf4e",
+  "original_address": "0x3ca708",
+  "bit_exact_random_index_and_state_cases": 10000,
+  "zero_count_cases": 1670,
+  "scope": "original animation random helper only; imported unsigned division/remainder modeled; runtime RNG seed and full animation callbacks not reconstructed"
+}

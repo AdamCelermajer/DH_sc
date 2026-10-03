@@ -1,0 +1,12 @@
+{
+  "coordinator_cases": 128,
+  "validation_calls": 128,
+  "floor_queries": 240,
+  "registry_relocations": 112,
+  "mismatches": 0,
+  "validation_output_sha256": "d02e9a34ba7fe982b9305c6e07b382d4423d300f85abe592c539f971d2b35462",
+  "floor_source_sha256": "05fed3c646ac7e2f1e188cc5abbd2975db063cdbe7517c87709bf8c911581fe0",
+  "floor_library_sha256": "091c2f8b0bf414d86faf6ccb00de783e44f469da7c26618aba277598f7e04972",
+  "linked_reference_sha256": "19a3212ee52ab7544c08fc62e4d8f87d37514f57cc8ec9e3df48623ee9c1daaa",
+  "scope": "Callback bridge executes complete original and compiled ARM64 PF position validation, selectors and obstacle parent registry in independent instruction CPUs. Crypt authored floor geometry and PFObject initialization are attached; no supplied validity answers. Visual/root, transform, camera and auxiliary backends remain fixtures."
+}

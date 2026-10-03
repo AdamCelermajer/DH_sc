@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "global_block": {
+    "symbol": "_ZN12v2Controller9s_blockedE",
+    "address": "0x9a318b",
+    "got": "0x9980e8",
+    "file_byte": "00"
+  },
+  "inventory_virtual8": {
+    "table_symbol": "_ZTV13ItemInventory",
+    "table_address": "0x967760",
+    "runtime_vtable": "0x967768",
+    "method": "0x400014",
+    "symbols": [
+      "_ZNK13ItemInventory14CanRangeAttackEv"
+    ]
+  },
+  "semantic_corrections": {
+    "pre_attack_predicate": "AI_CanAttack(GameObject*) const at 0x3d67f4, null means current target, returns capability predicate",
+    "inventory_owner_offset": "ItemInventory embedded at Character+0x37c; CanMeleeAttack0x3ffd38, not EquipSet bool"
+  },
+  "existing_note_to_correct": "port/level-world/reference/character-animation-ai/NOTES.md:99-100"
+}

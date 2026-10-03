@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "091c2f8b0bf414d86faf6ccb00de783e44f469da7c26618aba277598f7e04972",
+  "corpus_sha256": "7e93b56c15c73ec6e171b47cc8619e6c4f3dc72c4e0a38a633999952d926e6cb",
+  "comparisons": 640,
+  "ordered_callbacks": 1212,
+  "root_restart_requests": 312,
+  "mismatches": 0,
+  "seconds": 2.969,
+  "scope": "Actual full BlendedPlayClip control flow after fixture animator resolution/selection, actual GetApplicator/GetLoop/Jump/Scale/NewAnim control flow. Root Enable/reset backend observed; root onAnimate optionally executes actual timeline update. Existing authored selection/refcounts/blend weights remain external."
+}

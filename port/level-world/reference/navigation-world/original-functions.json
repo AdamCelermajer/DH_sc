@@ -1,0 +1,263 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZSt11__push_heapIPN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEiS7_NS6_6_ECompEEvT_T0_SB_T1_T2_.clone.15",
+      "elf_address": "0x529398",
+      "size": 164,
+      "sha256": "7b59934b8b33147c26df38e14475d90d2cbd8ded9e23df34d1e2774cc30ccba4"
+    },
+    {
+      "original_symbol": "_ZNSaINSt4priv13_Rb_tree_nodeISt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEEEEE8allocateEjPKv.clone.18",
+      "elf_address": "0x529734",
+      "size": 32,
+      "sha256": "fe88f107554aa08e10c6200f99c5d26708f43edb805de4600f43f7cd0249a40d"
+    },
+    {
+      "original_symbol": "_ZNSaINSt4priv10_List_nodeIPK12PFGInnerEdgeEEE8allocateEjPKv.clone.5",
+      "elf_address": "0x52aa84",
+      "size": 32,
+      "sha256": "0fb9f69a5df68ec75e0f49845819014b3c0b4715d9cf0e6683075c7a619f1798"
+    },
+    {
+      "original_symbol": "_ZNSt4listIPK12PFGInnerEdgeSaIS2_EE6resizeEjRKS2_.clone.3",
+      "elf_address": "0x52aaa4",
+      "size": 64,
+      "sha256": "d35c1609053c4c985a6b49fbf486caef50b2ad43f693a5cd3e0231b6c5c08885"
+    },
+    {
+      "original_symbol": "_ZNK3sfc4math5graph4EdgeI12PFGInnerNodefE9getToNodeEv",
+      "elf_address": "0x51bc50",
+      "size": 8,
+      "sha256": "fdc1710f100ccf2b13937a27e7f23ccda5a1973826c8d8f3b7db09e6988fe8a4"
+    },
+    {
+      "original_symbol": "_ZNK12PFGInnerEdge9GetSourceEv",
+      "elf_address": "0x51b844",
+      "size": 24,
+      "sha256": "863f2c0e18c9882ed8baa6e6d8d27f894484c18a2826b0feb35773f174bf72ef"
+    },
+    {
+      "original_symbol": "_ZNK3sfc4math5graph4NodeIjE7isValidEv",
+      "elf_address": "0x51c0fc",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZNK3sfc4math5graph11GraphSparseI12PFGInnerEdgeE8getEdgesEjRSt4listIPKS3_SaIS7_EE",
+      "elf_address": "0x52ac30",
+      "size": 284,
+      "sha256": "888529c47f94edb16c4c0bcde927d0144b0de78fc77a65d1bacd04f1d7bb2bdd"
+    },
+    {
+      "original_symbol": "_ZN7PFFloor10_GetNodeAtERK7Point3DIfE",
+      "elf_address": "0x51c0dc",
+      "size": 32,
+      "sha256": "dedb96e22e5b3614ccdf7451df762328923096562049bb664d4cc6150f157344"
+    },
+    {
+      "original_symbol": "_ZSt10__pop_heapIPN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeES7_NS6_6_ECompEiEvT_SA_SA_T0_T1_PT2_",
+      "elf_address": "0x52943c",
+      "size": 336,
+      "sha256": "3e35570626d3cfd144b9083c61dbc1141d317f2ba5c8948f37a498ad2613fbc1"
+    },
+    {
+      "original_symbol": "_ZN7PFFloor14GetCollisionAtERK7Point3DIfERS1_RN6glitch4core10triangle3dIfEE",
+      "elf_address": "0x51b96c",
+      "size": 368,
+      "sha256": "314b1d97ab775b5d7102d95fa083be6a829fbfeca3ffbb194cb1a1e61069edae"
+    },
+    {
+      "original_symbol": "_ZNK8PFObject9CanPathOnEP7PFFloor",
+      "elf_address": "0x524230",
+      "size": 52,
+      "sha256": "7b56d35f586c96e12444eaab7b9d43a873a70fca40225a6fcbcbe62ce8dbb75c"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeI7CompPosSt4lessIS1_ESt4pairIKS1_P12PFGInnerNodeENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE7_M_findI7Point3DIfEEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x51bf28",
+      "size": 404,
+      "sha256": "20fc47949a57512bf6514d02a4bf84ed69b97568a125654740bc223fc2873efe"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+      "elf_address": "0x52a06c",
+      "size": 56,
+      "sha256": "0e4b41d7d4811ed03eab4497506006d1df1b87fd4bccad0449f1e6b0069283dc"
+    },
+    {
+      "original_symbol": "_ZNK3sfc4math5graph4EdgeI12PFGInnerNodefE11getFromNodeEv",
+      "elf_address": "0x51bc48",
+      "size": 8,
+      "sha256": "68a639b2dffac301817461b8b1e1e2fbca60e4b4db136a34b582411c8b7d17ba"
+    },
+    {
+      "original_symbol": "_ZNSt4priv10_Rb_globalIbE10_RebalanceEPNS_18_Rb_tree_node_baseERS3_",
+      "elf_address": "0x313760",
+      "size": 564,
+      "sha256": "0a1bb9bda722f66a440cb9a9f791fc0e2d907fcc703e68ceede36de19e054a32"
+    },
+    {
+      "original_symbol": "_ZNK24PFInnerTest_PathValidity7isValidEPK12PFGInnerEdge",
+      "elf_address": "0x52503c",
+      "size": 24,
+      "sha256": "e5b12b14082da539ea3383730535c453133d45e7997a76c237df844bc56be267"
+    },
+    {
+      "original_symbol": "_ZN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicED1Ev",
+      "elf_address": "0x529f8c",
+      "size": 52,
+      "sha256": "8836502996654cc38f8565204de74385dcb415ef67cc1bb462b58f759bccafd8"
+    },
+    {
+      "original_symbol": "_ZN7PFWorld12_SearchGraphEPK8PFObjectRK7Point3DIfES6_jPSt4listIPK12PFGInnerEdgeSaISA_EE",
+      "elf_address": "0x52b560",
+      "size": 3572,
+      "sha256": "9e90977066fb9c49ff3e93c5a2591b15e496589c4e27483add6c3650d2b33262"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeESaIS7_EED1Ev",
+      "elf_address": "0x52a640",
+      "size": 92,
+      "sha256": "d8afa18e1998d4c3a4f22da2ecb9cd085d65a24c1fa5fadf21b8d1ceba7ed771"
+    },
+    {
+      "original_symbol": "_ZNK24PFInnerTest_PathValidity7isValidEPK12PFGInnerNode",
+      "elf_address": "0x525054",
+      "size": 44,
+      "sha256": "9d4979982393e52b0a4b979a1cbd998972bbf62784f1e8b435d7c98ffa85e87a"
+    },
+    {
+      "original_symbol": "_ZN6PFRoom14GetCollisionAtERK7Point3DIfERS1_RN6glitch4core10triangle3dIfEEPP7PFFloorb",
+      "elf_address": "0x52113c",
+      "size": 420,
+      "sha256": "f18d042f85544e531e065862d4ebc0a57413295ad67faf8a9c2d7066ec5f976c"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE13insert_uniqueENS_17_Rb_tree_iteratorISD_SH_EERKSD_",
+      "elf_address": "0x529a30",
+      "size": 884,
+      "sha256": "08a752174092790ff061ec8f7c70004cc7a62be30bd40257cbfc8170ab5313fe"
+    },
+    {
+      "original_symbol": "_ZNK8PFObject8IsFlyingEv",
+      "elf_address": "0x5241e8",
+      "size": 12,
+      "sha256": "644af3e6949e0247ceeb270bc2b2dc8ac09b71bf844adb21f8b06211f4b7e17f"
+    },
+    {
+      "original_symbol": "_ZNK3sfc4math5graph4EdgeI12PFGInnerNodefE7isValidEv",
+      "elf_address": "0x51c10c",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZSt15__push_heap_auxIPN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeENS6_6_ECompEiS7_EvT_SA_T0_PT1_PT2_",
+      "elf_address": "0x52958c",
+      "size": 88,
+      "sha256": "219812af6687bce7337d3e0a98370a5d0a4d6b5e9e1d7a7b93f5169a5c790813"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE13insert_uniqueERKSD_",
+      "elf_address": "0x5298a8",
+      "size": 392,
+      "sha256": "4a197440c5abb259234e1a4dc146e361341faeb09d8b5a9e9588411cbd35d233"
+    },
+    {
+      "original_symbol": "_ZNK20PFInnerTest_PFObject7isValidEPK12PFGInnerNode",
+      "elf_address": "0x52510c",
+      "size": 44,
+      "sha256": "d7605d492e59c92b9b432dd06f785c5f83013893207a39e10843038ce769860a"
+    },
+    {
+      "original_symbol": "_ZNSaIN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEE11_M_allocateEjRj",
+      "elf_address": "0x52a0a4",
+      "size": 136,
+      "sha256": "08a64ae2b52dfb5172767d5fee47e92b558e759732eebc5b41e66c796d4f575c"
+    },
+    {
+      "original_symbol": "_ZNSt14priority_queueIN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeESt6vectorIS7_SaIS7_EENS6_6_ECompEE4pushERKS7_",
+      "elf_address": "0x52a890",
+      "size": 500,
+      "sha256": "aad364ba8be45eeed5ec5c912df8c4f501bc9b8031d1989a3b379a62c1ec212c"
+    },
+    {
+      "original_symbol": "_ZNK25PFInnerTest_BasicIdentityclEPK12PFGInnerNode",
+      "elf_address": "0x525028",
+      "size": 20,
+      "sha256": "1be44681f3d16b5ca0f9216dbf23b2b880d4990e3342231aefb73d312972db3d"
+    },
+    {
+      "original_symbol": "_ZN7PFWorld14GetCollisionAtERK7Point3DIfERS1_RN6glitch4core10triangle3dIfEEPP6PFRoomPP7PFFloorb",
+      "elf_address": "0x5256d4",
+      "size": 300,
+      "sha256": "e35584bfe566e0dbcafe36b02f5d478310d131f1abc4984701c5bae9255f36b9"
+    },
+    {
+      "original_symbol": "_ZNK3sfc4math5graph4EdgeI12PFGInnerNodefE9getWeightEv",
+      "elf_address": "0x51c104",
+      "size": 8,
+      "sha256": "687b83fbb1b1084c4b61325547b5f8fadfb354f0d8aa39fcef5ecb6ba6b86ed1"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeI7CompPosSt4lessIS1_ESt4pairIKS1_P12PFGInnerNodeENS_10_Select1stIS8_EENS_11_MapTraitsTIS8_EESaIS8_EE7_M_findIS1_EEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x51bc78",
+      "size": 408,
+      "sha256": "71ed9822bb65803fd52464c727c4a0f0574d44e7ac007de2defe7b0d51607086"
+    },
+    {
+      "original_symbol": "_ZNK3sfc4math5graph5ITestI12PFGInnerEdge12PFGInnerNodeE7isValidEPKS3_",
+      "elf_address": "0x5250bc",
+      "size": 24,
+      "sha256": "e5b12b14082da539ea3383730535c453133d45e7997a76c237df844bc56be267"
+    },
+    {
+      "original_symbol": "_ZNK12PFGInnerEdge14GetDestinationEv",
+      "elf_address": "0x51b85c",
+      "size": 24,
+      "sha256": "0ab046d2e868b3170bc78aa26efde786bfa54d2e7a9437ed6490f7120783c2ff"
+    },
+    {
+      "original_symbol": "_ZN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE8findNodeEjRKNS1_5ITestI12PFGInnerEdge12PFGInnerNodeEEjPSt4listIPKS7_SaISE_EE",
+      "elf_address": "0x52ad4c",
+      "size": 2068,
+      "sha256": "ef28239a6560a4cac27c77b374add376c6d0a321c6a47926cef31cca2644332e"
+    },
+    {
+      "original_symbol": "_ZN15SearchFailCache3addERNS_5EntryE",
+      "elf_address": "0x52a504",
+      "size": 224,
+      "sha256": "72dab119d44b1136717f52e4718414b3f07c6d92155d7f8108f92d3575d8c3ad"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE7_InEdgeEENS_10_Select1stISD_EENS_11_MapTraitsTISD_EESaISD_EE9_M_insertEPNS_18_Rb_tree_node_baseERKSD_SL_SL_",
+      "elf_address": "0x529754",
+      "size": 340,
+      "sha256": "88b8493e3ed893b3d0353d739468710557a403668c1ad466f3bf8b1970bf4e59"
+    },
+    {
+      "original_symbol": "_ZN3sfc4math5graph9AlgoAStarI13PFGInnerGraph21DiabloIPhoneHeuristicE9_markNodeERSt3mapIjNS5_7_InEdgeESt4lessIjESaISt4pairIKjS7_EEERS7_",
+      "elf_address": "0x529da4",
+      "size": 368,
+      "sha256": "bb57a4ff36c404a8717c7353a366403635d6681bbb2ab67ef40bb54224680c03"
+    },
+    {
+      "original_symbol": "_ZNK3sfc4math5graph5ITestI12PFGInnerEdge12PFGInnerNodeE7isValidEPKS4_",
+      "elf_address": "0x5250d4",
+      "size": 24,
+      "sha256": "87a7a84c19047e65660c3b97b08c5c55b84e9de200ae4476610a1e1316ced66a"
+    },
+    {
+      "original_symbol": "_ZNSt4priv10_List_baseIPK12PFGInnerEdgeSaIS3_EE5clearEv",
+      "elf_address": "0x529f4c",
+      "size": 64,
+      "sha256": "04e277ab206526aaea6eb037738e45b1586f4d15ddd21721ed43ff899db9e269"
+    },
+    {
+      "original_symbol": "_ZNK20PFInnerTest_PFObject7isValidEPK12PFGInnerEdge",
+      "elf_address": "0x525080",
+      "size": 60,
+      "sha256": "3971fc80abe8dd1ba3fd3186247b8dedb07d50c66195bd40dc1adebfd758d9e6"
+    }
+  ]
+}

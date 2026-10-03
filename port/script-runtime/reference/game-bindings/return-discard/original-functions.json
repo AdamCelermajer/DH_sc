@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsERNS4_12ReturnValuesE",
+      "elf_address": "0x37c390",
+      "size": 140,
+      "sha256": "ab961745cf32b5f2b83a51978a8feb7580351248a57f24f262ed49da6959df8c"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsE",
+      "elf_address": "0x37c41c",
+      "size": 120,
+      "sha256": "e9a24628fc5e1790fd128bed17d3e6d82744c40691fc3e2e17ef67262e1ac031"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues13_addFromStackEP9lua_Statei",
+      "elf_address": "0x31b4ac",
+      "size": 208,
+      "sha256": "cb18a2a8b2c67a16249e653c549dece004a75026fa10489df1550d09fe7dd6c9"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance5pCallERKNS1_9ArgumentsERNS1_12ReturnValuesE",
+      "elf_address": "0x31ab4c",
+      "size": 156,
+      "sha256": "549fe70dcf05602b5bd0ea19b52a93aa5b11106dd585283f5ecb4dd572009723"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance6pCall_EjRNS1_12ReturnValuesE",
+      "elf_address": "0x31aa78",
+      "size": 156,
+      "sha256": "1d013d99872b06106c398ff099c6c84008b24e2e83637a20952eb14816f098ea"
+    }
+  ]
+}

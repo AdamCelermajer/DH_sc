@@ -1,0 +1,232 @@
+{
+  "validation": "PASS",
+  "original_instruction_evidence": {
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "arm64_sha256": "05d0ac905d14080f3b1b8b9d6b2e583ce9a35e5bd88706c53abc00396e8c99ec",
+    "corpus_sha256": "445525fb12514e69b7ca872bc9fa8a5a2ab9616e494cd3b3e940685c99e35627",
+    "handoff_comparisons": 400,
+    "event_manager_comparisons": 1300,
+    "authored_events_compared": 216,
+    "swap_instruction_fixtures": 144,
+    "authored_tracks": [
+      {
+        "id": 955,
+        "file": "prince_1hand_combo_01.bdae",
+        "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa",
+        "keys": [
+          9
+        ],
+        "names": [
+          [
+            "attack_mainhand"
+          ]
+        ]
+      },
+      {
+        "id": 956,
+        "file": "prince_1hand_combo_01_moving.bdae",
+        "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238",
+        "keys": [
+          10
+        ],
+        "names": [
+          [
+            "attack_mainhand"
+          ]
+        ]
+      },
+      {
+        "id": 957,
+        "file": "prince_1hand_combo_01_to_idle.bdae",
+        "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624",
+        "keys": [],
+        "names": []
+      },
+      {
+        "id": 958,
+        "file": "prince_1hand_combo_02.bdae",
+        "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0",
+        "keys": [
+          27
+        ],
+        "names": [
+          [
+            "attack_mainhand"
+          ]
+        ]
+      },
+      {
+        "id": 959,
+        "file": "prince_1hand_combo_02_moving.bdae",
+        "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01",
+        "keys": [
+          27
+        ],
+        "names": [
+          [
+            "attack_mainhand"
+          ]
+        ]
+      },
+      {
+        "id": 960,
+        "file": "prince_1hand_combo_02_to_idle.bdae",
+        "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091",
+        "keys": [],
+        "names": []
+      },
+      {
+        "id": 961,
+        "file": "prince_1hand_combo_03.bdae",
+        "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003",
+        "keys": [
+          45
+        ],
+        "names": [
+          [
+            "attack_mainhand"
+          ]
+        ]
+      },
+      {
+        "id": 962,
+        "file": "prince_1hand_combo_03_moving.bdae",
+        "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1",
+        "keys": [
+          46
+        ],
+        "names": [
+          [
+            "attack_mainhand"
+          ]
+        ]
+      },
+      {
+        "id": 963,
+        "file": "prince_1hand_combo_03_to_idle.bdae",
+        "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260",
+        "keys": [],
+        "names": []
+      },
+      {
+        "id": 967,
+        "file": "prince_1hand_pre_combo_01.bdae",
+        "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32",
+        "keys": [],
+        "names": []
+      },
+      {
+        "id": 969,
+        "file": "prince_1hand_pre_combo_02.bdae",
+        "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4",
+        "keys": [],
+        "names": []
+      },
+      {
+        "id": 971,
+        "file": "prince_1hand_pre_combo_03.bdae",
+        "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058",
+        "keys": [],
+        "names": []
+      },
+      {
+        "id": 1023,
+        "file": "prince_dying_01.bdae",
+        "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a",
+        "keys": [],
+        "names": []
+      }
+    ],
+    "mismatches": 0,
+    "scope": "Actual original EventManager and Char callback vs ARM64 event/handoff kernels; actual original ANIM_Swap metadata and explicit ANIM_Set/SetSpeed service boundary. Host composition separately validates phase/reentry/root behavior.",
+    "original_scene_callback_order": [
+      [
+        40,
+        234,
+        "first",
+        600,
+        2
+      ],
+      [
+        40,
+        234,
+        "second",
+        600,
+        2
+      ],
+      [
+        40,
+        134,
+        "third",
+        600,
+        2
+      ]
+    ],
+    "original_closure_trace": [
+      [
+        39,
+        0,
+        0,
+        1
+      ],
+      [
+        37,
+        0,
+        0,
+        1
+      ],
+      [
+        34,
+        0,
+        1,
+        1
+      ],
+      [
+        39,
+        0,
+        1,
+        1
+      ],
+      [
+        37,
+        0,
+        1,
+        1
+      ]
+    ],
+    "retained_manager_batch_callbacks": 3,
+    "finite_closure_repeated_updates": 2
+  },
+  "host_audit": {
+    "original_event_windows": 1300,
+    "original_lag_cases": 400,
+    "original_swap_cases": 144,
+    "original_callbacks": 216,
+    "scene_phase_frames": 4000,
+    "root_samples": 4000,
+    "authored_callbacks": 35,
+    "sequence_closures": 8,
+    "replay_callbacks": 4,
+    "synchronous_transitions": 4,
+    "terminal_pose_frames": 2738,
+    "metadata_swaps": 2,
+    "retained_batch_callbacks": 3,
+    "overshoot_replays": 2,
+    "rejection_checks": 2,
+    "mismatches": 0
+  },
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "source_sha256": {
+    "port/level-world/actor_playback.hpp": "a6dab849421a916bb34856a182fe98da57cf3829199423b6bff47eaaf9ac68f4",
+    "port/level-world/actor_playback.cpp": "64d4ccdf7efe30c644d1bb0982a98fda78582d25fd5fc0c2e9d908d10faa9c29",
+    "port/game-data/animation_scheduler.hpp": "8339d8aa0f2a3f6ae9a9ee44aba057368dc62b7714ab26d34326fb94524c3848",
+    "port/game-data/animation_scheduler.cpp": "985671885862d67ce04d0d5e14c73c4548fb17eff60cc71f4e7a80b31036dd76",
+    "port/level-world/tests/actor_playback_events.cpp": "09c29e36af26d332c5d0681abbbc7284c7729399e3f2d097caca848c7d064c41"
+  },
+  "executable_sha256": "bd7bad415cb65be3494d869677bd734d40dad241b33df8d89eaa8fd920d38e73",
+  "scope": "Actual original event/handoff/swap routines and animator retained-manager/finite-closure probes; native authored single-clip scene/replay/root composition on real Prince. Synthetic retained-track and source timeline-loop fixtures labeled separately. No full blended pose, AI/FSM/App or emulator claim."
+}

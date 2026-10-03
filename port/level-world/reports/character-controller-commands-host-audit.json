@@ -1,0 +1,86 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "original_corpus_cases": 2456,
+    "ordered_service_requests": 2329,
+    "native_guards": 10,
+    "service_failure_prefix_checks": 8,
+    "identities_above_4gib": true,
+    "mismatches": 0
+  },
+  "source_sha256": {
+    "port/level-world/character_controller_commands.hpp": "ad23b308d6219c6a98c4588fc6915026edcb862a8afdd71a61674f2dbefd39c5",
+    "port/level-world/character_controller_commands.cpp": "68cb770d894bb2504947678701a03173a6a6cb693ac47df080b18723c96bb342",
+    "port/level-world/tests/character_controller_commands.cpp": "0fe60b6f499378432886b8244c01c677c4965563855eef47106300debbe8cac6",
+    "port/level-world/tests/character_controller_commands_differential.py": "7bfd7521e18585d882ceb1daef64ca3bc5ff1f4e15e64f437564c774714544fb",
+    "port/level-world/tests/character_controller_commands_host.py": "aba8cb502eb972225f66122c62938ca12fd8dc0cc55a27f3d465ed4088e88db6",
+    "port/level-world/CMakeLists.txt": "a1479b37d7fcfa4b18744c93e5d733d99f2fe53655a92f8c59c8bc7eff197770"
+  },
+  "binary_sha256": {
+    "/home/adampalace/dh2-world-build/character_controller_commands_audit": "73f9b9a0d88f1671701a6b7763e874bfe581d0370e7a28bf5a78f7f3a09c51e0",
+    "/home/adampalace/dh2-world-build/libdh2_level_world.so": "bbc8df6167143384161ae27c95b48eeb2228ee44457a1cd91136b4c19673367e"
+  },
+  "linked_dependencies": "linux-vdso.so.1 (0x00007d2241281000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007d2240a00000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x00007d223f800000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x00007d224116d000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x00007d223f400000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x00007d223f26b000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x00007d223ec00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007d223e800000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007d223eada000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007d223e000000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007d224113b000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007d223dc00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007d2241283000)",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_corpus_sha256": "4c7c5e93bd3011fc02322b7979d6b135cd8acc30e0d71129f1cdc179f2db0b24",
+  "project_arm64_instruction_report_sha256": "474d55e8f7d20438234aa39d0a892004eed87a5f387b593faf079c094615207a",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "commands": [
+    {
+      "arguments": [
+        "cmake",
+        "-LA",
+        "-N",
+        "/home/adampalace/dh2-world-build"
+      ],
+      "exit_code": 0,
+      "stdout": "-- Cache values\nCMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line\nCMAKE_AR:FILEPATH=/usr/bin/ar\nCMAKE_BUILD_TYPE:STRING=Debug\nCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++\nCMAKE_CXX_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar-15\nCMAKE_CXX_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib-15\nCMAKE_CXX_FLAGS:STRING=-fsanitize=address,undefined -fno-omit-frame-pointer\nCMAKE_CXX_FLAGS_DEBUG:STRING=-g\nCMAKE_CXX_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG\nCMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG\nCMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG\nCMAKE_DLLTOOL:FILEPATH=CMAKE_DLLTOOL-NOTFOUND\nCMAKE_EXE_LINKER_FLAGS:STRING=-fsanitize=address,undefined\nCMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_EXPORT_BUILD_DATABASE:BOOL=\nCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=\nCMAKE_INSTALL_PREFIX:PATH=/usr/local\nCMAKE_LINKER:FILEPATH=/usr/bin/ld\nCMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/ninja\nCMAKE_MODULE_LINKER_FLAGS:STRING=\nCMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_NM:FILEPATH=/usr/bin/nm\nCMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy\nCMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump\nCMAKE_RANLIB:FILEPATH=/usr/bin/ranlib\nCMAKE_READELF:FILEPATH=/usr/bin/readelf\nCMAKE_SHARED_LINKER_FLAGS:STRING=-fsanitize=address,undefined\nCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_SKIP_INSTALL_RPATH:BOOL=NO\nCMAKE_SKIP_RPATH:BOOL=NO\nCMAKE_STATIC_LINKER_FLAGS:STRING=\nCMAKE_STATIC_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_STATIC_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_STRIP:FILEPATH=/usr/bin/strip\nCMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND\nCMAKE_VERBOSE_MAKEFILE:BOOL=FALSE\nDH2_PHYSICS_BACKEND_BUILD_TESTS:BOOL=OFF\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/home/adampalace/dh2-world-build/character_controller_commands_audit"
+      ],
+      "exit_code": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007d2241281000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007d2240a00000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x00007d223f800000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x00007d224116d000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x00007d223f400000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x00007d223f26b000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x00007d223ec00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007d223e800000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007d223eada000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007d223e000000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007d224113b000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007d223dc00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007d2241283000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-world-build/character_controller_commands_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-controller-commands/original-corpus.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"original_corpus_cases\":2456,\"ordered_service_requests\":2329,\"native_guards\":10,\"service_failure_prefix_checks\":8,\"identities_above_4gib\":true,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/character_controller_commands_audit"
+      ],
+      "exit_code": 0,
+      "stdout": "73f9b9a0d88f1671701a6b7763e874bfe581d0370e7a28bf5a78f7f3a09c51e0  /home/adampalace/dh2-world-build/character_controller_commands_audit\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+      ],
+      "exit_code": 0,
+      "stdout": "bbc8df6167143384161ae27c95b48eeb2228ee44457a1cd91136b4c19673367e  /home/adampalace/dh2-world-build/libdh2_level_world.so\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "Actual world shared library replays original controller/Character command corpus. Deeper GameObject Stop/PathTo/LookAt(Point) and Character events remain synchronous fixtures; no live renderer or complete gameplay claim."
+}

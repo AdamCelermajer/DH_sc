@@ -1,0 +1,25 @@
+{
+  "validation": "PASS",
+  "comparisons": 9393,
+  "operation_counts": [
+    1323,
+    1999,
+    1687,
+    2192,
+    2192
+  ],
+  "mismatches": 0,
+  "nan_classification_equivalence": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "632512a039ec76575b9bea8e29067fc977875a6571c8208cd19ef6a24686a5d7",
+  "corpus_sha256": "3581a263af072b0f5edf807b452b24e72509c9a46f9cd7b99813ba6fa1e4de61",
+  "item_corpus_sha256": "5aa7b428b2031dd88c1b533e47e06bada2b372c92211240bbd64d88a73119db9",
+  "ai_asset_sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+  "script_sha256": "cb9fd435ed8755d53f2f029bd7482fe0969b41e9975a79a4dac3cd8a27c78f89",
+  "source_sha256": {
+    "character_attack_geometry.hpp": "7dc77693466a6e547ff3948648ad58c0c79c3e210e3585528f708b617113acf2",
+    "character_attack_geometry.cpp": "ea1f629b88bdd223253e51a6a344f01c87b257b18791169eae1cb92e9f413dd0"
+  },
+  "scope": "Actual equipment/AI radius/ranged parameter and geometric bodies vs optimized ARM64.",
+  "geometry_handle_radius_parameter_services_explicit": true
+}

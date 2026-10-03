@@ -1,0 +1,7 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "literal_word": "0x3dcccc",
+  "add_pc_instruction": "0x3dccb0",
+  "string_address": "0x8c59a8",
+  "function_name": "OnTimer"
+}

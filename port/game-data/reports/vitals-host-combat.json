@@ -1,0 +1,13 @@
+{
+  "uncached_original_character_owner_states": 448,
+  "two_pass_spawn_original_owner_states": 448,
+  "properties_compared_per_owner": 896,
+  "crypt_hp_raw": 12160,
+  "crypt_mp_raw": 5632,
+  "crypt_first_hp_add_raw": 12160,
+  "crypt_second_hp_add_raw": 1,
+  "positive_and_fill_regen_verified": true,
+  "saved_level_influences_uncached_class": true,
+  "recursive_failure_atomic": true,
+  "invalid_view_atomic": true
+}

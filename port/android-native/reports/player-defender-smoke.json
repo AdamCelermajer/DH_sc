@@ -1,0 +1,2047 @@
+{
+  "apk_sha256": "c47cb9553284981b3d33993ba6e4cdbea825407262930307f80f2af99e9cd18a",
+  "installed_apk_sha256": "c47cb9553284981b3d33993ba6e4cdbea825407262930307f80f2af99e9cd18a",
+  "original_report_sha256": "6fc5587608f4b0ecac7e6924464e6f1e4f0b2dc02a626c5a563e50b4d02cad98",
+  "original_reference_sha256": "ceee9019b4d7b1b8de2fee19566c2611f28902565ef05ce69cde728a23a619b4",
+  "pairs": [
+    {
+      "attacker_index": 0,
+      "attacker": "Crypt_Skeleton",
+      "defender": "KnightPlayerBase",
+      "attacks": [
+        {
+          "attempt": 1,
+          "result": [
+            2015,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 42265,
+          "hp_after": 40250,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            9988867,
+            9
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "03a8429b254d7f42"
+        },
+        {
+          "attempt": 2,
+          "result": [
+            1193,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            4,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 40250,
+          "hp_after": 39057,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            11996333,
+            18
+          ],
+          "status_requests": 4,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "00613de18bf3dad9"
+        },
+        {
+          "attempt": 3,
+          "result": [
+            2040,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 39057,
+          "hp_after": 37017,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            9007020,
+            27
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "e582bad52f3af4e9"
+        },
+        {
+          "attempt": 4,
+          "result": [
+            2218,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 37017,
+          "hp_after": 34799,
+          "dead": 0,
+          "combo": 4,
+          "random_after": [
+            407936,
+            36
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "381d345a9a92e78e"
+        },
+        {
+          "attempt": 5,
+          "result": [
+            2163,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 34799,
+          "hp_after": 32636,
+          "dead": 0,
+          "combo": 5,
+          "random_after": [
+            12280425,
+            45
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "c3b8f407940102c5"
+        },
+        {
+          "attempt": 6,
+          "result": [
+            1987,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 32636,
+          "hp_after": 30649,
+          "dead": 0,
+          "combo": 6,
+          "random_after": [
+            13297027,
+            54
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "8d6bb19de9727e84"
+        },
+        {
+          "attempt": 7,
+          "result": [
+            2131,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 30649,
+          "hp_after": 28518,
+          "dead": 0,
+          "combo": 7,
+          "random_after": [
+            10548042,
+            63
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "c3778ddeec864f1b"
+        },
+        {
+          "attempt": 8,
+          "result": [
+            2167,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 28518,
+          "hp_after": 26351,
+          "dead": 0,
+          "combo": 8,
+          "random_after": [
+            11339093,
+            72
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "bcaa0977ef2e1559"
+        },
+        {
+          "attempt": 9,
+          "result": [
+            2158,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 26351,
+          "hp_after": 24193,
+          "dead": 0,
+          "combo": 9,
+          "random_after": [
+            6410582,
+            81
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "6d53dd8156ef419f"
+        },
+        {
+          "attempt": 10,
+          "result": [
+            -1,
+            -1,
+            -1,
+            -1,
+            0,
+            0,
+            3,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 24193,
+          "hp_after": 24193,
+          "dead": 0,
+          "combo": 0,
+          "random_after": [
+            3365546,
+            83
+          ],
+          "status_requests": 2,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "e2c3a78bf00b2d74"
+        },
+        {
+          "attempt": 11,
+          "result": [
+            1957,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 24193,
+          "hp_after": 22236,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            394163,
+            92
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "ee318665b9eb23fd"
+        },
+        {
+          "attempt": 12,
+          "result": [
+            2145,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 22236,
+          "hp_after": 20091,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            4854437,
+            101
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 1,
+          "resolved_checksum": "1705e9b7197699b2"
+        },
+        {
+          "attempt": 13,
+          "result": [
+            2234,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 20091,
+          "hp_after": 17857,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            2273734,
+            110
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "932fdac8cf24c965"
+        },
+        {
+          "attempt": 14,
+          "result": [
+            2046,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 17857,
+          "hp_after": 15811,
+          "dead": 0,
+          "combo": 4,
+          "random_after": [
+            11627791,
+            119
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "11427dc46a0d1557"
+        },
+        {
+          "attempt": 15,
+          "result": [
+            2200,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 15811,
+          "hp_after": 13611,
+          "dead": 0,
+          "combo": 5,
+          "random_after": [
+            11136446,
+            128
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "b17727a6ae192817"
+        },
+        {
+          "attempt": 16,
+          "result": [
+            2405,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 13611,
+          "hp_after": 11206,
+          "dead": 0,
+          "combo": 6,
+          "random_after": [
+            5247671,
+            137
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "b1bb9c9c37bc0344"
+        },
+        {
+          "attempt": 17,
+          "result": [
+            2406,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 11206,
+          "hp_after": 8800,
+          "dead": 0,
+          "combo": 7,
+          "random_after": [
+            13342486,
+            146
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "84d48d00f48c6e95"
+        },
+        {
+          "attempt": 18,
+          "result": [
+            2146,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 8800,
+          "hp_after": 6654,
+          "dead": 0,
+          "combo": 8,
+          "random_after": [
+            1312605,
+            155
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "7b89286b233a32da"
+        },
+        {
+          "attempt": 19,
+          "result": [
+            -1,
+            -1,
+            -1,
+            -1,
+            0,
+            0,
+            3,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 6654,
+          "hp_after": 6654,
+          "dead": 0,
+          "combo": 0,
+          "random_after": [
+            7619675,
+            157
+          ],
+          "status_requests": 2,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "f0f8f275bc561eaf"
+        },
+        {
+          "attempt": 20,
+          "result": [
+            -1,
+            -1,
+            -1,
+            -1,
+            0,
+            0,
+            3,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 6654,
+          "hp_after": 6654,
+          "dead": 0,
+          "combo": 0,
+          "random_after": [
+            6988388,
+            159
+          ],
+          "status_requests": 2,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "6668bc8055720a84"
+        },
+        {
+          "attempt": 21,
+          "result": [
+            2148,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 6654,
+          "hp_after": 4506,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            13458769,
+            168
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "2b0848c1e5c1fc70"
+        },
+        {
+          "attempt": 22,
+          "result": [
+            2055,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 4506,
+          "hp_after": 2451,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            7826987,
+            177
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "36586aefeee04009"
+        },
+        {
+          "attempt": 23,
+          "result": [
+            2122,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 2451,
+          "hp_after": 329,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            9261015,
+            186
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "709e93f68ed8fe53"
+        },
+        {
+          "attempt": 24,
+          "result": [
+            2350,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 329,
+          "hp_after": 0,
+          "dead": 1,
+          "combo": 4,
+          "random_after": [
+            11759837,
+            195
+          ],
+          "status_requests": 0,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "0567f6d9c9a6cebd"
+        }
+      ],
+      "death_clip": 1023,
+      "death_screenshot": "pair-0-player-defeated.png",
+      "frozen_no_hit": true,
+      "dead_player_target_rejected": true
+    },
+    {
+      "attacker_index": 2,
+      "attacker": "CryptSlime",
+      "defender": "KnightPlayerBase",
+      "attacks": [
+        {
+          "attempt": 1,
+          "result": [
+            2015,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 42265,
+          "hp_after": 40250,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            9988867,
+            9
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "03a8429b254d7f42"
+        },
+        {
+          "attempt": 2,
+          "result": [
+            1193,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            4,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 40250,
+          "hp_after": 39057,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            11996333,
+            18
+          ],
+          "status_requests": 4,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "00613de18bf3dad9"
+        },
+        {
+          "attempt": 3,
+          "result": [
+            2040,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 39057,
+          "hp_after": 37017,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            9007020,
+            27
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "e582bad52f3af4e9"
+        },
+        {
+          "attempt": 4,
+          "result": [
+            2218,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 37017,
+          "hp_after": 34799,
+          "dead": 0,
+          "combo": 4,
+          "random_after": [
+            407936,
+            36
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "381d345a9a92e78e"
+        },
+        {
+          "attempt": 5,
+          "result": [
+            2163,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 34799,
+          "hp_after": 32636,
+          "dead": 0,
+          "combo": 5,
+          "random_after": [
+            12280425,
+            45
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "c3b8f407940102c5"
+        },
+        {
+          "attempt": 6,
+          "result": [
+            1987,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 32636,
+          "hp_after": 30649,
+          "dead": 0,
+          "combo": 6,
+          "random_after": [
+            13297027,
+            54
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "8d6bb19de9727e84"
+        },
+        {
+          "attempt": 7,
+          "result": [
+            2131,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 30649,
+          "hp_after": 28518,
+          "dead": 0,
+          "combo": 7,
+          "random_after": [
+            10548042,
+            63
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "c3778ddeec864f1b"
+        },
+        {
+          "attempt": 8,
+          "result": [
+            2167,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 28518,
+          "hp_after": 26351,
+          "dead": 0,
+          "combo": 8,
+          "random_after": [
+            11339093,
+            72
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "bcaa0977ef2e1559"
+        },
+        {
+          "attempt": 9,
+          "result": [
+            2158,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 26351,
+          "hp_after": 24193,
+          "dead": 0,
+          "combo": 9,
+          "random_after": [
+            6410582,
+            81
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "6d53dd8156ef419f"
+        },
+        {
+          "attempt": 10,
+          "result": [
+            -1,
+            -1,
+            -1,
+            -1,
+            0,
+            0,
+            3,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 24193,
+          "hp_after": 24193,
+          "dead": 0,
+          "combo": 0,
+          "random_after": [
+            3365546,
+            83
+          ],
+          "status_requests": 2,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "e2c3a78bf00b2d74"
+        },
+        {
+          "attempt": 11,
+          "result": [
+            1957,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 24193,
+          "hp_after": 22236,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            394163,
+            92
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "ee318665b9eb23fd"
+        },
+        {
+          "attempt": 12,
+          "result": [
+            2145,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 22236,
+          "hp_after": 20091,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            4854437,
+            101
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 1,
+          "resolved_checksum": "1705e9b7197699b2"
+        },
+        {
+          "attempt": 13,
+          "result": [
+            2234,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 20091,
+          "hp_after": 17857,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            2273734,
+            110
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "932fdac8cf24c965"
+        },
+        {
+          "attempt": 14,
+          "result": [
+            2046,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 17857,
+          "hp_after": 15811,
+          "dead": 0,
+          "combo": 4,
+          "random_after": [
+            11627791,
+            119
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "11427dc46a0d1557"
+        },
+        {
+          "attempt": 15,
+          "result": [
+            2200,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 15811,
+          "hp_after": 13611,
+          "dead": 0,
+          "combo": 5,
+          "random_after": [
+            11136446,
+            128
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "b17727a6ae192817"
+        },
+        {
+          "attempt": 16,
+          "result": [
+            2405,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 13611,
+          "hp_after": 11206,
+          "dead": 0,
+          "combo": 6,
+          "random_after": [
+            5247671,
+            137
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "b1bb9c9c37bc0344"
+        },
+        {
+          "attempt": 17,
+          "result": [
+            2406,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 11206,
+          "hp_after": 8800,
+          "dead": 0,
+          "combo": 7,
+          "random_after": [
+            13342486,
+            146
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "84d48d00f48c6e95"
+        },
+        {
+          "attempt": 18,
+          "result": [
+            2146,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 8800,
+          "hp_after": 6654,
+          "dead": 0,
+          "combo": 8,
+          "random_after": [
+            1312605,
+            155
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "7b89286b233a32da"
+        },
+        {
+          "attempt": 19,
+          "result": [
+            -1,
+            -1,
+            -1,
+            -1,
+            0,
+            0,
+            3,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 6654,
+          "hp_after": 6654,
+          "dead": 0,
+          "combo": 0,
+          "random_after": [
+            7619675,
+            157
+          ],
+          "status_requests": 2,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "f0f8f275bc561eaf"
+        },
+        {
+          "attempt": 20,
+          "result": [
+            -1,
+            -1,
+            -1,
+            -1,
+            0,
+            0,
+            3,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 6654,
+          "hp_after": 6654,
+          "dead": 0,
+          "combo": 0,
+          "random_after": [
+            6988388,
+            159
+          ],
+          "status_requests": 2,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "6668bc8055720a84"
+        },
+        {
+          "attempt": 21,
+          "result": [
+            2148,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 6654,
+          "hp_after": 4506,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            13458769,
+            168
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "2b0848c1e5c1fc70"
+        },
+        {
+          "attempt": 22,
+          "result": [
+            2055,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 4506,
+          "hp_after": 2451,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            7826987,
+            177
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "36586aefeee04009"
+        },
+        {
+          "attempt": 23,
+          "result": [
+            2122,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 2451,
+          "hp_after": 329,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            9261015,
+            186
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "709e93f68ed8fe53"
+        },
+        {
+          "attempt": 24,
+          "result": [
+            2350,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 329,
+          "hp_after": 0,
+          "dead": 1,
+          "combo": 4,
+          "random_after": [
+            11759837,
+            195
+          ],
+          "status_requests": 0,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "0567f6d9c9a6cebd"
+        }
+      ],
+      "death_clip": 1023,
+      "death_screenshot": "pair-1-player-defeated.png",
+      "frozen_no_hit": true,
+      "dead_player_target_rejected": true
+    },
+    {
+      "attacker_index": 76,
+      "attacker": "Crypt_Ghost",
+      "defender": "KnightPlayerBase",
+      "attacks": [
+        {
+          "attempt": 1,
+          "result": [
+            2015,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 42265,
+          "hp_after": 40250,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            9988867,
+            9
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "03a8429b254d7f42"
+        },
+        {
+          "attempt": 2,
+          "result": [
+            1193,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            4,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 40250,
+          "hp_after": 39057,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            11996333,
+            18
+          ],
+          "status_requests": 4,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "00613de18bf3dad9"
+        },
+        {
+          "attempt": 3,
+          "result": [
+            2040,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 39057,
+          "hp_after": 37017,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            9007020,
+            27
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "e582bad52f3af4e9"
+        },
+        {
+          "attempt": 4,
+          "result": [
+            2218,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 37017,
+          "hp_after": 34799,
+          "dead": 0,
+          "combo": 4,
+          "random_after": [
+            407936,
+            36
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "381d345a9a92e78e"
+        },
+        {
+          "attempt": 5,
+          "result": [
+            2163,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 34799,
+          "hp_after": 32636,
+          "dead": 0,
+          "combo": 5,
+          "random_after": [
+            12280425,
+            45
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "c3b8f407940102c5"
+        },
+        {
+          "attempt": 6,
+          "result": [
+            1987,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 32636,
+          "hp_after": 30649,
+          "dead": 0,
+          "combo": 6,
+          "random_after": [
+            13297027,
+            54
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "8d6bb19de9727e84"
+        },
+        {
+          "attempt": 7,
+          "result": [
+            2131,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 30649,
+          "hp_after": 28518,
+          "dead": 0,
+          "combo": 7,
+          "random_after": [
+            10548042,
+            63
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "c3778ddeec864f1b"
+        },
+        {
+          "attempt": 8,
+          "result": [
+            2167,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 28518,
+          "hp_after": 26351,
+          "dead": 0,
+          "combo": 8,
+          "random_after": [
+            11339093,
+            72
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "bcaa0977ef2e1559"
+        },
+        {
+          "attempt": 9,
+          "result": [
+            2158,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 26351,
+          "hp_after": 24193,
+          "dead": 0,
+          "combo": 9,
+          "random_after": [
+            6410582,
+            81
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "6d53dd8156ef419f"
+        },
+        {
+          "attempt": 10,
+          "result": [
+            -1,
+            -1,
+            -1,
+            -1,
+            0,
+            0,
+            3,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 24193,
+          "hp_after": 24193,
+          "dead": 0,
+          "combo": 0,
+          "random_after": [
+            3365546,
+            83
+          ],
+          "status_requests": 2,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "e2c3a78bf00b2d74"
+        },
+        {
+          "attempt": 11,
+          "result": [
+            1957,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 24193,
+          "hp_after": 22236,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            394163,
+            92
+          ],
+          "status_requests": 8,
+          "low_health_armed": 1,
+          "low_health_cue": 0,
+          "resolved_checksum": "ee318665b9eb23fd"
+        },
+        {
+          "attempt": 12,
+          "result": [
+            2145,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 22236,
+          "hp_after": 20091,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            4854437,
+            101
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 1,
+          "resolved_checksum": "1705e9b7197699b2"
+        },
+        {
+          "attempt": 13,
+          "result": [
+            2234,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 20091,
+          "hp_after": 17857,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            2273734,
+            110
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "932fdac8cf24c965"
+        },
+        {
+          "attempt": 14,
+          "result": [
+            2046,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 17857,
+          "hp_after": 15811,
+          "dead": 0,
+          "combo": 4,
+          "random_after": [
+            11627791,
+            119
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "11427dc46a0d1557"
+        },
+        {
+          "attempt": 15,
+          "result": [
+            2200,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 15811,
+          "hp_after": 13611,
+          "dead": 0,
+          "combo": 5,
+          "random_after": [
+            11136446,
+            128
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "b17727a6ae192817"
+        },
+        {
+          "attempt": 16,
+          "result": [
+            2405,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 13611,
+          "hp_after": 11206,
+          "dead": 0,
+          "combo": 6,
+          "random_after": [
+            5247671,
+            137
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "b1bb9c9c37bc0344"
+        },
+        {
+          "attempt": 17,
+          "result": [
+            2406,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 11206,
+          "hp_after": 8800,
+          "dead": 0,
+          "combo": 7,
+          "random_after": [
+            13342486,
+            146
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "84d48d00f48c6e95"
+        },
+        {
+          "attempt": 18,
+          "result": [
+            2146,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 8800,
+          "hp_after": 6654,
+          "dead": 0,
+          "combo": 8,
+          "random_after": [
+            1312605,
+            155
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "7b89286b233a32da"
+        },
+        {
+          "attempt": 19,
+          "result": [
+            -1,
+            -1,
+            -1,
+            -1,
+            0,
+            0,
+            3,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 6654,
+          "hp_after": 6654,
+          "dead": 0,
+          "combo": 0,
+          "random_after": [
+            7619675,
+            157
+          ],
+          "status_requests": 2,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "f0f8f275bc561eaf"
+        },
+        {
+          "attempt": 20,
+          "result": [
+            -1,
+            -1,
+            -1,
+            -1,
+            0,
+            0,
+            3,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 6654,
+          "hp_after": 6654,
+          "dead": 0,
+          "combo": 0,
+          "random_after": [
+            6988388,
+            159
+          ],
+          "status_requests": 2,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "6668bc8055720a84"
+        },
+        {
+          "attempt": 21,
+          "result": [
+            2148,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 6654,
+          "hp_after": 4506,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            13458769,
+            168
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "2b0848c1e5c1fc70"
+        },
+        {
+          "attempt": 22,
+          "result": [
+            2055,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 4506,
+          "hp_after": 2451,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            7826987,
+            177
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "36586aefeee04009"
+        },
+        {
+          "attempt": 23,
+          "result": [
+            2122,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 2451,
+          "hp_after": 329,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            9261015,
+            186
+          ],
+          "status_requests": 8,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "709e93f68ed8fe53"
+        },
+        {
+          "attempt": 24,
+          "result": [
+            2350,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 329,
+          "hp_after": 0,
+          "dead": 1,
+          "combo": 4,
+          "random_after": [
+            11759837,
+            195
+          ],
+          "status_requests": 0,
+          "low_health_armed": 0,
+          "low_health_cue": 0,
+          "resolved_checksum": "0567f6d9c9a6cebd"
+        }
+      ],
+      "death_clip": 1023,
+      "death_screenshot": "pair-2-player-defeated.png",
+      "frozen_no_hit": true,
+      "dead_player_target_rejected": true
+    }
+  ],
+  "native_player_damage_attempts_verified": 73,
+  "walking_live_case": {
+    "result": [
+      2015,
+      -1,
+      0,
+      0,
+      0,
+      0,
+      16,
+      2271925,
+      -1,
+      -1
+    ],
+    "hp_before": 42265,
+    "hp_after": 40250,
+    "dead": 0,
+    "combo": 1,
+    "random_after": [
+      9988867,
+      9
+    ],
+    "status_requests": 8,
+    "low_health_armed": 1,
+    "low_health_cue": 0,
+    "resolved_checksum": "03a8429b254d7f42",
+    "defender_fsm_state": 13,
+    "held_touch_and_walk_clip_verified": true
+  },
+  "walking_damage_verified": true,
+  "low_health_cues_verified": 3,
+  "automatic_player_deaths_verified": 3,
+  "death_clip": 1023,
+  "hud_health_mana_and_defeated_verified": true,
+  "rotation_preserves_health_and_death": [
+    {
+      "orientation": 1,
+      "attempts": 1,
+      "hp": 40250
+    },
+    {
+      "orientation": 0,
+      "attempts": 1,
+      "hp": 40250
+    },
+    {
+      "orientation": 1,
+      "attempts": 24,
+      "hp": 0
+    },
+    {
+      "orientation": 0,
+      "attempts": 24,
+      "hp": 0
+    }
+  ],
+  "inflight_pause_resume_verified": true,
+  "dead_player_attack_rejected": true,
+  "dead_player_movement_blocked": true,
+  "target_scope": "Explicit development target -2 means Prince; automatic enemy AI/acquisition and actual status/audio services pending.",
+  "physical_arm64_tested": false,
+  "full_game_playable": false
+}

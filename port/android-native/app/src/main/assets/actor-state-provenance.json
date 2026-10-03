@@ -1,0 +1,300 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "states": [
+    {
+      "character_table": 24,
+      "character_name": "Ghost",
+      "state": "Idle",
+      "sequence_id": 210,
+      "sequence_name": "Ghost_Idle"
+    },
+    {
+      "character_table": 24,
+      "character_name": "Ghost",
+      "state": "Walk",
+      "sequence_id": 216,
+      "sequence_name": "Ghost_Walk"
+    },
+    {
+      "character_table": 24,
+      "character_name": "Ghost",
+      "state": "Attack",
+      "sequence_id": 204,
+      "sequence_name": "Ghost_Attack"
+    },
+    {
+      "character_table": 24,
+      "character_name": "Ghost",
+      "state": "Died",
+      "sequence_id": 208,
+      "sequence_name": "Ghost_Died"
+    },
+    {
+      "character_table": 62,
+      "character_name": "Skeleton",
+      "state": "Idle",
+      "sequence_id": 596,
+      "sequence_name": "Skeleton_Idle"
+    },
+    {
+      "character_table": 62,
+      "character_name": "Skeleton",
+      "state": "Walk",
+      "sequence_id": 604,
+      "sequence_name": "Skeleton_Walk"
+    },
+    {
+      "character_table": 62,
+      "character_name": "Skeleton",
+      "state": "Attack",
+      "sequence_id": 590,
+      "sequence_name": "Skeleton_Attack1H"
+    },
+    {
+      "character_table": 62,
+      "character_name": "Skeleton",
+      "state": "Died",
+      "sequence_id": 594,
+      "sequence_name": "Skeleton_Died"
+    },
+    {
+      "character_table": 64,
+      "character_name": "Slime",
+      "state": "Idle",
+      "sequence_id": 613,
+      "sequence_name": "Slime_Idle"
+    },
+    {
+      "character_table": 64,
+      "character_name": "Slime",
+      "state": "Walk",
+      "sequence_id": 620,
+      "sequence_name": "Slime_Walk"
+    },
+    {
+      "character_table": 64,
+      "character_name": "Slime",
+      "state": "Attack",
+      "sequence_id": 607,
+      "sequence_name": "Slime_Attack"
+    },
+    {
+      "character_table": 64,
+      "character_name": "Slime",
+      "state": "Died",
+      "sequence_id": 611,
+      "sequence_name": "Slime_Died"
+    }
+  ],
+  "inputs": [
+    {
+      "clip_id": 697,
+      "path": "data/3D/characters/ghost/animations/ghost_attack_01.bdae",
+      "asset": "actors/ghost_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_attack_01.bdae",
+      "bytes": 8980,
+      "sha256": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a"
+    },
+    {
+      "clip_id": 700,
+      "path": "data/3D/characters/ghost/animations/ghost_dying_01.bdae",
+      "asset": "actors/ghost_dying_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_dying_01.bdae",
+      "bytes": 11416,
+      "sha256": "10d0454f550b1aa90de4f22a2ffba2af585feb84b23d90fd62040c292e917327"
+    },
+    {
+      "clip_id": 706,
+      "path": "data/3D/characters/ghost/animations/ghost_idle_01.bdae",
+      "asset": "actors/ghost_idle_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_idle_01.bdae",
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895"
+    },
+    {
+      "clip_id": 707,
+      "path": "data/3D/characters/ghost/animations/ghost_post_attack_01.bdae",
+      "asset": "actors/ghost_post_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_post_attack_01.bdae",
+      "bytes": 8036,
+      "sha256": "7c0639fcfa028b2fc2595da67c2dfaaeecbbcbb3993ec3916d3586010f59c994"
+    },
+    {
+      "clip_id": 710,
+      "path": "data/3D/characters/ghost/animations/ghost_pre_attack_01.bdae",
+      "asset": "actors/ghost_pre_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_pre_attack_01.bdae",
+      "bytes": 7476,
+      "sha256": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0"
+    },
+    {
+      "clip_id": 717,
+      "path": "data/3D/characters/ghost/animations/ghost_walk_01.bdae",
+      "asset": "actors/ghost_walk_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_walk_01.bdae",
+      "bytes": 39896,
+      "sha256": "bd381b8bdcd2e948620fcd90ca8bf5f4e54c156285584e4e130cd369933c3ddc"
+    },
+    {
+      "clip_id": 1178,
+      "path": "data/3D/characters/skeleton/animations/skeleton_attack_01.bdae",
+      "asset": "actors/skeleton_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_attack_01.bdae",
+      "bytes": 11604,
+      "sha256": "65162e55af222d0231fb25027f5406e47d4a1b9e4b89864680cbca3ed738461a"
+    },
+    {
+      "clip_id": 1179,
+      "path": "data/3D/characters/skeleton/animations/skeleton_attack_01_to_idle.bdae",
+      "asset": "actors/skeleton_attack_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_attack_01_to_idle.bdae",
+      "bytes": 16960,
+      "sha256": "8df25c9d89c7e3c343329fa6694661fa1968645f6176919312b5b64824a7ac17"
+    },
+    {
+      "clip_id": 1180,
+      "path": "data/3D/characters/skeleton/animations/skeleton_attack_02.bdae",
+      "asset": "actors/skeleton_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_attack_02.bdae",
+      "bytes": 9824,
+      "sha256": "83276482fa53b376495a791792fb381eaa6f7cf9ce493cf7d5f39095ac222cb2"
+    },
+    {
+      "clip_id": 1181,
+      "path": "data/3D/characters/skeleton/animations/skeleton_attack_02_to_idle.bdae",
+      "asset": "actors/skeleton_attack_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_attack_02_to_idle.bdae",
+      "bytes": 17120,
+      "sha256": "53bf12257a1df6411cd6e95c492cf6c0fbb50f557a17407f0a28176e3148b082"
+    },
+    {
+      "clip_id": 1185,
+      "path": "data/3D/characters/skeleton/animations/skeleton_dying.bdae",
+      "asset": "actors/skeleton_dying.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_dying.bdae",
+      "bytes": 12700,
+      "sha256": "4a66caf03f98ee89c008fda99372f8c8bdbd76f932f38ec79032031d0bc8af90"
+    },
+    {
+      "clip_id": 1194,
+      "path": "data/3D/characters/skeleton/animations/skeleton_idle_01.bdae",
+      "asset": "actors/skeleton_idle_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_idle_01.bdae",
+      "bytes": 49520,
+      "sha256": "bea7b628675e9bebf64a4da6e90b9cc8ca9f7411e053d6ce354eff7c38f0982d"
+    },
+    {
+      "clip_id": 1195,
+      "path": "data/3D/characters/skeleton/animations/skeleton_idle_02.bdae",
+      "asset": "actors/skeleton_idle_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_idle_02.bdae",
+      "bytes": 28632,
+      "sha256": "b468b9db81c8534e7b43691dcad66d6f57b3dd94feee4c684aa1885a14429349"
+    },
+    {
+      "clip_id": 1197,
+      "path": "data/3D/characters/skeleton/animations/skeleton_pre_attack_01.bdae",
+      "asset": "actors/skeleton_pre_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_pre_attack_01.bdae",
+      "bytes": 11004,
+      "sha256": "3c9c0f3f72c8ade5bca121ba172036f33b32bdc181a57ccc41cbff7012ca1d1e"
+    },
+    {
+      "clip_id": 1198,
+      "path": "data/3D/characters/skeleton/animations/skeleton_pre_attack_02.bdae",
+      "asset": "actors/skeleton_pre_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_pre_attack_02.bdae",
+      "bytes": 11572,
+      "sha256": "97220c3139e1eee33616b4aee973d0272c156970a1c235ef41c608fe29608f0f"
+    },
+    {
+      "clip_id": 1204,
+      "path": "data/3D/characters/skeleton/animations/skeleton_walk.bdae",
+      "asset": "actors/skeleton_walk.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_walk.bdae",
+      "bytes": 18816,
+      "sha256": "0fcb603c72a725dbae62d4bc061ebf98ba9b0a504e40645f9ba09fe4fcc589b0"
+    },
+    {
+      "clip_id": 1246,
+      "path": "data/3D/characters/slime/animations/slime_attack_01.bdae",
+      "asset": "actors/slime_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_01.bdae",
+      "bytes": 3256,
+      "sha256": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0"
+    },
+    {
+      "clip_id": 1247,
+      "path": "data/3D/characters/slime/animations/slime_attack_01_to_idle.bdae",
+      "asset": "actors/slime_attack_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_01_to_idle.bdae",
+      "bytes": 4136,
+      "sha256": "19194ac919bcce58739a8df48b9448c251a09d0b598f7b597ee828361693843f"
+    },
+    {
+      "clip_id": 1248,
+      "path": "data/3D/characters/slime/animations/slime_attack_02.bdae",
+      "asset": "actors/slime_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_02.bdae",
+      "bytes": 3776,
+      "sha256": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1"
+    },
+    {
+      "clip_id": 1249,
+      "path": "data/3D/characters/slime/animations/slime_attack_02_to_idle.bdae",
+      "asset": "actors/slime_attack_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_attack_02_to_idle.bdae",
+      "bytes": 4452,
+      "sha256": "86f01551aa577f5c86beac627914c288f5c3cacb05a08ef7d03dd3511c6f5238"
+    },
+    {
+      "clip_id": 1251,
+      "path": "data/3D/characters/slime/animations/slime_dying.bdae",
+      "asset": "actors/slime_dying.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_dying.bdae",
+      "bytes": 6992,
+      "sha256": "60057288188a3c56f4690e66529c7663ca67f7f05e9ff15d7d26bb6fa43321fc"
+    },
+    {
+      "clip_id": 1258,
+      "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+      "asset": "actors/slime_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_idle.bdae",
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472"
+    },
+    {
+      "clip_id": 1259,
+      "path": "data/3D/characters/slime/animations/slime_idle_02.bdae",
+      "asset": "actors/slime_idle_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_idle_02.bdae",
+      "bytes": 5728,
+      "sha256": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf"
+    },
+    {
+      "clip_id": 1261,
+      "path": "data/3D/characters/slime/animations/slime_pre_attack_01.bdae",
+      "asset": "actors/slime_pre_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_pre_attack_01.bdae",
+      "bytes": 3168,
+      "sha256": "eb07914aadac438e79cd901a05f0f90b2b7e08a6822494b08be68047dc8293ae"
+    },
+    {
+      "clip_id": 1262,
+      "path": "data/3D/characters/slime/animations/slime_pre_attack_02.bdae",
+      "asset": "actors/slime_pre_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_pre_attack_02.bdae",
+      "bytes": 3252,
+      "sha256": "315a2f52e8cbcabc3899dd8763d1bfa36696ca23911f36a26c40ca4a52480a19"
+    },
+    {
+      "clip_id": 1268,
+      "path": "data/3D/characters/slime/animations/slime_walk.bdae",
+      "asset": "actors/slime_walk.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_walk.bdae",
+      "bytes": 5212,
+      "sha256": "966d248d406756d06f028570f79208ac3f047d0bb0c537103405b60694b80f05"
+    }
+  ],
+  "runtime_scope": "Independent per-actor native scheduler. Original clip completion decision, loops, random re-selection, sequences and redirect unwind; blend/event/root-motion/AI/combat dispatch pending."
+}

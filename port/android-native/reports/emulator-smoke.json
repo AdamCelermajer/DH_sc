@@ -1,0 +1,144 @@
+{
+  "apk_sha256": "9e77da842dc21635572390872b17fb3c11623107fd9b9f0326ed819b1185ad06",
+  "serial": "emulator-5554",
+  "android_api": "37",
+  "abi": "x86_64",
+  "device_page_size": "4096",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "b108ecf62544eab81985930fff6ce7f13511a3d054692921ba535454cb5481b2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "07a0ec28a9bad4baec1f46c35cee794f3e05f4372a2e62ddc9516c0dbe6da012",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "texture": "fx_smoke_03.tga",
+      "rotation": 0,
+      "viewport": [
+        1080,
+        1975
+      ],
+      "image_bounds": [
+        0,
+        448,
+        1080,
+        1528
+      ],
+      "screenshot": "0-fx_smoke_03.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "godparticle_face.tga",
+      "rotation": 0,
+      "viewport": [
+        1080,
+        1975
+      ],
+      "image_bounds": [
+        0,
+        448,
+        1080,
+        1528
+      ],
+      "screenshot": "0-godparticle_face.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "menugraphics03.tga",
+      "rotation": 0,
+      "viewport": [
+        1080,
+        1975
+      ],
+      "image_bounds": [
+        0,
+        448,
+        1080,
+        1528
+      ],
+      "screenshot": "0-menugraphics03.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "pvr2_env_darktemple_alpha.tga",
+      "rotation": 0,
+      "viewport": [
+        1080,
+        1975
+      ],
+      "image_bounds": [
+        0,
+        448,
+        1080,
+        1528
+      ],
+      "screenshot": "0-pvr2_env_darktemple_alpha.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "skybox_wind.tga",
+      "rotation": 0,
+      "viewport": [
+        1080,
+        1975
+      ],
+      "image_bounds": [
+        0,
+        448,
+        1080,
+        1528
+      ],
+      "screenshot": "0-skybox_wind.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "menugraphics03.tga",
+      "rotation": 1,
+      "viewport": [
+        2400,
+        655
+      ],
+      "image_bounds": [
+        872,
+        0,
+        1527,
+        655
+      ],
+      "screenshot": "1-menugraphics03.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "skybox_wind.tga",
+      "rotation": 1,
+      "viewport": [
+        2400,
+        655
+      ],
+      "image_bounds": [
+        872,
+        0,
+        1527,
+        655
+      ],
+      "screenshot": "1-skybox_wind.png",
+      "upload_ok": true
+    }
+  ],
+  "physical_phone_tested": false
+}

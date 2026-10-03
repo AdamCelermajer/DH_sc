@@ -1,0 +1,77 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK10ObjectBase17IsRemotelyUpdatedEv",
+      "elf_address": "0x33dd10",
+      "size": 20,
+      "sha256": "e747e9aff56cd8e56b5a34d6570c86fbf70910645922ff428d0b43b9e6d3a821"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject17GetTargetPositionEv",
+      "elf_address": "0x3935dc",
+      "size": 36,
+      "sha256": "23b9afb6e9da429cee1083622c12e650a4ffd51918974d9636817a74943dee7f"
+    },
+    {
+      "original_symbol": "_ZThn884_N9Character9Ctrl_StopEv",
+      "elf_address": "0x3ad888",
+      "size": 8,
+      "sha256": "0ee3db94754220238f4c8f1ff4ef8984adb728ec143e17cf4a59214839ca2807"
+    },
+    {
+      "original_symbol": "_ZN9Character9Ctrl_StopEv",
+      "elf_address": "0x3ad890",
+      "size": 60,
+      "sha256": "abece158db03b419deefe8c2e8a4722aa13a3e993bff63038b9e2fed22b3de36"
+    },
+    {
+      "original_symbol": "_ZThn884_N9Character11Ctrl_LookAtEP10GameObject",
+      "elf_address": "0x3ad9a4",
+      "size": 8,
+      "sha256": "0ee3db94754220238f4c8f1ff4ef8984adb728ec143e17cf4a59214839ca2807"
+    },
+    {
+      "original_symbol": "_ZN9Character11Ctrl_LookAtEP10GameObject",
+      "elf_address": "0x3ad9ac",
+      "size": 48,
+      "sha256": "4a19ac7765de2b27d6bffefb22355658392c90492b6322bb3eac30e7c15f28d2"
+    },
+    {
+      "original_symbol": "_ZThn884_N9Character11Ctrl_MoveToEP10GameObject",
+      "elf_address": "0x3ad9dc",
+      "size": 8,
+      "sha256": "0ee3db94754220238f4c8f1ff4ef8984adb728ec143e17cf4a59214839ca2807"
+    },
+    {
+      "original_symbol": "_ZN9Character11Ctrl_MoveToEP10GameObject",
+      "elf_address": "0x3ad9e4",
+      "size": 68,
+      "sha256": "9bdc3a2b2f6f3a44a596f7083d7ff2161e519ca39617cbbc08bb9af731d38773"
+    },
+    {
+      "original_symbol": "_ZN9Character11Ctrl_LookAtERK7Point3DIfE",
+      "elf_address": "0x3addbc",
+      "size": 4,
+      "sha256": "1d30be3ac1c9a3392504189b836115cf14775113e936cbf8bb5c02853159af31"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller10Cmd_LookAtEP10GameObject",
+      "elf_address": "0x4052bc",
+      "size": 92,
+      "sha256": "f45cf135cb72b2802d2b4ffa066131c438a2f720c808972d36cad6fbd8dfa9c5"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller10Cmd_MoveToEP10GameObject",
+      "elf_address": "0x405540",
+      "size": 92,
+      "sha256": "fecc66b2a5786918c57e235d125e4059cb1eec67bfd67d990ac3f00693589012"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller8Cmd_StopEv",
+      "elf_address": "0x40559c",
+      "size": 92,
+      "sha256": "bbbd141037f03f7c7d46fb1b056d7a490dd4a368b9818c36a7976f5cda8da656"
+    }
+  ]
+}

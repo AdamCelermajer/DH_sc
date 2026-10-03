@@ -1,0 +1,100 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "original_raw_samples": 11656,
+    "ordered_targets": 62,
+    "mode_default_bindings": 558,
+    "retained_samples": 3000,
+    "libm_fixture_calls": 1475,
+    "atomic_rejections": 8,
+    "retained_event_names": 9,
+    "input_player_independence": true,
+    "sanitizer_findings": 0
+  },
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "executable": "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/compiled_transforms_audit",
+  "executable_sha256": "5066d0e25506915f90c87ac4a80433ad20109e526f80d5c809b9d6f45852943c",
+  "source_sha256": {
+    "port/engine-animation/animation.hpp": "45622a09d79d1ea7e56d750098494696afbb6055259ae3f13abf037bfb8012a3",
+    "port/engine-animation/animation.cpp": "5c1522d331c0997ae182f0c8626dbd1463be1904518802c7335136d37c289032",
+    "port/engine-animation/tests/compiled_transforms_differential.py": "a06f353a638183af8f15e1869d6c1fad7f1b84e2e06864c05bcf4ebec23776f9",
+    "port/engine-animation/tests/compiled_transforms.cpp": "465ae318722db88f7c2da0f86e3a27751706578b38786b40d09c6fe885289acb",
+    "port/engine-animation/events.cpp": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+    "port/engine-animation/event_track.cpp": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+    "port/engine-animation/events.hpp": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+    "port/scene-materials/scene.cpp": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+    "port/scene-materials/scene.hpp": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/asset-payloads/payloads.hpp": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+    "port/engine-animation/CMakeLists.txt": "0c6e001bb0eb10500f49073cb908d8f7b3f0ede5bb1ca06dbfb0a35fa7bb08c6",
+    "port/engine-animation/tests/compiled_transforms_host.py": "d04fdaaf6a5f0d2d948f54e16d24b615cb3c91cbaf3399a4733077ee0a106870"
+  },
+  "original_instruction_evidence": {
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "report": "port/engine-animation/reports/compiled-transforms-arm64-differential.json",
+    "report_sha256": "58c27be7d82abeb275dc86fb5f259b69a2430761fe66d13a27d0820025b9f85a",
+    "reference_sha256": "d5999b9cd6f9bec206d13dfd17b4e24101623f9a0126c0fb8831d6e15ca2ca31",
+    "manifest_sha256": "9f89ea4c6cb4e3226148f2fc1ad1e7db98da8fa708090c5239ca0ab398968d60"
+  },
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "cache_inputs": [
+    {
+      "asset": "models/prince_modular.bdae",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/prince_modular.bdae",
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+      "bytes": 3207072
+    },
+    {
+      "asset": "animations/prince_idle_shield.bdae",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92",
+      "bytes": 54600
+    },
+    {
+      "asset": "animations/prince_walk_1hand.bdae",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5",
+      "bytes": 10496
+    },
+    {
+      "asset": "animations/prince_1hand_combo_01.bdae",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa",
+      "bytes": 8028
+    },
+    {
+      "asset": "animations/prince_1hand_combo_01_moving.bdae",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238",
+      "bytes": 8164
+    },
+    {
+      "asset": "animations/prince_dying_01.bdae",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dying_01.bdae",
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a",
+      "bytes": 14992
+    }
+  ],
+  "legacy_player_regression": {
+    "tracks": 2,
+    "milliseconds_sampled": 2033,
+    "world_transforms_changed": true,
+    "scale_at_100ms": 1.024299979,
+    "move_ownership_checked": true,
+    "invalid_image_rejected": true,
+    "mutated_inputs": 5000
+  },
+  "legacy_executable_sha256": "3e712b848de6a617edaaeda982861962a7d790beeeae2b982262dc2dce356ab3",
+  "legacy_fixture_sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6",
+  "libm_contract": "Test-only --wrap=sinf/acosf/sqrtf verifies every original call kind and input bits then supplies audited UCRT output. Direct source compilation; no DSO or arbitrary output tolerance. Production math source unchanged.",
+  "scope": "Compiled ordered raw node1/5/10 target values/defaults/cursors, independent events/resource backing and caller contracts. Legacy Player API replay preserved. No whole generic compiler, timeline/event producer, BlenderPlayback, GPU or full game parity claim."
+}

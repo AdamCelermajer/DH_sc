@@ -1,0 +1,88 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "df600ff5a85f96d6937cc655b8e8296f13e79ada7533e464576923e6ddad923a",
+  "original_resolver": "0x3dfe60",
+  "bit_exact_property_resolutions": 119168,
+  "bit_exact_mutation_entire_state_cases": 7168,
+  "actual_type_fixtures": 40,
+  "synthetic_type_fixtures": 40,
+  "original_character_rows_resolved": 448,
+  "original_character_resolved_reference_sha256": "21763bd3b145c1dca0e96614b27c1d6dea84a712fdc67395c394bfaf5a220b35",
+  "effective_types_tested": [
+    -2,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    16,
+    32,
+    36,
+    48,
+    63,
+    64,
+    1835084
+  ],
+  "buff_group_counts_tested": [
+    0,
+    1,
+    3,
+    6
+  ],
+  "buff_deque_sizes_tested": [
+    0,
+    1,
+    2,
+    5,
+    32,
+    40
+  ],
+  "original_property_functions_and_container_traversal_unmocked": true,
+  "crypt_resolved_snapshots": [
+    {
+      "character": "Crypt_Skeleton",
+      "resolved_sheet_sha256": "cd66020a4d16929bcd5aaa3b97d0be1ee621324c4f7f3c5d3cb5866b692db70d",
+      "resolved_sheet_fnv1a64": "41ae0e800682474e",
+      "hp_raw": -1,
+      "max_hp_raw": 12160,
+      "mp_raw": -1,
+      "max_mp_raw": 5632
+    },
+    {
+      "character": "CryptSlime",
+      "resolved_sheet_sha256": "bc2be057e96a23e0f9be30797f3a519a209fdd7444426035a48ac16c289798ad",
+      "resolved_sheet_fnv1a64": "e0cad1d302226d0f",
+      "hp_raw": -1,
+      "max_hp_raw": 12160,
+      "mp_raw": -1,
+      "max_mp_raw": 5632
+    },
+    {
+      "character": "CryptSlime_RE",
+      "resolved_sheet_sha256": "063c926284e1e90918f8a10e16a349882f75c2b806617b414770ca4da363d891",
+      "resolved_sheet_fnv1a64": "eb471073d49b2c44",
+      "hp_raw": -1,
+      "max_hp_raw": 12160,
+      "mp_raw": -1,
+      "max_mp_raw": 5632
+    },
+    {
+      "character": "Crypt_Ghost",
+      "resolved_sheet_sha256": "b0a0de4269550ff903694e4ffb3cbd47984da627ce4fe891951640cb67415e05",
+      "resolved_sheet_fnv1a64": "37563d932af809fb",
+      "hp_raw": -1,
+      "max_hp_raw": 12160,
+      "mp_raw": -1,
+      "max_mp_raw": 5632
+    }
+  ],
+  "input_sha256": {
+    "character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+  },
+  "scope": "Resolved supplied base/saved/gear sheets and ordered buff groups; actual default/type rows; original set/add/set-int/set-to-sheet. All raw character rows and four cached class base snapshots. Does not reconstruct gear/buff producers, uncached class reads, spawn HP initialization, damage or saves."
+}

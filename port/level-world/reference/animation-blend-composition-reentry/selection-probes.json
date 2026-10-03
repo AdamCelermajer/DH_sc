@@ -1,0 +1,480 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "5d183fe0ed2330621cd1b492df3222e9c3312d7e2f2ed175f6af3272866b147f",
+  "original_instruction_cases": 13,
+  "native_comparisons": 0,
+  "records": [
+    {
+      "op": "PlayClip",
+      "previous": 7,
+      "initial_ended": 0,
+      "replay_CheckCallback": false,
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 117
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 117,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ],
+      "after": {
+        "current_ms": 117,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "current_slot": 1
+    },
+    {
+      "op": "PlayClip",
+      "previous": 7,
+      "initial_ended": 0,
+      "replay_CheckCallback": true,
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 117
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 117,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        },
+        {
+          "op": "completion_callback",
+          "pending": 1
+        }
+      ],
+      "after": {
+        "current_ms": 117,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 0,
+        "extra_ms": 17
+      },
+      "current_slot": 1
+    },
+    {
+      "op": "PlayClip",
+      "previous": 7,
+      "initial_ended": 1,
+      "replay_CheckCallback": false,
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 117
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 117,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ],
+      "after": {
+        "current_ms": 117,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "current_slot": 1
+    },
+    {
+      "op": "PlayClip",
+      "previous": 7,
+      "initial_ended": 1,
+      "replay_CheckCallback": true,
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 117
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 117,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        },
+        {
+          "op": "completion_callback",
+          "pending": 1
+        }
+      ],
+      "after": {
+        "current_ms": 117,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 0,
+        "extra_ms": 17
+      },
+      "current_slot": 1
+    },
+    {
+      "op": "PlayClip",
+      "previous": 5,
+      "initial_ended": 0,
+      "replay_CheckCallback": false,
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ],
+      "after": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "current_slot": 1
+    },
+    {
+      "op": "PlayClip",
+      "previous": 5,
+      "initial_ended": 0,
+      "replay_CheckCallback": true,
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        },
+        {
+          "op": "completion_callback",
+          "pending": 1
+        }
+      ],
+      "after": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 0,
+        "extra_ms": 17
+      },
+      "current_slot": 1
+    },
+    {
+      "op": "PlayClip",
+      "previous": 5,
+      "initial_ended": 1,
+      "replay_CheckCallback": false,
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ],
+      "after": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "current_slot": 1
+    },
+    {
+      "op": "PlayClip",
+      "previous": 5,
+      "initial_ended": 1,
+      "replay_CheckCallback": true,
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        },
+        {
+          "op": "completion_callback",
+          "pending": 1
+        }
+      ],
+      "after": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 0,
+        "extra_ms": 17
+      },
+      "current_slot": 1
+    },
+    {
+      "op": "PlayClip_failed_minus_one",
+      "current_slot": 1,
+      "pending_after": 1,
+      "extra_after": 17,
+      "calls": []
+    },
+    {
+      "op": "SetScale",
+      "weights": [
+        0.0,
+        0.0
+      ],
+      "calls": [
+        [
+          0,
+          1068498944
+        ],
+        [
+          1,
+          1068498944
+        ]
+      ],
+      "scales": [
+        1068498944,
+        1068498944
+      ],
+      "pending_after": 1
+    },
+    {
+      "op": "SetScale",
+      "weights": [
+        1.0,
+        0.0
+      ],
+      "calls": [
+        [
+          0,
+          1068498944
+        ],
+        [
+          1,
+          1068498944
+        ]
+      ],
+      "scales": [
+        1068498944,
+        1068498944
+      ],
+      "pending_after": 1
+    },
+    {
+      "op": "SetScale",
+      "weights": [
+        0.0,
+        1.0
+      ],
+      "calls": [
+        [
+          0,
+          1068498944
+        ],
+        [
+          1,
+          1068498944
+        ]
+      ],
+      "scales": [
+        1068498944,
+        1068498944
+      ],
+      "pending_after": 1
+    },
+    {
+      "op": "SetScale",
+      "weights": [
+        0.25,
+        0.75
+      ],
+      "calls": [
+        [
+          0,
+          1068498944
+        ],
+        [
+          1,
+          1068498944
+        ]
+      ],
+      "scales": [
+        1068498944,
+        1068498944
+      ],
+      "pending_after": 1
+    }
+  ],
+  "service_boundaries": [
+    "resource manager/ID/definition resolution",
+    "timeline identity and bounds virtuals",
+    "event callback installer",
+    "RootNewAnim observer; optional nested actual CheckCallback",
+    "source AEABI float arithmetic imports"
+  ],
+  "scope": "Original PlayClip, Blend, SetCurrentAnimation, setCurrentAnimation, timeline SetClip/SetTime/SetLoop/SetScale, GetApplicator and CheckCallback execute. Root replay and asset resolution are explicit service boundaries."
+}

@@ -1,0 +1,155 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character29IsUpdatingPositionFromPhysicsEv",
+      "elf_address": "0x3a2e44",
+      "size": 12,
+      "sha256": "05d43e2407b49c03a330eae70a339d4e7f42f2a1ec3b77155d2900bbde90a3c8"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator13ANIM_SetSpeedEf",
+      "elf_address": "0x3c93fc",
+      "size": 72,
+      "sha256": "b0686250e5dc8c527ff2c724f349140fe95df216fccdf785f3e6d2c133a82835"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties18PROPS_GetWalkSpeedEv",
+      "elf_address": "0x3de6c4",
+      "size": 68,
+      "sha256": "6974c0763d694f245ae787a7a7308728d0b6fc4daf24aab43e15039574e18f8c"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator8ANIM_SetEi",
+      "elf_address": "0x3cacb0",
+      "size": 28,
+      "sha256": "5340f7f91e1f08522e13b2504cca0238bd7351a7557b8c1e5d3b735a6ac39c13"
+    },
+    {
+      "original_symbol": "_ZNK9Character28IsUpdatingRotationFromVisualEv",
+      "elf_address": "0x3a2e50",
+      "size": 12,
+      "sha256": "4d196d9babdb08d6d83d9838d47957bb891fd430eeb7f9533c60f4b3b512b080"
+    },
+    {
+      "original_symbol": "_ZN6CSMove10UpdateTypeEP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0f18",
+      "size": 620,
+      "sha256": "97e0e511262d76df1bf10f3199d439e47d135aac3f488e8ed6493419b96b1832"
+    },
+    {
+      "original_symbol": "_ZN6CSMove8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c1184",
+      "size": 260,
+      "sha256": "16521417b20a37f0fd00e6b4fd90b66117692d383954d6f11eac6e78bad5af67"
+    },
+    {
+      "original_symbol": "_ZNK9Character14GetFocusObjectEv",
+      "elf_address": "0x3a2e24",
+      "size": 8,
+      "sha256": "90ebf3f9774cd40d385af6d0a5da0c3812a9fb26da771dd3b26a570e9840275c"
+    },
+    {
+      "original_symbol": "_ZNK9Character29IsUpdatingRotationFromPhysicsEv",
+      "elf_address": "0x3a2e5c",
+      "size": 12,
+      "sha256": "7c30d5f1991120ee3cd52243a1d0fdbb0c4064049b6e6eb3e10ce0c5deb8ad35"
+    },
+    {
+      "original_symbol": "_ZNK9Character28IsUpdatingVisualWithRotationEv",
+      "elf_address": "0x3a2e68",
+      "size": 16,
+      "sha256": "6c9d1c82cb8ccd17caffee93f7d8c7b97bb675b64cf19bbd9be1325cd12aff77"
+    },
+    {
+      "original_symbol": "_ZNK9Character13GetAnimStanceEv",
+      "elf_address": "0x3a53e0",
+      "size": 212,
+      "sha256": "0a55bdcde5f109c3e50e2ac4c2ef57f33604c327489c2e422f91fbea864948c0"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties22PROPS_GetRotationSpeedEv",
+      "elf_address": "0x3de708",
+      "size": 68,
+      "sha256": "0cd431a098fa0c1966576d71ca1669f9623b623fe0c28393140576c879da3e4c"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAnimTableIdEv",
+      "elf_address": "0x3a3228",
+      "size": 60,
+      "sha256": "d8d60d8d2fdb2d9246a68f44712f30b28285a80460573e4fc7c9e07a008dfd29"
+    },
+    {
+      "original_symbol": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c80ac",
+      "size": 472,
+      "sha256": "5a26eb47925eeab956b077e3640db5ad443255f3b41af8e8385f36fcbb2369ea"
+    },
+    {
+      "original_symbol": "_ZN6CSMove6OnBlurEiP9CharacterP16CharStateMachinei",
+      "elf_address": "0x3c3aa4",
+      "size": 168,
+      "sha256": "787001b74becc7acb5f20baf917ee31bf589c18a82acc23b25d3ad05e298ffae"
+    },
+    {
+      "original_symbol": "_ZN6CSMove7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "0x3c3bf8",
+      "size": 200,
+      "sha256": "27a72a124c962b750306aa755412d4205b734d4c2a246104f0f24266d85d5d7b"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetRotationSpeedEv",
+      "elf_address": "0x3a372c",
+      "size": 32,
+      "sha256": "ec3c41cebc9014ff6dd643991c2cc6d69cced1a723cc6fb99c93fbe191f9a166"
+    },
+    {
+      "original_symbol": "_ZNK9Character25IsValidatingFloorPositionEv",
+      "elf_address": "0x3a2e78",
+      "size": 16,
+      "sha256": "2d27f94217f9831e7df3dcd9ba0d1d14f40ee15d3edb60e263fd094d7a8afa6c"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator8_SetAnimEij",
+      "elf_address": "0x3cab38",
+      "size": 376,
+      "sha256": "29950d80f6d4a2b677edebbd7992bf2259cf3e5f1d31f1e5099ae2cc5c54caad"
+    },
+    {
+      "original_symbol": "_ZNK9Character28IsUpdatingPositionFromVisualEv",
+      "elf_address": "0x3a2e38",
+      "size": 12,
+      "sha256": "650e5ff7a3b0b041d4cc00734ce5f9b1ee28caf945cd872288008b581a6f1e02"
+    },
+    {
+      "original_symbol": "_ZNK9Character24IsValidatingCameraLimitsEv",
+      "elf_address": "0x3a2e88",
+      "size": 20,
+      "sha256": "99fd904aec86f24d64298d467d61e69e2bc90b08fba8d15a6b9e7db1806b0854"
+    },
+    {
+      "original_symbol": "_ZNK9Character14IsUpdatingPathEv",
+      "elf_address": "0x3a2e2c",
+      "size": 12,
+      "sha256": "260a510371770411b37bb08b15730cd79a9eb339830995f6aefcc7117bc4b502"
+    },
+    {
+      "original_symbol": "_ZN6Random9GetRandomEib.clone.1",
+      "elf_address": "0x3ca708",
+      "size": 148,
+      "sha256": "03f3b4e7e053e7f49bed5986910d6cb6cbd034dd586d53eae04fe5b3fc3daa27"
+    },
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator12_SetAnimStepEj",
+      "elf_address": "0x3ca79c",
+      "size": 924,
+      "sha256": "f30373543c3a10afae8ffa712a99f4d72b28ab46b828973dfafdcab01ce222cb"
+    }
+  ]
+}

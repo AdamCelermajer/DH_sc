@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "luaopen_table",
+      "elf_address": "0x85b174",
+      "size": 40,
+      "sha256": "aa474a84362c6c80c90657a54256b5d6b6e74fc338edb9dfe4faea621e1716a1"
+    },
+    {
+      "original_symbol": "lua_gettop",
+      "elf_address": "0x84b12c",
+      "size": 20,
+      "sha256": "6a412ac1e7ea820b189292192ff2ae956047027b7f675fc4d827e42632ea5c59"
+    },
+    {
+      "original_symbol": "luaopen_string",
+      "elf_address": "0x85a0dc",
+      "size": 216,
+      "sha256": "9e50b2bf50fe1876dd7853b47171ca00db7805b7743506ed895fd554b3bb38ce"
+    },
+    {
+      "original_symbol": "luaopen_base",
+      "elf_address": "0x84dbfc",
+      "size": 384,
+      "sha256": "1a32061d9e9e18be58ecd246787c06e39d5a6581d485a7650dd891ed1097c819"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance16registerFunctionEPKcPFiP9lua_StateERKNS1_9ArgumentsE",
+      "elf_address": "0x31af08",
+      "size": 180,
+      "sha256": "b0f9d588e9a1eb027632abc0b64471e9a9289ad479006b1101b0987e4a4c8ac2"
+    },
+    {
+      "original_symbol": "luaopen_math",
+      "elf_address": "0x853e38",
+      "size": 172,
+      "sha256": "e4e1d298a8657b62ffee33c1bc19dc36af270f678c00146516cf911ec3122c54"
+    }
+  ]
+}

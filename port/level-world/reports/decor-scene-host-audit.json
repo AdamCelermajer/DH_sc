@@ -1,0 +1,13 @@
+{
+  "comparisons": 503,
+  "authored_placements": 82,
+  "native_marked_templates": 8,
+  "native_unmarked_templates": 1,
+  "malformed_checks": 58,
+  "mismatches": 0,
+  "sanitizers": "address,undefined",
+  "optimization": "O1,no fast math,fp-contract off",
+  "executable": "/home/adampalace/dh2-decor-scene-audit/audit",
+  "fixture": ".local-inputs/decor-scene-discovery/reference.bin",
+  "asset_directory": "port/android-native/app/src/main/assets/actors"
+}

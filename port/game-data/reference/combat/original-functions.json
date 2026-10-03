@@ -1,0 +1,143 @@
+{
+    "original_sha256":  "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "functions":  [
+                      {
+                          "original_symbol":  "_ZN6Random9GetRandomEib.clone.1",
+                          "elf_address":  "0x3af6d8",
+                          "size":  148,
+                          "sha256":  "33d2244c464d7678ccd22f7ee6363afdad63e2d534241f527dbb00b10d7c3091"
+                      },
+                      {
+                          "original_symbol":  "_Z12CF__CalcPushP9CharacterS0_ii",
+                          "elf_address":  "0x3b0d78",
+                          "size":  276,
+                          "sha256":  "5ea9b6ba48810a6d3077388d5aa9b8f6ebb2ee019d590be56053275b008e3112"
+                      },
+                      {
+                          "original_symbol":  "_Z19CF__CalcMissOrDodgeP9CharacterS0_iiib",
+                          "elf_address":  "0x3b1df0",
+                          "size":  456,
+                          "sha256":  "aa8a06adae8888d3b1ec28628da19d34355a1db706e93319a8186567d29cf5c6"
+                      },
+                      {
+                          "original_symbol":  "_Z12CF__CalcStunP9CharacterS0_ii",
+                          "elf_address":  "0x3b0fa0",
+                          "size":  276,
+                          "sha256":  "20db6afb777e50e0f60170cbcfe03a2025cb4347ab8350333d24493a613274f1"
+                      },
+                      {
+                          "original_symbol":  "_Z12CF__CalcFearP9CharacterS0_ii",
+                          "elf_address":  "0x3b0c64",
+                          "size":  276,
+                          "sha256":  "5d9bd8278f615ac2c487b6285c180985a92553c47777227f7ebe6759d1378310"
+                      },
+                      {
+                          "original_symbol":  "_Z12CF__CalcCritP9CharacterS0_ii",
+                          "elf_address":  "0x3b0868",
+                          "size":  176,
+                          "sha256":  "5d0041977e0a496676135d97eda80593078a4d36d9b2fff452f5040e86810a24"
+                      },
+                      {
+                          "original_symbol":  "_Z12CF__CalcHurtP9CharacterS0_ii",
+                          "elf_address":  "0x3b0e8c",
+                          "size":  276,
+                          "sha256":  "aba74694ebc5a8d3b38baf9270468a67eaf09890b10f34507ce8fbac9933dee8"
+                      },
+                      {
+                          "original_symbol":  "_Z12CF__CalcSlowP9CharacterS0_ii",
+                          "elf_address":  "0x3b0ad4",
+                          "size":  400,
+                          "sha256":  "140097d9939152f56c3bbdc7b7bfa473c2639736aba0016a5ec787693a67a7f7"
+                      },
+                      {
+                          "original_symbol":  "_Z16CF_SetCombatantsP9CharacterS0_ibb",
+                          "elf_address":  "0x3b059c",
+                          "size":  128,
+                          "sha256":  "f109dc90a61b935c8ff9fa82e13106afd3ae5ee39837d65a725354379b04d572"
+                      },
+                      {
+                          "original_symbol":  "_Z13CF__CalcBlockP9CharacterS0_ii",
+                          "elf_address":  "0x3b0918",
+                          "size":  172,
+                          "sha256":  "633166de7cab34bf8d54930a4212edb3258328e2a5f407ca7aa45287d47020e7"
+                      },
+                      {
+                          "original_symbol":  "_Z14CF__CalcDamageP9CharacterS0_iiibb",
+                          "elf_address":  "0x3b1fb8",
+                          "size":  1664,
+                          "sha256":  "ad228745d2b1e04f3f6a22495338f9940a9dadfce82bc9ddccf615ff916f638d"
+                      },
+                      {
+                          "original_symbol":  "_ZNK16CharStateMachine11SM_GetStateEv",
+                          "elf_address":  "0x3c01ac",
+                          "size":  20,
+                          "sha256":  "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+                      },
+                      {
+                          "original_symbol":  "_ZNK14CharProperties20PROPS_GetBonusDamageEb",
+                          "elf_address":  "0x3df8ac",
+                          "size":  212,
+                          "sha256":  "d5ba6551dae014418fe3cb7ee5377f794a5cedd102d175f4d7a101279b26dcc7"
+                      },
+                      {
+                          "original_symbol":  "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+                          "elf_address":  "0x3dedb4",
+                          "size":  292,
+                          "sha256":  "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+                      },
+                      {
+                          "original_symbol":  "_ZNK14CharProperties9PROPS_GetEib.clone.3",
+                          "elf_address":  "0x3af76c",
+                          "size":  16,
+                          "sha256":  "63c085634cb7a176a505c2536e974d50b4c40fef2bc98e07ca1c2f562aae73be"
+                      },
+                      {
+                          "original_symbol":  "_Z16CF_CalcDotDamageP9CharacterS0_b",
+                          "elf_address":  "0x3b09c4",
+                          "size":  272,
+                          "sha256":  "bf4618e32f9fd56c5d7abf85d30abafeb0ca8c8df38b9a97dd3d00c9d63a714b"
+                      },
+                      {
+                          "original_symbol":  "_ZN13ItemInventory15GetEquippedItemEj",
+                          "elf_address":  "0x3ffe3c",
+                          "size":  80,
+                          "sha256":  "69cf53b6cff74ab550cd32f132e5a8a15b3b86fb9fa35be16a195bf20c2f918f"
+                      },
+                      {
+                          "original_symbol":  "_ZNK13ItemInventory9HasShieldEv",
+                          "elf_address":  "0x400110",
+                          "size":  72,
+                          "sha256":  "6bb9c61905b9258e5b7eb9c645f8ef7ab77e5a52784748040ba96ee66f615d77"
+                      },
+                      {
+                          "original_symbol":  "_ZNK13ItemInventory14IsDualWieldingEv",
+                          "elf_address":  "0x40019c",
+                          "size":  4,
+                          "sha256":  "c03b26a2b81d0620626937c6329b87cd97a8b20c758c94a045486bae5ffdba57"
+                      },
+                      {
+                          "original_symbol":  "_ZNK13ItemInventory12HasTwoHanderEb",
+                          "elf_address":  "0x4001a0",
+                          "size":  140,
+                          "sha256":  "fb30a48a8275d5caad1d79ae0e981d1a0fa436a46318967b373d04427aae3189"
+                      },
+                      {
+                          "original_symbol":  "_ZNK12ItemInstance7GetItemEv",
+                          "elf_address":  "0x3f9e08",
+                          "size":  44,
+                          "sha256":  "df3cef6ad94f3333a35c215c39f1330df860704814086e3f08133ee6333836b2"
+                      },
+                      {
+                          "original_symbol":  "_ZNK13ItemInventory16HasOffHandWeaponEv",
+                          "elf_address":  "0x400158",
+                          "size":  68,
+                          "sha256":  "85f0ba7f6478e524064787834ac6983146bb37bd8b0e1ddc794c9185e82efdc3"
+                      },
+                      {
+                          "original_symbol":  "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+                          "elf_address":  "0x3fc6a8",
+                          "size":  32,
+                          "sha256":  "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac"
+                      }
+                  ]
+}

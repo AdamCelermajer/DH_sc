@@ -1,0 +1,20 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "091c2f8b0bf414d86faf6ccb00de783e44f469da7c26618aba277598f7e04972",
+  "corpus_sha256": "523f24079f703a5df42631010de7d6cc9d7d8094f6efc2daaebb53a4702cb03f",
+  "counts": {
+    "calculate": 480,
+    "reset": 480,
+    "displace": 644,
+    "apply": 32,
+    "sync": 32,
+    "rotation": 128,
+    "ordered_calls": 20,
+    "asset_samples": 3567
+  },
+  "cases": 1796,
+  "mismatches": 0,
+  "seconds": 21.532,
+  "fidelity": "Actual original root/applicator/game and visual routines. AbsolutePosition and SetXForm services observed; timeline/animator type/ownership fixtures. Full animator blending, culling and frame scheduling remain external.",
+  "math_dependency_sha256": "a1930fd7b9ea40fbb876cf5746d8d790bf2d1a0e0ef361eff4d61bb84a7138c0"
+}

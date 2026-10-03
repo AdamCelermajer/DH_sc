@@ -1,0 +1,30 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "inputs": [
+    {
+      "asset": "data/character_classes_pyarray.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_classes_pyarray.bin",
+      "bytes": 34224,
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55"
+    },
+    {
+      "asset": "data/character_classes_pyarraynames.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_classes_pyarraynames.bin",
+      "bytes": 6607,
+      "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"
+    },
+    {
+      "asset": "data/character_classes_pystructnames.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_classes_pystructnames.bin",
+      "bytes": 750,
+      "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+    },
+    {
+      "asset": "data/character_classes_pycst.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_classes_pycst.bin",
+      "bytes": 251,
+      "sha256": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84"
+    }
+  ],
+  "runtime_scope": "Native complete class reader and cached base-class snapshots. Dynamic gear/buff/property resolution, level selection and combat remain pending. Constants file retained as enum evidence."
+}

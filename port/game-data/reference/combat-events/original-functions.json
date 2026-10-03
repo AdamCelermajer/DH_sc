@@ -1,0 +1,107 @@
+{
+    "original_sha256":  "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "functions":  [
+                      {
+                          "original_symbol":  "_ZN9Character10RaiseEventEiPv",
+                          "elf_address":  "0x3a4d5c",
+                          "size":  28,
+                          "sha256":  "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+                      },
+                      {
+                          "original_symbol":  "_GLOBAL__I_.._.._sources_Game_Objects_Characters_StateMachine_CharStateMachine.cpp",
+                          "elf_address":  "0x3c1bec",
+                          "size":  2740,
+                          "sha256":  "fdbe2613cb2831dffd2a37142492dedd6ff21b33518141b31a4ca995e14c11a2"
+                      },
+                      {
+                          "original_symbol":  "_ZN9Character10CSM_AttackEiPviRi",
+                          "elf_address":  "0x3ad22c",
+                          "size":  16,
+                          "sha256":  "64b40b5ff8cc904277094ae7882a282dbca29c5a8e9a435dc691bf2912f5c95e"
+                      },
+                      {
+                          "original_symbol":  "_ZN16CharStateMachine17SM_SetAttackStateEPvb",
+                          "elf_address":  "0x3c6488",
+                          "size":  36,
+                          "sha256":  "09372f684e5f1769c4a778b6cc1a1f6e03b192acf30e6282388f7865c74d8cf1"
+                      },
+                      {
+                          "original_symbol":  "_ZN16CharStateMachine15RaiseStateEventEiPv",
+                          "elf_address":  "0x3c5684",
+                          "size":  508,
+                          "sha256":  "5508184fa6236ab106322e2ac88495dd991dcba5b1c8f3a2d9ca89eb2d633477"
+                      },
+                      {
+                          "original_symbol":  "_ZN6CharAI12RaiseAIEventEiPv",
+                          "elf_address":  "0x3cbb34",
+                          "size":  1764,
+                          "sha256":  "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+                      },
+                      {
+                          "original_symbol":  "_ZN6CharAI16AI_DoMeleeAttackEP10GameObjectb",
+                          "elf_address":  "0x3d01ac",
+                          "size":  1472,
+                          "sha256":  "0899628bfcb3ab31927428f0d03ddeee6feb1161a690e88a565c1ccc5519b947"
+                      },
+                      {
+                          "original_symbol":  "_ZN6CharAI11OnAnimEventEPKc",
+                          "elf_address":  "0x3d0cc4",
+                          "size":  36,
+                          "sha256":  "56cc9a15d44b0d00ead6db94ca369b63f39e93d2bd7a859daeb5237701b17eff"
+                      },
+                      {
+                          "original_symbol":  "_ZN6CharAI12_OnAnimEventEPKc",
+                          "elf_address":  "0x3d4434",
+                          "size":  1424,
+                          "sha256":  "19cc413b745f4e9b52408e463c76c814ce5534fa3f6d345ab83774d62f26f315"
+                      },
+                      {
+                          "original_symbol":  "_ZN9Character13F_MeleeAttackERNS_12AttackResultEPS_S2_bb",
+                          "elf_address":  "0x3b3368",
+                          "size":  648,
+                          "sha256":  "bdf133ce77fe5870da410e54ea6336c51fb7b0d9bc4bf57b5eb4d76c077fa777"
+                      },
+                      {
+                          "original_symbol":  "_ZN6CharAI23_OnAnimStepBegin_AttackEv",
+                          "elf_address":  "0x3d4044",
+                          "size":  220,
+                          "sha256":  "9645b80bae6459ef6f077ebc34cc864636ba094b6b2f354d5d85c3512c43b571"
+                      },
+                      {
+                          "original_symbol":  "_ZN6CharAI11_SpellEventEv",
+                          "elf_address":  "0x3d8ba4",
+                          "size":  84,
+                          "sha256":  "76db1a7aec5f4564857504e6b8f1d6ea83f3b5219613a9c889689c9a1de70167"
+                      },
+                      {
+                          "original_symbol":  "_ZNK12CharAnimator17ANIM_GetStepCountEv",
+                          "elf_address":  "0x3c934c",
+                          "size":  76,
+                          "sha256":  "cfde16b3ab8de34a4516b12a979c4f3d38da0a2cc495f3c6e0c6b4f82b28c4a0"
+                      },
+                      {
+                          "original_symbol":  "_ZN6CharAI11_SkillEventEv",
+                          "elf_address":  "0x3d8bf8",
+                          "size":  40,
+                          "sha256":  "e6ae60569613882df422bd19922e0a38e118c280e5f1767594ba6e1590787120"
+                      },
+                      {
+                          "original_symbol":  "_ZNK12CharAnimator17ANIM_GetStepIndexEv",
+                          "elf_address":  "0x3c932c",
+                          "size":  32,
+                          "sha256":  "7b4597c47373dc93d648c72e5c679d00eb7123d0106c93df00992dbd34c67985"
+                      },
+                      {
+                          "original_symbol":  "_ZN10AISDefault8OnAttackEiib",
+                          "elf_address":  "0x3dc12c",
+                          "size":  132,
+                          "sha256":  "abf287677368ac99b86a559eff86dbb007cb9bf8a57b94ac9355a7b1d7be961e"
+                      },
+                      {
+                          "original_symbol":  "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+                          "elf_address":  "0x3d6890",
+                          "size":  556,
+                          "sha256":  "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+                      }
+                  ]
+}

@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14PlayerSavegameC1Ejib",
+      "elf_address": "0x4655ac",
+      "size": 272,
+      "sha256": "f71ad71b4199fb3278527c0de72ad43ae6020ffcfde1fccc3f5fbe8c43b3027f"
+    },
+    {
+      "original_symbol": "_ZN9Character12CreatePlayerEjjjPKcbb",
+      "elf_address": "0x3acea4",
+      "size": 228,
+      "sha256": "a233494ce492890bfad87c023079163ccd7cc8433d36e8e908e1a1156c22f7f4"
+    },
+    {
+      "original_symbol": "_ZN9Character17SG_SetPlayerClassEi",
+      "elf_address": "0x3bb814",
+      "size": 20,
+      "sha256": "500a94c81b0967927454deaee2244d90e7d9dae2e07bfb04dcb3d88a95b7e54b"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17__LoadPlayerClassEP11IStreamBasePv",
+      "elf_address": "0x469d88",
+      "size": 228,
+      "sha256": "2b3d660fdaa3699a8ef76fd2f5ea899bc2cd97a3abaf55e98bf200871b70be0e"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegameC2Ev",
+      "elf_address": "0x465c40",
+      "size": 352,
+      "sha256": "d912c7e96e8d0c523b7aa8e93c40150472de43c8bd0ea8ca3773cfe13107e160"
+    },
+    {
+      "original_symbol": "_ZN9Character7InitAllEv",
+      "elf_address": "0x3b35f0",
+      "size": 40,
+      "sha256": "a0cb579c5d560843ef584d20f1564de1e6e507f661201dfef7b63b6d0b6a2d9b"
+    },
+    {
+      "original_symbol": "_ZN9Character12CreatePlayerEPS_jjPKc",
+      "elf_address": "0x3acd58",
+      "size": 332,
+      "sha256": "64e0aa310859eb5dd98a02d3e618b99098fbdf89676d00f1fa6b50240bc81adb"
+    },
+    {
+      "original_symbol": "_ZN9Character24InitializePlayerSavegameEv",
+      "elf_address": "0x3b36b0",
+      "size": 52,
+      "sha256": "30123d9f8a72d9e531e14bc9cff5d363580d7c3069730d1713bbcfa08bf6c821"
+    }
+  ]
+}

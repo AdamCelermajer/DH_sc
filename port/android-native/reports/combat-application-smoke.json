@@ -1,0 +1,559 @@
+{
+  "apk_sha256": "39529cc6403c31b6c03eb0596ad512676513f862bfe9e95f8f5607e230998553",
+  "installed_apk_sha256": "39529cc6403c31b6c03eb0596ad512676513f862bfe9e95f8f5607e230998553",
+  "original_application_report_sha256": "1fbe59202a22034fe7273d5f93285e785039d736a80132c8fb057e04cd80f6d0",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "17c40127e95ae37e60b5759bfbace61a4fd6e8b84de12d3d5ceae67b1420b3f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "c2c49f01ce6c8504d9bd0f857a34e9d4aa150125bcd7023c16d6d3ce45dd80a2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "3772193ff7bace24b1cd4d4382024e1bcb57049de847f1abdbe82453ac5f295b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "46e95ca4f128b3ecc6658efe233422ef409000ca6542b8b4bfc203691fbff610",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "4ea022d87c92dd9e7c3192098b6a3387982f4a17d034a266af46fa9f470903d4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "478cf1644b281d031ed164b10974ee83124d514ab805179ebdd85b0674a7a9df",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "0f7dc4623ae58fcd2013a7fd956f76cd48dd9b5d6b022b34408d79ab21fe401a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "e9b2656fba13d58657a6962986c6750091319e6691dd5a7d69fe8166fa6e8036",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "73db541e95afea511eca0daaf767a2feb611ad313b00737be214213a6fba8953",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "b85519229cea1ef7af2fb58b7843eba2c2792230acf81115c55291f4067b5f09",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "pairs": [
+    {
+      "attacker_index": 0,
+      "defender_index": 2,
+      "attacker": "_prim_tmp_cultist01",
+      "defender": "_prim_tmp_cultist05",
+      "attacks": [
+        {
+          "result": [
+            2015,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 12160,
+          "hp_after": 10145,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            9988867,
+            9
+          ],
+          "status_requests": 8
+        },
+        {
+          "result": [
+            2386,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 10145,
+          "hp_after": 7759,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            11996333,
+            18
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            2040,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 7759,
+          "hp_after": 5719,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            9007020,
+            27
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            2218,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 5719,
+          "hp_after": 3501,
+          "dead": 0,
+          "combo": 4,
+          "random_after": [
+            407936,
+            36
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            2163,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 3501,
+          "hp_after": 1338,
+          "dead": 0,
+          "combo": 5,
+          "random_after": [
+            12280425,
+            45
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            1987,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 1338,
+          "hp_after": 0,
+          "dead": 1,
+          "combo": 6,
+          "random_after": [
+            13297027,
+            54
+          ],
+          "status_requests": 0
+        }
+      ],
+      "death_clip": 1251,
+      "death_screenshot": "pair-0-dead-target.png",
+      "frozen_no_hit": true,
+      "dead_target_rejected": true
+    },
+    {
+      "attacker_index": 2,
+      "defender_index": 76,
+      "attacker": "_prim_tmp_cultist05",
+      "defender": "_prim_Monster_Ghost05",
+      "attacks": [
+        {
+          "result": [
+            2015,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 12160,
+          "hp_after": 10145,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            9988867,
+            9
+          ],
+          "status_requests": 8
+        },
+        {
+          "result": [
+            2386,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 10145,
+          "hp_after": 7759,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            11996333,
+            18
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            2040,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 7759,
+          "hp_after": 5719,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            9007020,
+            27
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            2218,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 5719,
+          "hp_after": 3501,
+          "dead": 0,
+          "combo": 4,
+          "random_after": [
+            407936,
+            36
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            2163,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 3501,
+          "hp_after": 1338,
+          "dead": 0,
+          "combo": 5,
+          "random_after": [
+            12280425,
+            45
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            1987,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 1338,
+          "hp_after": 0,
+          "dead": 1,
+          "combo": 6,
+          "random_after": [
+            13297027,
+            54
+          ],
+          "status_requests": 0
+        }
+      ],
+      "death_clip": 700,
+      "death_screenshot": "pair-1-dead-target.png",
+      "frozen_no_hit": true,
+      "dead_target_rejected": true
+    },
+    {
+      "attacker_index": 76,
+      "defender_index": 0,
+      "attacker": "_prim_Monster_Ghost05",
+      "defender": "_prim_tmp_cultist01",
+      "attacks": [
+        {
+          "result": [
+            2015,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            16,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 12160,
+          "hp_after": 10145,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            9988867,
+            9
+          ],
+          "status_requests": 8
+        },
+        {
+          "result": [
+            2386,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 10145,
+          "hp_after": 7759,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            11996333,
+            18
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            2040,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 7759,
+          "hp_after": 5719,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            9007020,
+            27
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            2218,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 5719,
+          "hp_after": 3501,
+          "dead": 0,
+          "combo": 4,
+          "random_after": [
+            407936,
+            36
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            2163,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 3501,
+          "hp_after": 1338,
+          "dead": 0,
+          "combo": 5,
+          "random_after": [
+            12280425,
+            45
+          ],
+          "status_requests": 0
+        },
+        {
+          "result": [
+            1987,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 1338,
+          "hp_after": 0,
+          "dead": 1,
+          "combo": 6,
+          "random_after": [
+            13297027,
+            54
+          ],
+          "status_requests": 0
+        }
+      ],
+      "death_clip": 1185,
+      "death_screenshot": "pair-2-dead-target.png",
+      "frozen_no_hit": true,
+      "dead_target_rejected": true
+    }
+  ],
+  "native_hits_verified": 18,
+  "frozen_attacks_do_not_hit": true,
+  "dead_target_rejection_verified": true,
+  "automatic_original_death_clips_verified": true,
+  "rotation_preserves_hp_and_does_not_replay_hits": [
+    {
+      "orientation": 1,
+      "target_hp": 10145,
+      "hits": 1
+    },
+    {
+      "orientation": 0,
+      "target_hp": 10145,
+      "hits": 1
+    }
+  ],
+  "inflight_pause_resume_does_not_replay_hits": [
+    {
+      "case": "inflight_attack_pause_resume",
+      "hits": 2
+    }
+  ],
+  "target_acquisition_scope": "Explicit development target indices; automatic AI/player targeting remains pending.",
+  "status_services_implemented": false,
+  "full_kill_rewards_or_ai_fsm_implemented": false,
+  "physical_arm64_tested": false,
+  "full_game_playable": false
+}

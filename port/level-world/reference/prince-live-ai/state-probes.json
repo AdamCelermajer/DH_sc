@@ -1,0 +1,2183 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "probe_sha256": "9654b3f6b423aaa30208ae2c76fe2666435a8334524498a6b783200c5b28225b",
+  "manifest_sha256": "ea53c9c339e3e36a0d7113a8ef600f87261ad608f8b579daaead9233c71cc54c",
+  "original_cases": 215,
+  "native_comparisons": 0,
+  "mismatches": 0,
+  "scope": "Bounded original instruction probes; no native comparison or full AI runtime claim.",
+  "services": {
+    "constructor_global_registry_storage": "caller-allocated vector capacity; original append executes",
+    "pause_seeking_timer": "timer scheduling observer only"
+  },
+  "records": [
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 0,
+      "attack_bytes": "00000000000000",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 0,
+      "attack_bytes": "00000000000000",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 0,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 0
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 0,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 0,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 0,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 0,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 1,
+      "attack_bytes": "01010101010101",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 1,
+      "attack_bytes": "01010101010101",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 1,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 1
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 1,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 1,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 1,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 16843009,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 2,
+      "attack_bytes": "02020202020202",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 2,
+      "attack_bytes": "02020202020202",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 2,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 2
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 2,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 2,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 2,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 33686018,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 7,
+      "attack_bytes": "07070707070707",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 7,
+      "attack_bytes": "07070707070707",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 7,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 7
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 7,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 7,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 7,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 117901063,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 8,
+      "attack_bytes": "08080808080808",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 8,
+      "attack_bytes": "08080808080808",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 8,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 8
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 8,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 8,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 8,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 134744072,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 19,
+      "attack_bytes": "13131313131313",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 19,
+      "attack_bytes": "13131313131313",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 19,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 19
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 19,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 19,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 19,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 320017171,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 31,
+      "attack_bytes": "1f1f1f1f1f1f1f",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 31,
+      "attack_bytes": "1f1f1f1f1f1f1f",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 31,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 31
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 31,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 31,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 31,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 522133279,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 63,
+      "attack_bytes": "3f3f3f3f3f3f3f",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 63,
+      "attack_bytes": "3f3f3f3f3f3f3f",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 63,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 63
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 63,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 63,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 63,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 1061109567,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 85,
+      "attack_bytes": "55555555555555",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 85,
+      "attack_bytes": "55555555555555",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 85,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 85
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 85,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 85,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 85,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 1431655765,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 127,
+      "attack_bytes": "7f7f7f7f7f7f7f",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 127,
+      "attack_bytes": "7f7f7f7f7f7f7f",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 127,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 127
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 127,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 127,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 127,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 2139062143,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 128,
+      "attack_bytes": "80808080808080",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 128,
+      "attack_bytes": "80808080808080",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 128,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 128
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 128,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 128,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 128,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 2155905152,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 170,
+      "attack_bytes": "aaaaaaaaaaaaaa",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 170,
+      "attack_bytes": "aaaaaaaaaaaaaa",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 170,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 170
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 170,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 170,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 170,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 2863311530,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 199,
+      "attack_bytes": "c7c7c7c7c7c7c7",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 199,
+      "attack_bytes": "c7c7c7c7c7c7c7",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 199,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 199
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 199,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 199,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 199,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 3351758791,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 200,
+      "attack_bytes": "c8c8c8c8c8c8c8",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 200,
+      "attack_bytes": "c8c8c8c8c8c8c8",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 200,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 200
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 200,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 200,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 200,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 3368601800,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 254,
+      "attack_bytes": "fefefefefefefe",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 254,
+      "attack_bytes": "fefefefefefefe",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 254,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 254
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 254,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 254,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 254,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 4278124286,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3ced50",
+      "prefill": 255,
+      "attack_bytes": "ffffffffffffff",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_charai_constructor",
+      "entry": "0x3cebf0",
+      "prefill": 255,
+      "attack_bytes": "ffffffffffffff",
+      "owner_preserved": true,
+      "seeking": 1,
+      "sticky": 1,
+      "skill": [
+        0,
+        0
+      ],
+      "global_append": true
+    },
+    {
+      "kind": "complete_hud_controller_constructor",
+      "prefill": 255,
+      "locked": 0,
+      "forced": 0
+    },
+    {
+      "kind": "set_character_preserves_session",
+      "prefill": 255
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 255,
+      "target": 0,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 255,
+      "target": 33562624,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "forced_set_target",
+      "prefill": 255,
+      "target": 33570816,
+      "seeking_and_sticky_retained": true
+    },
+    {
+      "kind": "pause_seeking",
+      "duration": 4294967295,
+      "seeking": 0,
+      "sticky_retained": true,
+      "timer_event": 50
+    },
+    {
+      "kind": "selected_ais_empty",
+      "entry": "0x3dbef8",
+      "arg": 0
+    },
+    {
+      "kind": "selected_ais_empty",
+      "entry": "0x3dbef8",
+      "arg": 1
+    },
+    {
+      "kind": "selected_ais_empty",
+      "entry": "0x3dbef8",
+      "arg": 4294967295
+    },
+    {
+      "kind": "selected_ais_empty",
+      "entry": "0x3dbeec",
+      "arg": 0
+    },
+    {
+      "kind": "selected_ais_empty",
+      "entry": "0x3dbeec",
+      "arg": 1
+    },
+    {
+      "kind": "selected_ais_empty",
+      "entry": "0x3dbeec",
+      "arg": 4294967295
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        0,
+        1,
+        1,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        1,
+        1,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        0,
+        1,
+        1,
+        1,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        1,
+        0,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        1,
+        0,
+        1,
+        1
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        1,
+        1,
+        0,
+        1
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 0,
+      "facts": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        0,
+        0,
+        1,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        0,
+        1,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        0,
+        1,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        0,
+        1,
+        1,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        1,
+        0,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        1,
+        0,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        1,
+        0,
+        1,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        1,
+        1,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        1,
+        1,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        0,
+        1,
+        1,
+        1,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        0,
+        0,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        0,
+        0,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        0,
+        1,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        0,
+        1,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        0,
+        1,
+        1,
+        1
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        1,
+        0,
+        0,
+        1
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "result": 0,
+      "ordered_service_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        1,
+        0,
+        1,
+        1
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        1,
+        1,
+        0,
+        0
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        1,
+        1,
+        0,
+        1
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        1,
+        1,
+        1,
+        0
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "kind": "can_attack_original_flow",
+      "explicit_target": 1,
+      "facts": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "result": 1,
+      "ordered_service_indices": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "kind": "can_attack_null_target",
+      "result": 0,
+      "ordered_service_indices": []
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 0,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 1,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 2,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 7,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 8,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 19,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 31,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 63,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 85,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 127,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 128,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 170,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 199,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 200,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 254,
+      "signed_result": -1
+    },
+    {
+      "kind": "character_constructor_object_interest_slice",
+      "prefill": 255,
+      "signed_result": -1
+    }
+  ]
+}

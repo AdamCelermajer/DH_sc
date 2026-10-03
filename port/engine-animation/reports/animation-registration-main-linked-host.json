@@ -1,0 +1,90 @@
+{
+  "validation": "PASS",
+  "checks": {
+    "validation": "PASS",
+    "cases": 42,
+    "appends": 2529,
+    "lookups": 2529,
+    "entry_checks": 2120,
+    "atomic_rejections": 211,
+    "sanitizer_findings": 0
+  },
+  "source_sha256": {
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/asset-payloads/payloads.hpp": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee",
+    "port/engine-animation/animation.cpp": "476bff4e192d4cdb091b1e235e1d9204ff4802a4e626600a87d69782e2155fb8",
+    "port/engine-animation/animation.hpp": "3a5b3af0b1c2221e1e132e397a83d16188462a0dd8215e7f68498d55aa622d48",
+    "port/engine-animation/animation_blend.cpp": "5066e683add9d92643f350aa91819f694a7b2be82201785be40cc7812536d2ac",
+    "port/engine-animation/animation_blend.hpp": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3",
+    "port/engine-animation/animation_registration.cpp": "74365756322d081aa171ca54802fbf5a94488f1e29a9b9a0260ff0bb2514f0ae",
+    "port/engine-animation/animation_registration.hpp": "2a7d8c0f6cb887af5e2268c88e28fc5408441d9770d7fbc779efbcd897bca8b1",
+    "port/engine-animation/CMakeLists.txt": "460bfdf8f91cff7c09556b5fbc29143a6d40fb4134c5da66d294b824d9a715c9",
+    "port/engine-animation/component_applicator.cpp": "9abca1a630447b10b7ea871f66af1e523511af5328fd03189e8be13dd1bb57bd",
+    "port/engine-animation/component_applicator.hpp": "dd30a665ff1ad58ddceb04c8d204ac597237a17761eee9055fb985b219af945d",
+    "port/engine-animation/event_track.cpp": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+    "port/engine-animation/events.cpp": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+    "port/engine-animation/events.hpp": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+    "port/engine-animation/tests/animation_registration.cpp": "67bc8da79ee978cdb377d947051058b3293495dda8a164d8a0f0e328be4e788d",
+    "port/engine-animation/tests/animation_registration_linked_host.py": "eba131bbdafeb843801e4a80699fc3eb7ebf1497b3f6b11fe1b30d1693ddbd8a",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "port/scene-materials/CMakeLists.txt": "50e937b770c298c095d95d1e69ff51e22b10bdb14e4081c44e078ae14a9a59b6",
+    "port/scene-materials/scene.cpp": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+    "port/scene-materials/scene.hpp": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90"
+  },
+  "binary_sha256": {
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/animation_registration_audit": "39df98bd626a90ea21905608653a986d0c4bac9d8eb6469f4260fe8dbae87741",
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so": "f64179404d27890353f9f7454241811e35a57ec332c8ee8cee159e9bf20eb857",
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so": "92af10e1621174e64890d1d295d97cb9ba1c3947b712636997c42e1f4392ed07"
+  },
+  "gold_sha256": "341570b29d5a4dece607d0919d3b708a6c3064f5342ae12d9575dc6f6f07628d",
+  "original_report_sha256": "5f218272f6923c57fce83fe05af93532d127cad222ed4a9bb5faa23d3f681d9b",
+  "commands": [
+    {
+      "command": "cmake --build /home/adampalace/dh2-world-build --target animation_registration_audit -j8",
+      "returncode": 0,
+      "stdout": "[0/2] Re-checking globbed directories...\nninja: no work to do.\n",
+      "stderr": ""
+    },
+    {
+      "command": "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 /home/adampalace/dh2-world-build/engine-skinning/engine-animation/animation_registration_audit /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation/reference/animation-registration/original-corpus.bin",
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"cases\":42,\"appends\":2529,\"lookups\":2529,\"entry_checks\":2120,\"atomic_rejections\":211,\"sanitizer_findings\":0}\n",
+      "stderr": ""
+    },
+    {
+      "command": "readelf -d /home/adampalace/dh2-world-build/engine-skinning/engine-animation/animation_registration_audit",
+      "returncode": 0,
+      "stdout": "\nDynamic section at offset 0x6ab28 contains 37 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libasan.so.8]\n 0x0000000000000001 (NEEDED)             Shared library: [libdh2_engine_animation.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libdh2_scene_materials.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [libm.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [libubsan.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000001d (RUNPATH)            Library runpath: [/home/adampalace/dh2-world-build/engine-skinning/engine-animation:/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials]\n 0x000000000000000c (INIT)               0x3c000\n 0x000000000000000d (FINI)               0x5c634\n 0x0000000000000020 (PREINIT_ARRAY)      0x6bae8\n 0x0000000000000021 (PREINIT_ARRAYSZ)    8 (bytes)\n 0x0000000000000019 (INIT_ARRAY)         0x6baf0\n 0x000000000000001b (INIT_ARRAYSZ)       16 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x6bb00\n 0x000000000000001c (FINI_ARRAYSZ)       16 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x390\n 0x0000000000000005 (STRTAB)             0x2aa8\n 0x0000000000000006 (SYMTAB)             0xba0\n 0x000000000000000a (STRSZ)              17505 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000015 (DEBUG)              0x0\n 0x0000000000000003 (PLTGOT)             0x6bdb8\n 0x0000000000000002 (PLTRELSZ)           1512 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0x3b4e8\n 0x0000000000000007 (RELA)               0x7270\n 0x0000000000000008 (RELASZ)             213624 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000000000001e (FLAGS)              BIND_NOW\n 0x000000006ffffffb (FLAGS_1)            Flags: NOW PIE\n 0x000000006ffffffe (VERNEED)            0x71a0\n 0x000000006fffffff (VERNEEDNUM)         3\n 0x000000006ffffff0 (VERSYM)             0x6f0a\n 0x000000006ffffff9 (RELACOUNT)          8871\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    },
+    {
+      "command": "ldd /home/adampalace/dh2-world-build/engine-skinning/engine-animation/animation_registration_audit",
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007f5f7a39b000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007f5f79a00000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x00007f5f79600000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x00007f5f7a14f000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007f5f79200000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007f5f794da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007f5f78a00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f5f7a11f000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007f5f78600000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f5f7a39d000)\n",
+      "stderr": ""
+    },
+    {
+      "command": "sha256sum /home/adampalace/dh2-world-build/engine-skinning/engine-animation/animation_registration_audit",
+      "returncode": 0,
+      "stdout": "39df98bd626a90ea21905608653a986d0c4bac9d8eb6469f4260fe8dbae87741  /home/adampalace/dh2-world-build/engine-skinning/engine-animation/animation_registration_audit\n",
+      "stderr": ""
+    },
+    {
+      "command": "sha256sum /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so",
+      "returncode": 0,
+      "stdout": "f64179404d27890353f9f7454241811e35a57ec332c8ee8cee159e9bf20eb857  /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so\n",
+      "stderr": ""
+    },
+    {
+      "command": "sha256sum /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so",
+      "returncode": 0,
+      "stdout": "92af10e1621174e64890d1d295d97cb9ba1c3947b712636997c42e1f4392ed07  /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so\n",
+      "stderr": ""
+    }
+  ],
+  "elapsed_seconds": 3.41,
+  "scope": "Actual CMake shared animation library linked replay of original-derived registration. Borrowed resource identities are explicit fixtures. No raw transform, renderer, APK or device claim."
+}

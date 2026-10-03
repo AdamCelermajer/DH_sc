@@ -1,0 +1,582 @@
+{
+  "apk_sha256": "69d84af90ee574acd1507adc2ab204b85303bfc74714c4aa61b269c107a0fb5f",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "ee21428c960d3c372886506aea6356ca0b07b1966d5c560efd8deab78a5c76d1",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "09b6b6e706efbabdf6bd0966f0c627a4e01f0d4bbae5682bd533378004a35f17",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "27f28f6f653c92e0274692b380ccc3700314df22016de98266d0981c3934d939",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "17c40127e95ae37e60b5759bfbace61a4fd6e8b84de12d3d5ceae67b1420b3f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "00f297099a6145d3a0932da37335cec28a977f49b433f256edfff1023e95857f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "a265318afe0c882c4701d8a2f21e8e88c241d0b262c1aac4bd82b1054fe13c40",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "c2c49f01ce6c8504d9bd0f857a34e9d4aa150125bcd7023c16d6d3ce45dd80a2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "3beefbae3f5cf6a99ab166fff733448bb242a8b857dbf3b81c0d3c28fa957482",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "8081d18e725547311cdae7f99a7f419dd95f5e03d8389b849ab238ba6fac2245",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "a5c1a6d2c35795bd05d2c235ec28368e5d1d91ee84aa33bc1c15d4810824ffda",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "objects": 95,
+  "monsters": 11,
+  "decors": 84,
+  "resource_count": 12,
+  "cases": [
+    {
+      "screenshot": "skeleton-100.png",
+      "object_index": 0,
+      "model": "skeleton.bdae",
+      "room": 0,
+      "position": [
+        -1234.43,
+        497.979,
+        596.723
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1312129
+    },
+    {
+      "screenshot": "slime_green_v2-100.png",
+      "object_index": 2,
+      "model": "slime_green_v2.bdae",
+      "room": 0,
+      "position": [
+        168.605,
+        1606.04,
+        36.495
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1580615
+    },
+    {
+      "screenshot": "crypt_candles2_small-100.png",
+      "object_index": 6,
+      "model": "crypt_candles2_small.bdae",
+      "room": 0,
+      "position": [
+        1240.13,
+        2222.96,
+        203.729
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1744317
+    },
+    {
+      "screenshot": "crypt_candlestand_big-100.png",
+      "object_index": 7,
+      "model": "crypt_candlestand_big.bdae",
+      "room": 0,
+      "position": [
+        703.134,
+        1334.98,
+        -339.363
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1603235
+    },
+    {
+      "screenshot": "crypt_candlestand-100.png",
+      "object_index": 9,
+      "model": "crypt_candlestand.bdae",
+      "room": 0,
+      "position": [
+        -1544.31,
+        2136.67,
+        857.207
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1715624
+    },
+    {
+      "screenshot": "crypt_candle2-100.png",
+      "object_index": 11,
+      "model": "crypt_candle2.bdae",
+      "room": 0,
+      "position": [
+        -2613.86,
+        -761.059,
+        107.242
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 390001
+    },
+    {
+      "screenshot": "crypt_candle1_small-100.png",
+      "object_index": 15,
+      "model": "crypt_candle1_small.bdae",
+      "room": 0,
+      "position": [
+        2276.34,
+        1703.25,
+        73.8477
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1288713
+    },
+    {
+      "screenshot": "crypt_candles-100.png",
+      "object_index": 20,
+      "model": "crypt_candles.bdae",
+      "room": 0,
+      "position": [
+        2232.58,
+        -1552.11,
+        82.3379
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1244959
+    },
+    {
+      "screenshot": "swamp_caveentrance_effect-100.png",
+      "object_index": 22,
+      "model": "swamp_caveentrance_effect.bdae",
+      "room": 0,
+      "position": [
+        -2421.47,
+        1513.91,
+        813.438
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1289266
+    },
+    {
+      "screenshot": "crypt_candle_big-100.png",
+      "object_index": 30,
+      "model": "crypt_candle_big.bdae",
+      "room": 2,
+      "position": [
+        428.049,
+        7973.57,
+        94.9996
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1580930
+    },
+    {
+      "screenshot": "crypt_candle1-100.png",
+      "object_index": 42,
+      "model": "crypt_candle1.bdae",
+      "room": 3,
+      "position": [
+        -5589.659,
+        7440.469999999999,
+        142.634
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1162817
+    },
+    {
+      "screenshot": "ghost-100.png",
+      "object_index": 76,
+      "model": "ghost.bdae",
+      "room": 7,
+      "position": [
+        161.588,
+        20228.05,
+        607.5
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1529556
+    },
+    {
+      "screenshot": "skeleton-700.png",
+      "object_index": 0,
+      "model": "skeleton.bdae",
+      "room": 0,
+      "position": [
+        -1234.43,
+        497.979,
+        596.723
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1311626
+    },
+    {
+      "screenshot": "slime_green_v2-700.png",
+      "object_index": 2,
+      "model": "slime_green_v2.bdae",
+      "room": 0,
+      "position": [
+        168.605,
+        1606.04,
+        36.495
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1582286
+    },
+    {
+      "screenshot": "ghost-1000.png",
+      "object_index": 76,
+      "model": "ghost.bdae",
+      "room": 7,
+      "position": [
+        161.588,
+        20228.05,
+        607.5
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1530900
+    },
+    {
+      "screenshot": "crypt_candle_big-700.png",
+      "object_index": 30,
+      "model": "crypt_candle_big.bdae",
+      "room": 2,
+      "position": [
+        428.049,
+        7973.57,
+        94.9996
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1580388
+    },
+    {
+      "screenshot": "skeleton-frozen-a.png",
+      "object_index": 0,
+      "model": "skeleton.bdae",
+      "room": 0,
+      "position": [
+        -1234.43,
+        497.979,
+        596.723
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1312129
+    },
+    {
+      "screenshot": "skeleton-frozen-b.png",
+      "object_index": 0,
+      "model": "skeleton.bdae",
+      "room": 0,
+      "position": [
+        -1234.43,
+        497.979,
+        596.723
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1312129
+    },
+    {
+      "screenshot": "skeleton-live-a.png",
+      "object_index": 0,
+      "model": "skeleton.bdae",
+      "room": 0,
+      "position": [
+        -1234.43,
+        497.979,
+        596.723
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1312147
+    },
+    {
+      "screenshot": "skeleton-live-b.png",
+      "object_index": 0,
+      "model": "skeleton.bdae",
+      "room": 0,
+      "position": [
+        -1234.43,
+        497.979,
+        596.723
+      ],
+      "viewport": [
+        1080,
+        1975
+      ],
+      "bounds": [
+        0,
+        362,
+        1080,
+        2337
+      ],
+      "rendered_pixels": 1312894
+    },
+    {
+      "screenshot": "skeleton-landscape.png",
+      "object_index": 0,
+      "model": "skeleton.bdae",
+      "room": 0,
+      "position": [
+        -1234.43,
+        497.979,
+        596.723
+      ],
+      "viewport": [
+        2400,
+        655
+      ],
+      "bounds": [
+        0,
+        362,
+        2400,
+        1017
+      ],
+      "rendered_pixels": 991844
+    },
+    {
+      "screenshot": "skeleton-resumed.png",
+      "object_index": 0,
+      "model": "skeleton.bdae",
+      "room": 0,
+      "position": [
+        -1234.43,
+        497.979,
+        596.723
+      ],
+      "viewport": [
+        2400,
+        655
+      ],
+      "bounds": [
+        0,
+        362,
+        2400,
+        1017
+      ],
+      "rendered_pixels": 991737
+    }
+  ],
+  "changed_pixels_by_resource": {
+    "skeleton.bdae": 19752,
+    "slime_green_v2.bdae": 46209,
+    "ghost.bdae": 88634,
+    "crypt_candle_big.bdae": 35464
+  },
+  "frozen_stable": true,
+  "live_animation_changes": true,
+  "rotation_reloads_objects": true,
+  "resume_reloads_objects": true,
+  "player_teleported_for_tests": false,
+  "physical_arm64_tested": false,
+  "combat_or_ai_implemented": false,
+  "original_gpu_parity_verified": false
+}

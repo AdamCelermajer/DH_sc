@@ -1,0 +1,185 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNSt6vectorIN10CharTimers6_TimerESaIS1_EE7reserveEj.clone.2",
+      "elf_address": "0x3dba84",
+      "size": 136,
+      "sha256": "b7ebf7b4fec49c5344ffdf6bcc85131d9556f80091f1afdd0cb26bcaa7721600"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory6HasBowEv",
+      "elf_address": "0x400080",
+      "size": 72,
+      "sha256": "55a16e2b490af8025c900f3e608f930da5b44ab0d8ad044306d96b6b5f6aff9b"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN10CharTimers6_TimerESaIS1_EE9push_backERKS1_",
+      "elf_address": "0x3dbba4",
+      "size": 460,
+      "sha256": "e31ffc5a99d0fc69122acbef9b36d4ce04744db421fb8cb316a3ca9363b56ceb"
+    },
+    {
+      "original_symbol": "_ZNK10CharTimers6_Timer6GetRefEv",
+      "elf_address": "0x3db290",
+      "size": 8,
+      "sha256": "f97b82eff06f3455a7a831dfaa38d39255e289563ff5fe9fe5430f13e3727496"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory17HasMainHandWeaponEv",
+      "elf_address": "0x3ffe8c",
+      "size": 48,
+      "sha256": "ca3133a2bde33aa3fbd19720567addf999b760d9dc33117eb95b4ce905bccd01"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers10TMR_ResumeEj",
+      "elf_address": "0x3db2b8",
+      "size": 32,
+      "sha256": "be40211deaff587b3fef1055850bdfaf15ad5ef04161a52bc6a1110571ffc9e0"
+    },
+    {
+      "original_symbol": "_ZN10CharTimersC2Ev",
+      "elf_address": "0x3dbb0c",
+      "size": 76,
+      "sha256": "602eb47a4837f49a418e74a9c54cf69e7fa44179f7e25b340f88b8c1a45b2e9e"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers9TMR_StartEjiiPv",
+      "elf_address": "0x3dbe24",
+      "size": 84,
+      "sha256": "7d6993ff7e409b6b319e972d1604b4ee49a1affa167f349a480aad2dd06b1cb6"
+    },
+    {
+      "original_symbol": "_ZN6CharAI20OnAttackDelayExpiredEv",
+      "elf_address": "0x3d0c7c",
+      "size": 36,
+      "sha256": "f1e872e5adddd24b65f431080f0cfe2a2fcdd95aeee3b8a9866e87dfbc42331d"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers14_findTimerSlotEv",
+      "elf_address": "0x3dbd70",
+      "size": 180,
+      "sha256": "78509707fb174f666226ba75481af9aec5790950ded1655bbc0ed6302e2955b5"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers9TMR_PauseEj",
+      "elf_address": "0x3db298",
+      "size": 32,
+      "sha256": "a80c75ff699d86d8bed23d2308e5fda9123e7709cd3f1a448a79e17c28ba5256"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15RaiseStateEventEiPv",
+      "elf_address": "0x3c5684",
+      "size": 508,
+      "sha256": "5508184fa6236ab106322e2ac88495dd991dcba5b1c8f3a2d9ca89eb2d633477"
+    },
+    {
+      "original_symbol": "_ZNK9Character14GetAttackDelayEv",
+      "elf_address": "0x3a3438",
+      "size": 52,
+      "sha256": "90203784a9f5f9d314ab5de150be727dcf539c03926c1b644b16baf6b9fef39e"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory14IsDualWieldingEv",
+      "elf_address": "0x40019c",
+      "size": 4,
+      "sha256": "c03b26a2b81d0620626937c6329b87cd97a8b20c758c94a045486bae5ffdba57"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory12HasTwoHanderEb",
+      "elf_address": "0x4001a0",
+      "size": 140,
+      "sha256": "fb30a48a8275d5caad1d79ae0e981d1a0fa436a46318967b373d04427aae3189"
+    },
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance7GetItemEv",
+      "elf_address": "0x3f9e08",
+      "size": 44,
+      "sha256": "df3cef6ad94f3333a35c215c39f1330df860704814086e3f08133ee6333836b2"
+    },
+    {
+      "original_symbol": "_ZN8CSAttack7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "elf_address": "0x3c1288",
+      "size": 624,
+      "sha256": "857b6529867c7acb8781a083b1c1bea3bf24e57792ec9c74b33603d8c004b869"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory16HasOffHandWeaponEv",
+      "elf_address": "0x400158",
+      "size": 68,
+      "sha256": "85f0ba7f6478e524064787834ac6983146bb37bd8b0e1ddc794c9185e82efdc3"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers8TMR_StopEj",
+      "elf_address": "0x3db2d8",
+      "size": 32,
+      "sha256": "6dbf462d15b090873ba926013ab337200b3311223de9da6d7c3bcae893637b61"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers6UpdateEv",
+      "elf_address": "0x3db640",
+      "size": 612,
+      "sha256": "9de6ea9eecf3a80b360e1088589d15d4a49373c922fc4eb1cd83b0792b5d67de"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault20OnAttackDelayExpiredEv",
+      "elf_address": "0x3dbee8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZNK9Character13GetAnimStanceEv",
+      "elf_address": "0x3a53e0",
+      "size": 212,
+      "sha256": "0a55bdcde5f109c3e50e2ac4c2ef57f33604c327489c2e422f91fbea864948c0"
+    },
+    {
+      "original_symbol": "_ZNK10CharTimers12TMR_TimeLeftEjRjS0_",
+      "elf_address": "0x3db344",
+      "size": 68,
+      "sha256": "e2319098a2a413795b7a921dda15594fb2e23d328b97aeaa082028c29d4ccc38"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers12SetCharacterEP9Character",
+      "elf_address": "0x3db480",
+      "size": 148,
+      "sha256": "ba6a2a95f11f4cd7ba75cde8fb084e8f67b57c761fbc006a492be6d744821b59"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers11TMR_StopAllEv",
+      "elf_address": "0x3db2f8",
+      "size": 76,
+      "sha256": "4c4be998c34e3c17dfaddecb4f0f93fb6814c9c59a220934df725efde0cb084a"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory8HasStaffEv",
+      "elf_address": "0x4000c8",
+      "size": 72,
+      "sha256": "4400a3bc0b5b49e33d2275ecb33005bd601fb4ec985572191d85fb2b312458c9"
+    },
+    {
+      "original_symbol": "_ZN8CSAttack6OnBlurEiP9CharacterP16CharStateMachinei",
+      "elf_address": "0x3c3f74",
+      "size": 216,
+      "sha256": "51e719940c69645169c453eaa03a7b5c211dee8b7b3798813933b76bd604a5c9"
+    }
+  ]
+}

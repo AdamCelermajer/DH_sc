@@ -1,0 +1,3061 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "04a76d6d625a5d9b6a062d4b8050eb2e932d100b9e757f5b094a782e9f567c17",
+  "reference_sha256": "bbcf1989aa1018372197500201f30a726d215f4f7bf87c9c1065b8557bf21f2e",
+  "comparisons": 4476,
+  "mismatches": 0,
+  "totals": {
+    "look": 2132,
+    "set_heading": 2344,
+    "self_alias": 2171,
+    "look_calls": 2996,
+    "active": 2674,
+    "normalized": 984
+  },
+  "heading_probe": {
+    "directions": 128,
+    "active": 128,
+    "state_fnv1a64": "1d9e6d2ad9810f5c"
+  },
+  "behavior_snapshots": [
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 0.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 0.0, 0.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 0.0, 0.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 0.0, 0.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 0.0, 0.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 0.0, 0.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 0.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 0.0, 100.0)",
+      "output_words": [
+        0,
+        0,
+        1120403456,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 0.0, 100.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 0.0, 100.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 0.0, 100.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 0.0, 100.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-0.0, 0.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-0.0, 0.0, 0.0)",
+      "output_words": [
+        2147483648,
+        0,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-0.0, 0.0, 0.0)",
+      "output_words": [
+        2147483648,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-0.0, 0.0, 0.0)",
+      "output_words": [
+        2147483648,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-0.0, 0.0, 0.0)",
+      "output_words": [
+        2147483648,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-0.0, 0.0, 0.0)",
+      "output_words": [
+        2147483648,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-0.0, 0.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-0.0, 0.0, 100.0)",
+      "output_words": [
+        2147483648,
+        0,
+        1120403456,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-0.0, 0.0, 100.0)",
+      "output_words": [
+        2147483648,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-0.0, 0.0, 100.0)",
+      "output_words": [
+        2147483648,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-0.0, 0.0, 100.0)",
+      "output_words": [
+        2147483648,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-0.0, 0.0, 100.0)",
+      "output_words": [
+        2147483648,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, -0.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, -0.0, 0.0)",
+      "output_words": [
+        0,
+        2147483648,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, -0.0, 0.0)",
+      "output_words": [
+        0,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, -0.0, 0.0)",
+      "output_words": [
+        0,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, -0.0, 0.0)",
+      "output_words": [
+        0,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, -0.0, 0.0)",
+      "output_words": [
+        0,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, -0.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, -0.0, 100.0)",
+      "output_words": [
+        0,
+        2147483648,
+        1120403456,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, -0.0, 100.0)",
+      "output_words": [
+        0,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, -0.0, 100.0)",
+      "output_words": [
+        0,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, -0.0, 100.0)",
+      "output_words": [
+        0,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, -0.0, 100.0)",
+      "output_words": [
+        0,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-0.0, -0.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-0.0, -0.0, 0.0)",
+      "output_words": [
+        2147483648,
+        2147483648,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-0.0, -0.0, 0.0)",
+      "output_words": [
+        2147483648,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-0.0, -0.0, 0.0)",
+      "output_words": [
+        2147483648,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-0.0, -0.0, 0.0)",
+      "output_words": [
+        2147483648,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-0.0, -0.0, 0.0)",
+      "output_words": [
+        2147483648,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-0.0, -0.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-0.0, -0.0, 100.0)",
+      "output_words": [
+        2147483648,
+        2147483648,
+        1120403456,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-0.0, -0.0, 100.0)",
+      "output_words": [
+        2147483648,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-0.0, -0.0, 100.0)",
+      "output_words": [
+        2147483648,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-0.0, -0.0, 100.0)",
+      "output_words": [
+        2147483648,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-0.0, -0.0, 100.0)",
+      "output_words": [
+        2147483648,
+        2147483648,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (1.0, 0.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (1.0, 0.0, 0.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (1.0, 0.0, 0.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (1.0, 0.0, 0.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (1.0, 0.0, 0.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (1.0, 0.0, 0.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (1.0, 0.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (1.0, 0.0, 100.0)",
+      "output_words": [
+        1065353216,
+        0,
+        1120403456,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (1.0, 0.0, 100.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (1.0, 0.0, 100.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (1.0, 0.0, 100.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (1.0, 0.0, 100.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-1.0, 0.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1083624420,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-1.0, 0.0, 0.0)",
+      "output_words": [
+        3212836864,
+        0,
+        0,
+        1083624420,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-1.0, 0.0, 0.0)",
+      "output_words": [
+        3212836864,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-1.0, 0.0, 0.0)",
+      "output_words": [
+        3212836864,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-1.0, 0.0, 0.0)",
+      "output_words": [
+        3212836864,
+        0,
+        0,
+        1083624420,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-1.0, 0.0, 0.0)",
+      "output_words": [
+        3212836864,
+        0,
+        0,
+        1083624420,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-1.0, 0.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1083624420,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-1.0, 0.0, 100.0)",
+      "output_words": [
+        3212836864,
+        0,
+        1120403456,
+        1083624420,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-1.0, 0.0, 100.0)",
+      "output_words": [
+        3212836864,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-1.0, 0.0, 100.0)",
+      "output_words": [
+        3212836864,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-1.0, 0.0, 100.0)",
+      "output_words": [
+        3212836864,
+        0,
+        0,
+        1083624420,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-1.0, 0.0, 100.0)",
+      "output_words": [
+        3212836864,
+        0,
+        0,
+        1083624420,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 1.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 1.0, 0.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 1.0, 0.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 1.0, 0.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 1.0, 0.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 1.0, 0.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 1.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 1.0, 100.0)",
+      "output_words": [
+        0,
+        1065353216,
+        1120403456,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 1.0, 100.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 1.0, 100.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 1.0, 100.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 1.0, 100.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, -1.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        0,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, -1.0, 0.0)",
+      "output_words": [
+        0,
+        3212836864,
+        0,
+        0,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, -1.0, 0.0)",
+      "output_words": [
+        0,
+        3212836864,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, -1.0, 0.0)",
+      "output_words": [
+        0,
+        3212836864,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, -1.0, 0.0)",
+      "output_words": [
+        0,
+        3212836864,
+        0,
+        0,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, -1.0, 0.0)",
+      "output_words": [
+        0,
+        3212836864,
+        0,
+        0,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, -1.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        0,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, -1.0, 100.0)",
+      "output_words": [
+        0,
+        3212836864,
+        1120403456,
+        0,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, -1.0, 100.0)",
+      "output_words": [
+        0,
+        3212836864,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, -1.0, 100.0)",
+      "output_words": [
+        0,
+        3212836864,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, -1.0, 100.0)",
+      "output_words": [
+        0,
+        3212836864,
+        0,
+        0,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, -1.0, 100.0)",
+      "output_words": [
+        0,
+        3212836864,
+        0,
+        0,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (1.0, 1.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1075235812,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (1.0, 1.0, 0.0)",
+      "output_words": [
+        1065353216,
+        1065353216,
+        0,
+        1075235812,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (1.0, 1.0, 0.0)",
+      "output_words": [
+        1060439283,
+        1060439283,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (1.0, 1.0, 0.0)",
+      "output_words": [
+        1060439283,
+        1060439283,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (1.0, 1.0, 0.0)",
+      "output_words": [
+        1060439283,
+        1060439283,
+        0,
+        1075235812,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (1.0, 1.0, 0.0)",
+      "output_words": [
+        1060439283,
+        1060439283,
+        0,
+        1075235812,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (1.0, 1.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1075235812,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (1.0, 1.0, 100.0)",
+      "output_words": [
+        1065353216,
+        1065353216,
+        1120403456,
+        1075235812,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (1.0, 1.0, 100.0)",
+      "output_words": [
+        1060439283,
+        1060439283,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (1.0, 1.0, 100.0)",
+      "output_words": [
+        1060439283,
+        1060439283,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (1.0, 1.0, 100.0)",
+      "output_words": [
+        1060439283,
+        1060439283,
+        0,
+        1075235812,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (1.0, 1.0, 100.0)",
+      "output_words": [
+        1060439283,
+        1060439283,
+        0,
+        1075235812,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-1.0, 1.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3222719460,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-1.0, 1.0, 0.0)",
+      "output_words": [
+        3212836864,
+        1065353216,
+        0,
+        3222719460,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-1.0, 1.0, 0.0)",
+      "output_words": [
+        3207922931,
+        1060439283,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-1.0, 1.0, 0.0)",
+      "output_words": [
+        3207922931,
+        1060439283,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-1.0, 1.0, 0.0)",
+      "output_words": [
+        3207922931,
+        1060439283,
+        0,
+        3222719460,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-1.0, 1.0, 0.0)",
+      "output_words": [
+        3207922931,
+        1060439283,
+        0,
+        3222719460,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-1.0, 1.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3222719460,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-1.0, 1.0, 100.0)",
+      "output_words": [
+        3212836864,
+        1065353216,
+        1120403456,
+        3222719460,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-1.0, 1.0, 100.0)",
+      "output_words": [
+        3207922931,
+        1060439283,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-1.0, 1.0, 100.0)",
+      "output_words": [
+        3207922931,
+        1060439283,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-1.0, 1.0, 100.0)",
+      "output_words": [
+        3207922931,
+        1060439283,
+        0,
+        3222719460,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-1.0, 1.0, 100.0)",
+      "output_words": [
+        3207922931,
+        1060439283,
+        0,
+        3222719460,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-1.0, -1.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3209236443,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-1.0, -1.0, 0.0)",
+      "output_words": [
+        3212836864,
+        3212836864,
+        0,
+        3209236443,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-1.0, -1.0, 0.0)",
+      "output_words": [
+        3207922931,
+        3207922931,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-1.0, -1.0, 0.0)",
+      "output_words": [
+        3207922931,
+        3207922931,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-1.0, -1.0, 0.0)",
+      "output_words": [
+        3207922931,
+        3207922931,
+        0,
+        3209236443,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-1.0, -1.0, 0.0)",
+      "output_words": [
+        3207922931,
+        3207922931,
+        0,
+        3209236443,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-1.0, -1.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3209236443,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-1.0, -1.0, 100.0)",
+      "output_words": [
+        3212836864,
+        3212836864,
+        1120403456,
+        3209236443,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-1.0, -1.0, 100.0)",
+      "output_words": [
+        3207922931,
+        3207922931,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-1.0, -1.0, 100.0)",
+      "output_words": [
+        3207922931,
+        3207922931,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-1.0, -1.0, 100.0)",
+      "output_words": [
+        3207922931,
+        3207922931,
+        0,
+        3209236443,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-1.0, -1.0, 100.0)",
+      "output_words": [
+        3207922931,
+        3207922931,
+        0,
+        3209236443,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (1.0, -1.0, 0.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1061752795,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (1.0, -1.0, 0.0)",
+      "output_words": [
+        1065353216,
+        3212836864,
+        0,
+        1061752795,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (1.0, -1.0, 0.0)",
+      "output_words": [
+        1060439283,
+        3207922931,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (1.0, -1.0, 0.0)",
+      "output_words": [
+        1060439283,
+        3207922931,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (1.0, -1.0, 0.0)",
+      "output_words": [
+        1060439283,
+        3207922931,
+        0,
+        1061752795,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (1.0, -1.0, 0.0)",
+      "output_words": [
+        1060439283,
+        3207922931,
+        0,
+        1061752795,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (1.0, -1.0, 100.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1061752795,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (1.0, -1.0, 100.0)",
+      "output_words": [
+        1065353216,
+        3212836864,
+        1120403456,
+        1061752795,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (1.0, -1.0, 100.0)",
+      "output_words": [
+        1060439283,
+        3207922931,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (1.0, -1.0, 100.0)",
+      "output_words": [
+        1060439283,
+        3207922931,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (1.0, -1.0, 100.0)",
+      "output_words": [
+        1060439283,
+        3207922931,
+        0,
+        1061752795,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (1.0, -1.0, 100.0)",
+      "output_words": [
+        1060439283,
+        3207922931,
+        0,
+        1061752795,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 0.0, 17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 0.0, 17.0)",
+      "output_words": [
+        0,
+        0,
+        1099431936,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 0.0, 17.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 0.0, 17.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 0.0, 17.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 0.0, 17.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 0.0, -17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 0.0, -17.0)",
+      "output_words": [
+        0,
+        0,
+        3246915584,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 0.0, -17.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 0.0, -17.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 0.0, -17.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 0.0, -17.0)",
+      "output_words": [
+        0,
+        0,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.009999, 0.0, 17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.009999, 0.0, 17.0)",
+      "output_words": [
+        1008980696,
+        0,
+        1099431936,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.009999, 0.0, 17.0)",
+      "output_words": [
+        1008980696,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.009999, 0.0, 17.0)",
+      "output_words": [
+        1008980696,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.009999, 0.0, 17.0)",
+      "output_words": [
+        1008980696,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.009999, 0.0, 17.0)",
+      "output_words": [
+        1008980696,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 0.009999, -17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 0.009999, -17.0)",
+      "output_words": [
+        0,
+        1008980696,
+        3246915584,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 0.009999, -17.0)",
+      "output_words": [
+        0,
+        1008980696,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 0.009999, -17.0)",
+      "output_words": [
+        0,
+        1008980696,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 0.009999, -17.0)",
+      "output_words": [
+        0,
+        1008980696,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 0.009999, -17.0)",
+      "output_words": [
+        0,
+        1008980696,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.01, 0.0, 17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.01, 0.0, 17.0)",
+      "output_words": [
+        1008981770,
+        0,
+        1099431936,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.01, 0.0, 17.0)",
+      "output_words": [
+        1008981770,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.01, 0.0, 17.0)",
+      "output_words": [
+        1008981770,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.01, 0.0, 17.0)",
+      "output_words": [
+        1008981770,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.01, 0.0, 17.0)",
+      "output_words": [
+        1008981770,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 0.01, -17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 0.01, -17.0)",
+      "output_words": [
+        0,
+        1008981770,
+        3246915584,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 0.01, -17.0)",
+      "output_words": [
+        0,
+        1008981770,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 0.01, -17.0)",
+      "output_words": [
+        0,
+        1008981770,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 0.01, -17.0)",
+      "output_words": [
+        0,
+        1008981770,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 0.01, -17.0)",
+      "output_words": [
+        0,
+        1008981770,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.010001, 0.0, 17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.010001, 0.0, 17.0)",
+      "output_words": [
+        1008982844,
+        0,
+        1099431936,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.010001, 0.0, 17.0)",
+      "output_words": [
+        1008982844,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.010001, 0.0, 17.0)",
+      "output_words": [
+        1008982844,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.010001, 0.0, 17.0)",
+      "output_words": [
+        1008982844,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.010001, 0.0, 17.0)",
+      "output_words": [
+        1008982844,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 0.010001, -17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 0.010001, -17.0)",
+      "output_words": [
+        0,
+        1008982844,
+        3246915584,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 0.010001, -17.0)",
+      "output_words": [
+        0,
+        1008982844,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 0.010001, -17.0)",
+      "output_words": [
+        0,
+        1008982844,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 0.010001, -17.0)",
+      "output_words": [
+        0,
+        1008982844,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 0.010001, -17.0)",
+      "output_words": [
+        0,
+        1008982844,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (-0.01, 0.0, 17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1083624420,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (-0.01, 0.0, 17.0)",
+      "output_words": [
+        3156465418,
+        0,
+        1099431936,
+        1083624420,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (-0.01, 0.0, 17.0)",
+      "output_words": [
+        3156465418,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (-0.01, 0.0, 17.0)",
+      "output_words": [
+        3156465418,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (-0.01, 0.0, 17.0)",
+      "output_words": [
+        3156465418,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (-0.01, 0.0, 17.0)",
+      "output_words": [
+        3156465418,
+        0,
+        0,
+        1052602532,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, -0.01, -17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        0,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, -0.01, -17.0)",
+      "output_words": [
+        0,
+        3156465418,
+        3246915584,
+        0,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, -0.01, -17.0)",
+      "output_words": [
+        0,
+        3156465418,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, -0.01, -17.0)",
+      "output_words": [
+        0,
+        3156465418,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, -0.01, -17.0)",
+      "output_words": [
+        0,
+        3156465418,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, -0.01, -17.0)",
+      "output_words": [
+        0,
+        3156465418,
+        0,
+        2147483648,
+        0,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.5, 0.0, 17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.5, 0.0, 17.0)",
+      "output_words": [
+        1056964608,
+        0,
+        1099431936,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.5, 0.0, 17.0)",
+      "output_words": [
+        1056964608,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.5, 0.0, 17.0)",
+      "output_words": [
+        1056964608,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.5, 0.0, 17.0)",
+      "output_words": [
+        1056964608,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.5, 0.0, 17.0)",
+      "output_words": [
+        1056964608,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 0.5, -17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 0.5, -17.0)",
+      "output_words": [
+        0,
+        1056964608,
+        3246915584,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 0.5, -17.0)",
+      "output_words": [
+        0,
+        1056964608,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 0.5, -17.0)",
+      "output_words": [
+        0,
+        1056964608,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 0.5, -17.0)",
+      "output_words": [
+        0,
+        1056964608,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 0.5, -17.0)",
+      "output_words": [
+        0,
+        1056964608,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (1.0, 0.0, 17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (1.0, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        1099431936,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (1.0, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (1.0, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (1.0, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (1.0, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 1.0, -17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 1.0, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        3246915584,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 1.0, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 1.0, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 1.0, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 1.0, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (1.0000001192092896, 0.0, 17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (1.0000001192092896, 0.0, 17.0)",
+      "output_words": [
+        1065353217,
+        0,
+        1099431936,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (1.0000001192092896, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (1.0000001192092896, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (1.0000001192092896, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (1.0000001192092896, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 1.0000001192092896, -17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 1.0000001192092896, -17.0)",
+      "output_words": [
+        0,
+        1065353217,
+        3246915584,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 1.0000001192092896, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 1.0000001192092896, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 1.0000001192092896, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 1.0000001192092896, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (1000.0, 0.0, 17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (1000.0, 0.0, 17.0)",
+      "output_words": [
+        1148846080,
+        0,
+        1099431936,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (1000.0, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (1000.0, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1052602532,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (1000.0, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (1000.0, 0.0, 17.0)",
+      "output_words": [
+        1065353216,
+        0,
+        0,
+        1070141403,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 0 direction (0.0, 1000.0, -17.0)",
+      "output_words": [
+        1095761920,
+        3246915584,
+        1100480512,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 0 rotate 1 alias 1 direction (0.0, 1000.0, -17.0)",
+      "output_words": [
+        0,
+        1148846080,
+        3246915584,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 0 alias 0 direction (0.0, 1000.0, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 0 alias 1 direction (0.0, 1000.0, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "look_calls": 0
+    },
+    {
+      "case": "heading 1 rotate 1 alias 0 direction (0.0, 1000.0, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    },
+    {
+      "case": "heading 1 rotate 1 alias 1 direction (0.0, 1000.0, -17.0)",
+      "output_words": [
+        0,
+        1065353216,
+        0,
+        3226013659,
+        1,
+        0
+      ],
+      "look_calls": 1
+    }
+  ],
+  "original_heading_branches_execute": true,
+  "self_alias_semantics_compared": true,
+  "imported_libm_modeled": true,
+  "original_import_calls": {
+    "__aeabi_fcmpeq": 2996,
+    "__aeabi_fcmpgt": 9167,
+    "__aeabi_fcmplt": 30,
+    "__aeabi_fmul": 7520,
+    "__aeabi_fadd": 6171,
+    "__aeabi_fdiv": 3878,
+    "atanf": 2934,
+    "sqrtf": 944
+  },
+  "scope": "Original LookTowards/SetHeadingDirection versus native ARM64.\n\nAll original heading arithmetic and quadrant/normalization branches execute.\nImported IEEE and atan/sqrt services are modeled consistently on both CPUs;\ndevice libm accuracy is a separate check. Heading state and input are fixtures.\nThis does not implement UpdatePath, velocity/root motion or the physics step.\n",
+  "elapsed_seconds": 3.48
+}

@@ -1,0 +1,47 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/level-world/character_script_collision.cpp": "51d0c80d7a712770747e1d91aa99ed16393a4917b17b2c9f2192df1a4729a2a8",
+    "port/level-world/character_script_collision.hpp": "4f17cc2e4bdbe869533dc5bda1bd1ec8aeeaf5620f498fa18b6521580272ea42",
+    "port/level-world/tests/character_script_collision.cpp": "a62bdcf356dc8d58c470fa339fdf9d11d3e46de95cc8d86c3a4fbd606fc0b759",
+    "port/level-world/tests/character_script_collision_differential.py": "3b1ee5149b702181d152b7c528ba6f4d436d9646b341e87bca6ed8707fc82147",
+    "port/level-world/tests/character_script_collision_host.py": "cce3d712cbde68a1c5c250a5a2d3f697e26b6a54eafb50af5e28f3f9f1ae860b"
+  },
+  "executable_sha256": "c939a18b9db07e9cc92d8923fc1af262c4b2758523aa8773797486fc301a0898",
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "command": "g++ -std=c++17 -Wall -Wextra -Werror -fsanitize=address,undefined -fno-omit-frame-pointer -g port/level-world/character_script_collision.cpp port/level-world/tests/character_script_collision.cpp -o /home/adampalace/dh2-world-build/character_script_collision_isolated_audit",
+  "build_inputs_sha256": "2a30130aa607d1cf0795eb9fcf02f5cbc46870f06b372fa40f1222cf818cd6ad",
+  "host_audit": {
+    "validation": "PASS",
+    "comparisons": 4096,
+    "ordered_callbacks": 6839,
+    "nested_callback_cases": 236,
+    "atomic_rejection_checks": 14,
+    "counter_lifecycle_checks": 3,
+    "mismatches": 0
+  },
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "original_instruction_evidence": {
+    "report_sha256": "bfa0e694f571a641bd72ee443253b5817401e019246a445f91182acf76d7a9ad",
+    "validation": "PASS",
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "arm64_sha256": "9a6a45254d856b8a29f50f517938f26a885a2d312d4259ae5420fecad973061e",
+    "manifest_sha256": "478c44a8f02f55dade12a054729dc0f09f45ba85d32453753d7a22fc691dd572",
+    "corpus_sha256": "9712cce184d8d00504545b7248950b2f4b3ac6a41340917410fcd609877cc6d3",
+    "script_sha256": "3b1ee5149b702181d152b7c528ba6f4d436d9646b341e87bca6ed8707fc82147",
+    "source_sha256": {
+      "port/level-world/character_script_collision.hpp": "4f17cc2e4bdbe869533dc5bda1bd1ec8aeeaf5620f498fa18b6521580272ea42",
+      "port/level-world/character_script_collision.cpp": "51d0c80d7a712770747e1d91aa99ed16393a4917b17b2c9f2192df1a4729a2a8"
+    },
+    "comparisons": 4096,
+    "ordered_callbacks": 6839,
+    "nested_callback_cases": 236,
+    "mismatches": 0,
+    "scope": "Actual AISDefault collision control/counter instructions versus native ARM64.\n\nOriginal SM_GetState/SM_IsMoving(false)/ApplicationGetDt execute. IsCharacter,\nIsPlayer, AI_IsEnemy, CancelSneaking and AI_SetTarget are explicit synchronous\nservices; their ordered arguments and live transitional snapshots are compared.\n"
+  },
+  "scope": "Actual AISDefault collision control/counter instructions versus native ARM64.\n\nOriginal SM_GetState/SM_IsMoving(false)/ApplicationGetDt execute. IsCharacter,\nIsPlayer, AI_IsEnemy, CancelSneaking and AI_SetTarget are explicit synchronous\nservices; their ordered arguments and live transitional snapshots are compared.\n Explicit counter lifecycle checks and atomic native boundary guards; no contact/AI backend or Application wall-clock producer claim."
+}

@@ -1,0 +1,3200 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "cdd44eb2e09cba865fffae9f04f9d6ba5104eb1ae46d8b04dd36ce58af960e12",
+  "original_class_dispatch": "0x3e2e20",
+  "classes": 260,
+  "bit_exact_entire_property_sheet_cases": 3120,
+  "buff_snapshot_cases": 1560,
+  "unmocked_original_getters_setters_group_dispatch": true,
+  "all_224_original_offsets_verified_identity": true,
+  "scope": "Cached-sheet and explicit buff snapshot application, including original type 6 fallthrough. Original uncached RecalcProperty, gears/bonuses, character level selection and full combat are outside scope.",
+  "original_character_sheet_cases": 448,
+  "character_snapshots": [
+    {
+      "character": "AAA_DEFAULTS_DONT_DELETE",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "908449cb4960c826541b597de94c6942909e3b536f0f82c391d279791e1960dd",
+      "base_sheet_fnv1a64": "5da16fc50212f0fd"
+    },
+    {
+      "character": "AAA_TYPES_DONT_DELETE",
+      "class_id": -1,
+      "level_raw": 32,
+      "base_sheet_sha256": "84b39af5dfc2c52256cc81c3f93d0d0a476113c3738908dfafe2a530500651b4",
+      "base_sheet_fnv1a64": "05ac44c6040115a4"
+    },
+    {
+      "character": "AbbeyA_MonkA",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "d2242c888436441d347c06266d914b4dc224552c73376fd5e2f62ddc60af47e3",
+      "base_sheet_fnv1a64": "8e3a5f2dc660d5b3"
+    },
+    {
+      "character": "AbbeyA_MonkB",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "d2242c888436441d347c06266d914b4dc224552c73376fd5e2f62ddc60af47e3",
+      "base_sheet_fnv1a64": "8e3a5f2dc660d5b3"
+    },
+    {
+      "character": "AbbeyA_MonkC",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "d2242c888436441d347c06266d914b4dc224552c73376fd5e2f62ddc60af47e3",
+      "base_sheet_fnv1a64": "8e3a5f2dc660d5b3"
+    },
+    {
+      "character": "AbbeyA_MonkD",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "d2242c888436441d347c06266d914b4dc224552c73376fd5e2f62ddc60af47e3",
+      "base_sheet_fnv1a64": "8e3a5f2dc660d5b3"
+    },
+    {
+      "character": "Abbey_DeadMonkA",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "29b5bf3e93a9ef49906cbc9180e80e78286193657de9ea755e455741158874c9",
+      "base_sheet_fnv1a64": "7001b0b3e3da0316"
+    },
+    {
+      "character": "Abbey_DeadMonkB",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "29b5bf3e93a9ef49906cbc9180e80e78286193657de9ea755e455741158874c9",
+      "base_sheet_fnv1a64": "7001b0b3e3da0316"
+    },
+    {
+      "character": "Abbey_DeadMonkC",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "29b5bf3e93a9ef49906cbc9180e80e78286193657de9ea755e455741158874c9",
+      "base_sheet_fnv1a64": "7001b0b3e3da0316"
+    },
+    {
+      "character": "Abbey_DeadMonkFinal",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "29b5bf3e93a9ef49906cbc9180e80e78286193657de9ea755e455741158874c9",
+      "base_sheet_fnv1a64": "7001b0b3e3da0316"
+    },
+    {
+      "character": "Abbey_Merchant",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "131201fe44e426361569c8c073acc6dbd869e2f770a59423a1b195fbf3a1bc3d",
+      "base_sheet_fnv1a64": "e640ef0e2aa317f6"
+    },
+    {
+      "character": "Abbey_Monk",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "d2242c888436441d347c06266d914b4dc224552c73376fd5e2f62ddc60af47e3",
+      "base_sheet_fnv1a64": "8e3a5f2dc660d5b3"
+    },
+    {
+      "character": "AirFaeryPassive",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "dcd43dac04ae187d81069c92029f7011d3c6ba0c17e454e9a280323a239bb186",
+      "base_sheet_fnv1a64": "815d21a006953a66"
+    },
+    {
+      "character": "Assassin",
+      "class_id": 11,
+      "level_raw": 256,
+      "base_sheet_sha256": "aea6cfc3cb40985ad75393e365fd262183cf2e98db3473c7e2d9dda382307356",
+      "base_sheet_fnv1a64": "983ed8873e639a6b"
+    },
+    {
+      "character": "AssassinAbbey",
+      "class_id": 236,
+      "level_raw": 256,
+      "base_sheet_sha256": "9e2f0501c3d37b808f829aae394ded479a2f5130d1840b75795e10ec5bc3d2dd",
+      "base_sheet_fnv1a64": "f5431a11db7d947f"
+    },
+    {
+      "character": "AssassinDemon",
+      "class_id": 12,
+      "level_raw": 8704,
+      "base_sheet_sha256": "5b88db46d5ec0c43e5f794b55abf3023a6dacdeaa1f1aa4825a1e81701eba3cd",
+      "base_sheet_fnv1a64": "7966cdffadf8743a"
+    },
+    {
+      "character": "AssassinLighthouse",
+      "class_id": 236,
+      "level_raw": 256,
+      "base_sheet_sha256": "75fc2098969a27aa5624ddc0edb1785d30828617f8debe13e6db7af14e0ff37f",
+      "base_sheet_fnv1a64": "a7dbb44b90018439"
+    },
+    {
+      "character": "Balrog",
+      "class_id": 14,
+      "level_raw": 512,
+      "base_sheet_sha256": "40e12fb052e517458125ddf49a7f22229ce2d720d7a04ef2815aa37856b189f8",
+      "base_sheet_fnv1a64": "e671e3ab40e80389"
+    },
+    {
+      "character": "BaseMonsterRef",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "4b86c1379d90895730902cd99c69f154bfb9fea8717d57bcb675c8c2dcfe0d21",
+      "base_sheet_fnv1a64": "9740c875c7ef4318"
+    },
+    {
+      "character": "Castle2CCultist",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "808cf317226436a25f0aa3d083644097f136c636abf64f7a4e2bf0e56b6a14a5",
+      "base_sheet_fnv1a64": "a28c46a634b2c4b1"
+    },
+    {
+      "character": "Castle2Cultist",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "48004b99294075caf57da74132d05dbf2eb216c2d7f80a52eed6fd9aa54ebc0a",
+      "base_sheet_fnv1a64": "6c1dee0bb67851f2"
+    },
+    {
+      "character": "Castle2RCultist",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "e7db8cbcdcb301aca0fc284b611d54f67508838301956706f9b2eb1e0a5ec0c5",
+      "base_sheet_fnv1a64": "bcc12f77bc19c724"
+    },
+    {
+      "character": "CastleCCultist",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "70da56765a23bbb9f4bc6043dbb781537c6d776caef48add7f2d737117a99dc9",
+      "base_sheet_fnv1a64": "a06de553ca5ae44d"
+    },
+    {
+      "character": "CastleCCultist_RE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "cdeb3d18473232c176197f52ef841f9370d30dae0b1c45c1069de6cfeccd687a",
+      "base_sheet_fnv1a64": "18f8a5ec5b816308"
+    },
+    {
+      "character": "CastleCultist",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "51cb1d643671005f9165009703c4d103db81d379b3c676d782de0f7b0099b3bc",
+      "base_sheet_fnv1a64": "c6145974c6a6ab58"
+    },
+    {
+      "character": "CastleCultist_Magic_Champion",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "367b31c8be0314e3ead1de59f7f2df857086f9d9a3fefdfdf13f387fc31a3108",
+      "base_sheet_fnv1a64": "318939411a283c60"
+    },
+    {
+      "character": "CastleCultist_Melee_Demiboss",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "f7c18c1f8aed8331455e116866daf33d96da6be3cacbe203d478bf33bc53d34e",
+      "base_sheet_fnv1a64": "17501b4668550a0d"
+    },
+    {
+      "character": "CastleCultist_Strong_Champion",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "80aebb1b98f6174221c1f65690229a95fc0e7b71f2792f491e879cdb6f4e7be4",
+      "base_sheet_fnv1a64": "eb10586a5515d01b"
+    },
+    {
+      "character": "CastleDefender",
+      "class_id": 18,
+      "level_raw": 7680,
+      "base_sheet_sha256": "f82936ee2ea67966dd06bc0cf8a133c4650c7b6ece0adc25bbe8716621801d29",
+      "base_sheet_fnv1a64": "acbcc6c62cb89e3d"
+    },
+    {
+      "character": "CastleGuard",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "1d798321681e989a0f510aea0fb9b2515e570780c4b9db93abea7f3852c11690",
+      "base_sheet_fnv1a64": "0a3358562fba2b84"
+    },
+    {
+      "character": "CastleGuard_RE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "5a2093480159b6e512e9f26f38dd9b0bbbec8e780b40a247687379930b116632",
+      "base_sheet_fnv1a64": "faf107a2d166f126"
+    },
+    {
+      "character": "Coward_Lizardman",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "04c325b6bfacd28fd667fd5ffc756fb514f5921338eb570118ac8d7ab9c85712",
+      "base_sheet_fnv1a64": "f17187f434869aca"
+    },
+    {
+      "character": "Crawler",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "e315441986ec4ee2a2eb2358510f7b7240594535e00cf0d25e9520a47959dec1",
+      "base_sheet_fnv1a64": "e3002b846e48074f"
+    },
+    {
+      "character": "CryptSlime",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "bc2be057e96a23e0f9be30797f3a519a209fdd7444426035a48ac16c289798ad",
+      "base_sheet_fnv1a64": "e0cad1d302226d0f"
+    },
+    {
+      "character": "CryptSlime_RE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "063c926284e1e90918f8a10e16a349882f75c2b806617b414770ca4da363d891",
+      "base_sheet_fnv1a64": "eb471073d49b2c44"
+    },
+    {
+      "character": "Crypt_Ghost",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "b0a0de4269550ff903694e4ffb3cbd47984da627ce4fe891951640cb67415e05",
+      "base_sheet_fnv1a64": "37563d932af809fb"
+    },
+    {
+      "character": "Crypt_Ghost_MIDBOSS",
+      "class_id": 22,
+      "level_raw": 256,
+      "base_sheet_sha256": "406735ccd2c946020b31fcbbae197d5097e306d3fa44d9bdae0e08bc211b038a",
+      "base_sheet_fnv1a64": "401c9c6d334842dc"
+    },
+    {
+      "character": "Crypt_Ghost_RE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "b2bdcef7811a35a3427a7c70f701f300a36bfade0cb3c0ad6e3748f0b6862a7b",
+      "base_sheet_fnv1a64": "9cc515df245f7ae7"
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "cd66020a4d16929bcd5aaa3b97d0be1ee621324c4f7f3c5d3cb5866b692db70d",
+      "base_sheet_fnv1a64": "41ae0e800682474e"
+    },
+    {
+      "character": "Crypt_SkeletonXL",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "7fedc7e6914fedffdc653c781611e2d82d8ff335ce01d6cec0c4bd7ec363e9ff",
+      "base_sheet_fnv1a64": "a3626f1b1afb6383"
+    },
+    {
+      "character": "Crypt_Skeleton_RE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "04b0f1a7d90ee59e554ac0e91139f2c28427a59fed2a9a219843a5c4a5e27292",
+      "base_sheet_fnv1a64": "d0a9291f799b4c7a"
+    },
+    {
+      "character": "Crypt_Ugly_Dog",
+      "class_id": 18,
+      "level_raw": 1024,
+      "base_sheet_sha256": "88eca935bc4999f65d45ad4c4b20b846c5d24df0dc77a747ef260f5f3eed7a5d",
+      "base_sheet_fnv1a64": "a1471e83cbef1832"
+    },
+    {
+      "character": "Crypt_Ugly_Dog_RE",
+      "class_id": 18,
+      "level_raw": 1024,
+      "base_sheet_sha256": "4659f63d0ab64dbbb5990d9efb2bcb5d262f4ffbbfbdd92e12c13620d251d1dd",
+      "base_sheet_fnv1a64": "1c2b77d44451bde6"
+    },
+    {
+      "character": "DT_Cherub",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "9a20347f76eb4b86a4d318eb3083e4ba9e2a4f5ea96ca4e9748c3db33845cf35",
+      "base_sheet_fnv1a64": "577784c5106c9e5e"
+    },
+    {
+      "character": "DT_Cherub_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "af8e70a6b0be3e9721c11e14a4aed7dd27bc1ecc3a441319f84e392dea2ca1af",
+      "base_sheet_fnv1a64": "57d084f628ccb452"
+    },
+    {
+      "character": "DT_DarkGuardian",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "632204c7798eb3decf8dcf40eb0bda5dd53fadcd18d98ddc2916dd9c98eb5ed3",
+      "base_sheet_fnv1a64": "37ee9fb153c15d19"
+    },
+    {
+      "character": "DT_DarkGuardianXL",
+      "class_id": 37,
+      "level_raw": 256,
+      "base_sheet_sha256": "b8f0b91fdccc9854c28c80c5a961fb5e07f650743d96f1b7a79fb0217d396950",
+      "base_sheet_fnv1a64": "ea54b8cd8f533332"
+    },
+    {
+      "character": "DT_DarkGuardian_RE",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "c94bfc936feea4032f9046433932e52c60d51661561c15392b3a6cb3f40d65b2",
+      "base_sheet_fnv1a64": "9e0f4390b9544a4d"
+    },
+    {
+      "character": "DT_Skydevil",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "1e1766f0fef9c910ff5c08964036986df8c59aadcb4267832cd4b5531adb8262",
+      "base_sheet_fnv1a64": "7fdc5be74cfd4a9d"
+    },
+    {
+      "character": "DT_SkydevilXL",
+      "class_id": 38,
+      "level_raw": 256,
+      "base_sheet_sha256": "fc52f6e6dc7101c2b740cf68fe4b3fe2a48b5f5aedd443dbed5e950dd0f78272",
+      "base_sheet_fnv1a64": "9489343737dc4b83"
+    },
+    {
+      "character": "DT_Skydevil_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "1ea9fbd0cf76de3cf44ec4769deac36cbee2c10b066200946e0fd0a0ddb34320",
+      "base_sheet_fnv1a64": "90f3adcfa95184f9"
+    },
+    {
+      "character": "DT_wave_Balrog",
+      "class_id": 14,
+      "level_raw": 256,
+      "base_sheet_sha256": "641be85d305ebb5c5085991da0d247b30ee3133032b30bbf8d367a70e4202d5d",
+      "base_sheet_fnv1a64": "042e82daba07c934"
+    },
+    {
+      "character": "DT_wave_Cherub",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "dc8b6baae882e890445ba6507e14b9aac7319df31f390f451c9ab5e86e7f0255",
+      "base_sheet_fnv1a64": "5a400c3402858c12"
+    },
+    {
+      "character": "DT_wave_DarkGuardianXL",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "686b285ecda4565577089a9ef4056771e67c7e8297e01e9d3cb41115ebc8dec0",
+      "base_sheet_fnv1a64": "20717ab1a8f8d425"
+    },
+    {
+      "character": "DW_Cherub",
+      "class_id": 52,
+      "level_raw": 256,
+      "base_sheet_sha256": "1cca1567b8368e2fd412c3a0758c6cbc629520c037aa6b50a045f2f7763cc7cb",
+      "base_sheet_fnv1a64": "1328e14ab453a318"
+    },
+    {
+      "character": "DW_Cherub_RE",
+      "class_id": 53,
+      "level_raw": 256,
+      "base_sheet_sha256": "e28aac4cabcdebd487fb9ffc5b8688bbd08d25517d5a0347dce196823aa8b3f0",
+      "base_sheet_fnv1a64": "e31de986e31c10a2"
+    },
+    {
+      "character": "DW_Merchant",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "8deca48167e6bb8e9db5f386cce275135bebba24bc08afda6a7f852a03d96a72",
+      "base_sheet_fnv1a64": "edf377af04fc7d71"
+    },
+    {
+      "character": "DW_Statue",
+      "class_id": 54,
+      "level_raw": 3840,
+      "base_sheet_sha256": "f457e5bba62a9dd2469014a026a2f3e93ac93c43cbb5449b60a11247377ef047",
+      "base_sheet_fnv1a64": "b6016701793c3d17"
+    },
+    {
+      "character": "DW_Treething",
+      "class_id": 22,
+      "level_raw": 256,
+      "base_sheet_sha256": "e68b70f4470d86b6429a2b840d3018d2bd5ce107638945c283636db1c13ee56b",
+      "base_sheet_fnv1a64": "f9e3c1593e8b40e4"
+    },
+    {
+      "character": "DW_Werewolf",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "3ccacda568392c025ee7b6364082e4716036943eb7220c88e56708cd5ad2bb2d",
+      "base_sheet_fnv1a64": "d678aa3998113aba"
+    },
+    {
+      "character": "DW_Werewolf_Champion",
+      "class_id": 21,
+      "level_raw": 256,
+      "base_sheet_sha256": "9d7746482ffbb0834ccda0fe8d94801896592f817b16c274d44b7576dcd930d1",
+      "base_sheet_fnv1a64": "9a03bf251bf49a9d"
+    },
+    {
+      "character": "DW_Werewolf_Respawn",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "29100f1ec3536fe9f18125488f0475b0effd023647f94e2d2e878454af8a0a56",
+      "base_sheet_fnv1a64": "a5e8706a83cace92"
+    },
+    {
+      "character": "DarkQueenForm1",
+      "class_id": 58,
+      "level_raw": 8704,
+      "base_sheet_sha256": "660d2380e10ac61d71e078562c9ed1104acbede98773b19fb6b4be4e26a6180f",
+      "base_sheet_fnv1a64": "12f3896263eb8c93"
+    },
+    {
+      "character": "DarkQueenForm2",
+      "class_id": 59,
+      "level_raw": 256,
+      "base_sheet_sha256": "3bfc9c35d43b9392b299ffcf58220bf0c023825b4e01c2725182b1e82d56b502",
+      "base_sheet_fnv1a64": "27b2e5b42cadf7a7"
+    },
+    {
+      "character": "DarkQueenMinion",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "f02fb3492823131f963399f7a7258a6b779383f89e672519de920a3812e4f671",
+      "base_sheet_fnv1a64": "bb37c4dbcf1a92b6"
+    },
+    {
+      "character": "Darklin",
+      "class_id": 19,
+      "level_raw": 256,
+      "base_sheet_sha256": "8a99426ef533b86fda9a84d16b2ea3258e53d7bd0773153e9a23f2e1ddc0a0c4",
+      "base_sheet_fnv1a64": "2ade34489467f8cf"
+    },
+    {
+      "character": "Darklin_ABBEY",
+      "class_id": 19,
+      "level_raw": 5632,
+      "base_sheet_sha256": "b85c426d6a4748bac3d227cdc2ce1eceb00a0f511b4515c76f6662c885345d5d",
+      "base_sheet_fnv1a64": "b03dee69cc60c264"
+    },
+    {
+      "character": "Darklin_BRIDGE",
+      "class_id": 19,
+      "level_raw": 3584,
+      "base_sheet_sha256": "4281dd943ba255276de28865c4ac9c9c7672062eed63c65f3e747adff29c9651",
+      "base_sheet_fnv1a64": "85fa77f88d8f9a72"
+    },
+    {
+      "character": "Darklin_CRYPT1",
+      "class_id": 19,
+      "level_raw": 2560,
+      "base_sheet_sha256": "dc892dbff2f213f60ee3034355cd7e891fda463e8bc6aac4d2349de08844005d",
+      "base_sheet_fnv1a64": "3219e60db261037c"
+    },
+    {
+      "character": "Darklin_CRYPT2",
+      "class_id": 19,
+      "level_raw": 3584,
+      "base_sheet_sha256": "af89a7f17b71f02cdf1f1b5e9b2862e9e0fe6a1e0360c4ad92979aa9ea2cf9d0",
+      "base_sheet_fnv1a64": "1a946559f8c0afc2"
+    },
+    {
+      "character": "Darklin_RE",
+      "class_id": 19,
+      "level_raw": 256,
+      "base_sheet_sha256": "9f81a3ee2d90e15f393be6cfd56d0882f458db32e21edec2c89eaea17f7cf2f1",
+      "base_sheet_fnv1a64": "16bae9b0bf30fe43"
+    },
+    {
+      "character": "Darklin_afterWT",
+      "class_id": 19,
+      "level_raw": 6656,
+      "base_sheet_sha256": "1f6cd5601858298e89a059d2b5119c45cac93908a63b3412613e69d49da885e7",
+      "base_sheet_fnv1a64": "e41ccef77f9d56ff"
+    },
+    {
+      "character": "Darkwood_Big_Ugly_Dog",
+      "class_id": 18,
+      "level_raw": 1280,
+      "base_sheet_sha256": "39ed4af3adf681c84dfa5726279676c8429ab4e924fd0e2d5b8fde8a30bbb9db",
+      "base_sheet_fnv1a64": "69fbc6be7a48bac7"
+    },
+    {
+      "character": "Darkwood_Cultist2_lvl_12",
+      "class_id": 18,
+      "level_raw": 3072,
+      "base_sheet_sha256": "b8a1e5e19fb7139ce4e37290e70b0a7bfda495fd506186bd8c17d3e7caf29d94",
+      "base_sheet_fnv1a64": "c5e80ed3639f9091"
+    },
+    {
+      "character": "Darkwood_Cultist2_lvl_6",
+      "class_id": 18,
+      "level_raw": 1536,
+      "base_sheet_sha256": "12de4a7982906654a75fc3e300a96831597a9032989698a85b100f66698c53bf",
+      "base_sheet_fnv1a64": "a5cbecbad8a71ff4"
+    },
+    {
+      "character": "Darkwood_Cultist_lvl_12",
+      "class_id": 18,
+      "level_raw": 3072,
+      "base_sheet_sha256": "7bd5ad22ed457809627a46deb152d90c4583d44bce9ce04fcdb1be45d14a432e",
+      "base_sheet_fnv1a64": "8e4e5963637dd7cc"
+    },
+    {
+      "character": "Darkwood_Cultist_lvl_6",
+      "class_id": 18,
+      "level_raw": 1536,
+      "base_sheet_sha256": "c99fcfb24234a40e91b27a91bb8e4e6240ffd8d2ded23b6aea2edadf2bf77d1c",
+      "base_sheet_fnv1a64": "e5ad5797c194c5fd"
+    },
+    {
+      "character": "Darkwood_Ghost",
+      "class_id": 18,
+      "level_raw": 1280,
+      "base_sheet_sha256": "a0227e743e4759d1452d87ca0b137c0c394325ef881bb3baeba4c191e2406d0f",
+      "base_sheet_fnv1a64": "efbf7b064ec01ec7"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_lvl_3",
+      "class_id": 18,
+      "level_raw": 768,
+      "base_sheet_sha256": "a88c0193a7c30bbba9089b0bc436dd9061e961a17eda1bcfcede53abe3ad99cb",
+      "base_sheet_fnv1a64": "48b32af2a85b1c46"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_lvl_4",
+      "class_id": 18,
+      "level_raw": 1024,
+      "base_sheet_sha256": "a0d9dae5f4d4bb053b749a5f90de77502c0874acf9174665886ef3b1202d915f",
+      "base_sheet_fnv1a64": "c918971ac3614506"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_lvl_5",
+      "class_id": 18,
+      "level_raw": 1280,
+      "base_sheet_sha256": "168612b791659b8e3004732982003f743838d2203d939fb8e9a1f4a3385eb4f6",
+      "base_sheet_fnv1a64": "e1a4cba9f79c33ea"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_lvl_6",
+      "class_id": 18,
+      "level_raw": 1536,
+      "base_sheet_sha256": "641fb143fdee8de8bd88de2c7847be538833a57c586a5f71ac061586135e2aaf",
+      "base_sheet_fnv1a64": "ccf80af5cecc9ec4"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_lvl_7",
+      "class_id": 18,
+      "level_raw": 1792,
+      "base_sheet_sha256": "a2a1e18f76213c9dd51e8ccbd954497eea3346813943aca7387c7c291121c497",
+      "base_sheet_fnv1a64": "6f9d7a4decf83e3b"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_lvl_9",
+      "class_id": 18,
+      "level_raw": 2304,
+      "base_sheet_sha256": "aea889da6e75d4d90669ab064b17db601260b4e8e4f400965bd75da6a65a4195",
+      "base_sheet_fnv1a64": "968fb0af8bd073ed"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_thug_lvl_3",
+      "class_id": 18,
+      "level_raw": 1024,
+      "base_sheet_sha256": "c66b3b4fc1cc91d69ee30977c20498a08caef799eda1ecf18dde170095d0cd76",
+      "base_sheet_fnv1a64": "7b792c77d3e3ad4a"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_thug_lvl_4",
+      "class_id": 18,
+      "level_raw": 1024,
+      "base_sheet_sha256": "7f25e890233d2fd3ded573a4280e604caecdc19959ca5e86f8029e8720bb9626",
+      "base_sheet_fnv1a64": "9918b5af43f41b4f"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_thug_lvl_5",
+      "class_id": 18,
+      "level_raw": 1280,
+      "base_sheet_sha256": "ab303d051f68eac730f915101be7f44715b2fb50ff33b43f6ab106b8f710237a",
+      "base_sheet_fnv1a64": "35dd8c4b44b2dd0b"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_thug_lvl_6",
+      "class_id": 18,
+      "level_raw": 1536,
+      "base_sheet_sha256": "ef41bc26e76736fa65af80212c1bfcb03c07cb52c2fe37c66e45b92a8164451c",
+      "base_sheet_fnv1a64": "dfc5efb28e06e97c"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_thug_lvl_7",
+      "class_id": 18,
+      "level_raw": 1792,
+      "base_sheet_sha256": "380ae2f02ec9e727772b7c8c02b6a86907c060a335d181c403d4cd105e8dfcbd",
+      "base_sheet_fnv1a64": "ef6ebd33bd8fcc11"
+    },
+    {
+      "character": "Darkwood_MeleeBandit_thug_lvl_9",
+      "class_id": 18,
+      "level_raw": 2304,
+      "base_sheet_sha256": "ea8a007effca9d81467341b0fbea15cbc966dbf5e35320c011d83f4ee166e51b",
+      "base_sheet_fnv1a64": "952673cf0227c885"
+    },
+    {
+      "character": "Darkwood_RangedBandit_lvl_4",
+      "class_id": 18,
+      "level_raw": 1024,
+      "base_sheet_sha256": "8a8bc477619a791c35f3c595832bc5e56726a4fb6f674065881229b17bf165da",
+      "base_sheet_fnv1a64": "97644fceb82848b2"
+    },
+    {
+      "character": "Darkwood_RangedBandit_lvl_6",
+      "class_id": 18,
+      "level_raw": 1536,
+      "base_sheet_sha256": "fe1b9cd99bca34208f4ec6d53f3a4ceb16c5ae7fa1040cb7cc8c6ab7ade559f8",
+      "base_sheet_fnv1a64": "4790cb880a36dea0"
+    },
+    {
+      "character": "Darkwood_RangedBandit_lvl_9",
+      "class_id": 18,
+      "level_raw": 2304,
+      "base_sheet_sha256": "8c07f061777fcff49ebd803c945b6dae2c7952f9d2e15f6288cdf669b83b607b",
+      "base_sheet_fnv1a64": "baf84b51df42332d"
+    },
+    {
+      "character": "Darkwood_RatHound_big_lvl_25",
+      "class_id": 18,
+      "level_raw": 2560,
+      "base_sheet_sha256": "e2c234df332b3aa444c08360ffe85fe1399ffd8aa8aa66120c56681de68190cc",
+      "base_sheet_fnv1a64": "102bd63984c595e5"
+    },
+    {
+      "character": "Darkwood_RatHound_lvl_7",
+      "class_id": 18,
+      "level_raw": 2560,
+      "base_sheet_sha256": "63ebeb113b9ac1e9f0a5922cd5b5d0c73aa48aa8e833c3172d3692d99b05c19e",
+      "base_sheet_fnv1a64": "0186e6e8f6771a24"
+    },
+    {
+      "character": "Darkwood_Ugly_Dog",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "449e0cb80c802eb77ee38a6598e94cf49e3eae6aac5519cc3bfc8841c77768f1",
+      "base_sheet_fnv1a64": "6d1eb40a46db52a4"
+    },
+    {
+      "character": "Darkwood_WhiteGhost_lvl_4",
+      "class_id": 18,
+      "level_raw": 1280,
+      "base_sheet_sha256": "dec54536c810308e7f6dcf083d2cf21218814c28d2947564d923fb53bea83b91",
+      "base_sheet_fnv1a64": "198eefb2badbef00"
+    },
+    {
+      "character": "DefaultFairy",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "58ec2eeb408d366a63063b628205d71c8692dfb217732b6a1bfa8c826e8c0cc4",
+      "base_sheet_fnv1a64": "394cf5a19d86a3cc"
+    },
+    {
+      "character": "Desert_MeleeBandit",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "f6a6c44a09fbe08c2024045be1ff709460737dd255a4d17f82ac6ed5b20a0a98",
+      "base_sheet_fnv1a64": "60fdfd27dbf7266b"
+    },
+    {
+      "character": "Desert_Merchant",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "59d7521532c7c552f56ed5ae3511a47bebbb0e2206f087d9b82f1e2243c2d3f6",
+      "base_sheet_fnv1a64": "35ec44c3363e718a"
+    },
+    {
+      "character": "Desert_RangedBandit",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "aebd7b8ac8f69c70e84ae95ea5dcd3a8b45e01512c2555b523dd37841567c918",
+      "base_sheet_fnv1a64": "780213329791de97"
+    },
+    {
+      "character": "Desert_Spider1",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "ba220362d2072d15b86a4f47d1bbbd92e5aa5b77dc1259deced6750e3c455c45",
+      "base_sheet_fnv1a64": "152b3fc3b058d90b"
+    },
+    {
+      "character": "Desert_Spider1RE",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "7d3459a31bbd8e38c44c7f23e594722f5579b5163ce685ee88554c0e8779d840",
+      "base_sheet_fnv1a64": "9d69ca684885973f"
+    },
+    {
+      "character": "Desert_Spider1_XL",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "c7db1fc270ff8101952a8f7d1e9ac5f88beb4873bc5d724a3023c94bb8b63632",
+      "base_sheet_fnv1a64": "13137680d486bbb3"
+    },
+    {
+      "character": "Desert_Spider2",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "2237a4e1e3b3b24c20c4241c529aeda38baf8eb44495809021370930c1948210",
+      "base_sheet_fnv1a64": "36e8f9e7b814c7c0"
+    },
+    {
+      "character": "Desert_Spider2RE",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "2237a4e1e3b3b24c20c4241c529aeda38baf8eb44495809021370930c1948210",
+      "base_sheet_fnv1a64": "36e8f9e7b814c7c0"
+    },
+    {
+      "character": "Desert_Spider_Midboss",
+      "class_id": 21,
+      "level_raw": 256,
+      "base_sheet_sha256": "ea1908af0f0c521e9f70a6c44a2cbcde489c0ebed30ef271e9cf0e218de6a7b6",
+      "base_sheet_fnv1a64": "1c7bd0d013c89f4c"
+    },
+    {
+      "character": "Desert_ThugBandit",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "b70e3836d0d4425e76f97805db9d899ddd4b627c9376bd5c13b7a55f9021d84c",
+      "base_sheet_fnv1a64": "03e2fe73304b5b4e"
+    },
+    {
+      "character": "DoorCultists1",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "ba94d867620867db2c5b3870962d207c6fe61e0687d48643934a141009e106e5",
+      "base_sheet_fnv1a64": "d7b2525961da7999"
+    },
+    {
+      "character": "DoorCultists2",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "6bd4c5e50b3ab80f3e6b7e1a8e3f0d8c258c25fe800a94530d5e2943674f5c52",
+      "base_sheet_fnv1a64": "2924cac3ba747725"
+    },
+    {
+      "character": "Dummy",
+      "class_id": 63,
+      "level_raw": 25600,
+      "base_sheet_sha256": "cf32838e2d458aa45c07996de8cdfca965b6239c29b294735cf28835b042d14a",
+      "base_sheet_fnv1a64": "b646a4bd00da51be"
+    },
+    {
+      "character": "DummyAirFaery",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "6194b76fd310b64836250fdd53010777cd33b565edcee7f9d6cc244224d48dd2",
+      "base_sheet_fnv1a64": "18fb868c3e7614b7"
+    },
+    {
+      "character": "DummyEarthFaery",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "5d919be1ecafe80eeef479023f2c52414491be2625762113f0770bb49d103b77",
+      "base_sheet_fnv1a64": "62bd655e9396d9b9"
+    },
+    {
+      "character": "DummyFireFaery",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "976d0557be5503bedf24339eb1986e306f167d6f8c4a0da23ba40c391e4daaf0",
+      "base_sheet_fnv1a64": "fc9ae81d6c723f02"
+    },
+    {
+      "character": "DummyLightningFaery",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "90940f5de9ff204f21ca3cce9624157a487ee56e93cfd98fe5fe68d611dacdef",
+      "base_sheet_fnv1a64": "089e2a0393b2ebbd"
+    },
+    {
+      "character": "DummyWaterFaery",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "e7a2ad5bd67b3606c57bc5f6d2a791752a3c8913ae51b62d2f48bb39f64daf54",
+      "base_sheet_fnv1a64": "0b5a7de597e94c17"
+    },
+    {
+      "character": "ET_Treething",
+      "class_id": 22,
+      "level_raw": 256,
+      "base_sheet_sha256": "55f2c070460db3e9062a6c0fe360817e8b3ea09afb04ecdeea4444453bdfb3bb",
+      "base_sheet_fnv1a64": "114f71007170ca77"
+    },
+    {
+      "character": "ET_Zombie_Champion",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "377928afc180bf13cb723d7337eb6f5e246e9df05988acba8a4deae322d1f4b3",
+      "base_sheet_fnv1a64": "62eb25b60c80fb64"
+    },
+    {
+      "character": "EarthFaeryPassive",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "d69c554067f79c5334f3cf0f05c90de0da0cc711f7f3ab926f8a7540f4b1174d",
+      "base_sheet_fnv1a64": "4b08df0912880896"
+    },
+    {
+      "character": "EarthTemple_BigSpider",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "93f6ce2bcfd0ea07c7e58bb853b752e001a0da15c62862a760a90d3eaacd6599",
+      "base_sheet_fnv1a64": "f7aee85e6fae079b"
+    },
+    {
+      "character": "EarthTemple_Cultist",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "348ef38bdc53e48198b3a96d52d83fdf378d82b7a61e2502b3ef54688eefe824",
+      "base_sheet_fnv1a64": "9df86b126d164b20"
+    },
+    {
+      "character": "EarthTemple_Cultist_Caster",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "e34c44cff0a733933a88e4b6cd396ceb36a61d54b304fd7c32b84af2c286e45f",
+      "base_sheet_fnv1a64": "d8fed6ae68d25c1b"
+    },
+    {
+      "character": "EarthTemple_Cultist_Ranged",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "20ee594da890feb4cf482b53ecd7d72c1cba399a41ababf3f3d1734be41dd201",
+      "base_sheet_fnv1a64": "456b57da39ddd9a6"
+    },
+    {
+      "character": "EarthTemple_Cultist_Talker",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "7bf37597cd151081d7c91db7e0d3fe52f1a277d6e6f2d0edd9836151dd0b6500",
+      "base_sheet_fnv1a64": "62a71d0dd7b4726a"
+    },
+    {
+      "character": "EarthTemple_DoorPlant_A",
+      "class_id": 38,
+      "level_raw": 256,
+      "base_sheet_sha256": "be91e5c278426ad05099d417b61c51f668fc72161af091d6924ea14ffb38521e",
+      "base_sheet_fnv1a64": "df108d2809051b51"
+    },
+    {
+      "character": "EarthTemple_DoorPlant_C",
+      "class_id": 38,
+      "level_raw": 256,
+      "base_sheet_sha256": "be91e5c278426ad05099d417b61c51f668fc72161af091d6924ea14ffb38521e",
+      "base_sheet_fnv1a64": "df108d2809051b51"
+    },
+    {
+      "character": "EarthTemple_Goblin_Rogue",
+      "class_id": 27,
+      "level_raw": 256,
+      "base_sheet_sha256": "ea43db3fc827063361c99574f8e92422b1de347d29da724a5ce8497b2e26f964",
+      "base_sheet_fnv1a64": "d9429841db8d34de"
+    },
+    {
+      "character": "EarthTemple_Goblin_Rogue_HELPER",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "0429a9bca97ea0e795ca54dabf2e77f29db40e539b2d908963410877f716599e",
+      "base_sheet_fnv1a64": "0b9cfb66e591821a"
+    },
+    {
+      "character": "EarthTemple_Goblin_Shaman",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "230bf8886cffc62b1ee4451c1af48cab0d25d45a00702b706af1b6e02223517a",
+      "base_sheet_fnv1a64": "4b61e6d8c39e896c"
+    },
+    {
+      "character": "EarthTemple_Goblin_Shaman_BOSS",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "3a692efe6b5085777f020f873c377d53809941ef6bc8ce42bf020c39540c1636",
+      "base_sheet_fnv1a64": "69bf5518cd7d7b43"
+    },
+    {
+      "character": "EarthTemple_Goblin_Slinger",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "7a6dc0e3397e87d3772a516ffc9858c5d4d2db303cbbd576dabaed0f01e1728f",
+      "base_sheet_fnv1a64": "0ea05ac3e91628a2"
+    },
+    {
+      "character": "EarthTemple_LargePlant",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "1252efa05eeb0cb14d6908fb27612fb42b7fec6d1b7628ff06e6b7a5245687a4",
+      "base_sheet_fnv1a64": "fb78d03684b10903"
+    },
+    {
+      "character": "EarthTemple_MidbossPlant",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "1252efa05eeb0cb14d6908fb27612fb42b7fec6d1b7628ff06e6b7a5245687a4",
+      "base_sheet_fnv1a64": "fb78d03684b10903"
+    },
+    {
+      "character": "EarthTemple_SmallPlant",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "0123672aba141c25f07a9b439f45003a8f76ab898d75793e34aff8afeaaf2160",
+      "base_sheet_fnv1a64": "f397c01a6b6514a3"
+    },
+    {
+      "character": "EarthTemple_SmallPlantMinion",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "2cba6570ccfa23dfed937a23549871b4950f031f15ef69bea070b78701afe858",
+      "base_sheet_fnv1a64": "1355e20f5887eee9"
+    },
+    {
+      "character": "EarthTemple_Spider",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "54dc5342f69bdeff774dea4b776429abb7f57461329c27072b06e1f6a85fdbf3",
+      "base_sheet_fnv1a64": "b1feafca8bd5117b"
+    },
+    {
+      "character": "EarthTemple_Spider_HUGE",
+      "class_id": 21,
+      "level_raw": 256,
+      "base_sheet_sha256": "423fdb779eb96b81af8338dcbec83473fdd2961f3ebfce1f3bc896fae7d3f85a",
+      "base_sheet_fnv1a64": "705aacd221cb9dec"
+    },
+    {
+      "character": "EarthTemple_Spider_helper",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "69869bb5ef38605ddaca41691c8f0803b9894b025b78346f95099172aad10d61",
+      "base_sheet_fnv1a64": "3517010f2c231fec"
+    },
+    {
+      "character": "Edward",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "c2ae2ad21b740249f6d85a94b2d5a66d4b99e786a3b2e900134eeabb68fada86",
+      "base_sheet_fnv1a64": "9cad3c711dd8dabc"
+    },
+    {
+      "character": "EdwardBoss",
+      "class_id": 64,
+      "level_raw": 5120,
+      "base_sheet_sha256": "8680659ea7100422a9c60e903ea7f915ecff790c1bd778e58f8053433797adad",
+      "base_sheet_fnv1a64": "3196ba1d464c7536"
+    },
+    {
+      "character": "El_Earth",
+      "class_id": 121,
+      "level_raw": 256,
+      "base_sheet_sha256": "181bf9099e64a7546e88abfb5c41676f3344fb6c4850a743c847d809c9273d16",
+      "base_sheet_fnv1a64": "e2005f64be42f29b"
+    },
+    {
+      "character": "El_Fire",
+      "class_id": 73,
+      "level_raw": 512,
+      "base_sheet_sha256": "662b1e26f335be2259e28097c39ee09c219f28d109489ef3e641e93b3bb941dd",
+      "base_sheet_fnv1a64": "7ab7c590e6be61c3"
+    },
+    {
+      "character": "El_Lightning",
+      "class_id": 20,
+      "level_raw": 256,
+      "base_sheet_sha256": "2c10f9603dd3ddd0cf9516f6fe4f0dc801240be2245160f4183444c85e344cd3",
+      "base_sheet_fnv1a64": "358e9ce0f5a75580"
+    },
+    {
+      "character": "El_Water",
+      "class_id": 22,
+      "level_raw": 256,
+      "base_sheet_sha256": "ea3406cba42764ac7892f1570dfb47df485607413d1783c689d98217c9491a7a",
+      "base_sheet_fnv1a64": "74b3faacba43c4b8"
+    },
+    {
+      "character": "El_Wind",
+      "class_id": 19,
+      "level_raw": 256,
+      "base_sheet_sha256": "f8b4e4efad82a85566a935864e8bb75a642eab49a75916e915dd4f424a45910b",
+      "base_sheet_fnv1a64": "bfa8fcda69214644"
+    },
+    {
+      "character": "ElementalTrap",
+      "class_id": 247,
+      "level_raw": 256,
+      "base_sheet_sha256": "fe06f5f7314cb8a6a2dd98bc81e29af0f3938e05e5bdbef74c30f8862d9cb249",
+      "base_sheet_fnv1a64": "82f5fae7f6c82253"
+    },
+    {
+      "character": "Epic_merchant_bloodsands",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "482a60d65b8835a2b0a5059840fe0b26791ee607947bc137d95ea704c04009a1",
+      "base_sheet_fnv1a64": "8b8e2b039545d94f"
+    },
+    {
+      "character": "Epic_merchant_darkwoods",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "045c60f492e0600010f3fa3c30109d757e271de7632ef8e1b17c8ad0613f235a",
+      "base_sheet_fnv1a64": "777a53a1a97caae1"
+    },
+    {
+      "character": "Epic_merchant_fallenkingdom",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "a8c855df119ea814a31761be31e459b78b63218fe9ab7fb00350b58c23e9a50e",
+      "base_sheet_fnv1a64": "3a944b2286cd58be"
+    },
+    {
+      "character": "Epic_merchant_notherlands",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "cf24d88f8d514287890de3182e3f94a982bcf8ceb88afd3ef9150c6c348adb7e",
+      "base_sheet_fnv1a64": "8df48b9314b8a380"
+    },
+    {
+      "character": "Epic_merchant_swamp",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "3e87d19f04e23ee9612a5be27aeae559d93349d2300c8f0a3d8e111c036b73cb",
+      "base_sheet_fnv1a64": "99c9b9822ee9b547"
+    },
+    {
+      "character": "Epic_merchant_underworld",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "c0a337d57f140b4670860a5e7a01ce2c667f162cade0ca1777d919b811d416f5",
+      "base_sheet_fnv1a64": "b4a20f130f3eecd9"
+    },
+    {
+      "character": "FallenGuard",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "b7d58a2131f5b6c321e5a7022e075debad9c7e529536eef2ccf2a175257cb2e4",
+      "base_sheet_fnv1a64": "079e3209949547d1"
+    },
+    {
+      "character": "Fallen_cultist_1",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "4958cb32d5347823151e175178d3fbae12cc4a632f6610343ce7aa94cfda0717",
+      "base_sheet_fnv1a64": "3e1a753041988725"
+    },
+    {
+      "character": "Fallen_monk",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "29b5bf3e93a9ef49906cbc9180e80e78286193657de9ea755e455741158874c9",
+      "base_sheet_fnv1a64": "7001b0b3e3da0316"
+    },
+    {
+      "character": "Fallen_peasant_1",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "7a11bd574313ced94d58c2bdc8e0929b4a6279e19b0fcb88754165d46f7c109b",
+      "base_sheet_fnv1a64": "606097b7b1d59485"
+    },
+    {
+      "character": "Fallen_peasant_2",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "7a11bd574313ced94d58c2bdc8e0929b4a6279e19b0fcb88754165d46f7c109b",
+      "base_sheet_fnv1a64": "606097b7b1d59485"
+    },
+    {
+      "character": "FireFaeryPassive",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "c0f4863c94fac25d7560682a701c3c9ad44ab65b5376f62f4544fa281a53a9a6",
+      "base_sheet_fnv1a64": "6eb16de3486400b1"
+    },
+    {
+      "character": "FireSlime",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "257b1a4f332bbd17e4a7c7178e46657634d873417474ca0858f14f658e798451",
+      "base_sheet_fnv1a64": "91d997da1c8260a6"
+    },
+    {
+      "character": "FireSlime2",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "26d8be848e551e670fe6cd4e3c11bf7bc9e2442b974e5b80f3d3d17eb06c45d3",
+      "base_sheet_fnv1a64": "8df523c5f85dab04"
+    },
+    {
+      "character": "FireSlime2_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "222a3da11adda0f03fa1dae547f8d8352edc0b1c1d9b75ac3a70dda39d240142",
+      "base_sheet_fnv1a64": "8f82d6ef460de6b8"
+    },
+    {
+      "character": "FireSlime_Inferno",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "ccf62d762d56fc13b69c9152623c2ff2e33db6611588fa31a54071b7a88f5e4c",
+      "base_sheet_fnv1a64": "bc8e7b2e4da9e1e6"
+    },
+    {
+      "character": "FireSlime_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "3a0546113236c3123159a45f61a2c2c9f607b08f78dcba2c9431992b4b823fc0",
+      "base_sheet_fnv1a64": "a3d6c51d027fd862"
+    },
+    {
+      "character": "FireTemplar",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "a661bf1638e44b177f0008a299d444cc6531e6f83f0f3dea6d775e04701f35ec",
+      "base_sheet_fnv1a64": "59a988bd4eea4237"
+    },
+    {
+      "character": "FireTemplar_Bow",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "3e5ffbff7a1dca2348601acc0be5d6c4874ca3b8646fc0411abbc3093cacde12",
+      "base_sheet_fnv1a64": "9042549d2a970fdf"
+    },
+    {
+      "character": "FireTemplar_BowRE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "78386046ca395c5a2d53c65c892c9dd0c5269ca1c49d2487f58fdf36e2088829",
+      "base_sheet_fnv1a64": "1f41db8b24ec331d"
+    },
+    {
+      "character": "FireTemplar_RE",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "7de20726fdf800444a01c1e88858ab2a201dfd7b626a4b91267a520ea679d283",
+      "base_sheet_fnv1a64": "f196aaf7ef5cba3d"
+    },
+    {
+      "character": "FireTemplar_Sword",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "0bfadb48ab5887d4330fee12dcf0c3838846ed4ff1d60dd0c271bacf04a6beae",
+      "base_sheet_fnv1a64": "8bd189f5a953d0fc"
+    },
+    {
+      "character": "FireTemplar_SwordRE",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "6a3da9b333ee9b7a605aff345ea50fc43409b7793c13ea0b589eefc7c48b6637",
+      "base_sheet_fnv1a64": "d3939c7c531906fa"
+    },
+    {
+      "character": "FireTemple_FriendlyCultist1",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "c4506540a9611f4ed459c7b19b9990ee949972cb24e8ce65a7379ffe4ca8949f",
+      "base_sheet_fnv1a64": "007141638c0cfb00"
+    },
+    {
+      "character": "FireZombie",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "3ee8c993919ac029d18adb7b6522f0321cdafa8fb2c81c566fa35539a89cf69c",
+      "base_sheet_fnv1a64": "9e7c1ba3a10cb4b6"
+    },
+    {
+      "character": "Flaminite",
+      "class_id": 73,
+      "level_raw": 512,
+      "base_sheet_sha256": "152eff8cc77f00f9c6ae4701bdfb00ad00ef5e3012b4c7ce29af9a2df211ed94",
+      "base_sheet_fnv1a64": "b729ecf73efe7e21"
+    },
+    {
+      "character": "GC02_DeadGuard",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "b7d58a2131f5b6c321e5a7022e075debad9c7e529536eef2ccf2a175257cb2e4",
+      "base_sheet_fnv1a64": "079e3209949547d1"
+    },
+    {
+      "character": "GCV_BanditHunt_a",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "9fa7be8fb622552a45a019b4cc95bb908089afd475adbe661d8640130651d1b1",
+      "base_sheet_fnv1a64": "1664cfce95347997"
+    },
+    {
+      "character": "GCV_BanditHunt_b",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "9fa7be8fb622552a45a019b4cc95bb908089afd475adbe661d8640130651d1b1",
+      "base_sheet_fnv1a64": "1664cfce95347997"
+    },
+    {
+      "character": "GCV_DemonChild",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f2183821ba604018a1a09eb3bbd6805b25ed50f4fc79c32d5be75642c501176b",
+      "base_sheet_fnv1a64": "536f146728679c65"
+    },
+    {
+      "character": "GCV_GUARD_P1_001",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "69c28d6cca666e0fec3ae34756cb632d5f161f2d3f8307933ee33b656ca662de",
+      "base_sheet_fnv1a64": "89e088b94ff10bf1"
+    },
+    {
+      "character": "GCV_GUARD_P1_002",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "69c28d6cca666e0fec3ae34756cb632d5f161f2d3f8307933ee33b656ca662de",
+      "base_sheet_fnv1a64": "89e088b94ff10bf1"
+    },
+    {
+      "character": "GCV_GUARD_P2_001",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "69c28d6cca666e0fec3ae34756cb632d5f161f2d3f8307933ee33b656ca662de",
+      "base_sheet_fnv1a64": "89e088b94ff10bf1"
+    },
+    {
+      "character": "GCV_GUARD_P2_002",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "69c28d6cca666e0fec3ae34756cb632d5f161f2d3f8307933ee33b656ca662de",
+      "base_sheet_fnv1a64": "89e088b94ff10bf1"
+    },
+    {
+      "character": "GCV_GUARD_P4_001",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "69c28d6cca666e0fec3ae34756cb632d5f161f2d3f8307933ee33b656ca662de",
+      "base_sheet_fnv1a64": "89e088b94ff10bf1"
+    },
+    {
+      "character": "GCV_P1_001",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "42198a6531e6c4cd210fbe00492f141346ff5fb0f95ac4895cb9ecd5e5cb37ba",
+      "base_sheet_fnv1a64": "cc6368ba8e5605cb"
+    },
+    {
+      "character": "GCV_P1_002",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "0d4b012bcd9f8828a1890623c3feb700f381cda4b9d023e959adf1965dce33fc",
+      "base_sheet_fnv1a64": "8008c4684c90536e"
+    },
+    {
+      "character": "GCV_P1_003",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f2183821ba604018a1a09eb3bbd6805b25ed50f4fc79c32d5be75642c501176b",
+      "base_sheet_fnv1a64": "536f146728679c65"
+    },
+    {
+      "character": "GCV_P1_004",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "42198a6531e6c4cd210fbe00492f141346ff5fb0f95ac4895cb9ecd5e5cb37ba",
+      "base_sheet_fnv1a64": "cc6368ba8e5605cb"
+    },
+    {
+      "character": "GCV_P1_005",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f2183821ba604018a1a09eb3bbd6805b25ed50f4fc79c32d5be75642c501176b",
+      "base_sheet_fnv1a64": "536f146728679c65"
+    },
+    {
+      "character": "GCV_P1_006",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "0d4b012bcd9f8828a1890623c3feb700f381cda4b9d023e959adf1965dce33fc",
+      "base_sheet_fnv1a64": "8008c4684c90536e"
+    },
+    {
+      "character": "GCV_P1_007",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f2183821ba604018a1a09eb3bbd6805b25ed50f4fc79c32d5be75642c501176b",
+      "base_sheet_fnv1a64": "536f146728679c65"
+    },
+    {
+      "character": "GCV_P1_008",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f2183821ba604018a1a09eb3bbd6805b25ed50f4fc79c32d5be75642c501176b",
+      "base_sheet_fnv1a64": "536f146728679c65"
+    },
+    {
+      "character": "GCV_P1_009",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "60d1df9ee8c40ccef3ad03c0e424f7c77a137e1ceb9076706e81960b3fee2151",
+      "base_sheet_fnv1a64": "c7cbada9fd42cdc3"
+    },
+    {
+      "character": "GCV_P2_001",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "60d1df9ee8c40ccef3ad03c0e424f7c77a137e1ceb9076706e81960b3fee2151",
+      "base_sheet_fnv1a64": "c7cbada9fd42cdc3"
+    },
+    {
+      "character": "GCV_P2_002",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f2183821ba604018a1a09eb3bbd6805b25ed50f4fc79c32d5be75642c501176b",
+      "base_sheet_fnv1a64": "536f146728679c65"
+    },
+    {
+      "character": "GCV_P2_003",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "42198a6531e6c4cd210fbe00492f141346ff5fb0f95ac4895cb9ecd5e5cb37ba",
+      "base_sheet_fnv1a64": "cc6368ba8e5605cb"
+    },
+    {
+      "character": "GCV_P2_004",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "60d1df9ee8c40ccef3ad03c0e424f7c77a137e1ceb9076706e81960b3fee2151",
+      "base_sheet_fnv1a64": "c7cbada9fd42cdc3"
+    },
+    {
+      "character": "GCV_P2_005",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f2183821ba604018a1a09eb3bbd6805b25ed50f4fc79c32d5be75642c501176b",
+      "base_sheet_fnv1a64": "536f146728679c65"
+    },
+    {
+      "character": "GCV_P3_001",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "42198a6531e6c4cd210fbe00492f141346ff5fb0f95ac4895cb9ecd5e5cb37ba",
+      "base_sheet_fnv1a64": "cc6368ba8e5605cb"
+    },
+    {
+      "character": "GCV_P3_002",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f2183821ba604018a1a09eb3bbd6805b25ed50f4fc79c32d5be75642c501176b",
+      "base_sheet_fnv1a64": "536f146728679c65"
+    },
+    {
+      "character": "GCV_P3_003",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "0d4b012bcd9f8828a1890623c3feb700f381cda4b9d023e959adf1965dce33fc",
+      "base_sheet_fnv1a64": "8008c4684c90536e"
+    },
+    {
+      "character": "GCV_P3_004",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "42198a6531e6c4cd210fbe00492f141346ff5fb0f95ac4895cb9ecd5e5cb37ba",
+      "base_sheet_fnv1a64": "cc6368ba8e5605cb"
+    },
+    {
+      "character": "GCV_P3_005",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f2183821ba604018a1a09eb3bbd6805b25ed50f4fc79c32d5be75642c501176b",
+      "base_sheet_fnv1a64": "536f146728679c65"
+    },
+    {
+      "character": "GCV_P4_001",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "42198a6531e6c4cd210fbe00492f141346ff5fb0f95ac4895cb9ecd5e5cb37ba",
+      "base_sheet_fnv1a64": "cc6368ba8e5605cb"
+    },
+    {
+      "character": "GCV_P4_002",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "0d4b012bcd9f8828a1890623c3feb700f381cda4b9d023e959adf1965dce33fc",
+      "base_sheet_fnv1a64": "8008c4684c90536e"
+    },
+    {
+      "character": "GCV_P4_003",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f2183821ba604018a1a09eb3bbd6805b25ed50f4fc79c32d5be75642c501176b",
+      "base_sheet_fnv1a64": "536f146728679c65"
+    },
+    {
+      "character": "GCV_P4_004",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "2862915fd586601a82442f2450c8391ae002434f4df27a41d3fb2d97b6dd0c8d",
+      "base_sheet_fnv1a64": "674b5e2c9c09c7a7"
+    },
+    {
+      "character": "GothicusB_survivor_a",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "6c8378d2518e33e1628e12df31a4d46fe3a8ee17485c390790a647c10e3b0e0e",
+      "base_sheet_fnv1a64": "93430ba61dd1d6ca"
+    },
+    {
+      "character": "GothicusB_survivor_b",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "6c8378d2518e33e1628e12df31a4d46fe3a8ee17485c390790a647c10e3b0e0e",
+      "base_sheet_fnv1a64": "93430ba61dd1d6ca"
+    },
+    {
+      "character": "GothicusB_survivor_c",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "6c8378d2518e33e1628e12df31a4d46fe3a8ee17485c390790a647c10e3b0e0e",
+      "base_sheet_fnv1a64": "93430ba61dd1d6ca"
+    },
+    {
+      "character": "GothicusB_survivor_d",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "6c8378d2518e33e1628e12df31a4d46fe3a8ee17485c390790a647c10e3b0e0e",
+      "base_sheet_fnv1a64": "93430ba61dd1d6ca"
+    },
+    {
+      "character": "HellMan",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "86ffc55b4153e53969e3ef1b9c4d06d5fbee81480aaec171d70f5dbfec7acb50",
+      "base_sheet_fnv1a64": "03d873b1ab90cb83"
+    },
+    {
+      "character": "HellMan_DW_final",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "86ffc55b4153e53969e3ef1b9c4d06d5fbee81480aaec171d70f5dbfec7acb50",
+      "base_sheet_fnv1a64": "03d873b1ab90cb83"
+    },
+    {
+      "character": "HellMan_UW_talk",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "5dbe93f82a2af3b77216d8f02ab00a8e7bcbf08282ca3461dc75aba9f1a0bf80",
+      "base_sheet_fnv1a64": "f4a0b891e1ff1561"
+    },
+    {
+      "character": "HellMan_quest_1",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "86ffc55b4153e53969e3ef1b9c4d06d5fbee81480aaec171d70f5dbfec7acb50",
+      "base_sheet_fnv1a64": "03d873b1ab90cb83"
+    },
+    {
+      "character": "HellMan_quest_2",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "86ffc55b4153e53969e3ef1b9c4d06d5fbee81480aaec171d70f5dbfec7acb50",
+      "base_sheet_fnv1a64": "03d873b1ab90cb83"
+    },
+    {
+      "character": "HellMan_quest_3",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "86ffc55b4153e53969e3ef1b9c4d06d5fbee81480aaec171d70f5dbfec7acb50",
+      "base_sheet_fnv1a64": "03d873b1ab90cb83"
+    },
+    {
+      "character": "HellMan_quest_4",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "86ffc55b4153e53969e3ef1b9c4d06d5fbee81480aaec171d70f5dbfec7acb50",
+      "base_sheet_fnv1a64": "03d873b1ab90cb83"
+    },
+    {
+      "character": "HellMan_talk_init",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "86ffc55b4153e53969e3ef1b9c4d06d5fbee81480aaec171d70f5dbfec7acb50",
+      "base_sheet_fnv1a64": "03d873b1ab90cb83"
+    },
+    {
+      "character": "IC_BigSpider",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "5dc7829b553e83241b06122dcd36a0dfc4a99b2ba2a05f07b640ebc7fb256865",
+      "base_sheet_fnv1a64": "cbefc07e3b97e4e7"
+    },
+    {
+      "character": "IC_Crawler_Midboss",
+      "class_id": 19,
+      "level_raw": 256,
+      "base_sheet_sha256": "e8520c896e3a17cb57efce8b5037f3560529fe1fa44b43d675660e099763923e",
+      "base_sheet_fnv1a64": "7c47c30925f715a8"
+    },
+    {
+      "character": "IC_Snow_Wolf_Hound",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "d5ea73b802723f3b90bfbb14dd453fb54a63f406640669f2761fa125032841ef",
+      "base_sheet_fnv1a64": "7506fb28610c954f"
+    },
+    {
+      "character": "IC_Snow_Wolf_Pup",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "c6adf489edc9a378b52529b2ac48f97c1248074312b9f2659c5ff9d571930c85",
+      "base_sheet_fnv1a64": "2e5b15157c862226"
+    },
+    {
+      "character": "IC_Spider",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "04809974e754833df70e9fd8762d6366c66e2712cc819dc608c75a0520e07e94",
+      "base_sheet_fnv1a64": "d8e7db1b4134a50f"
+    },
+    {
+      "character": "IH_Barbarian",
+      "class_id": 37,
+      "level_raw": 256,
+      "base_sheet_sha256": "2a98ad1a890260415f058dc550e8a07786429317cf3be028d29cc74bcac17c33",
+      "base_sheet_fnv1a64": "e66489f4b7f49e41"
+    },
+    {
+      "character": "IH_Barbarian_Champion",
+      "class_id": 37,
+      "level_raw": 256,
+      "base_sheet_sha256": "a23a9c29e0c223c5a93bd0f7895fdc7e19d3a4a3e43ec8726f5cd3c8e1e26f1a",
+      "base_sheet_fnv1a64": "49b1df3a9f92ff35"
+    },
+    {
+      "character": "IH_Barbarian_King_Quest",
+      "class_id": 19,
+      "level_raw": 256,
+      "base_sheet_sha256": "fdbc30f982b4a294af234e0ab80a752337ebfbd824469045724957d329648564",
+      "base_sheet_fnv1a64": "2ab4bd9231911e4a"
+    },
+    {
+      "character": "IH_MeleeBandit",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "c6717de828e30df932019040c762dc1d8a623942d5561f809b1dfae3ac1d89b2",
+      "base_sheet_fnv1a64": "05a7d0dd8432ecf4"
+    },
+    {
+      "character": "IH_RangedBandit",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "e58fbe2066132188ace6fbd6ee9dffcef632731c3e4ed6a9fd2d0b3c4180829a",
+      "base_sheet_fnv1a64": "e27973d1d4b9b8ac"
+    },
+    {
+      "character": "IH_Slime_White",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "60c2f4a9d47c659bbbe5df8da8e7c0f5502200ee552a8b7689500353902ee58a",
+      "base_sheet_fnv1a64": "737343e0c0bcac17"
+    },
+    {
+      "character": "IH_Slime_White_Champion",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "29331b1f2aa1dd330260195e3090f07a5f44fee02a7d71962143fbbe32755ed5",
+      "base_sheet_fnv1a64": "05daa1f249aa4b96"
+    },
+    {
+      "character": "IH_Snow_Wolf_Hound",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "e150d12623e4a3defd1724e98dc076435f4fe2cf756b1d6cf64c5a8cfaec04ff",
+      "base_sheet_fnv1a64": "22c227bb32d79c5b"
+    },
+    {
+      "character": "IH_Snow_Wolf_MIDBOSS",
+      "class_id": 20,
+      "level_raw": 256,
+      "base_sheet_sha256": "b25c3cdad95d03a9f3829c53d4a2821d3b4cb4ea29463276553e0c48214dc1a7",
+      "base_sheet_fnv1a64": "e6f8b04254fdf531"
+    },
+    {
+      "character": "IH_Snow_Wolf_Pup",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "0e5c3321da37477942a9b6f079c61124cd6da5f86e6d2a3fb4b9527e551afdff",
+      "base_sheet_fnv1a64": "902503e6fdd21b5f"
+    },
+    {
+      "character": "IH_Statue",
+      "class_id": 76,
+      "level_raw": 256,
+      "base_sheet_sha256": "783c7efea4e0ab2c571d2e15fc645275220d89370b1e3870a2606e2c0ed38b11",
+      "base_sheet_fnv1a64": "6240aa19a59075e1"
+    },
+    {
+      "character": "IH_Yeti",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "df147274c8f625a3087100247a87996440a29d3b7983a1b09cffa2c85d3f4a1c",
+      "base_sheet_fnv1a64": "8d3d74f40368cce4"
+    },
+    {
+      "character": "IH_Yeti_Respawn",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "d5cb051dca163cf431a13002fb05d5e8e9d9e5accf59d5e8816fe2c6c8a729cb",
+      "base_sheet_fnv1a64": "b4009c95985b2898"
+    },
+    {
+      "character": "IcyHub_Merchant",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "96ee659e01f954645f9f1a168b98823f2dd795374ad2db475786c0b5e2a0d329",
+      "base_sheet_fnv1a64": "7b5a9ce722176dee"
+    },
+    {
+      "character": "IcyHub_NPC_FrostComb_a",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "c7c0fee0179dd7fc6dc615fa1893a8d250a2bed91da4ca307401cbcd4d92a598",
+      "base_sheet_fnv1a64": "0c179bfbb8605f46"
+    },
+    {
+      "character": "IcyHub_NPC_FrostComb_b",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "c3af42ee5fef04f6c5da5b4006223f0c07af64b884e0e1f3d20857538e3b007d",
+      "base_sheet_fnv1a64": "5f505642c6bd5fd1"
+    },
+    {
+      "character": "IcyHub_NPC_Howling_a",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "c7c19b8badf1aa78386b04cee077d544f1515a93305aa6033965107dc028f09f",
+      "base_sheet_fnv1a64": "3e1ddf625d242aff"
+    },
+    {
+      "character": "IcyHub_NPC_Howling_b",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "c7c19b8badf1aa78386b04cee077d544f1515a93305aa6033965107dc028f09f",
+      "base_sheet_fnv1a64": "3e1ddf625d242aff"
+    },
+    {
+      "character": "IcyHub_NPC_Icemurk_a",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "1ac4e5fe77c0a1d50e56f6fc18a0e972da73d1a3a7f36688297133ae8d28aca7",
+      "base_sheet_fnv1a64": "141cbe9a8ec8799c"
+    },
+    {
+      "character": "IcyHub_NPC_Icemurk_b",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "1ac4e5fe77c0a1d50e56f6fc18a0e972da73d1a3a7f36688297133ae8d28aca7",
+      "base_sheet_fnv1a64": "141cbe9a8ec8799c"
+    },
+    {
+      "character": "IcyHub_NPC_Templar_Hunt_a",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "1ac4e5fe77c0a1d50e56f6fc18a0e972da73d1a3a7f36688297133ae8d28aca7",
+      "base_sheet_fnv1a64": "141cbe9a8ec8799c"
+    },
+    {
+      "character": "IcyHub_NPC_Templar_Hunt_b",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "1ac4e5fe77c0a1d50e56f6fc18a0e972da73d1a3a7f36688297133ae8d28aca7",
+      "base_sheet_fnv1a64": "141cbe9a8ec8799c"
+    },
+    {
+      "character": "IcyHub_NPC_cultist_cave_001",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "ee216e2ee7230dec667ea55dac1d894ba6ba17575f4853f83480cf535cd2b544",
+      "base_sheet_fnv1a64": "955a1c7896757fcf"
+    },
+    {
+      "character": "IcyHub_NPC_cultist_cave_002",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "ee216e2ee7230dec667ea55dac1d894ba6ba17575f4853f83480cf535cd2b544",
+      "base_sheet_fnv1a64": "955a1c7896757fcf"
+    },
+    {
+      "character": "IcyHub_NPC_monk_001",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f75704913afe8b1ec1d36cd62ef637945a814657a941a700176448971c650d63",
+      "base_sheet_fnv1a64": "5e7d4a2d2ca0e241"
+    },
+    {
+      "character": "IcyHub_NPC_monk_002",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f75704913afe8b1ec1d36cd62ef637945a814657a941a700176448971c650d63",
+      "base_sheet_fnv1a64": "5e7d4a2d2ca0e241"
+    },
+    {
+      "character": "IcyHub_QuestGiver",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "6d1621e24ad2aeafcc5f0763de994a5807d89b7b23b429349a03ffa9eeb1675d",
+      "base_sheet_fnv1a64": "a89becf768e50e5c"
+    },
+    {
+      "character": "IcyHub_StillStatue",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "36fd1c8067abb4f4cbea54fbf11892ac1275a89789222be0170c82f900be3536",
+      "base_sheet_fnv1a64": "70c2ebb542b4d868"
+    },
+    {
+      "character": "IcyHub_Villager1",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "2d0e5a387152032b6f7b8e14e63033521e38507a847a6c9bc2a6865f888df186",
+      "base_sheet_fnv1a64": "4992178db53d39da"
+    },
+    {
+      "character": "IcyHub_Villager2",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "52d66a039987d7c59a9ca2a05bb70960f917b70deeff8be3ecfc8949f3a02e3e",
+      "base_sheet_fnv1a64": "7bab1d8b661f4177"
+    },
+    {
+      "character": "InfectedBlacksmith",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "70cdaf8ad1bdc674d74180af4bcabb991f3c6b7e26aa40a18b699ed0631464cb",
+      "base_sheet_fnv1a64": "1e94a068d4be7e56"
+    },
+    {
+      "character": "InfectedBurned",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "d481da1fa81929e5c44dcbf1110e15b790689fa1ba355d295ee1ed7f39bc8d78",
+      "base_sheet_fnv1a64": "caf9835d9c533543"
+    },
+    {
+      "character": "InfectedDog",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "1fa5ae38aa32a906b7d5b02f766dbe52607e8611d216505aed8ed6ed6f2c840c",
+      "base_sheet_fnv1a64": "184596fc6dffbace"
+    },
+    {
+      "character": "InfectedMadWoman",
+      "class_id": 21,
+      "level_raw": 256,
+      "base_sheet_sha256": "39cb806c307b6f1d347aa78240d2c57b06a28ca55c38feb53a1d0dc8de4e70cc",
+      "base_sheet_fnv1a64": "c5e20a9b7713a92b"
+    },
+    {
+      "character": "InfectedMaid",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "791fa36f519f425f8fa6596116efda3cb0c5dd87c8dcd3b8e3c1a0b6525a85bb",
+      "base_sheet_fnv1a64": "f0a19122ec163dfb"
+    },
+    {
+      "character": "InfectedMerchant",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "1c49d4bd0e72e46cbebf1279f4dd3dae7a296451f90850d7e0e998cf55691a4f",
+      "base_sheet_fnv1a64": "b6226949c5c20a3c"
+    },
+    {
+      "character": "InfectedNun",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "2e553fd553f00fa6efd8ff670ae44aa3ee8aa7c55fd1573a8b57698ee4daf3c0",
+      "base_sheet_fnv1a64": "992600f8650bf265"
+    },
+    {
+      "character": "InfectedVillager",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "fec6995e14dffe4760bcb68f8b9acabb89cf5535662d1faaf3c10da5929f13dc",
+      "base_sheet_fnv1a64": "f1aa4f782023d21a"
+    },
+    {
+      "character": "Infected_Werewolf_Midboss",
+      "class_id": 21,
+      "level_raw": 256,
+      "base_sheet_sha256": "a66164d936279fb2caa42ed8ae2804b01fe705186b3d1b6a2efbe6cfe69910fa",
+      "base_sheet_fnv1a64": "bdcebb09aa103f69"
+    },
+    {
+      "character": "King",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "eb3501c23e996e33c89c252764b0b3a837f76ae0dec15ff73624bb95f74514e9",
+      "base_sheet_fnv1a64": "d4aefa35a76be1d3"
+    },
+    {
+      "character": "KingPlayer",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "f420000385b61e2467dfa66019058aaf801e36d31c07c9b7052b4e8ff1b76816",
+      "base_sheet_fnv1a64": "9836f950753ccf52"
+    },
+    {
+      "character": "King_WT",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "fd87d38aceed67fb1c302b2fdc25f2fe02ab7209b48e35371e5d37dcb5c7cffa",
+      "base_sheet_fnv1a64": "6c9da58d04ac9245"
+    },
+    {
+      "character": "KnightPlayerBase",
+      "class_id": 77,
+      "level_raw": 256,
+      "base_sheet_sha256": "48bef8499a2f5990a6463b1df2c36d1e36f58ff3aaa49d5cbc4b532f2721863b",
+      "base_sheet_fnv1a64": "2258e338f7c8222a"
+    },
+    {
+      "character": "KnightPlayerBase_Berserker",
+      "class_id": 77,
+      "level_raw": 256,
+      "base_sheet_sha256": "bbf99e703522a5f0dbe93d7c02dec2f5957b2eec9b55c600bc236f1252efc508",
+      "base_sheet_fnv1a64": "34012fe64c86c69f"
+    },
+    {
+      "character": "KnightPlayerBase_Paladin",
+      "class_id": 77,
+      "level_raw": 256,
+      "base_sheet_sha256": "ebaa1d74d9eac94c272da38a29821004718a0ca7883e0a2fa25cd138f869ba66",
+      "base_sheet_fnv1a64": "17d0bb1c775eb708"
+    },
+    {
+      "character": "Lighthouse_Emissary",
+      "class_id": 78,
+      "level_raw": 256,
+      "base_sheet_sha256": "1ffd284990319b3c2030e1dafa708119bb2d5ae729f1b2cfe58d5f211366201b",
+      "base_sheet_fnv1a64": "2d4c51ad1e8c63ea"
+    },
+    {
+      "character": "Lighthouse_Ghost",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "80ab454e108adade2b8bd001b15cd8b355a33e9524c023afa9f9edcbdd275381",
+      "base_sheet_fnv1a64": "e10320d7926a6211"
+    },
+    {
+      "character": "Lighthouse_Ghost_Champion",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "055967da106d363aa6d6a2f3dab4d0ded2d860313a511c95d4129ef97c456455",
+      "base_sheet_fnv1a64": "ea68bb611219a4f1"
+    },
+    {
+      "character": "Lighthouse_Ghost_RE",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "c9216c6b59031e71d851c4b1fe4c051cba4c351b606fe96b64a7ff21f5f7101f",
+      "base_sheet_fnv1a64": "c39eaf0e140bff96"
+    },
+    {
+      "character": "Lighthouse_Ghost_dark",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "80ab454e108adade2b8bd001b15cd8b355a33e9524c023afa9f9edcbdd275381",
+      "base_sheet_fnv1a64": "e10320d7926a6211"
+    },
+    {
+      "character": "Lighthouse_Ghost_dark_RE",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "c9216c6b59031e71d851c4b1fe4c051cba4c351b606fe96b64a7ff21f5f7101f",
+      "base_sheet_fnv1a64": "c39eaf0e140bff96"
+    },
+    {
+      "character": "Lighthouse_Spider1",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "ebac02dfcebef66d19dd5a3886b932cbd003afc61968d308f2a11fdbfb52314e",
+      "base_sheet_fnv1a64": "0728bcdf404df649"
+    },
+    {
+      "character": "Lighthouse_Spider1_RE",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "3f375fc49f8d5f59a9156bb53cfa4834eb254d2702276cb9fd7635c4478f280a",
+      "base_sheet_fnv1a64": "5ba30d6734e79c26"
+    },
+    {
+      "character": "Lighthouse_Spider1_XL",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "a8e18b64079c586afea279ce03cdbdbd328ebb31fc983706ad81f622485409a1",
+      "base_sheet_fnv1a64": "ba651aa8585bf389"
+    },
+    {
+      "character": "Lighthouse_Zombie",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "801615a0e87806ac8039e62ad5639020b69bfc6c72ef5c8cb0cf6d5e7989e82e",
+      "base_sheet_fnv1a64": "d4aaf45a3dc0791b"
+    },
+    {
+      "character": "Lighthouse_Zombie_Champion",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "c17472b7422c27f18105fe33618cf545eaf4975fa7cef8fc11e761b3be03f266",
+      "base_sheet_fnv1a64": "21e42c6074c94fda"
+    },
+    {
+      "character": "Lighthouse_Zombie_RE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "7f3f6580744669ac178d56ddf95bffd6a69c393d073b3679fb692865f67e9420",
+      "base_sheet_fnv1a64": "4df14dd5052ed64f"
+    },
+    {
+      "character": "LightningFaeryPassive",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "db14a1e4cc4e8bf33c2a18ab633ab822271360104db7f1b99196df0a7c0527c3",
+      "base_sheet_fnv1a64": "84fd46def606adf9"
+    },
+    {
+      "character": "LostMerchantStatic",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "0079c966288fc903b6c006d1d3080b61cfcfa6e93b1fc0be6c6fd7e8fbf4bfb1",
+      "base_sheet_fnv1a64": "836ea8000f8601b7"
+    },
+    {
+      "character": "LostMerchantWandering",
+      "class_id": -1,
+      "level_raw": 1280,
+      "base_sheet_sha256": "abada8872e42fc6054827e8ee9fd5439e00b721b4bd57e73511b4893dcc069a7",
+      "base_sheet_fnv1a64": "f4a4fcc916ba9ae0"
+    },
+    {
+      "character": "MachineRoom_DarkFaery",
+      "class_id": 59,
+      "level_raw": 256,
+      "base_sheet_sha256": "2a6a656babaded2ae33807684a5a5138b815f510b580c22abd42d867c347b83f",
+      "base_sheet_fnv1a64": "e1af90eebb954287"
+    },
+    {
+      "character": "MachineRoom_HellSkeleton",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "763e11780a6fb17a7be49c4ef33746cfaabe34b71d1019077a49ccc03e2247cc",
+      "base_sheet_fnv1a64": "3fbbca2f456b86d4"
+    },
+    {
+      "character": "MadWoman",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "adf91f099972416da8a5b44eaa4eaa8835ec752a780184970ef60b7ab395dd60",
+      "base_sheet_fnv1a64": "79e1b8515cfe2625"
+    },
+    {
+      "character": "MadrukBufferMinion",
+      "class_id": 18,
+      "level_raw": 8960,
+      "base_sheet_sha256": "994112d120f4ec3cec595b70a2fefa78162d322228a4c4a6a334ee96a3a84e96",
+      "base_sheet_fnv1a64": "a7cda773113b1a58"
+    },
+    {
+      "character": "MadrukEnergySpawner",
+      "class_id": 18,
+      "level_raw": 8960,
+      "base_sheet_sha256": "f46c3ece3352b83662ca45ee6092a967236f5fe3c5e5b8930c46a520fab754d6",
+      "base_sheet_fnv1a64": "51727f50065432f9"
+    },
+    {
+      "character": "MadrukHealerMinion",
+      "class_id": 18,
+      "level_raw": 8960,
+      "base_sheet_sha256": "d3f928aada4c03ce42a0b038836bee3dbb389e764fa554889ead520f7b1dd563",
+      "base_sheet_fnv1a64": "fa584c5349f68c90"
+    },
+    {
+      "character": "MadrukTorso",
+      "class_id": 83,
+      "level_raw": 8960,
+      "base_sheet_sha256": "a675bb87c05efe46d553bf5c493b2a4d4e8c23bd07bce52395c72354c2689bb0",
+      "base_sheet_fnv1a64": "c42807c957d9a5ba"
+    },
+    {
+      "character": "Madruk_A",
+      "class_id": 82,
+      "level_raw": 8960,
+      "base_sheet_sha256": "1257e7360b003b7480b3ddbc96cefb48fdcb3ece7b61879f84263824925f9dc0",
+      "base_sheet_fnv1a64": "70ad8fa5b2164db4"
+    },
+    {
+      "character": "Madruk_B",
+      "class_id": 82,
+      "level_raw": 8960,
+      "base_sheet_sha256": "ae8bab1037bcff8ac3e754d9f1f9060de40ae05a0d00c92e40e7ecde7b7cab58",
+      "base_sheet_fnv1a64": "c9d4deb0715eab9f"
+    },
+    {
+      "character": "MagePlayerBase",
+      "class_id": 94,
+      "level_raw": 256,
+      "base_sheet_sha256": "1386c51df046ca3c9c6a0594f7e078ae0cedcfe8a6aa6a773de8fd1f438cc0e7",
+      "base_sheet_fnv1a64": "3758bdcc2d65745d"
+    },
+    {
+      "character": "MagePlayerBase_Illusionist",
+      "class_id": 94,
+      "level_raw": 256,
+      "base_sheet_sha256": "b094c8950d918d9bff2342a299552a4acb6e2ff1ba9547faf7c5bad45150aede",
+      "base_sheet_fnv1a64": "877643b794947267"
+    },
+    {
+      "character": "MagePlayerBase_Necromancer",
+      "class_id": 94,
+      "level_raw": 256,
+      "base_sheet_sha256": "4231aec70b7dd41f59b4c8766aedea68f51f36202107a587e579f334049627dd",
+      "base_sheet_fnv1a64": "a46874df8b2c5f36"
+    },
+    {
+      "character": "NPC_friendly_cultist",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "1ac4e5fe77c0a1d50e56f6fc18a0e972da73d1a3a7f36688297133ae8d28aca7",
+      "base_sheet_fnv1a64": "141cbe9a8ec8799c"
+    },
+    {
+      "character": "NPCmerchantCamp",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "763056f449d96896049ee2a6ed4ea7c591dc47f103e8a034c36b1f816761ceea",
+      "base_sheet_fnv1a64": "b5dfd74771776af2"
+    },
+    {
+      "character": "NetworkPlayer",
+      "class_id": -1,
+      "level_raw": 256,
+      "base_sheet_sha256": "d543d09f29af41146b9014e1f8c1ee1c6081ed16d200dc42d5db12c0c64ef2ca",
+      "base_sheet_fnv1a64": "7e5c0417a0759e5b"
+    },
+    {
+      "character": "Prisonier",
+      "class_id": -1,
+      "level_raw": 1280,
+      "base_sheet_sha256": "432d966d5a165cef8979ab2aacbf91908947b111162cad368e9c33ab1de67401",
+      "base_sheet_fnv1a64": "0a431953f3b21b0f"
+    },
+    {
+      "character": "Prisonier2",
+      "class_id": -1,
+      "level_raw": 1280,
+      "base_sheet_sha256": "20905cbbbd3f4048f3769a5bf08464c99b08df231b3a81409743fb01862b9e1f",
+      "base_sheet_fnv1a64": "eba708b862b4d120"
+    },
+    {
+      "character": "Prisonier3",
+      "class_id": -1,
+      "level_raw": 1280,
+      "base_sheet_sha256": "385a57b545ea422e8cde522354d04550729ed0d6f3b933ae8f7401d4ee9096f7",
+      "base_sheet_fnv1a64": "f1f993d202e5f285"
+    },
+    {
+      "character": "Prisonier4",
+      "class_id": -1,
+      "level_raw": 1280,
+      "base_sheet_sha256": "0cc7d00a8ab90d5273045a5212165b47f07da5274a7ffa076a58604c0eaefaa0",
+      "base_sheet_fnv1a64": "6b5d5897abdd0b16"
+    },
+    {
+      "character": "Prisonier5",
+      "class_id": -1,
+      "level_raw": 1280,
+      "base_sheet_sha256": "b901b96f38c488c1020f2ca19a85d5342bd59462a172a4d262d07018765448b9",
+      "base_sheet_fnv1a64": "51ed9474d9e46013"
+    },
+    {
+      "character": "RDH_Vulture",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "d28383b55a6f69c9cca23b592cf60867c29729347ed83fd058f6823f3ef33373",
+      "base_sheet_fnv1a64": "a26795b6311efd87"
+    },
+    {
+      "character": "RDH_Vulture2",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "b3fbca9b8f4c6c3872ebf7b0c0968d26f634bbf20952eda0a0db1fd008792efb",
+      "base_sheet_fnv1a64": "ff0575c1c3b897c1"
+    },
+    {
+      "character": "RDH_Vulture2_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "c417d50be2a2b8b83287a659da6791ee287e2e63c73a52e784481b33c535e608",
+      "base_sheet_fnv1a64": "239182a0cfbe0b15"
+    },
+    {
+      "character": "RDH_Vulture_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "08c841059485b7599fb06741ea5997766ee264404fadcf43d7c4a66f13061b2f",
+      "base_sheet_fnv1a64": "fb79b1955582096b"
+    },
+    {
+      "character": "RD_BigDog",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "e18a29c8a652ccd39e28eef396f04f4ae0bd5c0893da8a313c0ea58b2e43a60b",
+      "base_sheet_fnv1a64": "c46049cdb8e31803"
+    },
+    {
+      "character": "RD_BigSpider",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "3e1a998a0c746e8430d5b90f9c2b03766f47f724e27b97d07d6b50e78f0befd3",
+      "base_sheet_fnv1a64": "41f4e17659c7a010"
+    },
+    {
+      "character": "RD_Dog",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "b6bba22030ae3249d3236fd8468d481e11932497985b0baa4654897cf521f48f",
+      "base_sheet_fnv1a64": "16b3dc8d3da5854b"
+    },
+    {
+      "character": "RD_MeleeBandit",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "9d2fb3ce616ae2bcf2f7c2e41c8ae955f9968d69c4544a66f62f368b8f287822",
+      "base_sheet_fnv1a64": "f2d003f19d3bf8e7"
+    },
+    {
+      "character": "RD_MeleeBanditRE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "38b0430143bbdee65cd8e29990b3129e0f2dfc81a8ec635a23384fd58ebe5086",
+      "base_sheet_fnv1a64": "5b75bea83f87f4bb"
+    },
+    {
+      "character": "RD_RangedBandit",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "9cc2386f2e373fec38733315c933766199240a2421fa38f926b395d1eb2603e9",
+      "base_sheet_fnv1a64": "aa3e50fd17623ea3"
+    },
+    {
+      "character": "RD_RangedBanditRE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "9cc2386f2e373fec38733315c933766199240a2421fa38f926b395d1eb2603e9",
+      "base_sheet_fnv1a64": "aa3e50fd17623ea3"
+    },
+    {
+      "character": "RD_Spider",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "cd20ed6469d9da5f96edd5afcc91a0084a3cdd96b505d6d760d87d28c8314760",
+      "base_sheet_fnv1a64": "7215152e329428ef"
+    },
+    {
+      "character": "RD_ThugBandit",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "308afa7b504729d596e1c22b974368a32b16b41f5d268adab3d9edda7a07682f",
+      "base_sheet_fnv1a64": "7f2d3872f429015f"
+    },
+    {
+      "character": "Ref_FAUX_ree",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "b828cea32635ed1b771fb51679b6ac1a1757b8cb3e547a78fe94d3b3eeb3e129",
+      "base_sheet_fnv1a64": "64d74d11083ec1b3"
+    },
+    {
+      "character": "Referee_MachineRoom",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "1ad7b19435362f8f3883ca9bb707a3676f21e6663357580817cc2e6553c50aba",
+      "base_sheet_fnv1a64": "0128931018ced6f6"
+    },
+    {
+      "character": "Referee_MachineRoom_Big",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "46d8440c3013300ffb405f5456c460843c17f783b4ec18655e1e81c01ace4f60",
+      "base_sheet_fnv1a64": "6dfebde7fa6f31ae"
+    },
+    {
+      "character": "Referee_SoundTest",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "2d2abc3a0815513a8f5fdc6c8fba95fa7ac64662d35de053fd466d47857e0c42",
+      "base_sheet_fnv1a64": "f650b0e66f9bdd1e"
+    },
+    {
+      "character": "ReneBoss",
+      "class_id": 19,
+      "level_raw": 256,
+      "base_sheet_sha256": "57294d80257e5da2fc899a196ec598d1a127fceebe12611c45c68cde8f067f50",
+      "base_sheet_fnv1a64": "23441a88a06c85f6"
+    },
+    {
+      "character": "ReneHG",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "bd97ebe9c04b8e4e728e56d1b9f94e8016703bc8a95a1afe7714cf370ff25eb1",
+      "base_sheet_fnv1a64": "2bfeb06faa885dc7"
+    },
+    {
+      "character": "Rene_NPC",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "00c8fbf7db280fa6ab39762e9e3f1b549b7719b3afb9fdf02872617abc856ff2",
+      "base_sheet_fnv1a64": "7190d01c5077f995"
+    },
+    {
+      "character": "ResurrectingGod",
+      "class_id": 119,
+      "level_raw": 8960,
+      "base_sheet_sha256": "e935f614f5a7f8fcc97cfd1db0c4290b8189bc2387da84e4cedb0fe8ac35c2ab",
+      "base_sheet_fnv1a64": "30c68ae3d79c013e"
+    },
+    {
+      "character": "RingMerchant",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "7976f14e390cf23fbad01de6774b65586ac15b96631561cb0d0a08b656521da3",
+      "base_sheet_fnv1a64": "f5fd589df32398bc"
+    },
+    {
+      "character": "RisenZombie",
+      "class_id": 18,
+      "level_raw": 0,
+      "base_sheet_sha256": "72cd0c3c64faf1d99c4e82461feebffb34b297958423804f3283bc76eeb211b3",
+      "base_sheet_fnv1a64": "7110551c2f22638c"
+    },
+    {
+      "character": "RisenZombie_Edward",
+      "class_id": 39,
+      "level_raw": 1280,
+      "base_sheet_sha256": "a64d7652d3fdfb8a51edf66aab70854b11770fa47af3cc6c3436ab23d9caddbe",
+      "base_sheet_fnv1a64": "d99f2639e44aa0e5"
+    },
+    {
+      "character": "RoguePlayerBase",
+      "class_id": 120,
+      "level_raw": 256,
+      "base_sheet_sha256": "e1b217d34dc162fbc93ea4b8a149f22414c94cf78f30df459aa1cefbd96065dc",
+      "base_sheet_fnv1a64": "d9d64749ac0c5fa5"
+    },
+    {
+      "character": "RoguePlayerBase_Archer",
+      "class_id": 120,
+      "level_raw": 256,
+      "base_sheet_sha256": "73015aa87e27532a4f2f9f3cdc6dd4c16ce1c7a67d7a19085c906c2028bf793a",
+      "base_sheet_fnv1a64": "c8dccf0392864943"
+    },
+    {
+      "character": "RoguePlayerBase_Assassin",
+      "class_id": 120,
+      "level_raw": 256,
+      "base_sheet_sha256": "4db10f888576d8baed2c45f3cd7586b111608f5d06887609ac12e6828987f9c4",
+      "base_sheet_fnv1a64": "85c814f42c2a8302"
+    },
+    {
+      "character": "RootTroll",
+      "class_id": 121,
+      "level_raw": 256,
+      "base_sheet_sha256": "e66b8d0588952ea099ae394df5e50b2245402176bfb263f5674c82f8148a15f9",
+      "base_sheet_fnv1a64": "572bb4eb3ea13199"
+    },
+    {
+      "character": "RootTrollApple",
+      "class_id": 121,
+      "level_raw": 512,
+      "base_sheet_sha256": "93743be00aca333d993a3b8478b3e43382d81f421bd4862db0773d747d3f1e72",
+      "base_sheet_fnv1a64": "42d63378f158d221"
+    },
+    {
+      "character": "RootTroll_MIDBOSS",
+      "class_id": 121,
+      "level_raw": 256,
+      "base_sheet_sha256": "3d6e48aa2126570728821cc60f477ec0730b438450a2906756f31021d65824a2",
+      "base_sheet_fnv1a64": "6b4603b21c4b184d"
+    },
+    {
+      "character": "SKYGUARDIAN",
+      "class_id": 62,
+      "level_raw": 6400,
+      "base_sheet_sha256": "89580c6335abdbdb490749c234f13183995a578f66007700f152016ce48e6096",
+      "base_sheet_fnv1a64": "b7a691963fa368ab"
+    },
+    {
+      "character": "SandWorm",
+      "class_id": 125,
+      "level_raw": 256,
+      "base_sheet_sha256": "5e4c39da046c6b7e96b278ad09e99ef2372a498c90a6d670bd356d81fb88b119",
+      "base_sheet_fnv1a64": "579bab0d10bbcdfc"
+    },
+    {
+      "character": "SandWorm2",
+      "class_id": 125,
+      "level_raw": 256,
+      "base_sheet_sha256": "04fb65fb3fc20f23809fffa8a9f4cac610b4716f0e19521e4cf9442ef97813a8",
+      "base_sheet_fnv1a64": "0c2f280a4db6b083"
+    },
+    {
+      "character": "SandWormQueen",
+      "class_id": 126,
+      "level_raw": 256,
+      "base_sheet_sha256": "94d713ef31d10f260db8303aed36583e1bfc3735960fcad1ebd263d581dae205",
+      "base_sheet_fnv1a64": "e80fdda95d38a545"
+    },
+    {
+      "character": "SandWormSmall",
+      "class_id": 127,
+      "level_raw": 256,
+      "base_sheet_sha256": "a7d349a98f6608bec6a6a4127367afe5c3e2fb724d87f3d27491d80c845fd990",
+      "base_sheet_fnv1a64": "0b8930229811baa6"
+    },
+    {
+      "character": "SandWormSmall_Respawn",
+      "class_id": 127,
+      "level_raw": 256,
+      "base_sheet_sha256": "03e0526742aafb0b2170658db1b5515a6bbd79a2ed481782868b78c3869e3507",
+      "base_sheet_fnv1a64": "5d726ebefd65356e"
+    },
+    {
+      "character": "Sandwalker_001",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "2b32d3f134cf12517b00c5b1d408bad7fb4075e727e9a36010826c36c493f157",
+      "base_sheet_fnv1a64": "4e7f7cf8fd7130b4"
+    },
+    {
+      "character": "Sandwalker_002",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "2b32d3f134cf12517b00c5b1d408bad7fb4075e727e9a36010826c36c493f157",
+      "base_sheet_fnv1a64": "4e7f7cf8fd7130b4"
+    },
+    {
+      "character": "Sandwalker_003",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "32242b893a8a58330be81c696462bb3a297694a21e9714fc261a69baffb018ae",
+      "base_sheet_fnv1a64": "fdd75ba11b52917a"
+    },
+    {
+      "character": "Sandwalker_004",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "32242b893a8a58330be81c696462bb3a297694a21e9714fc261a69baffb018ae",
+      "base_sheet_fnv1a64": "fdd75ba11b52917a"
+    },
+    {
+      "character": "Sandwalker_005",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "4ef2caadc37558c56da777585c5ac3d3df79a32e36c4be5ae7a2586bcffa8c15",
+      "base_sheet_fnv1a64": "96a0a32a7fbb12cb"
+    },
+    {
+      "character": "Sandwalker_Bandit_a",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "4ef2caadc37558c56da777585c5ac3d3df79a32e36c4be5ae7a2586bcffa8c15",
+      "base_sheet_fnv1a64": "96a0a32a7fbb12cb"
+    },
+    {
+      "character": "Sandwalker_Bandit_b",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "4ef2caadc37558c56da777585c5ac3d3df79a32e36c4be5ae7a2586bcffa8c15",
+      "base_sheet_fnv1a64": "96a0a32a7fbb12cb"
+    },
+    {
+      "character": "Sandwalker_Tar_a",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "32242b893a8a58330be81c696462bb3a297694a21e9714fc261a69baffb018ae",
+      "base_sheet_fnv1a64": "fdd75ba11b52917a"
+    },
+    {
+      "character": "Sandwalker_Tar_b",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "e67d369b821d3746f5b6bbee878fe66dd76ae283ec9be60c648fde3f3f38356e",
+      "base_sheet_fnv1a64": "a5c523f9c6e92521"
+    },
+    {
+      "character": "Sandwalker_Worm_a",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "e67d369b821d3746f5b6bbee878fe66dd76ae283ec9be60c648fde3f3f38356e",
+      "base_sheet_fnv1a64": "a5c523f9c6e92521"
+    },
+    {
+      "character": "Sandwalker_Worm_b",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "e67d369b821d3746f5b6bbee878fe66dd76ae283ec9be60c648fde3f3f38356e",
+      "base_sheet_fnv1a64": "a5c523f9c6e92521"
+    },
+    {
+      "character": "SisterEllen",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "69187d2d47112c53dffc0154ddd0e6e202e51ec835e8959290c5b45d34b5463a",
+      "base_sheet_fnv1a64": "718ee9c4ee4f3887"
+    },
+    {
+      "character": "Slime",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "75dde7f84efbe96ca03fb8885bba353f6afb2dcfd72ef97a71f9b98c391ef37e",
+      "base_sheet_fnv1a64": "28bf800374c188c9"
+    },
+    {
+      "character": "Slime_Large",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "067db462a2e1d94afd79649c993d021f6f10074479e4824a5e02c2b5762c0820",
+      "base_sheet_fnv1a64": "5c30eba7bfbb4ab9"
+    },
+    {
+      "character": "Swamp2_LizadMan_Type1",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "d04226bf12736bf82dc42d97b20320af63d5698665597bbb3423a2bcaacb0cdd",
+      "base_sheet_fnv1a64": "dd58f3073b4eef32"
+    },
+    {
+      "character": "Swamp2_LizadMan_Type1_Respawn",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "217fe3849f76490d0b6b01f259046b0b2735e8cc031321c8ac58285d0946f65b",
+      "base_sheet_fnv1a64": "4a2aee6074aabde6"
+    },
+    {
+      "character": "Swamp2_LizadMan_Type2",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "f680d7c24f7f56f98bbf549293502251c69f8dace163ba99d1b3003d82b58a4c",
+      "base_sheet_fnv1a64": "63304eaed4b6d89a"
+    },
+    {
+      "character": "Swamp2_Moth_Type1",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "558b0be480b037ef9f7fbea33fa568df98deb4fd8c724c7f42cd4dd617d1bc0b",
+      "base_sheet_fnv1a64": "831854b77606ffa0"
+    },
+    {
+      "character": "Swamp2_Moth_Type1_RESPAWN",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "304d86407379d8efc6894c823838c439ed76ab37bf63aa32d0258b4a97489748",
+      "base_sheet_fnv1a64": "bf3899e30db7b740"
+    },
+    {
+      "character": "Swamp2_Slime",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "339a0ec4e8a6671aaa3e76825404fc18c6f9be8f802e9a23571395ce707f4aea",
+      "base_sheet_fnv1a64": "e8a2134bebf501cf"
+    },
+    {
+      "character": "Swamp2_Slime_Large",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "e16d7bf8cc6bcd512ce716cb1e6b598b0ff0b9e05eeb89121c586637f890045e",
+      "base_sheet_fnv1a64": "7e91a61a0641fe2c"
+    },
+    {
+      "character": "SwampKing",
+      "class_id": 243,
+      "level_raw": 256,
+      "base_sheet_sha256": "f5e8ac4bd6ccbba8bb6599a27fcc5f7e8090e5b33244b84ec1e188de50bcaaa9",
+      "base_sheet_fnv1a64": "41b60c1a5524d54a"
+    },
+    {
+      "character": "Swamp_ActorTroll",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "e99743deedfe10ecf14a379e456501f972de8663f395c193c08ba362a9eb20fb",
+      "base_sheet_fnv1a64": "7aba4b6fa7613415"
+    },
+    {
+      "character": "Swamp_LizadMan_Type1",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "e3abd00431929a913b35656fceb622b350827a3562d77e1ab569f8a0715840e7",
+      "base_sheet_fnv1a64": "af57938498bcc176"
+    },
+    {
+      "character": "Swamp_LizadMan_Type1_Respawn",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "b2e0e8a2ddeca60b968fc2ddb4851c761929abb6417b68bbe2f62dc6a8cfe9e5",
+      "base_sheet_fnv1a64": "e57360a19502d362"
+    },
+    {
+      "character": "Swamp_LizadMan_Type2",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "f201667feaaaaab6b066fb77dbc3abaab56efb03428465854f872cf91cdc4959",
+      "base_sheet_fnv1a64": "fbca03d010ad6b15"
+    },
+    {
+      "character": "Swamp_LizadMan_Type3",
+      "class_id": 21,
+      "level_raw": 256,
+      "base_sheet_sha256": "1e163bcc4c20eeb4fc5c392108b8afc760b81ea25292a78634845590646fac36",
+      "base_sheet_fnv1a64": "6f9d47791fa99698"
+    },
+    {
+      "character": "Swamp_MerchantCamp_NPC_A",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "d0076d9e9e4674927a780e5c2b73a03b4e95c348124fd3447cbd2585cc8f943f",
+      "base_sheet_fnv1a64": "36469b00821adaa6"
+    },
+    {
+      "character": "Swamp_MerchantCamp_NPC_B",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "ba2969865a40a4c571f8ebe2ecd3f3a8860a31ea2c67a5b7da991bad29799fa8",
+      "base_sheet_fnv1a64": "956852148d381429"
+    },
+    {
+      "character": "Swamp_MerchantCamp_NPC_C",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "c542fd8455c60061226129685b5da4b172349403b27684522cebbe1b336f0c4b",
+      "base_sheet_fnv1a64": "756fed9a9372527a"
+    },
+    {
+      "character": "Swamp_MerchantCamp_NPC_D",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "c542fd8455c60061226129685b5da4b172349403b27684522cebbe1b336f0c4b",
+      "base_sheet_fnv1a64": "756fed9a9372527a"
+    },
+    {
+      "character": "Swamp_Moth_Cocoon",
+      "class_id": 34,
+      "level_raw": 0,
+      "base_sheet_sha256": "9d545a82ee68094fac3cc55a1a784620a083c108d64ea13ae21249a8ef7c47a3",
+      "base_sheet_fnv1a64": "f63430d4f944e531"
+    },
+    {
+      "character": "Swamp_Moth_Cocoon_Queen",
+      "class_id": 21,
+      "level_raw": 0,
+      "base_sheet_sha256": "8b5545df2669627a2ac9becf8011de364a216e979137b2a2607ee2f2f42cabac",
+      "base_sheet_fnv1a64": "51b0ac3c0dd68a1c"
+    },
+    {
+      "character": "Swamp_Moth_Minions",
+      "class_id": 42,
+      "level_raw": 0,
+      "base_sheet_sha256": "8b36edadf0b3bcf3c0a9c7187423ddf331fe5b8cb93852d9e80edd019888d6c0",
+      "base_sheet_fnv1a64": "77633e033b157275"
+    },
+    {
+      "character": "Swamp_Moth_Type1",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "cf8041d8ef50565314c2962d912646f8c5aee3df914a8ea29333ab1308d1daa7",
+      "base_sheet_fnv1a64": "ea22c044aaf63e56"
+    },
+    {
+      "character": "Swamp_Moth_Type1_RESPAWN",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "4438d91832635fc81ab26410f81864007c0d8be1c4004db5271a39a2a672cccb",
+      "base_sheet_fnv1a64": "fbf6fd685929e860"
+    },
+    {
+      "character": "Swamp_MovieMoth",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "5b98a8a92839144fba54146089278eeb731aceb28fb81cd5879070528df697dd",
+      "base_sheet_fnv1a64": "8090ceb72bdd3d68"
+    },
+    {
+      "character": "Swamp_SnackMan",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "ebc4f0fed14bf9b4ecffe92987a5572551030fdfc064f9768c003baf5b698903",
+      "base_sheet_fnv1a64": "e9447249d18e20e7"
+    },
+    {
+      "character": "SwordGuardian",
+      "class_id": 245,
+      "level_raw": 256,
+      "base_sheet_sha256": "53e20ece62220af75f96f782ff7a7db8d77bc9f320ce618d9fe4c2f57931d4c4",
+      "base_sheet_fnv1a64": "faf94298d4991ed2"
+    },
+    {
+      "character": "TarSlime",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "0cef98fb769c1d7c20b07799a31cc517aabb9bdc0a1eb10d0cd1697856949691",
+      "base_sheet_fnv1a64": "ceccb606d34800d2"
+    },
+    {
+      "character": "TarSlime2",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "aff4b77b645b095d0238a06b172dc77a21890af4af8803a140ff7d122352ab98",
+      "base_sheet_fnv1a64": "b73b10a5ec7b006e"
+    },
+    {
+      "character": "TarSlime2_RE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "1b2777049ae33c44bd8c94568413e108894e7573bf6f01d82301b847ad3cbb09",
+      "base_sheet_fnv1a64": "3e417e113a25d341"
+    },
+    {
+      "character": "TarSlime_RE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "e7fe6ef028f68e4a006384d2e921ac757fc22439b46e275e62792bad1ff1521b",
+      "base_sheet_fnv1a64": "e75b6cbd83934100"
+    },
+    {
+      "character": "TarSlime_Small",
+      "class_id": 39,
+      "level_raw": 256,
+      "base_sheet_sha256": "7277081549cc46cc8b563808acbfcdef2bb0ab596b69d610c92068424f1ca20d",
+      "base_sheet_fnv1a64": "cbe172da26a7e862"
+    },
+    {
+      "character": "Tar_mine_queen",
+      "class_id": 21,
+      "level_raw": 256,
+      "base_sheet_sha256": "c09a9f351f0f9a1824b8b351852fcfb6e1408300821001d7acdbd4842b0f7ef8",
+      "base_sheet_fnv1a64": "4c188914a8f47fb7"
+    },
+    {
+      "character": "TremblingMan",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "132972885dc5675bbede047421df87ca9e8ffe019f3d2cba657c759564099af4",
+      "base_sheet_fnv1a64": "aa5b9de3e84a4199"
+    },
+    {
+      "character": "Troll",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "276852d464dcd98ea70f1e0ab36d343d162a9247aa53d0488dac27e2f778b96a",
+      "base_sheet_fnv1a64": "16bf9f78c10cfbb9"
+    },
+    {
+      "character": "Troll2",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "feae88546d16babfb0273873d04f0b33b5c96c5d950c79cbe27d359cb9b0c7f7",
+      "base_sheet_fnv1a64": "60514a268afab83a"
+    },
+    {
+      "character": "TrollKing",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "aaea2bf73ffc2d5df40d5f65a55287542f55fff7d860f381ed22ccf560493803",
+      "base_sheet_fnv1a64": "be7b7610d6a14994"
+    },
+    {
+      "character": "UW_Cherub",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "375ac6369fa1f09d62a5071e0eed5594b481876ad82c6e11154cf0342e79c889",
+      "base_sheet_fnv1a64": "c09606afaae05cab"
+    },
+    {
+      "character": "UW_CherubRE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "375ac6369fa1f09d62a5071e0eed5594b481876ad82c6e11154cf0342e79c889",
+      "base_sheet_fnv1a64": "c09606afaae05cab"
+    },
+    {
+      "character": "UW_Emissary",
+      "class_id": 78,
+      "level_raw": 7936,
+      "base_sheet_sha256": "3bddbdf8fa4f3e40a4df400763b8abda558a88acd1dc8a734e5ffd59b712e960",
+      "base_sheet_fnv1a64": "a7f54b3b16d2e534"
+    },
+    {
+      "character": "UW_Hell_Hound",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "00656ba4d5cd989726e72bc4c7b485a38665effcd9648e884bd0221d8c5808a8",
+      "base_sheet_fnv1a64": "e3c87304fcadf5ad"
+    },
+    {
+      "character": "UW_Hell_Pup",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "04a12aa9d75232ce5e12e4d0d1999814e1adacfc61c66e7889ff0b9641bbb90b",
+      "base_sheet_fnv1a64": "3dfa64cc6c78517b"
+    },
+    {
+      "character": "UW_Plant",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "88ee561480d38de7a9c959a92d7eef0f9133bc1de3c08f48f78f452708ce6a44",
+      "base_sheet_fnv1a64": "bbc7e801b3e84cfb"
+    },
+    {
+      "character": "UW_Plant_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "88ee561480d38de7a9c959a92d7eef0f9133bc1de3c08f48f78f452708ce6a44",
+      "base_sheet_fnv1a64": "bbc7e801b3e84cfb"
+    },
+    {
+      "character": "UW_Skeleton",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "cdb80886620de8ed871173951b000f37dededc05dd818aa281ed6d403180dced",
+      "base_sheet_fnv1a64": "a766060356cd283b"
+    },
+    {
+      "character": "UW_Skeleton_RE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "30188538d1c12815772d758c6d354abd5da4a1b464021d669dd778900f82c0bc",
+      "base_sheet_fnv1a64": "be96eaf3c62e2607"
+    },
+    {
+      "character": "UW_Skydevil",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "779021ff6d422d82801c3025040f59f9610d7554428bd38354153178cd98979b",
+      "base_sheet_fnv1a64": "e64c3ecfcdca6c43"
+    },
+    {
+      "character": "UW_Skydevil_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "d1c94a7bde746fece8404ec0378969e0bcf259cf28e218226c887925b9e91209",
+      "base_sheet_fnv1a64": "ebb83f3ef5adbb2f"
+    },
+    {
+      "character": "UW_Statue",
+      "class_id": 21,
+      "level_raw": 256,
+      "base_sheet_sha256": "b83c513b6966bcdc5def20fdc85e7af7be4e015ac2d3cab1b9d154c626ebc949",
+      "base_sheet_fnv1a64": "f5227d2b6aacf91d"
+    },
+    {
+      "character": "UW_Treething",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "fecfbbae993f7a63b4a003b57624d716043112892d806f19880ac9ea79e8716c",
+      "base_sheet_fnv1a64": "c346ef79b72cb7a8"
+    },
+    {
+      "character": "UW_Treething_RE",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "95fb5de3e40f8fb4f10182c539ab890643aa8e062d88be183a33e6ab1ffac866",
+      "base_sheet_fnv1a64": "24dc6a3c77543805"
+    },
+    {
+      "character": "WT_Cultist1",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "11cd77f2df32275feda15b8e20e58bd6a139b6278942847526b2bc6f2e989be9",
+      "base_sheet_fnv1a64": "9160b2baf8319c66"
+    },
+    {
+      "character": "WT_Cultist2",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "11cd77f2df32275feda15b8e20e58bd6a139b6278942847526b2bc6f2e989be9",
+      "base_sheet_fnv1a64": "9160b2baf8319c66"
+    },
+    {
+      "character": "WT_Cultist3",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "69814ccc28c11a4d7375f9e9d0772b020c43aeefb9e308416db7354102cccbb7",
+      "base_sheet_fnv1a64": "e3105d87c494ea8d"
+    },
+    {
+      "character": "WT_Cultist_Magic_Champion",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "e8205e906bc3102570b461edd2d17ae2d2d5d704e6713b6b2a346479c66d12f8",
+      "base_sheet_fnv1a64": "1b7ba3a0b55ba4b6"
+    },
+    {
+      "character": "WT_Cultist_Melee_Champion",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "7a9c94a3790fd196ffa8f27e34976fca7ce7c7f56adf43b3442fb713b4221e31",
+      "base_sheet_fnv1a64": "9ef40281a9f1ded3"
+    },
+    {
+      "character": "WT_Cultist_Strong",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "7e4955142533366b2b9f4c7432f06c6acba1de0ac2780b268fb1b65f753e9d9a",
+      "base_sheet_fnv1a64": "177eb4404a8d61c9"
+    },
+    {
+      "character": "WT_Ghost",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "832aa4eaa154ac17c80d5bcefb1b715df7df31bd8f1cc318955eff1a0500a806",
+      "base_sheet_fnv1a64": "b86d8a29a09c8771"
+    },
+    {
+      "character": "WT_R_Cultist1",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "980608476f944916ab8c9554347d30b3dfaa71adcf285d990cea6d5c28e3d705",
+      "base_sheet_fnv1a64": "8e77661a999888cc"
+    },
+    {
+      "character": "WT_R_Cultist2",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "980608476f944916ab8c9554347d30b3dfaa71adcf285d990cea6d5c28e3d705",
+      "base_sheet_fnv1a64": "8e77661a999888cc"
+    },
+    {
+      "character": "WT_Sharkman",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "9d382c2247ee68480d0004e2473b9bd43f76e980329149dfd91f8a53e625cc8e",
+      "base_sheet_fnv1a64": "ea5adf84ec71c90b"
+    },
+    {
+      "character": "WT_SharkmanXL",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "01465ae2986a5e567fc234273c162a970adf811a736fb96ddd48781b8382e6dd",
+      "base_sheet_fnv1a64": "7ed3504a990914a0"
+    },
+    {
+      "character": "WT_Sharkman_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "73505c403d2d713b8418acb2c8d3a08f9b9519162e9782ab029238f491b688e1",
+      "base_sheet_fnv1a64": "e9321565ff2448b7"
+    },
+    {
+      "character": "WT_Skeleton1",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "71d4e4bdc86bccec18d2d8635b4363d32a1947355a08b9822c5532606c6c0c7c",
+      "base_sheet_fnv1a64": "7bc14bf964fdade1"
+    },
+    {
+      "character": "WT_Skeleton2",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "3ec12c3875d969efd13edb8997cc0875ece8c8076b31e091ad04480b17fc24eb",
+      "base_sheet_fnv1a64": "ce2e3ace07a8f274"
+    },
+    {
+      "character": "WT_Skeleton3",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "0e199cdf3cfac02316ebcf9cff5df4634db8ce964a0afe313835b0a9d31218ab",
+      "base_sheet_fnv1a64": "bfbc3a9da00d2ebb"
+    },
+    {
+      "character": "WT_Slime_White",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "49c7945a8fe34aa0e855fdba8af35b2faa80699faef03cc4dcd4d98eb0a72073",
+      "base_sheet_fnv1a64": "a1c591ab3c267e14"
+    },
+    {
+      "character": "WT_Slime_White_Champion",
+      "class_id": 35,
+      "level_raw": 256,
+      "base_sheet_sha256": "5e9029b8ecc7d317e4a4f494935bdf8b2309398117cf719687dde98fcd688003",
+      "base_sheet_fnv1a64": "3d863d7c8938445d"
+    },
+    {
+      "character": "WT_Slime_White_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "45ba0bee2138da4cff30d500df751f865d4f43a5eb87e61064c1de6d22c4d320",
+      "base_sheet_fnv1a64": "613e24ab6df47734"
+    },
+    {
+      "character": "WanderingEddie",
+      "class_id": -1,
+      "level_raw": 1280,
+      "base_sheet_sha256": "a8f2f626319faf8d51867c6128339b52d2d0c940a08e8b771167d476d1b372ee",
+      "base_sheet_fnv1a64": "670b1c6fa1eb104e"
+    },
+    {
+      "character": "WanderingPriest",
+      "class_id": 248,
+      "level_raw": 256,
+      "base_sheet_sha256": "ea9408cc085275814755217b5246bf96f7630c5528d1ed34e8405f27c8360cfb",
+      "base_sheet_fnv1a64": "01b0040572a4295e"
+    },
+    {
+      "character": "WaterFaeryPassive",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "7bd2094f0d4781b669b5b5e51cf22d9eaa8d25154f1dbecdbfab52b0e5ad2142",
+      "base_sheet_fnv1a64": "edf8bf012d7856d1"
+    },
+    {
+      "character": "WindTemplar",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "9186dd10aec6b6924ed718e48981b43c014bde091fd8faadf578204c7c9fd5ec",
+      "base_sheet_fnv1a64": "ad57260e5e3f5bee"
+    },
+    {
+      "character": "WindTemplar_RE",
+      "class_id": 34,
+      "level_raw": 256,
+      "base_sheet_sha256": "0d6244024ad804ba6e8191c84285ebd87da6dfe542e1b75c86700238e3dafcf9",
+      "base_sheet_fnv1a64": "9f0ed6a17f47008a"
+    },
+    {
+      "character": "WindTroll",
+      "class_id": 22,
+      "level_raw": 256,
+      "base_sheet_sha256": "1ca62f0ea91fc0d047d2e7edf8fe57408dd7ffba435e6d31a200b541ef0ca6ef",
+      "base_sheet_fnv1a64": "4679057aa457344b"
+    },
+    {
+      "character": "WindTroll_2",
+      "class_id": 22,
+      "level_raw": 512,
+      "base_sheet_sha256": "44b5aa0ab73fa8982cbd525f7e7dcff40a9779a4ef99d099d1770d290f53322f",
+      "base_sheet_fnv1a64": "c5eebb0e33eb4095"
+    },
+    {
+      "character": "WindYeti_1",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "73dbf9c0820fa5f336fdc4200f9550059f9641b5c192b45ec68442c5585efae5",
+      "base_sheet_fnv1a64": "f23b27fa78489cc1"
+    },
+    {
+      "character": "WindYeti_2",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "ffd57873856ff8cc28231ff584eb5acaa8625d4d2b1473bd6a9122e418bc1d22",
+      "base_sheet_fnv1a64": "342743325f59d227"
+    },
+    {
+      "character": "Wind_Moth_Champion",
+      "class_id": 22,
+      "level_raw": 256,
+      "base_sheet_sha256": "8b5746caeae1b4e35161e2e27b42d4d2d51c226d7a2259f04314dd660af99b36",
+      "base_sheet_fnv1a64": "44044c4a6a71a41f"
+    },
+    {
+      "character": "Wind_Moth_Type0",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "2c2f46268c25647e034830abcb4a336592a54ab2bde4bd16932f2f0b5d9a8286",
+      "base_sheet_fnv1a64": "9e7e80933bd6dfd5"
+    },
+    {
+      "character": "Wind_Moth_Type0_RE",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "807654bb6371b63aebeeffb35f022f8e860cd29a24ff516da725d4a8fdd0959e",
+      "base_sheet_fnv1a64": "7fe6abddc72923e9"
+    },
+    {
+      "character": "Wind_Moth_Type1",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "2c2f46268c25647e034830abcb4a336592a54ab2bde4bd16932f2f0b5d9a8286",
+      "base_sheet_fnv1a64": "9e7e80933bd6dfd5"
+    },
+    {
+      "character": "Wind_Moth_Type1_RESPAWN",
+      "class_id": 40,
+      "level_raw": 256,
+      "base_sheet_sha256": "e5f74eb649c372f277488adde101d042412011f50352d3263985dea8daac950b",
+      "base_sheet_fnv1a64": "143d9663d4ba76d0"
+    },
+    {
+      "character": "Wind_Vulture",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "d9c17712c50d4bf2b61068f886a639dee1d1594d22f0279f37d7f98be7100dcd",
+      "base_sheet_fnv1a64": "b50e052703213fa4"
+    },
+    {
+      "character": "Wind_Vulture2",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "fbc9b2b136ec6efd3d5350ccda0b50651269ee68626b83e61ab548db710b947d",
+      "base_sheet_fnv1a64": "b6ae642137c9a2fe"
+    },
+    {
+      "character": "Wind_Vulture_RE",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "731d7aa7444cd87d8b9332b3a6e79ee5ee047464914ab3e226259ddc2df74f1b",
+      "base_sheet_fnv1a64": "ae48928b0739b360"
+    },
+    {
+      "character": "Witch",
+      "class_id": 254,
+      "level_raw": 256,
+      "base_sheet_sha256": "a06c997f1a5752fc0a2896962b3d1b805d7c1fac6f1c915608ede4de4f22ea92",
+      "base_sheet_fnv1a64": "17394e70ea590c1f"
+    },
+    {
+      "character": "Wormroot_Troll_Midboss",
+      "class_id": 19,
+      "level_raw": 256,
+      "base_sheet_sha256": "5b6ff10ca7316bd975e82a092148807f1bbee4818e46c100f62c1ac04912230f",
+      "base_sheet_fnv1a64": "d65014cc333a0e1f"
+    },
+    {
+      "character": "Yeti",
+      "class_id": 23,
+      "level_raw": 256,
+      "base_sheet_sha256": "37ce8f773a69578fab175614576bb07b78aa170412db3c2210692979a834606d",
+      "base_sheet_fnv1a64": "40809b49cedb9372"
+    },
+    {
+      "character": "zCrown",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "37f1963df5b268f2d7ee20cb243ab560f36c98d11be37a07eb1f13a106c20396",
+      "base_sheet_fnv1a64": "952f8388f432b705"
+    },
+    {
+      "character": "zEdwardGrave",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "37f1963df5b268f2d7ee20cb243ab560f36c98d11be37a07eb1f13a106c20396",
+      "base_sheet_fnv1a64": "952f8388f432b705"
+    },
+    {
+      "character": "zInvisibleMonk1",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "02355237b66cd7144cd6432b452ed66313989f8708e8e30f501fe64a03e7abed",
+      "base_sheet_fnv1a64": "9cad04a468c87519"
+    },
+    {
+      "character": "zInvisibleMonk2",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "02355237b66cd7144cd6432b452ed66313989f8708e8e30f501fe64a03e7abed",
+      "base_sheet_fnv1a64": "9cad04a468c87519"
+    },
+    {
+      "character": "zInvisibleMonk3",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "02355237b66cd7144cd6432b452ed66313989f8708e8e30f501fe64a03e7abed",
+      "base_sheet_fnv1a64": "9cad04a468c87519"
+    },
+    {
+      "character": "zInvisibleMonk4",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "02355237b66cd7144cd6432b452ed66313989f8708e8e30f501fe64a03e7abed",
+      "base_sheet_fnv1a64": "9cad04a468c87519"
+    },
+    {
+      "character": "zKill5Lizman_Post",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "37f1963df5b268f2d7ee20cb243ab560f36c98d11be37a07eb1f13a106c20396",
+      "base_sheet_fnv1a64": "952f8388f432b705"
+    },
+    {
+      "character": "zKillMoths_Post",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "37f1963df5b268f2d7ee20cb243ab560f36c98d11be37a07eb1f13a106c20396",
+      "base_sheet_fnv1a64": "952f8388f432b705"
+    },
+    {
+      "character": "zKingGrave",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "37f1963df5b268f2d7ee20cb243ab560f36c98d11be37a07eb1f13a106c20396",
+      "base_sheet_fnv1a64": "952f8388f432b705"
+    },
+    {
+      "character": "zMadrukTorso_Target",
+      "class_id": -1,
+      "level_raw": 0,
+      "base_sheet_sha256": "ecc5da9e98e20ea911d647e08bdf5b9dfb6742755e2bdc1101622618b92b48d7",
+      "base_sheet_fnv1a64": "845397a13b9519bf"
+    }
+  ],
+  "crypt_base_snapshots": [
+    {
+      "character": "CryptSlime",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "bc2be057e96a23e0f9be30797f3a519a209fdd7444426035a48ac16c289798ad",
+      "base_sheet_fnv1a64": "e0cad1d302226d0f",
+      "max_hp_raw": 12160,
+      "max_mp_raw": 5632,
+      "hp_raw": -1
+    },
+    {
+      "character": "CryptSlime_RE",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "063c926284e1e90918f8a10e16a349882f75c2b806617b414770ca4da363d891",
+      "base_sheet_fnv1a64": "eb471073d49b2c44",
+      "max_hp_raw": 12160,
+      "max_mp_raw": 5632,
+      "hp_raw": -1
+    },
+    {
+      "character": "Crypt_Ghost",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "b0a0de4269550ff903694e4ffb3cbd47984da627ce4fe891951640cb67415e05",
+      "base_sheet_fnv1a64": "37563d932af809fb",
+      "max_hp_raw": 12160,
+      "max_mp_raw": 5632,
+      "hp_raw": -1
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "class_id": 18,
+      "level_raw": 256,
+      "base_sheet_sha256": "cd66020a4d16929bcd5aaa3b97d0be1ee621324c4f7f3c5d3cb5866b692db70d",
+      "base_sheet_fnv1a64": "41ae0e800682474e",
+      "max_hp_raw": 12160,
+      "max_mp_raw": 5632,
+      "hp_raw": -1
+    }
+  ],
+  "input_sha256": {
+    "character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+  }
+}

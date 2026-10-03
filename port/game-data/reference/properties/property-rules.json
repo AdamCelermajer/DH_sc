@@ -1,0 +1,1586 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "character_array_global": "0x9a645c",
+  "global_symbols": [
+    "_ZN6Arrays14CharacterTable7membersE"
+  ],
+  "default_row": "AAA_DEFAULTS_DONT_DELETE",
+  "type_row": "AAA_TYPES_DONT_DELETE",
+  "default_row_index": 0,
+  "type_row_index": 1,
+  "rows": [
+    {
+      "id": 0,
+      "name": "AIFaction",
+      "default_raw": 10,
+      "type_raw": 1,
+      "effective_type": 1
+    },
+    {
+      "id": 1,
+      "name": "AI",
+      "default_raw": 8,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 2,
+      "name": "AnimTable",
+      "default_raw": 17,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 3,
+      "name": "ModelFile",
+      "default_raw": -1,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 4,
+      "name": "ModularVisual",
+      "default_raw": -1,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 5,
+      "name": "ClassString",
+      "default_raw": 1835084,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 6,
+      "name": "ClassDescString",
+      "default_raw": 1835084,
+      "type_raw": 1835084,
+      "effective_type": 1835084
+    },
+    {
+      "id": 7,
+      "name": "Effects",
+      "default_raw": 0,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 8,
+      "name": "Sounds",
+      "default_raw": 2,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 9,
+      "name": "Loot",
+      "default_raw": -1,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 10,
+      "name": "Dialogs",
+      "default_raw": -1,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 11,
+      "name": "RespawnTime",
+      "default_raw": 0,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 12,
+      "name": "Scale_X",
+      "default_raw": 80,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 13,
+      "name": "Scale_Y",
+      "default_raw": 80,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 14,
+      "name": "Scale_Z",
+      "default_raw": 80,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 15,
+      "name": "Melee_Scale",
+      "default_raw": 100,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 16,
+      "name": "Collision_Scale",
+      "default_raw": 85,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 17,
+      "name": "FX_Scale",
+      "default_raw": -1,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 18,
+      "name": "Name",
+      "default_raw": 1507432,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 19,
+      "name": "Level",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 20,
+      "name": "LevelMax",
+      "default_raw": -1,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 21,
+      "name": "LevelMin",
+      "default_raw": 1,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 22,
+      "name": "LevelOffset",
+      "default_raw": 0,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 23,
+      "name": "KillCount",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 24,
+      "name": "MPLevelKillCount",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 25,
+      "name": "DeathCount",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 26,
+      "name": "ClassID",
+      "default_raw": -1,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 27,
+      "name": "StatAutoAssignScheme",
+      "default_raw": -1,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 28,
+      "name": "SkillTree",
+      "default_raw": -1,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 29,
+      "name": "FaeryList",
+      "default_raw": -1,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 30,
+      "name": "RangeMinDistance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 31,
+      "name": "RangeMaxDistance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 32,
+      "name": "RangeProjectileID",
+      "default_raw": -1,
+      "type_raw": -1,
+      "effective_type": 16
+    },
+    {
+      "id": 33,
+      "name": "XP",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 34,
+      "name": "Max_XP",
+      "default_raw": -1,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 35,
+      "name": "Value_XP",
+      "default_raw": -1,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 36,
+      "name": "HP",
+      "default_raw": -1,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 37,
+      "name": "HP_Bonus",
+      "default_raw": -1,
+      "type_raw": 36,
+      "effective_type": 36
+    },
+    {
+      "id": 38,
+      "name": "Max_HP",
+      "default_raw": -1,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 39,
+      "name": "Regen_HP",
+      "default_raw": -1,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 40,
+      "name": "CombatRegen_HP",
+      "default_raw": -1,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 41,
+      "name": "MP",
+      "default_raw": -1,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 42,
+      "name": "MP_Bonus",
+      "default_raw": -1,
+      "type_raw": 36,
+      "effective_type": 36
+    },
+    {
+      "id": 43,
+      "name": "Max_MP",
+      "default_raw": -1,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 44,
+      "name": "Regen_MP",
+      "default_raw": -1,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 45,
+      "name": "CombatRegen_MP",
+      "default_raw": -1,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 46,
+      "name": "Speed_Modifier_Walk",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 47,
+      "name": "Speed_Modifier_Rotation",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 48,
+      "name": "Speed_Modifier_Attack",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 49,
+      "name": "Opacity_Modifier",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 50,
+      "name": "Rating_Attack",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 51,
+      "name": "Rating_Attack_Bonus_Sword",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 52,
+      "name": "Rating_Attack_Bonus_Axe",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 53,
+      "name": "Rating_Attack_Bonus_Mace",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 54,
+      "name": "Rating_Attack_Bonus_Dagger",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 55,
+      "name": "Rating_Attack_Bonus_Range",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 56,
+      "name": "Rating_Attack_Bonus_Staff",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 57,
+      "name": "Rating_Attack_Bonus_Wand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 58,
+      "name": "Rating_Attack_Bonus_Dual",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 59,
+      "name": "Rating_Defense",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 60,
+      "name": "Rating_Dodge",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 61,
+      "name": "Rating_Block",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 62,
+      "name": "Rating_Block_Bonus_Shield",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 63,
+      "name": "Rating_Critical",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 64,
+      "name": "Rating_Critical_Bonus_Sword",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 65,
+      "name": "Rating_Critical_Bonus_Axe",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 66,
+      "name": "Rating_Critical_Bonus_Mace",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 67,
+      "name": "Rating_Critical_Bonus_Dagger",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 68,
+      "name": "Rating_Critical_Bonus_Range",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 69,
+      "name": "Rating_Critical_Bonus_Staff",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 70,
+      "name": "Rating_Critical_Bonus_Wand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 71,
+      "name": "Physical_Armor",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 72,
+      "name": "Physical_Armor_Bonus_Shield",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 73,
+      "name": "Magical_Armor",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 74,
+      "name": "Resistance_Fire",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 75,
+      "name": "Resistance_Water",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 76,
+      "name": "Resistance_Lightning",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 77,
+      "name": "Resistance_Earth",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 78,
+      "name": "Resistance_Air",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 79,
+      "name": "Damage_Min_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 80,
+      "name": "Damage_Max_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 81,
+      "name": "Damage_Min_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 82,
+      "name": "Damage_Max_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 83,
+      "name": "Damage_Bonus_Sword",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 84,
+      "name": "Damage_Bonus_Axe",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 85,
+      "name": "Damage_Bonus_Mace",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 86,
+      "name": "Damage_Bonus_Dagger",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 87,
+      "name": "Damage_Bonus_Range",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 88,
+      "name": "Damage_Bonus_Staff",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 89,
+      "name": "Damage_Bonus_Wand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 90,
+      "name": "Damage_Bonus_Dual",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 91,
+      "name": "Damage_Bonus_TwoHand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 92,
+      "name": "Damage_Bonus_Stunned",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 93,
+      "name": "Damage_Bonus_Sneaking",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 94,
+      "name": "Damage_Bonus_Combo",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 95,
+      "name": "Damage_Elemental_Min_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 96,
+      "name": "Damage_Elemental_Max_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 97,
+      "name": "Damage_Elemental_Type_Main_Hand",
+      "default_raw": -256,
+      "type_raw": 2,
+      "effective_type": 2
+    },
+    {
+      "id": 98,
+      "name": "Damage_Elemental_Min_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 99,
+      "name": "Damage_Elemental_Max_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 100,
+      "name": "Damage_Elemental_Type_Off_Hand",
+      "default_raw": -256,
+      "type_raw": 2,
+      "effective_type": 2
+    },
+    {
+      "id": 101,
+      "name": "Damage_Fire_Min_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 102,
+      "name": "Damage_Fire_Max_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 103,
+      "name": "Damage_Fire_Min_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 104,
+      "name": "Damage_Fire_Max_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 105,
+      "name": "Damage_Water_Min_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 106,
+      "name": "Damage_Water_Max_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 107,
+      "name": "Damage_Water_Min_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 108,
+      "name": "Damage_Water_Max_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 109,
+      "name": "Damage_Lightning_Min_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 110,
+      "name": "Damage_Lightning_Max_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 111,
+      "name": "Damage_Lightning_Min_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 112,
+      "name": "Damage_Lightning_Max_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 113,
+      "name": "Damage_Earth_Min_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 114,
+      "name": "Damage_Earth_Max_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 115,
+      "name": "Damage_Earth_Min_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 116,
+      "name": "Damage_Earth_Max_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 117,
+      "name": "Damage_Air_Min_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 118,
+      "name": "Damage_Air_Max_Main_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 119,
+      "name": "Damage_Air_Min_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 120,
+      "name": "Damage_Air_Max_Off_Hand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 121,
+      "name": "Damage_Block_Mitigation",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 122,
+      "name": "Damage_Crit_Intensification",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 123,
+      "name": "Dot_Min_Damage",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 124,
+      "name": "Dot_Max_Damage",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 125,
+      "name": "Dot_Duration",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 126,
+      "name": "Dot_Tick_Damage_Normal",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 127,
+      "name": "Dot_Tick_Damage_Fire",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 128,
+      "name": "Dot_Tick_Damage_Water",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 129,
+      "name": "Dot_Tick_Damage_Lightning",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 130,
+      "name": "Dot_Tick_Damage_Earth",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 131,
+      "name": "Dot_Tick_Damage_Air",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 132,
+      "name": "Leech_HP",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 133,
+      "name": "Leech_MP",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 134,
+      "name": "Hurt_Resist_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 135,
+      "name": "Hurt_Target_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 136,
+      "name": "Push_Resist_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 137,
+      "name": "Push_Target_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 138,
+      "name": "Stun_Resist_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 139,
+      "name": "Stun_Target_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 140,
+      "name": "Stun_Duration",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 141,
+      "name": "Fear_Resist_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 142,
+      "name": "Fear_Target_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 143,
+      "name": "Fear_Duration",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 144,
+      "name": "Slow_Resist_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 145,
+      "name": "Slow_Target_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 146,
+      "name": "Slow_Duration",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 147,
+      "name": "Diminishing_Return",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 148,
+      "name": "Stat_Points",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 149,
+      "name": "Stat_Strength",
+      "default_raw": 0,
+      "type_raw": 36,
+      "effective_type": 36
+    },
+    {
+      "id": 150,
+      "name": "Stat_Dexterity",
+      "default_raw": 0,
+      "type_raw": 36,
+      "effective_type": 36
+    },
+    {
+      "id": 151,
+      "name": "Stat_Endurance",
+      "default_raw": 0,
+      "type_raw": 36,
+      "effective_type": 36
+    },
+    {
+      "id": 152,
+      "name": "Stat_Energy",
+      "default_raw": 0,
+      "type_raw": 36,
+      "effective_type": 36
+    },
+    {
+      "id": 153,
+      "name": "Prereq_Strength",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 154,
+      "name": "Prereq_Dexterity",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 155,
+      "name": "Prereq_Endurance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 156,
+      "name": "Prereq_Energy",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 157,
+      "name": "Skill_Points",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 158,
+      "name": "Spell_Rating_Attack",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 159,
+      "name": "Spell_Rating_Attack_Bonus_Fire",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 160,
+      "name": "Spell_Rating_Attack_Bonus_Water",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 161,
+      "name": "Spell_Rating_Attack_Bonus_Lightning",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 162,
+      "name": "Spell_Rating_Attack_Bonus_Earth",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 163,
+      "name": "Spell_Rating_Attack_Bonus_Air",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 164,
+      "name": "Spell_Rating_Dodge",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 165,
+      "name": "Spell_Rating_Critical",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 166,
+      "name": "Spell_Damage_Bonus_Fire",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 167,
+      "name": "Spell_Damage_Bonus_Water",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 168,
+      "name": "Spell_Damage_Bonus_Lightning",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 169,
+      "name": "Spell_Damage_Bonus_Earth",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 170,
+      "name": "Spell_Damage_Bonus_Air",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 171,
+      "name": "Spell_Damage_Crit_Intensification",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 172,
+      "name": "SnS_Level",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 173,
+      "name": "SnS_ManaCost",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 174,
+      "name": "SnS_MinDamage",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 175,
+      "name": "SnS_MaxDamage",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 176,
+      "name": "SnS_Duration",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 177,
+      "name": "SnS_Cooldown",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 178,
+      "name": "SnS_Dot_Elemental_Type",
+      "default_raw": -256,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 179,
+      "name": "SnS_Dot_Min_Damage",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 180,
+      "name": "SnS_Dot_Max_Damage",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 181,
+      "name": "SnS_Dot_Duration",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 182,
+      "name": "SnS_Hurt_Target_Chance",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 183,
+      "name": "SnS_Push_Target_Chance",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 184,
+      "name": "SnS_Stun_Target_Chance",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 185,
+      "name": "SnS_Stun_Duration",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 186,
+      "name": "SnS_Fear_Target_Chance",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 187,
+      "name": "SnS_Fear_Duration",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 188,
+      "name": "SnS_Slow_Target_Chance",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 189,
+      "name": "SnS_Slow_Duration",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 190,
+      "name": "TempProp1",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 191,
+      "name": "TempProp2",
+      "default_raw": 0,
+      "type_raw": 8,
+      "effective_type": 8
+    },
+    {
+      "id": 192,
+      "name": "Potion_HP_Modifier",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 193,
+      "name": "Potion_MP_Modifier",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 194,
+      "name": "Special_Loot_Max_Potions",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 195,
+      "name": "Special_Loot_Gold_Multiplier",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 196,
+      "name": "Special_Loot_Magical_Chance",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 197,
+      "name": "Special_Transmute_Efficiency",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 198,
+      "name": "Special_Sneak",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 199,
+      "name": "Special_Sneak_Detection",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 200,
+      "name": "Special_Bonus_To_XP",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 201,
+      "name": "Special_Merchant_Price",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 202,
+      "name": "Special_Equip_Main_In_Offhand",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 203,
+      "name": "Special_Equip_2H_In_One",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 204,
+      "name": "Threat_PerDamage",
+      "default_raw": 0,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 205,
+      "name": "Threat_PerHeal",
+      "default_raw": 0,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 206,
+      "name": "Threat_PerDamageToFriendly",
+      "default_raw": 0,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 207,
+      "name": "Menu_Average_Melee_To_Hit",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 208,
+      "name": "Menu_Average_Spell_To_Hit",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 209,
+      "name": "Menu_Melee_Damage_Reduction",
+      "default_raw": 0,
+      "type_raw": 4,
+      "effective_type": 4
+    },
+    {
+      "id": 210,
+      "name": "Visual_AlphaFadeInSpawn",
+      "default_raw": 3000,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 211,
+      "name": "Visual_AlphaFadeOutDespawn",
+      "default_raw": 3000,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 212,
+      "name": "Visual_BlinkWhenHit",
+      "default_raw": 1,
+      "type_raw": 16,
+      "effective_type": 16
+    },
+    {
+      "id": 213,
+      "name": "Achievement_Transmute_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 214,
+      "name": "Achievement_Block_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 215,
+      "name": "Achievement_Evade_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 216,
+      "name": "Achievement_SkillUse_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 217,
+      "name": "Achievement_Break_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 218,
+      "name": "Achievement_Chests_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 219,
+      "name": "Achievement_Potions_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 220,
+      "name": "Achievement_Sell_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 221,
+      "name": "Achievement_Spent_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 222,
+      "name": "Achievement_KnockedDown_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    },
+    {
+      "id": 223,
+      "name": "Achievement_PickUp_Count",
+      "default_raw": 0,
+      "type_raw": 32,
+      "effective_type": 32
+    }
+  ],
+  "input_sha256": {
+    "character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+  }
+}

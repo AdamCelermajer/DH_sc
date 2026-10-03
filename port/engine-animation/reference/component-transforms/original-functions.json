@@ -1,0 +1,701 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase15getDefaultValueEPKNS0_8SChannelEPPv",
+      "elf_address": "0x61c6bc",
+      "size": 48,
+      "sha256": "e064d887ef937a1400a06bb0dedc48cbad5d544fbd025c3ff82f7cf05c6de4ea"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_25CSceneNodeQuaternionMixinIfEEfLi4ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x613294",
+      "size": 80,
+      "sha256": "ed4eb477bd0056640b28e659de232b3f150e2adf48a2adb4b23cbeb4d6821e00"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase12getAnimationEi",
+      "elf_address": "0x60e35c",
+      "size": 24,
+      "sha256": "a71a4c8872d47f4eedbd9150316320b46495b8e9055373c0a2745fd94ea6dd79"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet26setDefaultAnimationLibraryEj",
+      "elf_address": "0x62fcf8",
+      "size": 212,
+      "sha256": "9050d4ab495fd2aef7c5c7b92d03131e5c7f3cead19b30a7d29b2b89a2e7b5b0"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada18ISceneNodeAnimatorC1Ev",
+      "elf_address": "0x669828",
+      "size": 212,
+      "sha256": "b9df82410ea36702d8544d68b3210b8b9eec75bf2c5d2f81dd3bac2cbd57bbd5"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada19CTimelineControllerC1Ev",
+      "elf_address": "0x666e40",
+      "size": 188,
+      "sha256": "8158f48c652a7f3d023c9d32e9ed4be662951c2a73bcbe9ac2a8aed91f1f3c38"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet26setDefaultAnimationLibraryERKNS0_16CColladaDatabaseE",
+      "elf_address": "0x62fc90",
+      "size": 104,
+      "sha256": "78806631b55af3aa57555539ebf9e8e3ca71f33c6dfc119df3c63b7441d5d0e6"
+    },
+    {
+      "original_symbol": "_ZN14AnimSetManager15AddTemplateAnimEii",
+      "elf_address": "0x476398",
+      "size": 204,
+      "sha256": "9ff3f7d34763f35e7cde008a7101c21adc65b4f93037299dcf276eda9608ae47"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor8getValueEiPvRib",
+      "elf_address": "0x66a1a8",
+      "size": 72,
+      "sha256": "f3809736bf1d39a7647c79811f7aa941375b23ceb970e4f1e045d597cb219afb"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSetC1ERKN5boost13intrusive_ptrI12AnimationSetEE",
+      "elf_address": "0x3676b8",
+      "size": 216,
+      "sha256": "2601a6553aa77a412a859faf0c6f22132780dc7128a917d81e8f07fb83ea3fea"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_20CSceneNodeScaleMixinIfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x628850",
+      "size": 256,
+      "sha256": "6337fc51cd454293f3c78e0f932d498624fd4c2a3645c1418f785121b88a0b1c"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21CSceneNodeAnimatorSetC2Ev",
+      "elf_address": "0x662c90",
+      "size": 128,
+      "sha256": "a4d922dc2df344df0cce060499cfaeb860b99288194ab2ce86e82384d0f55fb5"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada13CAnimationSet19addAnimationLibraryEPKc",
+      "elf_address": "0x6600fc",
+      "size": 216,
+      "sha256": "8718c2b55c6a0a36902ddfd2d00208f721c23b43f07a0847c6787eaac94b7f3b"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21CSceneNodeAnimatorSet19setCurrentAnimationEi",
+      "elf_address": "0x65f8c8",
+      "size": 312,
+      "sha256": "7ec4bf7678ad6e91156ec63534212b5ee7e1b2b61d158b3d8c07606b5228e4c6"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada13CAnimationSet15CompileInternalEv",
+      "elf_address": "0x6605ac",
+      "size": 356,
+      "sha256": "92f5ee7668d0a3dd5d8d4e583653cece4e3dc120a70f1d01aedad391248796a5"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSet12SetCallbacksEPFvPN6glitch5scene19ITimelineControllerEPvES4_PFvRKNS0_7collada15STriggeredEventES4_ES4_",
+      "elf_address": "0x367510",
+      "size": 120,
+      "sha256": "48743429550b2e90bd7094c956839c4d9ffd419f0c0fa434bafbeca74440673f"
+    },
+    {
+      "original_symbol": "_ZN12AnimationSet23_UpdateAnimationIndicesEv",
+      "elf_address": "0x364af4",
+      "size": 140,
+      "sha256": "da6d8fea941c1c089f7562e9d9abfdcd94fcc23ad78dd2d326bedc68e1a52d65"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoIiLi1000EEEbRKNS_3res6vectorIiEEiRii",
+      "elf_address": "0x66a368",
+      "size": 556,
+      "sha256": "32129c94cfa472d3fecb866dcc39963cf6a1eefce20426e710d017933d45cddc"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada18getStringsInternalEPNS0_18ISceneNodeAnimator20E_INTERPOLATION_MODEE",
+      "elf_address": "0x667c38",
+      "size": 16,
+      "sha256": "51a01b2f47b7c90140530bd936fcc22c01c851e67924c4f2e717d417ae252fe1"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN6glitch7collada16CColladaDatabaseENS0_4core10SAllocatorIS2_LNS0_6memory13E_MEMORY_HINTE0EEEE9push_backERKS2_",
+      "elf_address": "0x62ecac",
+      "size": 352,
+      "sha256": "523d49ba26d681d78003b79eec825ee72cbcd258d393fca4bada49e172645b69"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase14getVisualSceneEi",
+      "elf_address": "0x60e54c",
+      "size": 36,
+      "sha256": "e629c6c37bcb70c63b21671327c46d29959c9b6fd8367c28c4c90bede5d5e424"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21CSceneNodeAnimatorSet17getAnimationValueEiiPv",
+      "elf_address": "0x65f7b4",
+      "size": 248,
+      "sha256": "8b9a7526a46fa2b8766e11a18f957de897aff0a7bdd33c25274ded3a5e886b26"
+    },
+    {
+      "original_symbol": "_ZN14AnimSetManager7AddAnimEii",
+      "elf_address": "0x47653c",
+      "size": 324,
+      "sha256": "77b429cb3555b489157b32cf25f7a79da6de50171c5023ff01249727552b34e2"
+    },
+    {
+      "original_symbol": "_ZN12AnimationSet13CreateAnimSetEv",
+      "elf_address": "0x364ca0",
+      "size": 88,
+      "sha256": "3d48be8f572a7b1561e2b55353309e97679e3f154cd1a319c853cc6b1c004482"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSetC1Ev",
+      "elf_address": "0x3648c4",
+      "size": 184,
+      "sha256": "c0ac5339afa50051cf9e4fb1e0966a7434d67d4d9e36dd88375d601025c2032c"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase21getBlendableAnimationEPKNS0_8SChannelE",
+      "elf_address": "0x61c1e0",
+      "size": 28,
+      "sha256": "696bb937eb6ef602bc48c1d38c9d0906c1e8b326839a9a5cd931aa0adf00757d"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSetC2ERKN5boost13intrusive_ptrI12AnimationSetEE",
+      "elf_address": "0x367790",
+      "size": 184,
+      "sha256": "c3d6a4b3c56a974c5f13b17cdaca0c059ef76580446cf53b09943d3645a82dfe"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoItLi30EEEbRKNS_3res6vectorIiEEiRii",
+      "elf_address": "0x66b130",
+      "size": 504,
+      "sha256": "3dc4cde82fcbdd593cea53ed2bc7cf47cf9db5698a407d9c503205504440b364"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIiLi1000EEEbiRKNS_3res6vectorIiEEiRiRfi",
+      "elf_address": "0x66a5e0",
+      "size": 240,
+      "sha256": "892dc686bfd72cd30549377528d42048783e694044ed3dc6172319303e9a4860"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIhLi30EEEbiRKNS_3res6vectorIiEEiRiRfi",
+      "elf_address": "0x66aab4",
+      "size": 260,
+      "sha256": "ebb538a6fdb1e3734229a9a0e5488b848d4f3e70432784b2fba3b623b4076ae7"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet27addAnimationLibraryBindingsERKNS0_16CColladaDatabaseE",
+      "elf_address": "0x62ee9c",
+      "size": 560,
+      "sha256": "656e07d3438f4860e725fc3980ca9548f3232c054bcdef9e87982e7d99b490ec"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoEiiRiRfi",
+      "elf_address": "0x66b814",
+      "size": 76,
+      "sha256": "5ca8adca6b00589a75b211ec0f268d3a449f2df0d30516bd594eb463e5cedc40"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExItLi30EEEbiRKNS_3res6vectorIiEEiRiRfi",
+      "elf_address": "0x66b550",
+      "size": 268,
+      "sha256": "bcbe85d703bc90bf6f88cdbf885fe6c38d6486cf7f19680e0e35e024a8456d9f"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18ISceneNodeAnimator19serializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE",
+      "elf_address": "0x667cb4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21IAnimationSetTemplate10setUnAddedEv",
+      "elf_address": "0x667320",
+      "size": 68,
+      "sha256": "bc602f5f15d0cb06fbc3910430d3397f85ea80327e6b5ea9d9bbf409996c6170"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21IAnimationSetTemplate11addChannelsEPSt6vectorIPKNS0_8SChannelENS_4core10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEEPS2_IPKNS0_17CAnimationTrackExENS7_ISF_LS9_0EEEE",
+      "elf_address": "0x667384",
+      "size": 516,
+      "sha256": "0a0a3192162fd4d4e6b798fad6a94a6cdc4115ad198285591ec7356389b3f81e"
+    },
+    {
+      "original_symbol": "_ZN15AnimatorBlender8SetScaleEf",
+      "elf_address": "0x3666d8",
+      "size": 104,
+      "sha256": "b0330e469fd064160e0e0835e4a29623cb629a00ce5b5e302d68136a363dfca7"
+    },
+    {
+      "original_symbol": "_ZN14AnimSetManager11GetAnimatorEi",
+      "elf_address": "0x4762c4",
+      "size": 212,
+      "sha256": "d651e91b57c2b5871e33972ba9a2644fee39225196068a5615a8b87e1cdc1c33"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada35CAnimationSetTransformationTemplate15getDefaultValueEPKNS0_8SChannelEPPv",
+      "elf_address": "0x6e23d0",
+      "size": 100,
+      "sha256": "c68d29207cd3d93be504016e0504dfba31b5f5e3d8e36af5c59184bd49e916b4"
+    },
+    {
+      "original_symbol": "_ZN24BlendedAnimSetControllerC2EP13RootSceneNodei",
+      "elf_address": "0x476b4c",
+      "size": 656,
+      "sha256": "569a68e2ab5588a0f3c5a4885eb8e8397ae75ced5711e8fbdb34c5ef9889290c"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada6detail27constructCompatibilityTableEv",
+      "elf_address": "0x670a60",
+      "size": 672,
+      "sha256": "774dd0435d941c9aab76c93c9c03221fbc401c7192a840df0fe74d8b9e842b51"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase7getNodeEPKcRNS0_5SNodeE",
+      "elf_address": "0x61c214",
+      "size": 124,
+      "sha256": "e8022d0f7091fd5bdcf8e8e1e5cf9ca47b28f77a176904b49a09104d00d43c03"
+    },
+    {
+      "original_symbol": "_ZN12AnimationSet13LoadAnimationEi",
+      "elf_address": "0x3659ec",
+      "size": 812,
+      "sha256": "17f25624152d8b9a559501e8a8f4cb5914f011aaea74295b7227f49506e38469"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada17CAnimationTrackEx8getValueERKNS0_18SAnimationAccessorEiPvRib",
+      "elf_address": "0x6e2c40",
+      "size": 168,
+      "sha256": "ebfefcc043a11dee30efc79c9a05f97b496e3e38bb93ae5fa2147d9d09e9d292"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada13CAnimationSet12addAnimationEPKNS0_10SAnimationE",
+      "elf_address": "0x6601fc",
+      "size": 684,
+      "sha256": "2496e012d85f5dc9272ddc74dc0dc6a0c1adf30feb7f944dba6c1a93e0f8fdd7"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoIhLi30EEEbRKNS_3res6vectorIiEEiRii",
+      "elf_address": "0x66a894",
+      "size": 468,
+      "sha256": "5b418fc045aafd7eec7fc7f8735057d2b7c6aa6e3a9f27eb4ca4a394d79a6b60"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSet19setCurrentAnimationEi",
+      "elf_address": "0x367420",
+      "size": 100,
+      "sha256": "50da6b2236d6eeea1d3eae3b435180daa46f8a00cad9dc7cea62099b2f0de51d"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet16getDatabaseIndexERNS0_16CColladaDatabaseE",
+      "elf_address": "0x62dbb8",
+      "size": 84,
+      "sha256": "4d0ae05e3dbf4f0c173c5f93807559c4b96cf9f2300aefac30fe6d1bdf8ab384"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21CSceneNodeAnimatorSet4initERKN5boost13intrusive_ptrINS0_13CAnimationSetEEE",
+      "elf_address": "0x660af4",
+      "size": 300,
+      "sha256": "4d622d34b7ad7fef4c2d59bc42fa36ff9092eb5c736d0dde93d0a1bb8d530776"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase7getNodeEPKc",
+      "elf_address": "0x61c290",
+      "size": 104,
+      "sha256": "7d9c975ed78510702b12c9bf0598e2d0794b62a486b1bbcde5d7473967603e7f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet11clearTracksEv",
+      "elf_address": "0x62f54c",
+      "size": 208,
+      "sha256": "d8989914b7f951aeff3bad1c0dd20803ce2bd8d79328d0e040251e9f97360f32"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada18ISceneNodeAnimator21deserializeAttributesEPNS_2io11IAttributesEPNS2_26SAttributeReadWriteOptionsE",
+      "elf_address": "0x667cb8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSet19SetCurrentAnimationEi",
+      "elf_address": "0x3674ac",
+      "size": 100,
+      "sha256": "9eca245dce8ffd0e596ce73f97d013d8f5b826c3444d3e25084ca8089c321d8c"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoEiRKNS_3res6vectorIiEEiRiRfi",
+      "elf_address": "0x66b65c",
+      "size": 440,
+      "sha256": "c9be0d5b471dc6bd17ea1c6102893ba537ebeabd6dad620d929ae957afecfeb4"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase15getDefaultValueEPKcNS0_8SChannel4TypeEPPvS6_",
+      "elf_address": "0x61c2f8",
+      "size": 964,
+      "sha256": "5f3c20f7411522387bc5c090554ffa9904cdb41b634f63710151ec2042ea44c1"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase12getAnimationEPKcNS0_8SChannel4TypeEh",
+      "elf_address": "0x61c0c8",
+      "size": 280,
+      "sha256": "785b8aa8d751492e6f84f62a4f7bc753457ccf20b32a4e5feca36bb2dbdb2628"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada18ISceneNodeAnimatorC2Ev",
+      "elf_address": "0x6698fc",
+      "size": 200,
+      "sha256": "7a909a3577276211c06042ae8ffb58e5c5d5166fa521480f4b4ef8aca2d077a4"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada13CAnimationSet19addAnimationLibraryERKNS0_16CColladaDatabaseE",
+      "elf_address": "0x6601d4",
+      "size": 40,
+      "sha256": "f090ec642b62a11be8b140a547345ac67a778fd8c9207669543398570ec0d3b9"
+    },
+    {
+      "original_symbol": "_ZN24BlendedAnimSetController8PlayClipEjbij",
+      "elf_address": "0x47680c",
+      "size": 336,
+      "sha256": "38dc389a93924a5ed3315da44f194f1c8144fe9d1681bd00c67a13f38db679ff"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet12addAnimationEPKNS0_10SAnimationE",
+      "elf_address": "0x62f354",
+      "size": 504,
+      "sha256": "ccd30a6bd0bca3e08617d5db0eba3b118fcae8563532c06f5d318d32fcdf57d6"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet7compileEv",
+      "elf_address": "0x62f61c",
+      "size": 888,
+      "sha256": "41a6f2936152576c1805ab6c1757853197441ad7c12914b2c93a3d6742d65530"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada13CAnimationSet19setMismatchBehaviorENS1_19E_MISMATCH_BEHAVIORE",
+      "elf_address": "0x62db98",
+      "size": 8,
+      "sha256": "280d9531648cae4b688eb10a394ecdee9829b6b51fe4073da227194b4c8ca2fd"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada20CDynamicAnimationSet19addAnimationLibraryERKNS0_16CColladaDatabaseE",
+      "elf_address": "0x62e8a8",
+      "size": 24,
+      "sha256": "c374dbe5e33ccff08b1120147684250dd2231e3c430017a11eb2da5b4493a66f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada35CAnimationSetTransformationTemplate16isAnimationExistEPKNS0_8SChannelE",
+      "elf_address": "0x6e22cc",
+      "size": 260,
+      "sha256": "b2e933a8ad935f8eda87be0363425a0e44cce8a2262919d92a43e6ef4b143e4d"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21CSceneNodeAnimatorSetC1ERKN5boost13intrusive_ptrINS0_13CAnimationSetEEE",
+      "elf_address": "0x660c20",
+      "size": 196,
+      "sha256": "289d493e3065bfb65f4e3777f01ccbe81d4612f12d3602fe7a0846e5c31a5c70"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21CSceneNodeAnimatorSetC2ERKN5boost13intrusive_ptrINS0_13CAnimationSetEEE",
+      "elf_address": "0x660ce4",
+      "size": 168,
+      "sha256": "10dfdd848320eb14e77dc47adaff9a824c87f6b0607d14589bd60aad61546ed9"
+    },
+    {
+      "original_symbol": "_ZN14AnimApplicatorC1EPN6glitch7collada18ISceneNodeAnimatorE",
+      "elf_address": "0x364398",
+      "size": 104,
+      "sha256": "298c039409381fd981f63f86925900f8ae43352d110d07f75c3bbc3190008c1b"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionZExIfEEfLi3ENS1_17SUseDefaultValuesILi2EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x61ffbc",
+      "size": 180,
+      "sha256": "e704dff70e727b5e8147e0b3f805a107d9bfdd2a0639740ce6040880be9adcfc"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleZExIfEELi2EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60ef1c",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleZExIfEEfLi3ENS1_17SUseDefaultValuesILi2EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv",
+      "elf_address": "0x61e334",
+      "size": 108,
+      "sha256": "9d49e485a1e743d91dcc66e8e4d0e00bb852932132a0895635075787c0d20c0a"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleYExIfEEfLi3ENS1_17SUseDefaultValuesILi1EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "elf_address": "0x61e0ec",
+      "size": 212,
+      "sha256": "a1eb06d8d3df1faebcb9577f29b567b4ccb6cc9adf4774cc12ac0738852c84dc"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleZExIfEELi2EfEEEEE11getInstanceEv",
+      "elf_address": "0x610ebc",
+      "size": 148,
+      "sha256": "8988e83ab1bff42745f2830fdc2798fc15d84dbd63e844c2623e86784c46ceb7"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionXExIfEELi0EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x623d90",
+      "size": 24,
+      "sha256": "06fc797d9829df4c3ad795586996a0d7396a61dd027ef8eae5cc3c573e7243d4"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleYExIfEELi1EfEEEEE13retrieveValueEPvSD_",
+      "elf_address": "0x62069c",
+      "size": 52,
+      "sha256": "5ca98cec000b405798801727b8bca53d6dc9bcb75e9651ab764222e394351a6f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionXExIfEEfLi3ENS1_17SUseDefaultValuesILi0EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x61fa24",
+      "size": 184,
+      "sha256": "c070c4f07aefca0b5999b2a0f78425dfc646d2c117fb874c955c610483392f44"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleYExIfEELi1EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x622c40",
+      "size": 24,
+      "sha256": "1ba23be83fb2f7bacb9aa58898067a75156a26dc2a9dc94490374e5366b27b6f"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionYExIfEELi1EfEEEEE13retrieveValueEPvSD_",
+      "elf_address": "0x620460",
+      "size": 52,
+      "sha256": "0247b8149cd8443b11f1ccdffa1ee217fa5a4037627b719cf11f93445ea7b8db"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleYExIfEEfLi3ENS1_17SUseDefaultValuesILi1EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x61df98",
+      "size": 184,
+      "sha256": "ae7b20e60f6d80dc3df22bc889eefda04951bb89350e78c9532a72a09ef111e3"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionZExIfEELi2EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x622cb8",
+      "size": 24,
+      "sha256": "06fc797d9829df4c3ad795586996a0d7396a61dd027ef8eae5cc3c573e7243d4"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionXExIfEELi0EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60efe0",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionZExIfEELi2EfEEEEE13retrieveValueEPvSD_",
+      "elf_address": "0x6203c4",
+      "size": 52,
+      "sha256": "0247b8149cd8443b11f1ccdffa1ee217fa5a4037627b719cf11f93445ea7b8db"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleYExIfEELi1EfEEEEE11getInstanceEv",
+      "elf_address": "0x610d00",
+      "size": 148,
+      "sha256": "5edf4386b54c5f298b2ada360a2417f3c435509848bf5c16c0d9e6927ae46e04"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleXExIfEEfLi3ENS1_17SUseDefaultValuesILi0EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv",
+      "elf_address": "0x61dda0",
+      "size": 108,
+      "sha256": "64ab3b082c3386b46d6798b9d8dd8b54f9b8ccd2101ea0d57085583c49f7d2d1"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleZExIfEELi2EfEEEEE13retrieveValueEPvSD_",
+      "elf_address": "0x620600",
+      "size": 52,
+      "sha256": "5ca98cec000b405798801727b8bca53d6dc9bcb75e9651ab764222e394351a6f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionZExIfEEfLi3ENS1_17SUseDefaultValuesILi2EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv",
+      "elf_address": "0x61ff3c",
+      "size": 112,
+      "sha256": "7e480f7175df1ac8765fbbe89356f20e3521ea115660683801a7c2f6d386207c"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionYExIfEELi1EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x623d48",
+      "size": 24,
+      "sha256": "06fc797d9829df4c3ad795586996a0d7396a61dd027ef8eae5cc3c573e7243d4"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleYExIfEELi1EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60ef34",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada16CColladaDatabase19getAnimationTrackExEPKNS0_10SAnimationE",
+      "elf_address": "0x611ae0",
+      "size": 1608,
+      "sha256": "bb7590a23775d34fa5821fac78f1e6330a691b0c929b23cf1a3eedb733f37f72"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionYExIfEELi1EfEEEEE11getInstanceEv",
+      "elf_address": "0x610610",
+      "size": 148,
+      "sha256": "860fa40e8f899d3c3ec007bdd2877d971751f30e2c05d46e923cad7b734a04b3"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionZExIfEEfLi3ENS1_17SUseDefaultValuesILi2EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv",
+      "elf_address": "0x615e6c",
+      "size": 108,
+      "sha256": "76c2e7b8e4970a577aed904ff37cdf7f4b52ac02f2e46b709f5fa335537ffc15"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionYExIfEEfLi3ENS1_17SUseDefaultValuesILi1EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x61fcf0",
+      "size": 184,
+      "sha256": "fd32923f1457a6a9905809c5582475d6f3f2f255917a17a1ea7ba76081abc0ef"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleZExIfEEfLi3ENS1_17SUseDefaultValuesILi2EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "elf_address": "0x61e3b4",
+      "size": 212,
+      "sha256": "6003b4ba594a8bac19d7547fe29b4a81132a1267d3ad2ddb106d565754182c68"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleXExIfEELi0EfEEEEE11getInstanceEv",
+      "elf_address": "0x610b44",
+      "size": 148,
+      "sha256": "664318ccfae2cb05b4a2b0277f02c39cc376c98b1dfbd61d3593c5b1015c98a3"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleXExIfEEfLi3ENS1_17SUseDefaultValuesILi0EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "elf_address": "0x61de20",
+      "size": 212,
+      "sha256": "a02b19ecb4a71c3c4a715d3438579181ef8be9577ae9a1cd377cffb9935831ab"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleZExIfEEfLi3ENS1_17SUseDefaultValuesILi2EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv",
+      "elf_address": "0x61e1e4",
+      "size": 112,
+      "sha256": "2b581b8563f44a8ed06044edc6c01b06c8c8da8639e4ae9c742f3cd7e1186798"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionZExIfEEfLi3ENS1_17SUseDefaultValuesILi2EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "elf_address": "0x61db54",
+      "size": 212,
+      "sha256": "b88c41dd4e13ae90b2b8b8240504564994d317deddd48635962fc23fabcb6850"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionZExIfEELi2EfEEEEE11getInstanceEv",
+      "elf_address": "0x6107cc",
+      "size": 148,
+      "sha256": "bcd5e9205d79c9e5a547f566f0804998aa149fd78ca9d6000eb455e6ac7814fd"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionXExIfEELi0EfEEEEE11getInstanceEv",
+      "elf_address": "0x610454",
+      "size": 148,
+      "sha256": "79fcf6e97ff879ad6afcc5005200a17fae0bd2d00693fcee9e8db35e04281247"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleXExIfEEfLi3ENS1_17SUseDefaultValuesILi0EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv",
+      "elf_address": "0x61dc4c",
+      "size": 112,
+      "sha256": "c0c8201744d07c012386ecbb4582addb65b061da3436e01c2f17726732404ad5"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionXExIfEELi0EfEEEEE13retrieveValueEPvSD_",
+      "elf_address": "0x6204fc",
+      "size": 52,
+      "sha256": "0247b8149cd8443b11f1ccdffa1ee217fa5a4037627b719cf11f93445ea7b8db"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionYExIfEEfLi3ENS1_17SUseDefaultValuesILi1EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv",
+      "elf_address": "0x61fc70",
+      "size": 112,
+      "sha256": "780905368e81d064ac8c62b5744a146558df300976228c387febfc801849ff35"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionYExIfEEfLi3ENS1_17SUseDefaultValuesILi1EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv",
+      "elf_address": "0x61fdc4",
+      "size": 108,
+      "sha256": "7f337f0915f31d8f62e96d1f7e471229b6321b39650fd1b95f26711fd93283c4"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleZExIfEEfLi3ENS1_17SUseDefaultValuesILi2EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x61e264",
+      "size": 180,
+      "sha256": "7611a14ebf23064bfd4c8da64deac2a7da65b6b731a968266dabf94717a0eff6"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionYExIfEEfLi3ENS1_17SUseDefaultValuesILi1EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "elf_address": "0x61fe44",
+      "size": 212,
+      "sha256": "30fc0295f89e3387c315de48cb69c2bb35dec1a22f27750a525f4ea71eea479d"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleZExIfEELi2EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x622bf8",
+      "size": 24,
+      "sha256": "1ba23be83fb2f7bacb9aa58898067a75156a26dc2a9dc94490374e5366b27b6f"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionYExIfEELi1EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60efc8",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionXExIfEEfLi3ENS1_17SUseDefaultValuesILi0EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "elf_address": "0x61fb78",
+      "size": 212,
+      "sha256": "ab6180d747d13e89d356a4208773916bb60f19335962ed003b58da07708166d9"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionZExIfEELi2EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60efb0",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionXExIfEEfLi3ENS1_17SUseDefaultValuesILi0EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv",
+      "elf_address": "0x61faf8",
+      "size": 108,
+      "sha256": "bc66c4c7a5c89198d642da92a790c81894d6dc676de90aae0a619b90979e090d"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleXExIfEELi0EfEEEEE13retrieveValueEPvSD_",
+      "elf_address": "0x620738",
+      "size": 52,
+      "sha256": "5ca98cec000b405798801727b8bca53d6dc9bcb75e9651ab764222e394351a6f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_21CSceneNodePositionXExIfEEfLi3ENS1_17SUseDefaultValuesILi0EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv",
+      "elf_address": "0x61f9a4",
+      "size": 112,
+      "sha256": "a7eff2739261ff7c74888a664f19d0e79e9506a10c2d50139850cbd075690faa"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleYExIfEEfLi3ENS1_17SUseDefaultValuesILi1EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv",
+      "elf_address": "0x61df18",
+      "size": 112,
+      "sha256": "d6c25e1b85f18067e8ef8631ad8fedeaf204455599458eeb82ae5c8d1649ae84"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleYExIfEEfLi3ENS1_17SUseDefaultValuesILi1EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiPv",
+      "elf_address": "0x61e06c",
+      "size": 108,
+      "sha256": "2c4ba6df6bee8e33fe9032f569f60ba7ca7b4ec0a4dfbcc4b8f9813cfa9cbdf5"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleXExIfEELi0EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60ef4c",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleXExIfEELi0EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x6238f4",
+      "size": 24,
+      "sha256": "1ba23be83fb2f7bacb9aa58898067a75156a26dc2a9dc94490374e5366b27b6f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_18CSceneNodeScaleXExIfEEfLi3ENS1_17SUseDefaultValuesILi0EfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x61dccc",
+      "size": 184,
+      "sha256": "a9439c167a1752b8336a3dac63014c5d9a2c7e04a49f0a30529ad07189cf78fe"
+    }
+  ]
+}

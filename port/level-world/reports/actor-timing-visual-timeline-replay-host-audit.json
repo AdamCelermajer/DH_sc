@@ -1,0 +1,12 @@
+{
+  "comparisons": 640,
+  "ordered_callbacks": 1212,
+  "root_restart_requests": 312,
+  "atomic_rejection_checks": 4,
+  "mismatches": 0,
+  "reference_sha256": "7e93b56c15c73ec6e171b47cc8619e6c4f3dc72c4e0a38a633999952d926e6cb",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

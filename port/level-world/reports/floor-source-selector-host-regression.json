@@ -1,0 +1,20 @@
+{
+  "matrix_inverse_comparisons": 1007,
+  "singular_inverses": 57,
+  "octree_builds": 32,
+  "selector_box_comparisons": 3072,
+  "selected_triangle_comparisons": 31246,
+  "coupled_ray_comparisons": 3072,
+  "coupled_floor_comparisons": 3072,
+  "hits": {
+    "ray": 1086,
+    "floor": 1306
+  },
+  "storage_rejection_checks": 65,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "8d4836cb4ca0a6000e8f495ad12af7ab4faff64a93f0721cdfab87062d933f8a"
+}

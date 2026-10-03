@@ -1,0 +1,9 @@
+{
+  "original_health_cases": 10926,
+  "property_words_per_case": 896,
+  "health_change_words_per_case": 8,
+  "kill_requests": 2870,
+  "low_health_cues": 308,
+  "dead_skips": 5002,
+  "invalid_input_atomic": true
+}

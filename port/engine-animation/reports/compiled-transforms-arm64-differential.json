@@ -1,0 +1,102 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "9f89ea4c6cb4e3226148f2fc1ad1e7db98da8fa708090c5239ca0ab398968d60",
+  "arm64_library_sha256": "1e0eeb580ddebde1e49688cf880846941b0243a51025f2b50c0c7d97226e672d",
+  "reference_sha256": "d5999b9cd6f9bec206d13dfd17b4e24101623f9a0126c0fb8831d6e15ca2ca31",
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "source_sha256": {
+    "port/engine-animation/animation.hpp": "45622a09d79d1ea7e56d750098494696afbb6055259ae3f13abf037bfb8012a3",
+    "port/engine-animation/animation.cpp": "5c1522d331c0997ae182f0c8626dbd1463be1904518802c7335136d37c289032",
+    "port/engine-animation/tests/compiled_transforms_differential.py": "a06f353a638183af8f15e1869d6c1fad7f1b84e2e06864c05bcf4ebec23776f9",
+    "port/engine-animation/tests/compiled_transforms.cpp": "465ae318722db88f7c2da0f86e3a27751706578b38786b40d09c6fe885289acb",
+    "port/engine-animation/events.cpp": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+    "port/engine-animation/event_track.cpp": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+    "port/engine-animation/events.hpp": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+    "port/scene-materials/scene.cpp": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+    "port/scene-materials/scene.hpp": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/asset-payloads/payloads.hpp": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "clips": 9,
+  "authored_nodes": 35,
+  "ordered_target_counts": [
+    29,
+    33
+  ],
+  "original_union_calls": 309,
+  "original_template_filter_calls": 157,
+  "original_default_calls": 667,
+  "mode_counts": {
+    "1": 249,
+    "2": 309
+  },
+  "original_raw_samples": 11656,
+  "retained_samples": 3000,
+  "mismatches": 0,
+  "inputs": [
+    {
+      "asset": "prince_idle_shield.bdae",
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    {
+      "asset": "prince_walk_1hand.bdae",
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "asset": "prince_1hand_combo_01.bdae",
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    {
+      "asset": "prince_1hand_combo_01_moving.bdae",
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238"
+    },
+    {
+      "asset": "prince_dying_01.bdae",
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a"
+    }
+  ],
+  "synthetic_inputs": [
+    "same-cache-key track with unregistered URI",
+    "same-cache-key image with empty animation library",
+    "original-format two-segment scale accessor with clip DB IEEE defaults",
+    "original-format ushort time accessor"
+  ],
+  "scope": "Full node types1/5/10 only, source ordered union/default/getAnimationValue/accessor instructions. Extended-track factory identity, node ID virtual getter, selected immutable clip and segment are explicit oracle fixtures. No timeline/event/FSM/blended whole-scene oracle, generic compiler, compression or historical Bionic libm parity claim.",
+  "elapsed_seconds": 9.97,
+  "original_imports": {
+    "strcmp": 16342,
+    "__aeabi_i2f": 60884,
+    "__aeabi_fdiv": 16008,
+    "__aeabi_fcmpgt": 18504,
+    "__aeabi_fcmplt": 20373,
+    "__aeabi_fmul": 38570,
+    "__aeabi_fcmpeq": 12376,
+    "__aeabi_f2iz": 7752,
+    "__aeabi_fsub": 4355,
+    "__aeabi_fadd": 15078,
+    "__aeabi_fcmpge": 1211,
+    "sqrtf": 1091,
+    "memcpy": 2380,
+    "acosf": 96,
+    "sinf": 288
+  },
+  "native_imports": {
+    "malloc": 1100,
+    "memchr": 660,
+    "memmove": 937,
+    "free": 1100,
+    "memcpy": 30710,
+    "memcmp": 3849,
+    "wmemchr": 902,
+    "memset": 37,
+    "strlen": 4319,
+    "acosf": 96,
+    "sinf": 288
+  }
+}

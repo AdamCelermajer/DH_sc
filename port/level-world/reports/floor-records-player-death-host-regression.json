@@ -1,0 +1,26 @@
+{
+  "player_row": 263,
+  "original_owner_words_compared": 896,
+  "hp_raw": 42265,
+  "mp_raw": 6976,
+  "animation_table": 48,
+  "clips": [
+    {
+      "id": 1023,
+      "name": "prince_dying_01.bdae",
+      "start": 0,
+      "end": 1399,
+      "tracks": 27,
+      "attack_mainhand_ms": -1,
+      "poses": 1400
+    }
+  ],
+  "warrior_skins": 4,
+  "every_millisecond_poses": 1400,
+  "melee_event_tracks": 0,
+  "finite_skinned_vertices": true,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

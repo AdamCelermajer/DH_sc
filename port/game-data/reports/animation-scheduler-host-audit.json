@@ -1,0 +1,12 @@
+{
+  "original_sequences": 785,
+  "original_starts": 759,
+  "completion_calls": 6966,
+  "empty_or_event_only_starts_or_steps": 26,
+  "three_monster_attacks_completed": 9,
+  "death_completes": true,
+  "idle_reselection_calls": 200,
+  "finite_sequence_callbacks": 9,
+  "nested_parent_callbacks": 4,
+  "recursive_redirect_rejected_atomically": true
+}

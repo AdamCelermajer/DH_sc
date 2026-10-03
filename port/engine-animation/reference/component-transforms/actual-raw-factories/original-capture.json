@@ -1,0 +1,6450 @@
+{
+  "validation": "ORIGINAL_CAPTURED",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "fdb058cb42615047ba5a440be82bb9ca61e2d88a5eb31ced602a287a889e5694",
+  "script_sha256": "f87bc405735c9778a74514ab2f4749f7c3eda332d3e20b1bf2622f0d3899d562",
+  "bank_sha256": "76633bb4f0ab5f645f4516e407e1f926df61641ea66faa805f68da57f043eb81",
+  "corpus_sha256": "3b8d92629f60c7bf586c1404b272e1e2f9eb65f7a9a4f541aa87c3f29a0d8d19",
+  "component_uris": [
+    "Bip01_L_Calf-node",
+    "Bip01_L_Forearm-node",
+    "Bip01_R_Calf-node",
+    "anchor_weapon_left-node",
+    "anchor_weapon_right-node"
+  ],
+  "cases": [
+    {
+      "order": [
+        1111,
+        1029,
+        1028,
+        1027,
+        984,
+        1022,
+        1009,
+        1014,
+        1077,
+        1078,
+        1079
+      ],
+      "targets": 81,
+      "samples": 3888,
+      "cross_type_bindings": [
+        {
+          "clip_id": 1029,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1029,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1028,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1028,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1027,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1027,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 984,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 1,
+          "accessor_type": 3
+        },
+        {
+          "clip_id": 1022,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1009,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1014,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1079,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        }
+      ],
+      "original_import_calls": {
+        "strcmp": 31244,
+        "memcpy": 3888,
+        "__aeabi_i2f": 14464,
+        "__aeabi_fdiv": 3652,
+        "__aeabi_fcmpgt": 4538,
+        "__aeabi_fmul": 5233,
+        "__aeabi_fcmpeq": 2250,
+        "__aeabi_fcmplt": 3076,
+        "__aeabi_f2iz": 1980,
+        "__aeabi_fsub": 535,
+        "__aeabi_fadd": 905,
+        "__aeabi_fcmpge": 20,
+        "sqrtf": 20,
+        "sinf": 140,
+        "cosf": 140
+      },
+      "actual_factory_calls": 418,
+      "singleton_services": {
+        "0x30e76c": 7,
+        "0x30ea3c": 7,
+        "0x30e304": 7
+      },
+      "raw_factory_results": [
+        {
+          "clip_id": 1111,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 4,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 5,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 7,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 8,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 10,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 11,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 13,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 14,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 16,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 17,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 19,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 20,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 22,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 23,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 25,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 26,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 27,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 28,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 29,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 30,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 31,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 32,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 33,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 34,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 35,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 36,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 37,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 38,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 39,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 40,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 41,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 42,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 43,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 44,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 45,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 46,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 47,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 48,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 49,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 50,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 51,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 52,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 53,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 54,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 55,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 56,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 57,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 58,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 59,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 60,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 61,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 62,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 63,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 64,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 65,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 66,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 67,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 68,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 69,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 70,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 71,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 72,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 73,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 74,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 75,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 76,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 77,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 78,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 79,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 80,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 23,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 25,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 26,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 27,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 28,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 29,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 23,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 25,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 26,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 27,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 28,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 29,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 30,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 23,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 26,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 27,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 984,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 984,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 23,
+          "type": 3,
+          "vtable": "0x979288"
+        },
+        {
+          "clip_id": 984,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 23,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 23,
+          "type": 2,
+          "vtable": "0x9790c0"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 23,
+          "type": 2,
+          "vtable": "0x9790c0"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 1,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 2,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 4,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 7,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 12,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 1,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 2,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 4,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 7,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 12,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 1,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 2,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 7,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        }
+      ]
+    },
+    {
+      "order": [
+        1029,
+        1028,
+        1027,
+        984,
+        1022,
+        1009,
+        1014,
+        1077,
+        1078,
+        1079,
+        1111
+      ],
+      "targets": 81,
+      "samples": 3888,
+      "cross_type_bindings": [
+        {
+          "clip_id": 984,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 4,
+          "accessor_type": 3
+        },
+        {
+          "clip_id": 1009,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 4,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1014,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 4,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1079,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1111,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 4,
+          "accessor_type": 1
+        },
+        {
+          "clip_id": 1111,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 4,
+          "accessor_type": 1
+        }
+      ],
+      "original_import_calls": {
+        "strcmp": 30816,
+        "memcpy": 3888,
+        "__aeabi_i2f": 14464,
+        "__aeabi_fdiv": 3652,
+        "__aeabi_fcmpgt": 4538,
+        "__aeabi_fcmplt": 3076,
+        "__aeabi_fmul": 5233,
+        "__aeabi_fcmpeq": 2250,
+        "__aeabi_f2iz": 1980,
+        "__aeabi_fsub": 535,
+        "__aeabi_fadd": 905,
+        "__aeabi_fcmpge": 20,
+        "sqrtf": 20,
+        "sinf": 140,
+        "cosf": 140
+      },
+      "actual_factory_calls": 418,
+      "singleton_services": {
+        "0x30e76c": 7,
+        "0x30ea3c": 7,
+        "0x30e304": 7
+      },
+      "raw_factory_results": [
+        {
+          "clip_id": 1111,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 4,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 5,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 7,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 8,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 10,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 11,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 13,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 14,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 16,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 17,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 19,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 20,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 22,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 23,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 25,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 26,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 27,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 28,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 29,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 30,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 31,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 32,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 33,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 34,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 35,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 36,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 37,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 38,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 39,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 40,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 41,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 42,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 43,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 44,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 45,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 46,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 47,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 48,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 49,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 50,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 51,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 52,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 53,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 54,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 55,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 56,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 57,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 58,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 59,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 60,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 61,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 62,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 63,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 64,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 65,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 66,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 67,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 68,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 69,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 70,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 71,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 72,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 73,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 74,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 75,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 76,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 77,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 78,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 79,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 80,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 23,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 25,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 26,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 27,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 28,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 29,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 23,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 25,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 26,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 27,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 28,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 29,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 30,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 23,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 26,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 27,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 984,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 984,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 23,
+          "type": 3,
+          "vtable": "0x979288"
+        },
+        {
+          "clip_id": 984,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 23,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 23,
+          "type": 2,
+          "vtable": "0x9790c0"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 23,
+          "type": 2,
+          "vtable": "0x9790c0"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 1,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 2,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 4,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 7,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 12,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 1,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 2,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 4,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 7,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 12,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 1,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 2,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 7,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        }
+      ]
+    },
+    {
+      "order": [
+        1029,
+        1028,
+        1027,
+        984,
+        1022,
+        1009,
+        1014,
+        1077,
+        1078,
+        1079
+      ],
+      "targets": 31,
+      "samples": 1600,
+      "cross_type_bindings": [
+        {
+          "clip_id": 984,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 4,
+          "accessor_type": 3
+        },
+        {
+          "clip_id": 1009,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 4,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1014,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 4,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1079,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        }
+      ],
+      "original_import_calls": {
+        "strcmp": 11141,
+        "__aeabi_i2f": 13600,
+        "__aeabi_fdiv": 3364,
+        "__aeabi_fcmpgt": 4250,
+        "__aeabi_fcmplt": 3076,
+        "__aeabi_fmul": 4945,
+        "__aeabi_fcmpeq": 1962,
+        "__aeabi_f2iz": 1980,
+        "__aeabi_fsub": 535,
+        "__aeabi_fadd": 905,
+        "__aeabi_fcmpge": 20,
+        "sqrtf": 20,
+        "memcpy": 420,
+        "sinf": 140,
+        "cosf": 140
+      },
+      "actual_factory_calls": 368,
+      "singleton_services": {
+        "0x30e76c": 7,
+        "0x30ea3c": 7,
+        "0x30e304": 7
+      },
+      "raw_factory_results": [
+        {
+          "clip_id": 1111,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 4,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 5,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 7,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 8,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 10,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 11,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 13,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 14,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 16,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 17,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 19,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 20,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 22,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 23,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 25,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 26,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 27,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 28,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 29,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 30,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 31,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 32,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 33,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 34,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 35,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 36,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 37,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 38,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 39,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 40,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 41,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 42,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 43,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 44,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 45,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 46,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 47,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 48,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 49,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 50,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 51,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 52,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 53,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 54,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 55,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 56,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 57,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 58,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 59,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 60,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 61,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 62,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 63,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 64,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 65,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 66,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 67,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 68,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 69,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 70,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 71,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 72,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 73,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 74,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 75,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 76,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 77,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 78,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 79,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1111,
+          "animation": 80,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 23,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 25,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 26,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 27,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 28,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1029,
+          "animation": 29,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 23,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 25,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 26,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 27,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 28,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 29,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1028,
+          "animation": 30,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 23,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 26,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1027,
+          "animation": 27,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 984,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 984,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 23,
+          "type": 3,
+          "vtable": "0x979288"
+        },
+        {
+          "clip_id": 984,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 984,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 23,
+          "type": 4,
+          "vtable": "0x979450"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1022,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 23,
+          "type": 2,
+          "vtable": "0x9790c0"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1009,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 1,
+          "type": 10,
+          "vtable": "0x979618"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 2,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 7,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 21,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 22,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 23,
+          "type": 2,
+          "vtable": "0x9790c0"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 24,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1014,
+          "animation": 25,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 1,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 2,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 4,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 7,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 12,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1077,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 1,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 2,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 4,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 7,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 12,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1078,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 0,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 1,
+          "type": 1,
+          "vtable": "0x978ef8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 2,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 3,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 4,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 5,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 6,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 7,
+          "type": 9,
+          "vtable": "0x978d30"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 8,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 9,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 10,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 11,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 12,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 13,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 14,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 15,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 16,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 17,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 18,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 19,
+          "type": 5,
+          "vtable": "0x978ae8"
+        },
+        {
+          "clip_id": 1079,
+          "animation": 20,
+          "type": 5,
+          "vtable": "0x978ae8"
+        }
+      ]
+    }
+  ],
+  "elapsed_seconds": 17.38,
+  "scope": "Actual original dynamic compiler and sampling. No native parity or live renderer claim."
+}

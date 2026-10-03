@@ -1,0 +1,48 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "ef03c75ca2b91cedb3e311b1d4e62c42d0379bae64e5be74453d5936001820ad",
+  "asset_library_sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+  "native_attribute_calls": 5100,
+  "reference_sha256": "4a7f723bf4fa4fe4f2b8de4248d8d5f0400e0161843db56cbf30a633622cfbcd",
+  "mesh_constructor_comparisons": 328,
+  "triangle_comparisons": 850,
+  "baked_constructor_cases": 192,
+  "inconsistent_identity_hint_cases": 13,
+  "unindexed_parts": 308,
+  "scalar_type_parts": {
+    "0": 89,
+    "1": 80,
+    "2": 75,
+    "3": 84,
+    "4": 81,
+    "5": 75,
+    "6": 83
+  },
+  "component_parts": {
+    "1": 138,
+    "2": 146,
+    "3": 130,
+    "4": 153
+  },
+  "skipped_parts": 222,
+  "floor_tag_comparisons": 212,
+  "world_and_floor_bounds_comparisons": 512,
+  "original_mesh_getters": 1462,
+  "original_buffer_maps": 561,
+  "original_node_matrix_getters": 192,
+  "original_allocations": 328,
+  "original_import_calls": {
+    "memset": 328,
+    "memcpy": 192,
+    "__aeabi_i2f": 2925,
+    "__aeabi_fmul": 22311,
+    "__aeabi_fadd": 22823,
+    "__aeabi_ui2f": 2865,
+    "strstr": 848,
+    "__aeabi_fcmplt": 4608,
+    "__aeabi_fsub": 512
+  },
+  "mismatches": 0,
+  "scope": "Original triangle-selector mesh constructor and baking vs native ARM64.\n\nThe complete CTriangleSelector constructor, format dispatch/createTriangles,\nvector reserve/append and baking execute. Mesh-buffer ownership/getters and\nGPU buffer mapping are caller services; input bytes remain real scalar/index\nstreams. Native BRES deserialization, scene clone/ownership and floor metadata\nlookup are separate boundaries.\n\nOriginal _LoadNavMesh tag and bounds ranges execute separately; metadata lookup, node clone and full loader services are not executed. getTransformedBoundingBox executes its dirty/cache paths and transformBoxEx.",
+  "elapsed_seconds": 4.14
+}

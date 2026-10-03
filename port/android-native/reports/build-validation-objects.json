@@ -1,0 +1,634 @@
+{
+  "apk_sha256": "69d84af90ee574acd1507adc2ab204b85303bfc74714c4aa61b269c107a0fb5f",
+  "apk_bytes": 15705603,
+  "studio_apk_sha256": "181f99bd292467eb113665593b42357fcb8ea7066da1dd02fe995b8abf229b96",
+  "repo_and_studio_builds_passed": true,
+  "studio_source_sha256": {
+    "cpp/CMakeLists.txt": "3662e4544544a53b24e4780b3f31299a9f8fd1310f1b5b09cce33bde188e00bb",
+    "cpp/native_app.cpp": "31ee83a3677934a95895fb4d6ccae8dad168d5f01dba6394c27b14b9b2b7b4a2",
+    "cpp/model_renderer.cpp": "ddeae2b1c306f34738df711b684d7d9691a33adcf146612888dbfc2f2916ef96",
+    "cpp/model_renderer.hpp": "08f3ef2c12fcc2c2ec203d59c2d6d8350d31f11403edb424b35ebab9c9228d53",
+    "java/com/example/dh2/MainActivity.java": "be70223bc4b51288678a72de82eefbdfec2d9c05716fd0d4dd620b278692caeb",
+    "java/com/example/dh2/NativeBridge.java": "68461840b92d71a5256530cc36c9dc38ba44f0f4124b040a1ea6f62537673c6d"
+  },
+  "module_source_sha256": {
+    "game-data/CMakeLists.txt": "49a0b503491c6fed4600c7b0f09d5cc339815521fc29b911c0f765ef619584f9",
+    "game-data/data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+    "game-data/data.cpp": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+    "level-world/CMakeLists.txt": "4e89118ca2bcb26ea18db279ce0495e0e54934c4150f85df6d07159214d62fd5",
+    "level-world/world.cpp": "e30d918a07cd1718d29c36bbac515b9d740b3f6f176fc33ba1413e9b01caa57b",
+    "level-world/world.hpp": "394a505ad712b74bc3f0192144d413519061c8d35006a635e0e425fea8470ff0",
+    "level-world/objects.cpp": "00c9acdcfd9b5b35d29d2c4c4e46d037bdb3aff85b1f28a54811963d1a498217",
+    "level-world/objects.hpp": "81eaab12b2ef2d2f3e30c2599d3649788d4178a9f0c1843dbd9fc1544b87de4d",
+    "engine-animation/animation.hpp": "d88c44e3a9838d850c5be50da60b4ac0470edbd1715f93e8f5d5be07169eac56",
+    "engine-animation/animation.cpp": "ab931fa29a692c8533438483ff06a9aa84684b4b9a40a73cbbbc904a4419ff94",
+    "engine-skinning/skinning.hpp": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2",
+    "engine-skinning/skinning.cpp": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102"
+  },
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "ee21428c960d3c372886506aea6356ca0b07b1966d5c560efd8deab78a5c76d1",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "09b6b6e706efbabdf6bd0966f0c627a4e01f0d4bbae5682bd533378004a35f17",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "27f28f6f653c92e0274692b380ccc3700314df22016de98266d0981c3934d939",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "17c40127e95ae37e60b5759bfbace61a4fd6e8b84de12d3d5ceae67b1420b3f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "00f297099a6145d3a0932da37335cec28a977f49b433f256edfff1023e95857f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "a265318afe0c882c4701d8a2f21e8e88c241d0b262c1aac4bd82b1054fe13c40",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "c2c49f01ce6c8504d9bd0f857a34e9d4aa150125bcd7023c16d6d3ce45dd80a2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "3beefbae3f5cf6a99ab166fff733448bb242a8b857dbf3b81c0d3c28fa957482",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "8081d18e725547311cdae7f99a7f419dd95f5e03d8389b849ab238ba6fac2245",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "a5c1a6d2c35795bd05d2c235ec28368e5d1d91ee84aa33bc1c15d4810824ffda",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "apk_16k_zip_alignment_verified": true,
+  "assets_verified": {
+    "textures/pvr2_env_darktemple_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714"
+    },
+    "textures/skybox_wind.tga": {
+      "bytes": 131132,
+      "sha256": "7e89b7ac4e2e8daea82e2f0f8397259af24b44c33e6cc88ef799eec15fa7074f"
+    },
+    "textures/env_selectorcharactere_solide.tga": {
+      "bytes": 524348,
+      "sha256": "afced3f99c4d32d04a173066cbd10ce4cabe9c1d9a896fededa6d23b6d05f7ec"
+    },
+    "textures/godparticle_face.tga": {
+      "bytes": 2108,
+      "sha256": "8e15108e74b443ee6c11bc2cfb05af23c046a53e0dac37df24973e848b6117ea"
+    },
+    "textures/env_crypt_spec.tga": {
+      "bytes": 131132,
+      "sha256": "d74002ba771e1ba50fc421cf1066d1b0f977d5377dbd4971d92643f007f1b737"
+    },
+    "textures/fx_smoke_03.tga": {
+      "bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0"
+    },
+    "textures/pvr2_env_crypt_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    "textures/skybox_selector.tga": {
+      "bytes": 131132,
+      "sha256": "d41ace06bf91f57b2bea7658414b4d6dfb04d0856f0575c8f2d250a8a6831594"
+    },
+    "textures/pvr2_env_darkwoods_alpha_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "087d110133be72b9a5f9e4339fbd6707ea3e6e834d1e6d8a97bbde4cc4ac1413"
+    },
+    "textures/atlas_modular_warrior.tga": {
+      "bytes": 524348,
+      "sha256": "b78abd158902679a467f4c86794c90554deca06a97bf3b4bdf8beba88ef10a5a"
+    },
+    "textures/env_crypt.tga": {
+      "bytes": 524348,
+      "sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad"
+    },
+    "textures/menugraphics03.tga": {
+      "bytes": 1048620,
+      "sha256": "0f0ec6784f20c469fc05becf9e82251fee19b4856ed15b14e3e01a695b92ca7b"
+    },
+    "textures/env_darkwoods_alpha.tga": {
+      "bytes": 524348,
+      "sha256": "e904c2fc1534b5708689903a650693e1f52acbe8b59483553fe002eef5551832"
+    },
+    "models/candle_flame.bdae": {
+      "bytes": 16856,
+      "sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6"
+    },
+    "models/main_menu_charactere_swamp.bdae": {
+      "bytes": 158440,
+      "sha256": "8a3462863a3d6ca2255d96989d53a21cddfba821e42c8a13e676f10e51d1300b"
+    },
+    "models/prince_modular.bdae": {
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    "animations/prince_menu_idle_knight.bdae": {
+      "bytes": 19400,
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a"
+    },
+    "animations/prince_walk_1hand.bdae": {
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    "animations/prince_idle_shield.bdae": {
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    "worlds/x07_crypt_backup.mlx": {
+      "bytes": 8124,
+      "sha256": "706b1e23ea7ca9c3c1695d6cf8679c177bdfb70e71d202e351a2b0c8564023c7"
+    },
+    "worlds/crypt_cemetery_entrance_01.mgp": {
+      "bytes": 10841,
+      "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+    },
+    "worlds/crypt_cemetery_entrance_01.mvp": {
+      "bytes": 8569,
+      "sha256": "3d85527d704c1b74869bfbb2f39be1585a905e66575a4cf251adac0cdeb80de7"
+    },
+    "worlds/crypt_straight_ns_01.mgp": {
+      "bytes": 3365,
+      "sha256": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25"
+    },
+    "worlds/crypt2_straight_ns_01.mvp": {
+      "bytes": 3135,
+      "sha256": "ee4cea2740331782278fd56f4bf7c064ca778a78d8c426696a0ce6bbabbe0007"
+    },
+    "worlds/crypt_corner_sw_02.mgp": {
+      "bytes": 1897,
+      "sha256": "ff4defedde868b53eeb5d5c9ac39dc41fc6b85d55cd27891e3009d3ad3e04168"
+    },
+    "worlds/crypt_corner_sw_01.mvp": {
+      "bytes": 4172,
+      "sha256": "7ccc9938cdf0e6ae58bb61d6c74e1908c6087874a161a4ac8b55fabc862873db"
+    },
+    "worlds/crypt_corner_ne_02.mgp": {
+      "bytes": 3523,
+      "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+    },
+    "worlds/crypt_corner_ne_01.mvp": {
+      "bytes": 5571,
+      "sha256": "2500af6ebb2d01126f739ae1ced635c6e46365cf3f13ed34cc1ae8e7fa885e78"
+    },
+    "worlds/crypt_t_sew_01.mgp": {
+      "bytes": 1731,
+      "sha256": "a34d860d4b94cbcb936ecc9ab1ad2d8ee8450c15067a44298ac88d0a5c3c8189"
+    },
+    "worlds/crypt_t_sew_01.mvp": {
+      "bytes": 5057,
+      "sha256": "5bdb426a45eef5d9edb2abc4cc5e9281a35ad4df27076e16ca0c252e55a9345f"
+    },
+    "worlds/crypt_deadend_e_01.mgp": {
+      "bytes": 2260,
+      "sha256": "41604cc014bfeeef32b93432f49d2dc7643915f8112a123f1d0de9c3e6e47c8b"
+    },
+    "worlds/crypt_deadend_e_01.mvp": {
+      "bytes": 3410,
+      "sha256": "d3f69fe0ffba96b35414d8db0399e7e6acbda0fb658ec2ec3fb8abfb1dc72440"
+    },
+    "worlds/crypt_corner_nw_02.mgp": {
+      "bytes": 1355,
+      "sha256": "5652c6b5d64cf75e9b8c043cc61f6308ea6ca67784b2342c836b22469aa03179"
+    },
+    "worlds/crypt_corner_nw_02.mvp": {
+      "bytes": 4127,
+      "sha256": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134"
+    },
+    "worlds/crypt_straight_c_ns_01.mgp": {
+      "bytes": 10307,
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    },
+    "worlds/crypt_straight_c_ns_01.mvp": {
+      "bytes": 8594,
+      "sha256": "bd06bd5a12043c40f028f5faeb059d531f6ea628770c05166ade227cfbc778b8"
+    },
+    "worlds/crypt.bdae": {
+      "bytes": 3922816,
+      "sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b"
+    },
+    "worlds/007_crypt_01.rule.xml": {
+      "bytes": 3684,
+      "sha256": "2970183f1be3b6a01470d45f0db124afb3bf6582e4ed166780e431ccdaff8b07"
+    },
+    "data/character_properties_pyarray.bin": {
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    "data/character_properties_pyarraynames.bin": {
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    "data/character_properties_pystructnames.bin": {
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    "data/character_models_dictionary_pyarray.bin": {
+      "bytes": 5366,
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+    },
+    "data/character_models_dictionary_pyarraynames.bin": {
+      "bytes": 1755,
+      "sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9"
+    },
+    "actors/skeleton.bdae": {
+      "bytes": 70736,
+      "sha256": "2cf63468a00c934f9b3d7b15b1c846ce575b9c62fc3aff83c7cd2bfbefacfb36"
+    },
+    "actors/skeleton_idle_01.bdae": {
+      "bytes": 49520,
+      "sha256": "bea7b628675e9bebf64a4da6e90b9cc8ca9f7411e053d6ce354eff7c38f0982d"
+    },
+    "textures/atlas_dh2_game_objects_001.tga": {
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c"
+    },
+    "textures/atlas_dh2_game_objects_001_alpha.tga": {
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79"
+    },
+    "textures/atlas_dh2_game_objects_001_specular.tga": {
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398"
+    },
+    "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga": {
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83"
+    },
+    "actors/slime_green_v2.bdae": {
+      "bytes": 27812,
+      "sha256": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1"
+    },
+    "actors/slime_idle.bdae": {
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472"
+    },
+    "textures/atlas_fx_particles_002.tga": {
+      "bytes": 524348,
+      "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18"
+    },
+    "actors/crypt_candles2_small.bdae": {
+      "bytes": 28448,
+      "sha256": "7e79edbbdde7b36d71876bc7f1250928096cffb90ed24bee3cced946b0c30fe4"
+    },
+    "textures/env_crypt_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    "actors/crypt_candlestand_big.bdae": {
+      "bytes": 33752,
+      "sha256": "89a313c943fb74445666ef373fea5bc091184ba849373daa84751b0ee1a44967"
+    },
+    "actors/crypt_candlestand.bdae": {
+      "bytes": 44268,
+      "sha256": "104c43a624272a223132b97808dc6c405d61ca94f97563fdefe33218d8af6bcf"
+    },
+    "actors/crypt_candle2.bdae": {
+      "bytes": 24532,
+      "sha256": "3cb10850b6acbafae8c296daa4bf466dcd95debd878cb0cf324a180eb8a9e502"
+    },
+    "actors/crypt_candle1_small.bdae": {
+      "bytes": 24772,
+      "sha256": "72455d1133489b8fb4c3c3f0365f02d3dee9c19df7f7ba231ef8a05099ead00e"
+    },
+    "actors/crypt_candles.bdae": {
+      "bytes": 31880,
+      "sha256": "0b0b0a5b001bc2fa5991207cf11eb3b03a84a73a6bbc1aa6e1b2e972b1bbb409"
+    },
+    "actors/swamp_caveentrance_effect.bdae": {
+      "bytes": 18208,
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    "textures/atlas_fx_particles_001.tga": {
+      "bytes": 131132,
+      "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b"
+    },
+    "textures/fx_magic_lenz_flares_008.tga": {
+      "bytes": 8252,
+      "sha256": "3b3153829a922c4328099b031c57d09d823daad52775cc2901fe5f7c105e90cc"
+    },
+    "textures/fx_spark_01.tga": {
+      "bytes": 2108,
+      "sha256": "bf4eccee918a7d440760b93b1f18666b5e3de62c147784bec7dbb3bca7a7d720"
+    },
+    "actors/crypt_candle_big.bdae": {
+      "bytes": 24668,
+      "sha256": "eca0dc98fbdf0f77c4ce00877546c5c153cf93c78745778cbfbfe0b02666e190"
+    },
+    "actors/crypt_candle1.bdae": {
+      "bytes": 24628,
+      "sha256": "d4ccf2aa24f9d6102ed0f7fad1a387a391536193dc422eec60ce4bcb0687e51d"
+    },
+    "actors/ghost.bdae": {
+      "bytes": 67104,
+      "sha256": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183"
+    },
+    "actors/ghost_idle_01.bdae": {
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895"
+    },
+    "worlds/crypt01.dwld": {
+      "bytes": 1048,
+      "sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+    },
+    "worlds/crypt01.dact": {
+      "bytes": 24336,
+      "sha256": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca"
+    },
+    "texture-provenance.json": {
+      "bytes": 5381,
+      "sha256": "fa58aabe2acfc31f07bcc386cdc442948deb217ca75c9b88de97c32c8625b190"
+    },
+    "actor-provenance.json": {
+      "bytes": 67099,
+      "sha256": "311703e439347808c5b37373bdb793a390d1d05d17feb8d750cc62e5f91d4117"
+    },
+    "worlds/crypt01-provenance.json": {
+      "bytes": 102896,
+      "sha256": "a38bbcfbde007bd328de9152ea1e5499a97903f472b36c9ccbac37f36de94126"
+    }
+  },
+  "original_input_count": 66,
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "objects_asan_ubsan": {
+    "objects": 95,
+    "monsters": 11,
+    "decors": 84,
+    "descriptor_mutations": 3000,
+    "descriptor_rejected": 2553,
+    "resources": [
+      {
+        "model": "crypt_candle1.bdae",
+        "primitives": 3,
+        "triangles": 17,
+        "removed_helpers": 1,
+        "tracks": 3,
+        "unbound": 0,
+        "unsupported": 0,
+        "segments": 1,
+        "sampled_poses": 3500,
+        "changed_poses": 3354
+      },
+      {
+        "model": "crypt_candle1_small.bdae",
+        "primitives": 3,
+        "triangles": 17,
+        "removed_helpers": 1,
+        "tracks": 3,
+        "unbound": 0,
+        "unsupported": 0,
+        "segments": 1,
+        "sampled_poses": 3500,
+        "changed_poses": 3354
+      },
+      {
+        "model": "crypt_candle2.bdae",
+        "primitives": 3,
+        "triangles": 17,
+        "removed_helpers": 1,
+        "tracks": 3,
+        "unbound": 0,
+        "unsupported": 0,
+        "segments": 1,
+        "sampled_poses": 3500,
+        "changed_poses": 3365
+      },
+      {
+        "model": "crypt_candle_big.bdae",
+        "primitives": 3,
+        "triangles": 17,
+        "removed_helpers": 1,
+        "tracks": 3,
+        "unbound": 0,
+        "unsupported": 0,
+        "segments": 1,
+        "sampled_poses": 3533,
+        "changed_poses": 3368
+      },
+      {
+        "model": "crypt_candles.bdae",
+        "primitives": 3,
+        "triangles": 47,
+        "removed_helpers": 1,
+        "tracks": 7,
+        "unbound": 0,
+        "unsupported": 0,
+        "segments": 1,
+        "sampled_poses": 3533,
+        "changed_poses": 3398
+      },
+      {
+        "model": "crypt_candles2_small.bdae",
+        "primitives": 3,
+        "triangles": 32,
+        "removed_helpers": 1,
+        "tracks": 5,
+        "unbound": 0,
+        "unsupported": 0,
+        "segments": 1,
+        "sampled_poses": 3500,
+        "changed_poses": 3363
+      },
+      {
+        "model": "crypt_candlestand.bdae",
+        "primitives": 4,
+        "triangles": 95,
+        "removed_helpers": 2,
+        "tracks": 7,
+        "unbound": 0,
+        "unsupported": 0,
+        "segments": 1,
+        "sampled_poses": 3533,
+        "changed_poses": 3398
+      },
+      {
+        "model": "crypt_candlestand_big.bdae",
+        "primitives": 4,
+        "triangles": 41,
+        "removed_helpers": 2,
+        "tracks": 3,
+        "unbound": 0,
+        "unsupported": 0,
+        "segments": 1,
+        "sampled_poses": 3500,
+        "changed_poses": 3354
+      },
+      {
+        "model": "ghost.bdae",
+        "primitives": 2,
+        "triangles": 336,
+        "removed_helpers": 2,
+        "tracks": 24,
+        "unbound": 0,
+        "unsupported": 0,
+        "segments": 3,
+        "sampled_poses": 6001,
+        "changed_poses": 6000
+      },
+      {
+        "model": "skeleton.bdae",
+        "primitives": 1,
+        "triangles": 376,
+        "removed_helpers": 2,
+        "tracks": 23,
+        "unbound": 3,
+        "unsupported": 0,
+        "segments": 6,
+        "sampled_poses": 9334,
+        "changed_poses": 9333
+      },
+      {
+        "model": "slime_green_v2.bdae",
+        "primitives": 2,
+        "triangles": 135,
+        "removed_helpers": 0,
+        "tracks": 12,
+        "unbound": 0,
+        "unsupported": 0,
+        "segments": 1,
+        "sampled_poses": 1334,
+        "changed_poses": 1332
+      },
+      {
+        "model": "swamp_caveentrance_effect.bdae",
+        "primitives": 1,
+        "triangles": 2,
+        "removed_helpers": 0,
+        "tracks": 0,
+        "unbound": 0,
+        "unsupported": 3,
+        "segments": 1,
+        "sampled_poses": 1,
+        "changed_poses": 0
+      }
+    ],
+    "resource_count": 12,
+    "sampled_poses": 44769,
+    "unbound_tracks": 3,
+    "unsupported_tracks": 3,
+    "resource_triangles": 1132,
+    "strict_missing_target_rejected": true,
+    "malformed_unbound_key_rejected": true
+  },
+  "data_asan_ubsan": {
+    "characters": 448,
+    "fields": 224,
+    "models": 116,
+    "valid_model_links": 439,
+    "character_section_bytes": 401412,
+    "unparsed_suffix_bytes": 196,
+    "mutations_and_truncations": 2000,
+    "rejected": 1246
+  },
+  "prince_asan_ubsan": {
+    "controllers": 173,
+    "vertices": 25204,
+    "nodes": 35,
+    "instances": 1,
+    "tracks": 29,
+    "poses": 11,
+    "changed_skin_poses": 1720,
+    "mutations": 1000,
+    "rejected_mutations": 107
+  },
+  "locomotion_asan_ubsan": {
+    "skins": 4,
+    "clips": [
+      {
+        "tracks": 23,
+        "skipped": 0,
+        "segments": 1,
+        "start_ms": 0,
+        "end_ms": 1066,
+        "sampled_poses": 1067,
+        "changed_poses": 1066,
+        "minimum_foot_z": 2.28918,
+        "maximum_foot_z": 2.51274
+      },
+      {
+        "tracks": 27,
+        "skipped": 0,
+        "segments": 1,
+        "start_ms": 0,
+        "end_ms": 800,
+        "sampled_poses": 801,
+        "changed_poses": 800,
+        "minimum_foot_z": -19.4365,
+        "maximum_foot_z": 27.1443
+      }
+    ]
+  },
+  "animation_asan_ubsan": {
+    "tracks": 2,
+    "milliseconds_sampled": 2033,
+    "world_transforms_changed": true,
+    "scale_at_100ms": 1.024299979,
+    "move_ownership_checked": true,
+    "invalid_image_rejected": true,
+    "mutated_inputs": 5000
+  },
+  "original_instruction_comparisons": {
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "arm64_library_sha256": "cfc4d093b2a15932f1dd19e05ca0cac56f23810c166dc855f09f083a3536c725",
+    "affine_matrix_bit_exact_cases": 200,
+    "three_matrix_palette_bit_exact_cases": 200,
+    "skinned_vertex_bit_exact_cases": 100,
+    "zero_influence_cases": 10,
+    "position_bit_exact_cases": 100,
+    "quaternion_bit_exact_cases": 100,
+    "dependency_model": "UCRT float libm shared across CPUs; Python soft-float rounded to float32",
+    "scope": "original matrix and animation routines plus isolated prepareCache and vertex instruction ranges execute; no full game or GPU equivalence"
+  },
+  "object_screenshots": 22,
+  "world_screenshots": 10,
+  "preview_screenshots": 9,
+  "character_screenshots": 5,
+  "texture_cases": 7,
+  "prior_emulator_system_failure": "API 37 system_server watchdog; app/SystemUI/phone reported DeadSystemException. Retained local log; cold restart before the passing final suite. Root cause not established.",
+  "physical_arm64_tested": false,
+  "combat_or_ai_implemented": false,
+  "original_gpu_parity_verified": false,
+  "full_cache_bundled": false,
+  "full_game_playable": false,
+  "goal_status": "active"
+}

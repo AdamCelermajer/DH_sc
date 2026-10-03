@@ -1,0 +1,14 @@
+{
+  "batches": 72,
+  "triangle_comparisons": 1880,
+  "floor_query_comparisons": 6666,
+  "native_floor_collision_used": false,
+  "native_octree_selector_used": false,
+  "atomic_rejection_checks": 2,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "0987b6a28b22c20364aa7332c65d97b10bf3397ea0ea82dce45355f15f59f18c"
+}

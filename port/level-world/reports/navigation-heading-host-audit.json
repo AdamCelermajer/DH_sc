@@ -1,0 +1,17 @@
+{
+  "cases": 4476,
+  "look": 2132,
+  "set_heading": 2344,
+  "self_alias": 2171,
+  "active": 2674,
+  "host_libm_angle_variants": 0,
+  "maximum_host_angle_ulp": 0,
+  "angle_tolerance_ulp": 2,
+  "atomic_rejection_checks": 6,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "bbcf1989aa1018372197500201f30a726d215f4f7bf87c9c1065b8557bf21f2e"
+}

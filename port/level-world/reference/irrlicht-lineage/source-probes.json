@@ -1,0 +1,459 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gui_filter_original_cases": 56,
+  "registration_base_return": 1,
+  "native_comparisons": 0,
+  "mismatches": 0,
+  "scope": "CGUIEnvironment::onEvent535710 executed original instructions against the historical stock-source boolean filter. Callback and receiver are bounded fixtures. ISceneNode base registration return also executes. No complete GUI or stock engine ABI/parity claim.",
+  "records": [
+    {
+      "event_type": 0,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 0,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 0,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 0,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 0,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": true,
+      "returned": 0
+    },
+    {
+      "event_type": 0,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": true,
+      "returned": 1
+    },
+    {
+      "event_type": 0,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 0,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 1,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 1,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 1,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 1,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 1,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 1,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 1,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 1,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 2,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 2,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 2,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 2,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 2,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 2,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 2,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 2,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 3,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 3,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 3,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 3,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 3,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": true,
+      "returned": 0
+    },
+    {
+      "event_type": 3,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": true,
+      "returned": 1
+    },
+    {
+      "event_type": 3,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": true,
+      "returned": 0
+    },
+    {
+      "event_type": 3,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": true,
+      "returned": 1
+    },
+    {
+      "event_type": 4,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 4,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 4,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 4,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 4,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": true,
+      "returned": 0
+    },
+    {
+      "event_type": 4,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": true,
+      "returned": 1
+    },
+    {
+      "event_type": 4,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": true,
+      "returned": 0
+    },
+    {
+      "event_type": 4,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": true,
+      "returned": 1
+    },
+    {
+      "event_type": 5,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 5,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 5,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 5,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 5,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": true,
+      "returned": 0
+    },
+    {
+      "event_type": 5,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": true,
+      "returned": 1
+    },
+    {
+      "event_type": 5,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": true,
+      "returned": 0
+    },
+    {
+      "event_type": 5,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": true,
+      "returned": 1
+    },
+    {
+      "event_type": 6,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 6,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 6,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 6,
+      "receiver_present": 0,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": false,
+      "returned": 0
+    },
+    {
+      "event_type": 6,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 0,
+      "forwarded": true,
+      "returned": 0
+    },
+    {
+      "event_type": 6,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 0,
+      "callback_result": 1,
+      "forwarded": true,
+      "returned": 1
+    },
+    {
+      "event_type": 6,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 0,
+      "forwarded": true,
+      "returned": 0
+    },
+    {
+      "event_type": 6,
+      "receiver_present": 1,
+      "caller_is_environment_interface": 1,
+      "callback_result": 1,
+      "forwarded": true,
+      "returned": 1
+    }
+  ]
+}

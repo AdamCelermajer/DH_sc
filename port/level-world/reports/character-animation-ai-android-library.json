@@ -1,0 +1,27 @@
+{
+  "validation": "PASS",
+  "consumer_comparisons": 2197,
+  "ordered_service_requests": 4530,
+  "scalar_comparisons": 90,
+  "atomic_rejection_checks": 17,
+  "mismatches": 0,
+  "library": "port\\android-native\\app\\build\\intermediates\\cxx\\Debug\\5a1n3w3m\\obj\\arm64-v8a\\libdh2_level_world.so",
+  "library_sha256": "2167e70c50cc2c8d7093a852a5d1d3e00229ed382f130efb5aa4379cbeb44bf2",
+  "elf_class": 64,
+  "machine": "AArch64",
+  "load_alignment": 16384,
+  "corpus_sha256": "80e0863da67e4ebe38d80679899510792a3a915c2309c1b0b0024d8e4b3ae1b6",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_report_sha256": "aef9ae819c0f812dd366bb7b9f563241cf2f104677abdaf4bb4f0b013846b99e",
+  "source_sha256": {
+    "port/level-world/character_animation_ai.hpp": "d7af17ad1a831587c93f65365120d2f337fcdb23c07abf97a4895f5697cadfe4",
+    "port/level-world/character_animation_ai.cpp": "92396b47fce401114bfdbd1ab114a8459174aef24e127b492f659bafc821aeec",
+    "port/level-world/tests/character_animation_ai_differential.py": "b3003fb44c85e0b1838bd6d7aeee89c004748629e5dde2ee74ce12b2d4001290",
+    "port/level-world/tests/character_animation_ai.cpp": "35492c9556f4052d54446f429f74109c994251bc56c6cb2bb6cc971c46b7e664"
+  },
+  "audit_script_sha256": "e49def31f8fd49b1862c6ccaa79c8266340448409b410ee8c7fa74c6063b9db8",
+  "imported_services": {
+    "__memcpy_chk": 718
+  },
+  "scope": "Replay original-bound AI gold in the actual Android ARM64 world ELF.\n\nThis executes library machine code with explicit target/controller/AIS services,\nTLS canary and imported libc fixtures. It is not a device or full-game test.\n Actual CMake/NDK Debug world library, not the isolated optimized oracle. Only these exported kernels execute; unrelated shared-library dependencies are not covered. No APK or physical-device claim."
+}

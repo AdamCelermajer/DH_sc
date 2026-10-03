@@ -1,0 +1,158 @@
+{
+  "apk_sha256": "69d84af90ee574acd1507adc2ab204b85303bfc74714c4aa61b269c107a0fb5f",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "model": "prince_modular.bdae",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "ee21428c960d3c372886506aea6356ca0b07b1966d5c560efd8deab78a5c76d1",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "09b6b6e706efbabdf6bd0966f0c627a4e01f0d4bbae5682bd533378004a35f17",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "27f28f6f653c92e0274692b380ccc3700314df22016de98266d0981c3934d939",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "17c40127e95ae37e60b5759bfbace61a4fd6e8b84de12d3d5ceae67b1420b3f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "00f297099a6145d3a0932da37335cec28a977f49b433f256edfff1023e95857f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "a265318afe0c882c4701d8a2f21e8e88c241d0b262c1aac4bd82b1054fe13c40",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "c2c49f01ce6c8504d9bd0f857a34e9d4aa150125bcd7023c16d6d3ce45dd80a2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "3beefbae3f5cf6a99ab166fff733448bb242a8b857dbf3b81c0d3c28fa957482",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "8081d18e725547311cdae7f99a7f419dd95f5e03d8389b849ab238ba6fac2245",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "a5c1a6d2c35795bd05d2c235ec28368e5d1d91ee84aa33bc1c15d4810824ffda",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "screenshot": "frozen-100.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        378,
+        577,
+        702,
+        1379
+      ],
+      "time_ms": 100
+    },
+    {
+      "screenshot": "frozen-100-repeat.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        378,
+        577,
+        702,
+        1379
+      ],
+      "frozen_pose_stable": true
+    },
+    {
+      "screenshot": "frozen-1700.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        381,
+        580,
+        702,
+        1379
+      ],
+      "time_ms": 1700
+    },
+    {
+      "screenshot": "live-first.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        378,
+        579,
+        702,
+        1379
+      ]
+    },
+    {
+      "screenshot": "live-second.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        382,
+        580,
+        702,
+        1379
+      ]
+    }
+  ],
+  "changed_pixels_between_poses": 97291,
+  "pose_times_ms": [
+    100,
+    1700
+  ],
+  "live_animation_changed_pixels": true,
+  "frozen_pose_stable": true,
+  "physical_arm64_tested": false,
+  "skinning_implemented": true
+}

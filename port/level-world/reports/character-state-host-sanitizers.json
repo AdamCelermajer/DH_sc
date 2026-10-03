@@ -1,0 +1,11 @@
+{
+  "original_reference_cases": 3910,
+  "ordered_service_requests": 8773,
+  "malformed_no_mutation_cases": 21,
+  "synchronous_reentry_passed": true,
+  "mismatches": 0,
+  "compiler": "WSL /usr/bin/g++",
+  "flags": "-std=c++17 -O1 -g -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer -Wall -Wextra -Werror",
+  "reference_sha256": "9e11a899a29f9682959c00e988ad4fc04ee4a3f610de9044e933d47997d27a57",
+  "scope": "Original-derived state and ordered-service corpus. Service backends are controlled fixtures. Separate host synchronous reentry and no-mutation ABI validation checks."
+}

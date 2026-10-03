@@ -1,0 +1,89 @@
+﻿{
+    "original_sha256":  "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "functions":  [
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager16dispatchEventsExItLi30EEEviii",
+                          "elf_address":  "0x60ea08",
+                          "size":  220,
+                          "sha256":  "2349c049dcfffb66046b2e5959e400cba58aa4cb5d819261a3b693509131a275"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager9findEntryEi",
+                          "elf_address":  "0x60e02c",
+                          "size":  424,
+                          "sha256":  "02b96b2a80c779788ea06a203919413ad31ae7a9388d8f6ab52471c23d2178c6"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager8onUpdateEii",
+                          "elf_address":  "0x60ecb4",
+                          "size":  92,
+                          "sha256":  "cbf87ceaf1e8dc8d483289b8711a79a7bb4ad9f8b7ad4d849789e73dc2a0fac4"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager16dispatchEventsExIhLi30EEEviii",
+                          "elf_address":  "0x60eae4",
+                          "size":  208,
+                          "sha256":  "7ff8ac311a3070c3d2326170dd9ba6cdf4e4729923a6acfc7dd0da34e471418d"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager14dispatchEventsEiii",
+                          "elf_address":  "0x60ebb4",
+                          "size":  44,
+                          "sha256":  "f7369dbd876aa7dcf755c2758b1c71e79609a508e9ce3826909c8c45f7e98fd6"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager16dispatchEventsExIiLi1000EEEviii",
+                          "elf_address":  "0x60e934",
+                          "size":  212,
+                          "sha256":  "2742465ac8086bd4b2b203d2b8205df7d2637de6a26dd91f36e506bb744b0f70"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager8onUpdateEiiii",
+                          "elf_address":  "0x60ebe0",
+                          "size":  212,
+                          "sha256":  "f6dc15db23ac740589463b2ff6a808be0a72dfaccfc3f94edc91d4432628933e"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada18ISceneNodeAnimator14setEventsTrackEPKNS0_12SEventsTrackE",
+                          "elf_address":  "0x60fab8",
+                          "size":  156,
+                          "sha256":  "fa6fef9b2a8750c8ec17b3b4cdf66f7784d8e1c2b812beba5ff40f95f260bb25"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada21CSceneNodeAnimatorSet19setCurrentAnimationEi",
+                          "elf_address":  "0x65f8c8",
+                          "size":  312,
+                          "sha256":  "7ec4bf7678ad6e91156ec63534212b5ee7e1b2b61d158b3d8c07606b5228e4c6"
+                      },
+                      {
+                          "original_symbol":  "_ZNK6glitch7collada16CColladaDatabase17constructAnimatorEv",
+                          "elf_address":  "0x60fb54",
+                          "size":  284,
+                          "sha256":  "1864fd227b5c95361a9524e8931e6ac6ad5829dfa1d4cc9d9fc0bead0085af23"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager27getEventTimeFromEventNameExIiLi1000EEEiPKc",
+                          "elf_address":  "0x60fcf8",
+                          "size":  164,
+                          "sha256":  "e3271cffc10d68698c4e7a7733a50d775f8060d04c1c812c1221cd3251e0c68e"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager27getEventTimeFromEventNameExItLi30EEEiPKc",
+                          "elf_address":  "0x60fd9c",
+                          "size":  172,
+                          "sha256":  "c834cddd765b799b706cb9330c13691e988deb16e69005b7affbd5529d5bcb26"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager25getEventTimeFromEventNameEPKc",
+                          "elf_address":  "0x60feec",
+                          "size":  52,
+                          "sha256":  "5a69ce203375b9551033f173a8bafe395ebf7d03a0ae4bcce800663b579d7c4d"
+                      },
+                      {
+                          "original_symbol":  "_ZN6glitch7collada14CEventsManager27getEventTimeFromEventNameExIhLi30EEEiPKc",
+                          "elf_address":  "0x60fe48",
+                          "size":  164,
+                          "sha256":  "41d23d3ed4214989e55bcca0e59e066a13bf5c41e381342001d805c75bd5f5c2"
+                      }
+                  ]
+}

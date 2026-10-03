@@ -1,0 +1,10 @@
+{
+  "comparisons": 1479,
+  "ordered_calls": 9261,
+  "mismatches": 0,
+  "service_backends_are_fixtures": true,
+  "address_sanitizer": true,
+  "undefined_behavior_sanitizer": true,
+  "reference_sha256": "895c42b2a128b9a207931320cf21c6fa17da6256d3f174b0b7e21ee46d48a767",
+  "scope": "Standalone x86_64 GCC host replay of all original-verified ARM64 coordinator fixture records. Actual physical_controls source executes. Visual/root, floor, synchronous body transform, camera and auxiliary services are fixtures. Separate Crypt integration report validates actual native floor and registry callback chain."
+}

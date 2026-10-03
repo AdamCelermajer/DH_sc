@@ -1,0 +1,42 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "inputs": [
+    {
+      "asset": "data/ai_pyarray.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_pyarray.bin",
+      "bytes": 5071,
+      "sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc"
+    },
+    {
+      "asset": "data/ai_pyarraynames.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_pyarraynames.bin",
+      "bytes": 1068,
+      "sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a"
+    },
+    {
+      "asset": "data/ai_pystructnames.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_pystructnames.bin",
+      "bytes": 209,
+      "sha256": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82"
+    },
+    {
+      "asset": "data/ai_factions_pyarray.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_factions_pyarray.bin",
+      "bytes": 636,
+      "sha256": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d"
+    },
+    {
+      "asset": "data/ai_factions_pyarraynames.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_factions_pyarraynames.bin",
+      "bytes": 230,
+      "sha256": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211"
+    },
+    {
+      "asset": "data/ai_factions_pystructnames.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_factions_pystructnames.bin",
+      "bytes": 35,
+      "sha256": "8ebbc7927e58b9dd93d03f1f76b366ecd88f3d9b3abcaee31196dd21a05bda15"
+    }
+  ],
+  "scope": "Original AIProps and faction tables; native reader and character-branch geometry/target events. Spatial query, pursuit and full FSM remain separate."
+}

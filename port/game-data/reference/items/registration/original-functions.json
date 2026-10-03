@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12PyDataArrays10reloadDataEP11IStreamBasePKc",
+      "elf_address": "0x4bd478",
+      "size": 88,
+      "sha256": "e7d9113b99a5306e19b87486cc4b415fbf8912042c3ee7846b707fdeeb1a6b53"
+    },
+    {
+      "original_symbol": "_ZN12PyDataArrays15addFuncsForFileEPKcPFvP11IStreamBaseEPFvvE",
+      "elf_address": "0x4be3e0",
+      "size": 368,
+      "sha256": "56c2daf9cbdc343361cc88c22a8e58dd5748ab16c57276f7a8244f6aad4c3645"
+    },
+    {
+      "original_symbol": "_ZN12PyDataArraysC1EP19DataReloaderManager",
+      "elf_address": "0x4be550",
+      "size": 10380,
+      "sha256": "7306b440f43bca3a70558607a0c87255eeca442ffcc0d2742de09edc75e4567e"
+    }
+  ]
+}

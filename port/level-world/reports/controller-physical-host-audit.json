@@ -1,0 +1,16 @@
+{
+  "comparisons": 1186,
+  "stopped": 391,
+  "physical_stop_applied": 294,
+  "shape_sync_checks": 289,
+  "destroy_proxy_checks": 238,
+  "commit_checks": 89,
+  "modeled_trig_import_calls": 352,
+  "atomic_rejection_checks": 5,
+  "mismatches": 0,
+  "sanitizers": ["address", "undefined"],
+  "compiler": "WSL g++ C++17 -O1 -fno-fast-math -ffp-contract=off",
+  "reference_sha256": "191aee0d4dc91b93a175617e0c2d39a12e43398932219f21a76c3c1b9ec8a321",
+  "trig_import_fixture": "Host sinf/cosf and optimizer-combined sincosf return the verified original instruction corpus import outputs after checking the exact requested angle. All other finite words compare exactly; generated NaNs compare by class. Production code is unchanged.",
+  "scope": "Recovered UpdatePath physical Stop composition with empty paths, actual physical setters and actual SetXForm. Shape Synchronize/DestroyProxy and broadphase Commit remain fixtures; contacts and physics stepping are not reconstructed."
+}

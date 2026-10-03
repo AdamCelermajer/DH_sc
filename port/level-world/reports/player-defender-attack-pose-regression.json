@@ -1,0 +1,94 @@
+{
+  "player_row": 263,
+  "original_owner_words_compared": 896,
+  "hp_raw": 42265,
+  "mp_raw": 6976,
+  "animation_table": 48,
+  "clips": [
+    {
+      "id": 955,
+      "name": "prince_1hand_combo_01.bdae",
+      "start": 266,
+      "end": 600,
+      "tracks": 26,
+      "attack_mainhand_ms": 300,
+      "poses": 335
+    },
+    {
+      "id": 957,
+      "name": "prince_1hand_combo_01_to_idle.bdae",
+      "start": 600,
+      "end": 1100,
+      "tracks": 27,
+      "attack_mainhand_ms": -1,
+      "poses": 501
+    },
+    {
+      "id": 958,
+      "name": "prince_1hand_combo_02.bdae",
+      "start": 833,
+      "end": 1200,
+      "tracks": 26,
+      "attack_mainhand_ms": 899,
+      "poses": 368
+    },
+    {
+      "id": 960,
+      "name": "prince_1hand_combo_02_to_idle.bdae",
+      "start": 1200,
+      "end": 1833,
+      "tracks": 27,
+      "attack_mainhand_ms": -1,
+      "poses": 634
+    },
+    {
+      "id": 961,
+      "name": "prince_1hand_combo_03.bdae",
+      "start": 1433,
+      "end": 1799,
+      "tracks": 26,
+      "attack_mainhand_ms": 1500,
+      "poses": 367
+    },
+    {
+      "id": 963,
+      "name": "prince_1hand_combo_03_to_idle.bdae",
+      "start": 1799,
+      "end": 2333,
+      "tracks": 26,
+      "attack_mainhand_ms": -1,
+      "poses": 535
+    },
+    {
+      "id": 967,
+      "name": "prince_1hand_pre_combo_01.bdae",
+      "start": 0,
+      "end": 266,
+      "tracks": 26,
+      "attack_mainhand_ms": -1,
+      "poses": 267
+    },
+    {
+      "id": 969,
+      "name": "prince_1hand_pre_combo_02.bdae",
+      "start": 600,
+      "end": 833,
+      "tracks": 26,
+      "attack_mainhand_ms": -1,
+      "poses": 234
+    },
+    {
+      "id": 971,
+      "name": "prince_1hand_pre_combo_03.bdae",
+      "start": 1200,
+      "end": 1433,
+      "tracks": 26,
+      "attack_mainhand_ms": -1,
+      "poses": 234
+    }
+  ],
+  "warrior_skins": 4,
+  "every_millisecond_poses": 3475,
+  "melee_event_tracks": 3,
+  "finite_skinned_vertices": true
+}

@@ -1,0 +1,853 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "character": "KnightPlayerBase",
+  "character_row": 263,
+  "animation_table": 48,
+  "stance_mask": 210,
+  "stance_count": 5,
+  "states": [
+    {
+      "state": "AttackMoving",
+      "table_field": "Attack",
+      "base_sequence": 248,
+      "stance_enabled": true,
+      "sequences": [
+        248,
+        249,
+        250,
+        251,
+        252
+      ]
+    },
+    {
+      "state": "AttackStatic",
+      "table_field": "AttackStatic",
+      "base_sequence": 243,
+      "stance_enabled": true,
+      "sequences": [
+        243,
+        244,
+        245,
+        246,
+        247
+      ]
+    },
+    {
+      "state": "Died",
+      "table_field": "Died",
+      "base_sequence": 259,
+      "stance_enabled": false,
+      "sequences": [
+        259
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "clip_id": 955,
+      "asset": "animations/prince_1hand_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    {
+      "clip_id": 956,
+      "asset": "animations/prince_1hand_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+      "bytes": 8164,
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238"
+    },
+    {
+      "clip_id": 957,
+      "asset": "animations/prince_1hand_combo_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    {
+      "clip_id": 958,
+      "asset": "animations/prince_1hand_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02.bdae",
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0"
+    },
+    {
+      "clip_id": 959,
+      "asset": "animations/prince_1hand_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+      "bytes": 8056,
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01"
+    },
+    {
+      "clip_id": 960,
+      "asset": "animations/prince_1hand_combo_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091"
+    },
+    {
+      "clip_id": 961,
+      "asset": "animations/prince_1hand_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03.bdae",
+      "bytes": 8632,
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003"
+    },
+    {
+      "clip_id": 962,
+      "asset": "animations/prince_1hand_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03_moving.bdae",
+      "bytes": 8236,
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1"
+    },
+    {
+      "clip_id": 963,
+      "asset": "animations/prince_1hand_combo_03_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03_to_idle.bdae",
+      "bytes": 9084,
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260"
+    },
+    {
+      "clip_id": 964,
+      "asset": "animations/prince_1hand_post_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+      "bytes": 8924,
+      "sha256": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e"
+    },
+    {
+      "clip_id": 965,
+      "asset": "animations/prince_1hand_post_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+      "bytes": 8524,
+      "sha256": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af"
+    },
+    {
+      "clip_id": 966,
+      "asset": "animations/prince_1hand_post_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_03_moving.bdae",
+      "bytes": 9044,
+      "sha256": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8"
+    },
+    {
+      "clip_id": 967,
+      "asset": "animations/prince_1hand_pre_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    {
+      "clip_id": 968,
+      "asset": "animations/prince_1hand_pre_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+      "bytes": 6984,
+      "sha256": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0"
+    },
+    {
+      "clip_id": 969,
+      "asset": "animations/prince_1hand_pre_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4"
+    },
+    {
+      "clip_id": 970,
+      "asset": "animations/prince_1hand_pre_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+      "bytes": 7012,
+      "sha256": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548"
+    },
+    {
+      "clip_id": 971,
+      "asset": "animations/prince_1hand_pre_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_03.bdae",
+      "bytes": 7548,
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058"
+    },
+    {
+      "clip_id": 972,
+      "asset": "animations/prince_1hand_pre_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_03_moving.bdae",
+      "bytes": 6808,
+      "sha256": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc"
+    },
+    {
+      "clip_id": 973,
+      "asset": "animations/prince_2hand_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01.bdae",
+      "bytes": 8144,
+      "sha256": "ef877dee487c8c91ee9fd6c4a3a1e9b72db12e9d0288a837341b9a16ba276aa2"
+    },
+    {
+      "clip_id": 974,
+      "asset": "animations/prince_2hand_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_moving.bdae",
+      "bytes": 8816,
+      "sha256": "80da78bee82f732b326b2232dfe0dc30ef8fdc1a52df84a3ad46960dbc625d39"
+    },
+    {
+      "clip_id": 975,
+      "asset": "animations/prince_2hand_combo_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_to_idle.bdae",
+      "bytes": 8808,
+      "sha256": "08271e2127bcc0baab19ba06bd15af824ad93c45c4319be63f4d0b236eda46bc"
+    },
+    {
+      "clip_id": 976,
+      "asset": "animations/prince_2hand_combo_01_to_idle_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_to_idle_moving.bdae",
+      "bytes": 10744,
+      "sha256": "fd0ee7b2f3cc16e5f09ec4b854b5bfa3bd37d5fbc559a722cefd706b46a5ba66"
+    },
+    {
+      "clip_id": 977,
+      "asset": "animations/prince_2hand_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02.bdae",
+      "bytes": 7740,
+      "sha256": "910ea4514b097281bdc1fcab85e394687baae900838ae0b065c5f1bad28fe44f"
+    },
+    {
+      "clip_id": 978,
+      "asset": "animations/prince_2hand_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_moving.bdae",
+      "bytes": 8960,
+      "sha256": "926d4df45a4cf6290365d12019158a6160b57d68e56e8826eea29cbcbddeb063"
+    },
+    {
+      "clip_id": 979,
+      "asset": "animations/prince_2hand_combo_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_to_idle.bdae",
+      "bytes": 10248,
+      "sha256": "84f919b98f461f8606c68e1da4b0ef7c7e827c4ee7616ed22b22a935b16bf9ea"
+    },
+    {
+      "clip_id": 980,
+      "asset": "animations/prince_2hand_combo_02_to_idle_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_to_idle_moving.bdae",
+      "bytes": 10576,
+      "sha256": "61571532605f9ae76acb0ed2972a098aba27d8d5db59a3f04f431e9f95078785"
+    },
+    {
+      "clip_id": 981,
+      "asset": "animations/prince_2hand_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03.bdae",
+      "bytes": 8144,
+      "sha256": "8a8400e0f65e69c1e338008a2399fc74c05697a3853af9301733fbbf4dfcd3e9"
+    },
+    {
+      "clip_id": 983,
+      "asset": "animations/prince_2hand_combo_03_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03_to_idle.bdae",
+      "bytes": 8872,
+      "sha256": "611c1d1ce0da71fd01fda1866d9d4d4b979ab86c4d10b8c04143c74398aff005"
+    },
+    {
+      "clip_id": 984,
+      "asset": "animations/prince_2hand_combo_03_to_idle_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03_to_idle_moving.bdae",
+      "bytes": 10980,
+      "sha256": "bdd6f89b8a37493a9360631a1c3ee62301414eaab5a0d4c92ebbccb26b43f1cb"
+    },
+    {
+      "clip_id": 985,
+      "asset": "animations/prince_2hand_pre_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_01.bdae",
+      "bytes": 7640,
+      "sha256": "7200dcc608afbb10af5ac3aae47042d11e94ffdf828a7a5c266fcfd561f0410d"
+    },
+    {
+      "clip_id": 986,
+      "asset": "animations/prince_2hand_pre_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_01_moving.bdae",
+      "bytes": 7940,
+      "sha256": "a4ffe99f3747c1458fcab74226fd1dcc8c272c9255f4d8685f0cf4ad0b5a9ab4"
+    },
+    {
+      "clip_id": 987,
+      "asset": "animations/prince_2hand_pre_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_02.bdae",
+      "bytes": 7992,
+      "sha256": "cb6e4349be2a3426b346cade5da15ad5a9dda63dfeb3405e4f24b73066c02d61"
+    },
+    {
+      "clip_id": 988,
+      "asset": "animations/prince_2hand_pre_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_02_moving.bdae",
+      "bytes": 7724,
+      "sha256": "c16ecacf1d5d3ac959dc59f0e353e608a0dc6828d857566171b9960e017d59eb"
+    },
+    {
+      "clip_id": 989,
+      "asset": "animations/prince_2hand_pre_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_03.bdae",
+      "bytes": 8160,
+      "sha256": "de13c3aa34ecb9ad952ba818f823f807593fd98e0c0334b23ac7ca0e5b86d072"
+    },
+    {
+      "clip_id": 990,
+      "asset": "animations/prince_2hand_pre_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_03_moving.bdae",
+      "bytes": 7724,
+      "sha256": "e5e6d8a6898b3cc0979672366f2f8d5c14708409a1a9a3bceb88039f00cb3517"
+    },
+    {
+      "clip_id": 999,
+      "asset": "animations/prince_dual_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01.bdae",
+      "bytes": 7292,
+      "sha256": "5b836271f1512867c798548b005f0c287c6f8616389ea42435e906113d247df2"
+    },
+    {
+      "clip_id": 1000,
+      "asset": "animations/prince_dual_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01_moving.bdae",
+      "bytes": 8064,
+      "sha256": "8b639941320b72e1a42deabeca29b29c889a11c1295d7b4029d4a8f13098983e"
+    },
+    {
+      "clip_id": 1001,
+      "asset": "animations/prince_dual_combo_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01_to_idle.bdae",
+      "bytes": 9196,
+      "sha256": "ba0ce3649c5112419f83fe964421a83badda3322d5a85b19910cd26937ea98f1"
+    },
+    {
+      "clip_id": 1002,
+      "asset": "animations/prince_dual_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02.bdae",
+      "bytes": 7588,
+      "sha256": "daddcc6db2fd1d71d783039c3e2e02faae32fd7305543b48072d975df8744817"
+    },
+    {
+      "clip_id": 1003,
+      "asset": "animations/prince_dual_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02_moving.bdae",
+      "bytes": 8376,
+      "sha256": "17ceee4f1f72fba31fc632381478e5c5567fd8108d9da10bafaa018dad36d45d"
+    },
+    {
+      "clip_id": 1004,
+      "asset": "animations/prince_dual_combo_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02_to_idle.bdae",
+      "bytes": 10556,
+      "sha256": "cfea77fc9d5c841fb4684eb817f79f973858f05ecfb2b37ca6c0ef0aee64a8c0"
+    },
+    {
+      "clip_id": 1005,
+      "asset": "animations/prince_dual_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03.bdae",
+      "bytes": 8136,
+      "sha256": "44b08982c3b21d6bfe9f4c95fc5209920e010dfced75890fe7081e9f5b01e018"
+    },
+    {
+      "clip_id": 1006,
+      "asset": "animations/prince_dual_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03_moving.bdae",
+      "bytes": 8112,
+      "sha256": "600a0a395c57fe4af957dc1e56e30c51a9f918a4ac009d044289be32f92233c8"
+    },
+    {
+      "clip_id": 1007,
+      "asset": "animations/prince_dual_combo_03_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03_to_idle.bdae",
+      "bytes": 9224,
+      "sha256": "68964418ac71cc62246c47ef22a5c0b666d0d7291a841cb710a05e70aa68bac7"
+    },
+    {
+      "clip_id": 1008,
+      "asset": "animations/prince_dual_combo_04.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04.bdae",
+      "bytes": 7324,
+      "sha256": "376639964124dad7d0ee5177e0eaced6b4f5a161a5b0069ccbba2adb25b30f98"
+    },
+    {
+      "clip_id": 1009,
+      "asset": "animations/prince_dual_combo_04_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04_moving.bdae",
+      "bytes": 8396,
+      "sha256": "776389afecd2125085d2dbe792af07b51e39b1b3098c3df7142f418ccf93ae64"
+    },
+    {
+      "clip_id": 1010,
+      "asset": "animations/prince_dual_combo_04_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04_to_idle.bdae",
+      "bytes": 9180,
+      "sha256": "ba92607da20e06bad4d606bf6e8170ae5030bbf26fd0cb6e1cb5d1275c555581"
+    },
+    {
+      "clip_id": 1011,
+      "asset": "animations/prince_dual_post_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_01_moving.bdae",
+      "bytes": 9692,
+      "sha256": "8c4c1478be59b455b21d45c495ae90b7c96c39ead7276189150cd3ea5639a25a"
+    },
+    {
+      "clip_id": 1012,
+      "asset": "animations/prince_dual_post_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_02_moving.bdae",
+      "bytes": 9556,
+      "sha256": "556989752468582c503dadccc757bff3fcdca0ac715dd896f125fa8dbe56f9ec"
+    },
+    {
+      "clip_id": 1013,
+      "asset": "animations/prince_dual_post_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_03_moving.bdae",
+      "bytes": 9868,
+      "sha256": "6156454146d2ec9ea36ee2f3a372c1a97cb7c3e1e9d5624adbe91dd4b5ac895c"
+    },
+    {
+      "clip_id": 1014,
+      "asset": "animations/prince_dual_post_combo_04_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_04_moving.bdae",
+      "bytes": 9488,
+      "sha256": "d74637bc25d937bf15f4c5ce94af4acc3e888561d99be8e6e14f56d14c56012b"
+    },
+    {
+      "clip_id": 1015,
+      "asset": "animations/prince_dual_pre_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_01.bdae",
+      "bytes": 7680,
+      "sha256": "2d4086709480be7a0b132175d95661f18f5aba723a4c67b1bf79db9641eab65f"
+    },
+    {
+      "clip_id": 1016,
+      "asset": "animations/prince_dual_pre_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_01_moving.bdae",
+      "bytes": 6200,
+      "sha256": "6da1b197fd7014e94d286d1d041ea8cbf88b3603c6f7fbfa5685d0cef418ec4c"
+    },
+    {
+      "clip_id": 1017,
+      "asset": "animations/prince_dual_pre_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_02.bdae",
+      "bytes": 7096,
+      "sha256": "245e8a74e81cea44afdfc646db77481101704ec10d6cf951e8be00ac36645921"
+    },
+    {
+      "clip_id": 1018,
+      "asset": "animations/prince_dual_pre_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_02_moving.bdae",
+      "bytes": 6840,
+      "sha256": "ba34ee9edb5457dcf93a14a217831fb8b29cc02bf41b26739ec4b73b96da4356"
+    },
+    {
+      "clip_id": 1019,
+      "asset": "animations/prince_dual_pre_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_03.bdae",
+      "bytes": 7456,
+      "sha256": "c50dd20b885e10e703d8e854cb6b71270060d536c5dee3ca3062aa4222e83086"
+    },
+    {
+      "clip_id": 1020,
+      "asset": "animations/prince_dual_pre_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_03_moving.bdae",
+      "bytes": 8228,
+      "sha256": "ace53ab8c5b3318027663a7550c818ea58166cd2eb998ba68ce8c46cc8f48271"
+    },
+    {
+      "clip_id": 1021,
+      "asset": "animations/prince_dual_pre_combo_04.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_04.bdae",
+      "bytes": 7380,
+      "sha256": "a013e2d9c4df519279717b0bc4f354f03b3b021abcb2811956af5de63aff7370"
+    },
+    {
+      "clip_id": 1022,
+      "asset": "animations/prince_dual_pre_combo_04_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_04_moving.bdae",
+      "bytes": 8092,
+      "sha256": "34d4778b17a6888c0e77c8fe5e867f614eec558dc46eefb51a64c52f8366408a"
+    },
+    {
+      "clip_id": 1023,
+      "asset": "animations/prince_dying_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dying_01.bdae",
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a"
+    },
+    {
+      "clip_id": 1077,
+      "asset": "animations/prince_ranged_attack.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack.bdae",
+      "bytes": 11752,
+      "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed"
+    },
+    {
+      "clip_id": 1078,
+      "asset": "animations/prince_ranged_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack_02.bdae",
+      "bytes": 12088,
+      "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6"
+    },
+    {
+      "clip_id": 1079,
+      "asset": "animations/prince_ranged_attack_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack_03.bdae",
+      "bytes": 12400,
+      "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3"
+    },
+    {
+      "clip_id": 1218,
+      "asset": "animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "bytes": 65060,
+      "sha256": "bfbdf36bcd38aec4411b71b134ec661b66e47ae649fdca09dd800cd2ad5b7762"
+    }
+  ],
+  "inputs": [
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarraynames.bin",
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pystructnames.bin",
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarray.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pystructnames.bin",
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarray.bin",
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pycst.bin",
+      "bytes": 1089,
+      "sha256": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+      "bytes": 8164,
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02.bdae",
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+      "bytes": 8056,
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03.bdae",
+      "bytes": 8632,
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03_moving.bdae",
+      "bytes": 8236,
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03_to_idle.bdae",
+      "bytes": 9084,
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+      "bytes": 8924,
+      "sha256": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+      "bytes": 8524,
+      "sha256": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_03_moving.bdae",
+      "bytes": 9044,
+      "sha256": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+      "bytes": 6984,
+      "sha256": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+      "bytes": 7012,
+      "sha256": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_03.bdae",
+      "bytes": 7548,
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_03_moving.bdae",
+      "bytes": 6808,
+      "sha256": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01.bdae",
+      "bytes": 8144,
+      "sha256": "ef877dee487c8c91ee9fd6c4a3a1e9b72db12e9d0288a837341b9a16ba276aa2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_moving.bdae",
+      "bytes": 8816,
+      "sha256": "80da78bee82f732b326b2232dfe0dc30ef8fdc1a52df84a3ad46960dbc625d39"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_to_idle.bdae",
+      "bytes": 8808,
+      "sha256": "08271e2127bcc0baab19ba06bd15af824ad93c45c4319be63f4d0b236eda46bc"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_to_idle_moving.bdae",
+      "bytes": 10744,
+      "sha256": "fd0ee7b2f3cc16e5f09ec4b854b5bfa3bd37d5fbc559a722cefd706b46a5ba66"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02.bdae",
+      "bytes": 7740,
+      "sha256": "910ea4514b097281bdc1fcab85e394687baae900838ae0b065c5f1bad28fe44f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_moving.bdae",
+      "bytes": 8960,
+      "sha256": "926d4df45a4cf6290365d12019158a6160b57d68e56e8826eea29cbcbddeb063"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_to_idle.bdae",
+      "bytes": 10248,
+      "sha256": "84f919b98f461f8606c68e1da4b0ef7c7e827c4ee7616ed22b22a935b16bf9ea"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_to_idle_moving.bdae",
+      "bytes": 10576,
+      "sha256": "61571532605f9ae76acb0ed2972a098aba27d8d5db59a3f04f431e9f95078785"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03.bdae",
+      "bytes": 8144,
+      "sha256": "8a8400e0f65e69c1e338008a2399fc74c05697a3853af9301733fbbf4dfcd3e9"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03_to_idle.bdae",
+      "bytes": 8872,
+      "sha256": "611c1d1ce0da71fd01fda1866d9d4d4b979ab86c4d10b8c04143c74398aff005"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03_to_idle_moving.bdae",
+      "bytes": 10980,
+      "sha256": "bdd6f89b8a37493a9360631a1c3ee62301414eaab5a0d4c92ebbccb26b43f1cb"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_01.bdae",
+      "bytes": 7640,
+      "sha256": "7200dcc608afbb10af5ac3aae47042d11e94ffdf828a7a5c266fcfd561f0410d"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_01_moving.bdae",
+      "bytes": 7940,
+      "sha256": "a4ffe99f3747c1458fcab74226fd1dcc8c272c9255f4d8685f0cf4ad0b5a9ab4"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_02.bdae",
+      "bytes": 7992,
+      "sha256": "cb6e4349be2a3426b346cade5da15ad5a9dda63dfeb3405e4f24b73066c02d61"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_02_moving.bdae",
+      "bytes": 7724,
+      "sha256": "c16ecacf1d5d3ac959dc59f0e353e608a0dc6828d857566171b9960e017d59eb"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_03.bdae",
+      "bytes": 8160,
+      "sha256": "de13c3aa34ecb9ad952ba818f823f807593fd98e0c0334b23ac7ca0e5b86d072"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_03_moving.bdae",
+      "bytes": 7724,
+      "sha256": "e5e6d8a6898b3cc0979672366f2f8d5c14708409a1a9a3bceb88039f00cb3517"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01.bdae",
+      "bytes": 7292,
+      "sha256": "5b836271f1512867c798548b005f0c287c6f8616389ea42435e906113d247df2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01_moving.bdae",
+      "bytes": 8064,
+      "sha256": "8b639941320b72e1a42deabeca29b29c889a11c1295d7b4029d4a8f13098983e"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01_to_idle.bdae",
+      "bytes": 9196,
+      "sha256": "ba0ce3649c5112419f83fe964421a83badda3322d5a85b19910cd26937ea98f1"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02.bdae",
+      "bytes": 7588,
+      "sha256": "daddcc6db2fd1d71d783039c3e2e02faae32fd7305543b48072d975df8744817"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02_moving.bdae",
+      "bytes": 8376,
+      "sha256": "17ceee4f1f72fba31fc632381478e5c5567fd8108d9da10bafaa018dad36d45d"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02_to_idle.bdae",
+      "bytes": 10556,
+      "sha256": "cfea77fc9d5c841fb4684eb817f79f973858f05ecfb2b37ca6c0ef0aee64a8c0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03.bdae",
+      "bytes": 8136,
+      "sha256": "44b08982c3b21d6bfe9f4c95fc5209920e010dfced75890fe7081e9f5b01e018"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03_moving.bdae",
+      "bytes": 8112,
+      "sha256": "600a0a395c57fe4af957dc1e56e30c51a9f918a4ac009d044289be32f92233c8"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03_to_idle.bdae",
+      "bytes": 9224,
+      "sha256": "68964418ac71cc62246c47ef22a5c0b666d0d7291a841cb710a05e70aa68bac7"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04.bdae",
+      "bytes": 7324,
+      "sha256": "376639964124dad7d0ee5177e0eaced6b4f5a161a5b0069ccbba2adb25b30f98"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04_moving.bdae",
+      "bytes": 8396,
+      "sha256": "776389afecd2125085d2dbe792af07b51e39b1b3098c3df7142f418ccf93ae64"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04_to_idle.bdae",
+      "bytes": 9180,
+      "sha256": "ba92607da20e06bad4d606bf6e8170ae5030bbf26fd0cb6e1cb5d1275c555581"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_01_moving.bdae",
+      "bytes": 9692,
+      "sha256": "8c4c1478be59b455b21d45c495ae90b7c96c39ead7276189150cd3ea5639a25a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_02_moving.bdae",
+      "bytes": 9556,
+      "sha256": "556989752468582c503dadccc757bff3fcdca0ac715dd896f125fa8dbe56f9ec"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_03_moving.bdae",
+      "bytes": 9868,
+      "sha256": "6156454146d2ec9ea36ee2f3a372c1a97cb7c3e1e9d5624adbe91dd4b5ac895c"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_04_moving.bdae",
+      "bytes": 9488,
+      "sha256": "d74637bc25d937bf15f4c5ce94af4acc3e888561d99be8e6e14f56d14c56012b"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_01.bdae",
+      "bytes": 7680,
+      "sha256": "2d4086709480be7a0b132175d95661f18f5aba723a4c67b1bf79db9641eab65f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_01_moving.bdae",
+      "bytes": 6200,
+      "sha256": "6da1b197fd7014e94d286d1d041ea8cbf88b3603c6f7fbfa5685d0cef418ec4c"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_02.bdae",
+      "bytes": 7096,
+      "sha256": "245e8a74e81cea44afdfc646db77481101704ec10d6cf951e8be00ac36645921"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_02_moving.bdae",
+      "bytes": 6840,
+      "sha256": "ba34ee9edb5457dcf93a14a217831fb8b29cc02bf41b26739ec4b73b96da4356"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_03.bdae",
+      "bytes": 7456,
+      "sha256": "c50dd20b885e10e703d8e854cb6b71270060d536c5dee3ca3062aa4222e83086"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_03_moving.bdae",
+      "bytes": 8228,
+      "sha256": "ace53ab8c5b3318027663a7550c818ea58166cd2eb998ba68ce8c46cc8f48271"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_04.bdae",
+      "bytes": 7380,
+      "sha256": "a013e2d9c4df519279717b0bc4f354f03b3b021abcb2811956af5de63aff7370"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_04_moving.bdae",
+      "bytes": 8092,
+      "sha256": "34d4778b17a6888c0e77c8fe5e867f614eec558dc46eefb51a64c52f8366408a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dying_01.bdae",
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack.bdae",
+      "bytes": 11752,
+      "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack_02.bdae",
+      "bytes": 12088,
+      "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack_03.bdae",
+      "bytes": 12400,
+      "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "bytes": 65060,
+      "sha256": "bfbdf36bcd38aec4411b71b134ec661b66e47ae649fdca09dd800cd2ad5b7762"
+    }
+  ],
+  "scope": "Authored reachable Android Knight attack/death clips. Full equipment, FSM, blending, FX and audio remain separate source reconstruction."
+}

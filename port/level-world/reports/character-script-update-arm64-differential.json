@@ -1,0 +1,32 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "4629413a9864ee610661d9f87b8368816a5b856ba1c556f60bb15e74e9f9160f",
+  "corpus_sha256": "953364066f36ca19c4d13d3c72967c0288db2b0fe3fbd788e62b2903bb7be70b",
+  "comparisons": 600,
+  "ordered_service_requests": 540,
+  "pause_expiry_comparisons": 3,
+  "atomic_rejection_checks": 11,
+  "pause_expiry_atomic_rejections": 7,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/level-world/character_script_update.hpp": "d50372020d0f99fe88aa12c5172fcee54b2c5e4f81a464d080ade1f89c30a4d4",
+    "port/level-world/character_script_update.cpp": "2c0eea6dea5ed38e483abaaa6f8e8cb5ce410deda376d5b68d9e710dd3ee8eb9",
+    "port/level-world/tests/character_script_update_differential.py": "bd1ddca352079efd78fd3567c83ccb82a6af7331d730286dbd48cabd9a413af8",
+    "port/level-world/tests/character_script_update.cpp": "f6285f9b7109b610cc8c93736d74327d54ceee5059125aa1e6e59950a9565bcd"
+  },
+  "reference_sha256": {
+    "port/level-world/reference/character-script-update/ai-events/original-functions.json": "d52364aee8118c1eb0850d84282a1f6ef73e9895635fd7cb42363ad7c6cb5cfd",
+    "port/level-world/reference/character-script-update/ai-events/reference/original-functions.asm": "39f2bd4d38846a6d57173073d8ffde0d1e07a8b8e3e09f79bef56a5f20900fb9",
+    "port/level-world/reference/character-script-update/dispatch/original-functions.json": "2bbde4b05e0ffccb226b03661fe4a306f1ede5966309b0da8bbd620c3a6181db",
+    "port/level-world/reference/character-script-update/dispatch/reference/original-functions.asm": "0058b9bfe24602dc0c104bce1cf4f33d1ba32e9e48ccf89b0a934fbe0fcf8785",
+    "port/level-world/reference/character-script-update/helpers/original-functions.json": "e63e7a414a875f658f1d601013094e95c22d3d9aeffb3c9fbbb9ff6a2d9fe854",
+    "port/level-world/reference/character-script-update/helpers/reference/original-functions.asm": "c8a18c26aba1829882b029810e1cd7009a774edead398683d620946e4a65784b",
+    "port/level-world/reference/character-script-update/lua-inputs/ai-commons.luac": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+    "port/level-world/reference/character-script-update/lua-inputs/discovery.json": "dc80d79ff170074abb1dd3ff8fc1d9cf5251dbbab3b6d75555ce3e0904083ae8",
+    "port/level-world/reference/character-script-update/lua-inputs/skills-commons.luac": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d",
+    "port/level-world/reference/character-script-update/original-functions.json": "31bca02314b45fb8d37225c592970989a20ab3897ec76183baed578ac5614f56",
+    "port/level-world/reference/character-script-update/reference/original-functions.asm": "8d003170826f97683eee73413a8c4264e6bbaa28b9fe06074899e7ba8ccfeb08"
+  },
+  "scope": "Full selected AISDefault OnUpdate and actual AI_PauseUpdate/selected-iPhone-vtable dispatch prefix execute. Timer31 executes actual RaiseAIEvent and returns without forwarding. Timer Start and Cmd_Stop are explicit synchronous services; remainder of CharAI OnUpdate, collision producer and Lua backend remain separate."
+}

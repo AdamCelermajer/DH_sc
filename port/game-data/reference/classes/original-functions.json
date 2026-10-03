@@ -1,0 +1,113 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7Structs9ClassFunc4readEP11IStreamBase",
+      "elf_address": "0x4f19dc",
+      "size": 484,
+      "sha256": "3b6482b8333fefbc518e244dce369d043cb39170c959243dfc05ce096fc019b2"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties10_LoadClassERN7Structs19CharacterPropertiesEib",
+      "elf_address": "0x3e2e20",
+      "size": 500,
+      "sha256": "ea1c47f34e1c1c2359e4f86125017701d87ff2e1ed7bb1fab94c3f0aa78135d1"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties18_LoadFromCharTableERN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3df250",
+      "size": 84,
+      "sha256": "64632e1381f967cb747d5071e8b93b6e36135fd51b6eadd01b31595f17743a45"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties7_MinMaxERN7Structs19CharacterPropertiesEPNS0_9ClassFuncE",
+      "elf_address": "0x3e2d04",
+      "size": 72,
+      "sha256": "12740065afca70d23b09d4eb5016d9e2007d80ab511526892dd8bbd3338b5e3e"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties23PROPS_ApplyClassToSheetEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3df314",
+      "size": 164,
+      "sha256": "bbc9c129ae6c640f43c683f3d9448b133ac26cd2586c2842a3df3085791c86d3"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties6_GroupERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "elf_address": "0x3e3014",
+      "size": 100,
+      "sha256": "f340adc1e89a696ba95bda938d47b8df946edbf1deef4b99960f99218871d70b"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties13_AddOtherPropERN7Structs19CharacterPropertiesEPNS0_9ClassFuncE",
+      "elf_address": "0x3e2cc0",
+      "size": 68,
+      "sha256": "1195a7165b8a822259f07c2059fd50c905d3744f604b557736c972a62e73ea2b"
+    },
+    {
+      "original_symbol": "_ZN7Structs13ClassFuncList4readEP11IStreamBase",
+      "elf_address": "0x4dcfec",
+      "size": 364,
+      "sha256": "946f3bc370840dd0a2a535e40f85132aa0dac4f809dccf94a6eca9d34336bb0d"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties17_ApplyGroupOnlyIfERN7Structs19CharacterPropertiesEPNS0_9ClassFuncE",
+      "elf_address": "0x3e2bcc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12_SetPropertyERN7Structs19CharacterPropertiesEii",
+      "elf_address": "0x3deca0",
+      "size": 276,
+      "sha256": "61d5cdfabfb0a114c233ebf4a4b867830a9f1c087009a5a5f8bf7503a4370510"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16_ResetPropertiesERN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3def34",
+      "size": 80,
+      "sha256": "76bfb4312f9a2a80f4f25ffa6933ba404ee59b7bd710702321d36686b58418e2"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties7_SetOIDERN7Structs19CharacterPropertiesEPNS0_9ClassFuncE",
+      "elf_address": "0x3e2bd0",
+      "size": 12,
+      "sha256": "d513bf6d3b2248e62bc0249b6d94ad9d7dd7a4e0cfcbab6d21fa2a2bae4f7404"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties27_ScaleWithPercentageForBuffERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "elf_address": "0x3e2c10",
+      "size": 104,
+      "sha256": "415a1d82f69aa92dbd58a807cc83625a88de0bbc37e4be796b25135f15085463"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties9_AddValueERN7Structs19CharacterPropertiesEPNS0_9ClassFuncE",
+      "elf_address": "0x3e2bdc",
+      "size": 52,
+      "sha256": "e05c7d102a6deebf1d4149b9f3921913ef6c450223a5377fbc808a35424b4ca6"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties20_ScaleWithPercentageERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "elf_address": "0x3e2c78",
+      "size": 72,
+      "sha256": "ec11cd1b9ac448185aef5199dd40e586efab687067585fe994a4efbe719099f9"
+    },
+    {
+      "original_symbol": "_ZN6Arrays10ClassTable4readEP11IStreamBase",
+      "elf_address": "0x4b4484",
+      "size": 332,
+      "sha256": "09589423e57660b21abad588fe24a4a25ad9a03723b28adefeea8110ff0936e8"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties28_LinearWithPropPlusBaseValueERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "elf_address": "0x3e2d4c",
+      "size": 212,
+      "sha256": "b8b7d6bf3cda3aaddb025068ed61f290e0e4332b76579916dcce40369fa2078a"
+    }
+  ]
+}

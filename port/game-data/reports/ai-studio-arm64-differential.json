@@ -1,0 +1,19 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "87dbc6d911a9cffc513552e8b3f88016b9c0f229c5652c2b81d4ee93927e32e4",
+  "geometry_cases": 1800,
+  "faction_cases": 1024,
+  "target_event_cases": 20480,
+  "comparisons": 23304,
+  "mismatches": 0,
+  "discarded_melee_debug_queries_skipped": 1800,
+  "scope": "Original character geometry, faction and target events vs native ARM64.\n\nVirtual actor/RTTI, inventory reach, FSM queries and event callbacks are supplied\nfixtures. Original geometric arithmetic, faction traversal and UpdateTarget\ninstructions execute. The discarded melee debug query is skipped explicitly.\n",
+  "original_import_calls": {
+    "__aeabi_fsub": 10800,
+    "__aeabi_fmul": 14400,
+    "__aeabi_fadd": 9000,
+    "__aeabi_fcmpgt": 3600
+  },
+  "elapsed_seconds": 4.7,
+  "reference_sha256": "0034d99ea73a01d13e9577c50c41448ee1a12090fb5de57285179399c7176be4"
+}

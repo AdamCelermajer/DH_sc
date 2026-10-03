@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList11SetSortTypeEi.clone.1",
+      "elf_address": "0x3d015c",
+      "size": 80,
+      "sha256": "6ab171b518e98b29c32c5d38eecb5e9d4ca7d43e12b623046f87109785737b45"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16AI_DoMeleeAttackEP10GameObjectb",
+      "elf_address": "0x3d01ac",
+      "size": 1472,
+      "sha256": "0899628bfcb3ab31927428f0d03ddeee6feb1161a690e88a565c1ccc5519b947"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine14SM_IsAttackingEv",
+      "elf_address": "0x3c02d0",
+      "size": 24,
+      "sha256": "4873bc9e588299d4fd02aafec23e59f15966b80eb5db2bc7dc5960d64d7514e3"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine17SM_SetAttackStateEPvb",
+      "elf_address": "0x3c6488",
+      "size": 36,
+      "sha256": "09372f684e5f1769c4a778b6cc1a1f6e03b192acf30e6282388f7865c74d8cf1"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList6SearchEff",
+      "elf_address": "0x3d0020",
+      "size": 96,
+      "sha256": "a2c856d63b496b56ddbf0fb85c9e0215c4bff1700dba2a3335811b242192b3f2"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller10Cmd_AttackEP10GameObject",
+      "elf_address": "0x405b04",
+      "size": 440,
+      "sha256": "2c70ad30f1c240ebf433daf8475f8bcac88b1846cd8b81c8937b76e1e88b3d4f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16AI_DoRangeAttackEP10GameObjectb",
+      "elf_address": "0x3d076c",
+      "size": 1044,
+      "sha256": "737997b44b60147b93e52ac2b829db669a4e9c5f961e786ca9c0c8ed9031b3bb"
+    },
+    {
+      "original_symbol": "_ZThn884_N9Character11Ctrl_AttackEP10GameObject",
+      "elf_address": "0x3ad874",
+      "size": 8,
+      "sha256": "0ee3db94754220238f4c8f1ff4ef8984adb728ec143e17cf4a59214839ca2807"
+    },
+    {
+      "original_symbol": "_ZN9Character11Ctrl_AttackEP10GameObject",
+      "elf_address": "0x3ad87c",
+      "size": 12,
+      "sha256": "0ada9f1f002c7cc33478c833b71450c198e7ed95fcceb708fbbcf38c9a64a7e1"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii",
+      "elf_address": "0x4a2730",
+      "size": 296,
+      "sha256": "d91cd6624877041b7b8bae61aae1b85691210bfa839a68916ccf9b138d36d88a"
+    }
+  ]
+}

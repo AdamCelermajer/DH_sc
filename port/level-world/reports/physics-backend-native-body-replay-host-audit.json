@@ -1,0 +1,12 @@
+{
+  "original_derived_replay": 1776,
+  "scenes": 48,
+  "genuine_world_steps": 576,
+  "host_modeled_trig_imports": true,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "d2c353252f7a2db97b7c5d85b9cdd1959afee45e0f9e46a4c641f41cae7978ee"
+}

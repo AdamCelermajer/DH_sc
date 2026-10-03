@@ -1,0 +1,33 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "comparisons": 5493,
+  "comparisons_by_callback": {
+    "StartTimer": 1831,
+    "StopTimer": 1831,
+    "Trace": 1831
+  },
+  "ordered_timer_service_calls": 3194,
+  "mismatches": 0,
+  "library_sha256": "40ece98249ebbc15d5a848683771b0f69feb828ccc7e734adfd61896575023a6",
+  "library": ".local-inputs/lua514-source/android-arm64-v8a/libdh2_script_runtime.so",
+  "reference_sha256": "e0321df7fd14b73fc6e6fd094bc3f0acd28baad24112a58bd75c728af3547a1c",
+  "source_sha256": {
+    "port/script-runtime/script_runtime.h": "f90ce7145e38e54e473c332be2727ce0f62c46c9e6efc95ef01d325cee173f39",
+    "port/script-runtime/script_runtime.c": "df9850ba29b59310bc2fef6c87d4f7cbe9ae1df391fcf27dbac2a81e8e79de90",
+    "port/script-runtime/script_game_bindings.h": "3772bc95bcb5e26fe4969586705c89912ed468b301f40c1fcd35d628bd257266",
+    "port/script-runtime/script_game_bindings.c": "779f245eb5b5b738381bd003f622f84e83390af254cd2268dc9f81503e3df482",
+    "port/script-runtime/CMakeLists.txt": "9c0e5d8ffface4aa3c0d7294debd2a39ba9a96d1bb434891ad6d348355329c45",
+    "port/script-runtime/tests/script_game_bindings_differential.py": "f54b3bd649d1237c56048d8fd654390487470eb9e961f23311ebf2502125adb0"
+  },
+  "original_functions_sha256": "e4fca44ded34364cc5c689f15f4b691f9e6c586e329366fcaf3b19cdc83d0fec",
+  "source_argument_projection": "sfc Value records; actual source Lua stack projection separately verified on host",
+  "explicit_services": [
+    "CharTimers.Start/Stop",
+    "ReturnValues.pushInteger",
+    "string getBool Lua primitive truthiness"
+  ],
+  "actual_original_unsigned_conversion_executed": true,
+  "whole_VM_differential": false,
+  "packaged_APK": false
+}

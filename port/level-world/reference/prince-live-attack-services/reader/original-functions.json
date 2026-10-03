@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList3GetEv",
+      "elf_address": "0x4a1840",
+      "size": 12,
+      "sha256": "a5c3ade801b7b8b280f267268d322b3761676d0091038f28693f67f96f467a47"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList5AtEndEv",
+      "elf_address": "0x4a17fc",
+      "size": 24,
+      "sha256": "f6edf94a43490806743cec12db3891324f139e5c2bc5cadc597964b206b1348e"
+    },
+    {
+      "original_symbol": "_ZN7Structs7AIProps4readEP11IStreamBase",
+      "elf_address": "0x506f3c",
+      "size": 1396,
+      "sha256": "bc59daf1f5bc978d854a6d894a9e51ed67fc1dd1823cd2fa9d99b7fa456f781e"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList4NextEv",
+      "elf_address": "0x4a18ec",
+      "size": 16,
+      "sha256": "dbd95cb43df664ac0dfb7f1ad5173c7cabc47c571e68f55e4c176a3a5fbb3a8e"
+    }
+  ]
+}

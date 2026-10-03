@@ -1,0 +1,20 @@
+{
+  "core": {
+    "comparisons": 5970,
+    "callback_snapshots": 455,
+    "atomic_rejection_checks": 8,
+    "mismatches": 0,
+    "corpus_sha256": "a342fedeb86e30f7e6340b6b8cbffee25ccee59b0f654ffc68df7004c537ce7f"
+  },
+  "replay": {
+    "comparisons": 640,
+    "ordered_callbacks": 1212,
+    "root_restart_requests": 312,
+    "atomic_rejection_checks": 4,
+    "mismatches": 0,
+    "corpus_sha256": "7e93b56c15c73ec6e171b47cc8619e6c4f3dc72c4e0a38a633999952d926e6cb"
+  },
+  "validation": "Separate g++ C++17 host executables, ASan+UBSan, -ffp-contract=off; checked original-derived stable binary fixtures. No sanitizer findings.",
+  "core_source": "tests/visual_timeline.cpp",
+  "replay_source": "tests/visual_timeline_replay.cpp"
+}

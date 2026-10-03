@@ -1,0 +1,1625 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_GLOBAL__I_.._.._src_Common_b2Math.cpp",
+      "elf_address": "0x7e3b88",
+      "size": 116,
+      "sha256": "77c43d79b2510d7e5de73375914779a7898cd902f16840a3f82433757f6e30c1"
+    },
+    {
+      "original_symbol": "_ZL15ComputeCentroidPK6b2Vec2i",
+      "elf_address": "0x7e44f4",
+      "size": 380,
+      "sha256": "104f07676f60c576ff3994ead5f5716afb3b643b45b87f1f2016f0f96290befc"
+    },
+    {
+      "original_symbol": "_ZL10ComputeOBBP5b2OBBPK6b2Vec2i",
+      "elf_address": "0x7e55ac",
+      "size": 892,
+      "sha256": "a56fb5201e578141eb9ec9d259ea907a75ee84d49b2c5854fb229771079c9dbe"
+    },
+    {
+      "original_symbol": "_GLOBAL__I_.._.._src_Dynamics_b2WorldCallbacks.cpp",
+      "elf_address": "0x7e8d4c",
+      "size": 84,
+      "sha256": "02d3b8e48e026ccc4fecc43d14f12a9b60dc40e33984bac58615f62cc0e9a031"
+    },
+    {
+      "original_symbol": "_ZN15b2CircleContact12GetManifoldsEv",
+      "elf_address": "0x7f3a94",
+      "size": 8,
+      "sha256": "403cd6b5ca0bfb178f87e11ec622a7cf167028b7ca2f2e62ef7816f9a1316fac"
+    },
+    {
+      "original_symbol": "_ZN13b2NullContact12GetManifoldsEv",
+      "elf_address": "0x7e65c8",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint16GetReactionForceEv",
+      "elf_address": "0x7ee940",
+      "size": 364,
+      "sha256": "41bc8f7946d83a04216097f80b8bbb7a22db42ea35fac61deaa3be33b3eddb53"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJoint24SolveVelocityConstraintsERK10b2TimeStep",
+      "elf_address": "0x7ee080",
+      "size": 1952,
+      "sha256": "03f7134772a7ac914509aae944faaefee7e451d929518d30c0ccc944e0631603"
+    },
+    {
+      "original_symbol": "_ZN7b2World8ValidateEv",
+      "elf_address": "0x7e69a0",
+      "size": 16,
+      "sha256": "619e56909b8a54a70b5cc94961ff7af9e7c767e22f3a9323d3cf8f1ab9650eb5"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManager6CommitEv",
+      "elf_address": "0x7e42e0",
+      "size": 472,
+      "sha256": "8580948b8e9da82836246efc17708579e186f11f9533b0aaadba8c76fe3974ab"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJointD1Ev",
+      "elf_address": "0x7eeff8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJoint11EnableLimitEb",
+      "elf_address": "0x7eefac",
+      "size": 8,
+      "sha256": "0d25823fff630d03b4b4dcb89588a1dfda751b955177c87e08d75ed9fde53206"
+    },
+    {
+      "original_symbol": "_ZN7b2Joint6CreateEPK10b2JointDefP16b2BlockAllocator",
+      "elf_address": "0x7eb37c",
+      "size": 252,
+      "sha256": "745558d471ecbcdfbf6546027d77338f6a7f26d67a8dd1798f68902c5f0b2fe8"
+    },
+    {
+      "original_symbol": "_ZN22b2PolyAndCircleContact6CreateEP7b2ShapeS1_P16b2BlockAllocator",
+      "elf_address": "0x7ebf8c",
+      "size": 48,
+      "sha256": "37b133f7225afe9dd9562ae01684d62240210151f70580fef41f3b2983bf14b2"
+    },
+    {
+      "original_symbol": "_ZN7b2WorldD1Ev",
+      "elf_address": "0x7e7f7c",
+      "size": 128,
+      "sha256": "b611da1d449a98eaff4bb2bebff345e2e43db779a52161f82687e60c314578f4"
+    },
+    {
+      "original_symbol": "_ZN16b2PolygonContactC2EP7b2ShapeS1_",
+      "elf_address": "0x7ecaec",
+      "size": 60,
+      "sha256": "8cb45d0a66b992a7514c2f838e4574f0c63d32e75b2ed60271c5b5db145c6089"
+    },
+    {
+      "original_symbol": "_ZN16b2StackAllocatorC2Ev",
+      "elf_address": "0x7f3530",
+      "size": 48,
+      "sha256": "66da709498946a188b0c2d299cbf265c8ab722ecb31e0f35e5e4f9e84b6c5b0e"
+    },
+    {
+      "original_symbol": "_ZN16b2PolygonContact8EvaluateEP17b2ContactListener",
+      "elf_address": "0x7ecb84",
+      "size": 2772,
+      "sha256": "7e6d23e57b9d07493bfdb4803fd57171ee0ed45db70351b4f033ea1176ddc207"
+    },
+    {
+      "original_symbol": "_ZN11b2DebugDrawD1Ev",
+      "elf_address": "0x7e8c44",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJoint24SolveVelocityConstraintsERK10b2TimeStep",
+      "elf_address": "0x7f2478",
+      "size": 1416,
+      "sha256": "4ec189f5aed238e7459ff35ba979339248d54e58aafc9beae3f2a3a3c9bb0eee"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJoint11EnableLimitEb",
+      "elf_address": "0x7f2bb0",
+      "size": 8,
+      "sha256": "5268ff9992c0c11134634ee08e1277dae7a5b81e1e039e893659f5d360c00ded"
+    },
+    {
+      "original_symbol": "_ZN15b2CircleContact8EvaluateEP17b2ContactListener",
+      "elf_address": "0x7f3b9c",
+      "size": 2184,
+      "sha256": "8c9c2c196f2abc5c0b5c26e899332e6b22648c5cb500ab47b783fb4d5458df53"
+    },
+    {
+      "original_symbol": "_ZN12b2MouseJointD0Ev",
+      "elf_address": "0x7eb83c",
+      "size": 20,
+      "sha256": "43d891816eba263f0e2eeaf6bfc3b6ffee819888cf907f443d877132fa392526"
+    },
+    {
+      "original_symbol": "_ZN22b2PolyAndCircleContact8EvaluateEP17b2ContactListener",
+      "elf_address": "0x7ebfbc",
+      "size": 2772,
+      "sha256": "af9ff57626833b292d21c536500bded41595b3f8f4678b04fba92c42326a9669"
+    },
+    {
+      "original_symbol": "_ZNK13b2CircleShape11ComputeMassEP10b2MassData",
+      "elf_address": "0x7e95ac",
+      "size": 188,
+      "sha256": "4fd6aa6e9061216949da4ecb9e45b9c27556d795fa46eeb5162d3a18964af883"
+    },
+    {
+      "original_symbol": "_ZN14b2PolygonShapeC1EPK10b2ShapeDef",
+      "elf_address": "0x7e5928",
+      "size": 780,
+      "sha256": "2cafa10546488f6a74eb70224e63d887014f59bda8ac498acd9e707aa65655d8"
+    },
+    {
+      "original_symbol": "_ZN14b2PolygonShape17UpdateSweepRadiusERK6b2Vec2",
+      "elf_address": "0x7e5478",
+      "size": 172,
+      "sha256": "63b47f052590853551ef3c1eed951971118d074c4103f9592ecf6cd3385a58bf"
+    },
+    {
+      "original_symbol": "_ZN15b2CircleContactC2EP7b2ShapeS1_",
+      "elf_address": "0x7f3af8",
+      "size": 72,
+      "sha256": "c66f4ab1f2cce79ac86edaf62ece1ee5ff48491c626ec3c98ab33fafee782549"
+    },
+    {
+      "original_symbol": "_ZNK11b2DebugDraw8GetFlagsEv",
+      "elf_address": "0x7e8cfc",
+      "size": 8,
+      "sha256": "68a639b2dffac301817461b8b1e1e2fbca60e4b4db136a34b582411c8b7d17ba"
+    },
+    {
+      "original_symbol": "_ZNK13b2PulleyJoint16GetGroundAnchor1Ev",
+      "elf_address": "0x7f0478",
+      "size": 60,
+      "sha256": "24c4a665918418ba7581b5049aac3a4aca5746ff5d211475bba9d510570560d6"
+    },
+    {
+      "original_symbol": "_ZN8b2Island8SolveTOIERK10b2TimeStep",
+      "elf_address": "0x7ea878",
+      "size": 344,
+      "sha256": "b2ca9f4769337910baf9ac878c8fab9c849f2460df8a05530a102361425ec647"
+    },
+    {
+      "original_symbol": "_ZN6b2Body20SynchronizeTransformEv",
+      "elf_address": "0x7e761c",
+      "size": 192,
+      "sha256": "66e846c13a7e52c699eab877b16afc7c87ea38228b3464dc5b859ecc4f86dba6"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase6CommitEv",
+      "elf_address": "0x7e2ac8",
+      "size": 4,
+      "sha256": "48c25fc9f125f957fbc504ab5f49e1e59b1dda475f537986518e846063ded3f7"
+    },
+    {
+      "original_symbol": "_ZN16b2ContactManagerD0Ev",
+      "elf_address": "0x7e9fc8",
+      "size": 72,
+      "sha256": "1c43f1f7e73a4813556065faa3871409e4cbe45e8a6c059c7f51a80840f6be7d"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManager4FindEiij",
+      "elf_address": "0x7e3ef4",
+      "size": 116,
+      "sha256": "d1ee7dea38909a879800b94a6b60d5e7f467bb53da70c3f6d86851ff9d238db6"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManager18RemoveBufferedPairEii",
+      "elf_address": "0x7e4224",
+      "size": 184,
+      "sha256": "a29df4b9f2c6f8a958c036a0ef0d0658347c63f695e9ae89095cbada85aa6f02"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJoint24SolvePositionConstraintsEv",
+      "elf_address": "0x7ef010",
+      "size": 2552,
+      "sha256": "271a0f1bdcae532e673784b0bf535ea314dabef5574d917dbb3869250f4213dd"
+    },
+    {
+      "original_symbol": "_ZN11b2DebugDrawC1Ev",
+      "elf_address": "0x7e8cc8",
+      "size": 44,
+      "sha256": "eb92e2e3047e5afcd85a81c6dff8a3f4ec367ce6177aa39c320387986fc9c1a5"
+    },
+    {
+      "original_symbol": "_ZN7b2World22SetDestructionListenerEP21b2DestructionListener",
+      "elf_address": "0x7e65d4",
+      "size": 16,
+      "sha256": "dc936d7a0509f862a44f3569743a06484a1885e5f79e23d98dc6f4d723113843"
+    },
+    {
+      "original_symbol": "_ZN14b2PolygonShapeD1Ev",
+      "elf_address": "0x7e5444",
+      "size": 52,
+      "sha256": "2a65b5a9f2e0b3d92e6b34f05934e0df6d170868075ef780689d467488a86b37"
+    },
+    {
+      "original_symbol": "_ZN6b2Vec29NormalizeEv",
+      "elf_address": "0x7e5524",
+      "size": 136,
+      "sha256": "57990b2a63fbe9d63331c855b7b4df7cfd7c104fb2ef9b3fb49b5008c093e06e"
+    },
+    {
+      "original_symbol": "_ZN13b2PulleyJoint24SolvePositionConstraintsEv",
+      "elf_address": "0x7f129c",
+      "size": 2752,
+      "sha256": "da2f944939d3981024cdeb163782646b18b3ff73e02ecb1487ff19a1944902a0"
+    },
+    {
+      "original_symbol": "_ZN9b2ContactD1Ev",
+      "elf_address": "0x7e65c0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6b2BodyD2Ev",
+      "elf_address": "0x7e1644",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN15b2ContactFilterD0Ev",
+      "elf_address": "0x7e8d24",
+      "size": 20,
+      "sha256": "40a554fc7f45a32ba397ff081b9f208c4d3c813fff55041a18307bfe3c17106f"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManager10InitializeEP12b2BroadPhaseP14b2PairCallback",
+      "elf_address": "0x7e3eec",
+      "size": 8,
+      "sha256": "5c96c4648942c37522d236bc5ea395491699cdcbdfba0adca844411d9b4ac44c"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase11TestOverlapERK13b2BoundValuesP7b2Proxy",
+      "elf_address": "0x7e252c",
+      "size": 140,
+      "sha256": "b4935bfb9b0ab963446d9ba86d8c1c88b57f8f19032e8db14145efdbacecae09"
+    },
+    {
+      "original_symbol": "_ZN16b2ContactManager7DestroyEP9b2Contact",
+      "elf_address": "0x7ea084",
+      "size": 1156,
+      "sha256": "738a3b268408ef30a5cdf456254c7ab50bcf7b7bdd4dd140c3a2cdae989d40b6"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManager13ValidateTableEv",
+      "elf_address": "0x7e42dc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN7b2ShapeD2Ev",
+      "elf_address": "0x7e6178",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN14b2PairCallbackD0Ev",
+      "elf_address": "0x7e80a4",
+      "size": 20,
+      "sha256": "0d1a707f6d8005df6ea8301eccb07b4405c21df88f0992ca2ec70857bb3706f5"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint13GetMotorForceEv",
+      "elf_address": "0x7eeff0",
+      "size": 8,
+      "sha256": "0f0e3c520e221efcb8b10c2e9d118b65503f604507777e1ac3adfa8fc1e08618"
+    },
+    {
+      "original_symbol": "_ZNK13b2CircleShape9TestPointERK7b2XFormRK6b2Vec2",
+      "elf_address": "0x7e9218",
+      "size": 264,
+      "sha256": "d237f1bdb7cda4d820c4913eca7e8a169f4828df106b21be92e94f20a9373b07"
+    },
+    {
+      "original_symbol": "_ZNK13b2PulleyJoint16GetReactionForceEv",
+      "elf_address": "0x7f0434",
+      "size": 60,
+      "sha256": "309edc304fd717f148aaa7bf6b675322b9a0b521ab0e03787c8b3e066c545805"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhaseC1ERK6b2AABBP14b2PairCallback",
+      "elf_address": "0x7e3048",
+      "size": 308,
+      "sha256": "d5d702b04bce90cc06f9e2c5755d56f31d2b950426259cf4d49e57bebd61c897"
+    },
+    {
+      "original_symbol": "_ZN13b2CircleShapeC2EPK10b2ShapeDef",
+      "elf_address": "0x7e9a08",
+      "size": 88,
+      "sha256": "0c5a15f88cb8c4e5e0dff64ff6e2a46416b2629cd561ee6b4f99b485c030abd0"
+    },
+    {
+      "original_symbol": "_ZN12b2MouseJointC2EPK15b2MouseJointDef",
+      "elf_address": "0x7ebd48",
+      "size": 360,
+      "sha256": "f92ef9b20dea62af2186b93fdfc816bd6ae3043207a820f5044b93cf94431876"
+    },
+    {
+      "original_symbol": "_ZN7b2World10CreateBodyEPK9b2BodyDef",
+      "elf_address": "0x7e7ef8",
+      "size": 132,
+      "sha256": "62a3cdd56582918829a95ded4d581784c283cc3c28f9990f6838ca7ddeee9623"
+    },
+    {
+      "original_symbol": "_ZN9b2ContactC2EP7b2ShapeS1_",
+      "elf_address": "0x7e9eb8",
+      "size": 216,
+      "sha256": "8518000bf0045562b3c78cc1c58a9687a18cf902e76d1a0679f38300f4378999"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase11CreateProxyERK6b2AABBPv",
+      "elf_address": "0x7e2d54",
+      "size": 756,
+      "sha256": "a8b47889c94edbaf1b98b6c25297ca1308a1b71f7df49c7cf544492f95cadc74"
+    },
+    {
+      "original_symbol": "_ZNK14b2PolygonShape7SupportERK7b2XFormRK6b2Vec2",
+      "elf_address": "0x7e526c",
+      "size": 472,
+      "sha256": "af9a4750e0795486c3fd716a977b077e76f441687851903821c24acf007910df"
+    },
+    {
+      "original_symbol": "_ZN7b2Shape12DestroyProxyEP12b2BroadPhase",
+      "elf_address": "0x7e6180",
+      "size": 48,
+      "sha256": "4fe4dc50046d122e205a618de04fca376fe8fa1882389176e3d7f3cee77ad420"
+    },
+    {
+      "original_symbol": "_ZN16b2ContactManager9PairAddedEPvS0_",
+      "elf_address": "0x7ea520",
+      "size": 392,
+      "sha256": "37282e0daed68d82cccb67ac273272eb5b45af0eb9ec5a098d7674f7eb5e7947"
+    },
+    {
+      "original_symbol": "_ZNK12b2MouseJoint17GetReactionTorqueEv",
+      "elf_address": "0x7eb830",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZNK14b2PolygonShape9TestPointERK7b2XFormRK6b2Vec2",
+      "elf_address": "0x7e4670",
+      "size": 376,
+      "sha256": "d33170edced7eeb2895d4438b9a2977aced24d02ab652b2c8364e5096940441d"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint17GetReactionTorqueEv",
+      "elf_address": "0x7eeaac",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase5QueryEPiS0_ttP7b2Boundii",
+      "elf_address": "0x7e2820",
+      "size": 384,
+      "sha256": "dbdee77e8b3ea1e98e6e3272bcb57d1ad91ca5238ed846a82bc876fd13230f1d"
+    },
+    {
+      "original_symbol": "_ZN22b2PolyAndCircleContact12GetManifoldsEv",
+      "elf_address": "0x7ebeb4",
+      "size": 8,
+      "sha256": "403cd6b5ca0bfb178f87e11ec622a7cf167028b7ca2f2e62ef7816f9a1316fac"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase21IncrementOverlapCountEi",
+      "elf_address": "0x7e27c0",
+      "size": 96,
+      "sha256": "ff3ae162e8bd7e53b93158999255af5b321849865ded8102f13c4f2079050c99"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint14GetMotorTorqueEv",
+      "elf_address": "0x7f2b90",
+      "size": 8,
+      "sha256": "b9548f1ce2be2b18d75b8d1b1b48faf070a3326a14a679dd0e93c97e352b0f7d"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJointC1EPK18b2RevoluteJointDef",
+      "elf_address": "0x7f336c",
+      "size": 168,
+      "sha256": "0ade6b61f6e864b637aeb8e408a2a9f22545c34d310fe41505e166318b645721"
+    },
+    {
+      "original_symbol": "_ZN7b2World16SetContactFilterEP15b2ContactFilter",
+      "elf_address": "0x7e65f4",
+      "size": 16,
+      "sha256": "05516c75e3fdace3f413fa64c64ae26480e73019a623a27ded9370c37b66915a"
+    },
+    {
+      "original_symbol": "_ZNK13b2PulleyJoint10GetLength2Ev",
+      "elf_address": "0x7f07c0",
+      "size": 256,
+      "sha256": "2514081289475d5a8dfd347ee26ed98cf36251554541855e7622de5f08188772"
+    },
+    {
+      "original_symbol": "_ZN6b2Body17SynchronizeShapesEv",
+      "elf_address": "0x7e20ac",
+      "size": 364,
+      "sha256": "352e21697f07d99595ed5a99a77dad47986393e8e3b9b1b9eaa33b9d429368cc"
+    },
+    {
+      "original_symbol": "_ZN9b2Contact6UpdateEP17b2ContactListener",
+      "elf_address": "0x7e9d24",
+      "size": 188,
+      "sha256": "4398b393a12c64c881f4d449e771b61c1a9d12154f876660a78eba5bd3fc5fca"
+    },
+    {
+      "original_symbol": "_ZN16b2ContactManager7CollideEv",
+      "elf_address": "0x7ea010",
+      "size": 116,
+      "sha256": "eea6b36de8f9fbe7247dd3d3b7c7288b85f153712c73be9b58d4c35709b7a40e"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManager10RemovePairEii",
+      "elf_address": "0x7e4084",
+      "size": 264,
+      "sha256": "23c87cc7c828a5637d13779a2fda0faddb3966e8a9754e530cff882402317c9b"
+    },
+    {
+      "original_symbol": "_ZN7b2WorldC2ERK6b2AABBRK6b2Vec2b",
+      "elf_address": "0x7e8288",
+      "size": 464,
+      "sha256": "585c8c888921a72c232149e10a7bee599beec02baed433e1a0a0ff1c8d6caa33"
+    },
+    {
+      "original_symbol": "_ZN9b2Contact19InitializeRegistersEv",
+      "elf_address": "0x7e9b08",
+      "size": 128,
+      "sha256": "b8406a9b7bdb0aa9c47f63de30947fc31903caab76d097f3828ea1f0363a657a"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase5QueryERK6b2AABBPPvi",
+      "elf_address": "0x7e29a0",
+      "size": 292,
+      "sha256": "530bc9605650f840daafdee1e6ce9099ff33d63be891bf0eea84ac34de960b18"
+    },
+    {
+      "original_symbol": "_ZN9b2Contact6CreateEP7b2ShapeS1_P16b2BlockAllocator",
+      "elf_address": "0x7e9b88",
+      "size": 272,
+      "sha256": "ece87acbf75666d5127a308aedb9d70907a851cce548ab2323ecc4ad7554bbd3"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhaseD2Ev",
+      "elf_address": "0x7e2478",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint13GetJointSpeedEv",
+      "elf_address": "0x7eec94",
+      "size": 784,
+      "sha256": "0db3d2ec425a98e9eeade3059d3ce8b7db911f1ae090d25464220ae19b09c83b"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManagerC2Ev",
+      "elf_address": "0x7e3dbc",
+      "size": 152,
+      "sha256": "89fd2cc645929f0602a8662098129726d57561162a2c97e15c4be55bfd15a0aa"
+    },
+    {
+      "original_symbol": "_ZN12b2MouseJoint24SolveVelocityConstraintsERK10b2TimeStep",
+      "elf_address": "0x7eb850",
+      "size": 912,
+      "sha256": "e93241037b00b4483da5fcf98d286902234f548e072cf23156f31073b20d1f0d"
+    },
+    {
+      "original_symbol": "_ZN16b2BlockAllocatorD1Ev",
+      "elf_address": "0x7e8ddc",
+      "size": 72,
+      "sha256": "0032de9e90d9f30eb9a6303a8c4d7a608634239cfc559459523246a9c4df647d"
+    },
+    {
+      "original_symbol": "_ZN7b2Shape6CreateEPK10b2ShapeDefP16b2BlockAllocator",
+      "elf_address": "0x7e6558",
+      "size": 100,
+      "sha256": "9bdfe3cc1e1e662a050f27ab28b51f1d27e862d74a65d0167d32f103ded8af50"
+    },
+    {
+      "original_symbol": "_ZN7b2ShapeC1EPK10b2ShapeDef",
+      "elf_address": "0x7e60f0",
+      "size": 136,
+      "sha256": "041425626e1d46c01127a15728f9988b5e912046544c9d816d4b1e0b9985a9d0"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint14IsLimitEnabledEv",
+      "elf_address": "0x7f2ba8",
+      "size": 8,
+      "sha256": "a78ef3b0b78f05b044d14f5529c9f4b08d2bf0189e8670695be72a95fcdf54c3"
+    },
+    {
+      "original_symbol": "_ZN13b2NullContactD1Ev",
+      "elf_address": "0x7e65d0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6b2Body11CreateShapeEP10b2ShapeDef",
+      "elf_address": "0x7e1dc8",
+      "size": 132,
+      "sha256": "aa2f17854e4d7fe62dbf0cc30ad25d78d550e0ff082514cdffebe71193f922f6"
+    },
+    {
+      "original_symbol": "_ZN16b2PolygonContact7DestroyEP9b2ContactP16b2BlockAllocator",
+      "elf_address": "0x7ecb28",
+      "size": 44,
+      "sha256": "a25aec441e649defca99ecb54b6b860f3152c1dc9e12ff4332221330f06a53d8"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJoint24SolvePositionConstraintsEv",
+      "elf_address": "0x7f2bec",
+      "size": 1920,
+      "sha256": "6301535198414be731e0f2b18db81ab4d90c9a6449e97ace1f4e790fc237a314"
+    },
+    {
+      "original_symbol": "_ZN16b2ContactManager11PairRemovedEPvS0_S0_",
+      "elf_address": "0x7ea508",
+      "size": 24,
+      "sha256": "40a8d5b477a6e9fc8f2c41e4cd4ae68dd227607aadff6b8505e5c11f63f1a09f"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJointD1Ev",
+      "elf_address": "0x7f2bd4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJoint13SetMotorSpeedEf",
+      "elf_address": "0x7eefe0",
+      "size": 8,
+      "sha256": "1d71bd49251a95ffaa3aa5aec7aee116b9ac2af8805f27cb233e21764756a205"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhaseC2ERK6b2AABBP14b2PairCallback",
+      "elf_address": "0x7e317c",
+      "size": 308,
+      "sha256": "d730a2ccc1a1a49603befa1b2b01f2f8c77c987876b114792b0620100e6917b4"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase9MoveProxyEiRK6b2AABB",
+      "elf_address": "0x7e3344",
+      "size": 1872,
+      "sha256": "d8cd97db75bb208d877e53f08d40a17f390ac1253a6e746d85c04260758bbf15"
+    },
+    {
+      "original_symbol": "_ZN11b2DebugDraw10ClearFlagsEj",
+      "elf_address": "0x7e8d14",
+      "size": 16,
+      "sha256": "1a2fdaeb4845d81f3d2d6ce707904ff6b98ca04dfec3b87f9b80adcfd887f436"
+    },
+    {
+      "original_symbol": "_Z6b2FreePv",
+      "elf_address": "0x7f34bc",
+      "size": 56,
+      "sha256": "39f715e0b4975088ba6d1a646b47099858bba48da4bfb0e5326f8ae7e1b53d2a"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJoint23InitVelocityConstraintsERK10b2TimeStep",
+      "elf_address": "0x7f1e84",
+      "size": 1524,
+      "sha256": "2c972f990eee8b361fd7718337a8fdb15a67ce76d70be10108d14c8e3fc1e2c1"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase11TestOverlapEP7b2ProxyS1_",
+      "elf_address": "0x7e2480",
+      "size": 172,
+      "sha256": "e7b8f13e8215a90e4bbc90d4b0730e5b2b94dc8a56a8385a2633a8c036f6793a"
+    },
+    {
+      "original_symbol": "_ZNK13b2PulleyJoint8GetRatioEv",
+      "elf_address": "0x7f04f0",
+      "size": 8,
+      "sha256": "2769a7361987f02cd9992286851b50892fb5d98c7b44c3a4cc7587f46a802807"
+    },
+    {
+      "original_symbol": "_ZN16b2BlockAllocator8AllocateEi",
+      "elf_address": "0x7e90bc",
+      "size": 348,
+      "sha256": "1d0bf1743ef2fe1bf6096fbf30d280e563adf3751ae74db9b481028b584441ca"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManager14ValidateBufferEv",
+      "elf_address": "0x7e418c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN7b2World9DrawJointEP7b2Joint",
+      "elf_address": "0x7e69b0",
+      "size": 456,
+      "sha256": "6fa277b00cdc4319d6184fac545ed9fa3d83cf6280f47a89a2047ff91298dd24"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJoint16SetMaxMotorForceEf",
+      "elf_address": "0x7eefe8",
+      "size": 8,
+      "sha256": "d4c9b1e702cda8190fdcf85ec5165769b00da7d5d7431cec6da3fcaea4d7c3c8"
+    },
+    {
+      "original_symbol": "_ZN12b2MouseJoint24SolvePositionConstraintsEv",
+      "elf_address": "0x7eb478",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZN7b2Sweep7AdvanceEf",
+      "elf_address": "0x7e3a94",
+      "size": 244,
+      "sha256": "22a620daa02e4bdb6baca5bfc3131a73eaa85f6faa81d7ef3ed2c133373653a5"
+    },
+    {
+      "original_symbol": "_ZNK14b2PolygonShape11ComputeMassEP10b2MassData",
+      "elf_address": "0x7e4e8c",
+      "size": 848,
+      "sha256": "baf8dbd015b56a967e366489c08dc40b25f13b448871a39eebe3e0757c843ea7"
+    },
+    {
+      "original_symbol": "_ZN13b2NullContactD0Ev",
+      "elf_address": "0x7e807c",
+      "size": 20,
+      "sha256": "a8e22ab753efe879b987ffb240514899fa97e5ccd9ea629c626c4038b0f1cd8e"
+    },
+    {
+      "original_symbol": "_ZN22b2PolyAndCircleContactC1EP7b2ShapeS1_",
+      "elf_address": "0x7ebed0",
+      "size": 72,
+      "sha256": "b00d92a8255c9e7932e27cb1291115f2c9731b6e2f3dcda40cb85f034b9ef290"
+    },
+    {
+      "original_symbol": "_ZN7b2World5QueryERK6b2AABBPP7b2Shapei",
+      "elf_address": "0x7e759c",
+      "size": 128,
+      "sha256": "767e96506b3497b7f7631d83bf2b474e8450ea7bfe434741dd36314fe25f012c"
+    },
+    {
+      "original_symbol": "_ZN8b2Island5SolveERK10b2TimeStepRK6b2Vec2bb",
+      "elf_address": "0x7ea9d0",
+      "size": 1704,
+      "sha256": "2922055cd9f0e55fef380167ea81de0aee53fcac0510149cb545736f2b89140b"
+    },
+    {
+      "original_symbol": "_ZN8b2IslandD2Ev",
+      "elf_address": "0x7eb0ac",
+      "size": 52,
+      "sha256": "a72dbdc4bc7157f589ad34988602fc90a01b09d7d105a0eecffc8c2fc7f454e4"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint10GetAnchor1Ev",
+      "elf_address": "0x7ee820",
+      "size": 144,
+      "sha256": "c0e33413496d4e68224f6dd3e4c9963b4bc734539d8e628b87420a2f7731c7c7"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase18IncrementTimeStampEv",
+      "elf_address": "0x7e276c",
+      "size": 84,
+      "sha256": "49de897784456629b1dd64159afc39ab4966fb5496ca16d5b04bc9d2b6a1effa"
+    },
+    {
+      "original_symbol": "_ZN13b2PulleyJointC1EPK16b2PulleyJointDef",
+      "elf_address": "0x7f0510",
+      "size": 344,
+      "sha256": "303ed4127d167c82f985aeca36483b583305a0c936c16c839822b80f276c2956"
+    },
+    {
+      "original_symbol": "_ZNK7b2Sweep8GetXFormEP7b2XFormf",
+      "elf_address": "0x7e3bfc",
+      "size": 448,
+      "sha256": "59afa707764ba463f67531bf55b4e6b8a88e1e37e189d28d5ae44ac5036b5fde"
+    },
+    {
+      "original_symbol": "_ZN7b2ShapeC2EPK10b2ShapeDef",
+      "elf_address": "0x7e6068",
+      "size": 136,
+      "sha256": "1d68ab0f03e0f0105313748fd957ae67c9ce2b3d274559f95ff65e05f3649bcb"
+    },
+    {
+      "original_symbol": "_ZN7b2Shape13RefilterProxyEP12b2BroadPhaseRK7b2XForm",
+      "elf_address": "0x7e61b0",
+      "size": 292,
+      "sha256": "7e463414e48257486ea92b7a5f71b9f0e759093fe3d37ca62ad7911df65bbb3c"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase13ComputeBoundsEPtS0_RK6b2AABB",
+      "elf_address": "0x7e25b8",
+      "size": 436,
+      "sha256": "126bc651b2995c2aa67e8945698d2020a851d67dca61a0b01242ed5b662bf9a5"
+    },
+    {
+      "original_symbol": "_ZNK7b2World13GetProxyCountEv",
+      "elf_address": "0x7e6968",
+      "size": 28,
+      "sha256": "8088bcbac145e4710514c40f1f3872e1e30533371d0f036233f2cff84792bdf5"
+    },
+    {
+      "original_symbol": "_ZN12b2MouseJoint23InitVelocityConstraintsERK10b2TimeStep",
+      "elf_address": "0x7eb4b0",
+      "size": 712,
+      "sha256": "37d5482f01aa5c47ae2b342477d6da9461333ce62f1a4dd5532adf5272a137c6"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint16GetReactionForceEv",
+      "elf_address": "0x7f2b20",
+      "size": 20,
+      "sha256": "3061f8159f0e1e9ac1e655b7b925e76c39489bfd7d49fe84945b110990be794b"
+    },
+    {
+      "original_symbol": "_ZN16b2ContactManagerD1Ev",
+      "elf_address": "0x7e9f90",
+      "size": 56,
+      "sha256": "d96b0cf4e307381518bb5ab423d1e8b895c155432ff41620294363ab439fe245"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint19GetJointTranslationEv",
+      "elf_address": "0x7eeab4",
+      "size": 480,
+      "sha256": "4293c342d9c99ed07a7b7e97a3c8f0f4124770289648c2e02dddfbed48898410"
+    },
+    {
+      "original_symbol": "_ZN15b2CircleContact7DestroyEP9b2ContactP16b2BlockAllocator",
+      "elf_address": "0x7f3b40",
+      "size": 44,
+      "sha256": "4c9f48da8a6805d8387138e5c855e09b3884e07b76e26b53025312b00236cd67"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint13GetJointSpeedEv",
+      "elf_address": "0x7f2b64",
+      "size": 28,
+      "sha256": "a30f1ed6d38a9ab23d149be6cb71722c6b85f86f7edea4ebba797c1c7c799a8e"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJointC2EPK18b2RevoluteJointDef",
+      "elf_address": "0x7f3414",
+      "size": 168,
+      "sha256": "4895871a778c91b2251bdb5c126bb699cd0b4520da39d3ba248e28fad4ceb7ae"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJoint23InitVelocityConstraintsERK10b2TimeStep",
+      "elf_address": "0x7ed7e8",
+      "size": 2200,
+      "sha256": "03c8be5c85b8c3c921bdcfcfbe6276ea8b51e37c547becce50880d29cee04aef"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint13GetLowerLimitEv",
+      "elf_address": "0x7f2bb8",
+      "size": 8,
+      "sha256": "bfa87589c58e10a99a14da548707b83050c2a2088f369cfec482e91ab78bf759"
+    },
+    {
+      "original_symbol": "_ZN16b2StackAllocator4FreeEPv",
+      "elf_address": "0x7f35a8",
+      "size": 156,
+      "sha256": "ca74c3cbb932b4024ca22f9c4ed862cec49a05ed89e601ba6a7e031fedaf4a8c"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhaseD1Ev",
+      "elf_address": "0x7e247c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZNK14b2PolygonShape11TestSegmentERK7b2XFormPfP6b2Vec2RK9b2Segmentf",
+      "elf_address": "0x7e47e8",
+      "size": 876,
+      "sha256": "2b40f6072354dfd3222efca18716935f0c8d0ea9f46f77955e44a2cfcda0309b"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJoint9SetLimitsEff",
+      "elf_address": "0x7f2bc8",
+      "size": 12,
+      "sha256": "3b79dc77a4360cf62dd146125731507d3db230d43a44c5369b45fd2b86d726ab"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJointC2EPK19b2PrismaticJointDef",
+      "elf_address": "0x7efb0c",
+      "size": 260,
+      "sha256": "981fc340b4973495cae00c8c6a65ec44625f2e000c7f60122a5927e791cc6a2d"
+    },
+    {
+      "original_symbol": "_ZN7b2World12DestroyJointEP7b2Joint",
+      "elf_address": "0x7e7b1c",
+      "size": 356,
+      "sha256": "7c72edd68550cb171f62c4059ac41c911b32fa487654a587fff63e11823d1a56"
+    },
+    {
+      "original_symbol": "_ZNK14b2PolygonShape8CentroidERK7b2XForm",
+      "elf_address": "0x7e51dc",
+      "size": 144,
+      "sha256": "31a2f19ed9226be577c6539b258de5906fda716c0e3c4ced5baf3479a1daeeeb"
+    },
+    {
+      "original_symbol": "_ZN16b2PulleyJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_S4_S4_f",
+      "elf_address": "0x7f1038",
+      "size": 612,
+      "sha256": "9e48267d73ebf7700c5ec22741e5b5550e977e916744094e2684b3acdc4c7f51"
+    },
+    {
+      "original_symbol": "_ZNK7b2World12GetPairCountEv",
+      "elf_address": "0x7e6984",
+      "size": 28,
+      "sha256": "5da8fcf15827fda56082590e5ddc74152fe8170999e6d53078fc26ef6eb5bcfe"
+    },
+    {
+      "original_symbol": "_ZN7b2World18SetContactListenerEP17b2ContactListener",
+      "elf_address": "0x7e6604",
+      "size": 16,
+      "sha256": "a9186298ac64f385237e13926f88eb716e2091835b78b48af654e1a1ce413625"
+    },
+    {
+      "original_symbol": "_ZN9b2Contact7AddTypeEPFPS_P7b2ShapeS2_P16b2BlockAllocatorEPFvS0_S4_E11b2ShapeTypeS9_",
+      "elf_address": "0x7e9a9c",
+      "size": 108,
+      "sha256": "2c9461063d0444097884a8ff3c10228f4592c5b3ee4867d507fbda53f40c8f82"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint14IsMotorEnabledEv",
+      "elf_address": "0x7eefd0",
+      "size": 8,
+      "sha256": "76fc4689b2d6292163416820716bf261b9a19fad62240b9b57f1984af6597729"
+    },
+    {
+      "original_symbol": "_ZN7b2World4StepEfi",
+      "elf_address": "0x7e8b1c",
+      "size": 292,
+      "sha256": "ab84c2e764617c671d550df6051bc70cc2768e421c8061a64603d26519194a5e"
+    },
+    {
+      "original_symbol": "_ZN22b2PolyAndCircleContactC2EP7b2ShapeS1_",
+      "elf_address": "0x7ebf18",
+      "size": 72,
+      "sha256": "735df5d112f764178262113f6e9c0f99f3703ab2889636941af8e3ed3f9ef9b8"
+    },
+    {
+      "original_symbol": "_ZN12b2MouseJoint9SetTargetERK6b2Vec2",
+      "elf_address": "0x7eb480",
+      "size": 48,
+      "sha256": "fb57f6cf906e3ad5e7e0c061f04b98b90a92413b222b8969907b2dd5759a2dc0"
+    },
+    {
+      "original_symbol": "_ZN16b2StackAllocator8AllocateEi",
+      "elf_address": "0x7f3644",
+      "size": 228,
+      "sha256": "edd7417b96fa07c180a712b54d40ac8c416b1cf2c90920b860e4ff7d96f12d4c"
+    },
+    {
+      "original_symbol": "_ZN14b2PairCallbackD1Ev",
+      "elf_address": "0x7e65bc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN8b2IslandD1Ev",
+      "elf_address": "0x7eb078",
+      "size": 52,
+      "sha256": "40fafb931d6797411b238301414990f2698fa8edfc4a7c4c8f0c22ef1a803b45"
+    },
+    {
+      "original_symbol": "_ZN6b2BodyC1EPK9b2BodyDefP7b2World",
+      "elf_address": "0x7e2218",
+      "size": 608,
+      "sha256": "c8c3a709cee2b111e82d41b3e94c0d992c1f31998e4d97fd26dd2a1b4ac03df6"
+    },
+    {
+      "original_symbol": "_ZN16b2StackAllocatorD1Ev",
+      "elf_address": "0x7f3594",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN13b2PulleyJointC2EPK16b2PulleyJointDef",
+      "elf_address": "0x7f0668",
+      "size": 344,
+      "sha256": "487e79a6d967e28f8cfa393f2d3c50c95d07580d2dfaa3e8cbbf24129bf8a283"
+    },
+    {
+      "original_symbol": "_ZN16b2BlockAllocator4FreeEPvi",
+      "elf_address": "0x7e8da0",
+      "size": 60,
+      "sha256": "a4e646cac8126404ac9b22cb0c508b559260bd555d97742810865590fc1bd674"
+    },
+    {
+      "original_symbol": "_ZN22b2PolyAndCircleContactD0Ev",
+      "elf_address": "0x7ebebc",
+      "size": 20,
+      "sha256": "809e880574e640e1c593d91dd07f97e87834b9c235f99e1e01b9c6015e9e9b18"
+    },
+    {
+      "original_symbol": "_Z14b2TimeOfImpactPK7b2ShapeRK7b2SweepS1_S4_",
+      "elf_address": "0x7f3728",
+      "size": 872,
+      "sha256": "d3ffcd21fe4c9da9ff3b8567e2fce4d0f8cdee4efc2bc3c57ae4605142c6ca0f"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManager15AddBufferedPairEii",
+      "elf_address": "0x7e4190",
+      "size": 148,
+      "sha256": "692d0fa0822e839aea4936cc2803f4b0dc908aacf829276993474cf1b6368b07"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase8ValidateEv",
+      "elf_address": "0x7e2ac4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN7b2World13DrawDebugDataEv",
+      "elf_address": "0x7e6b78",
+      "size": 2596,
+      "sha256": "4d60baf277c20cfb1962966fde761365a9ddd5236e217ed2275c554acb5c078f"
+    },
+    {
+      "original_symbol": "_ZN7b2World9DrawShapeEP7b2ShapeRK7b2XFormRK7b2Colorb",
+      "elf_address": "0x7e6624",
+      "size": 836,
+      "sha256": "8618a0e3a5707b3e2afb053a1bcb2446db832c975e31be857fa2aac60007c340"
+    },
+    {
+      "original_symbol": "_ZNK13b2CircleShape11TestSegmentERK7b2XFormPfP6b2Vec2RK9b2Segmentf",
+      "elf_address": "0x7e969c",
+      "size": 672,
+      "sha256": "f3e4e9416c0aca5c1fe8d4c780cdb1171a13966b762b3d9ab31ee8a820bf2276"
+    },
+    {
+      "original_symbol": "_ZN12b2MouseJointC1EPK15b2MouseJointDef",
+      "elf_address": "0x7ebbe0",
+      "size": 360,
+      "sha256": "376fd2dbca84995765c2b347322c6f9f49a032b72477f409069e89ee0bbbce66"
+    },
+    {
+      "original_symbol": "_ZN8b2IslandC1EiiiP16b2StackAllocatorP17b2ContactListener",
+      "elf_address": "0x7eb0e0",
+      "size": 124,
+      "sha256": "f4bef7f7351adc7249163437d777205d83e83e01e6dc352ced34753808e67e7d"
+    },
+    {
+      "original_symbol": "_ZNK13b2PulleyJoint10GetAnchor2Ev",
+      "elf_address": "0x7f03a4",
+      "size": 144,
+      "sha256": "87e2cb333a8c3f45c143a8bfc33b87792a22249afbe3f2c624100a16c7c9aec3"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint13GetJointAngleEv",
+      "elf_address": "0x7f2b3c",
+      "size": 40,
+      "sha256": "fc29d5bed9cdd4137b639272659af682669efa674108f3b28b0c58967cd02262"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint10GetAnchor2Ev",
+      "elf_address": "0x7ee8b0",
+      "size": 144,
+      "sha256": "98ba19a6451a6021e46de9fcb9d08714e34dca31f20ff991bea212d0e4e1cb5e"
+    },
+    {
+      "original_symbol": "_ZN16b2BlockAllocatorC2Ev",
+      "elf_address": "0x7e8fdc",
+      "size": 224,
+      "sha256": "1e176f7dc62412500599a4a024672a368a3c2893fe493e63cf078d976f946b7d"
+    },
+    {
+      "original_symbol": "_ZN13b2CircleShape17UpdateSweepRadiusERK6b2Vec2",
+      "elf_address": "0x7e993c",
+      "size": 116,
+      "sha256": "241784aaea1e784362a3f97bb0748d171e59f80308a63de448eaad0f0c89619f"
+    },
+    {
+      "original_symbol": "_ZN6b2Body7SetMassEPK10b2MassData",
+      "elf_address": "0x7e1b28",
+      "size": 508,
+      "sha256": "a2669402b9312c66b66d5021e74d5bea01dcc5cad5e0895381cb3a031e1c5a3c"
+    },
+    {
+      "original_symbol": "_ZN13b2CircleShapeC1EPK10b2ShapeDef",
+      "elf_address": "0x7e99b0",
+      "size": 88,
+      "sha256": "fb6a22dc107163b8bc7c4ccf061ee3df38eb2f98d3b4d5b0c00f9cb1e4a4b815"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint13GetLowerLimitEv",
+      "elf_address": "0x7eefb4",
+      "size": 8,
+      "sha256": "b47a6fd741bb8b97cd022f813671e8ef6ba4cf9b5d033a4cb6180d7894763f44"
+    },
+    {
+      "original_symbol": "_Z7b2Alloci",
+      "elf_address": "0x7f34f4",
+      "size": 60,
+      "sha256": "0915796185e311a249547371dc0dd961b570d46633051ec1a884c29ccf0537be"
+    },
+    {
+      "original_symbol": "_ZN16b2StackAllocatorD2Ev",
+      "elf_address": "0x7f3590",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJointC1EPK19b2PrismaticJointDef",
+      "elf_address": "0x7efa08",
+      "size": 260,
+      "sha256": "41ad9f9927fd41acaaa7409137624840726d76c9950655ed923e6c7fdd112d10"
+    },
+    {
+      "original_symbol": "_ZN7b2JointC2EPK10b2JointDef",
+      "elf_address": "0x7eb1e0",
+      "size": 100,
+      "sha256": "2585426e7ac64592fb25cbe938980a797569693c41dc54085f8b8bf4927b4828"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJoint9SetLimitsEff",
+      "elf_address": "0x7eefc4",
+      "size": 12,
+      "sha256": "932a78e52b81fd17891879a48cfe57813abcca1e12328c7a0bf0095799aa6d44"
+    },
+    {
+      "original_symbol": "_ZN18b2RevoluteJointDef10InitializeEP6b2BodyS1_RK6b2Vec2",
+      "elf_address": "0x7f1d5c",
+      "size": 296,
+      "sha256": "4d5f116b09c18c6dc77e936bf810a2b2b888696f9a03101764ca1bc352d223f5"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint14IsLimitEnabledEv",
+      "elf_address": "0x7eefa4",
+      "size": 8,
+      "sha256": "19b75e289a9a2cd98834dc9a30edefafe0d707c9c18f666e5951d8b23e9a6125"
+    },
+    {
+      "original_symbol": "_ZN11b2DebugDrawC2Ev",
+      "elf_address": "0x7e8c9c",
+      "size": 44,
+      "sha256": "040a6f38f0531c2de3f8d22c6093f84fa934756091ab6c9ef64fc34a3fe92071"
+    },
+    {
+      "original_symbol": "_ZN22b2PolyAndCircleContactD1Ev",
+      "elf_address": "0x7ebeb0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN16b2PolygonContact6CreateEP7b2ShapeS1_P16b2BlockAllocator",
+      "elf_address": "0x7ecb54",
+      "size": 48,
+      "sha256": "712c72d24894328bd05d2115d810ff1bf29f7a22b0151cc421b84628a574e140"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJoint17SetMaxMotorTorqueEf",
+      "elf_address": "0x7f2ba0",
+      "size": 8,
+      "sha256": "b8bd27d1e0796a454478ad95c4b7ebc557007f0c4e1e39dbbbb3b143e9536d04"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJoint11EnableMotorEb",
+      "elf_address": "0x7f2b88",
+      "size": 8,
+      "sha256": "3f2d06a834a3edb77bae054cc0fb358a875bba0748d6634c60b31dc74754f45e"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint14IsMotorEnabledEv",
+      "elf_address": "0x7f2b80",
+      "size": 8,
+      "sha256": "794bb7e82db7104cb7937b6ca18990e9e44d32bfec670f276c8dc910939b2838"
+    },
+    {
+      "original_symbol": "_ZN15b2ContactFilter13ShouldCollideEP7b2ShapeS1_",
+      "elf_address": "0x7e8c48",
+      "size": 84,
+      "sha256": "688ca9068ec6b63b81f11f0a10db6a39fa5ad1751170364ae9305b6c41d64d2a"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJoint13SetMotorSpeedEf",
+      "elf_address": "0x7f2b98",
+      "size": 8,
+      "sha256": "86ad321a96b9d67c31e80a2d9d9139ed48f98454123c3c8461cc4799388b1cbc"
+    },
+    {
+      "original_symbol": "_ZNK12b2MouseJoint10GetAnchor1Ev",
+      "elf_address": "0x7eb778",
+      "size": 20,
+      "sha256": "9a2d204a989a6fc8ffa1cc7a674f9ae3d8f9474cf72b564e318843049f1f1175"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint13GetUpperLimitEv",
+      "elf_address": "0x7f2bc0",
+      "size": 8,
+      "sha256": "e90b28be3b745cee7acc6538ffc1c2375b606eef8a48aad3518380b6637c94e1"
+    },
+    {
+      "original_symbol": "_ZN7b2World8RefilterEP7b2Shape",
+      "elf_address": "0x7e7afc",
+      "size": 32,
+      "sha256": "abafea3976984df46222adc38e5fb984dbda8ad65af87cd245a9a92a66e46700"
+    },
+    {
+      "original_symbol": "_ZN8b2IslandC2EiiiP16b2StackAllocatorP17b2ContactListener",
+      "elf_address": "0x7eb15c",
+      "size": 124,
+      "sha256": "96511ec2646e4b28b2f5b72f11d20db7707278f0b5f11fa8e6091e0ab807b425"
+    },
+    {
+      "original_symbol": "_ZN16b2PolygonContactD1Ev",
+      "elf_address": "0x7eca90",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint17GetReactionTorqueEv",
+      "elf_address": "0x7f2b34",
+      "size": 8,
+      "sha256": "80b4228909ea142ac4d965cb0f9df2968e4ea9c4db6c18e9a0069ceca162c906"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint10GetAnchor2Ev",
+      "elf_address": "0x7f2a90",
+      "size": 144,
+      "sha256": "b38e15f3504277feafcdc4a46bca425ab256ed855c5e6d5b08ba5518cb35b28d"
+    },
+    {
+      "original_symbol": "_ZN12b2BroadPhase12DestroyProxyEi",
+      "elf_address": "0x7e2acc",
+      "size": 648,
+      "sha256": "dcff727dcde126c0247030cacf23f568671dbc67974b0bedfb454f4718088c5d"
+    },
+    {
+      "original_symbol": "_ZN11b2DebugDrawD0Ev",
+      "elf_address": "0x7e8d38",
+      "size": 20,
+      "sha256": "65daea7eb78eff97c39395887018c0bf3eac7f24ad9afc458d18eb8feeaf6c7d"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJoint11EnableMotorEb",
+      "elf_address": "0x7eefd8",
+      "size": 8,
+      "sha256": "9f3380ffa3eb2802b1015cc275f1bd83faa571bbe692ff6569b15bfa980c3a06"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManager7AddPairEii",
+      "elf_address": "0x7e3fa8",
+      "size": 220,
+      "sha256": "0172ec8381de48c7c42ab700a416f643ed4432b78fb7a0075bcf1ba6e6b701d0"
+    },
+    {
+      "original_symbol": "_ZN12b2PolygonDef8SetAsBoxEffRK6b2Vec2f",
+      "elf_address": "0x7e5f40",
+      "size": 236,
+      "sha256": "647d3870ba55d9baa2a73bf9b8cd6cff6050a058622713d2e5abcb2982d7c041"
+    },
+    {
+      "original_symbol": "_ZN9b2Contact7DestroyEPS_P16b2BlockAllocator",
+      "elf_address": "0x7e9c98",
+      "size": 140,
+      "sha256": "00431a6527ddec884828bd3af4f35a100896e384d4a2f6f3eac8b9eb0cd8a43f"
+    },
+    {
+      "original_symbol": "_ZN6b2Body8SetXFormERK6b2Vec2f",
+      "elf_address": "0x7e164c",
+      "size": 460,
+      "sha256": "61a2c9e2852a5149701ff4d378d2f6dccc1689805080d708a397a59a29561b8d"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManager4FindEii",
+      "elf_address": "0x7e3f68",
+      "size": 64,
+      "sha256": "2779c14baea28d4168da95e6cc1a4e92045cd840e5b55a1b19bc153cf6d64d79"
+    },
+    {
+      "original_symbol": "_ZNK16b2PrismaticJoint13GetUpperLimitEv",
+      "elf_address": "0x7eefbc",
+      "size": 8,
+      "sha256": "e98987112295a42edae58fcc10d42f0e2ece97dab9dc5eeda246e8ac72910488"
+    },
+    {
+      "original_symbol": "_ZN22b2PolyAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator",
+      "elf_address": "0x7ebf60",
+      "size": 44,
+      "sha256": "401a24cba8297ea77781b697031dd40cebbfbc77ee85a20a08c1a8fba98b97a9"
+    },
+    {
+      "original_symbol": "_ZN19b2PrismaticJointDef10InitializeEP6b2BodyS1_RK6b2Vec2S4_",
+      "elf_address": "0x7ed658",
+      "size": 400,
+      "sha256": "8f41b45c8395d7f1ad4a7af1b1537fd3ee27eda260ccdfe3025428c4cc57ac32"
+    },
+    {
+      "original_symbol": "_ZN13b2PulleyJoint23InitVelocityConstraintsERK10b2TimeStep",
+      "elf_address": "0x7f09c0",
+      "size": 1656,
+      "sha256": "6e758e924e62d3761e3c3207b2a8a5a08bdaa6673de6fb196df783eb74071621"
+    },
+    {
+      "original_symbol": "_ZN15b2CircleContactD1Ev",
+      "elf_address": "0x7f3a90",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN16b2BlockAllocatorC1Ev",
+      "elf_address": "0x7e8efc",
+      "size": 224,
+      "sha256": "d11b5cb947bbcecde094ce19a8c06e9f4ac94729617c61cdc70ad965a53f12d4"
+    },
+    {
+      "original_symbol": "_ZN7b2WorldD2Ev",
+      "elf_address": "0x7e7ffc",
+      "size": 128,
+      "sha256": "85bdbd7ab702540de9366f3ed7a3f9a4717de8c74ebf501e6e5377016aead3e6"
+    },
+    {
+      "original_symbol": "_ZNK13b2PulleyJoint17GetReactionTorqueEv",
+      "elf_address": "0x7f0470",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZN7b2Shape7DestroyEPS_P16b2BlockAllocator",
+      "elf_address": "0x7e64f4",
+      "size": 100,
+      "sha256": "58197631c21fa8a6907d0cdf592a643819c4a155054fd5f95273eed4cedaba06"
+    },
+    {
+      "original_symbol": "_ZN16b2StackAllocatorC1Ev",
+      "elf_address": "0x7f3560",
+      "size": 48,
+      "sha256": "66da709498946a188b0c2d299cbf265c8ab722ecb31e0f35e5e4f9e84b6c5b0e"
+    },
+    {
+      "original_symbol": "_ZN13b2CircleShapeD0Ev",
+      "elf_address": "0x7e9a60",
+      "size": 60,
+      "sha256": "29b91e6dad7de7116abaa27fbf91be4eb9173e5079cf8b204fd4da171510fcfc"
+    },
+    {
+      "original_symbol": "_ZN15b2CircleContactD0Ev",
+      "elf_address": "0x7f3a9c",
+      "size": 20,
+      "sha256": "1e1969e0b7e4b496ed93d015fea80ddafb77d4b311b45cd0f34c3d49983efb06"
+    },
+    {
+      "original_symbol": "_ZN16b2BlockAllocator5ClearEv",
+      "elf_address": "0x7e8e6c",
+      "size": 144,
+      "sha256": "8bd4cb4daf57ddc65517027cceb86fbcedd964540f40cf4dd78b46efaab3c21d"
+    },
+    {
+      "original_symbol": "_ZN12b2PolygonDef8SetAsBoxEff",
+      "elf_address": "0x7e44b8",
+      "size": 60,
+      "sha256": "24e278237b705f1be3d74929d990c4454959c6025eeba1f8798b0dab9e3ffd37"
+    },
+    {
+      "original_symbol": "_ZN7b2World11CreateJointEPK10b2JointDef",
+      "elf_address": "0x7e7c80",
+      "size": 304,
+      "sha256": "2747cda7868a6c14ed3d4909c722ce233f080d97d0892c9500acecdef7908ad2"
+    },
+    {
+      "original_symbol": "_ZN13b2NullContact8EvaluateEP17b2ContactListener",
+      "elf_address": "0x7e65c4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZNK14b2PolygonShape11ComputeAABBEP6b2AABBRK7b2XForm",
+      "elf_address": "0x7e4b54",
+      "size": 628,
+      "sha256": "297c4aa8bd1f23959f55d3501cfc4fb4d96c0657cc44afb707aecbdcf69fa24a"
+    },
+    {
+      "original_symbol": "_ZN14b2PolygonShapeC2EPK10b2ShapeDef",
+      "elf_address": "0x7e5c34",
+      "size": 780,
+      "sha256": "1e67467c96d55c85e04ccb4b24015e32b1695a4a8838252e81cf2a7dd1f5a46b"
+    },
+    {
+      "original_symbol": "_ZNK13b2CircleShape16ComputeSweptAABBEP6b2AABBRK7b2XFormS4_",
+      "elf_address": "0x7e93fc",
+      "size": 432,
+      "sha256": "718ab90e2960d73bbb4c05eac791ca2e02b6518217b84b920f892f5e0388d9c2"
+    },
+    {
+      "original_symbol": "_ZNK6b2AABB7IsValidEv",
+      "elf_address": "0x7e32b0",
+      "size": 148,
+      "sha256": "40365bdbe29a47c2b748ea196627e380ab3c0b8d6c6471af8a5e3b7247f1b248"
+    },
+    {
+      "original_symbol": "_ZN13b2PulleyJointD1Ev",
+      "elf_address": "0x7f04f8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN15b2CircleContact6CreateEP7b2ShapeS1_P16b2BlockAllocator",
+      "elf_address": "0x7f3b6c",
+      "size": 48,
+      "sha256": "4a7e84e6555cec53a671916e8c55a2c9cae88721d9ff0f70beeaced78b8c66d6"
+    },
+    {
+      "original_symbol": "_ZNK13b2PulleyJoint16GetGroundAnchor2Ev",
+      "elf_address": "0x7f04b4",
+      "size": 60,
+      "sha256": "45aeaf7844e3520d1a1716dad56a162ed2ca5148a184104356b830a8bd57ea6e"
+    },
+    {
+      "original_symbol": "_ZN7b2Shape11SynchronizeEP12b2BroadPhaseRK7b2XFormS4_",
+      "elf_address": "0x7e63d0",
+      "size": 264,
+      "sha256": "8fbc1a12dd4d60aa307dff3cc09cfb1c241bd14d156f2a426cccf845d4e4882e"
+    },
+    {
+      "original_symbol": "_ZN7b2ShapeD0Ev",
+      "elf_address": "0x7e64d8",
+      "size": 28,
+      "sha256": "9ac1a68f6c34c69bb801233b5db6a041229b09f2aa11c19ac3640e9c2461dccc"
+    },
+    {
+      "original_symbol": "_ZN9b2ContactD0Ev",
+      "elf_address": "0x7e8090",
+      "size": 20,
+      "sha256": "c4838564d15b537531b26c2952e5dca23cbf9ac413b063b461704e1d578bd932"
+    },
+    {
+      "original_symbol": "_ZN7b2World8SolveTOIERK10b2TimeStep",
+      "elf_address": "0x7e8458",
+      "size": 1732,
+      "sha256": "9cb2c47f9c3e81127ed17b30acd4a11219cf458f25d5de943de7c164a6c5f141"
+    },
+    {
+      "original_symbol": "_ZNK12b2MouseJoint10GetAnchor2Ev",
+      "elf_address": "0x7eb78c",
+      "size": 144,
+      "sha256": "3241de1c36368cf9eb06fe740ffb4a6dd4a628cff7c9f9e6297bf0db2d605672"
+    },
+    {
+      "original_symbol": "_ZN7b2JointD1Ev",
+      "elf_address": "0x7eb1d8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN9b2ContactC1EP7b2ShapeS1_",
+      "elf_address": "0x7e9de0",
+      "size": 216,
+      "sha256": "5c62c9b0b52f9fc98bb235d03ac4e7301a1d929b71697155d64bca9b25c7acd9"
+    },
+    {
+      "original_symbol": "_ZN13b2PulleyJoint24SolveVelocityConstraintsERK10b2TimeStep",
+      "elf_address": "0x7efc10",
+      "size": 1796,
+      "sha256": "964f97035cf335ce89adffe2c7b4933836c96d043f01eb230afbea5e3d3686f5"
+    },
+    {
+      "original_symbol": "_ZNK16b2StackAllocator16GetMaxAllocationEv",
+      "elf_address": "0x7f3598",
+      "size": 16,
+      "sha256": "51235ff2acec1f0e5d2e1a4c750c3cdf3c293cb790ff389a75f334459c7711f6"
+    },
+    {
+      "original_symbol": "_ZNK13b2PulleyJoint10GetAnchor1Ev",
+      "elf_address": "0x7f0314",
+      "size": 144,
+      "sha256": "f2b7d25974bef5b7eac60584a54a9566b90a03ebad6d137c3d8397ab60bea2b2"
+    },
+    {
+      "original_symbol": "_ZN16b2PolygonContact12GetManifoldsEv",
+      "elf_address": "0x7eca94",
+      "size": 8,
+      "sha256": "403cd6b5ca0bfb178f87e11ec622a7cf167028b7ca2f2e62ef7816f9a1316fac"
+    },
+    {
+      "original_symbol": "_ZN7b2Joint7DestroyEPS_P16b2BlockAllocator",
+      "elf_address": "0x7eb2bc",
+      "size": 192,
+      "sha256": "3f96a16aa98b94470b4b4164a78234005722822af65dc3dfafa51eb24e4de2fb"
+    },
+    {
+      "original_symbol": "_ZN7b2World19SetBoundaryListenerEP18b2BoundaryListener",
+      "elf_address": "0x7e65e4",
+      "size": 16,
+      "sha256": "29da39394e288d15df42c5cbb7662e1a7448037fdc1666fc7d1c77af48b39c77"
+    },
+    {
+      "original_symbol": "_ZN7b2World5SolveERK10b2TimeStep",
+      "elf_address": "0x7e76dc",
+      "size": 1056,
+      "sha256": "0e804e07925d87654ff1f896c2efa8a4f1937170ab1c7ba2c1eb2bea133d0c1e"
+    },
+    {
+      "original_symbol": "_ZN7b2Shape11CreateProxyEP12b2BroadPhaseRK7b2XForm",
+      "elf_address": "0x7e62d4",
+      "size": 252,
+      "sha256": "121d5a49ceebd0935c94bb029c5d32fc3d6cb43b00b822d42775e4009464777a"
+    },
+    {
+      "original_symbol": "_ZN16b2PolygonContactD0Ev",
+      "elf_address": "0x7eca9c",
+      "size": 20,
+      "sha256": "490a9b64f5a94f042d41a1b91006a9bcd83defae8bb4cc8fd322576b03eb4cfa"
+    },
+    {
+      "original_symbol": "_ZN15b2CircleContactC1EP7b2ShapeS1_",
+      "elf_address": "0x7f3ab0",
+      "size": 72,
+      "sha256": "c13d4023878a125eb9daf913f5751ebb9b00aa9b9e1a0c2933fc84a2c90bd91d"
+    },
+    {
+      "original_symbol": "_ZN13b2PulleyJointD0Ev",
+      "elf_address": "0x7f04fc",
+      "size": 20,
+      "sha256": "0fdac782224c7b44a35af7943e6662654732c42d0f92e74760b1892c7a3200e7"
+    },
+    {
+      "original_symbol": "_ZNK13b2PulleyJoint10GetLength1Ev",
+      "elf_address": "0x7f08c0",
+      "size": 256,
+      "sha256": "847973adadd1aeb925911b3deb56cb10616dd03a60aca42096bb2202dc759a4d"
+    },
+    {
+      "original_symbol": "_ZN7b2World12SetDebugDrawEP11b2DebugDraw",
+      "elf_address": "0x7e6614",
+      "size": 16,
+      "sha256": "3144d26b783f38ea5fdbcc681f8914e2c964e0b5416768f9e8dd87f7c6074db9"
+    },
+    {
+      "original_symbol": "_ZN7b2JointD0Ev",
+      "elf_address": "0x7eb2a8",
+      "size": 20,
+      "sha256": "eb088d972e36273734aede6271e7e60cd1bf6ab8e81f81424da7b64b84722a1c"
+    },
+    {
+      "original_symbol": "_ZN6b2Body17SetMassFromShapesEv",
+      "elf_address": "0x7e1818",
+      "size": 784,
+      "sha256": "e87cd24904213921760fb92dc6783535b34d82010502d7dfab92464e24169390"
+    },
+    {
+      "original_symbol": "_ZN13b2PairManagerC1Ev",
+      "elf_address": "0x7e3e54",
+      "size": 152,
+      "sha256": "89fd2cc645929f0602a8662098129726d57561162a2c97e15c4be55bfd15a0aa"
+    },
+    {
+      "original_symbol": "_ZN16b2PolygonContactC1EP7b2ShapeS1_",
+      "elf_address": "0x7ecab0",
+      "size": 60,
+      "sha256": "4673c97abc98e134269d641a619503ef9152ebbb8c52894da7d9c6aa31ac0f13"
+    },
+    {
+      "original_symbol": "_ZN6b2BodyC2EPK9b2BodyDefP7b2World",
+      "elf_address": "0x7e1e4c",
+      "size": 608,
+      "sha256": "bfffb1cd951d437a1262e63c5121bcfd031935ec2c328347ed07a098dd85c073"
+    },
+    {
+      "original_symbol": "_ZN11b2DebugDraw8SetFlagsEj",
+      "elf_address": "0x7e8cf4",
+      "size": 8,
+      "sha256": "505b94340fbfdd3d8e442a68bb956489c518053106e3f320e3074676d41dcf1c"
+    },
+    {
+      "original_symbol": "_ZN7b2World11DestroyBodyEP6b2Body",
+      "elf_address": "0x7e7db0",
+      "size": 328,
+      "sha256": "d985a16d0cb6bf448c39bf5275c19dfdd7ecfa9e45ec14ca0ffcdd2268c1167e"
+    },
+    {
+      "original_symbol": "_ZN11b2DebugDraw11AppendFlagsEj",
+      "elf_address": "0x7e8d04",
+      "size": 16,
+      "sha256": "08440abb13a68568e433c69a7e33eb6022f51a404333b05b56f4e07187b98d7e"
+    },
+    {
+      "original_symbol": "_ZN6b2Body12DestroyShapeEP7b2Shape",
+      "elf_address": "0x7e1d24",
+      "size": 164,
+      "sha256": "dbf5794e76f4406d3dad7efc7e96ecfd7cbf39f0256d64da8cbfd805ec7aa4d9"
+    },
+    {
+      "original_symbol": "_ZN6b2BodyD1Ev",
+      "elf_address": "0x7e1648",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN13b2CircleShapeD1Ev",
+      "elf_address": "0x7e9668",
+      "size": 52,
+      "sha256": "2cb42b74f78de484f7e0c02ed0fee2bc13e3d86de7460e7eb2a281e7f2ffa85c"
+    },
+    {
+      "original_symbol": "_ZN14b2PolygonShapeD0Ev",
+      "elf_address": "0x7e602c",
+      "size": 60,
+      "sha256": "865ec2276b4f5ab5e29cb4f20d8d5a9f5e2a6540685b8d476a453fd7190e3145"
+    },
+    {
+      "original_symbol": "_ZN16b2BlockAllocatorD2Ev",
+      "elf_address": "0x7e8e24",
+      "size": 72,
+      "sha256": "9c468c1fd5cbc88c81070978a5a07da0b6fcfe83cafd7a248172163f5b69a5cc"
+    },
+    {
+      "original_symbol": "_ZN7b2JointC1EPK10b2JointDef",
+      "elf_address": "0x7eb244",
+      "size": 100,
+      "sha256": "8c9fe3869f69faceed58a9da838567c0b23f9a19422bd85e009db6c054b57735"
+    },
+    {
+      "original_symbol": "_ZN7b2WorldC1ERK6b2AABBRK6b2Vec2b",
+      "elf_address": "0x7e80b8",
+      "size": 464,
+      "sha256": "2fb1d46d7394c90de02afadf34386482775bacc58ac5ae54b3cf99039db4cbb2"
+    },
+    {
+      "original_symbol": "_ZN7b2Joint23InitPositionConstraintsEv",
+      "elf_address": "0x7eb1dc",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZNK14b2PolygonShape16ComputeSweptAABBEP6b2AABBRK7b2XFormS4_",
+      "elf_address": "0x7e4dc8",
+      "size": 196,
+      "sha256": "e1be7eaeaa39ac636b98c59e2cdb21ab10818153cb5177a8a569d608605f2107"
+    },
+    {
+      "original_symbol": "_ZN15b2ContactFilterD1Ev",
+      "elf_address": "0x7e8c40",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN15b2RevoluteJointD0Ev",
+      "elf_address": "0x7f2bd8",
+      "size": 20,
+      "sha256": "faf8e5a12fac35b3f4a5a145d37a9232773cf18c0793f7eafe9e56283ea9e6f5"
+    },
+    {
+      "original_symbol": "_ZN7b2ShapeD1Ev",
+      "elf_address": "0x7e617c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN12b2MouseJointD1Ev",
+      "elf_address": "0x7eb838",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZNK12b2MouseJoint16GetReactionForceEv",
+      "elf_address": "0x7eb81c",
+      "size": 20,
+      "sha256": "3061f8159f0e1e9ac1e655b7b925e76c39489bfd7d49fe84945b110990be794b"
+    },
+    {
+      "original_symbol": "_ZNK15b2RevoluteJoint10GetAnchor1Ev",
+      "elf_address": "0x7f2a00",
+      "size": 144,
+      "sha256": "7698e8ec4f6c8d4c100f80341b7715b16c111389048418c6e818968f5ff18d3f"
+    },
+    {
+      "original_symbol": "_ZN16b2PrismaticJointD0Ev",
+      "elf_address": "0x7eeffc",
+      "size": 20,
+      "sha256": "e77a0b6e01882120b07ed5905870bf675c56ab66a41485ff53ee4f4a63b353df"
+    },
+    {
+      "original_symbol": "_ZN8b2Island6ReportEP19b2ContactConstraint",
+      "elf_address": "0x7ea6a8",
+      "size": 464,
+      "sha256": "4df9d635ca444485d69fa45e947295a4bf6b19bbbd3a0a9d88947a17e3aea7c2"
+    },
+    {
+      "original_symbol": "_ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK7b2XForm",
+      "elf_address": "0x7e9320",
+      "size": 220,
+      "sha256": "ded8c638b9d4456867835adb75248ac3f3727ecf61df52de34dee6e237aac417"
+    }
+  ]
+}

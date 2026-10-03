@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getStringEv",
+      "elf_address": "0x31c49c",
+      "size": 408,
+      "sha256": "1694b4aa2cc23e43614f9f21be5f092e1cd326e45665fb2970c27854c0927599"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder17__smethodCallbackEP9lua_State",
+      "elf_address": "0x319fd0",
+      "size": 640,
+      "sha256": "7feeb8add71dccaa2d107f19114882676d1b1f3ada248fdb0e7c342ae809b35b"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder12bindFunctionEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvESA_",
+      "elf_address": "0x31a4d4",
+      "size": 344,
+      "sha256": "90942f487523fa49e311d580d9de5db063f6173fc04f98d2426cefc165c79417"
+    },
+    {
+      "original_symbol": "_ZN9Character10_StopTimerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b7064",
+      "size": 116,
+      "sha256": "2e787cbfd47325007e14656cfb3ffddaeb0e2b923fbf30c1a02f62e80a5ab259"
+    },
+    {
+      "original_symbol": "_ZN9Character11_StartTimerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b7590",
+      "size": 240,
+      "sha256": "f55512f455659422cc50e417094baf7b823a237b1c347fbac359accd4608c618"
+    }
+  ]
+}

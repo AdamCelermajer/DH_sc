@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13ItemInventory16_EquipItemToSlotEjjb",
+      "elf_address": "0x400634",
+      "size": 956,
+      "sha256": "193c3880f5be84860f5070e7aa40d3a675e878b89ddbc9639741811dc97eae48"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher12TargetSorter12_sortFrontalERKNS_10TargetInfoES3_",
+      "elf_address": "0x38d5b4",
+      "size": 68,
+      "sha256": "855eb1c188e30e00385781ef08c3bf42e07110d0a0ebfdf9de03ca8093fba35f"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventoryC1Ev",
+      "elf_address": "0x3ff200",
+      "size": 304,
+      "sha256": "31ad44df59ae03bd3aa2dbbe54a71b4f77fdf62532a64875136379353999b153"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher12TargetSorter12_sortClosestERKNS_10TargetInfoES3_",
+      "elf_address": "0x38d570",
+      "size": 68,
+      "sha256": "01061f19ab8fe537095924fdfa80819876c93870b643e48c3c3e132389704061"
+    }
+  ]
+}

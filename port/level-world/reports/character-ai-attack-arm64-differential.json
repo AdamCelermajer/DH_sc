@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "comparisons": 2458,
+  "ordered_services": 15800,
+  "network_packet_checks": 331,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "6c7739b643853d6f2352c6523554f651e1bba2b673c9a55a271b6676a91adfb1",
+  "input_fixture_sha256": "cc2c080d82be85bc6d56a19a1bce499d1978a1c93296bc946261a55715380289",
+  "arm64_library_sha256": "44c8940048c190dce7d9cdaead22eab507de877ab9b40b9eb55e56b5553000cf",
+  "reference_sha256": "5b96e8dedd9e33320453c913d01e3df49be988c5fefa2defff007599f7b0ad9b",
+  "source_sha256": {
+    "character_ai_attack.hpp": "f329c57cf11a0d8542549dfbd3cd8934257838e5bcdd3eefd256ee3de21420a0",
+    "character_ai_attack.cpp": "8f85ccec8afd24c0d3b47cf5ecad897a53364a7e2b467c19a831b987d0473562"
+  },
+  "script_sha256": "318476ae5bde86bbddad78db5d7bdf30cffe7d8eb993eeb5e2433c69d9a0cb2e",
+  "scope": "Actual melee/Cmd_Attack instructions vs native coordinator; backend services remain explicit.",
+  "backend_search_range_fsm_network_services": true,
+  "nested_attack_and_mutation_fixtures": 218,
+  "speculative_restore_grid": 256,
+  "identities_above_4gib": true
+}

@@ -1,0 +1,1946 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "091c2f8b0bf414d86faf6ccb00de783e44f469da7c26618aba277598f7e04972",
+  "reference_sha256": "191aee0d4dc91b93a175617e0c2d39a12e43398932219f21a76c3c1b9ec8a321",
+  "comparisons": 1186,
+  "mismatches": 0,
+  "totals": {
+    "stopped": 391,
+    "applied": 294,
+    "locked": 54,
+    "frozen": 64,
+    "failure": 87,
+    "commit": 89,
+    "sync": 289,
+    "destroy": 238,
+    "transform_calls": 294
+  },
+  "original_empty_drop_path_calls": 391,
+  "actual_original_physical_setters_execute": true,
+  "actual_original_setxform_executes": true,
+  "shape_broadphase_services_are_fixtures": true,
+  "atomic_rejection_checks": 1,
+  "original_import_calls": {
+    "memcpy": 8,
+    "__aeabi_fsub": 3098,
+    "__aeabi_fmul": 5042,
+    "__aeabi_fadd": 2416,
+    "__aeabi_fcmplt": 1060,
+    "__aeabi_fcmpgt": 978,
+    "sqrtf": 326,
+    "__aeabi_fdiv": 326,
+    "__aeabi_fcmpeq": 914,
+    "cosf": 176,
+    "sinf": 176
+  },
+  "behavior_snapshots": [
+    {
+      "case": "policy 0 physics 0 body 0 requested 0 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 0 requested 0 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 0 requested 0 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 0 requested 0 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 0 requested 1 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 0 requested 1 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 0 requested 1 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 0 requested 1 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 1 requested 0 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 1 requested 0 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 1 requested 0 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 1 requested 0 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 1 requested 1 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 1 requested 1 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 1 requested 1 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 0 body 1 requested 1 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 0 requested 0 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 0 requested 0 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 0 requested 0 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 0 requested 0 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 0 requested 1 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 0 requested 1 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 0 requested 1 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 0 requested 1 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 1 requested 0 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 1 requested 0 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 1 requested 0 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 1 requested 0 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 1 requested 1 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 1 requested 1 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 1 requested 1 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 0 physics 1 body 1 requested 1 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 0 requested 0 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 0 requested 0 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 0 requested 0 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 0 requested 0 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 0 requested 1 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 0 requested 1 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 0 requested 1 arrived True heading 0",
+      "stopped": 1,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 0 requested 1 arrived True heading 1",
+      "stopped": 1,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 1 requested 0 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 1 requested 0 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 1 requested 0 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 1 requested 0 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 1 requested 1 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 1 requested 1 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 1 requested 1 arrived True heading 0",
+      "stopped": 1,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 0 body 1 requested 1 arrived True heading 1",
+      "stopped": 1,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 0 requested 0 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 0 requested 0 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 0 requested 0 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 0 requested 0 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 0 requested 1 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 0 requested 1 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 0 requested 1 arrived True heading 0",
+      "stopped": 1,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 0 requested 1 arrived True heading 1",
+      "stopped": 1,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 1 requested 0 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 1 requested 0 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 1 requested 0 arrived True heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 1 requested 0 arrived True heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 1 requested 1 arrived False heading 0",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 1 requested 1 arrived False heading 1",
+      "stopped": 0,
+      "applied": 0,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "policy 1 physics 1 body 1 requested 1 arrived True heading 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "policy 1 physics 1 body 1 requested 1 arrived True heading 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 0 lock 0 shapes 0 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 0 lock 0 shapes 1 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 0 lock 0 shapes 1 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 0 lock 0 shapes 4 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 0 lock 0 shapes 4 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 0 lock 0 shapes 4 fail 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 0 lock 0 shapes 4 fail 2",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 0 lock 0 shapes 4 fail 3",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 0 lock 1 shapes 0 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 0 lock 1 shapes 1 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 0 lock 1 shapes 1 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 0 lock 1 shapes 4 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 0 lock 1 shapes 4 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 0 lock 1 shapes 4 fail 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 0 lock 1 shapes 4 fail 2",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 0 lock 1 shapes 4 fail 3",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 0 shapes 0 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 0 shapes 1 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 0 shapes 1 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 0 shapes 4 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 0 shapes 4 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 0 shapes 4 fail 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 0 shapes 4 fail 2",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 0 shapes 4 fail 3",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 1 shapes 0 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 1 shapes 1 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 1 shapes 1 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 1 shapes 4 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 1 shapes 4 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 1 shapes 4 fail 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 1 shapes 4 fail 2",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 2 lock 1 shapes 4 fail 3",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 8 lock 0 shapes 0 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 8 lock 0 shapes 1 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 8 lock 0 shapes 1 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 8 lock 0 shapes 4 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 8 lock 0 shapes 4 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 8 lock 0 shapes 4 fail 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 8 lock 0 shapes 4 fail 2",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 8 lock 0 shapes 4 fail 3",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 8 lock 1 shapes 0 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 8 lock 1 shapes 1 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 8 lock 1 shapes 1 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 8 lock 1 shapes 4 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 8 lock 1 shapes 4 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 8 lock 1 shapes 4 fail 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 8 lock 1 shapes 4 fail 2",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 8 lock 1 shapes 4 fail 3",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65533 lock 0 shapes 0 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 65533 lock 0 shapes 1 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 65533 lock 0 shapes 1 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 65533 lock 0 shapes 4 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 65533 lock 0 shapes 4 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 65533 lock 0 shapes 4 fail 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 65533 lock 0 shapes 4 fail 2",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 65533 lock 0 shapes 4 fail 3",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          2,
+          3
+        ]
+      ]
+    },
+    {
+      "case": "transform flags 65533 lock 1 shapes 0 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65533 lock 1 shapes 1 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65533 lock 1 shapes 1 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65533 lock 1 shapes 4 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65533 lock 1 shapes 4 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65533 lock 1 shapes 4 fail 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65533 lock 1 shapes 4 fail 2",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65533 lock 1 shapes 4 fail 3",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 0 shapes 0 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 0 shapes 1 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 0 shapes 1 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 0 shapes 4 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 0 shapes 4 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 0 shapes 4 fail 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 0 shapes 4 fail 2",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 0 shapes 4 fail 3",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 0,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 1 shapes 0 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 1 shapes 1 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 1 shapes 1 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 1 shapes 4 fail -1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 1 shapes 4 fail 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 1 shapes 4 fail 1",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 1 shapes 4 fail 2",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "transform flags 65535 lock 1 shapes 4 fail 3",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": []
+    },
+    {
+      "case": "position (0.0, -0.0, 0.0) angle word 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (0.0, -0.0, 0.0) angle word 2147483648",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (0.0, -0.0, 0.0) angle word 2139095040",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (0.0, -0.0, 0.0) angle word 4286578688",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (0.0, -0.0, 0.0) angle word 2143294004",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (0.0, -0.0, 0.0) angle word 2139099700",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (-0.0, 0.0, 0.0) angle word 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (-0.0, 0.0, 0.0) angle word 2147483648",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (-0.0, 0.0, 0.0) angle word 2139095040",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (-0.0, 0.0, 0.0) angle word 4286578688",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (-0.0, 0.0, 0.0) angle word 2143294004",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (-0.0, 0.0, 0.0) angle word 2139099700",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (3e+38, -3e+38, 0.0) angle word 0",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (3e+38, -3e+38, 0.0) angle word 2147483648",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (3e+38, -3e+38, 0.0) angle word 2139095040",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (3e+38, -3e+38, 0.0) angle word 4286578688",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (3e+38, -3e+38, 0.0) angle word 2143294004",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    },
+    {
+      "case": "position (3e+38, -3e+38, 0.0) angle word 2139099700",
+      "stopped": 1,
+      "applied": 1,
+      "transform_result": 1,
+      "events": [
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          1,
+          2
+        ],
+        [
+          3,
+          0
+        ]
+      ]
+    }
+  ],
+  "scope": "Original UpdatePath -> Stop -> actual setters -> SetXForm -> sleep reset.\n\nPaths are empty, boundary/avoidance policies disabled, and scene/body/world\nownership supplied. Original empty-path DropPath and Character policy getters\nexecute. Only shape Synchronize/DestroyProxy and broadphase Commit are fixtures.\nThis audits physical Stop orchestration, not complete paths, shape/proxy services,\ncontacts, stepping, root motion or UpdateSubObjects. sin/cos/atan IEEE services\nare consistently modeled; generated NaNs compare by class.\n",
+  "elapsed_seconds": 40.41
+}

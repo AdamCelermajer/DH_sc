@@ -1,0 +1,107 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z17CopyMeshSceneNodePN6glitch5scene14IMeshSceneNodeE",
+      "elf_address": "0x50f89c",
+      "size": 316,
+      "sha256": "3efe4460b841a42571e234503a7005e45ae39cf97af2b31c9fd49ca94dd3e99f"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode8getScaleEv",
+      "elf_address": "0x5970bc",
+      "size": 8,
+      "sha256": "45f5fc81fc9ff121a3a998278203f9051b2b284addaa8e35dd2a6769e519570c"
+    },
+    {
+      "original_symbol": "_ZN17BaseMeshSceneNodeIN6glitch7collada14CMeshSceneNodeEEC2ERKN5boost13intrusive_ptrINS1_5IMeshEEE",
+      "elf_address": "0x35b19c",
+      "size": 164,
+      "sha256": "3dd24cef2f8ad2c505364f224f136a86afaf2307ad55b5022b8aa00fc3d9f796"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode11getPositionEv",
+      "elf_address": "0x597124",
+      "size": 8,
+      "sha256": "e7c5f4d5032caa61ba641b7edd3239a66346a177b7adf75338e1aafe8aa8dc70"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode11setPositionERKNS_4core8vector3dIfEE",
+      "elf_address": "0x59712c",
+      "size": 40,
+      "sha256": "b300b9db8ec709fa73872e371233a4eca0e3f642ac113ea86abf2093876acf05"
+    },
+    {
+      "original_symbol": "_ZN7PFFloor12_LoadNavMeshEPN6glitch5scene14IMeshSceneNodeE",
+      "elf_address": "0x520b40",
+      "size": 1112,
+      "sha256": "d3493cf0f54587075fd26b84e92cf1331d4d0eb070a90ed320b9d200000939d3"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode11getRotationEv",
+      "elf_address": "0x5970ec",
+      "size": 8,
+      "sha256": "0d938c59928fce2a49d0ff1df847156a51ceb0dd373f108be971d82eb4a30c96"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode25getRelativeTransformationEv",
+      "elf_address": "0x598908",
+      "size": 252,
+      "sha256": "811826e25319ad73d1cb983342f40f5a7f71322d5b6b26d20bc0d4cb6ada6dac"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode22updateAbsolutePositionEb",
+      "elf_address": "0x597c60",
+      "size": 248,
+      "sha256": "a2c0325c5843e68dc05aa54a2d308ac9a799b6aceb52de3de95252b7b3ac0e4c"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode7getNameEv",
+      "elf_address": "0x596e2c",
+      "size": 8,
+      "sha256": "f794a96f7ae6cca84512e07d84d5433bb44a5caedd5c59ce72b1fa2cdf86e291"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada10CSceneNode18getUserPropertyStrEv",
+      "elf_address": "0x65cd80",
+      "size": 40,
+      "sha256": "47335e32ce6ba9893b20a2a17a80168d622a7cbb32de66536301dc2e6ababe01"
+    },
+    {
+      "original_symbol": "_ZN7PFFloorC1EPKcP6PFRoomP13PFGOuterGraphP13PFGInnerGraphj",
+      "elf_address": "0x51d1b4",
+      "size": 600,
+      "sha256": "93ec3091418aaec576d6a988f416b6f74c017eef655e4349c8e759e23ad6c3c1"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode9getParentEv",
+      "elf_address": "0x597290",
+      "size": 8,
+      "sha256": "8fd921fd6e51fefca919cf05106e95302822e349619c3c73916651d4d019ba47"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode19getAbsolutePositionEv",
+      "elf_address": "0x597180",
+      "size": 28,
+      "sha256": "838bfc1189afc8ba78d01b2649377fcff42faa12c4169d1b57cfcf2e2b641faf"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene14CMeshSceneNodeC1ERKN5boost13intrusive_ptrINS0_5IMeshEEEiRKNS_4core8vector3dIfEERKNS8_10quaternionESC_",
+      "elf_address": "0x585118",
+      "size": 260,
+      "sha256": "c2d99482818c0aaaebeb35f9ea8b663375e054d6df78731fcfb0f49c9032371e"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPNS0_5SNodeEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x61b2f4",
+      "size": 1480,
+      "sha256": "9e047558fe98fb8d63868ffd99023086eaeab7284e550954810440da90d88b59"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core8CMatrix4IfE9postScaleERKNS0_8vector3dIfEE",
+      "elf_address": "0x597788",
+      "size": 220,
+      "sha256": "7f2da4c3f88cf2ae816ce40658741570c0408ce1c56b38c745a5b5d61dc2d49b"
+    }
+  ]
+}

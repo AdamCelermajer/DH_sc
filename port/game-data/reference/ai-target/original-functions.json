@@ -1,0 +1,83 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI13_UpdateTargetEv",
+      "elf_address": "0x3cb908",
+      "size": 556,
+      "sha256": "d8f8d308b4778d2c4bd43b1e72df8476cb18f1137a7a774cced65cc3c7054ce0"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharAIIdEv",
+      "elf_address": "0x3a2fec",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad"
+    },
+    {
+      "original_symbol": "_ZN10AISMonster12OnTargetDiedEv",
+      "elf_address": "0x3dd550",
+      "size": 56,
+      "sha256": "d81fba70e35c8781b15edee27dbf4dfef5ab65bcae651893b575c8a21d79de01"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAIFactionIdEv",
+      "elf_address": "0x3a3180",
+      "size": 56,
+      "sha256": "2a53a61c549259bea3a75c1fdfcf3a86b4777279f92ea7bdb9df76cf334ac3c6"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault20OnTargetInMeleeRangeEv",
+      "elf_address": "0x3dc284",
+      "size": 124,
+      "sha256": "8a34d440df6749395c304a903d70fbc5664cd9668b3f22be7527a78806c035ae"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1"
+    },
+    {
+      "original_symbol": "_ZN10AISMonster18OnTargetOutOfSightEv",
+      "elf_address": "0x3dd500",
+      "size": 80,
+      "sha256": "10641541c8bb1efcb857bb223d0e81b4b19ff272ae98578b6ab877e476cfa7c3"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI10AI_IsEnemyEPK10GameObject",
+      "elf_address": "0x3d574c",
+      "size": 844,
+      "sha256": "e99c62ec437b85a44ef4162fb17029fd851e01f66a92d226dc2d92b785713f4d"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_IsInSightEf",
+      "elf_address": "0x3d4ea0",
+      "size": 56,
+      "sha256": "6386d2565e46ebf8d58df186855349428c80bc3675392e4a3020e6274a6fcbda"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI17AI_IsInMeleeRangeEPK10GameObject",
+      "elf_address": "0x3d6188",
+      "size": 592,
+      "sha256": "6c13d41b93867847c30a7ab0d56dea1bc82b864d278bc000e2f024628ae4a624"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_IsInSightEPK10GameObject",
+      "elf_address": "0x3d4ed8",
+      "size": 192,
+      "sha256": "0c2044d083ae7973c74d3b18a8c13279cffa62ef96c03289cce95b8d2571d667"
+    },
+    {
+      "original_symbol": "_ZN10AISMonster14OnEnemySpottedEP9Character",
+      "elf_address": "0x3dd4cc",
+      "size": 52,
+      "sha256": "452a940a8d77c144e7c9789625eecaf2fdc92d56799b0cca58e5acb017a0e9ea"
+    }
+  ]
+}

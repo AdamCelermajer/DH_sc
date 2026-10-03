@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7Point3DIfE9normalizeEv",
+      "elf_address": "0x34d0b0",
+      "size": 116,
+      "sha256": "c9abef302688a7784df5db5ea10b96d23733b47ba5f0f90ba3ac87f8fb1f5b0f"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObject15onCollisionTestEP18PhysicalBaseObjectsttstt",
+      "elf_address": "0x46e6bc",
+      "size": 148,
+      "sha256": "7946f99f094475b482918fbe6eaa7cc40b09875624ca578de55eb3d0023d8116"
+    },
+    {
+      "original_symbol": "_ZN7PFWorld14AvoidObstaclesERK8PFObjectR7Point3DIfE",
+      "elf_address": "0x527cc4",
+      "size": 1004,
+      "sha256": "3d94ff4028590eaa6560ca45d16961aec1e53a8d5ac7349e91dc9072a9f5f018"
+    },
+    {
+      "original_symbol": "_ZN7PFWorld19_CalcObstaclesForceERK8PFObjectR7Point3DIfEPSt6vectorINS_13ObstacleForceESaIS7_EE",
+      "elf_address": "0x527660",
+      "size": 1636,
+      "sha256": "feb330bae07dddb02065f847b610592a1db1c3e5f2934ffdac8dbdb2c25d3870"
+    },
+    {
+      "original_symbol": "_ZNK7Point3DIfE5angleERKS0_",
+      "elf_address": "0x313058",
+      "size": 16,
+      "sha256": "2ab8b06f7dff28bef28748d2f64fee044c4986bc6785154b31f9a58227f1c972"
+    },
+    {
+      "original_symbol": "_ZNK14PhysicalObject10canCollideEPS_",
+      "elf_address": "0x46e768",
+      "size": 176,
+      "sha256": "ba208a1c7cf9f9f83b9ef6ec5f9f35bb498631306947d1a4a6753c1350b96208"
+    }
+  ]
+}

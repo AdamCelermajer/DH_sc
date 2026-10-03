@@ -1,0 +1,11 @@
+{
+  "comparisons": 1479,
+  "ordered_calls": 9261,
+  "mismatches": 0,
+  "service_backends_are_fixtures": true,
+  "reference_sha256": "895c42b2a128b9a207931320cf21c6fa17da6256d3f174b0b7e21ee46d48a767",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

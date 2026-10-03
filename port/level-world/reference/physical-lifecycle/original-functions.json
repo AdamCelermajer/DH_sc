@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14PhysicalObject5unpinEv",
+      "elf_address": "0x46eae0",
+      "size": 64,
+      "sha256": "b5f7cc0d5b6e28144c8e27c06e1d7d67ad08ec9d72acc7ff9f800449e4994342"
+    },
+    {
+      "original_symbol": "_ZN6b2Body7SetMassEPK10b2MassData",
+      "elf_address": "0x7e1b28",
+      "size": 508,
+      "sha256": "a2669402b9312c66b66d5021e74d5bea01dcc5cad5e0895381cb3a031e1c5a3c"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObject3pinEv",
+      "elf_address": "0x46eb20",
+      "size": 80,
+      "sha256": "285e38208567ae5495448d7c6ce89ea069d52b91e20ba7dea731f697af8d1eb9"
+    },
+    {
+      "original_symbol": "_ZN6b2Body17SetMassFromShapesEv",
+      "elf_address": "0x7e1818",
+      "size": 784,
+      "sha256": "e87cd24904213921760fb92dc6783535b34d82010502d7dfab92464e24169390"
+    }
+  ]
+}

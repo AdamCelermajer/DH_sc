@@ -1,0 +1,11 @@
+{
+  "comparisons": 7000,
+  "ordered_callback_observations": 2747,
+  "genuine_character_world_fixture": true,
+  "mismatches": 0,
+  "reference_sha256": "b110ff6da7f6dc66f62d20d0ec7db7cc6d976ca956da41d3a19bf76dad7a047b",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

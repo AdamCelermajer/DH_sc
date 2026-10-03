@@ -1,0 +1,164 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_ZN6CharAI12_OnAnimEventEPKc",
+      "address": "0x3d4434",
+      "size": 1424,
+      "strings": [
+        {
+          "load_instruction": "0x3d4480",
+          "add_instruction": "0x3d448c",
+          "literal_field": "0x3d4970",
+          "literal_word": "0x4f10b4",
+          "target": "0x8c5548",
+          "text": "ev_"
+        },
+        {
+          "load_instruction": "0x3d449c",
+          "add_instruction": "0x3d44a8",
+          "literal_field": "0x3d4974",
+          "literal_word": "0x4f10a0",
+          "target": "0x8c5550",
+          "text": "an_"
+        },
+        {
+          "load_instruction": "0x3d44b8",
+          "add_instruction": "0x3d44c4",
+          "literal_field": "0x3d4978",
+          "literal_word": "0x4f108c",
+          "target": "0x8c5558",
+          "text": "fx_"
+        },
+        {
+          "load_instruction": "0x3d44d4",
+          "add_instruction": "0x3d44e0",
+          "literal_field": "0x3d497c",
+          "literal_word": "0x4f1078",
+          "target": "0x8c5560",
+          "text": "sfx_"
+        },
+        {
+          "load_instruction": "0x3d46a0",
+          "add_instruction": "0x3d46a8",
+          "literal_field": "0x3d4998",
+          "literal_word": "0x4f0f08",
+          "target": "0x8c55b8",
+          "text": "do_spell"
+        },
+        {
+          "load_instruction": "0x3d46f8",
+          "add_instruction": "0x3d4700",
+          "literal_field": "0x3d49a0",
+          "literal_word": "0x4f0e80",
+          "target": "0x8c5588",
+          "text": "do_skill"
+        },
+        {
+          "load_instruction": "0x3d4778",
+          "add_instruction": "0x3d4780",
+          "literal_field": "0x3d49a4",
+          "literal_word": "0x4f0de0",
+          "target": "0x8c5568",
+          "text": "attack_ranged"
+        },
+        {
+          "load_instruction": "0x3d4790",
+          "add_instruction": "0x3d4798",
+          "literal_field": "0x3d49a8",
+          "literal_word": "0x4f0dd8",
+          "target": "0x8c5578",
+          "text": "attack_mainhand"
+        },
+        {
+          "load_instruction": "0x3d47a8",
+          "add_instruction": "0x3d47b0",
+          "literal_field": "0x3d49ac",
+          "literal_word": "0x4f0dd0",
+          "target": "0x8c5588",
+          "text": "do_skill"
+        },
+        {
+          "load_instruction": "0x3d482c",
+          "add_instruction": "0x3d4834",
+          "literal_field": "0x3d49b8",
+          "literal_word": "0x4f0d6c",
+          "target": "0x8c55a8",
+          "text": "interact"
+        },
+        {
+          "load_instruction": "0x3d488c",
+          "add_instruction": "0x3d4894",
+          "literal_field": "0x3d49bc",
+          "literal_word": "0x4f0cdc",
+          "target": "0x8c5578",
+          "text": "attack_mainhand"
+        },
+        {
+          "load_instruction": "0x3d48a4",
+          "add_instruction": "0x3d48ac",
+          "literal_field": "0x3d49c0",
+          "literal_word": "0x4f0ce4",
+          "target": "0x8c5598",
+          "text": "attack_offhand"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN9Character13F_MeleeAttackERNS_12AttackResultEPS_S2_bb",
+      "address": "0x3b3368",
+      "size": 648,
+      "strings": [
+        {
+          "load_instruction": "0x3b33c4",
+          "add_instruction": "0x3b33d0",
+          "literal_field": "0x3b35c0",
+          "literal_word": "0x5108e8",
+          "target": "0x8c3cc0",
+          "text": "isTracingChar_Attack"
+        },
+        {
+          "load_instruction": "0x3b3454",
+          "add_instruction": "0x3b3460",
+          "literal_field": "0x3b35cc",
+          "literal_word": "0x5108f0",
+          "target": "0x8c3d58",
+          "text": "SnS_CleanUp"
+        },
+        {
+          "load_instruction": "0x3b3530",
+          "add_instruction": "0x3b3544",
+          "literal_field": "0x3b35dc",
+          "literal_word": "0x50e3bc",
+          "target": "0x8c1908",
+          "text": "defender"
+        },
+        {
+          "load_instruction": "0x3b3538",
+          "add_instruction": "0x3b3548",
+          "literal_field": "0x3b35e0",
+          "literal_word": "0x5106c8",
+          "target": "0x8c3c18",
+          "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Formulas.cpp"
+        },
+        {
+          "load_instruction": "0x3b3584",
+          "add_instruction": "0x3b3598",
+          "literal_field": "0x3b35e8",
+          "literal_word": "0x510738",
+          "target": "0x8c3cd8",
+          "text": "attacker"
+        },
+        {
+          "load_instruction": "0x3b358c",
+          "add_instruction": "0x3b359c",
+          "literal_field": "0x3b35ec",
+          "literal_word": "0x510674",
+          "target": "0x8c3c18",
+          "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Formulas.cpp"
+        }
+      ]
+    }
+  ],
+  "scope": "Direct PC-relative string literals; not control-flow or indirect/GOT evaluation"
+}

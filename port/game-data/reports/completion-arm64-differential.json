@@ -1,0 +1,12 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "5f2ca2a0947f4d702c78c7972e0b89f0e711d68f6120f713efed9d9c0cbf0f67",
+  "original_instruction_entry": "0x3cb018",
+  "bit_exact_decision_step_and_loop_cases": 3000,
+  "actions": {
+    "repeat": 1833,
+    "advance": 706,
+    "finish": 461
+  },
+  "scope": "isolated original completion decision instructions; character event dispatch no-op; stops before selection, event logging and parent unwind; full animation/GPU parity not claimed"
+}

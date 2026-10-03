@@ -1,0 +1,145 @@
+{
+  "header_comparisons": 360,
+  "valid_descriptions": 316,
+  "pixel_comparisons": [
+    {
+      "case": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_ghost.tga",
+      "width": 64,
+      "height": 64,
+      "two_bpp": false,
+      "compared_bytes": 16384,
+      "different_bytes": 0,
+      "original_sha256": "a1e46fffdf4a20c31413d5db23402e7ccc9e44c0622379ba5bb9ec0786842120",
+      "rebuilt_sha256": "a1e46fffdf4a20c31413d5db23402e7ccc9e44c0622379ba5bb9ec0786842120"
+    },
+    {
+      "case": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_rogue_poisonsting_blob.tga",
+      "width": 64,
+      "height": 64,
+      "two_bpp": false,
+      "compared_bytes": 16384,
+      "different_bytes": 0,
+      "original_sha256": "a3267c298fcbd84d26c0d0e10f047ec079d4e7668068df541ce9b4b25aca19c4",
+      "rebuilt_sha256": "a3267c298fcbd84d26c0d0e10f047ec079d4e7668068df541ce9b4b25aca19c4"
+    },
+    {
+      "case": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/envmap_swamp.tga",
+      "width": 64,
+      "height": 64,
+      "two_bpp": false,
+      "compared_bytes": 16384,
+      "different_bytes": 0,
+      "original_sha256": "a5b95975dec5d724c1e05fc3bddbc8cbc0b8b1642dab68274e366de74964c4b2",
+      "rebuilt_sha256": "a5b95975dec5d724c1e05fc3bddbc8cbc0b8b1642dab68274e366de74964c4b2"
+    },
+    {
+      "case": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/godparticle_face.tga",
+      "width": 64,
+      "height": 64,
+      "two_bpp": false,
+      "compared_bytes": 16384,
+      "different_bytes": 0,
+      "original_sha256": "c3c08af9210889eb55a3ade22a7a3d6d06dcd961b1c9b8078f95c60d13b07ccd",
+      "rebuilt_sha256": "c3c08af9210889eb55a3ade22a7a3d6d06dcd961b1c9b8078f95c60d13b07ccd"
+    },
+    {
+      "case": "real-pvrtc2-payload-miniature",
+      "width": 16,
+      "height": 16,
+      "two_bpp": true,
+      "compared_bytes": 1024,
+      "different_bytes": 0,
+      "original_sha256": "f636211a58f78581abf39fc5f7a9bc11403056de4e664a0419de83f0da823c79",
+      "rebuilt_sha256": "f636211a58f78581abf39fc5f7a9bc11403056de4e664a0419de83f0da823c79"
+    },
+    {
+      "case": "synthetic-16-8-True-1",
+      "width": 16,
+      "height": 8,
+      "two_bpp": true,
+      "compared_bytes": 512,
+      "different_bytes": 0,
+      "original_sha256": "67818ce0d6ea09ef3560a211f4902629850b14cca75597406948dd5123e9efc7",
+      "rebuilt_sha256": "67818ce0d6ea09ef3560a211f4902629850b14cca75597406948dd5123e9efc7"
+    },
+    {
+      "case": "synthetic-32-16-True-2",
+      "width": 32,
+      "height": 16,
+      "two_bpp": true,
+      "compared_bytes": 2048,
+      "different_bytes": 0,
+      "original_sha256": "36ac44e9619ed602e10c4d16532e8ce00526bb8a9f85c292c746a40d0905c597",
+      "rebuilt_sha256": "36ac44e9619ed602e10c4d16532e8ce00526bb8a9f85c292c746a40d0905c597"
+    },
+    {
+      "case": "synthetic-8-8-False-3",
+      "width": 8,
+      "height": 8,
+      "two_bpp": false,
+      "compared_bytes": 256,
+      "different_bytes": 0,
+      "original_sha256": "439ef320bb613bc3c51f7e35df0a61132cdbaaadfbf9e0c7c781322263fec300",
+      "rebuilt_sha256": "439ef320bb613bc3c51f7e35df0a61132cdbaaadfbf9e0c7c781322263fec300"
+    },
+    {
+      "case": "synthetic-16-8-False-4",
+      "width": 16,
+      "height": 8,
+      "two_bpp": false,
+      "compared_bytes": 512,
+      "different_bytes": 0,
+      "original_sha256": "c0192333c09dda7fbbeef6d43d6218e049278a6c0ef500c5c7c4d13c2ea4ed59",
+      "rebuilt_sha256": "c0192333c09dda7fbbeef6d43d6218e049278a6c0ef500c5c7c4d13c2ea4ed59"
+    },
+    {
+      "case": "synthetic-8-16-False-5",
+      "width": 8,
+      "height": 16,
+      "two_bpp": false,
+      "compared_bytes": 512,
+      "different_bytes": 0,
+      "original_sha256": "8554ac18314dc99d93327e4a4b9afa8d504f95da9363210523d45e0f9c58872d",
+      "rebuilt_sha256": "8554ac18314dc99d93327e4a4b9afa8d504f95da9363210523d45e0f9c58872d"
+    },
+    {
+      "case": "synthetic-pvrtc2",
+      "width": 16,
+      "height": 16,
+      "two_bpp": true,
+      "compared_bytes": 1024,
+      "different_bytes": 0,
+      "original_sha256": "efc18c2d7e2aaa3d3796fc4923f8df1c53154e38d656b26c7e9bfe45de61956f",
+      "rebuilt_sha256": "efc18c2d7e2aaa3d3796fc4923f8df1c53154e38d656b26c7e9bfe45de61956f"
+    }
+  ],
+  "pixel_mismatches": 0,
+  "intentional_safety_differences": [
+    {
+      "case": "change-12-0",
+      "original_accepts": true,
+      "rebuilt_accepts": false,
+      "reason": "Zero dimensions are rejected before decoding"
+    },
+    {
+      "case": "change-16-0",
+      "original_accepts": true,
+      "rebuilt_accepts": false,
+      "reason": "Zero dimensions are rejected before decoding"
+    }
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiled_arm64_sha256": "b2ea416801807e43034f5d3e19261d8956860a12a87785612d8e84c8f21a03af",
+  "original_instructions_seen": 980,
+  "import_calls": {
+    "fixture_seek": 362,
+    "fixture_read": 724,
+    "strncmp": 717,
+    "fixture_size": 350,
+    "memcpy": 101,
+    "fixture_name": 33,
+    "__aeabi_idiv": 17867,
+    "memcmp": 17856
+  },
+  "gpu_execution": false
+}

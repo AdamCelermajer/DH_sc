@@ -1,0 +1,382 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "inputs": [
+    {
+      "asset": "data/animations_pyarray.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    {
+      "asset": "data/animations_pyarraynames.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarraynames.bin",
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+    },
+    {
+      "asset": "data/animations_pystructnames.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pystructnames.bin",
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    {
+      "asset": "data/animations_dictionary_pyarray.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarray.bin",
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    {
+      "asset": "data/animations_dictionary_pyarraynames.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarraynames.bin",
+      "bytes": 42616,
+      "sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3"
+    },
+    {
+      "asset": "actors/ghost_idle_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_idle_01.bdae",
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895"
+    },
+    {
+      "asset": "actors/skeleton_idle_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_idle_01.bdae",
+      "bytes": 49520,
+      "sha256": "bea7b628675e9bebf64a4da6e90b9cc8ca9f7411e053d6ce354eff7c38f0982d"
+    },
+    {
+      "asset": "actors/skeleton_idle_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/skeleton/animations/skeleton_idle_02.bdae",
+      "bytes": 28632,
+      "sha256": "b468b9db81c8534e7b43691dcad66d6f57b3dd94feee4c684aa1885a14429349"
+    },
+    {
+      "asset": "actors/slime_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_idle.bdae",
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472"
+    },
+    {
+      "asset": "actors/slime_idle_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/slime/animations/slime_idle_02.bdae",
+      "bytes": 5728,
+      "sha256": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf"
+    }
+  ],
+  "idle_states": [
+    {
+      "character": "Crypt_Skeleton",
+      "animation_table": 62,
+      "idle_id": 596,
+      "idle_name": "Skeleton_Idle",
+      "loop": -1,
+      "type": 2,
+      "choices": [
+        {
+          "clip_id": 1194,
+          "path": "data/3D/characters/skeleton/animations/skeleton_idle_01.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1195,
+          "path": "data/3D/characters/skeleton/animations/skeleton_idle_02.bdae",
+          "speed": 1.0
+        }
+      ]
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "animation_table": 62,
+      "idle_id": 596,
+      "idle_name": "Skeleton_Idle",
+      "loop": -1,
+      "type": 2,
+      "choices": [
+        {
+          "clip_id": 1194,
+          "path": "data/3D/characters/skeleton/animations/skeleton_idle_01.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1195,
+          "path": "data/3D/characters/skeleton/animations/skeleton_idle_02.bdae",
+          "speed": 1.0
+        }
+      ]
+    },
+    {
+      "character": "CryptSlime",
+      "animation_table": 64,
+      "idle_id": 613,
+      "idle_name": "Slime_Idle",
+      "loop": -1,
+      "type": 2,
+      "choices": [
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1259,
+          "path": "data/3D/characters/slime/animations/slime_idle_02.bdae",
+          "speed": 1.0
+        }
+      ]
+    },
+    {
+      "character": "CryptSlime",
+      "animation_table": 64,
+      "idle_id": 613,
+      "idle_name": "Slime_Idle",
+      "loop": -1,
+      "type": 2,
+      "choices": [
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1259,
+          "path": "data/3D/characters/slime/animations/slime_idle_02.bdae",
+          "speed": 1.0
+        }
+      ]
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "animation_table": 62,
+      "idle_id": 596,
+      "idle_name": "Skeleton_Idle",
+      "loop": -1,
+      "type": 2,
+      "choices": [
+        {
+          "clip_id": 1194,
+          "path": "data/3D/characters/skeleton/animations/skeleton_idle_01.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1195,
+          "path": "data/3D/characters/skeleton/animations/skeleton_idle_02.bdae",
+          "speed": 1.0
+        }
+      ]
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "animation_table": 62,
+      "idle_id": 596,
+      "idle_name": "Skeleton_Idle",
+      "loop": -1,
+      "type": 2,
+      "choices": [
+        {
+          "clip_id": 1194,
+          "path": "data/3D/characters/skeleton/animations/skeleton_idle_01.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1195,
+          "path": "data/3D/characters/skeleton/animations/skeleton_idle_02.bdae",
+          "speed": 1.0
+        }
+      ]
+    },
+    {
+      "character": "CryptSlime",
+      "animation_table": 64,
+      "idle_id": 613,
+      "idle_name": "Slime_Idle",
+      "loop": -1,
+      "type": 2,
+      "choices": [
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1259,
+          "path": "data/3D/characters/slime/animations/slime_idle_02.bdae",
+          "speed": 1.0
+        }
+      ]
+    },
+    {
+      "character": "CryptSlime_RE",
+      "animation_table": 64,
+      "idle_id": 613,
+      "idle_name": "Slime_Idle",
+      "loop": -1,
+      "type": 2,
+      "choices": [
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1259,
+          "path": "data/3D/characters/slime/animations/slime_idle_02.bdae",
+          "speed": 1.0
+        }
+      ]
+    },
+    {
+      "character": "CryptSlime",
+      "animation_table": 64,
+      "idle_id": 613,
+      "idle_name": "Slime_Idle",
+      "loop": -1,
+      "type": 2,
+      "choices": [
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1258,
+          "path": "data/3D/characters/slime/animations/slime_idle.bdae",
+          "speed": 1.0
+        },
+        {
+          "clip_id": 1259,
+          "path": "data/3D/characters/slime/animations/slime_idle_02.bdae",
+          "speed": 1.0
+        }
+      ]
+    },
+    {
+      "character": "Crypt_Ghost",
+      "animation_table": 24,
+      "idle_id": 210,
+      "idle_name": "Ghost_Idle",
+      "loop": -1,
+      "type": 0,
+      "choices": [
+        {
+          "clip_id": 706,
+          "path": "data/3D/characters/ghost/animations/ghost_idle_01.bdae",
+          "speed": 1.2999999523162842
+        }
+      ]
+    },
+    {
+      "character": "Crypt_Ghost",
+      "animation_table": 24,
+      "idle_id": 210,
+      "idle_name": "Ghost_Idle",
+      "loop": -1,
+      "type": 0,
+      "choices": [
+        {
+          "clip_id": 706,
+          "path": "data/3D/characters/ghost/animations/ghost_idle_01.bdae",
+          "speed": 1.2999999523162842
+        }
+      ]
+    }
+  ],
+  "sequence_count": 785,
+  "character_count": 80,
+  "clip_path_count": 1447,
+  "serialized_bytes": 72812,
+  "policy": "Native original initial idle selection and speed; shared resource clock and development seed 1. Idle completion re-selection, blending, AI and combat pending."
+}

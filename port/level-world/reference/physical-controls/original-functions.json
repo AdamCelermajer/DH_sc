@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14PhysicalObject17addLinearVelocityEffff",
+      "elf_address": "0x46e864",
+      "size": 180,
+      "sha256": "942dc5f722f480c994d9bad315361d4eebca41229fb44eab5dd1c80f74cd6b10"
+    },
+    {
+      "original_symbol": "_ZNK14PhysicalObject9getRadiusEv",
+      "elf_address": "0x46e750",
+      "size": 24,
+      "sha256": "c8e57319a67f1135805b339cb789b2f8cbb1ea8bb14a5875f4b47ec4a7348aca"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObject17setLinearVelocityEff",
+      "elf_address": "0x46e918",
+      "size": 96,
+      "sha256": "241bee4f0a32030ea4ba7b7533e00f0460e574957ce2c45824bbf685757c92e6"
+    },
+    {
+      "original_symbol": "_ZNK14PhysicalObject8getAngleEv",
+      "elf_address": "0x46e858",
+      "size": 12,
+      "sha256": "aee26011068fa7d1094005143990a0691dbfe743022e6b1a755d4d87ea50b06c"
+    },
+    {
+      "original_symbol": "_ZNK14PhysicalObject11getPositionEv",
+      "elf_address": "0x46e818",
+      "size": 64,
+      "sha256": "0dede6c39bfcf7eedf5cea599a5eef490cc12b565fbe8ef013a1420d18b572ee"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObject18setAngularVelocityEf",
+      "elf_address": "0x46e978",
+      "size": 36,
+      "sha256": "9d4b79a5dd3db4f20cf45d26954e9e348145d49ed321abce78d6d40d95ab4aa0"
+    },
+    {
+      "original_symbol": "_ZN10GameObject4StopEv",
+      "elf_address": "0x3938f8",
+      "size": 248,
+      "sha256": "5fc7693c6c4b5e980f8cd0937aded93f9ce58e9e4b55f846925156b3c4077798"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObject11setPositionEff",
+      "elf_address": "0x46ea80",
+      "size": 84,
+      "sha256": "81742a16375db62b0ac33486620da10592a3d36dbd0c443ecac51236b3cdb1dd"
+    }
+  ]
+}

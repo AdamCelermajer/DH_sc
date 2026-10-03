@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK10GameObject15IsAtDestinationEv",
+      "elf_address": "0x39361c",
+      "size": 244,
+      "sha256": "172b4238390f1639276629686a5c05ad27ec88008051b929ac201c0a82518c02"
+    },
+    {
+      "original_symbol": "_ZNK9Character29IsUpdatingPositionFromPhysicsEv",
+      "elf_address": "0x3a2e44",
+      "size": 12,
+      "sha256": "05d43e2407b49c03a330eae70a339d4e7f42f2a1ec3b77155d2900bbde90a3c8"
+    },
+    {
+      "original_symbol": "_ZN10GameObject10UpdatePathEv",
+      "elf_address": "0x3940c0",
+      "size": 632,
+      "sha256": "3a559ffd0d5429293bc215116f875a98598ec96d58522498b9e771907e683081"
+    },
+    {
+      "original_symbol": "_ZN10GameObject14SetDestinationERK7Point3DIfE",
+      "elf_address": "0x393600",
+      "size": 28,
+      "sha256": "7749e968374487439a9c6b2fd8dc2e103fa2dcc0eefc1da00a29e35d8b22dab6"
+    },
+    {
+      "original_symbol": "_ZN10GameObject4StopEv",
+      "elf_address": "0x3938f8",
+      "size": 248,
+      "sha256": "5fc7693c6c4b5e980f8cd0937aded93f9ce58e9e4b55f846925156b3c4077798"
+    },
+    {
+      "original_symbol": "_ZNK9Character14IsUpdatingPathEv",
+      "elf_address": "0x3a2e2c",
+      "size": 12,
+      "sha256": "260a510371770411b37bb08b15730cd79a9eb339830995f6aefcc7117bc4b502"
+    }
+  ]
+}

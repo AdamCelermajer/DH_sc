@@ -1,0 +1,82 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase14getVisualSceneEi",
+      "elf_address": "0x60e54c",
+      "size": 36,
+      "sha256": "e629c6c37bcb70c63b21671327c46d29959c9b6fd8367c28c4c90bede5d5e424",
+      "use": "field/layout evidence; full routine not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15CColladaFactory32createMaterialVertexAttributeMapERKNS0_16CColladaDatabaseEPNS0_17SInstanceMaterialERKN5boost13intrusive_ptrINS0_5IMeshEEERKNS8_INS_5video9CMaterialEEEjb",
+      "elf_address": "0x634520",
+      "size": 1152,
+      "sha256": "2181e4833f595b9c3d200b08299e98536b25e9e78df902c4c5fe8c209c8485fd",
+      "use": "field/layout evidence; full routine not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15CColladaFactory14createMaterialERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverEPNS0_9SMaterialEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x6323d0",
+      "size": 244,
+      "sha256": "dc3090658f74e4ff70633a92030aab1b739e3b836e2ed704418ca6af4aed0b51",
+      "use": "field/layout evidence; full routine not ported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode25getRelativeTransformationEv",
+      "elf_address": "0x598908",
+      "size": 252,
+      "sha256": "811826e25319ad73d1cb983342f40f5a7f71322d5b6b26d20bc0d4cb6ada6dac",
+      "use": "field/layout evidence; full routine not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada6CImageC1ERKNS0_16CColladaDatabaseERNS0_6SImageE",
+      "elf_address": "0x60e1d4",
+      "size": 184,
+      "sha256": "24ddbff1a27f7bc5b5a421d2a395937f4dc3a40cc144edcea12363ff0af86381",
+      "use": "field/layout evidence; full routine not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode22updateAbsolutePositionEb",
+      "elf_address": "0x597c60",
+      "size": 248,
+      "sha256": "a2c0325c5843e68dc05aa54a2d308ac9a799b6aceb52de3de95252b7b3ac0e4c",
+      "use": "field/layout evidence; full routine not ported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase7getNodeEPKc",
+      "elf_address": "0x61c290",
+      "size": 104,
+      "sha256": "7d9c975ed78510702b12c9bf0598e2d0794b62a486b1bbcde5d7473967603e7f",
+      "use": "field/layout evidence; full routine not ported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase14constructSceneEPNS_5video12IVideoDriverE",
+      "elf_address": "0x61b9e8",
+      "size": 212,
+      "sha256": "f632c3e51c10a474b83195765435cbc4c622f13ad5ad3b53fffcea8cc1cfba6e",
+      "use": "field/layout evidence; full routine not ported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPNS0_5SNodeEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x61b2f4",
+      "size": 1480,
+      "sha256": "9e047558fe98fb8d63868ffd99023086eaeab7284e550954810440da90d88b59",
+      "use": "field/layout evidence; full routine not ported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase17constructGeometryEPNS_5video12IVideoDriverEPNS0_17SInstanceGeometryEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x61aeb8",
+      "size": 500,
+      "sha256": "7f6b5abcb0cc7417df2566e713f3b0665738657101d6c7785aa84d1ab36741c4",
+      "use": "field/layout evidence; full routine not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada14createMaterialERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS4_17CMaterialRendererEEERNS0_9SMaterialEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x631ce8",
+      "size": 1768,
+      "sha256": "85623a86cab3a537b4b865cd201292198524a9033ce9a266fed7713c3c138e4b",
+      "use": "field/layout evidence; full routine not ported"
+    }
+  ]
+}

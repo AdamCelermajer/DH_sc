@@ -1,0 +1,86 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "768ccfeec6594e4525fd67f65a71807c434cd7dcca1721af08f675f6b27c3fcf",
+  "random_cases": 10000,
+  "damage_cases": 3000,
+  "dot_cases": 3000,
+  "bonus_cases": 6000,
+  "source_character_damage_cases": 1792,
+  "comparisons": 23792,
+  "mismatches": 0,
+  "all_damage_words_and_rng_state_compared": true,
+  "arm64_pointers_above_4gib": true,
+  "original_import_calls": {
+    "__aeabi_uidivmod": 14416
+  },
+  "spawn_reference_sha256": "356765b09e6aab353e299cf2ed7bc69b638d5f374eb5e0c70420bec413f59ed6",
+  "native_host_reference_sha256": "8ce0d3c272fc7704edfe0cc85070f04eb718b84bf9c19ecce75bcbbad9ec515a",
+  "crypt_unarmed_damage_snapshots": [
+    {
+      "character": "CryptSlime",
+      "damage": [
+        2345,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ],
+      "random_after": [
+        3182527,
+        1
+      ]
+    },
+    {
+      "character": "CryptSlime_RE",
+      "damage": [
+        2089,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ],
+      "random_after": [
+        3418731,
+        1
+      ]
+    },
+    {
+      "character": "Crypt_Ghost",
+      "damage": [
+        2396,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ],
+      "random_after": [
+        3654935,
+        1
+      ]
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "damage": [
+        2191,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        -1
+      ],
+      "random_after": [
+        4363547,
+        1
+      ]
+    }
+  ],
+  "scope": "Full CF__CalcDamage and CF_CalcDotDamage plus weapon-category bonus and random helper (unsigned modulo even for negative range); supplied resolved property/equipment snapshots; original inventory/property instructions execute; hit rolls, result application and full combat lifecycle remain pending",
+  "elapsed_seconds": 6.55
+}

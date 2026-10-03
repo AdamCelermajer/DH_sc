@@ -1,0 +1,13 @@
+{
+  "mesh_constructor_comparisons": 328,
+  "triangle_comparisons": 850,
+  "floor_tag_comparisons": 212,
+  "world_and_floor_bounds_comparisons": 512,
+  "storage_rejection_checks": 249,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "4a7f723bf4fa4fe4f2b8de4248d8d5f0400e0161843db56cbf30a633622cfbcd"
+}

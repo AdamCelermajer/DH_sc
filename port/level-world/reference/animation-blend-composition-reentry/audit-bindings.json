@@ -1,0 +1,44 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instruction_cases": 63,
+  "native_comparisons": 0,
+  "files": {
+    "actor-action-probes.json": {
+      "sha256": "db30ac04a2cd82a1cfbb4e257293b3cefffcef148edef2721c100949e98d4b82",
+      "bytes": 27646
+    },
+    "NOTES.md": {
+      "sha256": "2c150e4b4eb4dd9f197fe2f696527fcb5d9c349c5ecc5a8fec764e4d3903b3b6",
+      "bytes": 8703
+    },
+    "original-functions.json": {
+      "sha256": "26744b7f25da5f080576a8f5dd79026fb38f887c3894b22336b5ab4359d03471",
+      "bytes": 4660
+    },
+    "probe_actor_actions.py": {
+      "sha256": "cd48bfdba9089678eea9e3026dff60fd42122c16a2b65bb49795fb6f7b3fb9f9",
+      "bytes": 4497
+    },
+    "probe_original.py": {
+      "sha256": "16d6b2fc0d973034ebaca4f43a0579ad894a9fc57399e614c768f2e3f948988f",
+      "bytes": 7842
+    },
+    "probe_selection.py": {
+      "sha256": "5d183fe0ed2330621cd1b492df3222e9c3312d7e2f2ed175f6af3272866b147f",
+      "bytes": 6001
+    },
+    "reference/original-functions.asm": {
+      "sha256": "8ede05326816eebeccef1435ccf7fea94b69f1a4490eef725d8e216c431ab53d",
+      "bytes": 35055
+    },
+    "selection-probes.json": {
+      "sha256": "92402da176576b85e09eaf37165fafe0aa0a8ea05eeb9b19c15cf5ff20985e54",
+      "bytes": 10450
+    },
+    "source-probes.json": {
+      "sha256": "79a07f1213d75bc096983858a01d1df15368b8bce719c96410ae84ce55f5d5b1",
+      "bytes": 14345
+    }
+  }
+}

@@ -1,0 +1,494 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "fdb058cb42615047ba5a440be82bb9ca61e2d88a5eb31ced602a287a889e5694",
+  "script_sha256": "2a38cc1014760d1eeac94e3f9f9866887dfedd083768179e9187bf8bbbf1cf8d",
+  "model_sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+  "functions": 116,
+  "vtables": 6,
+  "compatibility": [
+    {
+      "type": 0,
+      "words": [
+        1,
+        0,
+        0
+      ],
+      "compatible": [
+        0
+      ]
+    },
+    {
+      "type": 1,
+      "words": [
+        30,
+        0,
+        0
+      ],
+      "compatible": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "type": 2,
+      "words": [
+        30,
+        0,
+        0
+      ],
+      "compatible": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "type": 3,
+      "words": [
+        30,
+        0,
+        0
+      ],
+      "compatible": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "type": 4,
+      "words": [
+        30,
+        0,
+        0
+      ],
+      "compatible": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "type": 5,
+      "words": [
+        992,
+        0,
+        0
+      ],
+      "compatible": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "type": 6,
+      "words": [
+        992,
+        0,
+        0
+      ],
+      "compatible": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "type": 7,
+      "words": [
+        992,
+        0,
+        0
+      ],
+      "compatible": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "type": 8,
+      "words": [
+        992,
+        0,
+        0
+      ],
+      "compatible": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "type": 9,
+      "words": [
+        992,
+        0,
+        0
+      ],
+      "compatible": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "type": 10,
+      "words": [
+        15360,
+        0,
+        0
+      ],
+      "compatible": [
+        10
+      ]
+    }
+  ],
+  "default_queries": [
+    {
+      "uri": "Bip01-node",
+      "type": 1,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        926452900,
+        3238107546,
+        1128003535,
+        0
+      ]
+    },
+    {
+      "uri": "Bip01-node",
+      "type": 2,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        926452900,
+        3238107546,
+        1128003535,
+        0
+      ]
+    },
+    {
+      "uri": "Bip01-node",
+      "type": 3,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        926452900,
+        3238107546,
+        1128003535,
+        0
+      ]
+    },
+    {
+      "uri": "Bip01-node",
+      "type": 4,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        926452900,
+        3238107546,
+        1128003535,
+        0
+      ]
+    },
+    {
+      "uri": "Bip01-node",
+      "type": 5,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        0,
+        0,
+        1060439273,
+        1060439294
+      ]
+    },
+    {
+      "uri": "Bip01-node",
+      "type": 7,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        0,
+        0,
+        1060439273,
+        1060439294
+      ]
+    },
+    {
+      "uri": "Bip01-node",
+      "type": 8,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        0,
+        0,
+        1060439273,
+        1060439294
+      ]
+    },
+    {
+      "uri": "Bip01-node",
+      "type": 9,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        0,
+        0,
+        1060439273,
+        1060439294
+      ]
+    },
+    {
+      "uri": "Bip01-node",
+      "type": 10,
+      "result": 1,
+      "node_relative": 40,
+      "value_words": [
+        1065353216,
+        1065353216,
+        1065353216,
+        1
+      ]
+    },
+    {
+      "uri": "Bip01_Footsteps-node",
+      "type": 1,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        0,
+        0,
+        3275497931,
+        0
+      ]
+    },
+    {
+      "uri": "Bip01_Footsteps-node",
+      "type": 2,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        0,
+        0,
+        3275497931,
+        0
+      ]
+    },
+    {
+      "uri": "Bip01_Footsteps-node",
+      "type": 3,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        0,
+        0,
+        3275497931,
+        0
+      ]
+    },
+    {
+      "uri": "Bip01_Footsteps-node",
+      "type": 4,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        0,
+        0,
+        3275497931,
+        0
+      ]
+    },
+    {
+      "uri": "Bip01_Footsteps-node",
+      "type": 5,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        0,
+        0,
+        3207922921,
+        1060439294
+      ]
+    },
+    {
+      "uri": "Bip01_Footsteps-node",
+      "type": 7,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        0,
+        0,
+        3207922921,
+        1060439294
+      ]
+    },
+    {
+      "uri": "Bip01_Footsteps-node",
+      "type": 8,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        0,
+        0,
+        3207922921,
+        1060439294
+      ]
+    },
+    {
+      "uri": "Bip01_Footsteps-node",
+      "type": 9,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        0,
+        0,
+        3207922921,
+        1060439294
+      ]
+    },
+    {
+      "uri": "Bip01_Footsteps-node",
+      "type": 10,
+      "result": 1,
+      "node_relative": 40,
+      "value_words": [
+        1065353216,
+        1065353216,
+        1065353216,
+        1
+      ]
+    },
+    {
+      "uri": "Bip01_Pelvis-node",
+      "type": 1,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        0,
+        0,
+        0,
+        1056964594
+      ]
+    },
+    {
+      "uri": "Bip01_Pelvis-node",
+      "type": 2,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        0,
+        0,
+        0,
+        1056964594
+      ]
+    },
+    {
+      "uri": "Bip01_Pelvis-node",
+      "type": 3,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        0,
+        0,
+        0,
+        1056964594
+      ]
+    },
+    {
+      "uri": "Bip01_Pelvis-node",
+      "type": 4,
+      "result": 1,
+      "node_relative": 12,
+      "value_words": [
+        0,
+        0,
+        0,
+        1056964594
+      ]
+    },
+    {
+      "uri": "Bip01_Pelvis-node",
+      "type": 5,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        1056964594,
+        1056964615,
+        1056964615,
+        1056964599
+      ]
+    },
+    {
+      "uri": "Bip01_Pelvis-node",
+      "type": 7,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        1056964594,
+        1056964615,
+        1056964615,
+        1056964599
+      ]
+    },
+    {
+      "uri": "Bip01_Pelvis-node",
+      "type": 8,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        1056964594,
+        1056964615,
+        1056964615,
+        1056964599
+      ]
+    },
+    {
+      "uri": "Bip01_Pelvis-node",
+      "type": 9,
+      "result": 1,
+      "node_relative": 24,
+      "value_words": [
+        1056964594,
+        1056964615,
+        1056964615,
+        1056964599
+      ]
+    },
+    {
+      "uri": "Bip01_Pelvis-node",
+      "type": 10,
+      "result": 1,
+      "node_relative": 40,
+      "value_words": [
+        1065353216,
+        1065353216,
+        1065353216,
+        1
+      ]
+    }
+  ],
+  "original_import_calls": {
+    "strcmp": 54
+  },
+  "scope": "Actual original type compatibility initializer and default queries; float component interpreter/vtable capture. No native sampler or GPU parity claim."
+}

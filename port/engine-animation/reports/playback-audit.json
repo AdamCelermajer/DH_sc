@@ -1,0 +1,17 @@
+﻿{
+    "milliseconds_sampled":  2033,
+    "scale_at_100ms":  1.024299979,
+    "tracks":  2,
+    "move_ownership_checked":  true,
+    "world_transforms_changed":  true,
+    "physical_arm64_tested":  false,
+    "fixture_sha256":  "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6",
+    "mutated_scene_inputs":  10000,
+    "mutated_animation_inputs":  5000,
+    "invalid_image_rejected":  true,
+    "static_world_recomputation_matches":  true,
+    "sanitizers":  [
+                       "address",
+                       "undefined"
+                   ]
+}

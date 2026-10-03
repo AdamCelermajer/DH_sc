@@ -1,0 +1,19 @@
+{
+  "cases": 2353,
+  "height_queries": 528,
+  "position_requests": 573,
+  "direction_requests": 768,
+  "segment_requests": 484,
+  "referenced_floor_queries": 2860,
+  "atomic_rejection_checks": 6,
+  "authored_graph_nodes": 335,
+  "authored_graph_edges": 838,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "0988cedd3f19a986f98b93212b169d316773fa66166ee5bea3c3db29205bf8b8",
+  "bres_sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+  "descriptor_sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+}

@@ -1,0 +1,83 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch3gui15CGUIEnvironment7onEventERKNS_6SEventE",
+      "elf_address": "0x535710",
+      "size": 88,
+      "sha256": "716fa0abf79cf54221bf591d3aaf6ab09bbd5b720f9fbcc37fdbe91b329c5812"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode9onAnimateEj",
+      "elf_address": "0x596d6c",
+      "size": 184,
+      "sha256": "8dba614b5821920c6d7784a51e2d323e653280c4538695c955b5207880473973"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene13CSceneManager7drawAllERKSt6vectorIPNS0_10ISceneNodeENS_4core10SAllocatorIS4_LNS_6memory13E_MEMORY_HINTE0EEEE",
+      "elf_address": "0x58b728",
+      "size": 132,
+      "sha256": "3d19cf67c641a3b2141b1f965c5c341665f1ed7de4a78562663bcdf5eb254478"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode8addChildEPS1_",
+      "elf_address": "0x598864",
+      "size": 164,
+      "sha256": "165d97ace3dfea716af0c23f3452c52abb24f7472ac046a7601163b24b3b5901"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode25getRelativeTransformationEv",
+      "elf_address": "0x598908",
+      "size": 252,
+      "sha256": "811826e25319ad73d1cb983342f40f5a7f71322d5b6b26d20bc0d4cb6ada6dac"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode19onRegisterSceneNodeEv",
+      "elf_address": "0x596d08",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene13CSceneManager7drawAllEPNS0_10ISceneNodeE",
+      "elf_address": "0x58b7f4",
+      "size": 152,
+      "sha256": "f62f4b133640af42ad0bee80f1761278cb595589be3c3834fd83a1bf4c9452f2"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene13CSceneManager24registerNodeForRenderingEPNS0_10ISceneNodeERKN5boost13intrusive_ptrINS_5video9CMaterialEEEPvNS0_24E_SCENE_NODE_RENDER_PASSEPKNS_4core8vector3dIfEEi",
+      "elf_address": "0x58f348",
+      "size": 1604,
+      "sha256": "de63e96db7ea7a52306b0ec00c36347fca1451c0c52bb559653681b748444920"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene13CSceneManager8isCulledEPKNS0_10ISceneNodeE",
+      "elf_address": "0x58ab28",
+      "size": 388,
+      "sha256": "5d91b83ecd749b2e80edae9b3854f8ef7a0d8b1d23135ae15d6465a474ce87bd"
+    },
+    {
+      "original_symbol": "_ZN6glitch3gui10CGUIButton7onEventERKNS_6SEventE",
+      "elf_address": "0x6a6eac",
+      "size": 888,
+      "sha256": "e58c67e36169902264277a3d4afde9c3203bb4d3fcd39d29495d6be4db263c23"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode11removeChildEPS1_",
+      "elf_address": "0x597004",
+      "size": 104,
+      "sha256": "d499d63a126b79c0d2d1891799fb8dc197ce394511602b88130412c492d5d900"
+    },
+    {
+      "original_symbol": "_ZN6glitch16CAndroidOSDevice12createDriverEv",
+      "elf_address": "0x6a0454",
+      "size": 152,
+      "sha256": "f8b23c0b70036f69aa14479313841f058533e04c37b4ffb7bb0b2a26be454db8"
+    },
+    {
+      "original_symbol": "_ZN6glitch3gui12CGUICheckBox7onEventERKNS_6SEventE",
+      "elf_address": "0x6a7ed8",
+      "size": 552,
+      "sha256": "579ace36c6bd987033907c6beb2b8a61ee9a0f0cd59ca8a572afa40801ee0c33"
+    }
+  ]
+}

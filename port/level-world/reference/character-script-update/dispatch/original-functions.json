@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKc",
+      "elf_address": "0x37c514",
+      "size": 112,
+      "sha256": "bd5f9d01fa32fcf2e4e458d913958481ded2d873a49c0165c4069484374f29fc"
+    },
+    {
+      "original_symbol": "_ZN11Application5GetDtEv",
+      "elf_address": "0x31f66c",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_IsMovingEb",
+      "elf_address": "0x3c029c",
+      "size": 52,
+      "sha256": "f56604e37033474979649426096f78e9945140bee00e6d7ccc058c653b646547"
+    },
+    {
+      "original_symbol": "_ZN10LuaManager7AddFileEP9LuaScriptPKc",
+      "elf_address": "0x37b23c",
+      "size": 808,
+      "sha256": "eed28284fab97acb165e01e0aa721a8cbd18265ca17252e903f14be10ba5fb7f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault7InitVCBEv",
+      "elf_address": "0x3dc7d8",
+      "size": 92,
+      "sha256": "6584dea7728e55ba8e9a1e9c080d3c951f2dc8375bbf0176459c8f439ffc5341"
+    },
+    {
+      "original_symbol": "_ZN6CharAI8OnUpdateEv",
+      "elf_address": "0x3d1050",
+      "size": 364,
+      "sha256": "b7f3702aa3d33a84667fd56c9fd44b1694acd7a557b9bd301dcb978a51d8ebde"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault13OnScriptTimerEj",
+      "elf_address": "0x3dcc80",
+      "size": 80,
+      "sha256": "6d2591dc4edf41c812770f36a951dfe38ac03ed7cbf5a67bbdce73bf459bcbb6"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnAnimEventEPKc",
+      "elf_address": "0x3dca50",
+      "size": 560,
+      "sha256": "cd3b1256304d8161cbe4cb6fbd71fd42c06af54e618405102db06fc67a80e2f8"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10CharTimers9TMR_StartEjiiPv",
+      "elf_address": "0x3dbe24",
+      "size": 84,
+      "sha256": "7d6993ff7e409b6b319e972d1604b4ee49a1affa167f349a480aad2dd06b1cb6"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value11getUIntegerEv",
+      "elf_address": "0x38d798",
+      "size": 16,
+      "sha256": "0553d12ea35fd62a6857d3f01e2f1f7c8385bff2bcfd8f834f888d28a3eed1f2"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getNumberEv",
+      "elf_address": "0x31bbf0",
+      "size": 144,
+      "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua9ArgumentsixEj",
+      "elf_address": "0x37baf8",
+      "size": 88,
+      "sha256": "528e2585a4eea034eba7e0120a35cd1c132335414df62c491cd35c0691e92463"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+      "elf_address": "0x37cb24",
+      "size": 104,
+      "sha256": "f82c34ddaa9becff30d931e6ec79c8a9c3a73c1da5f7bf1980a70c750825eb68"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers8TMR_StopEj",
+      "elf_address": "0x3db2d8",
+      "size": 32,
+      "sha256": "6dbf462d15b090873ba926013ab337200b3311223de9da6d7c3bcae893637b61"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript12BindFunctionEv",
+      "elf_address": "0x37b5a0",
+      "size": 1252,
+      "sha256": "91d033024f6aca2114db5debdef452e67a0fe2b7ce7d332567d43d9fbd2cfb7d"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers12SetCharacterEP9Character",
+      "elf_address": "0x3db480",
+      "size": 148,
+      "sha256": "ba6a2a95f11f4cd7ba75cde8fb084e8f67b57c761fbc006a492be6d744821b59"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript6_TraceERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ee80",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    }
+  ]
+}

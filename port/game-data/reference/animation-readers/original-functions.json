@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIbEEvP11IStreamBasePT_",
+      "elf_address": "0x4db89c",
+      "size": 176,
+      "sha256": "74ad7d2721470ff297fa1b4d2d6959fed75456af87600b2ac5e31af684ce8156"
+    },
+    {
+      "original_symbol": "_ZN6Arrays9AnimTable4readEP11IStreamBase",
+      "elf_address": "0x4b38f0",
+      "size": 328,
+      "sha256": "bf4717a7a4149dbce042976e36ba55bf03f3f8ea0a96406f2ebd8f60e850ea81"
+    },
+    {
+      "original_symbol": "_ZN7Structs7AnimTpl4readEP11IStreamBase",
+      "elf_address": "0x4ef2f0",
+      "size": 560,
+      "sha256": "f2d0799feaf60ed4410d2bd6d85884be35beed2fbd208fc25e088ba33cb5ef7c"
+    },
+    {
+      "original_symbol": "_ZN7Structs10CamAnimSet4readEP11IStreamBase",
+      "elf_address": "0x4ef05c",
+      "size": 660,
+      "sha256": "80b277aab083d302f87901ca459ce7055972fc667c7fbc1fe8d532207cc7d454"
+    },
+    {
+      "original_symbol": "_ZN6Arrays15CamAnimSetTable4readEP11IStreamBase",
+      "elf_address": "0x4b37a4",
+      "size": 332,
+      "sha256": "11dc97f29d0f7cdb321e3da32c3dd5e0620da7a3b653de78d827ef7825218c36"
+    },
+    {
+      "original_symbol": "_ZN6Arrays13CharAnimTable4readEP11IStreamBase",
+      "elf_address": "0x4b45d0",
+      "size": 340,
+      "sha256": "8a1af6b54690b3a8ba2b2b8d0ab10800051dc62d415cc68b87e611502687457f"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIjEEvP11IStreamBasePT_",
+      "elf_address": "0x3df1a0",
+      "size": 176,
+      "sha256": "80fbe74a694f45c71b183a970e0501cda9ffd07e1544dedbaeccd1926968aafa"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIfEEvP11IStreamBasePT_",
+      "elf_address": "0x4db94c",
+      "size": 176,
+      "sha256": "3d2ddb81b8cf07eb6da9482254ecfc8dc6fc3752731d50f5595977fbfdc42243"
+    },
+    {
+      "original_symbol": "_ZN7Structs8CharAnim4readEP11IStreamBase",
+      "elf_address": "0x4ef64c",
+      "size": 3780,
+      "sha256": "1f9a48ee561cdaa0547b73729ea65a5287e798ccca58ea0ea40a6eaf141c1597"
+    },
+    {
+      "original_symbol": "_ZN7Structs8AnimStep4readEP11IStreamBase",
+      "elf_address": "0x4ec9f0",
+      "size": 984,
+      "sha256": "63274ed38cdcebeffb65c09c60d2a9001dd4072ad7a8f35b5dfcba8193d270ea"
+    }
+  ]
+}

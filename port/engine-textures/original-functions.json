@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch5video12_GLOBAL__N_113readPVRHeaderEPNS_2io9IReadFileERNS1_10SPVRHeaderERb",
+      "elf_address": "0x6058a4",
+      "size": 620,
+      "sha256": "37b97d8ece5f06d3799bcc5283ad8e279dca9ee4bfa24db0124a96e3d4835b3e"
+    },
+    {
+      "original_symbol": "_ZL18InterpolateColoursPKiS0_S0_S0_iiiPi",
+      "elf_address": "0x69f570",
+      "size": 388,
+      "sha256": "d18bed21154e148a67c2a6d3d45728ef06c8cc928a85c44bc0e7c01208b880e9"
+    },
+    {
+      "original_symbol": "_ZL9TwiddleUVmmmm",
+      "elf_address": "0x69f6f4",
+      "size": 116,
+      "sha256": "f28bd061bc004d7ea939bf62be3765af89f86c57771ffb37416123d800394018"
+    },
+    {
+      "original_symbol": "_Z15PVRTCDecompressPKviiiPh",
+      "elf_address": "0x69f768",
+      "size": 2172,
+      "sha256": "ffd425909204ffb18696405f325e67f1e67d2698ed92599b7c0d4c7b3278c3b8"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5video15CImageLoaderPVR17loadTextureHeaderEPNS_2io9IReadFileERNS0_12STextureDescE",
+      "elf_address": "0x605b10",
+      "size": 1056,
+      "sha256": "f6d8f0103f81bbff0162ed3206a344ffe240f19a6eb53f7007af64d6e4bb973b"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN3sfc6script3luaL5panicEP9lua_State",
+      "elf_address": "0x31a9e8",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault6OnInitEv",
+      "elf_address": "0x3dbe78",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI6OnInitEv",
+      "elf_address": "0x3d12b0",
+      "size": 296,
+      "sha256": "468d99d8aed4ce204358e71067614af963caf89b818e68c6638d29ff153ebefd"
+    },
+    {
+      "original_symbol": "lua_newstate",
+      "elf_address": "0x8579f8",
+      "size": 372,
+      "sha256": "7df0b5780eb77ef88fa17ea34b944b7589fea19a6f198ac42b07bf17656aecba"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder12bindFunctionEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvESA_",
+      "elf_address": "0x31a4d4",
+      "size": 344,
+      "sha256": "90942f487523fa49e311d580d9de5db063f6173fc04f98d2426cefc165c79417"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17LoadScriptProcessEv",
+      "elf_address": "0x3cf1f0",
+      "size": 436,
+      "sha256": "737c53f97392fdd9d21349694eef1c6b5a189f14864f0075e4a68e67d8e8c564"
+    },
+    {
+      "original_symbol": "_ZN6CharAI15SetScriptByNameEPKc",
+      "elf_address": "0x3ceeb0",
+      "size": 412,
+      "sha256": "aba86cd4816befa74b71cd3d2fd8a46b2e7a81ed9626a2ead5d1afc546291f90"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance8loadFileER12StreamBuffer",
+      "elf_address": "0x31acf4",
+      "size": 244,
+      "sha256": "1cc5464357d685df3e8c502334f3dcbef7a595cf118f19de6b32e826b04e4f02"
+    },
+    {
+      "original_symbol": "_Z12LuaAllocatorPvS_jj",
+      "elf_address": "0x310500",
+      "size": 100,
+      "sha256": "edbfe04004411572096bd8534020bb2cec481bd878aa9c0bb803098ba52caf2b"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance13includeStringEv",
+      "elf_address": "0x31b008",
+      "size": 8,
+      "sha256": "4031ecb54b5c3449aef6eb602c5f6aec88332c17a35cf72b73c4071944b8389e"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance11includeMathEv",
+      "elf_address": "0x31b000",
+      "size": 8,
+      "sha256": "a872ebb1dbbb770a2b05400a1ced2a3604be1db2c4498197805cf990e9331fe9"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript12BindFunctionEv",
+      "elf_address": "0x37b5a0",
+      "size": 1252,
+      "sha256": "91d033024f6aca2114db5debdef452e67a0fe2b7ce7d332567d43d9fbd2cfb7d"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance12includeTableEv",
+      "elf_address": "0x31aff8",
+      "size": 8,
+      "sha256": "dcc60b55cfa38ee4079647597adfd4da33c4e05817829c4596ebf3ba6e7d6e6f"
+    },
+    {
+      "original_symbol": "_ZN9Character14createBindingsERN3sfc6script3lua6BinderE",
+      "elf_address": "0x3b56bc",
+      "size": 5332,
+      "sha256": "1a6cca69e950949461ad1499982fbd7929a82d9411fa2aa7c4755a3c8e3d4ca8"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance11includeBaseEv",
+      "elf_address": "0x31b010",
+      "size": 8,
+      "sha256": "8c3675de1d157bfdc51fc09f0bd5257e8e0716d4e8c17222762624e4117cd2b4"
+    },
+    {
+      "original_symbol": "lua_atpanic",
+      "elf_address": "0x84b11c",
+      "size": 16,
+      "sha256": "2a824ded5a30d3fe83f35eaf42f6a71eaa97ea3cd9815b4de5f84717e2e01c86"
+    }
+  ]
+}

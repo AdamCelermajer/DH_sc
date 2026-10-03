@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7PFFloor12_LoadNavMeshEPN6glitch5scene14IMeshSceneNodeE",
+      "elf_address": "0x520b40",
+      "size": 1112,
+      "sha256": "d3493cf0f54587075fd26b84e92cf1331d4d0eb070a90ed320b9d200000939d3"
+    },
+    {
+      "original_symbol": "_ZNK6Module10LoadModuleEv",
+      "elf_address": "0x38a88c",
+      "size": 560,
+      "sha256": "6196278bff76bfb041b6a2d1438240c0b6ec0e9a790dc5c7c5e4fcd53dc7ceea"
+    },
+    {
+      "original_symbol": "_ZN7PFFloor14GetCollisionAtERK7Point3DIfERS1_RN6glitch4core10triangle3dIfEE",
+      "elf_address": "0x51b96c",
+      "size": 368,
+      "sha256": "314b1d97ab775b5d7102d95fa083be6a829fbfeca3ffbb194cb1a1e61069edae"
+    },
+    {
+      "original_symbol": "_ZN7PFWorld16GetFloorHeightAtERK7Point3DIfEPfPS1_PP6PFRoomPP7PFFloorb",
+      "elf_address": "0x525508",
+      "size": 300,
+      "sha256": "526d6a460367f542d1bd4cb063462ba6e1b9f09978b85da7e7b3c81da748be91"
+    },
+    {
+      "original_symbol": "_ZN6PFRoom10_LoadFloorEPN6glitch5scene14IMeshSceneNodeEPKc",
+      "elf_address": "0x521eb8",
+      "size": 916,
+      "sha256": "315708e81a9eae517bb1d742b3330032a1df3bd0d153032a20da6bfbb1c3f570"
+    },
+    {
+      "original_symbol": "_ZN7PFWorld8LoadRoomEPN6glitch5scene10ISceneNodeEjPKc",
+      "elf_address": "0x523c14",
+      "size": 1432,
+      "sha256": "d98e997e9c51909a11d7945eb955d71b506721b1c9914af25ee12775ff8fb96b"
+    }
+  ]
+}

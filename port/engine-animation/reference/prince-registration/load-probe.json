@@ -1,0 +1,118 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "bfc4921ed04ff19a8ff0972515de9e41dffe3da44471e48833af300f6cbaf234",
+  "script_sha256": "e4135573ede027cbfd2eaadf8b4814161b51aa0dfec83d49266b4cf3d7812bb9",
+  "original_instructions_executed": true,
+  "requested_clip_ids": [
+    1111,
+    1040,
+    1040,
+    1040,
+    1040,
+    1040,
+    1041
+  ],
+  "registrations": [
+    {
+      "clip_id": 1111,
+      "library_count": 1,
+      "animation_map_index": 0,
+      "returned_animation": "0x28000e4"
+    },
+    {
+      "clip_id": 1040,
+      "library_count": 2,
+      "animation_map_index": 1,
+      "returned_animation": "0x2800244"
+    },
+    {
+      "clip_id": 1040,
+      "library_count": 3,
+      "animation_map_index": 1,
+      "returned_animation": "0x2800244"
+    },
+    {
+      "clip_id": 1040,
+      "library_count": 4,
+      "animation_map_index": 1,
+      "returned_animation": "0x2800244"
+    },
+    {
+      "clip_id": 1040,
+      "library_count": 5,
+      "animation_map_index": 1,
+      "returned_animation": "0x2800244"
+    },
+    {
+      "clip_id": 1040,
+      "library_count": 6,
+      "animation_map_index": 1,
+      "returned_animation": "0x2800244"
+    },
+    {
+      "clip_id": 1041,
+      "library_count": 7,
+      "animation_map_index": 6,
+      "returned_animation": "0x28006e4"
+    }
+  ],
+  "post_update_indices": [
+    {
+      "clip_id": 1111,
+      "animation_map_index": 0
+    },
+    {
+      "clip_id": 1040,
+      "animation_map_index": 1
+    },
+    {
+      "clip_id": 1041,
+      "animation_map_index": 6
+    }
+  ],
+  "resource_loader_paths": [
+    "data/3D/characters/prince/animations/prince_template_anim.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield_02.bdae",
+    "data/3D/characters/prince/animations/prince_template_anim.bdae",
+    "data/3D/characters/prince/animations/prince_template_anim.bdae"
+  ],
+  "unique_map_entries": 3,
+  "database_vector_order": [
+    "data/3D/characters/prince/animations/prince_template_anim.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+    "data/3D/characters/prince/animations/prince_idle_shield_02.bdae"
+  ],
+  "add_template": {
+    "manager_set_exists_fixture": true,
+    "clip_id": 1111,
+    "loads": [
+      "data/3D/characters/prince/animations/prince_template_anim.bdae",
+      "data/3D/characters/prince/animations/prince_template_anim.bdae"
+    ],
+    "registered_library_index": 7,
+    "default_resource_path": "data/3D/characters/prince/animations/prince_template_anim.bdae",
+    "default_ref_handle": [
+      38797312,
+      38797440
+    ]
+  },
+  "allocations": [
+    68,
+    68,
+    68
+  ],
+  "imports": {
+    "strlen": 8
+  },
+  "scope": "Actual LoadAnimation, original dynamic database append, actual unique red-black-map insert/lookup and UpdateAnimationIndices; actual AddTemplateAnim common registration body and setDefaultAnimationLibrary. Manager lookup uses an already-created set fixture; resource loader preserves repeated path identity; string storage, allocation, profiling and clock are explicit services. No real file-cache loader or ownership/destructor parity claim."
+}

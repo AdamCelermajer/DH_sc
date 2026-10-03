@@ -1,0 +1,46 @@
+{
+  "validation": "PASS",
+  "consumer_comparisons": 2197,
+  "ordered_service_requests": 4530,
+  "scalar_comparisons": 90,
+  "atomic_rejection_checks": 17,
+  "mismatches": 0,
+  "execution_exit_code": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "captured_stdout": "{\"validation\":\"PASS\",\"consumer_comparisons\":2197,\"ordered_service_requests\":4530,\"scalar_comparisons\":90,\"atomic_rejection_checks\":17,\"mismatches\":0}",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "corpus_sha256": "80e0863da67e4ebe38d80679899510792a3a915c2309c1b0b0024d8e4b3ae1b6",
+  "source_sha256": {
+    "port/level-world/character_animation_ai.hpp": "d7af17ad1a831587c93f65365120d2f337fcdb23c07abf97a4895f5697cadfe4",
+    "port/level-world/character_animation_ai.cpp": "92396b47fce401114bfdbd1ab114a8459174aef24e127b492f659bafc821aeec",
+    "port/level-world/tests/character_animation_ai_differential.py": "b3003fb44c85e0b1838bd6d7aeee89c004748629e5dde2ee74ce12b2d4001290",
+    "port/level-world/tests/character_animation_ai.cpp": "35492c9556f4052d54446f429f74109c994251bc56c6cb2bb6cc971c46b7e664"
+  },
+  "reference_sha256": {
+    "port/level-world/reference/character-animation-ai/authored-player-bank.json": "fc5090659c27bcf20b62352a7007fe25af30262a27aa0005f436b54c0fcf0beb",
+    "port/level-world/reference/character-animation-ai/helpers/original-functions.json": "b831a42c6942667f5e926e8fb12a72e76e5732b03f680a412fa3d47bf39ca7f9",
+    "port/level-world/reference/character-animation-ai/helpers/reference/original-functions.asm": "e71e27b24ba8a33aebdf84f952a601d178508f4f6345fa62230c7d54ad34f68d",
+    "port/level-world/reference/character-animation-ai/original-functions.json": "efb178a5d3c64dcb7f49c1a96e6ec9e40588b63367843c52e59297a8eaeed7c9",
+    "port/level-world/reference/character-animation-ai/reference/original-functions.asm": "07ed2ed7f725caf9412e31082b51153a7342520cab3b9406306a03170eb61aff",
+    "port/level-world/reference/character-animation-ai/virtuals/original-functions.json": "32963bfc9e4dce1f8c7a5d94a301b7fce3c749b8784def3c6a0748248387b0fe",
+    "port/level-world/reference/character-animation-ai/virtuals/reference/original-functions.asm": "4660c4965ca352d11f182e66ca6e0ce3d8f197e87080043978a6dad06b20ec16"
+  },
+  "arm64_report_sha256": "aef9ae819c0f812dd366bb7b9f563241cf2f104677abdaf4bb4f0b013846b99e",
+  "host_binary_sha256": "59ce00dca1c7864bc3346e64126f43c40b0ac91fc5dc8e2ea98de54e8ddf96ac",
+  "compiler_flags": [
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror"
+  ],
+  "scope": "Direct-source ASan/UBSan exact replay of 2197 original-derived consumer cases,90 source scalar lookup cases,4530 service-entry snapshots and17 atomic rejects. Borrowed controller/scheduler/target/AIS/event services and synthetic mutable resolved fields remain explicit. No package or fullAIS/world integration claim."
+}

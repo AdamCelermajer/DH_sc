@@ -1,0 +1,35 @@
+{
+  "validation": "PASS",
+  "comparisons": 1024,
+  "ordered_queries": 2006,
+  "atomic_guards": 5,
+  "mismatches": 0,
+  "current_source_bindings": {
+    "port\\level-world\\character_ai_state.cpp": "c2449141c8c7564438fb162871746a0f06d78910c214537f178156ce5a12f97b",
+    "port\\level-world\\character_ai_state.hpp": "c55db3bfcda83c2531ef60c4e6dbe2d42d4ffb3f8d4b57b0ba91a0b7a3ebea8c",
+    "port\\level-world\\tests\\character_ai_state_host.py": "ea45a077300622df9943c2defd6bffda9965d8e6332e6446045482027debac4f",
+    "port\\level-world\\tests\\character_ai_state.cpp": "4cd2133eb967f7a3f20263ebd1b29c87184851e13e7ee0dd53c3c48a850295ba",
+    "port\\level-world\\reference\\prince-live-ai\\query-fixtures.bin": "ff54cde7ae0e81b58773fa5e07ce0b735b93ccdb5359734e082bd5f444b26e94",
+    "port\\level-world\\reports\\character-ai-state-arm64-differential.json": "560ef8370fa51428b5f8ea74300a813a075334bd91c1b826d9ae95a47ae5fe86"
+  },
+  "binary_bindings": {
+    "/home/adampalace/dh2-world-build/character_ai_state_audit": "3aa6b9ca2b29e320171586ca38dfb376b1223cccb6a6e6c068d2985338e97d94",
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so": "05e35956a29b774459206298e54efb5c02afc3bdda0c1ed1a12ccd95877ae856",
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so": "92af10e1621174e64890d1d295d97cb9ba1c3947b712636997c42e1f4392ed07",
+    "/home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so": "43f49a4c4c1771ceb088c4d4fe5974640b4ae8af207e0a3bf7acaca02c37f519",
+    "/home/adampalace/dh2-world-build/libdh2_level_world.so": "bbc8df6167143384161ae27c95b48eeb2228ee44457a1cd91136b4c19673367e",
+    "/lib64/ld-linux-x86-64.so.2": "bda779ea9e9ad234f60315477d7cfd0bdde861cd8ddd9df8cdaf62f18c4cec14",
+    "/usr/lib/x86_64-linux-gnu/libasan.so.8": "b49a5ec136d444f8b40cf24964c20ef01434fc4e6dcf68dc272f5028d65b5496",
+    "/usr/lib/x86_64-linux-gnu/libc.so.6": "85e64f97e348786a8fb4d9f3d52fec289e2fb86bba20f0731dfe61990525e0f7",
+    "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1": "9d339ecb409578d6a5d587e6c537a8f9589b8a13fefba30d167433a4b5758bee",
+    "/usr/lib/x86_64-linux-gnu/libm.so.6": "1c488db6f4fe8cecb72456bc018de000b7a9b539c2994864b0416b5e8371b3d8",
+    "/usr/lib/x86_64-linux-gnu/libstdc++.so.6": "5bb0d21308f123b6ad46c6f35b42cedfcb8d6d439a53aa3dae04d880aaffdde3",
+    "/usr/lib/x86_64-linux-gnu/libubsan.so.1": "1bdb7eae5853277e4d5dfa17431a63944feb16289fa707d8e4d1d8d3825de68e"
+  },
+  "executable": "/home/adampalace/dh2-world-build/character_ai_state_audit",
+  "ldd_output": "\tlinux-vdso.so.1 (0x00007074e5e96000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007074e5600000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x00007074e4400000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x00007074e5d99000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x00007074e4000000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x00007074e3e6b000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x00007074e3800000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007074e3400000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007074e36da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007074e2c00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007074e5d67000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007074e2800000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007074e5e98000)\n",
+  "asan_ubsan": true,
+  "sanitizer_findings": 0,
+  "scope": "Replay actual central world-linked audit executable. Current source, corpus, executable and resolved DSO bytes verified unchanged before/after. This runner does not rebuild or assert compiler provenance, APK/Android parity or full AI."
+}

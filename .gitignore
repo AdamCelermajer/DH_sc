@@ -1,0 +1,4 @@
+# Machine-local inputs and tooling
+/.local-inputs/
+**/__pycache__/
+*.pyc

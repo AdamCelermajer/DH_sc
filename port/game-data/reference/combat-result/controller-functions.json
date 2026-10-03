@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+      "elf_address": "0x3b10b4",
+      "size": 3388,
+      "sha256": "ee29784fc33effd4a01e9098593d2348dbfaf35bb9d0568a121d89c52aefd1da"
+    },
+    {
+      "original_symbol": "_Z20PushProfilingContextPKc",
+      "elf_address": "0x3136b4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN9Character13F_MeleeAttackERNS_12AttackResultEPS_S2_bb",
+      "elf_address": "0x3b3368",
+      "size": 648,
+      "sha256": "bdf133ce77fe5870da410e54ea6336c51fb7b0d9bc4bf57b5eb4d76c077fa777"
+    },
+    {
+      "original_symbol": "_Z19PopProfilingContextPKc",
+      "elf_address": "0x3136b8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties26PROPS_GetBonusAttackRatingEb",
+      "elf_address": "0x3df81c",
+      "size": 144,
+      "sha256": "f74ae9fcab292486c994974ba9cde117eeffe8bc41198715bba7c58a4f52dbef"
+    }
+  ]
+}

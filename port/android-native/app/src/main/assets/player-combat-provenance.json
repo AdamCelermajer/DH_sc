@@ -1,0 +1,75 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "character": "KnightPlayerBase",
+  "row": 263,
+  "class_id": 77,
+  "animation_table": 48,
+  "state": "AttackStatic",
+  "root_sequence": 243,
+  "inputs": [
+    {
+      "clip_id": 955,
+      "asset": "animations/prince_1hand_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    {
+      "clip_id": 957,
+      "asset": "animations/prince_1hand_combo_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    {
+      "clip_id": 958,
+      "asset": "animations/prince_1hand_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02.bdae",
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0"
+    },
+    {
+      "clip_id": 960,
+      "asset": "animations/prince_1hand_combo_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091"
+    },
+    {
+      "clip_id": 961,
+      "asset": "animations/prince_1hand_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03.bdae",
+      "bytes": 8632,
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003"
+    },
+    {
+      "clip_id": 963,
+      "asset": "animations/prince_1hand_combo_03_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03_to_idle.bdae",
+      "bytes": 9084,
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260"
+    },
+    {
+      "clip_id": 967,
+      "asset": "animations/prince_1hand_pre_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    {
+      "clip_id": 969,
+      "asset": "animations/prince_1hand_pre_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4"
+    },
+    {
+      "clip_id": 971,
+      "asset": "animations/prince_1hand_pre_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_03.bdae",
+      "bytes": 7548,
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058"
+    }
+  ],
+  "scope": "Original stationary three-combo sequence. Input/target selection, blending/root motion, equipment, FX/audio and full player lifecycle are separate."
+}

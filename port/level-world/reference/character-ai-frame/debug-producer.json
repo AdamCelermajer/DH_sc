@@ -1,0 +1,18 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "got": "0x994a98",
+  "got_slot": "0x9980e8",
+  "global_address": "0x9a318b",
+  "global_symbols": [
+    {
+      "symbol": "_ZN12v2Controller9s_blockedE",
+      "address": "0x9a318b",
+      "size": 1
+    }
+  ],
+  "first_file_byte": "00",
+  "literal_words": {
+    "0x3cfd48": "0x5c4e80",
+    "0x3cfd4c": "0x3650"
+  }
+}

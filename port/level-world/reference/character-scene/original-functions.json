@@ -1,0 +1,107 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6glitch4core8CMatrix4IfE12transformBoxERNS0_8aabbox3dIfEE",
+      "elf_address": "0x587398",
+      "size": 620,
+      "sha256": "3993b8652435360765cf430409fde041d1fb13ae30ce7f8065132a9bb0485cf9"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada6detail33CColladaHardwareQuatSkinTechnique18computeBoundingBoxEv",
+      "elf_address": "0x66e384",
+      "size": 688,
+      "sha256": "ff7411c49b2cbd552d06ac325c3aa4cb7a74d9bc46a75296ff0eb990d17fc9d9"
+    },
+    {
+      "original_symbol": "_ZN10GameObject11SetPositionERK7Point3DIfEb",
+      "elf_address": "0x393db4",
+      "size": 220,
+      "sha256": "b2e7a850ec235757fe9b1406e0491006cc8ef1dda76927eb2e336374d93e26e7"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada6detail35CColladaHardwareMatrixSkinTechnique18computeBoundingBoxEv",
+      "elf_address": "0x66c5f4",
+      "size": 688,
+      "sha256": "62f7da0d29014b482f831b8a9d5f1651e70cfef024c9063e68f0dbaa954d11be"
+    },
+    {
+      "original_symbol": "_ZN9Character8InitPostEv",
+      "elf_address": "0x3b4d60",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079"
+    },
+    {
+      "original_symbol": "_ZN9Character6ReviveEP10GameObjectb",
+      "elf_address": "0x3a59ac",
+      "size": 312,
+      "sha256": "c17b6b9ee8943802d089fd8c928f391574e0a8134a4c2c8d32b741d6827ce680"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject11SetPositionERK7Point3DIfE",
+      "elf_address": "0x470c24",
+      "size": 96,
+      "sha256": "b84dbc014302a72aab383009c9ddfc99afbc87f27b58eb3c7fd4c3b80f735015"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada12CSkinnedMesh18computeBoundingBoxEv",
+      "elf_address": "0x663648",
+      "size": 92,
+      "sha256": "b89c12405e592b68e383aea2c35b2d5e0ff10f2cfd76327a2777887e99764358"
+    },
+    {
+      "original_symbol": "_ZN9Character15SetRelativeAABBERK4aabbIfEb",
+      "elf_address": "0x3a4398",
+      "size": 216,
+      "sha256": "1d2b98404f152454f2b52a797634939a3112ec22a9ff008deb2483b3d6855712"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada6detail36CColladaHardwareTextureSkinTechnique18computeBoundingBoxEv",
+      "elf_address": "0x66ef44",
+      "size": 688,
+      "sha256": "32ce37976b3a1885cae9b5cb45760d8f03efe220cbd01f668dc322e54f25ea13"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject11CalcMeshBoxEv",
+      "elf_address": "0x47211c",
+      "size": 1516,
+      "sha256": "7e3a5f3fd2404835cfed194c08cd9ce79c7ed516ab920e1d0c55d74f278c543b"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode22updateAbsolutePositionEb",
+      "elf_address": "0x597c60",
+      "size": 248,
+      "sha256": "a2c0325c5843e68dc05aa54a2d308ac9a799b6aceb52de3de95252b7b3ac0e4c"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada19CModularSkinnedMesh18computeBoundingBoxEv",
+      "elf_address": "0x646c1c",
+      "size": 192,
+      "sha256": "72a4aa3dbbac5664d71454e977ec1d667c265cc7c90d9cfa29be5ed19d59e2b2"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject12SyncPositionEv",
+      "elf_address": "0x470cb8",
+      "size": 20,
+      "sha256": "0b12b65c824cb133ae35c2b3ebb9dc90b447e2c56cee89b2a1a57ac88723762a"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique18computeBoundingBoxEv",
+      "elf_address": "0x66fb84",
+      "size": 688,
+      "sha256": "6ce9ad2a3507e78fd4341e6e5dc69660d3afcbb561a30e115af7b2bd9cfd0832"
+    },
+    {
+      "original_symbol": "_ZN10GameObject15SetRelativeAABBERK4aabbIfEb",
+      "elf_address": "0x38b110",
+      "size": 280,
+      "sha256": "0c55f8bb203ac3d1c126f9bdaf956b7ba42237aaa7d7d01e55f2079768d903cf"
+    },
+    {
+      "original_symbol": "_ZN10GameObject18UpdateAbsoluteAABBEv",
+      "elf_address": "0x38aac8",
+      "size": 152,
+      "sha256": "8bdb0944ef983e11a5d18d269aab552dea3f691fa7b03abcc0f56c1b75471297"
+    }
+  ]
+}

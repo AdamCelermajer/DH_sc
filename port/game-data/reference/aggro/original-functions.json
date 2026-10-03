@@ -1,0 +1,89 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI11AI_GetAggroEP9Character",
+      "elf_address": "0x3d4ac8",
+      "size": 252,
+      "sha256": "98c26116c098862a859a801d8a16bae8ff814a525b4a2972068f2283b4511fa9"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_UpdateTargetEv",
+      "elf_address": "0x3cb908",
+      "size": 556,
+      "sha256": "d8f8d308b4778d2c4bd43b1e72df8476cb18f1137a7a774cced65cc3c7054ce0"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_",
+      "elf_address": "0x3d73cc",
+      "size": 292,
+      "sha256": "f5b409bcd35ca103f707bddc577ee593d9e2456740e933b364725a31dd2139f2"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13AI_ClearAggroEP9Character",
+      "elf_address": "0x3d6d68",
+      "size": 388,
+      "sha256": "d59c80b01af4f6b38ff7a70f4eb21a3382a04edab27f4f6b51394c221f568040"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueENS_17_Rb_tree_iteratorIS7_SB_EERKS7_",
+      "elf_address": "0x3d7678",
+      "size": 884,
+      "sha256": "665ee4f4259cad0bc523b17094ca194e2d8820dec594f3bcf749a0c4cad51c33"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI16AI_GetAggroCountEv",
+      "elf_address": "0x3d4a10",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_IsAggroedEv",
+      "elf_address": "0x3d4a00",
+      "size": 16,
+      "sha256": "854336dabcc98143cafa0997ba54fede004764db15c7a37e4f68f187b66327ad"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIP9CharacterSt4lessIS2_ESt4pairIKS2_fENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE5eraseENS_17_Rb_tree_iteratorIS7_SB_EE",
+      "elf_address": "0x3d5d9c",
+      "size": 60,
+      "sha256": "d5866cccdd18e3f36abcc65aa43174ddc28c4e979f712ff8ce4ba0663f329163"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault8OnAttackEiib",
+      "elf_address": "0x3dc12c",
+      "size": 132,
+      "sha256": "abf287677368ac99b86a559eff86dbb007cb9bf8a57b94ac9355a7b1d7be961e"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsDeadEv",
+      "elf_address": "0x3a2ed4",
+      "size": 12,
+      "sha256": "80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI11AI_HasAggroEv",
+      "elf_address": "0x3d49f0",
+      "size": 16,
+      "sha256": "b246911c152844ecbe7ebd31fbb303d55ce8c7f782650b61098737f50d3e9252"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_SetAggroEP9Characterf",
+      "elf_address": "0x3d79ec",
+      "size": 636,
+      "sha256": "5544900c5708b0fb85538781b6f7cd4b04f4ff808a3fdff0127e643c0f357d83"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI18AI_GetHighestAggroEv",
+      "elf_address": "0x3d4a18",
+      "size": 176,
+      "sha256": "cde6a15615da96f0b3f51c4c2f4418dcfe709920c62f98a7738615c1f67ac869"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+      "elf_address": "0x3d7c68",
+      "size": 308,
+      "sha256": "710b6a40b61b134ddc8b165a38ac5bd0784dd1b2915ec4fce53d2e1bb4825193"
+    }
+  ]
+}

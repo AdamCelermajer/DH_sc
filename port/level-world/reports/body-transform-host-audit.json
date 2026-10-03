@@ -1,0 +1,10 @@
+{
+  "comparisons": 4320,
+  "callback_events": 21798,
+  "modeled_trig_import_calls": 7002,
+  "malformed_checks": 5,
+  "mismatches": 0,
+  "sanitizers": "address,undefined",
+  "reference_sha256": "87c9e0e850edda18fbe0fca5266777eb152c127ab517a9985a20f8fe87356fc3",
+  "scope": "Original-derived state and ordered service fixture audit. Identically supplied trig imports; backend collision/contact/world stepping and libc trig parity excluded."
+}

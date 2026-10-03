@@ -1,0 +1,21 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "04a76d6d625a5d9b6a062d4b8050eb2e932d100b9e757f5b094a782e9f567c17",
+  "reference_sha256": "f19ae53552f898d017e816b808f1c20a86598b8a900bc503068153e3a7b37a8c",
+  "comparisons": 4352,
+  "policy_getter_calls": 30464,
+  "walk_property_index": 46,
+  "rotation_property_index": 47,
+  "exact_original_animation_speed_argument": true,
+  "original_focus_prefix_executes": true,
+  "atomic_rejection_checks": 11,
+  "mismatches": 0,
+  "imports": {
+    "__aeabi_i2f": 10879,
+    "__aeabi_fmul": 26110,
+    "__aeabi_fadd": 10879,
+    "__aeabi_fcmpgt": 10879
+  },
+  "scope": "Original Character policy/property getters, actual ANIM_SetSpeed product,\nand exact CSMove OnFocus flag/type write prefix versus native ARM64 producers.\nVisual animator SetSpeed is an argument observer; full FSM/animation selection,\nfocus logging/UpdateType/unpin and property-sheet producers are outside this API.\n",
+  "elapsed_seconds": 5.62
+}

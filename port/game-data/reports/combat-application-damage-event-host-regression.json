@@ -1,0 +1,13 @@
+{
+  "original_character_damage_cases": 1792,
+  "original_attack_event_decisions": 6000,
+  "all_damage_words_and_rng_verified": true,
+  "invalid_input_atomic": true,
+  "zero_range_and_counter_wrap_verified": true,
+  "unarmed_crypt_projectile_properties": {
+    "CryptSlime": -1,
+    "CryptSlime_RE": -1,
+    "Crypt_Ghost": -1,
+    "Crypt_Skeleton": -1
+  }
+}

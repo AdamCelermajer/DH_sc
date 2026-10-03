@@ -1,0 +1,9 @@
+{
+  "comparisons": 3864,
+  "service_requests": 22218,
+  "malformed_checks": 5,
+  "mismatches": 0,
+  "sanitizers": "address,undefined",
+  "reference_sha256": "63f1cd1e6bc3b0fd956fa638cba5483208ea65fcbbeb29eb1431a39770cd6dce",
+  "scope": "Original-derived body/shape/filter and ordered creation/attachment request fixture audit; service backends remain explicit boundaries."
+}

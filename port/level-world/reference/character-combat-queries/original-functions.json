@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character14CanRangeAttackEv",
+      "elf_address": "0x3a4d3c",
+      "size": 32,
+      "sha256": "822ce8055c08b622826f6350032ff8ab3f340e6b990e0ca04c3c2f6b471b72ae"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory15HasRangedWeaponEv",
+      "elf_address": "0x3fffa4",
+      "size": 112,
+      "sha256": "ca77ed45367f9721b071f87bb3025f11806a33b9234a75c416177cf2893f7eb4"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance7GetItemEv",
+      "elf_address": "0x3f9e08",
+      "size": 44,
+      "sha256": "df3cef6ad94f3333a35c215c39f1330df860704814086e3f08133ee6333836b2"
+    },
+    {
+      "original_symbol": "_ZNK9Character13GetAnimStanceEv",
+      "elf_address": "0x3a53e0",
+      "size": 212,
+      "sha256": "0a55bdcde5f109c3e50e2ac4c2ef57f33604c327489c2e422f91fbea864948c0"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac"
+    },
+    {
+      "original_symbol": "_ZNK9Character14HasComboAttackEv",
+      "elf_address": "0x3a346c",
+      "size": 132,
+      "sha256": "f102640f6a3091df8ea421800d920071a5074891f1167c9bd5cf367af7b88a68"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAnimTableIdEv",
+      "elf_address": "0x3a3228",
+      "size": 60,
+      "sha256": "d8d60d8d2fdb2d9246a68f44712f30b28285a80460573e4fc7c9e07a008dfd29"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory14CanRangeAttackEv",
+      "elf_address": "0x400014",
+      "size": 4,
+      "sha256": "ac9b01cb603af08a72da64e387bbb73b7fcb6d75a1aacd79bd3bef2afcbbae67"
+    }
+  ]
+}

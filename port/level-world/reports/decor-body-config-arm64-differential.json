@@ -1,0 +1,548 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "79f0397cd98486b93253540a1f6cecac9f68909908a211f6bc63df702f92fe4b",
+  "reference_sha256": "f8ec882a5b6c5d13caa5b1394fc25565a88d14e34e9aced305b310c7b2bd55bf",
+  "mesh_comparisons": 2082,
+  "config_comparisons": 2222,
+  "mismatches": 0,
+  "level_world_bounds": [
+    -2000.0,
+    -2000.0,
+    2000.0,
+    2000.0
+  ],
+  "authored_placements": 84,
+  "authored_enabled": 82,
+  "authored_no_marker": 2,
+  "original_coverage": {
+    "_ZN7PODecorC1EP13PhysicalWorldP10GameObjectb.clone.2@0x388a2c": 25,
+    "_ZN7PODecorC1EP13PhysicalWorldP10GameObjectb.clone.2@0x39fc2c": 0,
+    "_ZN10GameObject17SetPhysicalObjectEP14PhysicalObjectb@0x394bf8": 69,
+    "_ZN5Level12_LoadProcessEv@0x3f6990": 11,
+    "_ZN14PhysicalObject5_initEP10b2ShapeDefffbb@0x46edf0": 45,
+    "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeERKSsb@0x352b74": 0,
+    "_ZN14PhysicalObject9_addShapeEP10b2ShapeDefb@0x46edb8": 14,
+    "_ZN12VisualObjectC2EP10GameObjectRKSsS3_@0x472c5c": 0,
+    "_ZN13PhysicalWorld4loadEffff@0x34c048": 14,
+    "_ZN7Point3DIfE9transformERKN6glitch4core8CMatrix4IfEE@0x312da8": 22,
+    "_ZN9Container9InitFinalEv@0x39fc98": 0,
+    "_ZN12VisualObject12ApplyMeshBoxEv@0x470a54": 12,
+    "_ZN13AnimatedDecor8InitPostEv@0x389128": 0,
+    "_ZN12VisualObject11CalcMeshBoxEv@0x47211c": 187,
+    "_ZN14PhysicalObjectC2EP13PhysicalWorldP10GameObjectbbbbstti@0x46f2f0": 163,
+    "_ZN10GameObject15SetRelativeAABBERK4aabbIfEb@0x38b110": 70,
+    "_ZN14PhysicalObject3pinEv@0x46eb20": 0,
+    "_ZN10GameObject18UpdateAbsoluteAABBEv@0x38aac8": 38,
+    "_ZN5Decor8InitPostEv@0x388a98": 32,
+    "_ZNK6glitch4core8CMatrix4IfE21multiplyWith1x4MatrixEPf@0x312bf8": 108,
+    "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeEPKcb@0x35a0e4": 0
+  },
+  "scope": "Original marker CalcMeshBox, bounds padding and PODecor construction/attach.\n\nMesh bounding boxes/parent scale/root matrices and allocation/body/shape/mass/PF\nservices are explicit fixtures. Original arithmetic, constructor and attachment\ninstructions execute; complete native physics is audited in physics-backend.\n Authored model bounds/scales/positions exercise identity-root-matrix service fixtures. Authored Euler/root scene matrix reconstruction and visual node database factories are not claimed.",
+  "elapsed_seconds": 12.11,
+  "authored": [
+    {
+      "model": "crypt_candle1.bdae",
+      "name": "_anim_candle1_001",
+      "enabled": true,
+      "radius_bits": 1054605803
+    },
+    {
+      "model": "crypt_candle1.bdae",
+      "name": "_anim_candle1_04",
+      "enabled": true,
+      "radius_bits": 1054605885
+    },
+    {
+      "model": "crypt_candle1.bdae",
+      "name": "_anim_candle1_05",
+      "enabled": true,
+      "radius_bits": 1054605967
+    },
+    {
+      "model": "crypt_candle1.bdae",
+      "name": "_anim_candle1_001",
+      "enabled": true,
+      "radius_bits": 1054605967
+    },
+    {
+      "model": "crypt_candle1.bdae",
+      "name": "_anim_candle1_03",
+      "enabled": true,
+      "radius_bits": 1054605967
+    },
+    {
+      "model": "crypt_candle1.bdae",
+      "name": "_anim_candle1_001",
+      "enabled": true,
+      "radius_bits": 1054605967
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_001",
+      "enabled": true,
+      "radius_bits": 1049539133
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_001",
+      "enabled": true,
+      "radius_bits": 1049539113
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_001",
+      "enabled": true,
+      "radius_bits": 1049539113
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_002",
+      "enabled": true,
+      "radius_bits": 1049539113
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_05",
+      "enabled": true,
+      "radius_bits": 1049539133
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_001",
+      "enabled": true,
+      "radius_bits": 1049539051
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_07",
+      "enabled": true,
+      "radius_bits": 1049539051
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_001",
+      "enabled": true,
+      "radius_bits": 1049539051
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_002",
+      "enabled": true,
+      "radius_bits": 1049539051
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_001",
+      "enabled": true,
+      "radius_bits": 1049539113
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_001",
+      "enabled": true,
+      "radius_bits": 1049539379
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_02",
+      "enabled": true,
+      "radius_bits": 1049539379
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "name": "_anim_candle1_small_002",
+      "enabled": true,
+      "radius_bits": 1049539379
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_001",
+      "enabled": true,
+      "radius_bits": 1052815298
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_002",
+      "enabled": true,
+      "radius_bits": 1052815301
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_003",
+      "enabled": true,
+      "radius_bits": 1052815298
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_004",
+      "enabled": true,
+      "radius_bits": 1052815298
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_001",
+      "enabled": true,
+      "radius_bits": 1052815298
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_04",
+      "enabled": true,
+      "radius_bits": 1052815360
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_001",
+      "enabled": true,
+      "radius_bits": 1052815360
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_001",
+      "enabled": true,
+      "radius_bits": 1052815319
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_001",
+      "enabled": true,
+      "radius_bits": 1052815319
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_002",
+      "enabled": true,
+      "radius_bits": 1052815524
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "name": "_anim_candle2_001",
+      "enabled": true,
+      "radius_bits": 1052815524
+    },
+    {
+      "model": "crypt_candle_big.bdae",
+      "name": "_anim_candle_big_001",
+      "enabled": true,
+      "radius_bits": 1053501685
+    },
+    {
+      "model": "crypt_candle_big.bdae",
+      "name": "_anim_candle_big_001",
+      "enabled": true,
+      "radius_bits": 1053501685
+    },
+    {
+      "model": "crypt_candle_big.bdae",
+      "name": "_anim_candle_big_001",
+      "enabled": true,
+      "radius_bits": 1053501685
+    },
+    {
+      "model": "crypt_candles.bdae",
+      "name": "_anim_candles_001",
+      "enabled": true,
+      "radius_bits": 1062186967
+    },
+    {
+      "model": "crypt_candles.bdae",
+      "name": "_anim_candles_001",
+      "enabled": true,
+      "radius_bits": 1062187008
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_001",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_002",
+      "enabled": true,
+      "radius_bits": 1056594698
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_003",
+      "enabled": true,
+      "radius_bits": 1056594677
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_004",
+      "enabled": true,
+      "radius_bits": 1056594677
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_005",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_006",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_001",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_001",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_001",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_05",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_002",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_001",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_03",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_001",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_002",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_001",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_04",
+      "enabled": true,
+      "radius_bits": 1056594657
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_002",
+      "enabled": true,
+      "radius_bits": 1056594985
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_001",
+      "enabled": true,
+      "radius_bits": 1056594985
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_02",
+      "enabled": true,
+      "radius_bits": 1056594985
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_002",
+      "enabled": true,
+      "radius_bits": 1056594985
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "name": "_anim_candles2_small_003",
+      "enabled": true,
+      "radius_bits": 1056594985
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_003",
+      "enabled": true,
+      "radius_bits": 1065564109
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_004",
+      "enabled": true,
+      "radius_bits": 1065564109
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_001",
+      "enabled": true,
+      "radius_bits": 1065564105
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_04",
+      "enabled": true,
+      "radius_bits": 1065564119
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_001",
+      "enabled": true,
+      "radius_bits": 1065564119
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_002",
+      "enabled": true,
+      "radius_bits": 1065564109
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_003",
+      "enabled": true,
+      "radius_bits": 1065564106
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_001",
+      "enabled": true,
+      "radius_bits": 1065564119
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_001",
+      "enabled": true,
+      "radius_bits": 1065564098
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_10",
+      "enabled": true,
+      "radius_bits": 1065564119
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_001",
+      "enabled": true,
+      "radius_bits": 1065564119
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_001",
+      "enabled": true,
+      "radius_bits": 1065564106
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_001",
+      "enabled": true,
+      "radius_bits": 1065564109
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_02",
+      "enabled": true,
+      "radius_bits": 1065564106
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_03",
+      "enabled": true,
+      "radius_bits": 1065564109
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "name": "_anim_candlestand_04",
+      "enabled": true,
+      "radius_bits": 1065564109
+    },
+    {
+      "model": "crypt_candlestand_big.bdae",
+      "name": "_anim_candlestand_001",
+      "enabled": true,
+      "radius_bits": 1061822423
+    },
+    {
+      "model": "crypt_candlestand_big.bdae",
+      "name": "_anim_candlestand_002",
+      "enabled": true,
+      "radius_bits": 1061822423
+    },
+    {
+      "model": "crypt_candlestand_big.bdae",
+      "name": "_anim_candlestand_002",
+      "enabled": true,
+      "radius_bits": 1061822464
+    },
+    {
+      "model": "crypt_candlestand_big.bdae",
+      "name": "_anim_candlestand_09",
+      "enabled": true,
+      "radius_bits": 1061822464
+    },
+    {
+      "model": "crypt_candlestand_big.bdae",
+      "name": "_anim_candlestand_003",
+      "enabled": true,
+      "radius_bits": 1061822464
+    },
+    {
+      "model": "crypt_candlestand_big.bdae",
+      "name": "_anim_candlestand_002",
+      "enabled": true,
+      "radius_bits": 1061822464
+    },
+    {
+      "model": "crypt_candlestand_big.bdae",
+      "name": "_anim_candlestand_002",
+      "enabled": true,
+      "radius_bits": 1061822464
+    },
+    {
+      "model": "crypt_candlestand_big.bdae",
+      "name": "_anim_candlestand_05",
+      "enabled": true,
+      "radius_bits": 1061822464
+    },
+    {
+      "model": "crypt_candlestand_big.bdae",
+      "name": "_anim_candlestand_003",
+      "enabled": true,
+      "radius_bits": 1061822464
+    },
+    {
+      "model": "swamp_caveentrance_effect.bdae",
+      "name": "_anim_swamp_dustmotes_001",
+      "enabled": false,
+      "radius_bits": 0
+    },
+    {
+      "model": "swamp_caveentrance_effect.bdae",
+      "name": "_anim_swamp_dustmotes_001",
+      "enabled": false,
+      "radius_bits": 0
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "validation": "PASS",
+  "comparisons": 408,
+  "ordered_callbacks": 26236,
+  "accepted_records": 1432,
+  "synchronous_same_list_reentry_cases": 9,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "6b74b9ce4792f6bd9e6cf8104d5b2e70ac367090f3927788ac67921fa4746f07",
+  "corpus_sha256": "d90dc61e026ce5e7a864b920d675a7d56e77413297d94a63c104b78b178f4daf",
+  "source_sha256": "e1045c265d47abb3d34fd692cb54c6eb9f59dfecc63f255a35a0b71995a86a98",
+  "header_sha256": "d47ab39154484455d2dbc23eca7457dd520a773939e091ddbf1a02e8eb60afbc",
+  "script_sha256": "09d7949352e26abe4772696817ba9d568ac885dfa25a93dc15f3f36c295fedc3",
+  "scope": "Original full room traversal/filters/heap versus O2 ARM64 borrowed registry coordinator.",
+  "arithmetic_nan_comparison": "unordered class; finite and non-arithmetic words exact",
+  "libm_caller_fixture_records": 34,
+  "original_import_calls": {
+    "sinf": 417,
+    "cosf": 417,
+    "__aeabi_fcmpge": 834,
+    "__aeabi_fsub": 17195,
+    "__aeabi_fmul": 35447,
+    "__aeabi_fadd": 21956,
+    "sqrtf": 8465,
+    "__aeabi_fcmpgt": 6671,
+    "__aeabi_fdiv": 2513,
+    "acosf": 2513,
+    "__aeabi_fcmplt": 3794
+  },
+  "native_import_calls": {
+    "sincosf": 417,
+    "acosf": 2513
+  }
+}

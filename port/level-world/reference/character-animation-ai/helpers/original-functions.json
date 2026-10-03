@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10AISDefault11OnEndOfAnimEv",
+      "elf_address": "0x3dbeec",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator12ANIM_SetStepEjj",
+      "elf_address": "0x3c946c",
+      "size": 24,
+      "sha256": "9ce6a53dcd6a3b2e07fa85189d64dd9f497a8e4e618992c9e349911b10a69947"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11OnPreAttackEi",
+      "elf_address": "0x3d0ed4",
+      "size": 72,
+      "sha256": "2867d9c04d1eb9af8cd446a6532ad8ed863aa8cbe52f41509049daee0db072d5"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI17AI_GetMeleeRadiusEv",
+      "elf_address": "0x3d4c34",
+      "size": 104,
+      "sha256": "932a35ac97f40a439164ae885fffc1f09baefedd284c488905a231159d753373"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator17ANIM_SkipNextStepEj",
+      "elf_address": "0x3c9444",
+      "size": 32,
+      "sha256": "5ea593f879d2aef660628b2e4eb5b4d4b64bb46af2b556d0af988f281607cada"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal11OnEndOfAnimEv",
+      "elf_address": "0x3dccd0",
+      "size": 36,
+      "sha256": "35f25adde6f0a2e252ff71ddece3b95ff7fc879d80cecd609c72b65f512e4d33"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11OnEndOfAnimEv",
+      "elf_address": "0x3d0ce8",
+      "size": 36,
+      "sha256": "7ce0618563c3b8418ecc9451ee09255e1591f92dabc2e089a41021675deef30d"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAnimTableIdEv",
+      "elf_address": "0x3a3228",
+      "size": 60,
+      "sha256": "d8d60d8d2fdb2d9246a68f44712f30b28285a80460573e4fc7c9e07a008dfd29"
+    }
+  ]
+}

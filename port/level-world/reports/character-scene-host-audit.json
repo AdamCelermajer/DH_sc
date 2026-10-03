@@ -1,0 +1,15 @@
+{
+  "skin_comparisons": 206,
+  "mesh_comparisons": 202,
+  "visual_scale_comparisons": 5,
+  "owner_bounds_comparisons": 101,
+  "selected_prince_controllers": 4,
+  "parent_grandparent_scale_mapping_checks": 1,
+  "malformed_checks": 18,
+  "mismatches": 0,
+  "sanitizers": "address,undefined",
+  "optimization": "O1,no fast math,fp-contract off",
+  "executable": "/home/adampalace/dh2-character-scene-audit/audit",
+  "fixture": ".local-inputs/decor-scene-discovery/character-reference.bin",
+  "model": "port/android-native/app/src/main/assets/models/prince_modular.bdae"
+}

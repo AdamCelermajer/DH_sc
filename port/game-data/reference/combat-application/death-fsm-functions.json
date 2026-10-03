@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN16CharStateMachine15SM_SetDeadStateEbPvb",
+      "elf_address": "0x3c58c8",
+      "size": 488,
+      "sha256": "b6a218cf121594c43a4f38edf0817db2ca9e8e43c413173ba33721938da0c74e"
+    },
+    {
+      "original_symbol": "_ZN6CharAI10AI_SetDeadEv",
+      "elf_address": "0x3d6cdc",
+      "size": 140,
+      "sha256": "f3468811a494010b0265316a819636747c2e66a6e4090f019c6c2b0d3fa8a96d"
+    },
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fixture_sha256": "6cf0bab2a76c4c084c3d13e1af20b39955780911cfdef858c40ef131aa648ae3",
+  "corpus_sha256": "b2ed68bf8c14156625556439528f12931e74d94945e8a3f1da9fc689ac530e30",
+  "composition_records": 420,
+  "compiled_targets": 29,
+  "prince_nodes": 35,
+  "ordered_slot_samples": 431,
+  "ordered_root_samples": 800,
+  "ordered_target_setters": 11600,
+  "completion_callbacks": 420,
+  "normal_scene_records": 400,
+  "time_only_records": 20,
+  "mismatches": 0,
+  "elapsed_seconds": 4.921,
+  "scope": "Actual full original two-slot rendered/time-only coordinators, fade, typed node setters, root aggregate/history and pending-clear callback instructions compared against native real-asset frame captures. Compiled raw target/root samples and timeline/event advancement are explicit synchronous services here and have separate audits. Completion checking is deliberately pending for ordering fixtures. No original parser, blended GPU/full-application parity claim.",
+  "import_calls": {
+    "__aeabi_fcmpeq": 29103,
+    "__aeabi_fadd": 16044,
+    "__aeabi_fdiv": 1343,
+    "__aeabi_fmul": 17195,
+    "__aeabi_fsub": 2961,
+    "__aeabi_i2f": 11,
+    "__aeabi_fcmplt": 275,
+    "__aeabi_fcmpgt": 275,
+    "__aeabi_fcmpge": 275,
+    "sqrtf": 196,
+    "acosf": 32,
+    "sinf": 96
+  }
+}

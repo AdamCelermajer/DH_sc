@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch7collada18CSceneNodeAnimator20applyAnimationValuesEj",
+      "elf_address": "0x65d91c",
+      "size": 284,
+      "sha256": "4e591b40f0c9a5424f680d3f8d41ec55b59641ba5461fcd6f486b37609f890ee"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada18ISceneNodeAnimator9setTargetEPKcPv",
+      "elf_address": "0x667dc4",
+      "size": 124,
+      "sha256": "5f1c0a3dacf494b283df05e92b57a62b7157a109c2b5a61188a81100dfdd41c0"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada13CAnimationSet12addAnimationEPKNS0_10SAnimationE",
+      "elf_address": "0x6601fc",
+      "size": 684,
+      "sha256": "2496e012d85f5dc9272ddc74dc0dc6a0c1adf30feb7f944dba6c1a93e0f8fdd7"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada35CAnimationSetTransformationTemplate16isAnimationExistEPKNS0_8SChannelE",
+      "elf_address": "0x6e22cc",
+      "size": 260,
+      "sha256": "b2e933a8ad935f8eda87be0363425a0e44cce8a2262919d92a43e6ef4b143e4d"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada18CSceneNodeAnimator9setTargetEiPvPKNS0_15animation_track15CApplicatorInfoE",
+      "elf_address": "0x65d408",
+      "size": 120,
+      "sha256": "879f9cd3749350fa285020fbac97d560ffd5ed873fd766b3f6d2d5e3ccb0c8dc"
+    }
+  ]
+}

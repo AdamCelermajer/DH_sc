@@ -1,0 +1,11 @@
+{
+  "comparisons": 1796,
+  "ordered_callbacks": 20,
+  "atomic_rejection_checks": 9,
+  "mismatches": 0,
+  "reference_sha256": "523f24079f703a5df42631010de7d6cc9d7d8094f6efc2daaebb53a4702cb03f",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

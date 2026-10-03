@@ -1,0 +1,20 @@
+{
+  "comparisons": 5071,
+  "cases": {
+    "line": 2409,
+    "ray": 1400,
+    "floor": 1262
+  },
+  "hits": {
+    "line": 1469,
+    "ray": 735,
+    "floor": 937
+  },
+  "atomic_rejection_checks": 1,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "da4f473f6c5c137d33d90d7bef9654a45b7cd662a57379f570e5ee79bc205206"
+}

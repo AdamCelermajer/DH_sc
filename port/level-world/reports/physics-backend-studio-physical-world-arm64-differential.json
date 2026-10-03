@@ -1,0 +1,24 @@
+{
+  "comparisons": 7000,
+  "operations": [
+    875,
+    875,
+    875,
+    875,
+    2500,
+    1000
+  ],
+  "mismatches": 0,
+  "ordered_callback_observations": 2747,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "091c2f8b0bf414d86faf6ccb00de783e44f469da7c26618aba277598f7e04972",
+  "reference_sha256": "b110ff6da7f6dc66f62d20d0ec7db7cc6d976ca956da41d3a19bf76dad7a047b",
+  "original_import_calls": {
+    "__aeabi_fcmpgt": 952,
+    "__aeabi_fsub": 450,
+    "__aeabi_fmul": 1450,
+    "__aeabi_fadd": 225
+  },
+  "scope": "Original PhysicalWorld filter/contact/timing instructions vs native ARM64.\n\nDebug-only logging/string/canary blocks are omitted in contact dispatch; the\noriginal instigator function and both virtual calls execute. Collision policies,\nvelocity getters and contact recipients are supplied observers. Box2D Step is\nan argument observer in timing cases; backend simulation has its own audit.\n",
+  "elapsed_seconds": 4.06
+}

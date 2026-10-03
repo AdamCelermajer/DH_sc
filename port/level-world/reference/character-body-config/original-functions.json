@@ -1,0 +1,143 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11POCharacterC2EP13PhysicalWorldP10GameObjectbsttb.clone.2",
+      "elf_address": "0x3b4010",
+      "size": 120,
+      "sha256": "172350683f3aa5c8e71de7ef1e9d0e9b568ced5cf60e35c197bdc7eda59778f2"
+    },
+    {
+      "original_symbol": "_ZN10GameObject14UpdatePFObjectEv",
+      "elf_address": "0x393ea0",
+      "size": 240,
+      "sha256": "691c6e39910469dec78aba5f4a58eb592b0fb609c084ff3b1e05e89cbdb5f51b"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharTypeEv",
+      "elf_address": "0x3a3054",
+      "size": 16,
+      "sha256": "c3c6ac60324ce38733ebad4c0210947ae208b7fc052d6d8e0a6ec2aef2ca3a69"
+    },
+    {
+      "original_symbol": "_ZN10GameObject17SetPhysicalObjectEP14PhysicalObjectb",
+      "elf_address": "0x394bf8",
+      "size": 316,
+      "sha256": "90b0246b94a2bd8f289f8a96b68661b0c2de1ad58f24e42a8c2f64d5d4b7b4e4"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsFaerieEv",
+      "elf_address": "0x3a3094",
+      "size": 24,
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4"
+    },
+    {
+      "original_symbol": "_ZNK9Character14IsInvisibleManEv",
+      "elf_address": "0x3a30dc",
+      "size": 24,
+      "sha256": "3b7cd6d4437958319574a9d79cdb98f59b897d10c94d4310b98686db13bcb249"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsCleanerEv",
+      "elf_address": "0x3a30f4",
+      "size": 24,
+      "sha256": "4c81db21229551c76f1661daf22ba1dc037620ef62cac07a164d8632db514c72"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObject5_initEP10b2ShapeDefffbb",
+      "elf_address": "0x46edf0",
+      "size": 204,
+      "sha256": "5ccc1e4b05848140ba7eac4d02f10d592731b4202ff430a9bf154daa4e94b4d1"
+    },
+    {
+      "original_symbol": "_ZN7b2World10CreateBodyEPK9b2BodyDef",
+      "elf_address": "0x7e7ef8",
+      "size": 132,
+      "sha256": "62a3cdd56582918829a95ded4d581784c283cc3c28f9990f6838ca7ddeee9623"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObject9_addShapeEP10b2ShapeDefb",
+      "elf_address": "0x46edb8",
+      "size": 56,
+      "sha256": "88b441b9aed1942f26a636217b533d9ea6b8c18ddd65f8ca647078df8fde3b21"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsMerchantEv",
+      "elf_address": "0x3a30c4",
+      "size": 24,
+      "sha256": "cd67635d1bb9fc3c66dd5f4389a88dc243ed18421674eaf1a93d636ad390f84b"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsMonsterEv",
+      "elf_address": "0x3a3064",
+      "size": 24,
+      "sha256": "7a90ee5513b9d9e9dd9a9c68da50030bd562d38e10153554b9fd4f4ed3471e98"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsFollowerEv",
+      "elf_address": "0x3a307c",
+      "size": 24,
+      "sha256": "58a4e95c6ea102b9992c0c39ce6539574f727e45fe525c8a1041e67f4816456d"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsSummonedEv",
+      "elf_address": "0x3a30ac",
+      "size": 24,
+      "sha256": "19f7355baa1349fa90bde5e8f047f3f87c201683f3572a6906f96e4983b03599"
+    },
+    {
+      "original_symbol": "_ZNK9Character9GetCharAIEv",
+      "elf_address": "0x3a3024",
+      "size": 48,
+      "sha256": "11131ec819b3f9f48184bf209234614f953af1a625f6cf1973fdb63d7c11b7f9"
+    },
+    {
+      "original_symbol": "_ZN6b2BodyC1EPK9b2BodyDefP7b2World",
+      "elf_address": "0x7e2218",
+      "size": 608,
+      "sha256": "c8c3a709cee2b111e82d41b3e94c0d992c1f31998e4d97fd26dd2a1b4ac03df6"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObjectC2EP13PhysicalWorldP10GameObjectbbbbstti",
+      "elf_address": "0x46f2f0",
+      "size": 904,
+      "sha256": "96b06ba5890cea07739112419832da3d76766492012e6e27529b7cb450e993af"
+    },
+    {
+      "original_symbol": "_ZN6b2Body7SetMassEPK10b2MassData",
+      "elf_address": "0x7e1b28",
+      "size": 508,
+      "sha256": "a2669402b9312c66b66d5021e74d5bea01dcc5cad5e0895381cb3a031e1c5a3c"
+    },
+    {
+      "original_symbol": "_ZN13PhysicalWorld10createBodyEP9b2BodyDef",
+      "elf_address": "0x34bcf0",
+      "size": 24,
+      "sha256": "2ae798f1834e03fc1a654532b6a0f4914207780c5a354067b9b95887deed9957"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObject3pinEv",
+      "elf_address": "0x46eb20",
+      "size": 80,
+      "sha256": "285e38208567ae5495448d7c6ce89ea069d52b91e20ba7dea731f697af8d1eb9"
+    },
+    {
+      "original_symbol": "_ZN9Character18InitPhysicalObjectEv",
+      "elf_address": "0x3b4088",
+      "size": 856,
+      "sha256": "1793958ab90b0c33330288678f3e05fc198d7f49d8cc5d1c468e65c532e058a4"
+    },
+    {
+      "original_symbol": "_ZNK9Character5IsNPCEv",
+      "elf_address": "0x3a310c",
+      "size": 56,
+      "sha256": "3f9f4129efbf914bdd7fd662b0e9a7b9b949ecb50da2b6f6895752bd811ebdab"
+    },
+    {
+      "original_symbol": "_ZN12b2PolygonDef8SetAsBoxEff",
+      "elf_address": "0x7e44b8",
+      "size": 60,
+      "sha256": "24e278237b705f1be3d74929d990c4454959c6025eeba1f8798b0dab9e3ffd37"
+    }
+  ]
+}

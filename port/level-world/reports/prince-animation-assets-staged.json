@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "resources": 116,
+  "registration_requests": 158,
+  "added_resources": 42,
+  "reused_resources": 74,
+  "bytes": 1538948,
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "producer_snapshot": ".local-inputs\\prince-animation-assets-producer.json",
+  "producer_sha256": "663429c6905a55f6ce013e4297ca0716e91146432e64369d2e291984415a5cd4",
+  "asset_manifest": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\data\\prince-animation-bank.json",
+  "asset_manifest_sha256": "76633bb4f0ab5f645f4516e407e1f926df61641ea66faa805f68da57f043eb81",
+  "preparer_sha256": "9dd97fed4fbf1bc3ce1d0fbc5852df90b89998bedeb0b824ad50cb548dcfcb0e",
+  "scope": "Exact original-cache resources staged in source APK assets only. No new APK, live full-bank loader or Studio project synchronization claim."
+}

@@ -1,0 +1,19 @@
+{
+  "original_derived_replay": 2504,
+  "atomic_rejection_checks": 18,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "98fc64c6319901318720dcc6df19fea5df0c780a9d4cb47cdc38b6a38e2c0d23",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/level-world/animation_blender.hpp": "1cbd58f878b9a050c07f6b2a1cfc120808811cf0417f509220154b8ab9bc605c",
+    "port/level-world/animation_blender.cpp": "6701d9be1d72b85537d3aa90eb461741e25312c307e8db820cc665626dfba694",
+    "port/level-world/tests/animation_blender.cpp": "2e3304fb0c935f54414ecd01b051ae28b5a225072fccd8dda182a048c526003e",
+    "port/level-world/tests/animation_blender_differential.py": "e68072f592dbffd0710fe7b7d4788a80a5088cde6f9bdc845be51868a60b78e1"
+  },
+  "compiler": "WSL g++ -std=c++17 -O1 -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer -Wall -Wextra -Werror",
+  "scope": "Original-derived weight metadata replay only; no scene target blending or ownership services."
+}

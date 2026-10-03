@@ -1,0 +1,232 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "compiled_descriptor_sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da",
+  "world_inputs": [
+    {
+      "name": "x07_crypt_backup.mlx",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/x07_crypt_backup.mlx",
+      "bytes": 8124,
+      "sha256": "706b1e23ea7ca9c3c1695d6cf8679c177bdfb70e71d202e351a2b0c8564023c7"
+    },
+    {
+      "name": "crypt_cemetery_entrance_01.mgp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+      "bytes": 10841,
+      "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+    },
+    {
+      "name": "crypt_cemetery_entrance_01.mvp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_cemetery_entrance_01.mvp",
+      "bytes": 8569,
+      "sha256": "3d85527d704c1b74869bfbb2f39be1585a905e66575a4cf251adac0cdeb80de7"
+    },
+    {
+      "name": "crypt_straight_ns_01.mgp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_ns_01.mgp",
+      "bytes": 3365,
+      "sha256": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25"
+    },
+    {
+      "name": "crypt2_straight_ns_01.mvp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_straight_ns_01.mvp",
+      "bytes": 3135,
+      "sha256": "ee4cea2740331782278fd56f4bf7c064ca778a78d8c426696a0ce6bbabbe0007"
+    },
+    {
+      "name": "crypt_corner_sw_02.mgp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_sw_02.mgp",
+      "bytes": 1897,
+      "sha256": "ff4defedde868b53eeb5d5c9ac39dc41fc6b85d55cd27891e3009d3ad3e04168"
+    },
+    {
+      "name": "crypt_corner_sw_01.mvp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_sw_01.mvp",
+      "bytes": 4172,
+      "sha256": "7ccc9938cdf0e6ae58bb61d6c74e1908c6087874a161a4ac8b55fabc862873db"
+    },
+    {
+      "name": "crypt_corner_ne_02.mgp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp",
+      "bytes": 3523,
+      "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+    },
+    {
+      "name": "crypt_corner_ne_01.mvp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_ne_01.mvp",
+      "bytes": 5571,
+      "sha256": "2500af6ebb2d01126f739ae1ced635c6e46365cf3f13ed34cc1ae8e7fa885e78"
+    },
+    {
+      "name": "crypt_t_sew_01.mgp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp",
+      "bytes": 1731,
+      "sha256": "a34d860d4b94cbcb936ecc9ab1ad2d8ee8450c15067a44298ac88d0a5c3c8189"
+    },
+    {
+      "name": "crypt_t_sew_01.mvp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_t_sew_01.mvp",
+      "bytes": 5057,
+      "sha256": "5bdb426a45eef5d9edb2abc4cc5e9281a35ad4df27076e16ca0c252e55a9345f"
+    },
+    {
+      "name": "crypt_deadend_e_01.mgp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_deadend_e_01.mgp",
+      "bytes": 2260,
+      "sha256": "41604cc014bfeeef32b93432f49d2dc7643915f8112a123f1d0de9c3e6e47c8b"
+    },
+    {
+      "name": "crypt_deadend_e_01.mvp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_deadend_e_01.mvp",
+      "bytes": 3410,
+      "sha256": "d3f69fe0ffba96b35414d8db0399e7e6acbda0fb658ec2ec3fb8abfb1dc72440"
+    },
+    {
+      "name": "crypt_corner_nw_02.mgp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_nw_02.mgp",
+      "bytes": 1355,
+      "sha256": "5652c6b5d64cf75e9b8c043cc61f6308ea6ca67784b2342c836b22469aa03179"
+    },
+    {
+      "name": "crypt_corner_nw_02.mvp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_nw_02.mvp",
+      "bytes": 4127,
+      "sha256": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134"
+    },
+    {
+      "name": "crypt_straight_c_ns_01.mgp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+      "bytes": 10307,
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    },
+    {
+      "name": "crypt_straight_c_ns_01.mvp",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_straight_c_ns_01.mvp",
+      "bytes": 8594,
+      "sha256": "bd06bd5a12043c40f028f5faeb059d531f6ea628770c05166ade227cfbc778b8"
+    },
+    {
+      "name": "crypt.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/crypt.bdae",
+      "bytes": 3922816,
+      "sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b"
+    },
+    {
+      "name": "007_crypt_01.rule.xml",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/007_crypt_01.rule.xml",
+      "bytes": 3684,
+      "sha256": "2970183f1be3b6a01470d45f0db124afb3bf6582e4ed166780e431ccdaff8b07"
+    }
+  ],
+  "locomotion_inputs": [
+    {
+      "name": "prince_walk_1hand.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "name": "prince_idle_shield.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    }
+  ],
+  "layout": "x07_crypt_backup.mlx",
+  "rooms": [
+    {
+      "name": "cemetery_entrance_0",
+      "node": "_module_cemetery_entrance-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "gameplay": "crypt_cemetery_entrance_01.mgp",
+      "visual": "crypt_cemetery_entrance_01.mvp"
+    },
+    {
+      "name": "straight_ns_1",
+      "node": "_module_straight_ns-node",
+      "position": [
+        0.0,
+        4800.0,
+        0.0
+      ],
+      "gameplay": "crypt_straight_ns_01.mgp",
+      "visual": "crypt2_straight_ns_01.mvp"
+    },
+    {
+      "name": "corner_sw_2",
+      "node": "_module_corner_sw-node",
+      "position": [
+        0.0,
+        9600.0,
+        0.0
+      ],
+      "gameplay": "crypt_corner_sw_02.mgp",
+      "visual": "crypt_corner_sw_01.mvp"
+    },
+    {
+      "name": "corner_ne_3",
+      "node": "_module_corner_ne-node",
+      "position": [
+        -4800.0,
+        9600.0,
+        0.0
+      ],
+      "gameplay": "crypt_corner_ne_02.mgp",
+      "visual": "crypt_corner_ne_01.mvp"
+    },
+    {
+      "name": "t_sew_4",
+      "node": "_module_t_sew-node",
+      "position": [
+        -4800.0,
+        14400.0,
+        0.0
+      ],
+      "gameplay": "crypt_t_sew_01.mgp",
+      "visual": "crypt_t_sew_01.mvp"
+    },
+    {
+      "name": "deadend_e_5",
+      "node": "_module_deadend_e-node",
+      "position": [
+        -9600.0,
+        14400.0,
+        0.0
+      ],
+      "gameplay": "crypt_deadend_e_01.mgp",
+      "visual": "crypt_deadend_e_01.mvp"
+    },
+    {
+      "name": "corner_nw_6",
+      "node": "_module_corner_nw-node",
+      "position": [
+        0.0,
+        14400.0,
+        0.0
+      ],
+      "gameplay": "crypt_corner_nw_02.mgp",
+      "visual": "crypt_corner_nw_02.mvp"
+    },
+    {
+      "name": "straight_c_ns_7",
+      "node": "_module_straight_c_ns-node",
+      "position": [
+        0.0,
+        19200.0,
+        0.0
+      ],
+      "gameplay": "crypt_straight_c_ns_01.mgp",
+      "visual": "crypt_straight_c_ns_01.mvp"
+    }
+  ],
+  "original_spawn": [
+    -2227.77,
+    1220.93,
+    812.557
+  ],
+  "preserved_object_count": 166,
+  "procedural_rules_executed": false
+}

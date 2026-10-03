@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI12AI_CanAttackEP10GameObject",
+      "elf_address": "0x3d67f4",
+      "size": 156,
+      "sha256": "95b3fe079df89901c063c0680c929fa42274beadb06d7f162e07b223e62eb7d0"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI18AI_IsTargetSeekingEv",
+      "elf_address": "0x3d49d0",
+      "size": 32,
+      "sha256": "04aeb2cf9888895b966af824cbd63d012997e31a5014b2f5954bc2fde7b6122a"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsZonableEv",
+      "elf_address": "0x3a36e4",
+      "size": 64,
+      "sha256": "bfb46b114bdb841084033e50956c8ae23f7707973594c74902ba7f05c29883ab"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsDeadEv",
+      "elf_address": "0x3a2ed4",
+      "size": 12,
+      "sha256": "80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b"
+    }
+  ]
+}

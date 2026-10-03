@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12CharAnimator6UpdateEv",
+      "elf_address": "0x3caf3c",
+      "size": 948,
+      "sha256": "a3ea6cd907c75e5ee0c8a915294b4d21f94efabb644f125c2009d401481eeebe"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+      "elf_address": "0x3c90ec",
+      "size": 12,
+      "sha256": "9217b2f07a27b6abe7cf3fcb694a54ac71d54ec4f30e3136c4339c45ffbdd1fd"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator17ANIM_SkipNextStepEv",
+      "elf_address": "0x3c9464",
+      "size": 8,
+      "sha256": "59a361926e8c313fb7b560862180eb1ec77670544cd19d0e6fb156e06edd24a8"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator13ANIM_StopLoopEb",
+      "elf_address": "0x3c948c",
+      "size": 44,
+      "sha256": "59dfca1f42f2a4bfd1f56b47a71fcfa90c010facd6f2356860e17171fd0792bf"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator8ANIM_SetEi",
+      "elf_address": "0x3cacb0",
+      "size": 28,
+      "sha256": "5340f7f91e1f08522e13b2504cca0238bd7351a7557b8c1e5d3b735a6ac39c13"
+    }
+  ]
+}

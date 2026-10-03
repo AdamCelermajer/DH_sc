@@ -1,0 +1,28 @@
+{
+  "line_comparisons": 661,
+  "path_operation_comparisons": 4509,
+  "atomic_rejection_checks": 3,
+  "line_classifications": [
+    6,
+    2,
+    296,
+    103,
+    104,
+    150
+  ],
+  "operation_counts": [
+    0,
+    643,
+    322,
+    321,
+    325,
+    965,
+    1933
+  ],
+  "mismatches": 0,
+  "reference_sha256": "93731e8ccecc89943dbfbfcf41231716a1b9f85fe9fc8102d0f9c680f2b61405",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

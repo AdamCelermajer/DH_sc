@@ -1,0 +1,24 @@
+{
+  "source_layout_matches_original": true,
+  "fields": {
+    "world_size": "0x19278",
+    "body_size": "0x94",
+    "circle_size": "0x3c",
+    "polygon_size": "0x11c",
+    "world_lock": "0x191d4",
+    "world_broadphase": "0x191d8",
+    "world_body_count": "0x1923c",
+    "world_contact_count": "0x19240",
+    "world_filter": "0x19260",
+    "world_listener": "0x19264",
+    "world_inverse_dt": "0x1926c",
+    "body_shapes": "0x64",
+    "body_mass": "0x74",
+    "shape_sweep_radius": "0x10",
+    "shape_proxy": "0x20"
+  },
+  "pair_count_offset": "0x3000c",
+  "pair_manager_size": "0x48014",
+  "proxy_capacity": 2048,
+  "pair_capacity": 16384
+}

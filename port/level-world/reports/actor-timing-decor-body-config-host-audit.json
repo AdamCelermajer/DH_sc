@@ -1,0 +1,13 @@
+{
+  "mesh_comparisons": 2082,
+  "config_comparisons": 2222,
+  "service_requests": 11794,
+  "malformed_checks": 12,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "optimization": "O1,no fast math,fp-contract off",
+  "reference_sha256": "f8ec882a5b6c5d13caa5b1394fc25565a88d14e34e9aced305b310c7b2bd55bf"
+}

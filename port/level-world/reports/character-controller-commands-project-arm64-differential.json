@@ -1,0 +1,19 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "a18159eaeec44c1cd2aafe42250192ceb2b8d8e78fc9decc8467ecd4aed849fe",
+  "corpus_sha256": "4c7c5e93bd3011fc02322b7979d6b135cd8acc30e0d71129f1cdc179f2db0b24",
+  "comparisons": 2456,
+  "ordered_service_requests": 2329,
+  "native_guard_checks": 5,
+  "service_failure_prefix_checks": 8,
+  "mismatches": 0,
+  "source_sha256": {
+    "character_controller_commands.hpp": "ad23b308d6219c6a98c4588fc6915026edcb862a8afdd71a61674f2dbefd39c5",
+    "character_controller_commands.cpp": "68cb770d894bb2504947678701a03173a6a6cb693ac47df080b18723c96bb342",
+    "tests/character_controller_commands_differential.py": "7bfd7521e18585d882ceb1daef64ca3bc5ff1f4e15e64f437564c774714544fb",
+    "tests/character_controller_commands.cpp": "0fe60b6f499378432886b8244c01c677c4965563855eef47106300debbe8cac6"
+  },
+  "scope": "Actual controller gates, Character thunks, remote and target getters.\n\nGameObject.Stop, PathTo, LookAt(Point) and RaiseEvent are synchronous services.\nTheir exact identity, coordinates, arguments and call order are compared.\n",
+  "character_point_override": "3addbc tail-branches to GameObject.LookAt(Point) 393cec; it is not empty. Point body remains an explicit service."
+}

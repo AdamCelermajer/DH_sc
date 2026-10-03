@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "6beccb537b9f134dbcda5c75d464c26dc7e36aef94fbe09bd1b2a964344b753f",
+  "corpus_sha256": "4760cda2097adf8a0c6024c51cfea9cb679acf56c66f357890f683fe26ddcd00",
+  "comparisons": 1491,
+  "authored_tracks": 7,
+  "authored_comparisons": 147,
+  "ordered_libm_calls": 2982,
+  "atomic_rejection_checks": 15,
+  "arithmetic_nan_payload_differences": 270,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-animation/angle_interpreter.hpp": "27fb2ebadeafe4b758ee5f142560aaa01fefa2f27c845fad1c8adff0ce0d01df",
+    "port/engine-animation/angle_interpreter.cpp": "018a29c34536fce1831e9f78aee41e1c58584875fa522a22e05fc89fd84ab45f",
+    "port/engine-animation/tests/angle_interpreter_differential.py": "088266d3ce4df1d119a0a92dc47fa308a5c85d7beb05fd87f0e2fca8528bf3cb",
+    "port/engine-animation/tests/angle_interpreter.cpp": "47ddd09351d95d447b78e2f2926fe6f914e091bc19c0dd0753101d435f148ebf",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "manifest_sha256": "b6b52a9d35651c2241e01ac608fd8f35a319640acd4e5215318a0dbfbd230506",
+  "inputs": [
+    {
+      "asset": "animations/prince_ranged_attack.bdae",
+      "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed"
+    },
+    {
+      "asset": "animations/prince_ranged_attack_02.bdae",
+      "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6"
+    },
+    {
+      "asset": "animations/prince_ranged_attack_03.bdae",
+      "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3"
+    }
+  ],
+  "libm_contract": "Actual source conversion/math execute; imported sinf/cosf modeled same UCRT on both CPUs. Compiler sincosf has identical two-function import model, no source math replacement. Finite/signedzero exact; arithmetic NaNs classification. No historical Bionic-libm parity claim.",
+  "scope": "Float angle single-key and two-key interpolation wrappers with present raw default variants. Source angle-axis conversion reused. Missing default rejected: source scratch angle undefined. No key search, compressed offsets, delta quaternion wrappers, full factory/resource lifecycle or APK claim."
+}

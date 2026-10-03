@@ -1,0 +1,12 @@
+{
+  "batches": 72,
+  "triangle_comparisons": 1880,
+  "floor_query_comparisons": 6666,
+  "native_floor_collision_used": false,
+  "atomic_rejection_checks": 2,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

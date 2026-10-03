@@ -1,0 +1,620 @@
+{
+  "validation": "PASS",
+  "checks": {
+    "validation": "PASS",
+    "resources": 116,
+    "registration_requests": 158,
+    "unique_game_ids": 116,
+    "original_current17_mappings": 17,
+    "scene_nodes": 35,
+    "compiled_clips": 158,
+    "ordered_targets": 83,
+    "target_types": {
+      "1": 28,
+      "5": 28,
+      "10": 27
+    },
+    "samples": 26228,
+    "accessor_samples": 8046,
+    "default_samples": 17598,
+    "retained_samples": 584,
+    "unbound_targets": 2,
+    "finite_output_words": 87532,
+    "nonfinite_output_words": 0,
+    "borrowed_identity_checks": 158,
+    "legacy_player_skipped": 17,
+    "legacy_player_unbound": 6,
+    "default_designation_does_not_append": true,
+    "sample_after_player_destruction": true,
+    "sanitizer_findings": 0
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "manifest_sha256": "76633bb4f0ab5f645f4516e407e1f926df61641ea66faa805f68da57f043eb81",
+  "original_registration_probe": {
+    "path": "port/engine-animation/reference/prince-registration/probe.json",
+    "sha256": "663429c6905a55f6ce013e4297ca0716e91146432e64369d2e291984415a5cd4"
+  },
+  "fixture": {
+    "path": "port/engine-animation/reference/prince-bank-integration/bank-fixture.bin",
+    "sha256": "fd5b3a8ce89f9a2340b6a3c48cb9b42a3ef89e31c7fe07cc602ea770921dfac6",
+    "bytes": 7351
+  },
+  "input_sha256": {
+    "port/android-native/app/src/main/assets/models/prince_modular.bdae": {
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+      "bytes": 3207072
+    },
+    "port/android-native/app/src/main/assets/animations/prince_template_anim.bdae": {
+      "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102",
+      "bytes": 19908
+    },
+    "port/android-native/app/src/main/assets/animations/prince_menu_idle_knight.bdae": {
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a",
+      "bytes": 19400
+    },
+    "port/android-native/app/src/main/assets/animations/prince_idle_shield.bdae": {
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92",
+      "bytes": 54600
+    },
+    "port/android-native/app/src/main/assets/animations/prince_idle_shield_02.bdae": {
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13",
+      "bytes": 14996
+    },
+    "port/android-native/app/src/main/assets/animations/prince_walk_slow.bdae": {
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967",
+      "bytes": 68492
+    },
+    "port/android-native/app/src/main/assets/animations/prince_walk_1hand.bdae": {
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5",
+      "bytes": 10496
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_pre_combo_01_moving.bdae": {
+      "sha256": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0",
+      "bytes": 6984
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_combo_01_moving.bdae": {
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238",
+      "bytes": 8164
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_post_combo_01_moving.bdae": {
+      "sha256": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e",
+      "bytes": 8924
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_pre_combo_02_moving.bdae": {
+      "sha256": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548",
+      "bytes": 7012
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_combo_02_moving.bdae": {
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01",
+      "bytes": 8056
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_post_combo_02_moving.bdae": {
+      "sha256": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af",
+      "bytes": 8524
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_pre_combo_03_moving.bdae": {
+      "sha256": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc",
+      "bytes": 6808
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_combo_03_moving.bdae": {
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1",
+      "bytes": 8236
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_post_combo_03_moving.bdae": {
+      "sha256": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8",
+      "bytes": 9044
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_pre_combo_01.bdae": {
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32",
+      "bytes": 7872
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_combo_01.bdae": {
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa",
+      "bytes": 8028
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_combo_01_to_idle.bdae": {
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624",
+      "bytes": 8876
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_pre_combo_02.bdae": {
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4",
+      "bytes": 7148
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_combo_02.bdae": {
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0",
+      "bytes": 8512
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_combo_02_to_idle.bdae": {
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091",
+      "bytes": 9912
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_pre_combo_03.bdae": {
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058",
+      "bytes": 7548
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_combo_03.bdae": {
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003",
+      "bytes": 8632
+    },
+    "port/android-native/app/src/main/assets/animations/prince_1hand_combo_03_to_idle.bdae": {
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260",
+      "bytes": 9084
+    },
+    "port/android-native/app/src/main/assets/animations/prince_feared.bdae": {
+      "sha256": "ad14966e8ed054fb44e356b53592740c14b920992cfdc9a9462e9ce78be07262",
+      "bytes": 10232
+    },
+    "port/android-native/app/src/main/assets/animations/prince_pre_stunned.bdae": {
+      "sha256": "35eb3d125813c63a3a0aea5a3ce3810339e44dc7c8a13bf40ebb1a4061358532",
+      "bytes": 7084
+    },
+    "port/android-native/app/src/main/assets/animations/prince_stunned.bdae": {
+      "sha256": "10a81195712d8a46498104c8e1647296ee7fdf0d4eb488425d1bd987cf3b0214",
+      "bytes": 11636
+    },
+    "port/android-native/app/src/main/assets/animations/prince_post_stunned.bdae": {
+      "sha256": "0d0930697d6de8e84aca96450d02dd1576c96fef1d17bf530f100fd4d7727403",
+      "bytes": 9244
+    },
+    "port/android-native/app/src/main/assets/animations/prince_pushback.bdae": {
+      "sha256": "98b725ebc5c5d5de24a10b01cc9936a08d5505adb62919db522a14c6ecd3481e",
+      "bytes": 10784
+    },
+    "port/android-native/app/src/main/assets/animations/prince_standup.bdae": {
+      "sha256": "14f67e0012fcbac97db179cf9304f55d22d537fed2a78c3070c5be758725042d",
+      "bytes": 12624
+    },
+    "port/android-native/app/src/main/assets/animations/prince_great_pushback.bdae": {
+      "sha256": "bdff3bc5dd3f3a95227a29bb042b6c837b56c45f53ff715d0aacb9c3fe8b36b0",
+      "bytes": 13724
+    },
+    "port/android-native/app/src/main/assets/animations/prince_great_pushback_standup.bdae": {
+      "sha256": "3943f7a2cf93ff0061370a95bf29434bd70f3916779d9c1a81c8bd75d751b6a7",
+      "bytes": 15660
+    },
+    "port/android-native/app/src/main/assets/animations/prince_hurt_01.bdae": {
+      "sha256": "912d6df63b3088f8670d184b3acd5df133edd0791a24568379d206dfdabe7522",
+      "bytes": 9492
+    },
+    "port/android-native/app/src/main/assets/animations/prince_hurt_02.bdae": {
+      "sha256": "ddff33044857266b997546d418c4d2e4599831e57c19e67fd5b6e6397673e768",
+      "bytes": 10428
+    },
+    "port/android-native/app/src/main/assets/animations/prince_hurt_03.bdae": {
+      "sha256": "e0770baf2c5dd3a841c5b3d47660c1c956d56cdab57122f5a7955e9e0fc58682",
+      "bytes": 9732
+    },
+    "port/android-native/app/src/main/assets/animations/prince_block.bdae": {
+      "sha256": "f87f34e28201d67f33f0245caeeaf33fd024b3b826343a613c2b924df7efd51c",
+      "bytes": 10280
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dodge.bdae": {
+      "sha256": "b196c02e2270db944ae6f41d90965d741927fbf5fa37b19878fbf49f2e544af0",
+      "bytes": 11664
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dying_01.bdae": {
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a",
+      "bytes": 14992
+    },
+    "port/android-native/app/src/main/assets/animations/prince_despawn_01.bdae": {
+      "sha256": "b6aa0d869acf57409e6a8bbdc755e5c24b0e16fa59adda85d87b2761d0411455",
+      "bytes": 6312
+    },
+    "port/android-native/app/src/main/assets/animations/prince_great_pushback_dying.bdae": {
+      "sha256": "7ca5c9182f00bf5859599fb6f0f18a00fdbd089f9b42836b7fb7ccb99fd01b89",
+      "bytes": 10480
+    },
+    "port/android-native/app/src/main/assets/animations/prince_great_pushback_despawn.bdae": {
+      "sha256": "df027ddc1a680b116ae0330fb7c55bc45c3dca567540a6333a3d8fa969367fb0",
+      "bytes": 6940
+    },
+    "port/android-native/app/src/main/assets/animations/prince_rogue_sneak_idle.bdae": {
+      "sha256": "ba16c7ae983f3afe7c0f7e95836e5412bc7ac3399ee502de9acf5a780f003f9e",
+      "bytes": 16788
+    },
+    "port/android-native/app/src/main/assets/animations/prince_rogue_sneak_walk.bdae": {
+      "sha256": "64ec13a0132bf52db4c430c64f2b138ca7cc5bd76140ee3ede21b1923a8bc9c1",
+      "bytes": 11392
+    },
+    "port/android-native/app/src/main/assets/animations/prince_interaction.bdae": {
+      "sha256": "988b7ad3e614e2ecc4fc29bdd6fef71d752476d94b432b8ce46b37759e9eba62",
+      "bytes": 11408
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dialog.bdae": {
+      "sha256": "276249c74adfae2cf0c69feb18348751ae8dc6b76c4bccfd559996d201a0fb3a",
+      "bytes": 27972
+    },
+    "port/android-native/app/src/main/assets/animations/prince_interaction_shrine.bdae": {
+      "sha256": "cec7e98e19b3e0621e3851932c7f0a54c9e668bd42ee47feb4b14651fcb7842a",
+      "bytes": 6072
+    },
+    "port/android-native/app/src/main/assets/animations/prince_spell_channeling.bdae": {
+      "sha256": "1350178e7a87b8868fb6e4d34acfce79e27a77674058aa09ddd8625bb6f596ec",
+      "bytes": 8048
+    },
+    "port/android-native/app/src/main/assets/animations/prince_spell_pre_wetty.bdae": {
+      "sha256": "0ab0b2420d0a61797e41f7176b9690d5f56d85d0daac3005e871e7f11b2889fc",
+      "bytes": 8352
+    },
+    "port/android-native/app/src/main/assets/animations/prince_spell_wetty.bdae": {
+      "sha256": "e00550d886041df8af1add54e49a5a9c4047bce9b730ddf219f03d1ad4660cf0",
+      "bytes": 9488
+    },
+    "port/android-native/app/src/main/assets/animations/prince_spell_pre_windy.bdae": {
+      "sha256": "b291fd40c0eb231aa130312d59fb5a54d9113b8f4931bda477bb3f768caba43a",
+      "bytes": 8648
+    },
+    "port/android-native/app/src/main/assets/animations/prince_spell_windy.bdae": {
+      "sha256": "ad9c13246bb75cb3f7bbc6c8cb2aa5100fdd8c23f25185b45f35acb10d0df36f",
+      "bytes": 10656
+    },
+    "port/android-native/app/src/main/assets/animations/prince_spell_pre_rocky.bdae": {
+      "sha256": "df611a7a2610a9bc952ff5bcd2d09c78858a1f03aa9d3e4d0b5f8ec25b54cc7a",
+      "bytes": 9256
+    },
+    "port/android-native/app/src/main/assets/animations/prince_spell_rocky.bdae": {
+      "sha256": "6a98c5f8a6aacb745ae58f01e13e375bf8489e9c66864870f5d77d91d6b4183a",
+      "bytes": 9452
+    },
+    "port/android-native/app/src/main/assets/animations/prince_spell_pre_hotty.bdae": {
+      "sha256": "20f24c13da52eeccd65e5c1d9e1622eae02eb17c8add83893c7470dd2e5ce59d",
+      "bytes": 8204
+    },
+    "port/android-native/app/src/main/assets/animations/prince_spell_hotty.bdae": {
+      "sha256": "e80741db58a592071f0fe0f4683a2fb4cec3d5e6c0872a32251ef7266d742fda",
+      "bytes": 9444
+    },
+    "port/android-native/app/src/main/assets/animations/skill_dh2_prince_warrior_bash_down.bdae": {
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b",
+      "bytes": 15528
+    },
+    "port/android-native/app/src/main/assets/animations/skill_dh2_prince_warrior_crushing_blow.bdae": {
+      "sha256": "5aa608edd801347e338505fb915f6e44033bf51ff98310170accd4dcb232dbfa",
+      "bytes": 14676
+    },
+    "port/android-native/app/src/main/assets/animations/skill_dh2_prince_warrior_charge.bdae": {
+      "sha256": "f24d9a28854d0188e611b7ebb4bd120f3dd57957ae132c5d243f2dbb627fd373",
+      "bytes": 11516
+    },
+    "port/android-native/app/src/main/assets/animations/prince_idle_2hand.bdae": {
+      "sha256": "298c9f6f5af13970050a683640790453cf2fe0932d4e59ed6507377c81e2f181",
+      "bytes": 57112
+    },
+    "port/android-native/app/src/main/assets/animations/prince_idle_2hand_02.bdae": {
+      "sha256": "5a9e13430fca5c3ce8eea44e695e300b444b7916245f513bc3636588b25a2ab2",
+      "bytes": 65132
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_pre_combo_01_moving.bdae": {
+      "sha256": "a4ffe99f3747c1458fcab74226fd1dcc8c272c9255f4d8685f0cf4ad0b5a9ab4",
+      "bytes": 7940
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_01_moving.bdae": {
+      "sha256": "80da78bee82f732b326b2232dfe0dc30ef8fdc1a52df84a3ad46960dbc625d39",
+      "bytes": 8816
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_01_to_idle_moving.bdae": {
+      "sha256": "fd0ee7b2f3cc16e5f09ec4b854b5bfa3bd37d5fbc559a722cefd706b46a5ba66",
+      "bytes": 10744
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_pre_combo_02_moving.bdae": {
+      "sha256": "c16ecacf1d5d3ac959dc59f0e353e608a0dc6828d857566171b9960e017d59eb",
+      "bytes": 7724
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_02_moving.bdae": {
+      "sha256": "926d4df45a4cf6290365d12019158a6160b57d68e56e8826eea29cbcbddeb063",
+      "bytes": 8960
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_02_to_idle_moving.bdae": {
+      "sha256": "61571532605f9ae76acb0ed2972a098aba27d8d5db59a3f04f431e9f95078785",
+      "bytes": 10576
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_pre_combo_03_moving.bdae": {
+      "sha256": "e5e6d8a6898b3cc0979672366f2f8d5c14708409a1a9a3bceb88039f00cb3517",
+      "bytes": 7724
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_03_to_idle_moving.bdae": {
+      "sha256": "bdd6f89b8a37493a9360631a1c3ee62301414eaab5a0d4c92ebbccb26b43f1cb",
+      "bytes": 10980
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_pre_combo_01.bdae": {
+      "sha256": "7200dcc608afbb10af5ac3aae47042d11e94ffdf828a7a5c266fcfd561f0410d",
+      "bytes": 7640
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_01.bdae": {
+      "sha256": "ef877dee487c8c91ee9fd6c4a3a1e9b72db12e9d0288a837341b9a16ba276aa2",
+      "bytes": 8144
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_01_to_idle.bdae": {
+      "sha256": "08271e2127bcc0baab19ba06bd15af824ad93c45c4319be63f4d0b236eda46bc",
+      "bytes": 8808
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_pre_combo_02.bdae": {
+      "sha256": "cb6e4349be2a3426b346cade5da15ad5a9dda63dfeb3405e4f24b73066c02d61",
+      "bytes": 7992
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_02.bdae": {
+      "sha256": "910ea4514b097281bdc1fcab85e394687baae900838ae0b065c5f1bad28fe44f",
+      "bytes": 7740
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_02_to_idle.bdae": {
+      "sha256": "84f919b98f461f8606c68e1da4b0ef7c7e827c4ee7616ed22b22a935b16bf9ea",
+      "bytes": 10248
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_pre_combo_03.bdae": {
+      "sha256": "de13c3aa34ecb9ad952ba818f823f807593fd98e0c0334b23ac7ca0e5b86d072",
+      "bytes": 8160
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_03.bdae": {
+      "sha256": "8a8400e0f65e69c1e338008a2399fc74c05697a3853af9301733fbbf4dfcd3e9",
+      "bytes": 8144
+    },
+    "port/android-native/app/src/main/assets/animations/prince_2hand_combo_03_to_idle.bdae": {
+      "sha256": "611c1d1ce0da71fd01fda1866d9d4d4b979ab86c4d10b8c04143c74398aff005",
+      "bytes": 8872
+    },
+    "port/android-native/app/src/main/assets/animations/skill_dh2_prince_rogue_vicious_strike.bdae": {
+      "sha256": "f5bdab87e02875d343840377e580afdce3dbbf0db35938baa17d5910ebbdb6b6",
+      "bytes": 15752
+    },
+    "port/android-native/app/src/main/assets/animations/prince_idle_dual.bdae": {
+      "sha256": "19a673316a0e9d8497ab32c7f9466094993eb78ba4e0bc099c40fa2636906d8c",
+      "bytes": 55036
+    },
+    "port/android-native/app/src/main/assets/animations/prince_idle_dual_02.bdae": {
+      "sha256": "58ec39b964f729c3ef18d7920bf28bde5bb05b02d5c674944e6c72368f51f77e",
+      "bytes": 65128
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_pre_combo_01_moving.bdae": {
+      "sha256": "6da1b197fd7014e94d286d1d041ea8cbf88b3603c6f7fbfa5685d0cef418ec4c",
+      "bytes": 6200
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_01_moving.bdae": {
+      "sha256": "8b639941320b72e1a42deabeca29b29c889a11c1295d7b4029d4a8f13098983e",
+      "bytes": 8064
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_post_combo_01_moving.bdae": {
+      "sha256": "8c4c1478be59b455b21d45c495ae90b7c96c39ead7276189150cd3ea5639a25a",
+      "bytes": 9692
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_pre_combo_02_moving.bdae": {
+      "sha256": "ba34ee9edb5457dcf93a14a217831fb8b29cc02bf41b26739ec4b73b96da4356",
+      "bytes": 6840
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_02_moving.bdae": {
+      "sha256": "17ceee4f1f72fba31fc632381478e5c5567fd8108d9da10bafaa018dad36d45d",
+      "bytes": 8376
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_post_combo_02_moving.bdae": {
+      "sha256": "556989752468582c503dadccc757bff3fcdca0ac715dd896f125fa8dbe56f9ec",
+      "bytes": 9556
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_pre_combo_03_moving.bdae": {
+      "sha256": "ace53ab8c5b3318027663a7550c818ea58166cd2eb998ba68ce8c46cc8f48271",
+      "bytes": 8228
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_03_moving.bdae": {
+      "sha256": "600a0a395c57fe4af957dc1e56e30c51a9f918a4ac009d044289be32f92233c8",
+      "bytes": 8112
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_post_combo_03_moving.bdae": {
+      "sha256": "6156454146d2ec9ea36ee2f3a372c1a97cb7c3e1e9d5624adbe91dd4b5ac895c",
+      "bytes": 9868
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_pre_combo_04_moving.bdae": {
+      "sha256": "34d4778b17a6888c0e77c8fe5e867f614eec558dc46eefb51a64c52f8366408a",
+      "bytes": 8092
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_04_moving.bdae": {
+      "sha256": "776389afecd2125085d2dbe792af07b51e39b1b3098c3df7142f418ccf93ae64",
+      "bytes": 8396
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_post_combo_04_moving.bdae": {
+      "sha256": "d74637bc25d937bf15f4c5ce94af4acc3e888561d99be8e6e14f56d14c56012b",
+      "bytes": 9488
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_pre_combo_01.bdae": {
+      "sha256": "2d4086709480be7a0b132175d95661f18f5aba723a4c67b1bf79db9641eab65f",
+      "bytes": 7680
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_01.bdae": {
+      "sha256": "5b836271f1512867c798548b005f0c287c6f8616389ea42435e906113d247df2",
+      "bytes": 7292
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_01_to_idle.bdae": {
+      "sha256": "ba0ce3649c5112419f83fe964421a83badda3322d5a85b19910cd26937ea98f1",
+      "bytes": 9196
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_pre_combo_02.bdae": {
+      "sha256": "245e8a74e81cea44afdfc646db77481101704ec10d6cf951e8be00ac36645921",
+      "bytes": 7096
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_02.bdae": {
+      "sha256": "daddcc6db2fd1d71d783039c3e2e02faae32fd7305543b48072d975df8744817",
+      "bytes": 7588
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_02_to_idle.bdae": {
+      "sha256": "cfea77fc9d5c841fb4684eb817f79f973858f05ecfb2b37ca6c0ef0aee64a8c0",
+      "bytes": 10556
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_pre_combo_03.bdae": {
+      "sha256": "c50dd20b885e10e703d8e854cb6b71270060d536c5dee3ca3062aa4222e83086",
+      "bytes": 7456
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_03.bdae": {
+      "sha256": "44b08982c3b21d6bfe9f4c95fc5209920e010dfced75890fe7081e9f5b01e018",
+      "bytes": 8136
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_03_to_idle.bdae": {
+      "sha256": "68964418ac71cc62246c47ef22a5c0b666d0d7291a841cb710a05e70aa68bac7",
+      "bytes": 9224
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_pre_combo_04.bdae": {
+      "sha256": "a013e2d9c4df519279717b0bc4f354f03b3b021abcb2811956af5de63aff7370",
+      "bytes": 7380
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_04.bdae": {
+      "sha256": "376639964124dad7d0ee5177e0eaced6b4f5a161a5b0069ccbba2adb25b30f98",
+      "bytes": 7324
+    },
+    "port/android-native/app/src/main/assets/animations/prince_dual_combo_04_to_idle.bdae": {
+      "sha256": "ba92607da20e06bad4d606bf6e8170ae5030bbf26fd0cb6e1cb5d1275c555581",
+      "bytes": 9180
+    },
+    "port/android-native/app/src/main/assets/animations/root_troll_pre_attack_01.bdae": {
+      "sha256": "dc4cfc8c853552c3d13d8bfcc598f34d3d4a2caa9b0bceb9e35083e4beab8d83",
+      "bytes": 12356
+    },
+    "port/android-native/app/src/main/assets/animations/root_troll_attack_01.bdae": {
+      "sha256": "4be7041221376d6c0fe7ffbddbb348255cabb5c05f84dcdd3b9edb528e15d51e",
+      "bytes": 40516
+    },
+    "port/android-native/app/src/main/assets/animations/root_troll_post_attack_01.bdae": {
+      "sha256": "7a4ed88775687f30b71948d079f13864f8918d581217c26ca0b17fb797ba9dd0",
+      "bytes": 9100
+    },
+    "port/android-native/app/src/main/assets/animations/skill_dh2_prince_mage_wand_attack.bdae": {
+      "sha256": "bfbdf36bcd38aec4411b71b134ec661b66e47ae649fdca09dd800cd2ad5b7762",
+      "bytes": 65060
+    },
+    "port/android-native/app/src/main/assets/animations/prince_idle_ranged.bdae": {
+      "sha256": "d16c517b473d039cf47559229417f9fc6d862f57a98e1f866f71989225c9a14f",
+      "bytes": 9964
+    },
+    "port/android-native/app/src/main/assets/animations/prince_ranged_attack.bdae": {
+      "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed",
+      "bytes": 11752
+    },
+    "port/android-native/app/src/main/assets/animations/prince_ranged_attack_02.bdae": {
+      "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6",
+      "bytes": 12088
+    },
+    "port/android-native/app/src/main/assets/animations/prince_ranged_attack_03.bdae": {
+      "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3",
+      "bytes": 12400
+    },
+    "port/android-native/app/src/main/assets/animations/root_troll_idle_to_dome.bdae": {
+      "sha256": "47782dc8b427074d9499e250f6391f66b43c37ee039f70b63b0038418e641786",
+      "bytes": 11020
+    },
+    "port/android-native/app/src/main/assets/animations/root_troll_dome_warning.bdae": {
+      "sha256": "3fa1fc7554771a54ca0471ad5e10b8b4da6535b75907f21f2e88c5bcc588b95d",
+      "bytes": 3524
+    },
+    "port/android-native/app/src/main/assets/animations/root_troll_dome_idle.bdae": {
+      "sha256": "8acac78bae233bc13c8b05d70799868f1904c8ee1669f42686e293d7820cba0a",
+      "bytes": 11744
+    },
+    "port/android-native/app/src/main/assets/animations/root_troll_dome_to_idle.bdae": {
+      "sha256": "07e553ae7f389fcdc1a28919e5616ae7b11de694e447835c859ad851ed7ce1e4",
+      "bytes": 19568
+    }
+  },
+  "source_sha256": {
+    "port/engine-animation/angle_interpreter.cpp": "018a29c34536fce1831e9f78aee41e1c58584875fa522a22e05fc89fd84ab45f",
+    "port/engine-animation/animation.cpp": "741a4df6e1c1753a9fbcf20192c2b1f09ed0d1bfc5701ab9ccd943e76713237f",
+    "port/engine-animation/animation_blend.cpp": "5066e683add9d92643f350aa91819f694a7b2be82201785be40cc7812536d2ac",
+    "port/engine-animation/animation_registration.cpp": "74365756322d081aa171ca54802fbf5a94488f1e29a9b9a0260ff0bb2514f0ae",
+    "port/engine-animation/component_applicator.cpp": "9abca1a630447b10b7ea871f66af1e523511af5328fd03189e8be13dd1bb57bd",
+    "port/engine-animation/events.cpp": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+    "port/engine-animation/event_track.cpp": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+    "port/engine-animation/angle_interpreter.hpp": "27fb2ebadeafe4b758ee5f142560aaa01fefa2f27c845fad1c8adff0ce0d01df",
+    "port/engine-animation/animation.hpp": "876d1b7e6fe4d1bf9363d7bcb28b0e7ef2b253794bebaa3421f29d87bbd756b3",
+    "port/engine-animation/animation_blend.hpp": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3",
+    "port/engine-animation/animation_registration.hpp": "2a7d8c0f6cb887af5e2268c88e28fc5408441d9770d7fbc779efbcd897bca8b1",
+    "port/engine-animation/component_applicator.hpp": "dd30a665ff1ad58ddceb04c8d204ac597237a17761eee9055fb985b219af945d",
+    "port/engine-animation/events.hpp": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+    "port/engine-animation/CMakeLists.txt": "3d52b1cfc0a3f2ac9d2f1fc14f8aa8c861d61fc25f4247a5d6159e223b8a19e3",
+    "port/scene-materials/scene.cpp": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+    "port/scene-materials/scene.hpp": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90",
+    "port/scene-materials/CMakeLists.txt": "50e937b770c298c095d95d1e69ff51e22b10bdb14e4081c44e078ae14a9a59b6",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/asset-payloads/payloads.hpp": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee",
+    "port/engine-animation/tests/prince_bank_integration.cpp": "c8075d2d46e99f19b7c2ed31717ff9469497b6e81e73bdf207aa9c4ce561c3b1",
+    "port/engine-animation/tests/prince_bank_integration.py": "29449945313fcceb9a5e5e5979c1b095a520ef414d06502eb5d13786728106ae"
+  },
+  "binary_sha256": {
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/prince-bank-integration/host_audit": "2257c7b1e6cddfb8d53f660582aa6952b8d28cdda66c47d5cc7683d1b8154f0e",
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so": "05e35956a29b774459206298e54efb5c02afc3bdda0c1ed1a12ccd95877ae856",
+    "/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so": "92af10e1621174e64890d1d295d97cb9ba1c3947b712636997c42e1f4392ed07"
+  },
+  "commands": [
+    {
+      "command": "cmake --build /home/adampalace/dh2-world-build --target dh2_engine_animation dh2_scene_materials -j2",
+      "returncode": 0,
+      "stdout": "[0/2] Re-checking globbed directories...\n[1/2] Re-running CMake...\n-- Configuring done (1.2s)\n-- Generating done (1.1s)\n-- Build files have been written to: /home/adampalace/dh2-world-build\n[0/4] Re-checking globbed directories...\nninja: no work to do.\n",
+      "stderr": ""
+    },
+    {
+      "command": "g++ --version",
+      "returncode": 0,
+      "stdout": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+      "stderr": ""
+    },
+    {
+      "command": "cmake -LA -N /home/adampalace/dh2-world-build",
+      "returncode": 0,
+      "stdout": "-- Cache values\nCMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line\nCMAKE_AR:FILEPATH=/usr/bin/ar\nCMAKE_BUILD_TYPE:STRING=Debug\nCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++\nCMAKE_CXX_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar-15\nCMAKE_CXX_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib-15\nCMAKE_CXX_FLAGS:STRING=-fsanitize=address,undefined -fno-omit-frame-pointer\nCMAKE_CXX_FLAGS_DEBUG:STRING=-g\nCMAKE_CXX_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG\nCMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG\nCMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG\nCMAKE_DLLTOOL:FILEPATH=CMAKE_DLLTOOL-NOTFOUND\nCMAKE_EXE_LINKER_FLAGS:STRING=-fsanitize=address,undefined\nCMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_EXPORT_BUILD_DATABASE:BOOL=\nCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=\nCMAKE_INSTALL_PREFIX:PATH=/usr/local\nCMAKE_LINKER:FILEPATH=/usr/bin/ld\nCMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/ninja\nCMAKE_MODULE_LINKER_FLAGS:STRING=\nCMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_NM:FILEPATH=/usr/bin/nm\nCMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy\nCMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump\nCMAKE_RANLIB:FILEPATH=/usr/bin/ranlib\nCMAKE_READELF:FILEPATH=/usr/bin/readelf\nCMAKE_SHARED_LINKER_FLAGS:STRING=-fsanitize=address,undefined\nCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_SKIP_INSTALL_RPATH:BOOL=NO\nCMAKE_SKIP_RPATH:BOOL=NO\nCMAKE_STATIC_LINKER_FLAGS:STRING=\nCMAKE_STATIC_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_STATIC_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_STRIP:FILEPATH=/usr/bin/strip\nCMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND\nCMAKE_VERBOSE_MAKEFILE:BOOL=FALSE\nDH2_PHYSICS_BACKEND_BUILD_TESTS:BOOL=OFF\n",
+      "stderr": ""
+    },
+    {
+      "command": "g++ -std=c++17 -O1 -g -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer -Wall -Wextra -Werror /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation/tests/prince_bank_integration.cpp -L/home/adampalace/dh2-world-build/engine-skinning/engine-animation -L/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials -ldh2_engine_animation -ldh2_scene_materials -Wl,-rpath,/home/adampalace/dh2-world-build/engine-skinning/engine-animation -Wl,-rpath,/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials -o /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/prince-bank-integration/host_audit",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "ldd /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/prince-bank-integration/host_audit",
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007267ce862000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007267cde00000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x00007267cda00000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x00007267ce540000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007267cd600000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007267cd8da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007267cce00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007267ce510000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007267cca00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007267ce864000)\n",
+      "stderr": ""
+    },
+    {
+      "command": "readelf -d /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so",
+      "returncode": 0,
+      "stdout": "\nFile: /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so\n\nDynamic section at offset 0x203d68 contains 32 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libasan.so.8]\n 0x0000000000000001 (NEEDED)             Shared library: [libdh2_scene_materials.so]\n 0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [libm.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [libubsan.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000000e (SONAME)             Library soname: [libdh2_engine_animation.so]\n 0x000000000000001d (RUNPATH)            Library runpath: [/home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials]\n 0x000000000000000c (INIT)               0x128000\n 0x000000000000000d (FINI)               0x1c6290\n 0x0000000000000019 (INIT_ARRAY)         0x204ce8\n 0x000000000000001b (INIT_ARRAYSZ)       64 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x204d28\n 0x000000000000001c (FINI_ARRAYSZ)       64 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x2d0\n 0x0000000000000005 (STRTAB)             0xa6b8\n 0x0000000000000006 (SYMTAB)             0x2a50\n 0x000000000000000a (STRSZ)              80089 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000003 (PLTGOT)             0x204fe8\n 0x0000000000000002 (PLTRELSZ)           24600 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0x1213d0\n 0x0000000000000007 (RELA)               0x1eaa0\n 0x0000000000000008 (RELASZ)             1059120 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffe (VERNEED)            0x1e9f0\n 0x000000006fffffff (VERNEEDNUM)         3\n 0x000000006ffffff0 (VERSYM)             0x1df92\n 0x000000006ffffff9 (RELACOUNT)          44115\n 0x0000000000000000 (NULL)               0x0\n\nFile: /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so\n\nDynamic section at offset 0x104d50 contains 30 entries:\n  Tag        Type                         Name/Value\n 0x0000000000000001 (NEEDED)             Shared library: [libasan.so.8]\n 0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [libm.so.6]\n 0x0000000000000001 (NEEDED)             Shared library: [libubsan.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]\n 0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]\n 0x000000000000000e (SONAME)             Library soname: [libdh2_scene_materials.so]\n 0x000000000000000c (INIT)               0x8c000\n 0x000000000000000d (FINI)               0xe7204\n 0x0000000000000019 (INIT_ARRAY)         0x104a70\n 0x000000000000001b (INIT_ARRAYSZ)       40 (bytes)\n 0x000000000000001a (FINI_ARRAY)         0x104a98\n 0x000000000000001c (FINI_ARRAYSZ)       40 (bytes)\n 0x000000006ffffef5 (GNU_HASH)           0x2d0\n 0x0000000000000005 (STRTAB)             0x4da8\n 0x0000000000000006 (SYMTAB)             0x1538\n 0x000000000000000a (STRSZ)              28065 (bytes)\n 0x000000000000000b (SYMENT)             24 (bytes)\n 0x0000000000000003 (PLTGOT)             0x104fe8\n 0x0000000000000002 (PLTRELSZ)           10344 (bytes)\n 0x0000000000000014 (PLTREL)             RELA\n 0x0000000000000017 (JMPREL)             0x88860\n 0x0000000000000007 (RELA)               0xc0f0\n 0x0000000000000008 (RELASZ)             509808 (bytes)\n 0x0000000000000009 (RELAENT)            24 (bytes)\n 0x000000006ffffffe (VERNEED)            0xc000\n 0x000000006fffffff (VERNEEDNUM)         4\n 0x000000006ffffff0 (VERSYM)             0xbb4a\n 0x000000006ffffff9 (RELACOUNT)          21065\n 0x0000000000000000 (NULL)               0x0\n",
+      "stderr": ""
+    },
+    {
+      "command": "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/prince-bank-integration/host_audit /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation/reference/prince-bank-integration/bank-fixture.bin /mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/assets",
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"resources\":116,\"registration_requests\":158,\"unique_game_ids\":116,\"original_current17_mappings\":17,\"scene_nodes\":35,\"compiled_clips\":158,\"ordered_targets\":83,\"target_types\":{\"1\":28,\"5\":28,\"10\":27},\"samples\":26228,\"accessor_samples\":8046,\"default_samples\":17598,\"retained_samples\":584,\"unbound_targets\":2,\"finite_output_words\":87532,\"nonfinite_output_words\":0,\"borrowed_identity_checks\":158,\"legacy_player_skipped\":17,\"legacy_player_unbound\":6,\"default_designation_does_not_append\":true,\"sample_after_player_destruction\":true,\"sanitizer_findings\":0}\n",
+      "stderr": ""
+    },
+    {
+      "command": "sha256sum /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/prince-bank-integration/host_audit",
+      "returncode": 0,
+      "stdout": "2257c7b1e6cddfb8d53f660582aa6952b8d28cdda66c47d5cc7683d1b8154f0e  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/prince-bank-integration/host_audit\n",
+      "stderr": ""
+    },
+    {
+      "command": "sha256sum /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so",
+      "returncode": 0,
+      "stdout": "05e35956a29b774459206298e54efb5c02afc3bdda0c1ed1a12ccd95877ae856  /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so\n",
+      "stderr": ""
+    },
+    {
+      "command": "sha256sum /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so",
+      "returncode": 0,
+      "stdout": "92af10e1621174e64890d1d295d97cb9ba1c3947b712636997c42e1f4392ed07  /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so\n",
+      "stderr": ""
+    }
+  ],
+  "linked_dependencies": "\tlinux-vdso.so.1 (0x00007267ce862000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007267cde00000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x00007267cda00000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x00007267ce540000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007267cd600000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007267cd8da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007267cce00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007267ce510000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007267cca00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007267ce864000)\n",
+  "sources_unchanged_through_replay": true,
+  "original_compiled_bounds_checked": 158,
+  "original_distinct_resource_raw_track_types": {
+    "1": 211,
+    "10": 137,
+    "2": 2,
+    "3": 1,
+    "4": 7,
+    "5": 2616,
+    "9": 7
+  },
+  "scope": "Actual staged 116-resource bank and 158 source registration requests; canonical identity equals clip ID. Production shared animation/scene libraries execute registration, retain1 dynamic compilation and all clip/target start/end samples after borrowed Players are destroyed. The 17 first indices and clip bounds are checked against the original-instruction registration probe. This verifies integration, ownership and sanitizer safety; it is not full-bank original pose, GPU, actor event/clock, equipment, factory ownership or APK parity."
+}

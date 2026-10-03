@@ -1,0 +1,27 @@
+{
+  "cases": 1093,
+  "operation_counts": [
+    1,
+    207,
+    462,
+    107,
+    81,
+    88,
+    146,
+    1
+  ],
+  "referenced_floor_queries": 477,
+  "registry_entries_compared": 9598,
+  "registry_keys_compared": 2188,
+  "atomic_rejection_checks": 9,
+  "authored_graph_nodes": 335,
+  "authored_graph_edges": 838,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "2fefe900dac007fc031547319bdde7d2e16c0fbf5e29192c2b8febc1b3da8cda",
+  "bres_sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+  "descriptor_sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+}

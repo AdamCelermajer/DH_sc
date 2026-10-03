@@ -1,0 +1,572 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "ad4fe51b88fa1d5a388a109ea023b536beb7c7b8b9f391518ed7b8ec0655477a",
+  "reference_sha256": "5ae68c359fc20bde45faa79a4f1a0b4ee25391ee9974a072c2c26d939589ebf5",
+  "scenes": 40,
+  "mismatches": 0,
+  "original_allocations": 178,
+  "native_allocations": 231,
+  "original_import_calls": {
+    "malloc": 178,
+    "memset": 40,
+    "__aeabi_fsub": 20815,
+    "__aeabi_fdiv": 1399,
+    "__aeabi_idiv": 98,
+    "cosf": 701,
+    "sinf": 701,
+    "__aeabi_fmul": 56519,
+    "__aeabi_fadd": 32935,
+    "__aeabi_fcmpgt": 10013,
+    "__aeabi_fcmpeq": 541,
+    "__aeabi_fcmplt": 5598,
+    "memmove": 924,
+    "sqrtf": 1057,
+    "free": 178,
+    "__aeabi_fcmpge": 614,
+    "__isfinitef": 756,
+    "memcpy": 40,
+    "__aeabi_fcmple": 230,
+    "physics_listener": 68
+  },
+  "native_import_calls": {
+    "memset": 120,
+    "_Znwm": 40,
+    "malloc": 191,
+    "finite": 916,
+    "cosf": 701,
+    "sinf": 701,
+    "memmove": 924,
+    "memcpy": 166,
+    "free": 191,
+    "_ZdlPvm": 40
+  },
+  "original_physics_functions_executed": 104,
+  "coverage": [
+    {
+      "symbol": "_ZL15ComputeCentroidPK6b2Vec2i",
+      "address": "0x7e44f4",
+      "instruction_addresses_seen": 95
+    },
+    {
+      "symbol": "_ZL10ComputeOBBP5b2OBBPK6b2Vec2i",
+      "address": "0x7e55ac",
+      "instruction_addresses_seen": 223
+    },
+    {
+      "symbol": "_ZN13b2PairManager6CommitEv",
+      "address": "0x7e42e0",
+      "instruction_addresses_seen": 112
+    },
+    {
+      "symbol": "_ZN22b2PolyAndCircleContact6CreateEP7b2ShapeS1_P16b2BlockAllocator",
+      "address": "0x7ebf8c",
+      "instruction_addresses_seen": 12
+    },
+    {
+      "symbol": "_ZN7b2WorldD1Ev",
+      "address": "0x7e7f7c",
+      "instruction_addresses_seen": 29
+    },
+    {
+      "symbol": "_ZN16b2PolygonContact8EvaluateEP17b2ContactListener",
+      "address": "0x7ecb84",
+      "instruction_addresses_seen": 693
+    },
+    {
+      "symbol": "_ZN22b2PolyAndCircleContact8EvaluateEP17b2ContactListener",
+      "address": "0x7ebfbc",
+      "instruction_addresses_seen": 689
+    },
+    {
+      "symbol": "_ZNK13b2CircleShape11ComputeMassEP10b2MassData",
+      "address": "0x7e95ac",
+      "instruction_addresses_seen": 47
+    },
+    {
+      "symbol": "_ZN14b2PolygonShapeC1EPK10b2ShapeDef",
+      "address": "0x7e5928",
+      "instruction_addresses_seen": 193
+    },
+    {
+      "symbol": "_ZN14b2PolygonShape17UpdateSweepRadiusERK6b2Vec2",
+      "address": "0x7e5478",
+      "instruction_addresses_seen": 43
+    },
+    {
+      "symbol": "_ZN8b2Island8SolveTOIERK10b2TimeStep",
+      "address": "0x7ea878",
+      "instruction_addresses_seen": 86
+    },
+    {
+      "symbol": "_ZN6b2Body20SynchronizeTransformEv",
+      "address": "0x7e761c",
+      "instruction_addresses_seen": 48
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase6CommitEv",
+      "address": "0x7e2ac8",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZN13b2PairManager4FindEiij",
+      "address": "0x7e3ef4",
+      "instruction_addresses_seen": 25
+    },
+    {
+      "symbol": "_ZN13b2PairManager18RemoveBufferedPairEii",
+      "address": "0x7e4224",
+      "instruction_addresses_seen": 34
+    },
+    {
+      "symbol": "_ZN6b2Vec29NormalizeEv",
+      "address": "0x7e5524",
+      "instruction_addresses_seen": 34
+    },
+    {
+      "symbol": "_ZN13b2PairManager10InitializeEP12b2BroadPhaseP14b2PairCallback",
+      "address": "0x7e3eec",
+      "instruction_addresses_seen": 2
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase11TestOverlapERK13b2BoundValuesP7b2Proxy",
+      "address": "0x7e252c",
+      "instruction_addresses_seen": 33
+    },
+    {
+      "symbol": "_ZN16b2ContactManager7DestroyEP9b2Contact",
+      "address": "0x7ea084",
+      "instruction_addresses_seen": 71
+    },
+    {
+      "symbol": "_ZN12b2BroadPhaseC1ERK6b2AABBP14b2PairCallback",
+      "address": "0x7e3048",
+      "instruction_addresses_seen": 77
+    },
+    {
+      "symbol": "_ZN7b2World10CreateBodyEPK9b2BodyDef",
+      "address": "0x7e7ef8",
+      "instruction_addresses_seen": 33
+    },
+    {
+      "symbol": "_ZN9b2ContactC2EP7b2ShapeS1_",
+      "address": "0x7e9eb8",
+      "instruction_addresses_seen": 52
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase11CreateProxyERK6b2AABBPv",
+      "address": "0x7e2d54",
+      "instruction_addresses_seen": 185
+    },
+    {
+      "symbol": "_ZNK14b2PolygonShape7SupportERK7b2XFormRK6b2Vec2",
+      "address": "0x7e526c",
+      "instruction_addresses_seen": 118
+    },
+    {
+      "symbol": "_ZN7b2Shape12DestroyProxyEP12b2BroadPhase",
+      "address": "0x7e6180",
+      "instruction_addresses_seen": 12
+    },
+    {
+      "symbol": "_ZN16b2ContactManager9PairAddedEPvS0_",
+      "address": "0x7ea520",
+      "instruction_addresses_seen": 88
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase5QueryEPiS0_ttP7b2Boundii",
+      "address": "0x7e2820",
+      "instruction_addresses_seen": 93
+    },
+    {
+      "symbol": "_ZN22b2PolyAndCircleContact12GetManifoldsEv",
+      "address": "0x7ebeb4",
+      "instruction_addresses_seen": 2
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase21IncrementOverlapCountEi",
+      "address": "0x7e27c0",
+      "instruction_addresses_seen": 24
+    },
+    {
+      "symbol": "_ZN6b2Body17SynchronizeShapesEv",
+      "address": "0x7e20ac",
+      "instruction_addresses_seen": 70
+    },
+    {
+      "symbol": "_ZN9b2Contact6UpdateEP17b2ContactListener",
+      "address": "0x7e9d24",
+      "instruction_addresses_seen": 47
+    },
+    {
+      "symbol": "_ZN16b2ContactManager7CollideEv",
+      "address": "0x7ea010",
+      "instruction_addresses_seen": 26
+    },
+    {
+      "symbol": "_ZN13b2PairManager10RemovePairEii",
+      "address": "0x7e4084",
+      "instruction_addresses_seen": 61
+    },
+    {
+      "symbol": "_ZN9b2Contact19InitializeRegistersEv",
+      "address": "0x7e9b08",
+      "instruction_addresses_seen": 25
+    },
+    {
+      "symbol": "_ZN9b2Contact6CreateEP7b2ShapeS1_P16b2BlockAllocator",
+      "address": "0x7e9b88",
+      "instruction_addresses_seen": 48
+    },
+    {
+      "symbol": "_ZN16b2BlockAllocatorD1Ev",
+      "address": "0x7e8ddc",
+      "instruction_addresses_seen": 18
+    },
+    {
+      "symbol": "_ZN7b2Shape6CreateEPK10b2ShapeDefP16b2BlockAllocator",
+      "address": "0x7e6558",
+      "instruction_addresses_seen": 23
+    },
+    {
+      "symbol": "_ZN6b2Body11CreateShapeEP10b2ShapeDef",
+      "address": "0x7e1dc8",
+      "instruction_addresses_seen": 33
+    },
+    {
+      "symbol": "_ZN16b2PolygonContact7DestroyEP9b2ContactP16b2BlockAllocator",
+      "address": "0x7ecb28",
+      "instruction_addresses_seen": 11
+    },
+    {
+      "symbol": "_ZN16b2ContactManager11PairRemovedEPvS0_S0_",
+      "address": "0x7ea508",
+      "instruction_addresses_seen": 6
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase9MoveProxyEiRK6b2AABB",
+      "address": "0x7e3344",
+      "instruction_addresses_seen": 446
+    },
+    {
+      "symbol": "_Z6b2FreePv",
+      "address": "0x7f34bc",
+      "instruction_addresses_seen": 12
+    },
+    {
+      "symbol": "_ZN16b2BlockAllocator8AllocateEi",
+      "address": "0x7e90bc",
+      "instruction_addresses_seen": 62
+    },
+    {
+      "symbol": "_ZN7b2Sweep7AdvanceEf",
+      "address": "0x7e3a94",
+      "instruction_addresses_seen": 61
+    },
+    {
+      "symbol": "_ZNK14b2PolygonShape11ComputeMassEP10b2MassData",
+      "address": "0x7e4e8c",
+      "instruction_addresses_seen": 207
+    },
+    {
+      "symbol": "_ZN22b2PolyAndCircleContactC1EP7b2ShapeS1_",
+      "address": "0x7ebed0",
+      "instruction_addresses_seen": 16
+    },
+    {
+      "symbol": "_ZN8b2Island5SolveERK10b2TimeStepRK6b2Vec2bb",
+      "address": "0x7ea9d0",
+      "instruction_addresses_seen": 317
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase18IncrementTimeStampEv",
+      "address": "0x7e276c",
+      "instruction_addresses_seen": 8
+    },
+    {
+      "symbol": "_ZNK7b2Sweep8GetXFormEP7b2XFormf",
+      "address": "0x7e3bfc",
+      "instruction_addresses_seen": 99
+    },
+    {
+      "symbol": "_ZN7b2ShapeC2EPK10b2ShapeDef",
+      "address": "0x7e6068",
+      "instruction_addresses_seen": 32
+    },
+    {
+      "symbol": "_ZN7b2Shape13RefilterProxyEP12b2BroadPhaseRK7b2XForm",
+      "address": "0x7e61b0",
+      "instruction_addresses_seen": 73
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase13ComputeBoundsEPtS0_RK6b2AABB",
+      "address": "0x7e25b8",
+      "instruction_addresses_seen": 109
+    },
+    {
+      "symbol": "_ZN15b2CircleContact7DestroyEP9b2ContactP16b2BlockAllocator",
+      "address": "0x7f3b40",
+      "instruction_addresses_seen": 11
+    },
+    {
+      "symbol": "_ZN16b2StackAllocator4FreeEPv",
+      "address": "0x7f35a8",
+      "instruction_addresses_seen": 36
+    },
+    {
+      "symbol": "_ZN12b2BroadPhaseD1Ev",
+      "address": "0x7e247c",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZNK7b2World12GetPairCountEv",
+      "address": "0x7e6984",
+      "instruction_addresses_seen": 7
+    },
+    {
+      "symbol": "_ZN9b2Contact7AddTypeEPFPS_P7b2ShapeS2_P16b2BlockAllocatorEPFvS0_S4_E11b2ShapeTypeS9_",
+      "address": "0x7e9a9c",
+      "instruction_addresses_seen": 25
+    },
+    {
+      "symbol": "_ZN7b2World4StepEfi",
+      "address": "0x7e8b1c",
+      "instruction_addresses_seen": 73
+    },
+    {
+      "symbol": "_ZN16b2StackAllocator8AllocateEi",
+      "address": "0x7f3644",
+      "instruction_addresses_seen": 49
+    },
+    {
+      "symbol": "_ZN8b2IslandD1Ev",
+      "address": "0x7eb078",
+      "instruction_addresses_seen": 13
+    },
+    {
+      "symbol": "_ZN6b2BodyC1EPK9b2BodyDefP7b2World",
+      "address": "0x7e2218",
+      "instruction_addresses_seen": 142
+    },
+    {
+      "symbol": "_ZN16b2StackAllocatorD1Ev",
+      "address": "0x7f3594",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZN16b2BlockAllocator4FreeEPvi",
+      "address": "0x7e8da0",
+      "instruction_addresses_seen": 13
+    },
+    {
+      "symbol": "_Z14b2TimeOfImpactPK7b2ShapeRK7b2SweepS1_S4_",
+      "address": "0x7f3728",
+      "instruction_addresses_seen": 216
+    },
+    {
+      "symbol": "_ZN13b2PairManager15AddBufferedPairEii",
+      "address": "0x7e4190",
+      "instruction_addresses_seen": 32
+    },
+    {
+      "symbol": "_ZN7b2World13DrawDebugDataEv",
+      "address": "0x7e6b78",
+      "instruction_addresses_seen": 10
+    },
+    {
+      "symbol": "_ZN8b2IslandC1EiiiP16b2StackAllocatorP17b2ContactListener",
+      "address": "0x7eb0e0",
+      "instruction_addresses_seen": 31
+    },
+    {
+      "symbol": "_ZN13b2CircleShape17UpdateSweepRadiusERK6b2Vec2",
+      "address": "0x7e993c",
+      "instruction_addresses_seen": 29
+    },
+    {
+      "symbol": "_ZN6b2Body7SetMassEPK10b2MassData",
+      "address": "0x7e1b28",
+      "instruction_addresses_seen": 114
+    },
+    {
+      "symbol": "_ZN13b2CircleShapeC1EPK10b2ShapeDef",
+      "address": "0x7e99b0",
+      "instruction_addresses_seen": 20
+    },
+    {
+      "symbol": "_Z7b2Alloci",
+      "address": "0x7f34f4",
+      "instruction_addresses_seen": 13
+    },
+    {
+      "symbol": "_ZN22b2PolyAndCircleContactD1Ev",
+      "address": "0x7ebeb0",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZN16b2PolygonContact6CreateEP7b2ShapeS1_P16b2BlockAllocator",
+      "address": "0x7ecb54",
+      "instruction_addresses_seen": 12
+    },
+    {
+      "symbol": "_ZN15b2ContactFilter13ShouldCollideEP7b2ShapeS1_",
+      "address": "0x7e8c48",
+      "instruction_addresses_seen": 21
+    },
+    {
+      "symbol": "_ZN16b2PolygonContactD1Ev",
+      "address": "0x7eca90",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase12DestroyProxyEi",
+      "address": "0x7e2acc",
+      "instruction_addresses_seen": 158
+    },
+    {
+      "symbol": "_ZN13b2PairManager7AddPairEii",
+      "address": "0x7e3fa8",
+      "instruction_addresses_seen": 53
+    },
+    {
+      "symbol": "_ZN9b2Contact7DestroyEPS_P16b2BlockAllocator",
+      "address": "0x7e9c98",
+      "instruction_addresses_seen": 20
+    },
+    {
+      "symbol": "_ZN6b2Body8SetXFormERK6b2Vec2f",
+      "address": "0x7e164c",
+      "instruction_addresses_seen": 112
+    },
+    {
+      "symbol": "_ZN13b2PairManager4FindEii",
+      "address": "0x7e3f68",
+      "instruction_addresses_seen": 16
+    },
+    {
+      "symbol": "_ZN22b2PolyAndCircleContact7DestroyEP9b2ContactP16b2BlockAllocator",
+      "address": "0x7ebf60",
+      "instruction_addresses_seen": 11
+    },
+    {
+      "symbol": "_ZN15b2CircleContactD1Ev",
+      "address": "0x7f3a90",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZN16b2BlockAllocatorC1Ev",
+      "address": "0x7e8efc",
+      "instruction_addresses_seen": 52
+    },
+    {
+      "symbol": "_ZN16b2StackAllocatorC1Ev",
+      "address": "0x7f3560",
+      "instruction_addresses_seen": 12
+    },
+    {
+      "symbol": "_ZN12b2PolygonDef8SetAsBoxEff",
+      "address": "0x7e44b8",
+      "instruction_addresses_seen": 15
+    },
+    {
+      "symbol": "_ZNK14b2PolygonShape11ComputeAABBEP6b2AABBRK7b2XForm",
+      "address": "0x7e4b54",
+      "instruction_addresses_seen": 157
+    },
+    {
+      "symbol": "_ZNK13b2CircleShape16ComputeSweptAABBEP6b2AABBRK7b2XFormS4_",
+      "address": "0x7e93fc",
+      "instruction_addresses_seen": 108
+    },
+    {
+      "symbol": "_ZNK6b2AABB7IsValidEv",
+      "address": "0x7e32b0",
+      "instruction_addresses_seen": 35
+    },
+    {
+      "symbol": "_ZN15b2CircleContact6CreateEP7b2ShapeS1_P16b2BlockAllocator",
+      "address": "0x7f3b6c",
+      "instruction_addresses_seen": 12
+    },
+    {
+      "symbol": "_ZN7b2Shape11SynchronizeEP12b2BroadPhaseRK7b2XFormS4_",
+      "address": "0x7e63d0",
+      "instruction_addresses_seen": 66
+    },
+    {
+      "symbol": "_ZN7b2World8SolveTOIERK10b2TimeStep",
+      "address": "0x7e8458",
+      "instruction_addresses_seen": 379
+    },
+    {
+      "symbol": "_ZN16b2PolygonContact12GetManifoldsEv",
+      "address": "0x7eca94",
+      "instruction_addresses_seen": 2
+    },
+    {
+      "symbol": "_ZN7b2World5SolveERK10b2TimeStep",
+      "address": "0x7e76dc",
+      "instruction_addresses_seen": 209
+    },
+    {
+      "symbol": "_ZN7b2Shape11CreateProxyEP12b2BroadPhaseRK7b2XForm",
+      "address": "0x7e62d4",
+      "instruction_addresses_seen": 63
+    },
+    {
+      "symbol": "_ZN15b2CircleContactC1EP7b2ShapeS1_",
+      "address": "0x7f3ab0",
+      "instruction_addresses_seen": 16
+    },
+    {
+      "symbol": "_ZN6b2Body17SetMassFromShapesEv",
+      "address": "0x7e1818",
+      "instruction_addresses_seen": 194
+    },
+    {
+      "symbol": "_ZN13b2PairManagerC1Ev",
+      "address": "0x7e3e54",
+      "instruction_addresses_seen": 38
+    },
+    {
+      "symbol": "_ZN16b2PolygonContactC1EP7b2ShapeS1_",
+      "address": "0x7ecab0",
+      "instruction_addresses_seen": 13
+    },
+    {
+      "symbol": "_ZN7b2World11DestroyBodyEP6b2Body",
+      "address": "0x7e7db0",
+      "instruction_addresses_seen": 40
+    },
+    {
+      "symbol": "_ZN6b2BodyD1Ev",
+      "address": "0x7e1648",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZN7b2WorldC1ERK6b2AABBRK6b2Vec2b",
+      "address": "0x7e80b8",
+      "instruction_addresses_seen": 112
+    },
+    {
+      "symbol": "_ZNK14b2PolygonShape16ComputeSweptAABBEP6b2AABBRK7b2XFormS4_",
+      "address": "0x7e4dc8",
+      "instruction_addresses_seen": 49
+    },
+    {
+      "symbol": "_ZN8b2Island6ReportEP19b2ContactConstraint",
+      "address": "0x7ea6a8",
+      "instruction_addresses_seen": 116
+    },
+    {
+      "symbol": "_ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK7b2XForm",
+      "address": "0x7e9320",
+      "instruction_addresses_seen": 55
+    }
+  ],
+  "body_state_words_compared_per_body": 37,
+  "world_and_listener_words_compared": 8,
+  "proxy_capacity": 2048,
+  "pair_capacity": 16384,
+  "scope": "Original full Box2D 2.0.1 world/shape/mass/contact/solver instructions versus source-built ARM64.\nOnly allocation/libc/imported IEEE arithmetic/trig and contact listener observers are fixtures.\n Cases cover circle/polygon mass, dynamic/static/sensor/filter/fixed-rotation/bullet policies, gravity and zero dt, successful/out-of-range SetXForm, zero-mass pin, high-speed velocity limiting and continuous collision. Joint dynamics and arbitrary authored polygon shapes are not exercised.",
+  "elapsed_seconds": 8.94
+}

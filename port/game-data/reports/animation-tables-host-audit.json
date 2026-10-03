@@ -1,0 +1,18 @@
+{
+  "sequences": 785,
+  "cameras": 3,
+  "characters": 80,
+  "clip_paths": 1447,
+  "steps": 1348,
+  "redirects": 163,
+  "positive_state_links": 1121,
+  "sequence_end": 57952,
+  "camera_end": 58028,
+  "consumed": 72812,
+  "native_roundtrip_matches_original": true,
+  "starts_resolved": 759,
+  "starts_without_clip": 26,
+  "recursive_redirect_rejected": true,
+  "mutations_and_truncations": 3000,
+  "rejected": 2442
+}

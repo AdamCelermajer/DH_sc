@@ -1,0 +1,2950 @@
+{
+  "apk_sha256": "c47cb9553284981b3d33993ba6e4cdbea825407262930307f80f2af99e9cd18a",
+  "installed_apk_sha256": "c47cb9553284981b3d33993ba6e4cdbea825407262930307f80f2af99e9cd18a",
+  "original_player_application_report_sha256": "63b55c224734cbafb076c88689b66b22856ad390b641256615fe0da4c7e01f61",
+  "native_player_attempts_verified": 112,
+  "attempts": [
+    {
+      "attempt": 1,
+      "result": [
+        259,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        24,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 12160,
+      "hp_after": 11901,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        9988867,
+        9
+      ],
+      "status_requests": 8
+    },
+    {
+      "attempt": 2,
+      "result": [
+        173,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 11901,
+      "hp_after": 11728,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        11996333,
+        18
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 3,
+      "result": [
+        172,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 11728,
+      "hp_after": 11556,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        9007020,
+        27
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 4,
+      "result": [
+        128,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 11556,
+      "hp_after": 11428,
+      "dead": 0,
+      "combo": 4,
+      "random_after": [
+        407936,
+        36
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 5,
+      "result": [
+        105,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 11428,
+      "hp_after": 11323,
+      "dead": 0,
+      "combo": 5,
+      "random_after": [
+        12280425,
+        45
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 6,
+      "result": [
+        131,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 11323,
+      "hp_after": 11192,
+      "dead": 0,
+      "combo": 6,
+      "random_after": [
+        13297027,
+        54
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 7,
+      "result": [
+        330,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        24,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 11192,
+      "hp_after": 10862,
+      "dead": 0,
+      "combo": 7,
+      "random_after": [
+        10548042,
+        63
+      ],
+      "status_requests": 8
+    },
+    {
+      "attempt": 8,
+      "result": [
+        85,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 10862,
+      "hp_after": 10777,
+      "dead": 0,
+      "combo": 8,
+      "random_after": [
+        11339093,
+        72
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 9,
+      "result": [
+        86,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 10777,
+      "hp_after": 10691,
+      "dead": 0,
+      "combo": 9,
+      "random_after": [
+        6410582,
+        81
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 10,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 10691,
+      "hp_after": 10691,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        3365546,
+        83
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 11,
+      "result": [
+        179,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 10691,
+      "hp_after": 10512,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        394163,
+        92
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 12,
+      "result": [
+        165,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 10512,
+      "hp_after": 10347,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        4854437,
+        101
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 13,
+      "result": [
+        198,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 10347,
+      "hp_after": 10149,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        2273734,
+        110
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 14,
+      "result": [
+        15,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 10149,
+      "hp_after": 10134,
+      "dead": 0,
+      "combo": 4,
+      "random_after": [
+        11627791,
+        119
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 15,
+      "result": [
+        190,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 10134,
+      "hp_after": 9944,
+      "dead": 0,
+      "combo": 5,
+      "random_after": [
+        11136446,
+        128
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 16,
+      "result": [
+        183,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9944,
+      "hp_after": 9761,
+      "dead": 0,
+      "combo": 6,
+      "random_after": [
+        5247671,
+        137
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 17,
+      "result": [
+        22,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9761,
+      "hp_after": 9739,
+      "dead": 0,
+      "combo": 7,
+      "random_after": [
+        13342486,
+        146
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 18,
+      "result": [
+        93,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9739,
+      "hp_after": 9646,
+      "dead": 0,
+      "combo": 8,
+      "random_after": [
+        1312605,
+        155
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 19,
+      "result": [
+        76,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9646,
+      "hp_after": 9570,
+      "dead": 0,
+      "combo": 9,
+      "random_after": [
+        10499148,
+        164
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 20,
+      "result": [
+        1,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9570,
+      "hp_after": 9569,
+      "dead": 0,
+      "combo": 10,
+      "random_after": [
+        8977921,
+        173
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 21,
+      "result": [
+        143,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9569,
+      "hp_after": 9426,
+      "dead": 0,
+      "combo": 11,
+      "random_after": [
+        6647183,
+        182
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 22,
+      "result": [
+        56,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9426,
+      "hp_after": 9370,
+      "dead": 0,
+      "combo": 12,
+      "random_after": [
+        4050744,
+        191
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 23,
+      "result": [
+        190,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9370,
+      "hp_after": 9180,
+      "dead": 0,
+      "combo": 13,
+      "random_after": [
+        6661822,
+        200
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 24,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9180,
+      "hp_after": 9180,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        198795,
+        202
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 25,
+      "result": [
+        35,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9180,
+      "hp_after": 9145,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        3138339,
+        211
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 26,
+      "result": [
+        62,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9145,
+      "hp_after": 9083,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        13494590,
+        220
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 27,
+      "result": [
+        243,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 9083,
+      "hp_after": 8840,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        1183219,
+        229
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 28,
+      "result": [
+        203,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 8840,
+      "hp_after": 8637,
+      "dead": 0,
+      "combo": 4,
+      "random_after": [
+        2661323,
+        238
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 29,
+      "result": [
+        228,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 8637,
+      "hp_after": 8409,
+      "dead": 0,
+      "combo": 5,
+      "random_after": [
+        12350180,
+        247
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 30,
+      "result": [
+        47,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 8409,
+      "hp_after": 8362,
+      "dead": 0,
+      "combo": 6,
+      "random_after": [
+        7734063,
+        256
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 31,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 8362,
+      "hp_after": 8362,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        13415161,
+        258
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 32,
+      "result": [
+        345,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        24,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 8362,
+      "hp_after": 8017,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        11875417,
+        267
+      ],
+      "status_requests": 8
+    },
+    {
+      "attempt": 33,
+      "result": [
+        86,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 8017,
+      "hp_after": 7931,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        11175766,
+        276
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 34,
+      "result": [
+        108,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7931,
+      "hp_after": 7823,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        11591788,
+        285
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 35,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7823,
+      "hp_after": 7823,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        2598732,
+        287
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 36,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7823,
+      "hp_after": 7823,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        4753369,
+        289
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 37,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7823,
+      "hp_after": 7823,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        7501904,
+        291
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 38,
+      "result": [
+        11,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7823,
+      "hp_after": 7812,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        1166347,
+        300
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 39,
+      "result": [
+        277,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        24,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7812,
+      "hp_after": 7535,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        2811669,
+        309
+      ],
+      "status_requests": 8
+    },
+    {
+      "attempt": 40,
+      "result": [
+        59,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7535,
+      "hp_after": 7476,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        6845499,
+        318
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 41,
+      "result": [
+        101,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7476,
+      "hp_after": 7375,
+      "dead": 0,
+      "combo": 4,
+      "random_after": [
+        5509221,
+        327
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 42,
+      "result": [
+        44,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7375,
+      "hp_after": 7331,
+      "dead": 0,
+      "combo": 5,
+      "random_after": [
+        12238124,
+        336
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 43,
+      "result": [
+        65,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7331,
+      "hp_after": 7266,
+      "dead": 0,
+      "combo": 6,
+      "random_after": [
+        13524801,
+        345
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 44,
+      "result": [
+        63,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7266,
+      "hp_after": 7203,
+      "dead": 0,
+      "combo": 7,
+      "random_after": [
+        11889215,
+        354
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 45,
+      "result": [
+        8,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7203,
+      "hp_after": 7195,
+      "dead": 0,
+      "combo": 8,
+      "random_after": [
+        5865992,
+        363
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 46,
+      "result": [
+        229,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 7195,
+      "hp_after": 6966,
+      "dead": 0,
+      "combo": 9,
+      "random_after": [
+        10842341,
+        372
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 47,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6966,
+      "hp_after": 6966,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        12430073,
+        374
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 48,
+      "result": [
+        198,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6966,
+      "hp_after": 6768,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        9141446,
+        383
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 49,
+      "result": [
+        220,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6768,
+      "hp_after": 6548,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        7775196,
+        392
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 50,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6548,
+      "hp_after": 6548,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        3325476,
+        394
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 51,
+      "result": [
+        159,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6548,
+      "hp_after": 6389,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        11562911,
+        403
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 52,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6389,
+      "hp_after": 6389,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        10087205,
+        405
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 53,
+      "result": [
+        55,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6389,
+      "hp_after": 6334,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        13263671,
+        414
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 54,
+      "result": [
+        34,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6334,
+      "hp_after": 6300,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        13439522,
+        423
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 55,
+      "result": [
+        34,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6300,
+      "hp_after": 6266,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        4125218,
+        432
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 56,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6266,
+      "hp_after": 6266,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        5899517,
+        434
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 57,
+      "result": [
+        180,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6266,
+      "hp_after": 6086,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        13360820,
+        443
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 58,
+      "result": [
+        99,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 6086,
+      "hp_after": 5987,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        1724515,
+        452
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 59,
+      "result": [
+        56,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5987,
+      "hp_after": 5931,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        2314552,
+        461
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 60,
+      "result": [
+        234,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5931,
+      "hp_after": 5697,
+      "dead": 0,
+      "combo": 4,
+      "random_after": [
+        9086698,
+        470
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 61,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5697,
+      "hp_after": 5697,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        10840468,
+        472
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 62,
+      "result": [
+        157,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5697,
+      "hp_after": 5540,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        2993309,
+        481
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 63,
+      "result": [
+        147,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5540,
+      "hp_after": 5393,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        5073299,
+        490
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 64,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5393,
+      "hp_after": 5393,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        13528468,
+        492
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 65,
+      "result": [
+        6,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5393,
+      "hp_after": 5387,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        527366,
+        501
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 66,
+      "result": [
+        15,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5387,
+      "hp_after": 5372,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        6407951,
+        510
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 67,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5372,
+      "hp_after": 5372,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        13213729,
+        512
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 68,
+      "result": [
+        47,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5372,
+      "hp_after": 5325,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        3037231,
+        521
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 69,
+      "result": [
+        49,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5325,
+      "hp_after": 5276,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        7812657,
+        530
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 70,
+      "result": [
+        55,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5276,
+      "hp_after": 5221,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        3438903,
+        539
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 71,
+      "result": [
+        465,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        24,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 5221,
+      "hp_after": 4756,
+      "dead": 0,
+      "combo": 4,
+      "random_after": [
+        14087377,
+        548
+      ],
+      "status_requests": 8
+    },
+    {
+      "attempt": 72,
+      "result": [
+        88,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 4756,
+      "hp_after": 4668,
+      "dead": 0,
+      "combo": 5,
+      "random_after": [
+        5980760,
+        557
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 73,
+      "result": [
+        205,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 4668,
+      "hp_after": 4463,
+      "dead": 0,
+      "combo": 6,
+      "random_after": [
+        4711373,
+        566
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 74,
+      "result": [
+        209,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 4463,
+      "hp_after": 4254,
+      "dead": 0,
+      "combo": 7,
+      "random_after": [
+        10606289,
+        575
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 75,
+      "result": [
+        177,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 4254,
+      "hp_after": 4077,
+      "dead": 0,
+      "combo": 8,
+      "random_after": [
+        10541233,
+        584
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 76,
+      "result": [
+        195,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 4077,
+      "hp_after": 3882,
+      "dead": 0,
+      "combo": 9,
+      "random_after": [
+        4021187,
+        593
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 77,
+      "result": [
+        7,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 3882,
+      "hp_after": 3875,
+      "dead": 0,
+      "combo": 10,
+      "random_after": [
+        3419143,
+        602
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 78,
+      "result": [
+        209,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 3875,
+      "hp_after": 3666,
+      "dead": 0,
+      "combo": 11,
+      "random_after": [
+        9329105,
+        611
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 79,
+      "result": [
+        28,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 3666,
+      "hp_after": 3638,
+      "dead": 0,
+      "combo": 12,
+      "random_after": [
+        3225628,
+        620
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 80,
+      "result": [
+        112,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 3638,
+      "hp_after": 3526,
+      "dead": 0,
+      "combo": 13,
+      "random_after": [
+        1431664,
+        629
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 81,
+      "result": [
+        200,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 3526,
+      "hp_after": 3326,
+      "dead": 0,
+      "combo": 14,
+      "random_after": [
+        779720,
+        638
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 82,
+      "result": [
+        225,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 3326,
+      "hp_after": 3101,
+      "dead": 0,
+      "combo": 15,
+      "random_after": [
+        1766625,
+        647
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 83,
+      "result": [
+        207,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        16,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 3101,
+      "hp_after": 2894,
+      "dead": 0,
+      "combo": 16,
+      "random_after": [
+        7726031,
+        656
+      ],
+      "status_requests": 8
+    },
+    {
+      "attempt": 84,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2894,
+      "hp_after": 2894,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        13706794,
+        658
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 85,
+      "result": [
+        35,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2894,
+      "hp_after": 2859,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        165155,
+        667
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 86,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2859,
+      "hp_after": 2859,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        889074,
+        669
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 87,
+      "result": [
+        57,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2859,
+      "hp_after": 2802,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        11858233,
+        678
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 88,
+      "result": [
+        25,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2802,
+      "hp_after": 2777,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        9224473,
+        687
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 89,
+      "result": [
+        93,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2777,
+      "hp_after": 2684,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        9315165,
+        696
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 90,
+      "result": [
+        168,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2684,
+      "hp_after": 2516,
+      "dead": 0,
+      "combo": 4,
+      "random_after": [
+        13089704,
+        705
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 91,
+      "result": [
+        87,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2516,
+      "hp_after": 2429,
+      "dead": 0,
+      "combo": 5,
+      "random_after": [
+        7598423,
+        714
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 92,
+      "result": [
+        133,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2429,
+      "hp_after": 2296,
+      "dead": 0,
+      "combo": 6,
+      "random_after": [
+        12695941,
+        723
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 93,
+      "result": [
+        107,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2296,
+      "hp_after": 2189,
+      "dead": 0,
+      "combo": 7,
+      "random_after": [
+        5164139,
+        732
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 94,
+      "result": [
+        240,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 2189,
+      "hp_after": 1949,
+      "dead": 0,
+      "combo": 8,
+      "random_after": [
+        6664432,
+        741
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 95,
+      "result": [
+        76,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1949,
+      "hp_after": 1873,
+      "dead": 0,
+      "combo": 9,
+      "random_after": [
+        167500,
+        750
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 96,
+      "result": [
+        229,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1873,
+      "hp_after": 1644,
+      "dead": 0,
+      "combo": 10,
+      "random_after": [
+        34789,
+        759
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 97,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1644,
+      "hp_after": 1644,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        5530913,
+        761
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 98,
+      "result": [
+        118,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1644,
+      "hp_after": 1526,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        4190326,
+        770
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 99,
+      "result": [
+        76,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1526,
+      "hp_after": 1450,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        5559116,
+        779
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 100,
+      "result": [
+        29,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1450,
+      "hp_after": 1421,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        2749213,
+        788
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 101,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1421,
+      "hp_after": 1421,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        5242147,
+        790
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 102,
+      "result": [
+        112,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1421,
+      "hp_after": 1309,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        4337776,
+        799
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 103,
+      "result": [
+        23,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1309,
+      "hp_after": 1286,
+      "dead": 0,
+      "combo": 2,
+      "random_after": [
+        7158295,
+        808
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 104,
+      "result": [
+        158,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1286,
+      "hp_after": 1128,
+      "dead": 0,
+      "combo": 3,
+      "random_after": [
+        5220254,
+        817
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 105,
+      "result": [
+        137,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 1128,
+      "hp_after": 991,
+      "dead": 0,
+      "combo": 4,
+      "random_after": [
+        6176905,
+        826
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 106,
+      "result": [
+        132,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 991,
+      "hp_after": 859,
+      "dead": 0,
+      "combo": 5,
+      "random_after": [
+        4333956,
+        835
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 107,
+      "result": [
+        42,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        16,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 859,
+      "hp_after": 817,
+      "dead": 0,
+      "combo": 6,
+      "random_after": [
+        10689066,
+        844
+      ],
+      "status_requests": 8
+    },
+    {
+      "attempt": 108,
+      "result": [
+        222,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 817,
+      "hp_after": 595,
+      "dead": 0,
+      "combo": 7,
+      "random_after": [
+        6959582,
+        853
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 109,
+      "result": [
+        56,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 595,
+      "hp_after": 539,
+      "dead": 0,
+      "combo": 8,
+      "random_after": [
+        11786296,
+        862
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 110,
+      "result": [
+        -1,
+        -1,
+        -1,
+        -1,
+        0,
+        0,
+        1,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 539,
+      "hp_after": 539,
+      "dead": 0,
+      "combo": 0,
+      "random_after": [
+        2647088,
+        864
+      ],
+      "status_requests": 0
+    },
+    {
+      "attempt": 111,
+      "result": [
+        364,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        24,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 539,
+      "hp_after": 175,
+      "dead": 0,
+      "combo": 1,
+      "random_after": [
+        4679788,
+        873
+      ],
+      "status_requests": 8
+    },
+    {
+      "attempt": 112,
+      "result": [
+        228,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "hp_before": 175,
+      "hp_after": 0,
+      "dead": 1,
+      "combo": 2,
+      "random_after": [
+        13833956,
+        882
+      ],
+      "status_requests": 0
+    }
+  ],
+  "automatic_original_death_clip": 1185,
+  "movement": [
+    {
+      "axis": 1,
+      "start": [
+        -2227.77,
+        1220.9301,
+        842.3644
+      ],
+      "end": [
+        -2227.77,
+        800.9293,
+        775.1525
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2227.77,
+        800.9293,
+        775.1525
+      ],
+      "end": [
+        -2227.77,
+        380.9286,
+        563.0992
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2227.77,
+        380.9286,
+        563.0992
+      ],
+      "end": [
+        -2227.77,
+        -19.9807,
+        360.6851
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2227.77,
+        -19.9807,
+        360.6851
+      ],
+      "end": [
+        -2227.77,
+        -401.799,
+        167.9096
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2227.77,
+        -401.799,
+        167.9096
+      ],
+      "end": [
+        -2227.77,
+        -688.1631,
+        41.7078
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2227.77,
+        -688.1631,
+        41.7078
+      ],
+      "end": [
+        -2227.77,
+        -840.8907,
+        41.7079
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2227.77,
+        -840.8907,
+        41.7079
+      ],
+      "end": [
+        -2227.77,
+        -936.3454,
+        41.708
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2227.77,
+        -936.3454,
+        41.708
+      ],
+      "end": [
+        -2227.77,
+        -993.6182,
+        41.708
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 0,
+      "start": [
+        -2227.77,
+        -993.6182,
+        41.708
+      ],
+      "end": [
+        -1807.7727,
+        -993.6182,
+        41.708
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1807.7727,
+        -993.6182,
+        41.708
+      ],
+      "end": [
+        -1578.6814,
+        -993.6182,
+        41.708
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1578.6814,
+        -993.6182,
+        41.708
+      ],
+      "end": [
+        -1483.2267,
+        -993.6182,
+        41.708
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1483.2267,
+        -993.6182,
+        41.708
+      ],
+      "end": [
+        -1425.9539,
+        -993.6182,
+        41.708
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -1425.9539,
+        -993.6182,
+        41.708
+      ],
+      "end": [
+        -1425.9539,
+        -669.0722,
+        41.7077
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -1425.9539,
+        -669.0722,
+        41.7077
+      ],
+      "end": [
+        -1425.9539,
+        -573.6175,
+        89.436
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -1425.9539,
+        -573.6175,
+        89.436
+      ],
+      "end": [
+        -1425.9539,
+        -478.1628,
+        137.6299
+      ],
+      "blocked": 0
+    },
+    {
+      "axis": 1,
+      "start": [
+        -1425.9539,
+        -478.1628,
+        137.6299
+      ],
+      "end": [
+        -1425.9539,
+        -401.799,
+        176.185
+      ],
+      "blocked": 0
+    }
+  ],
+  "approach_position": [
+    -1425.9539,
+    -401.799,
+    176.185
+  ],
+  "out_of_reach_rejected": true,
+  "frozen_attack_no_hit": true,
+  "busy_attack_does_not_restart": true,
+  "rotation_does_not_replay_hits": [
+    {
+      "orientation": 1,
+      "attempts": 3
+    },
+    {
+      "orientation": 0,
+      "attempts": 3
+    }
+  ],
+  "inflight_pause_resume": {
+    "attempts_at_pause": 3
+  },
+  "original_player_sheet_checksum_verified": true,
+  "player_attack_clips": 9,
+  "physical_arm64_tested": false,
+  "full_ai_or_equipment_implemented": false,
+  "full_game_playable": false,
+  "input_policy": "New nearest living target within 220 horizontal units and 96 vertical units; single tap plays original stationary three-combo sequence. Original targeting/input, root motion/blending and full AI remain pending."
+}

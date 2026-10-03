@@ -1,0 +1,58 @@
+﻿{
+    "milliseconds_sampled":  2033,
+    "bit_exact_interpolation_components":  852,
+    "source_comparisons":  [
+                               {
+                                   "path":  "app/src/main/cpp/CMakeLists.txt",
+                                   "sha256":  "3047da55792fcf133672b9bf0754b388ed44c6ab7e1da66280b1ae06126ce2e0",
+                                   "studio_source_matches":  true
+                               },
+                               {
+                                   "path":  "app/src/main/cpp/native_app.cpp",
+                                   "sha256":  "56bec13c95baa48edd597280e51cb4c193cd03033f09edf63a2fa64ee2cfe04b",
+                                   "studio_source_matches":  true
+                               },
+                               {
+                                   "path":  "app/src/main/cpp/model_renderer.cpp",
+                                   "sha256":  "1f989330699a9c875a905dcd0dd1cac43050dc6103aea04bdb55e44bf416757f",
+                                   "studio_source_matches":  true
+                               },
+                               {
+                                   "path":  "app/src/main/cpp/model_renderer.hpp",
+                                   "sha256":  "d90bd8b6e6af9ae070fe3bf4208cefc62e386e4fd4624964a2e40003349d8d91",
+                                   "studio_source_matches":  true
+                               },
+                               {
+                                   "path":  "app/src/main/java/com/example/dh2/MainActivity.java",
+                                   "sha256":  "c928d9541d9ecb90c919824e3c1f1bee2b5319c3420d84572ae6dae90a9730cd",
+                                   "studio_source_matches":  true
+                               },
+                               {
+                                   "path":  "app/src/main/java/com/example/dh2/NativeBridge.java",
+                                   "sha256":  "5767f630303ff7586b8d30029cae4e6dbceb0896d72b7310e6b91e1220e135a5",
+                                   "studio_source_matches":  true
+                               }
+                           ],
+    "mutated_scene_images":  10000,
+    "repo_gradle_assemble_debug":  "passed",
+    "apk_sha256":  "be6c78f2fefa7d916b34a1a72a3fe2e2dcac96b32a1a6bc07eb71ceb5959006e",
+    "native_abis":  [
+                        "arm64-v8a",
+                        "x86_64"
+                    ],
+    "apk_bytes":  9748543,
+    "local_node_matrices_bit_exact":  213,
+    "mutated_animation_images":  5000,
+    "sanitizers":  [
+                       "address",
+                       "undefined"
+                   ],
+    "animation_screenshot_cases":  5,
+    "scene_screenshot_cases":  6,
+    "physical_arm64_tested":  false,
+    "full_game_playable":  false,
+    "apk_zipalign_16k":  "passed",
+    "studio_gradle_assemble_debug":  "passed",
+    "goal_status":  "active",
+    "texture_regression_cases":  7
+}

@@ -1,0 +1,95 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsERNS4_12ReturnValuesE",
+      "elf_address": "0x37c390",
+      "size": 140,
+      "sha256": "ab961745cf32b5f2b83a51978a8feb7580351248a57f24f262ed49da6959df8c"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript12_PushVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37be00",
+      "size": 68,
+      "sha256": "71dbceb6bfe06bc6ff0015abcde9b1b22a681b27f1b50eeeff858742539d57a1"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE5eraseENS_17_Rb_tree_iteratorIS5_S9_EE",
+      "elf_address": "0x37be48",
+      "size": 120,
+      "sha256": "770312bdc91918500602ac86aecc1844124ae70a39a3999914bd498b3010bfbe"
+    },
+    {
+      "original_symbol": "_ZNSt3mapIjSsSt4lessIjESaISt4pairIKjSsEEEixIjEERSsRKT_",
+      "elf_address": "0x37dac4",
+      "size": 384,
+      "sha256": "d548e01d374d95e6e7e369c155ab385b49099cff25e874ee76fe5c19a8f6078e"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript11_PopVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37dc44",
+      "size": 388,
+      "sha256": "7f14e1d02edfdfa8f41e365e53138ecada5a8456ffd043593f95712b495b7dd2"
+    },
+    {
+      "original_symbol": "_ZNK9LuaScript12_GetFuncNameEPKc",
+      "elf_address": "0x37c314",
+      "size": 124,
+      "sha256": "95436489c5691b9496ae0d0b137d649e57f11f728fc28a31bf19ab86c1207872"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10hashStringEPKc",
+      "elf_address": "0x37c164",
+      "size": 316,
+      "sha256": "eb3c5f18f0394185bddafaf8b91447a63b8610101590b857b7334cdd70a0026d"
+    },
+    {
+      "original_symbol": "_ZN9LuaScriptC1Eb",
+      "elf_address": "0x37c584",
+      "size": 240,
+      "sha256": "9872316be6f851ef004921f0560c16766b0d2404705e8bd84281be00caa056c5"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance5pCallEPKcRKNS1_9ArgumentsERNS1_12ReturnValuesE",
+      "elf_address": "0x31abe8",
+      "size": 60,
+      "sha256": "db90645f481b6bc4118bf16642680e0db6b7ac19bde4a3c49391f067cd08c3fc"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIjSt4lessIjESt4pairIKjSsENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE8_M_eraseEPNS_18_Rb_tree_node_baseE",
+      "elf_address": "0x37bd7c",
+      "size": 132,
+      "sha256": "6347093f5380b74859e08ab11ae82750b8011e9ca6344985ff1dd71146b230fe"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript13_AddToVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ec70",
+      "size": 528,
+      "sha256": "faf28ae3fbab77d1df38ffc6c7472155fabed08818ca3a9c638f0d4f6b8b60e9"
+    },
+    {
+      "original_symbol": "_ZNK9LuaScript11IsInVFTableEPKc",
+      "elf_address": "0x37c2a0",
+      "size": 116,
+      "sha256": "e6cce18e10a1e722288100ce9693feb32a338c139066c79b309043ed0fabccd4"
+    },
+    {
+      "original_symbol": "_ZN10LuaManager7AddFileEP9LuaScriptPKc",
+      "elf_address": "0x37b23c",
+      "size": 808,
+      "sha256": "eed28284fab97acb165e01e0aa721a8cbd18265ca17252e903f14be10ba5fb7f"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript12BindFunctionEv",
+      "elf_address": "0x37b5a0",
+      "size": 1252,
+      "sha256": "91d033024f6aca2114db5debdef452e67a0fe2b7ce7d332567d43d9fbd2cfb7d"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4LoadEPKc",
+      "elf_address": "0x37b574",
+      "size": 44,
+      "sha256": "cd9ec4280f7e48da11034c6005df78f232e0ef350df4e78f0e434a60c805828e"
+    }
+  ]
+}

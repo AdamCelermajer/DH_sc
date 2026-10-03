@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNSt6vectorIP9CharacterSaIS1_EEC1Ej.clone.3",
+      "elf_address": "0x3ccf9c",
+      "size": 72,
+      "sha256": "127f83bc4278c41aa4277e7aac23ecc2dee2b4564aa49c8bb023ef98848a2b89"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptC2Eb",
+      "elf_address": "0x3d8fb0",
+      "size": 108,
+      "sha256": "ce859293ac04fa52f9989fd0ff46df28670c87b80ccfd204ccb8a52e1e1c5afd"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers9TMR_StartEjiiPv",
+      "elf_address": "0x3dbe24",
+      "size": 84,
+      "sha256": "7d6993ff7e409b6b319e972d1604b4ee49a1affa167f349a480aad2dd06b1cb6"
+    },
+    {
+      "original_symbol": "_ZN9AISPlayerD2Ev",
+      "elf_address": "0x3de100",
+      "size": 116,
+      "sha256": "7861a5a53b1a94596006511bec351c8dc7f1a548d8c22385d4da585963f4e77f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17LoadScriptProcessEv",
+      "elf_address": "0x3cf1f0",
+      "size": 436,
+      "sha256": "737c53f97392fdd9d21349694eef1c6b5a189f14864f0075e4a68e67d8e8c564"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers8TMR_StopEj",
+      "elf_address": "0x3db2d8",
+      "size": 32,
+      "sha256": "6dbf462d15b090873ba926013ab337200b3311223de9da6d7c3bcae893637b61"
+    },
+    {
+      "original_symbol": "_ZN6CharAI18SetSkillsAndSpellsEv",
+      "elf_address": "0x3ce044",
+      "size": 1916,
+      "sha256": "ca650d7059d273436362d2d10ba973fbbc0fe1dfd632b86857e982470593ded2"
+    }
+  ]
+}

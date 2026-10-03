@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character11GetCharTypeEv",
+      "elf_address": "0x3a3054",
+      "size": 16,
+      "sha256": "c3c6ac60324ce38733ebad4c0210947ae208b7fc052d6d8e0a6ec2aef2ca3a69"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject17SetAnimControllerEP14AnimController",
+      "elf_address": "0x470a84",
+      "size": 64,
+      "sha256": "576e1d2b5a4bc51ec3318200fe5adf459ec256aca82669b9ef1f2c75c60915cd"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharAIIdEv",
+      "elf_address": "0x3a2fec",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad"
+    },
+    {
+      "original_symbol": "_ZN9Character18SetInitialPositionERK7Point3DIfE",
+      "elf_address": "0x3a58f4",
+      "size": 128,
+      "sha256": "6b51f4ed914771f9964fdae11ac10f8e9700fc13a9673272444527c8c28bd33d"
+    },
+    {
+      "original_symbol": "_ZN12VisualObjectC1EP10GameObjectRKSsS3_",
+      "elf_address": "0x472a0c",
+      "size": 592,
+      "sha256": "009dcf6e02d189677a66323fc1b3319734ce8913147232978c3ec55b23cdd0f9"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject27_FindModularSkinnedMeshNodeEv",
+      "elf_address": "0x4718f0",
+      "size": 284,
+      "sha256": "bb8d6b13fc8cae24316d56a7b7e3538a7fe413d3236b8294a4af69dae8411880"
+    },
+    {
+      "original_symbol": "_ZN9Character7SG_LoadEi",
+      "elf_address": "0x3bc4d0",
+      "size": 20,
+      "sha256": "090c17df20995459a533229a6cf3d5b18684597dbb50ee4cfeddb77be3e048cb"
+    },
+    {
+      "original_symbol": "_ZNK9Character9GetCharAIEv",
+      "elf_address": "0x3a3024",
+      "size": 48,
+      "sha256": "11131ec819b3f9f48184bf209234614f953af1a625f6cf1973fdb63d7c11b7f9"
+    },
+    {
+      "original_symbol": "_ZN14AnimControllerC1EP13RootSceneNodeb",
+      "elf_address": "0x474d30",
+      "size": 276,
+      "sha256": "e06e9efb50d28fa87d38809c3f48deb7ea81207890a1d8fda9208687303b7529"
+    }
+  ]
+}

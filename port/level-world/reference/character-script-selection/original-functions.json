@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI15SetScriptByNameEPKc",
+      "elf_address": "0x3ceeb0",
+      "size": 412,
+      "sha256": "aba86cd4816befa74b71cd3d2fd8a46b2e7a81ed9626a2ead5d1afc546291f90"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16StepCreateScriptEv",
+      "elf_address": "0x3cf04c",
+      "size": 420,
+      "sha256": "ad256bfa0f385494fa34b0964afc4b74048199e8b65585c9b0b7bab91aa4ce4a"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI10AISDefaultEEvv",
+      "elf_address": "0x3cce14",
+      "size": 276,
+      "sha256": "b63d56cca95f5a8a9553a368240ba10139d3cd2be2a7f40ce08af3a821cc1a33"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI10AISMonsterEEvv",
+      "elf_address": "0x3ccbe4",
+      "size": 276,
+      "sha256": "f94a767c4316b78415ab77403f6c76e20d5f95dc1d5d8844dd2eaa4ea8088757"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI15AISPlayerIPhoneEEvv",
+      "elf_address": "0x3ccfe4",
+      "size": 312,
+      "sha256": "a05a788d81899170005eca61c0be63e488e4f1aa675fb01ea7c336f616aabf58"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI8AISFaeryEEvv",
+      "elf_address": "0x3cccf8",
+      "size": 284,
+      "sha256": "004344a45a6b07f7c0a1c75768c8c7ab26e1f7ce1a2822ab23cf8060c6d2a433"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI11AISExternalEEvv",
+      "elf_address": "0x3ccaf4",
+      "size": 240,
+      "sha256": "6446d8a68f471f7f81566e6d91c6dd84009e30619a236cfc9cb3942bf865bcc2"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI9AISPlayerEEvv",
+      "elf_address": "0x3cd11c",
+      "size": 292,
+      "sha256": "ce024c9ca689d19fa3ef03cc35666aa205e23391e44f673fbff72bbd442b4d82"
+    }
+  ]
+}

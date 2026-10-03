@@ -1,0 +1,51 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "ee3c4cc7f759b56d0e31d890fd6885b50db58d7688681701a0de7680558f2e4e",
+  "linked_reference_sha256": "19a3212ee52ab7544c08fc62e4d8f87d37514f57cc8ec9e3df48623ee9c1daaa",
+  "floor_source_sha256": "05fed3c646ac7e2f1e188cc5abbd2975db063cdbe7517c87709bf8c911581fe0",
+  "reference_sha256": "0988cedd3f19a986f98b93212b169d316773fa66166ee5bea3c3db29205bf8b8",
+  "comparisons": 2353,
+  "totals": {
+    "height": 528,
+    "position": 573,
+    "direction": 768,
+    "segment": 484,
+    "floor_queries": 2860,
+    "accepted": 316,
+    "clamped": 210,
+    "equivalent": 30,
+    "position_miss": 17,
+    "direction_valid": 722,
+    "direction_rejected": 46,
+    "slide_attempts": 171,
+    "successful_slides": 149,
+    "parent_requests": 264,
+    "parent_changes": 64
+  },
+  "crypt_motion_probe": {
+    "floor_pairs": 64,
+    "position_valid": 64,
+    "accepted": 64,
+    "direction_valid": 64,
+    "state_fnv1a64": "d60ad48039cc85c6"
+  },
+  "mismatches": 0,
+  "original_import_calls": {
+    "__aeabi_fsub": 12272,
+    "__aeabi_fcmplt": 2237,
+    "__aeabi_fmul": 17745,
+    "__aeabi_fadd": 8494,
+    "__aeabi_fcmpgt": 1899,
+    "__aeabi_fcmple": 46018,
+    "sqrtf": 1406,
+    "__aeabi_fdiv": 3612,
+    "acosf": 171
+  },
+  "native_import_calls": {
+    "memset": 5565,
+    "memcpy": 9245,
+    "acosf": 171
+  },
+  "scope": "Original floor height/normal and position/direction validation versus ARM64.\n\nOriginal floor/room/world height traversal, ValidatePosition, ValidateDirection,\nfinite-segment intersection, normalization and angle instructions execute.\nOriginal selector/octree/collision run in independent floor-query oracles.\nIEEE/libm imports are modeled; obstacle-parent service is observed, not supplied\nas an implemented backend. Scene ownership, object fields and policy are caller\nfixtures. Character controllers, speed/root motion and dynamic obstacles are\noutside this audit.\n",
+  "elapsed_seconds": 54.7
+}

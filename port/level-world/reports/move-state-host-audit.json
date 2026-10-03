@@ -1,0 +1,12 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reference_sha256": "f19ae53552f898d017e816b808f1c20a86598b8a900bc503068153e3a7b37a8c",
+  "original_derived_replay": 4352,
+  "address_sanitizer": true,
+  "undefined_behavior_sanitizer": true,
+  "leak_detection": true,
+  "walk_property_index": 46,
+  "rotation_property_index": 47,
+  "mismatches": 0,
+  "scope": "Pure original-derived policy/property-speed and exact focus prefix producers. Full focus/blur/FSM, animation selection, mass lifecycle and authored clip/root-motion timing remain composed by their respective caller services."
+}

@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11Application5GetDtEv",
+      "elf_address": "0x31f66c",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387"
+    },
+    {
+      "original_symbol": "_ZNK9Character28IsUpdatingVisualWithRotationEv",
+      "elf_address": "0x3a2e68",
+      "size": 16,
+      "sha256": "6c9d1c82cb8ccd17caffee93f7d8c7b97bb675b64cf19bbd9be1325cd12aff77"
+    },
+    {
+      "original_symbol": "_ZN10GameObject14UpdateRotationEv",
+      "elf_address": "0x393710",
+      "size": 400,
+      "sha256": "54f64a9e35bc4862e4e9161b4cc84f2c2685332a8ae6e31eef05ebf7881c096b"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties22PROPS_GetRotationSpeedEv",
+      "elf_address": "0x3de708",
+      "size": 68,
+      "sha256": "0cd431a098fa0c1966576d71ca1669f9623b623fe0c28393140576c879da3e4c"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetRotationSpeedEv",
+      "elf_address": "0x3a372c",
+      "size": 32,
+      "sha256": "ec3c41cebc9014ff6dd643991c2cc6d69cced1a723cc6fb99c93fbe191f9a166"
+    }
+  ]
+}

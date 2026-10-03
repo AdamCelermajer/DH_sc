@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12CharAIScript24CharAIScriptBindFunctionEv",
+      "elf_address": "0x3d8ec8",
+      "size": 100,
+      "sha256": "d45b3732ffe08455782ccd53300dac9bc109adef7e444fa9a9194e0aec451beb"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript12BindFunctionEv",
+      "elf_address": "0x3d8f2c",
+      "size": 24,
+      "sha256": "2e24a5f9be3c511be8d4a56e5bf06dc6bb29b1715fc8ac8af1e34db163ea4130"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues9_doReturnEP9lua_State",
+      "elf_address": "0x31b308",
+      "size": 144,
+      "sha256": "1b00c16bbc86ead7637728fccfdeb2e2186cf2090af72858482406463ddea50c"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5Value13_setFromStackEP9lua_Statei",
+      "elf_address": "0x31c9c8",
+      "size": 252,
+      "sha256": "bc735bb9f63289538c7b6e4591b7e747e3cb147c3b9449c57f27b21c3d127a8b"
+    }
+  ]
+}

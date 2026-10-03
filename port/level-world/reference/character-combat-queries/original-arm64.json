@@ -1,0 +1,29 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "7308940d17af6a9d22b4947c7d37015eab8bd2d8b09691c3c9896b2e11aa8301",
+  "manifest_sha256": "913858966a29d69c9c3fa3e28780f487131a8e2631ea91b11426493c59a46070",
+  "corpus_sha256": "341a2ea3b6d9af64a3e3354e6b5921c56bb8e654ab925be61cc236d6e705ebb8",
+  "script_sha256": "01ebc3493849d4969be17abaf67aa611952101f8555197d5cdd4c8d34f77b250",
+  "source_sha256": {
+    "port/level-world/character_combat_queries.hpp": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf",
+    "port/level-world/character_combat_queries.cpp": "0bee17391e579111e6e7e3fec4184bd44d868616884c332038576b8f4a4a7225"
+  },
+  "comparisons": 4401,
+  "range_queries": 2142,
+  "inventory_queries": 1694,
+  "combo_queries": 565,
+  "property32": "RangeProjectileID",
+  "property2": "AnimTable",
+  "real_property_rows": 448,
+  "real_animation_banks": 80,
+  "real_sequences": 785,
+  "table_inputs_sha256": {
+    "data\\animations_pyarray.bin": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+    "data\\character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "data\\character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+  },
+  "mismatches": 0,
+  "scope": "Actual range/inventory/table lookup instructions vs optimized native ARM64.\n\nCharacter cached property words and immutable ItemTable/CharAnimTable/AnimTable\nrows are concrete fixture storage. Equipment ownership is borrowed read-only.\nNo query capability bool or GetItem/GetCharAnimTableId return is mocked.\n",
+  "elapsed_seconds": 0.203
+}

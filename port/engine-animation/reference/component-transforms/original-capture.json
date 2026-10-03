@@ -1,0 +1,155 @@
+{
+  "validation": "ORIGINAL_CAPTURED",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "fdb058cb42615047ba5a440be82bb9ca61e2d88a5eb31ced602a287a889e5694",
+  "script_sha256": "d7a570e1615f9fe6314b5589829b598a4d0fedddb176450fe7f18f5494d745a4",
+  "bank_sha256": "76633bb4f0ab5f645f4516e407e1f926df61641ea66faa805f68da57f043eb81",
+  "corpus_sha256": "49631e8bf0540526305fcbcacabdd8ca14a4aa4435ef810af2197c21309d1261",
+  "component_uris": [
+    "Bip01_R_Calf-node"
+  ],
+  "cases": [
+    {
+      "order": [
+        1111,
+        1029,
+        1028,
+        1027,
+        984,
+        1022,
+        1009,
+        1014,
+        1077,
+        1078,
+        1079
+      ],
+      "targets": 81,
+      "samples": 1296,
+      "cross_type_bindings": [
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        }
+      ],
+      "original_import_calls": {
+        "strcmp": 31244,
+        "memcpy": 1296,
+        "__aeabi_i2f": 7520,
+        "__aeabi_fdiv": 1874,
+        "__aeabi_fcmpgt": 2410,
+        "__aeabi_fmul": 2548,
+        "__aeabi_fcmpeq": 1216,
+        "__aeabi_fcmplt": 1586,
+        "__aeabi_f2iz": 1024,
+        "__aeabi_fsub": 272,
+        "__aeabi_fadd": 624,
+        "__aeabi_fcmpge": 8,
+        "sqrtf": 8
+      },
+      "factory_identity_calls": 81
+    },
+    {
+      "order": [
+        1029,
+        1028,
+        1027,
+        984,
+        1022,
+        1009,
+        1014,
+        1077,
+        1078,
+        1079,
+        1111
+      ],
+      "targets": 81,
+      "samples": 1296,
+      "cross_type_bindings": [
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        }
+      ],
+      "original_import_calls": {
+        "strcmp": 30816,
+        "memcpy": 1296,
+        "__aeabi_i2f": 7520,
+        "__aeabi_fdiv": 1874,
+        "__aeabi_fcmpgt": 2410,
+        "__aeabi_fcmplt": 1586,
+        "__aeabi_fmul": 2548,
+        "__aeabi_fcmpeq": 1216,
+        "__aeabi_f2iz": 1024,
+        "__aeabi_fsub": 272,
+        "__aeabi_fadd": 624,
+        "__aeabi_fcmpge": 8,
+        "sqrtf": 8
+      },
+      "factory_identity_calls": 81
+    },
+    {
+      "order": [
+        1029,
+        1028,
+        1027,
+        984,
+        1022,
+        1009,
+        1014,
+        1077,
+        1078,
+        1079
+      ],
+      "targets": 31,
+      "samples": 800,
+      "cross_type_bindings": [
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        }
+      ],
+      "original_import_calls": {
+        "strcmp": 11141,
+        "__aeabi_i2f": 7232,
+        "__aeabi_fdiv": 1778,
+        "__aeabi_fcmpgt": 2314,
+        "__aeabi_fcmplt": 1586,
+        "__aeabi_fmul": 2452,
+        "__aeabi_fcmpeq": 1120,
+        "__aeabi_f2iz": 1024,
+        "__aeabi_fsub": 272,
+        "__aeabi_fadd": 624,
+        "__aeabi_fcmpge": 8,
+        "sqrtf": 8,
+        "memcpy": 240
+      },
+      "factory_identity_calls": 31
+    }
+  ],
+  "elapsed_seconds": 16.0,
+  "scope": "Actual original dynamic compiler and sampling. No native parity or live renderer claim."
+}

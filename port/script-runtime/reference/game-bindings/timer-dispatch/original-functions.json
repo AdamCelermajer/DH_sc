@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI13OnScriptTimerEj",
+      "elf_address": "0x3d0ca0",
+      "size": 36,
+      "sha256": "ab41f27c3c1d345c734ea88d5cf900b15ae578128c7ef57a88c0a33091994b82"
+    }
+  ]
+}

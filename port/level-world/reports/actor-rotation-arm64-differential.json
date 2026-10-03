@@ -1,0 +1,333 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "1c950f5718c165b9aae02ac0dfdfc5f2456cc33ee45243ac5f1b915fc0432a45",
+  "reference_sha256": "b77af2fe9f0bbf99c75a0ea1442c4fe497baed7ec2123593b1f586d2d4be9fe7",
+  "comparisons": 5590,
+  "atomic_rejection_checks": 15,
+  "mismatches": 0,
+  "totals": {
+    "snap_sentinel": 2711,
+    "visual_sync": 1984,
+    "increment_positive": 799,
+    "increment_negative": 823,
+    "snap_to_target": 3968,
+    "zero_dt": 1018,
+    "dt_getter_calls": 2879
+  },
+  "boundary_snapshots": [
+    {
+      "case": "exact step boundary dt0 target0.0",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        0,
+        0,
+        1,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt0 target-0.0",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        0,
+        2147483648,
+        1,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt0 target-1.0000000116860974e-07",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        0,
+        3017195413,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt0 target1.0000000116860974e-07",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        0,
+        869711765,
+        1,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt1 target0.012566371820867062",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        1011737391,
+        1011737391,
+        1,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt1 target-0.012566371820867062",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        3159221039,
+        3159221039,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt1 target0.012566272169351578",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        1011737284,
+        1011737284,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt1 target-0.012566272169351578",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        3159220932,
+        3159220932,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt16 target0.20106194913387299",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        1045291823,
+        1045291823,
+        1,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt16 target-0.20106194913387299",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        3192775471,
+        3192775471,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt16 target0.20106184482574463",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        1045291816,
+        1045291816,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt16 target-0.20106184482574463",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        3192775464,
+        3192775464,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt33 target0.414690226316452",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        1054102087,
+        1054102087,
+        1,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt33 target-0.414690226316452",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        3201585735,
+        3201585735,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt33 target0.41469013690948486",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        1054102084,
+        1054102084,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt33 target-0.41469013690948486",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        3201585732,
+        3201585732,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt1000 target12.566370964050293",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        1095307227,
+        1095307227,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt1000 target-12.566370964050293",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        3242790875,
+        3242790875,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt1000 target12.566370964050293",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        1095307227,
+        1095307227,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "exact step boundary dt1000 target-12.566370964050293",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        3242790875,
+        3242790875,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "angle boundary -0.0,0.0",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        0,
+        0,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "angle boundary 0.0,-0.0",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        2147483648,
+        2147483648,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "angle boundary 1e+30,-1e+30",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        1900671690,
+        4048155338,
+        0,
+        0
+      ],
+      "visual_sync": 1
+    },
+    {
+      "case": "angle boundary -1e+30,1e+30",
+      "rate_word": "0x3f800000",
+      "state_words": [
+        1045220557,
+        3197737370,
+        4048155338,
+        1900671690,
+        1,
+        0
+      ],
+      "visual_sync": 1
+    }
+  ],
+  "scope": "Complete original UpdateRotation coordinator versus native ARM64.\nActual Character rotation-rate/visual policy and Application dt getters execute.\nVisualObject::SyncRotation is an observer of call order and final Euler angles;\nits quaternion/scene writes are separately reconstructed visual services.\n",
+  "elapsed_seconds": 3.56
+}

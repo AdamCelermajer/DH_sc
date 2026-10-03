@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10GameObject11LookTowardsERK7Point3DIfE",
+      "elf_address": "0x393b1c",
+      "size": 204,
+      "sha256": "f924cd91a91a47055822f342618f6c63b14b13024a170f2aa5b3a067c0cd0584"
+    },
+    {
+      "original_symbol": "_ZN10GameObject19SetHeadingDirectionERK7Point3DIfEb",
+      "elf_address": "0x393be8",
+      "size": 260,
+      "sha256": "63ed101dc26fa3fa92c8d55483396200d17d41800b53e5bd148870d9e515bc86"
+    }
+  ]
+}

@@ -1,0 +1,1889 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "aa9d4deb9c9328ba70b9cbbd8fbed684e0643f91411ff8d088d3e45037d9b3e4",
+  "linked_reference_sha256": "19a3212ee52ab7544c08fc62e4d8f87d37514f57cc8ec9e3df48623ee9c1daaa",
+  "floor_source_sha256": "05fed3c646ac7e2f1e188cc5abbd2975db063cdbe7517c87709bf8c911581fe0",
+  "reference_sha256": "c5aca85e49895c1408052886e2d6721d4f4fb41c623a4dcf1193209f7c53d42f",
+  "comparisons": 2008,
+  "mismatches": 0,
+  "totals": {
+    "force": 832,
+    "avoid": 750,
+    "can_collide": 426,
+    "force_records": 4524,
+    "contributions": 4535,
+    "adjusted": 220,
+    "turn_limited": 181,
+    "gated": 275,
+    "registry_keys_compared": 3377
+  },
+  "crypt_avoidance_probe": {
+    "floors": 8,
+    "force_contributions": 16,
+    "adjusted": 8,
+    "turn_limited": 8,
+    "state_fnv1a64": "09d1d79d2612c945"
+  },
+  "behavior_snapshots": [
+    {
+      "case": "all neighbours and self registration",
+      "operation": 0,
+      "output_words": [
+        3273245498,
+        3262369264,
+        0,
+        7
+      ],
+      "records": 7,
+      "registry_keys": 1
+    },
+    {
+      "case": "all neighbours and self registration",
+      "operation": 1,
+      "output_words": [
+        3273245498,
+        3262369264,
+        0,
+        7,
+        1,
+        1,
+        1,
+        0,
+        1120403456,
+        3238787931,
+        0
+      ],
+      "records": 7,
+      "registry_keys": 1
+    },
+    {
+      "case": "force sum without diagnostic vector",
+      "operation": 0,
+      "output_words": [
+        3273245498,
+        3262369264,
+        0,
+        7
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "diagnostic vector appends existing records",
+      "operation": 0,
+      "output_words": [
+        3273245498,
+        3262369264,
+        0,
+        7
+      ],
+      "records": 8,
+      "registry_keys": 1
+    },
+    {
+      "case": "early flag/floor gate 14 4294967295",
+      "operation": 1,
+      "output_words": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1120403456,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "early flag/floor gate 15 0",
+      "operation": 1,
+      "output_words": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1120403456,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "early flag/floor gate 12 0",
+      "operation": 1,
+      "output_words": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1120403456,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "early flag/floor gate 0 0",
+      "operation": 1,
+      "output_words": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1120403456,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "coincident XY ignores Z",
+      "operation": 0,
+      "output_words": [
+        2143289344,
+        2143289344,
+        2143289344,
+        1
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "coincident XY ignores Z avoidance",
+      "operation": 1,
+      "output_words": [
+        2143289344,
+        2143289344,
+        2143289344,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1120403456,
+        0,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "inside influence boundary",
+      "operation": 0,
+      "output_words": [
+        3067609088,
+        0,
+        0,
+        1
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "inside influence boundary avoidance",
+      "operation": 1,
+      "output_words": [
+        3067609088,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3067609088,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "strict influence boundary",
+      "operation": 0,
+      "output_words": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "strict influence boundary avoidance",
+      "operation": 1,
+      "output_words": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1120403456,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "outside influence boundary",
+      "operation": 0,
+      "output_words": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "outside influence boundary avoidance",
+      "operation": 1,
+      "output_words": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        1120403456,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "path/desired endpoint threshold 0 0 40",
+      "operation": 0,
+      "output_words": [
+        3253689416,
+        0,
+        0,
+        1
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "path/desired endpoint threshold 0 0 30",
+      "operation": 0,
+      "output_words": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "path/desired endpoint threshold 0 0 29.999",
+      "operation": 0,
+      "output_words": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "path/desired endpoint threshold 1 30 1000",
+      "operation": 0,
+      "output_words": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "path/desired endpoint threshold 1 29.999 1000",
+      "operation": 0,
+      "output_words": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "records": 0,
+      "registry_keys": 1
+    },
+    {
+      "case": "path/desired endpoint threshold 1 30.001 1000",
+      "operation": 0,
+      "output_words": [
+        3253689416,
+        0,
+        0,
+        1
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "single obstacle direction (100, 0, 0)",
+      "operation": 1,
+      "output_words": [
+        3252548419,
+        3239311233,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3253335234,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple obstacle direction (100, 0, 0)",
+      "operation": 1,
+      "output_words": [
+        3273245498,
+        3262369264,
+        0,
+        7,
+        1,
+        1,
+        1,
+        0,
+        1120403456,
+        3238787931,
+        0
+      ],
+      "records": 7,
+      "registry_keys": 1
+    },
+    {
+      "case": "single obstacle direction (-100, 0, 0)",
+      "operation": 1,
+      "output_words": [
+        3252548419,
+        3239311233,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        3267887104,
+        0,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple obstacle direction (-100, 0, 0)",
+      "operation": 1,
+      "output_words": [
+        3273245498,
+        3262369264,
+        0,
+        7,
+        1,
+        0,
+        0,
+        0,
+        3267887104,
+        0,
+        0
+      ],
+      "records": 7,
+      "registry_keys": 1
+    },
+    {
+      "case": "single obstacle direction (0, 100, 0)",
+      "operation": 1,
+      "output_words": [
+        3252548419,
+        3239311233,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        3253335234,
+        1120403456,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple obstacle direction (0, 100, 0)",
+      "operation": 1,
+      "output_words": [
+        3273245498,
+        3262369264,
+        0,
+        7,
+        1,
+        1,
+        1,
+        0,
+        3238787931,
+        1120403456,
+        0
+      ],
+      "records": 7,
+      "registry_keys": 1
+    },
+    {
+      "case": "single obstacle direction (0, 0, 0)",
+      "operation": 1,
+      "output_words": [
+        3252548419,
+        3239311233,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple obstacle direction (0, 0, 0)",
+      "operation": 1,
+      "output_words": [
+        3273245498,
+        3262369264,
+        0,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "records": 7,
+      "registry_keys": 1
+    },
+    {
+      "case": "single obstacle direction (100, 0, 100)",
+      "operation": 1,
+      "output_words": [
+        3252548419,
+        3239311233,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3253335234,
+        1120403456
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple obstacle direction (100, 0, 100)",
+      "operation": 1,
+      "output_words": [
+        3273245498,
+        3262369264,
+        0,
+        7,
+        1,
+        1,
+        1,
+        0,
+        1120403456,
+        3242587864,
+        1120403456
+      ],
+      "records": 7,
+      "registry_keys": 1
+    },
+    {
+      "case": "single obstacle direction (0, 0, 100)",
+      "operation": 1,
+      "output_words": [
+        3252548419,
+        3239311233,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1120403456
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple obstacle direction (0, 0, 100)",
+      "operation": 1,
+      "output_words": [
+        3273245498,
+        3262369264,
+        0,
+        7,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1120403456
+      ],
+      "records": 7,
+      "registry_keys": 1
+    },
+    {
+      "case": "72 duplicate contributions across deque blocks",
+      "operation": 0,
+      "output_words": [
+        3301370875,
+        3290238407,
+        0,
+        72
+      ],
+      "records": 72,
+      "registry_keys": 1
+    },
+    {
+      "case": "72 duplicate steering contributions",
+      "operation": 1,
+      "output_words": [
+        3301370875,
+        3290238407,
+        0,
+        72,
+        1,
+        1,
+        1,
+        0,
+        1120403456,
+        3238787931,
+        0
+      ],
+      "records": 72,
+      "registry_keys": 1
+    },
+    {
+      "case": "physical groups -32768 -32768 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 -32768 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 -32768 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 -32768 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 -3 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 -3 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 -3 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 -3 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 0 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 0 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 0 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 0 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 2 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 2 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 2 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 2 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 32767 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 32767 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 32767 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -32768 32767 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 -32768 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 -32768 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 -32768 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 -32768 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 -3 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 -3 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 -3 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 -3 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 0 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 0 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 0 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 0 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 2 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 2 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 2 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 2 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 32767 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 32767 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 32767 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups -3 32767 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 -32768 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 -32768 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 -32768 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 -32768 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 -3 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 -3 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 -3 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 -3 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 0 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 0 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 0 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 0 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 2 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 2 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 2 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 2 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 32767 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 32767 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 32767 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 0 32767 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 -32768 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 -32768 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 -32768 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 -32768 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 -3 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 -3 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 -3 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 -3 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 0 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 0 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 0 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 0 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 2 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 2 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 2 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 2 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 32767 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 32767 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 32767 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 2 32767 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 -32768 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 -32768 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 -32768 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 -32768 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 -3 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 -3 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 -3 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 -3 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 0 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 0 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 0 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 0 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 2 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 2 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 2 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 2 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 32767 masks (1, 1, 1, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 32767 masks (1, 0, 1, 0)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 32767 masks (1, 2, 2, 1)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical groups 32767 32767 masks (0, 65535, 0, 65535)",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical body gates 0 0 0 1 1 1",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical body gates 1 1 0 1 1 1",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical body gates 1 0 1 0 1 1",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical body gates 1 0 0 0 0 1",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical body gates 1 0 0 0 0 0",
+      "operation": 2,
+      "output_words": [
+        0
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "physical body gates 1 0 1 1 0 1",
+      "operation": 2,
+      "output_words": [
+        1
+      ],
+      "records": 0,
+      "registry_keys": 0
+    },
+    {
+      "case": "steering sign epsilon y -0.001",
+      "operation": 1,
+      "output_words": [
+        3253689416,
+        981645573,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        1106205768,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "steering sign epsilon y -0.0001",
+      "operation": 1,
+      "output_words": [
+        3253689416,
+        953231368,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3253689416,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "steering sign epsilon y -1e-05",
+      "operation": 1,
+      "output_words": [
+        3253689416,
+        925324090,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3253689416,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "steering sign epsilon y -1e-06",
+      "operation": 1,
+      "output_words": [
+        3253689416,
+        897965102,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3253689416,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "steering sign epsilon y 0.0",
+      "operation": 1,
+      "output_words": [
+        3253689416,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3253689416,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "steering sign epsilon y 1e-06",
+      "operation": 1,
+      "output_words": [
+        3253689416,
+        3045448750,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3253689416,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "steering sign epsilon y 1e-05",
+      "operation": 1,
+      "output_words": [
+        3253689416,
+        3072807738,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3253689416,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "steering sign epsilon y 0.0001",
+      "operation": 1,
+      "output_words": [
+        3253689416,
+        3100715016,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3253689416,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "steering sign epsilon y 0.001",
+      "operation": 1,
+      "output_words": [
+        3253689416,
+        3129129221,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3253689416,
+        0
+      ],
+      "records": 1,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple contribution turn threshold 0.0001",
+      "operation": 1,
+      "output_words": [
+        3106482702,
+        3086191790,
+        0,
+        2,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3106660801,
+        0
+      ],
+      "records": 2,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple contribution turn threshold 0.01",
+      "operation": 1,
+      "output_words": [
+        3162777820,
+        3141420520,
+        0,
+        2,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3162916960,
+        0
+      ],
+      "records": 2,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple contribution turn threshold 0.1",
+      "operation": 1,
+      "output_words": [
+        3190108946,
+        3169703778,
+        0,
+        2,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3190282871,
+        0
+      ],
+      "records": 2,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple contribution turn threshold 1.0",
+      "operation": 1,
+      "output_words": [
+        3217981398,
+        3197413022,
+        0,
+        2,
+        1,
+        1,
+        0,
+        0,
+        1120403456,
+        3218198804,
+        0
+      ],
+      "records": 2,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple contribution turn threshold 10.0",
+      "operation": 1,
+      "output_words": [
+        3246460902,
+        3225014340,
+        0,
+        2,
+        1,
+        1,
+        1,
+        0,
+        1120403456,
+        3238787931,
+        0
+      ],
+      "records": 2,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple contribution turn threshold 100.0",
+      "operation": 1,
+      "output_words": [
+        3273741280,
+        3253224534,
+        0,
+        2,
+        1,
+        1,
+        1,
+        0,
+        1120403456,
+        3238787931,
+        0
+      ],
+      "records": 2,
+      "registry_keys": 1
+    },
+    {
+      "case": "multiple contribution turn threshold 1000.0",
+      "operation": 1,
+      "output_words": [
+        3301550296,
+        3281070774,
+        0,
+        2,
+        1,
+        1,
+        1,
+        0,
+        1120403456,
+        3238787931,
+        0
+      ],
+      "records": 2,
+      "registry_keys": 1
+    }
+  ],
+  "complete_ordered_forces_and_registry_compared": true,
+  "original_physical_filter_and_concrete_virtual_execute": true,
+  "original_import_calls": {
+    "memcpy": 8,
+    "__aeabi_fsub": 40377,
+    "__aeabi_fmul": 76137,
+    "__aeabi_fadd": 54027,
+    "__aeabi_fcmpge": 8908,
+    "__aeabi_fcmpgt": 5843,
+    "__aeabi_fdiv": 19214,
+    "sqrtf": 5601,
+    "__aeabi_fcmplt": 648,
+    "malloc": 557
+  },
+  "scope": "Original obstacle force/avoidance and concrete physical collision filtering.\n\nForce/avoidance, map/deque/vector instructions, canCollide and the concrete\nPhysicalObject onCollisionTest virtual implementation execute. Scene membership,\nGameObject/physical/shape fields and immutable first path destination are caller\nfixtures. Imported IEEE/libm services are modeled. Original allocator instructions\nexecute with supplied heap storage. Speed/root motion and actor producers pending.\n",
+  "elapsed_seconds": 44.31
+}

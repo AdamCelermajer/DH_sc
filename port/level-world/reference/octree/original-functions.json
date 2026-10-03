@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6glitch5scene24COctTreeTriangleSelector26getTrianglesFromOctTreeBoxEPNS1_12SOctTreeNodeE",
+      "elf_address": "0x5870fc",
+      "size": 204,
+      "sha256": "2a415d1f79b55abc1e143c8fde03c8e2c57f4fbf5ec0c8e90233a602b9e0054d"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene17CTriangleSelector11TestWithBoxERSt6vectorINS_4core10triangle3dIfEENS3_10SAllocatorIS5_LNS_6memory13E_MEMORY_HINTE0EEEE",
+      "elf_address": "0x586ec8",
+      "size": 564,
+      "sha256": "909636d67c5d5dcee614b51376027db9b2f5d3d0f1d93f491160bf17a0a1be29"
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10triangle3dIfE16isTotalInsideBoxERKNS0_8aabbox3dIfEE",
+      "elf_address": "0x5857ac",
+      "size": 452,
+      "sha256": "0812aae094950660d37faf423decc3edd5d87e70f5c4360ea1570a3d6fda2bb5"
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core8aabbox3dIfE8getEdgesEPNS0_8vector3dIfEE",
+      "elf_address": "0x585638",
+      "size": 372,
+      "sha256": "6d0074c343727dc0192efc54b77eede51a72f2f0be9b304a9a932672c332bdd1"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN6glitch4core10triangle3dIfEENS1_10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE22_M_insert_overflow_auxEPS3_RKS3_RKSt12__false_typejb",
+      "elf_address": "0x587ac4",
+      "size": 708,
+      "sha256": "cf91d115ef6f3f6a0f6027aaf83ebe2562177f8836d310d3ee0b3b5c5b3a51b9"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene24COctTreeTriangleSelector16constructOctTreeEPNS1_12SOctTreeNodeE",
+      "elf_address": "0x587e60",
+      "size": 2036,
+      "sha256": "c20fb2773661f822ed729077a1f0a418908ff0fc220b023eeda3af8930de4250"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN6glitch4core10triangle3dIfEENS1_10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE6resizeEjRKS3_",
+      "elf_address": "0x587dfc",
+      "size": 100,
+      "sha256": "18305b84dc51840e3f0a803dbc540a95633319852de0ee19c3f795c260b47745"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene17CTriangleSelector9AddResultERKNS_4core10triangle3dIfEE",
+      "elf_address": "0x586acc",
+      "size": 1020,
+      "sha256": "323cb989525ae8b76c8a4e621b404a9ce74c05a30d1214ffbd32af23de98d430"
+    }
+  ]
+}

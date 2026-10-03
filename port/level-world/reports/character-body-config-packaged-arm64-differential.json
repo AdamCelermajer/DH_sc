@@ -1,0 +1,1255 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "04a76d6d625a5d9b6a062d4b8050eb2e932d100b9e757f5b094a782e9f567c17",
+  "reference_sha256": "63f1cd1e6bc3b0fd956fa638cba5483208ea65fcbbeb29eb1431a39770cd6dce",
+  "comparisons": 3864,
+  "mismatches": 0,
+  "source_branch_cases": 864,
+  "allocations": 3537,
+  "create_body_calls": 3537,
+  "pin_zero_mass_calls": 2394,
+  "pf_update_requests": 1928,
+  "original_import_calls": {
+    "memcpy": 3864,
+    "__aeabi_fsub": 7074,
+    "__aeabi_fmul": 21043,
+    "__aeabi_fcmplt": 3537
+  },
+  "all_shape_body_filter_fields_and_service_order_compared": true,
+  "arm64_userdata_pointers_above_4gib": true,
+  "radius_uses_max_extent_with_unordered_width_fallback": true,
+  "scope": "Original Character InitPhysicalObject/physical constructors/attach versus ARM64 definition producer.\nBody/shape creation, mass, PF updates and destruction are explicit observed service fixtures.\n Original predicates, POCharacter and PhysicalObject constructors, _init/_addShape, pin and SetPhysicalObject instructions execute. CreateBody/CreateShape/mass/SetMass/destructors/PF update backends are caller fixtures. Original AI definition lookup is supplied; no physics world stepping or contact backend is claimed.",
+  "elapsed_seconds": 6.47,
+  "behavior_snapshots": [
+    {
+      "case": "branch 0/0/0/0/0/0",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [
+        8
+      ],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/0/0/1",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [
+        6,
+        7,
+        8
+      ],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/0/0/2",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [
+        6,
+        7,
+        8
+      ],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/0/1/0",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/0/1/1",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/0/1/2",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/1/0/0",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [
+        8
+      ],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/1/0/1",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [
+        6,
+        7,
+        8
+      ],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/1/0/2",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [
+        6,
+        7,
+        8
+      ],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/1/1/0",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/1/1/1",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/0/1/1/2",
+      "type": 0,
+      "player": 0,
+      "special": 0,
+      "enabled": 0,
+      "shape": null,
+      "group": null,
+      "events": [],
+      "radius_bits": 0
+    },
+    {
+      "case": "branch 0/0/1/0/0/0",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/0/0/1",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/0/0/2",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/0/1/0",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/0/1/1",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/0/1/2",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/1/0/0",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/1/0/1",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/1/0/2",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/1/1/0",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/1/1/1",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/1/1/1/2",
+      "type": 0,
+      "player": 0,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/0/0/0",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/0/0/1",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/0/0/2",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/0/1/0",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/0/1/1",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/0/1/2",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/1/0/0",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/1/0/1",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/1/0/2",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/1/1/0",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/1/1/1",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/0/255/1/1/2",
+      "type": 0,
+      "player": 0,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/0/0/0",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -1,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/0/0/1",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -1,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/0/0/2",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -1,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/0/1/0",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -1,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/0/1/1",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -1,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/0/1/2",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -1,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/1/0/0",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        7,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/1/0/1",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/1/0/2",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/1/1/0",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/1/1/1",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/0/1/1/2",
+      "type": 0,
+      "player": 1,
+      "special": 0,
+      "enabled": 1,
+      "shape": 0,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/0/0/0",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/0/0/1",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/0/0/2",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/0/1/0",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/0/1/1",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/0/1/2",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/1/0/0",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/1/0/1",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/1/0/2",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/1/1/0",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/1/1/1",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/1/1/1/2",
+      "type": 0,
+      "player": 1,
+      "special": 1,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/0/0/0",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/0/0/1",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/0/0/2",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/0/1/0",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/0/1/1",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/0/1/2",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": 0,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/1/0/0",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/1/0/1",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        5,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/1/0/2",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/1/1/0",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/1/1/1",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    },
+    {
+      "case": "branch 0/1/255/1/1/2",
+      "type": 0,
+      "player": 1,
+      "special": 255,
+      "enabled": 1,
+      "shape": 1,
+      "group": -666,
+      "events": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "radius_bits": 1053609164
+    }
+  ]
+}

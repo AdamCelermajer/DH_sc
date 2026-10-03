@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13PlayerManager34_AttachControllerToPlayerCharacterEi",
+      "elf_address": "0x36f0dc",
+      "size": 392,
+      "sha256": "d224ee007d8aff322f9e426cb6c6a4c85ffd15d31bba41e43c0f3c9e9016f62f"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager17_ManageCharactersEv",
+      "elf_address": "0x37280c",
+      "size": 5072,
+      "sha256": "da2fe6a4ee1363f68a3f0a7b23aa851bd48d5bcbcfe4220e925de109a84ad7ce"
+    },
+    {
+      "original_symbol": "_ZN9AISPlayerD2Ev",
+      "elf_address": "0x3de100",
+      "size": 116,
+      "sha256": "7861a5a53b1a94596006511bec351c8dc7f1a548d8c22385d4da585963f4e77f"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager13_AddCharacterEi",
+      "elf_address": "0x372220",
+      "size": 1180,
+      "sha256": "65ea83bee92dba22f0ef9af011ace77538e81e2a81fee1fe0244d1e7571a8702"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager18PostInitCharactersEv",
+      "elf_address": "0x36f2bc",
+      "size": 336,
+      "sha256": "dc11cbcf19e7e70f7f4f0b322f62feaa0cbfee80d56b5ee5b5536a9dd556458d"
+    }
+  ]
+}

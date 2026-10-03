@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "2eb9c22f9b07840d827b2121325041f253149e53d4142f0910ce14fec278133e",
+  "corpus_sha256": "901646ae43be80f3afff0fdfba3480c1fa36199cc11a589567258ef0f8239202",
+  "comparisons": 11344,
+  "ordered_service_requests": 13381,
+  "service_counts": [
+    6320,
+    5014,
+    179,
+    1656,
+    162,
+    50
+  ],
+  "composed_script_timer_cases": 100,
+  "original_reentry_cases": 6,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/level-world/character_ai_events.hpp": "e78a1542dd1316047414419bcea7d8ad9fee32a410959d2f80db4af47ef357c3",
+    "port/level-world/character_ai_events.cpp": "fa459fb66755400887d4e042d1038013001ec2ebd3746962a7d2f29830baa5b0",
+    "port/level-world/tests/character_ai_events_differential.py": "f76f8c66086d099e9302834d5fca1a5ac754be39e89fdc207e87ddf0b12681ad"
+  },
+  "scope": "Complete original RaiseAIEvent switches versus genuine optimized ARM64. Private deep helper/FSM/AI virtual bodies are explicit service fixtures. Composed35 executes actual original OnScriptTimer active gate and native relay; selected AIS/VM remains an explicit service. Reentry cases execute actual nested event31 stores. No complete FSM/Lua/timer/frame backend claim.",
+  "native_caller_contracts": {
+    "atomic_rejections": 46,
+    "unavailable_services": 6,
+    "missing_callables": 3,
+    "runtime_failure_prefixes": 6,
+    "inactive_relay": true
+  },
+  "reference_sha256": {
+    "port/level-world/reference/character-ai-events/original-functions.json": "14d0f53c1a512db5327533aceeeb19d56a9f15d4502bc2523f2f757953736e58",
+    "port/level-world/reference/character-ai-events/reference/original-functions.asm": "7416145fcf9207784192501f5c88ad736483881db0063071f43d64fe822a2eaf",
+    "port/level-world/reference/character-ai-events/dispatch-producer.json": "c007a747b444077f71746b9723a81d4ff78f8fc7822fecdc3f288fe6507ccb9d",
+    "port/level-world/reference/character-ai-events/discover.py": "35ac857ee9e29ec96d75a5c6d918339315a2c314a79745a1e7a00fefe6b04e27"
+  }
+}

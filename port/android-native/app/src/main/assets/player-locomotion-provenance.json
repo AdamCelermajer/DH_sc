@@ -1,0 +1,705 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "character": "KnightPlayerBase",
+  "character_row": 263,
+  "animation_table": 48,
+  "platform_binding": "Supplied Android ELF literal queries SL__LIST_IPHONE and COUNT_IPHONE",
+  "stance_mask": 210,
+  "stance_count": 5,
+  "states": [
+    {
+      "state": "Idle",
+      "base_sequence": 262,
+      "stance_enabled": true,
+      "sequences": [
+        {
+          "sequence_id": 262,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1040,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1040,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1040,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1040,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1040,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1041,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            }
+          ],
+          "type": 2
+        },
+        {
+          "sequence_id": 263,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1035,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1035,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1035,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1035,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1035,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1036,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            }
+          ],
+          "type": 2
+        },
+        {
+          "sequence_id": 264,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1037,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1037,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1037,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1037,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1037,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1038,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            }
+          ],
+          "type": 2
+        },
+        {
+          "sequence_id": 265,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1040,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1040,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1040,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1040,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1040,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1041,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            }
+          ],
+          "type": 2
+        },
+        {
+          "sequence_id": 266,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1039,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            },
+            {
+              "anchor_fx": 1,
+              "anim": 1039,
+              "blend_out": 100,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.0,
+              "swoosh": 0
+            }
+          ],
+          "type": 2
+        }
+      ]
+    },
+    {
+      "state": "Walk",
+      "base_sequence": 280,
+      "stance_enabled": true,
+      "sequences": [
+        {
+          "sequence_id": 280,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1126,
+              "blend_out": 0,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.2999999523162842,
+              "swoosh": 0
+            }
+          ],
+          "type": 0
+        },
+        {
+          "sequence_id": 281,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1126,
+              "blend_out": 0,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.2999999523162842,
+              "swoosh": 0
+            }
+          ],
+          "type": 0
+        },
+        {
+          "sequence_id": 282,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1126,
+              "blend_out": 0,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.2999999523162842,
+              "swoosh": 0
+            }
+          ],
+          "type": 0
+        },
+        {
+          "sequence_id": 283,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1126,
+              "blend_out": 0,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.2999999523162842,
+              "swoosh": 0
+            }
+          ],
+          "type": 0
+        },
+        {
+          "sequence_id": 284,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1126,
+              "blend_out": 0,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.2999999523162842,
+              "swoosh": 0
+            }
+          ],
+          "type": 0
+        }
+      ]
+    },
+    {
+      "state": "Run",
+      "base_sequence": 271,
+      "stance_enabled": false,
+      "sequences": [
+        {
+          "sequence_id": 271,
+          "loop": -1,
+          "steps": [
+            {
+              "anchor_fx": 1,
+              "anim": 1114,
+              "blend_out": 0,
+              "cam": -1,
+              "cam_dir": 0,
+              "fx": -1,
+              "move_go": 1,
+              "random_cam": [],
+              "redir": 0,
+              "sound": -1,
+              "speed": 1.2999999523162842,
+              "swoosh": 0
+            }
+          ],
+          "type": 0
+        }
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "clip_id": 1035,
+      "asset": "animations/prince_idle_2hand.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_2hand.bdae",
+      "bytes": 57112,
+      "sha256": "298c9f6f5af13970050a683640790453cf2fe0932d4e59ed6507377c81e2f181"
+    },
+    {
+      "clip_id": 1036,
+      "asset": "animations/prince_idle_2hand_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "bytes": 65132,
+      "sha256": "5a9e13430fca5c3ce8eea44e695e300b444b7916245f513bc3636588b25a2ab2"
+    },
+    {
+      "clip_id": 1037,
+      "asset": "animations/prince_idle_dual.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_dual.bdae",
+      "bytes": 55036,
+      "sha256": "19a673316a0e9d8497ab32c7f9466094993eb78ba4e0bc099c40fa2636906d8c"
+    },
+    {
+      "clip_id": 1038,
+      "asset": "animations/prince_idle_dual_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_dual_02.bdae",
+      "bytes": 65128,
+      "sha256": "58ec39b964f729c3ef18d7920bf28bde5bb05b02d5c674944e6c72368f51f77e"
+    },
+    {
+      "clip_id": 1039,
+      "asset": "animations/prince_idle_ranged.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_ranged.bdae",
+      "bytes": 9964,
+      "sha256": "d16c517b473d039cf47559229417f9fc6d862f57a98e1f866f71989225c9a14f"
+    },
+    {
+      "clip_id": 1040,
+      "asset": "animations/prince_idle_shield.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    {
+      "clip_id": 1041,
+      "asset": "animations/prince_idle_shield_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield_02.bdae",
+      "bytes": 14996,
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13"
+    },
+    {
+      "clip_id": 1114,
+      "asset": "animations/prince_walk_1hand.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "clip_id": 1126,
+      "asset": "animations/prince_walk_slow.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "bytes": 68492,
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967"
+    }
+  ],
+  "inputs": [
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarraynames.bin",
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pystructnames.bin",
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarray.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pystructnames.bin",
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarray.bin",
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pycst.bin",
+      "bytes": 1089,
+      "sha256": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_2hand.bdae",
+      "bytes": 57112,
+      "sha256": "298c9f6f5af13970050a683640790453cf2fe0932d4e59ed6507377c81e2f181"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "bytes": 65132,
+      "sha256": "5a9e13430fca5c3ce8eea44e695e300b444b7916245f513bc3636588b25a2ab2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_dual.bdae",
+      "bytes": 55036,
+      "sha256": "19a673316a0e9d8497ab32c7f9466094993eb78ba4e0bc099c40fa2636906d8c"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_dual_02.bdae",
+      "bytes": 65128,
+      "sha256": "58ec39b964f729c3ef18d7920bf28bde5bb05b02d5c674944e6c72368f51f77e"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_ranged.bdae",
+      "bytes": 9964,
+      "sha256": "d16c517b473d039cf47559229417f9fc6d862f57a98e1f866f71989225c9a14f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield_02.bdae",
+      "bytes": 14996,
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "bytes": 68492,
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967"
+    }
+  ],
+  "scope": "Authored reachable Idle/Walk/Run clip bank only. Existing scheduler owns random/nested selection and completion; original timeline/replay services own clip time/root restart; live touch-heading production remains an explicit input adapter."
+}

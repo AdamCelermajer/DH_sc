@@ -1,0 +1,82 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_25CSceneNodeQuaternionMixinIfEEfLi4ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x613294",
+      "size": 80,
+      "sha256": "ed4eb477bd0056640b28e659de232b3f150e2adf48a2adb4b23cbeb4d6821e00",
+      "use": "track/property/layout evidence; runtime factory ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE11getInstanceEv",
+      "elf_address": "0x610988",
+      "size": 148,
+      "sha256": "a9970daa37c40a12a5c3b55827abb0180206c6afaf5144f45e0bc1347298d581",
+      "use": "track/property/layout evidence; runtime factory ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_20CSceneNodeScaleMixinIfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x628850",
+      "size": 256,
+      "sha256": "6337fc51cd454293f3c78e0f932d498624fd4c2a3645c1418f785121b88a0b1c",
+      "use": "float-3 interpolation arithmetic reconstructed"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_25CSceneNodeQuaternionMixinIfEEEEE11getInstanceEv",
+      "elf_address": "0x60ff20",
+      "size": 148,
+      "sha256": "8df3e509f1f03646025954e604f1d82c111e62c23894b73d2e111c1a470857ce",
+      "use": "track/property/layout evidence; runtime factory ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada16CColladaDatabase19getAnimationTrackExEPKNS0_10SAnimationE",
+      "elf_address": "0x611ae0",
+      "size": 1608,
+      "sha256": "bb7590a23775d34fa5821fac78f1e6330a691b0c929b23cf1a3eedb733f37f72",
+      "use": "track/property/layout evidence; runtime factory ABI not ported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE10applyValueEPvSB_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x62393c",
+      "size": 24,
+      "sha256": "1ba23be83fb2f7bacb9aa58898067a75156a26dc2a9dc94490374e5366b27b6f",
+      "use": "track/property/layout evidence; runtime factory ABI not ported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getOutputEi",
+      "elf_address": "0x669e24",
+      "size": 32,
+      "sha256": "ebbae3803b8841315855c8aeb748d80121405fb42b1082a214e3feffb0dc5fe7",
+      "use": "track/property/layout evidence; runtime factory ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIfLi3ENS1_18SSceneNodePositionELin1EfEEfLi3ENS1_15SUseDefaultLerpIfEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x6286cc",
+      "size": 256,
+      "sha256": "8920cd6b08b73f2b6cad5eda8d63a5ed82e03225340bef9b950ab5b9a7e52a55",
+      "use": "track/property/layout evidence; runtime factory ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10quaternion5slerpES1_S1_f",
+      "elf_address": "0x612d00",
+      "size": 980,
+      "sha256": "320c09ce496f978ca29941c242952215c5636791faebe2028c5623199a788c1b",
+      "use": "track/property/layout evidence; runtime factory ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track8CBlenderINS_4core10quaternionELi1ES4_E17getBlendedValueExEPvPfiS6_",
+      "elf_address": "0x6130d4",
+      "size": 448,
+      "sha256": "76547124667f91b7cd041af567af33bf673c552b465c4b04719ced469c6dd57b",
+      "use": "track/property/layout evidence; runtime factory ABI not ported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE16getKeyBasedValueERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x628834",
+      "size": 28,
+      "sha256": "400d3368b04a0571c9dc975f1980d6ae19a5463f24aa7a15c9485d413aec2fe5",
+      "use": "track/property/layout evidence; runtime factory ABI not ported"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "comparisons": 1186,
+  "stopped": 391,
+  "physical_stop_applied": 294,
+  "shape_sync_checks": 289,
+  "destroy_proxy_checks": 238,
+  "commit_checks": 89,
+  "modeled_trig_import_calls": 352,
+  "atomic_rejection_checks": 5,
+  "mismatches": 0,
+  "reference_sha256": "191aee0d4dc91b93a175617e0c2d39a12e43398932219f21a76c3c1b9ec8a321",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

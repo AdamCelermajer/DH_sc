@@ -1,0 +1,185 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12CharAIScriptC2Eb",
+      "elf_address": "0x3d8fb0",
+      "size": 108,
+      "sha256": "ce859293ac04fa52f9989fd0ff46df28670c87b80ccfd204ccb8a52e1e1c5afd"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8InstanceC1EP9lua_State",
+      "elf_address": "0x31aa20",
+      "size": 48,
+      "sha256": "a9e999e194003e3f0c09dc48fd34c78b7f4d848e368b5e9d795fb251c9f07414"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8InstanceC1Ev",
+      "elf_address": "0x31b268",
+      "size": 64,
+      "sha256": "0affc374e6f1ac71915baa9292f4cb20b65a9307b7a95ec0f8969a139434e2c8"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16StepCreateScriptEv",
+      "elf_address": "0x3cf04c",
+      "size": 420,
+      "sha256": "ad256bfa0f385494fa34b0964afc4b74048199e8b65585c9b0b7bab91aa4ce4a"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8InstanceC2EP9lua_State",
+      "elf_address": "0x31a9f0",
+      "size": 48,
+      "sha256": "5ae64bb5e180e5eb752d2b36afca0b06ae8e4fb2078d85904ff19b77cbd33289"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptD1Ev",
+      "elf_address": "0x3d926c",
+      "size": 104,
+      "sha256": "9c4c1d37ac66c553e7d57294240a92d6e87188a9a01c1e63bbec57e02eadcc1a"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript12SetCharacterEP9Character",
+      "elf_address": "0x3d90f8",
+      "size": 192,
+      "sha256": "db53ac6d263c6b9c782d2bb78b05727377145b429b217254794a0dfe10af0df8"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI15AISPlayerIPhoneEEvv",
+      "elf_address": "0x3ccfe4",
+      "size": 312,
+      "sha256": "a05a788d81899170005eca61c0be63e488e4f1aa675fb01ea7c336f616aabf58"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript24CharAIScriptBindFunctionEv",
+      "elf_address": "0x3d8ec8",
+      "size": 100,
+      "sha256": "d45b3732ffe08455782ccd53300dac9bc109adef7e444fa9a9194e0aec451beb"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript12BindFunctionEv",
+      "elf_address": "0x3d8f2c",
+      "size": 24,
+      "sha256": "2e24a5f9be3c511be8d4a56e5bf06dc6bb29b1715fc8ac8af1e34db163ea4130"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptC1Eb",
+      "elf_address": "0x3d8f44",
+      "size": 108,
+      "sha256": "b8c95e59d686ce373262c1c6e8aa7b3d558fbd4a7414e87e7aba126964d1b98a"
+    },
+    {
+      "original_symbol": "_ZN10LuaManagerC1Ev",
+      "elf_address": "0x379eb0",
+      "size": 72,
+      "sha256": "e79ac2901109e075d21f47cd1fea5f27a2d3cdeff20116856ee10d98d233f92b"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8InstanceD1Ev",
+      "elf_address": "0x31b180",
+      "size": 68,
+      "sha256": "5d4f27899b927f0b404bb9e971221b7c86407fb97e6eec09e5c3b78972274403"
+    },
+    {
+      "original_symbol": "_ZN9AISPlayerD2Ev",
+      "elf_address": "0x3de100",
+      "size": 116,
+      "sha256": "7861a5a53b1a94596006511bec351c8dc7f1a548d8c22385d4da585963f4e77f"
+    },
+    {
+      "original_symbol": "_ZN9LuaScriptC1Eb",
+      "elf_address": "0x37c584",
+      "size": 240,
+      "sha256": "9872316be6f851ef004921f0560c16766b0d2404705e8bd84281be00caa056c5"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16StepSetCharacterEv",
+      "elf_address": "0x3cc26c",
+      "size": 12,
+      "sha256": "4c9fc8ac180dc9023a6c891bec5c08d20a78be957af348e2926505dbad8f0056"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptD2Ev",
+      "elf_address": "0x3d92f0",
+      "size": 104,
+      "sha256": "5fb2d65f986d4047048808f0fa2f902b4a5019d5e7f8d871f143e4760c47fdcd"
+    },
+    {
+      "original_symbol": "_ZN10LuaManagerC2Ev",
+      "elf_address": "0x379e68",
+      "size": 72,
+      "sha256": "807e413e25a165a74bb3d8eeeae16810f511facc5c8d9764fb2b7017c188181f"
+    },
+    {
+      "original_symbol": "_ZN9LuaScriptD2Ev",
+      "elf_address": "0x37bec0",
+      "size": 324,
+      "sha256": "62e30f893500dae55bacb89f06d741a5445ec602eb78d52912f0824f7e7031d5"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14StepLoadCommonEv",
+      "elf_address": "0x3cc218",
+      "size": 32,
+      "sha256": "04421ceb2c97b09a6a9f3b6b6667bd839341d06274e11876a402d355f36e8951"
+    },
+    {
+      "original_symbol": "_ZN10LuaManager7AddFileEP9LuaScriptPKc",
+      "elf_address": "0x37b23c",
+      "size": 808,
+      "sha256": "eed28284fab97acb165e01e0aa721a8cbd18265ca17252e903f14be10ba5fb7f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14StepInitScriptEv",
+      "elf_address": "0x3cb314",
+      "size": 56,
+      "sha256": "6e602114665b22538851a9fa6619af43c48ce399143c871d63d1ba4e77e6b046"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8InstanceC2Ev",
+      "elf_address": "0x31b2a8",
+      "size": 64,
+      "sha256": "b3a0974770cd96d863bb2dfed625e8c90ff2757b32ce8157e1bb7e999d7d63ff"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8InstanceD2Ev",
+      "elf_address": "0x31b1e0",
+      "size": 68,
+      "sha256": "1efcb127117167df153d87a604833d57d39fdea625e2f1bad19287c4598e7961"
+    },
+    {
+      "original_symbol": "_ZN9LuaScriptD1Ev",
+      "elf_address": "0x37c004",
+      "size": 324,
+      "sha256": "2ffbd852c776f7881f26423d3321eb6b8191d50ec5db059f32eee2a5bc856623"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4LoadEPKc",
+      "elf_address": "0x37b574",
+      "size": 44,
+      "sha256": "cd9ec4280f7e48da11034c6005df78f232e0ef350df4e78f0e434a60c805828e"
+    },
+    {
+      "original_symbol": "_ZN9LuaScriptC2Eb",
+      "elf_address": "0x37c674",
+      "size": 240,
+      "sha256": "037cd05a9e6a65cf60887c2aa7adfe05c05c7a435424dda1902b29f9ea21cda1"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16StepBindFunctionEv",
+      "elf_address": "0x3cc278",
+      "size": 8,
+      "sha256": "545d77c45bf6eae352b7d9496ddce58b6333288c494d18d7128e4b9cf72327c2"
+    },
+    {
+      "original_symbol": "_ZN15AISPlayerIPhoneD0Ev",
+      "elf_address": "0x3de294",
+      "size": 60,
+      "sha256": "599a180b2f9289f53c81425dbf727ab4bd1ab93cbb080ec08816b45c9da13280"
+    },
+    {
+      "original_symbol": "_ZN15AISPlayerIPhoneD1Ev",
+      "elf_address": "0x3de174",
+      "size": 52,
+      "sha256": "04e7b47e5cc36e33d0c94d2444b6c5813593389122a505332573a63477dbb83e"
+    }
+  ]
+}

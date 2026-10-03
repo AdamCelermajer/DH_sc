@@ -1,0 +1,37 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "456003a66978f7c3b05ce2d4f11d4363d81f72118da55cf3cad927f80415d307",
+  "corpus_sha256": "7289e74b57fe85339626f9b8dd6c9d77779b2ad4c1ae9c6d01b573131e4eb52c",
+  "comparisons": 6761,
+  "composed_original_cases": 120,
+  "pause_skip_frames": 28,
+  "pause_expiry_cases": 28,
+  "ordered_service_requests": 5642,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/level-world/character_ai_frame.hpp": "6f93867b30aeb651c68787493a7ea377670a86f0f11e0e4f1f406e03f3ac883f",
+    "port/level-world/character_ai_frame.cpp": "9694d48f363c07102988223ccb1c89c932b0693afa919f95d491f70099993e04",
+    "port/level-world/tests/character_ai_frame_differential.py": "1a4e3c4655aa8e96aaa900de24690b685af400993d6c064e0afcaaf4741cc979",
+    "port/level-world/tests/character_ai_frame_bridge.cpp": "981c126eb43277ef60d685dbae2d7fd44d7c2102a01289075f5b22579dfcb36b",
+    "port/level-world/character_ai_update.cpp": "ba39216c5ab26eb3a3f04a165c57d7644b819548fb387332c8e8076f68662e39",
+    "port/level-world/character_script_update.cpp": "2c0eea6dea5ed38e483abaaa6f8e8cb5ce410deda376d5b68d9e710dd3ee8eb9"
+  },
+  "scope": "Actual outer CharAI dispatcher, including composed original OnUpdate/AIS calls. Target/master/aggro, owner virtual and timer/Stop leaf dependencies are explicit. Original release profiler no-op bodies execute. Composed cases execute actual outer/fullOnUpdate/AISDefault/pause instructions and native equivalents; no Lua/target/aggro/world/complete frame backend claim.",
+  "native_caller_contracts": {
+    "atomic_rejections": 27,
+    "unavailable_services": 5,
+    "runtime_failure_prefixes": 5
+  },
+  "reference_sha256": {
+    "port/level-world/reference/character-ai-frame/original-functions.json": "d971d0978a459c79a0a66f012d950c40f3726e75b3628cdb1483c2d2d59a6dd2",
+    "port/level-world/reference/character-ai-frame/reference/original-functions.asm": "9e0db6b5a55e5b9a107916319a8a82123a142b2a476570162f6e17baa87d26ef",
+    "port/level-world/reference/character-ai-frame/debug-producer.json": "31ffeecc080fbaad3d17bd39807282edb337d1e223f2906d5c244b9627b58a2d",
+    "port/level-world/reference/character-ai-frame/producers/original-functions.json": "b4686f3b3b14b7e994042b485dbbb21cf06d122ef6e93022b176929aada5f53b",
+    "port/level-world/reference/character-ai-frame/producers/reference/original-functions.asm": "ec4f8d3ea5e265e95f47a066d3dfd065c37dd44dc840b788ec40a99eca6f5284"
+  },
+  "composed_instruction_evidence": {
+    "character-ai-update-arm64-differential.json": "b48be316013d84c8c33ab7ce17d6c5326d461ddc2bb758a0b887b5ea767d1bac",
+    "character-script-update-arm64-differential.json": "0443722a26f17c0a2a95afd9394d43d6917d2597decf94d46ea2e2430c7248fa"
+  }
+}

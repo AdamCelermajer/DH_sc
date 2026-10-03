@@ -1,0 +1,146 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "probe_sha256": "8561b4c0f4972fe884d3bc22220c80069fcb47e9fbc0ce2a844330e477734732",
+  "original_instructions_executed": true,
+  "lua_newstate_core_executed": true,
+  "lua_library_cores_executed": true,
+  "lua_close_core_executed": true,
+  "rows": [
+    {
+      "constructor": "0x31b268",
+      "state": "0x2100000",
+      "library_steps": [
+        {
+          "function": "0x31b010",
+          "returned": 2,
+          "top": 2
+        },
+        {
+          "function": "0x31b000",
+          "returned": 1,
+          "top": 3
+        },
+        {
+          "function": "0x31aff8",
+          "returned": 1,
+          "top": 4
+        },
+        {
+          "function": "0x31b008",
+          "returned": 1,
+          "top": 5
+        }
+      ]
+    },
+    {
+      "constructor": "0x31b2a8",
+      "state": "0x21033e0",
+      "library_steps": [
+        {
+          "function": "0x31b010",
+          "returned": 2,
+          "top": 2
+        },
+        {
+          "function": "0x31b000",
+          "returned": 1,
+          "top": 3
+        },
+        {
+          "function": "0x31aff8",
+          "returned": 1,
+          "top": 4
+        },
+        {
+          "function": "0x31b008",
+          "returned": 1,
+          "top": 5
+        }
+      ]
+    },
+    {
+      "constructor": "CharAIScript(true)",
+      "state": "0x21067c0",
+      "pre_bind_stack": 0,
+      "post_bind_stack": 5,
+      "registered_names": [
+        "Include",
+        "Trace",
+        "SetInt",
+        "GetInt",
+        "AddToVFTable",
+        "PushVFTable",
+        "PopVFTable",
+        "ToFixed",
+        "FromFixed",
+        "MulFixed",
+        "DivFixed",
+        "Rand",
+        "RandF",
+        "BitNot",
+        "BitAnd",
+        "BitOr",
+        "BitXOr",
+        "GetPyCst",
+        "GetPyStruct",
+        "GetPyOID",
+        "CallPyScript",
+        "GetNumPlayers",
+        "GetHostPlayer",
+        "GetHostPlayerLevel",
+        "GetHostPlayerDifficulty",
+        "GetCurrentLevelRange",
+        "GetGameObjectsByType",
+        "SetGameType",
+        "GetGameScript",
+        "OnTargetDied",
+        "PlayMusic",
+        "PlaySound",
+        "StopSound",
+        "RegisterAIState",
+        "ChangeAIState"
+      ],
+      "registration_bodies_executed": false
+    }
+  ],
+  "heap_allocations": 756,
+  "heap_frees": 756,
+  "imports": {
+    "setjmp": 6,
+    "strlen": 453,
+    "memcpy": 405,
+    "memcmp": 120,
+    "strchr": 30
+  },
+  "executed_captured_functions": [
+    "_Z12LuaAllocatorPvS_jj",
+    "_ZN12CharAIScript12BindFunctionEv",
+    "_ZN12CharAIScript24CharAIScriptBindFunctionEv",
+    "_ZN12CharAIScriptC2Eb",
+    "_ZN12CharAIScriptD1Ev",
+    "_ZN3sfc6script3lua6Binder12bindFunctionEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvESA_",
+    "_ZN3sfc6script3lua8Instance11includeBaseEv",
+    "_ZN3sfc6script3lua8Instance11includeMathEv",
+    "_ZN3sfc6script3lua8Instance12includeTableEv",
+    "_ZN3sfc6script3lua8Instance13includeStringEv",
+    "_ZN3sfc6script3lua8InstanceC1Ev",
+    "_ZN3sfc6script3lua8InstanceC2Ev",
+    "_ZN3sfc6script3lua8InstanceD1Ev",
+    "_ZN3sfc6script3luaL8newstateEv",
+    "_ZN9LuaScript12BindFunctionEv",
+    "_ZN9LuaScriptC2Eb",
+    "_ZN9LuaScriptD2Ev",
+    "lua_atpanic",
+    "lua_close",
+    "lua_newstate"
+  ],
+  "scope": "Actual original Lua constructor and library core; heap/libc/setjmp services explicit.",
+  "boundaries": [
+    "LuaAllocator heap services (growing allocation/copy/shrink/free)",
+    "libc memcpy/memset/strlen/memcmp",
+    "setjmp success continuation only",
+    "string reserve",
+    "Binder.bindFunction registration service"
+  ]
+}

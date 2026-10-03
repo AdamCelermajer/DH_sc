@@ -1,0 +1,185 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch7collada18ISceneNodeAnimator10updateTimeEj",
+      "elf_address": "0x667c48",
+      "size": 108,
+      "sha256": "74739ca1e151dda5435df89ddbd079f3425d8207fcdfe26822b69f2fbc93424e"
+    },
+    {
+      "original_symbol": "_ZN15AnimatorBlender17BlenderApplicator11AnimateNodeEj",
+      "elf_address": "0x366888",
+      "size": 480,
+      "sha256": "a6a1a28b7200c50e16583ffef7789602dcfc69522d9f2c211998613710c24248"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSet10updateTimeEj",
+      "elf_address": "0x3673e4",
+      "size": 60,
+      "sha256": "f9bc3267ccbbed4a9a714c614ba783edb3e91d7bcafeb916d7a932fc094a00d5"
+    },
+    {
+      "original_symbol": "_ZN13RootSceneNode19_HandleDisplacementEj",
+      "elf_address": "0x35cf48",
+      "size": 544,
+      "sha256": "09c65ffca1cca6e4039dd89a6cfa8072de222e44e9985d137370dad5c7fda2b3"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator6UpdateEv",
+      "elf_address": "0x3caf3c",
+      "size": 948,
+      "sha256": "a3ea6cd907c75e5ee0c8a915294b4d21f94efabb644f125c2009d401481eeebe"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada14CEventsManager16dispatchEventsExItLi30EEEviii",
+      "elf_address": "0x60ea08",
+      "size": 220,
+      "sha256": "2349c049dcfffb66046b2e5959e400cba58aa4cb5d819261a3b693509131a275"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada14CEventsManager8onUpdateEii",
+      "elf_address": "0x60ecb4",
+      "size": 92,
+      "sha256": "cbf87ceaf1e8dc8d483289b8711a79a7bb4ad9f8b7ad4d849789e73dc2a0fac4"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada14CEventsManager16dispatchEventsExIhLi30EEEviii",
+      "elf_address": "0x60eae4",
+      "size": 208,
+      "sha256": "7ff8ac311a3070c3d2326170dd9ba6cdf4e4729923a6acfc7dd0da34e471418d"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+      "elf_address": "0x3c90ec",
+      "size": 12,
+      "sha256": "9217b2f07a27b6abe7cf3fcb694a54ac71d54ec4f30e3136c4339c45ffbdd1fd"
+    },
+    {
+      "original_symbol": "_ZN15AnimatorBlender11animateNodeEPN6glitch5scene10ISceneNodeEj",
+      "elf_address": "0x366cb4",
+      "size": 220,
+      "sha256": "8da4cd8c82c2cc665f01ea35ebed8076379758c7bcd3c3e4ad12d330b261fc66"
+    },
+    {
+      "original_symbol": "_ZN14AnimApplicator10ResetDeltaEj",
+      "elf_address": "0x3644fc",
+      "size": 236,
+      "sha256": "28c20368fd590cb2d66e6bbcb08fb2f00d85d4874de864b1db84087e4c1cda7d"
+    },
+    {
+      "original_symbol": "_ZN13RootSceneNode7NewAnimEb",
+      "elf_address": "0x35d624",
+      "size": 88,
+      "sha256": "131f1a88a10b442788101a24b3aaf550a5e96a5cd12b37ddff257432dcf4e341"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator13ANIM_SetSpeedEf",
+      "elf_address": "0x3c93fc",
+      "size": 72,
+      "sha256": "b0686250e5dc8c527ff2c724f349140fe95df216fccdf785f3e6d2c133a82835"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator9ANIM_SwapEii",
+      "elf_address": "0x3caccc",
+      "size": 624,
+      "sha256": "7a6afdd618a3b57d6f20d79438496f8f9b40ad8fa0f27096987e3259b53422cb"
+    },
+    {
+      "original_symbol": "_ZN14AnimApplicator11AnimateNodeEj",
+      "elf_address": "0x3645e8",
+      "size": 308,
+      "sha256": "4f69d2e01b032199e0a3dc079d1d6a7f4f8aed1d9b01139a2e7427a53dd22636"
+    },
+    {
+      "original_symbol": "_ZN15AnimatorBlender17BlenderApplicator10ResetDeltaEj",
+      "elf_address": "0x366a68",
+      "size": 280,
+      "sha256": "3524554aef58991fd235f99bd668fe8efabc6376db8bc2be6903ac295306187e"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSet20applyAnimationValuesEj",
+      "elf_address": "0x36737c",
+      "size": 20,
+      "sha256": "b0298f6e17546cb23c8bd5d721f453f2eea02ee405d3846575c702324d43e6f7"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21CSceneNodeAnimatorSet20applyAnimationValuesEj",
+      "elf_address": "0x65f418",
+      "size": 452,
+      "sha256": "1388b8745eb8a004e7200c5cfdb6e4528a19c3dd80413fd2dc8567998906c66d"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator8ANIM_SetEi",
+      "elf_address": "0x3cacb0",
+      "size": 28,
+      "sha256": "5340f7f91e1f08522e13b2504cca0238bd7351a7557b8c1e5d3b735a6ac39c13"
+    },
+    {
+      "original_symbol": "_ZN15AnimatorBlender10updateTimeEj",
+      "elf_address": "0x366d90",
+      "size": 296,
+      "sha256": "2ead57bb909da235724e468f22f0cbd87a05c2681e151f844dda12c4324f1fc1"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator15__CallbackEventERKN6glitch7collada15STriggeredEventEPv",
+      "elf_address": "0x3c9984",
+      "size": 28,
+      "sha256": "f91c56e7a94af815927e2e0db003315a4d7c6a664a719a20852800de0deb5da1"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada14CEventsManager16dispatchEventsExIiLi1000EEEviii",
+      "elf_address": "0x60e934",
+      "size": 212,
+      "sha256": "2742465ac8086bd4b2b203d2b8205df7d2637de6a26dd91f36e506bb744b0f70"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada14CEventsManager8onUpdateEiiii",
+      "elf_address": "0x60ebe0",
+      "size": 212,
+      "sha256": "f6dc15db23ac740589463b2ff6a808be0a72dfaccfc3f94edc91d4432628933e"
+    },
+    {
+      "original_symbol": "_ZN14AnimApplicator13CheckCallbackEPN6glitch5scene19ITimelineControllerE",
+      "elf_address": "0x36440c",
+      "size": 56,
+      "sha256": "1231f2f6febc828c60eb8d03d14dc10f33d0c13f41e4f08142b784aea6ab61ed"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSet11animateNodeEPN6glitch5scene10ISceneNodeEj",
+      "elf_address": "0x3673a4",
+      "size": 64,
+      "sha256": "f5a841bd3f19754a75089703273467dc9d3ad6f19e81730db90d05fa6891c88a"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSet19setCurrentAnimationEi",
+      "elf_address": "0x367420",
+      "size": 100,
+      "sha256": "50da6b2236d6eeea1d3eae3b435180daa46f8a00cad9dc7cea62099b2f0de51d"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada25CSceneNodeAnimatorBlender20applyAnimationValuesEj",
+      "elf_address": "0x65e350",
+      "size": 316,
+      "sha256": "d2cc15e445eebc368d4223372d6645c898b8a95d7d9d3bfc3846030ff13cb9f4"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21CSceneNodeAnimatorSet11animateNodeEPNS_5scene10ISceneNodeEj",
+      "elf_address": "0x65f270",
+      "size": 24,
+      "sha256": "c2a9ddce47351fffdafaaed33bb2e92f451777a12993fcc3733fbc7e54ecd098"
+    },
+    {
+      "original_symbol": "_ZN13RootSceneNode9onAnimateEj",
+      "elf_address": "0x35d168",
+      "size": 868,
+      "sha256": "d511a78ce78535b3d7982d776c59a992150d498e73fc7b23734832a6fb88380e"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada18ISceneNodeAnimator14setEventsTrackEPKNS0_12SEventsTrackE",
+      "elf_address": "0x60fab8",
+      "size": 156,
+      "sha256": "fa6fef9b2a8750c8ec17b3b4cdf66f7784d8e1c2b812beba5ff40f95f260bb25"
+    }
+  ]
+}

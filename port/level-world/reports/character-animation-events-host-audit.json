@@ -1,0 +1,32 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "original_routing_cases": 1344,
+    "ordered_callbacks": 2422,
+    "atomic_rejections": 8,
+    "payload_above_4gib": true,
+    "mismatches": 0,
+    "sanitizer_findings": 0
+  },
+  "source_sha256": {
+    "character_animation_events.cpp": "30f6c6ec8ddad18d89f1162943554d5e19228cd447601db5824aeed3cc1811a0",
+    "character_animation_events.hpp": "63dc4657bc693de9755e4be2575fc7592cc7e054ce83509fa85520010c4f7b34",
+    "tests/character_animation_events.cpp": "eae752a98410401e71922ce65bf4c7bf2fd2240ccfa347d8ddaff25c978c3045",
+    "tests/animation_event_routing_discovery.py": "f8a75d9eb657eb07160391023a9e609413041f8cf14c00bb8b04187d0103c3ee",
+    "tests/character_animation_events_differential.py": "d4ad4299e693321c8ee6635149a8cccdd8195c35dffa6bac3f91c035206d678f",
+    "CMakeLists.txt": "5b1aba05d3ab888f975a825c665967aa4b0da8bdb78aa1c80d96658bf5965755",
+    "tests/character_animation_events_host.py": "295e34ccbe4d702358c71192dbdcbcdef71ed60e96816a418a04e99a2022f45b"
+  },
+  "executable": "/home/adampalace/dh2-world-build/character_animation_events_audit",
+  "executable_sha256": "0b720fe97c607836c8224889488b7ac9a7b68c8f21dd000ba0c6fe8c5839ff0d",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "reference_sha256": "d47946a30666fdfc7d36571f1931e646b3ca3d8ce81462fc3c72eb79de3d96a2",
+  "arm64_report_sha256": "8fd98d92ee2b60cd71f485796fb70fe1821fd55473b8182e0b8aa4ef6911d0db",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Source-linked animation event routing only. Actual AI consumers and FSM are fixtures; no live APK or full AI behavior claim."
+}

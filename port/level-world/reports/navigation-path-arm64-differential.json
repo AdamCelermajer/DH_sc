@@ -1,0 +1,221 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "eb0d3794e5482c15a542a14953130d493c6f7eed32acf3ee6b0f8ea2b43ac221",
+  "linked_reference_sha256": "19a3212ee52ab7544c08fc62e4d8f87d37514f57cc8ec9e3df48623ee9c1daaa",
+  "reference_sha256": "93731e8ccecc89943dbfbfcf41231716a1b9f85fe9fc8102d0f9c680f2b61405",
+  "line_comparisons": 661,
+  "line_classifications": [
+    6,
+    2,
+    296,
+    103,
+    104,
+    150
+  ],
+  "path_operation_comparisons": 4509,
+  "operation_counts": [
+    0,
+    643,
+    322,
+    321,
+    325,
+    965,
+    1933
+  ],
+  "sessions": 323,
+  "mismatches": 0,
+  "owned_edge_destructors_execute": true,
+  "original_import_calls": {
+    "__aeabi_fsub": 37392,
+    "__aeabi_fmul": 40651,
+    "__aeabi_fcmplt": 2073,
+    "__aeabi_fdiv": 1804,
+    "__aeabi_fadd": 21233,
+    "__aeabi_fcmpge": 7395,
+    "__aeabi_fcmple": 2343,
+    "__aeabi_fcmpgt": 897
+  },
+  "native_import_calls": {
+    "memmove": 831
+  },
+  "behavior_snapshots": [
+    {
+      "case": "embedded direct edge / owned lifecycle",
+      "operation": 1,
+      "before_segments": 2,
+      "after_segments": 2,
+      "output_words": []
+    },
+    {
+      "case": "embedded direct edge / owned lifecycle",
+      "operation": 1,
+      "before_segments": 2,
+      "after_segments": 2,
+      "output_words": []
+    },
+    {
+      "case": "embedded direct edge / owned lifecycle",
+      "operation": 2,
+      "before_segments": 2,
+      "after_segments": 2,
+      "output_words": []
+    },
+    {
+      "case": "embedded direct edge / owned lifecycle",
+      "operation": 3,
+      "before_segments": 2,
+      "after_segments": 2,
+      "output_words": [
+        1
+      ]
+    },
+    {
+      "case": "embedded direct edge / owned lifecycle",
+      "operation": 5,
+      "before_segments": 2,
+      "after_segments": 2,
+      "output_words": [
+        1188021594
+      ]
+    },
+    {
+      "case": "embedded direct edge / owned lifecycle",
+      "operation": 6,
+      "before_segments": 2,
+      "after_segments": 1,
+      "output_words": [
+        1,
+        1,
+        1052374816,
+        1157821640,
+        1108317856
+      ]
+    },
+    {
+      "case": "embedded direct edge / owned lifecycle",
+      "operation": 4,
+      "before_segments": 1,
+      "after_segments": 0,
+      "output_words": []
+    },
+    {
+      "case": "embedded direct edge / owned lifecycle",
+      "operation": 4,
+      "before_segments": 0,
+      "after_segments": 0,
+      "output_words": []
+    },
+    {
+      "case": "embedded direct edge / owned lifecycle",
+      "operation": 5,
+      "before_segments": 0,
+      "after_segments": 0,
+      "output_words": [
+        0
+      ]
+    },
+    {
+      "case": "embedded direct edge / owned lifecycle",
+      "operation": 6,
+      "before_segments": 0,
+      "after_segments": 0,
+      "output_words": [
+        0,
+        0,
+        3212836864,
+        1073741824,
+        1077936128
+      ]
+    },
+    {
+      "case": "preexisting owned edge drop",
+      "operation": 1,
+      "before_segments": 3,
+      "after_segments": 3,
+      "output_words": []
+    },
+    {
+      "case": "preexisting owned edge drop",
+      "operation": 2,
+      "before_segments": 3,
+      "after_segments": 3,
+      "output_words": []
+    },
+    {
+      "case": "preexisting owned edge drop",
+      "operation": 5,
+      "before_segments": 3,
+      "after_segments": 3,
+      "output_words": [
+        1200712365
+      ]
+    },
+    {
+      "case": "preexisting owned edge drop",
+      "operation": 4,
+      "before_segments": 3,
+      "after_segments": 0,
+      "output_words": []
+    },
+    {
+      "case": "preexisting owned edge drop",
+      "operation": 4,
+      "before_segments": 0,
+      "after_segments": 0,
+      "output_words": []
+    },
+    {
+      "case": "preexisting owned edge drop",
+      "operation": 5,
+      "before_segments": 0,
+      "after_segments": 0,
+      "output_words": [
+        0
+      ]
+    },
+    {
+      "case": "preexisting owned edge drop",
+      "operation": 6,
+      "before_segments": 0,
+      "after_segments": 0,
+      "output_words": [
+        0,
+        0,
+        3267887104,
+        1101004800,
+        1106247680
+      ]
+    },
+    {
+      "case": "empty path target preservation",
+      "operation": 4,
+      "before_segments": 0,
+      "after_segments": 0,
+      "output_words": []
+    },
+    {
+      "case": "empty path target preservation",
+      "operation": 5,
+      "before_segments": 0,
+      "after_segments": 0,
+      "output_words": [
+        0
+      ]
+    },
+    {
+      "case": "empty path target preservation",
+      "operation": 6,
+      "before_segments": 0,
+      "after_segments": 0,
+      "output_words": [
+        0,
+        0,
+        1065353216,
+        1073741824,
+        1077936128
+      ]
+    }
+  ],
+  "scope": "Original portal smoothing/path lifecycle versus compiled ARM64 C++.\n\nOriginal lineIntersection, SmoothPath, CalcWaypointVec, IsPastWaypoint,\nGetPathLengthSQ, DropPath and MovePath execute. Graph/list ownership and\nallocators use bounded fixtures. Immutable graph coordinates and supplied\nPFObject fields are caller facts; this does not verify actor initialization,\nFindPath composition, positional validation or the character movement loop.\n",
+  "elapsed_seconds": 7.91
+}

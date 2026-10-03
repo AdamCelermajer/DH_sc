@@ -1,0 +1,299 @@
+{
+  "clips": [
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_attack_01.bdae",
+      "clip_id": 1178,
+      "start": 0,
+      "end": 1000,
+      "tracks": 25,
+      "unbound": 3,
+      "unsupported": 0,
+      "poses": 1001
+    },
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_attack_01_to_idle.bdae",
+      "clip_id": 1179,
+      "start": 0,
+      "end": 2000,
+      "tracks": 25,
+      "unbound": 3,
+      "unsupported": 0,
+      "poses": 2001
+    },
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_attack_02.bdae",
+      "clip_id": 1180,
+      "start": 0,
+      "end": 566,
+      "tracks": 25,
+      "unbound": 3,
+      "unsupported": 0,
+      "poses": 567
+    },
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_attack_02_to_idle.bdae",
+      "clip_id": 1181,
+      "start": 0,
+      "end": 1966,
+      "tracks": 25,
+      "unbound": 3,
+      "unsupported": 0,
+      "poses": 1967
+    },
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_dying.bdae",
+      "clip_id": 1185,
+      "start": 0,
+      "end": 899,
+      "tracks": 27,
+      "unbound": 3,
+      "unsupported": 0,
+      "poses": 900
+    },
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_idle_01.bdae",
+      "clip_id": 1194,
+      "start": 0,
+      "end": 9333,
+      "tracks": 23,
+      "unbound": 3,
+      "unsupported": 0,
+      "poses": 9334
+    },
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_idle_02.bdae",
+      "clip_id": 1195,
+      "start": 0,
+      "end": 6099,
+      "tracks": 23,
+      "unbound": 3,
+      "unsupported": 0,
+      "poses": 6100
+    },
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_pre_attack_01.bdae",
+      "clip_id": 1197,
+      "start": 0,
+      "end": 1066,
+      "tracks": 23,
+      "unbound": 3,
+      "unsupported": 0,
+      "poses": 1067
+    },
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_pre_attack_02.bdae",
+      "clip_id": 1198,
+      "start": 0,
+      "end": 1166,
+      "tracks": 23,
+      "unbound": 3,
+      "unsupported": 0,
+      "poses": 1167
+    },
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_walk.bdae",
+      "clip_id": 1204,
+      "start": 0,
+      "end": 2033,
+      "tracks": 26,
+      "unbound": 3,
+      "unsupported": 0,
+      "poses": 2034
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_attack_01.bdae",
+      "clip_id": 1246,
+      "start": 200,
+      "end": 500,
+      "tracks": 12,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 301
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_attack_01_to_idle.bdae",
+      "clip_id": 1247,
+      "start": 500,
+      "end": 1500,
+      "tracks": 12,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 1001
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_attack_02.bdae",
+      "clip_id": 1248,
+      "start": 200,
+      "end": 600,
+      "tracks": 12,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 401
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_attack_02_to_idle.bdae",
+      "clip_id": 1249,
+      "start": 600,
+      "end": 1500,
+      "tracks": 12,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 901
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_dying.bdae",
+      "clip_id": 1251,
+      "start": 0,
+      "end": 2500,
+      "tracks": 12,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 2501
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_idle.bdae",
+      "clip_id": 1258,
+      "start": 0,
+      "end": 1333,
+      "tracks": 12,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 1334
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_idle_02.bdae",
+      "clip_id": 1259,
+      "start": 0,
+      "end": 1333,
+      "tracks": 12,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 1334
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_pre_attack_01.bdae",
+      "clip_id": 1261,
+      "start": 0,
+      "end": 200,
+      "tracks": 12,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 201
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_pre_attack_02.bdae",
+      "clip_id": 1262,
+      "start": 0,
+      "end": 200,
+      "tracks": 12,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 201
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_walk.bdae",
+      "clip_id": 1268,
+      "start": 0,
+      "end": 1066,
+      "tracks": 12,
+      "unbound": 1,
+      "unsupported": 0,
+      "poses": 1067
+    },
+    {
+      "model": "ghost.bdae",
+      "clip": "ghost_attack_01.bdae",
+      "clip_id": 697,
+      "start": 366,
+      "end": 1033,
+      "tracks": 26,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 668
+    },
+    {
+      "model": "ghost.bdae",
+      "clip": "ghost_dying_01.bdae",
+      "clip_id": 700,
+      "start": 0,
+      "end": 1033,
+      "tracks": 28,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 1034
+    },
+    {
+      "model": "ghost.bdae",
+      "clip": "ghost_idle_01.bdae",
+      "clip_id": 706,
+      "start": 0,
+      "end": 6000,
+      "tracks": 24,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 6001
+    },
+    {
+      "model": "ghost.bdae",
+      "clip": "ghost_post_attack_01.bdae",
+      "clip_id": 707,
+      "start": 1033,
+      "end": 1466,
+      "tracks": 26,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 434
+    },
+    {
+      "model": "ghost.bdae",
+      "clip": "ghost_pre_attack_01.bdae",
+      "clip_id": 710,
+      "start": 0,
+      "end": 366,
+      "tracks": 26,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 367
+    },
+    {
+      "model": "ghost.bdae",
+      "clip": "ghost_walk_01.bdae",
+      "clip_id": 717,
+      "start": 0,
+      "end": 1333,
+      "tracks": 26,
+      "unbound": 0,
+      "unsupported": 0,
+      "poses": 1334
+    }
+  ],
+  "clip_count": 26,
+  "every_millisecond_poses": 45218,
+  "unbound_tracks": 31,
+  "unsupported_tracks": 0,
+  "finite_skinned_vertices": true,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

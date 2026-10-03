@@ -1,0 +1,14 @@
+{
+  "classes": 260,
+  "formulas": 1659,
+  "serialized_bytes": 34224,
+  "native_roundtrip_matches_original": true,
+  "class_level_applications": 1040,
+  "character_row_applications": 448,
+  "mutations_and_truncations": 3000,
+  "rejected": 2347,
+  "recursive_failure_atomic": true,
+  "buff_fallthrough_and_early_return_verified": true,
+  "base_monster_level_one_max_hp_raw": 12160,
+  "base_monster_level_ten_max_hp_raw": 29440
+}

@@ -1,0 +1,125 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "record_comparisons": 1578,
+    "scalar_field_words": 59964,
+    "actual_cache_rows": 1322,
+    "full_loader_rows": 1322,
+    "identifier_queries": 1326,
+    "loaded_item_range_queries": 1322,
+    "native_guards": 168,
+    "sanitizer_findings": 0,
+    "mismatches": 0
+  },
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "source_sha256": {
+    "port/game-data/items.cpp": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb",
+    "port/game-data/tests/items.cpp": "e8ac9922e8270a802bf288f73cfeffb9942cde96ef86ee4489f4b84d2490de6c",
+    "port/level-world/character_combat_queries.cpp": "0bee17391e579111e6e7e3fec4184bd44d868616884c332038576b8f4a4a7225",
+    "port/game-data/items.hpp": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f",
+    "port/game-data/data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+    "port/game-data/animation_tables.hpp": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d",
+    "port/level-world/character_combat_queries.hpp": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf",
+    "port/game-data/tests/items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port/game-data/tests/items_host.py": "59f8ed76b5a54182f77471ba9c23fb425aa7b57c03a7a83b130c2f66a85fe205"
+  },
+  "executable_sha256": "7647f98c85e59d3777b095dde2d88aebe9fe2cb2626c6ea26e9bca0b2cb0ff26",
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "command": "g++ -std=c++17 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer -g port/game-data/items.cpp port/game-data/tests/items.cpp port/level-world/character_combat_queries.cpp -o /home/adampalace/dh2-world-build/items_isolated_audit",
+  "build_inputs_sha256": "6486bb53fcd2e3c603c15b4f2b588ea3b02352cad5f2e56aa2c49cdb9c039bdb",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "cache_inputs": [
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pyarray.bin",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pyarraynames.bin",
+      "bytes": 39604,
+      "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba"
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pystructnames.bin",
+      "bytes": 8858,
+      "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+    }
+  ],
+  "original_instruction_evidence": {
+    "report_sha256": "17ed854ec4897798f1f7da358059cc977219e63d098ec08c539d7c09a4d3d306",
+    "validation": "PASS",
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "arm64_sha256": "bd6a4e6656c8123934550bc1816d4fca441adbd38de00d965743d61f9d2a53b7",
+    "manifest_sha256": "fa7bfee6b23afc96b25fccc9f0a21011cdeb29b2070be193645b9068db3fffc8",
+    "corpus_sha256": "5aa7b428b2031dd88c1b533e47e06bada2b372c92211240bbd64d88a73119db9",
+    "script_sha256": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "source_sha256": {
+      "port/game-data/items.hpp": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f",
+      "port/game-data/items.cpp": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb"
+    },
+    "comparisons": 1578,
+    "actual_cache_rows": 1322,
+    "synthetic_record_cases": 256,
+    "original_identifier_queries": 1326,
+    "original_loaded_item_range_queries": 1322,
+    "original_section_offsets": [
+      {
+        "reader": "0x4ba4fc",
+        "start": 0,
+        "end": 44
+      },
+      {
+        "reader": "0x4ba3c8",
+        "start": 44,
+        "end": 54
+      },
+      {
+        "reader": "0x4ba27c",
+        "start": 54,
+        "end": 6486
+      },
+      {
+        "reader": "0x4ba12c",
+        "start": 6486,
+        "end": 229006
+      }
+    ],
+    "original_names_section_offsets": [
+      {
+        "reader": "0x4b53f4",
+        "start": 0,
+        "end": 27
+      },
+      {
+        "reader": "0x4b5258",
+        "start": 27,
+        "end": 66
+      },
+      {
+        "reader": "0x4b4a54",
+        "start": 66,
+        "end": 3737
+      },
+      {
+        "reader": "0x4b4724",
+        "start": 3737,
+        "end": 30502
+      }
+    ],
+    "stream_read_calls": 68796,
+    "caller_storage_allocations": 4863,
+    "inputs_sha256": {
+      ".local-inputs\\items-discovery\\loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      ".local-inputs\\items-discovery\\loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      ".local-inputs\\items-discovery\\loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+    },
+    "mismatches": 0,
+    "scope": "Actual ItemTable/Item/ItemBase readers versus native ARM64 record decoding.\n\nOriginal stream-reader instructions execute; stream virtual and allocator are\nexplicit byte/storage services. Record vtable/string pointers and bool padding\nare normalized into the native scalar projection, while every data bit and\nstring byte is compared. No serialized row/type result is supplied as a bool.\n\nIdentifier and loaded-item range query instructions produce additional host gold; native ARM64 comparison here is the full record decoder."
+  },
+  "scope": "Actual cache ItemTable with full native leading-section loader, owned strings, original identifier and genuinely decoded-item combat-query gold. Preceding three table contents are only traversed, trailing loot tables/subclasses remain uninterpreted. Equipment ownership and mutation remain external."
+}

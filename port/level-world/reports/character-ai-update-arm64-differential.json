@@ -1,0 +1,45 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "b52a3385a58247579801fe692d94326c3a041835894d4618155fbd254bd8cd4b",
+  "corpus_sha256": "d3e4bd4e5577798e6896d81f18ce9a66e04711d003c6f335b37bd50fa1586065",
+  "comparisons": 4100,
+  "ordered_service_requests": 8924,
+  "service_counts": [
+    2156,
+    3544,
+    2392,
+    267,
+    201,
+    201,
+    92,
+    71
+  ],
+  "character_virtual_producer_cases": 27,
+  "atomic_rejection_checks": 14,
+  "unavailable_service_checks": 8,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/level-world/character_ai_update.hpp": "35efb90d8a55675e48a602d21dcce1ddbdb1aa211a6fca0acddcaa66d77e2758",
+    "port/level-world/character_ai_update.cpp": "ba39216c5ab26eb3a3f04a165c57d7644b819548fb387332c8e8076f68662e39",
+    "port/level-world/tests/character_ai_update_differential.py": "67855d4e67a7d29ba0d7007ce802295fe3aa050e756bc4d683bce92610c6911b",
+    "port/level-world/tests/character_ai_update.cpp": "d9a6ccf8fadac414cb3721ee7ef389312513cbc76be640376f456f96df6d7599",
+    "port/level-world/tools/build_character_ai_update_oracle.ps1": "06c66f0689733e306b3c42246543b09f73dcccdc7c6be521688add7de49bf42d"
+  },
+  "reference_sha256": {
+    "port/level-world/reference/character-ai-update/live-producers/original-functions.json": "0220a8ca178ef1e8cd9d98f7d8cbcb660caf0ec7759f6c580eb624e8e5f01e6f",
+    "port/level-world/reference/character-ai-update/live-producers/reference/original-functions.asm": "85cfc654fafcdac62b5ac1eb2184643e2a55bfc2e11d82d25d05dbb1fdb3bc73",
+    "port/level-world/reference/character-ai-update/original-functions.json": "ffc0446e8ec606dd1f03d1454f1938f9a840729370cb420010ee38f4e7fdcc2c",
+    "port/level-world/reference/character-ai-update/producers/original-functions.json": "542d499926c587a8ba5924e8d25c11b107c582e2c44c446fcfeaff042493a984",
+    "port/level-world/reference/character-ai-update/producers/reference/original-functions.asm": "c32cdfee879a4be8755c5d2029a658d5a1d67b0cd15becfa6f4eab16886209e9",
+    "port/level-world/reference/character-ai-update/producers/xrefs.json": "7669e161b12ba3e540d0c8302f0b57fa9ce34942f0f0771c778bb096e306f1a8",
+    "port/level-world/reference/character-ai-update/property-getter/original-functions.json": "b5f2b058d745939e9eca8af6d62cd43065ec7d4cee1961517a36b5796998d1c4",
+    "port/level-world/reference/character-ai-update/property-getter/reference/original-functions.asm": "b682622f0892f21711783174848c780122ac0c7f538074004bc36188eddf6223",
+    "port/level-world/reference/character-ai-update/reference/original-functions.asm": "28ffc6eef98b61cae8ca54537c93adc77344d4c86781e43a2c3f786c633dbaa8",
+    "port/level-world/reference/character-ai-update/state-getter/original-functions.json": "8b140aa964ee2aaf9609fafd132fecc7f13d13528ad5f3b51ecb1d48f7448901",
+    "port/level-world/reference/character-ai-update/state-getter/reference/original-functions.asm": "10db6c64faa4590e51a603112c20017e28a864e46a7dffdfd895cb93c767c051",
+    "port/level-world/reference/character-ai-update/virtual-producers/original-functions.json": "c7b73ad62629d9ff95820a45f3e244fb89006a7d7144cbcad1779b781383fc3c",
+    "port/level-world/reference/character-ai-update/virtual-producers/reference/original-functions.asm": "e0ec65f0115d4cbb2eac783380e92783488526665c281c9074931323a6d284c2"
+  },
+  "scope": "Complete original CharAI::OnUpdate ordering with explicit synchronous services. Actual state predicates/GetState execute;27cases also execute actual Character IsZonable/IsDead/IsPlayer/IsFaerie against a supplied resolved AI row. Eight backend boundaries remain explicit, not missing-service no-ops; owner/visual/state/target/IEEE projection mutations are synchronous. No complete AIS/Lua/zoning/position backend or outer CharAI::Update parity claim."
+}

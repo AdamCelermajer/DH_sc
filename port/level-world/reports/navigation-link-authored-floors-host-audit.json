@@ -1,0 +1,24 @@
+{
+  "floor_records": 8,
+  "mesh_parts": 8,
+  "triangle_count": 314,
+  "octree_nodes": 34,
+  "graph_nodes": 335,
+  "graph_edges": 838,
+  "graph_invalid_archive": 300,
+  "graph_validation": 998,
+  "graph_state_fnv1a64": "fff766fdbdfaa9b8",
+  "linked_state_fnv1a64": "57999e27060699df",
+  "neighbour_floor_relations": 14,
+  "floor_sewing_completed": true,
+  "source_floor_overrides": 0,
+  "collision_used_by_height": true,
+  "route_search_used_by_movement": false,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "bres_sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+  "descriptor_sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da",
+  "input_sha256": "9611dc582a7ab2d4717260d86114d6e50ad4be2747b1863df3b8ba0f73088c88"
+}

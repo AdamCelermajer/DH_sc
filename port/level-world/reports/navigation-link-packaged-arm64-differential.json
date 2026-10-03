@@ -1,0 +1,26 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "3ef034b7f619f4978363dcad043e8a6239d54b6d78ece52a400684274afe04bd",
+  "floor_source_sha256": "05fed3c646ac7e2f1e188cc5abbd2975db063cdbe7517c87709bf8c911581fe0",
+  "reference_sha256": "19a3212ee52ab7544c08fc62e4d8f87d37514f57cc8ec9e3df48623ee9c1daaa",
+  "cases": 259,
+  "initial_triangle_comparisons": 2147,
+  "logical_snapshot_comparisons": 1643,
+  "link_calls": 869,
+  "forced_nodes_created": 812,
+  "crypt": {
+    "nodes": 335,
+    "edges": 838,
+    "validation_references": 998,
+    "state_fnv1a64": "57999e27060699df",
+    "neighbour_floor_relations": 14
+  },
+  "mismatches": 0,
+  "temporary_pair_vector_services": 347,
+  "graph_storage_allocations": 7005,
+  "distance_threshold_passes": 516,
+  "vertical_threshold_passes": 404,
+  "postload_caller_order_comparisons": 259,
+  "scope": "Full original PFFloor::_Link against native ARM64 floor sewing.\n\nOriginal midpoint lookup/insertion/RB balancing, forced node construction,\nboundary selection, arithmetic/thresholds, directed edge writes, validation\nreferences and neighbour-floor sets execute. Shared graph allocation/edge\ndeduplication and temporary pair-vector growth are caller storage services.\nInitial Crypt geometry/bounds/default flags are separately asset-verified.\nThis test does not execute route search or the complete floor loader.\n",
+  "elapsed_seconds": 27.91
+}

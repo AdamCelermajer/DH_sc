@@ -1,0 +1,1236 @@
+{
+  "apk_sha256": {
+    "packaged": "07a29098fe0348d224dda1cce28092838817042502112a8c12d24e6167e7a1df",
+    "studio": "c6ab5a1d6d19acc5a70f3824a0fa98987557a6658b1915c0a30d4e3d71273f77"
+  },
+  "source_sha256": {
+    "port/level-world/move_state.hpp": "5140673461e9e52bfd6e8f029d14cb3a079e69c6e59e6871711707588256baa0",
+    "port/level-world/move_state.cpp": "671596b24c3bce671fc5da633652f93ab5377e26586599369772b0efa4cf1b77",
+    "port/level-world/decor_body_config.hpp": "423f63f5fa4b5c73c72f030c3842ae8f3c76237154330668315c70c527a26dfd",
+    "port/level-world/decor_body_config.cpp": "12632e46228e34601b5e44cf3cd63b9b2dc6a7e44bdda884821cd287b25600fa",
+    "port/level-world/visual_timeline.hpp": "36a31a050d03f488328c6a4bb3c4287ff3e81ed5044929deded1b3d33ccd1611",
+    "port/level-world/visual_timeline.cpp": "9a6ffdec646fc927ce82199a193df7d1d14ba2f738464e312efead143b4899ca"
+  },
+  "physics_backend_validation_sha256": "22fb9d53590aa9b6aacbd8e56b71123002828585fd7b9d146d1e6edfd3e6c4d4",
+  "frame_order_trace_sha256": "5e4661d34a9f0d2ee7ad157f925eb024e9aa210e43f7c1be0d46e5e28d56a56c",
+  "packaged_differentials": {
+    "packaged": {
+      "move-state": {
+        "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+        "arm64_library_sha256": "04a76d6d625a5d9b6a062d4b8050eb2e932d100b9e757f5b094a782e9f567c17",
+        "reference_sha256": "f19ae53552f898d017e816b808f1c20a86598b8a900bc503068153e3a7b37a8c",
+        "comparisons": 4352,
+        "policy_getter_calls": 30464,
+        "walk_property_index": 46,
+        "rotation_property_index": 47,
+        "exact_original_animation_speed_argument": true,
+        "original_focus_prefix_executes": true,
+        "atomic_rejection_checks": 11,
+        "mismatches": 0,
+        "imports": {
+          "__aeabi_i2f": 10879,
+          "__aeabi_fmul": 26110,
+          "__aeabi_fadd": 10879,
+          "__aeabi_fcmpgt": 10879
+        },
+        "scope": "Original Character policy/property getters, actual ANIM_SetSpeed product,\nand exact CSMove OnFocus flag/type write prefix versus native ARM64 producers.\nVisual animator SetSpeed is an argument observer; full FSM/animation selection,\nfocus logging/UpdateType/unpin and property-sheet producers are outside this API.\n",
+        "elapsed_seconds": 5.62
+      },
+      "decor-body-config": {
+        "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+        "arm64_library_sha256": "04a76d6d625a5d9b6a062d4b8050eb2e932d100b9e757f5b094a782e9f567c17",
+        "reference_sha256": "f8ec882a5b6c5d13caa5b1394fc25565a88d14e34e9aced305b310c7b2bd55bf",
+        "mesh_comparisons": 2082,
+        "config_comparisons": 2222,
+        "mismatches": 0,
+        "level_world_bounds": [
+          -2000.0,
+          -2000.0,
+          2000.0,
+          2000.0
+        ],
+        "authored_placements": 84,
+        "authored_enabled": 82,
+        "authored_no_marker": 2,
+        "original_coverage": {
+          "_ZN7PODecorC1EP13PhysicalWorldP10GameObjectb.clone.2@0x388a2c": 25,
+          "_ZN7PODecorC1EP13PhysicalWorldP10GameObjectb.clone.2@0x39fc2c": 0,
+          "_ZN10GameObject17SetPhysicalObjectEP14PhysicalObjectb@0x394bf8": 69,
+          "_ZN5Level12_LoadProcessEv@0x3f6990": 11,
+          "_ZN14PhysicalObject5_initEP10b2ShapeDefffbb@0x46edf0": 45,
+          "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeERKSsb@0x352b74": 0,
+          "_ZN14PhysicalObject9_addShapeEP10b2ShapeDefb@0x46edb8": 14,
+          "_ZN12VisualObjectC2EP10GameObjectRKSsS3_@0x472c5c": 0,
+          "_ZN13PhysicalWorld4loadEffff@0x34c048": 14,
+          "_ZN7Point3DIfE9transformERKN6glitch4core8CMatrix4IfEE@0x312da8": 22,
+          "_ZN9Container9InitFinalEv@0x39fc98": 0,
+          "_ZN12VisualObject12ApplyMeshBoxEv@0x470a54": 12,
+          "_ZN13AnimatedDecor8InitPostEv@0x389128": 0,
+          "_ZN12VisualObject11CalcMeshBoxEv@0x47211c": 187,
+          "_ZN14PhysicalObjectC2EP13PhysicalWorldP10GameObjectbbbbstti@0x46f2f0": 163,
+          "_ZN10GameObject15SetRelativeAABBERK4aabbIfEb@0x38b110": 70,
+          "_ZN14PhysicalObject3pinEv@0x46eb20": 0,
+          "_ZN10GameObject18UpdateAbsoluteAABBEv@0x38aac8": 38,
+          "_ZN5Decor8InitPostEv@0x388a98": 32,
+          "_ZNK6glitch4core8CMatrix4IfE21multiplyWith1x4MatrixEPf@0x312bf8": 108,
+          "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeEPKcb@0x35a0e4": 0
+        },
+        "scope": "Original marker CalcMeshBox, bounds padding and PODecor construction/attach.\n\nMesh bounding boxes/parent scale/root matrices and allocation/body/shape/mass/PF\nservices are explicit fixtures. Original arithmetic, constructor and attachment\ninstructions execute; complete native physics is audited in physics-backend.\n Authored model bounds/scales/positions exercise identity-root-matrix service fixtures. Authored Euler/root scene matrix reconstruction and visual node database factories are not claimed.",
+        "elapsed_seconds": 13.03,
+        "authored": [
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_001",
+            "enabled": true,
+            "radius_bits": 1054605803
+          },
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_04",
+            "enabled": true,
+            "radius_bits": 1054605885
+          },
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_05",
+            "enabled": true,
+            "radius_bits": 1054605967
+          },
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_001",
+            "enabled": true,
+            "radius_bits": 1054605967
+          },
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_03",
+            "enabled": true,
+            "radius_bits": 1054605967
+          },
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_001",
+            "enabled": true,
+            "radius_bits": 1054605967
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539133
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539113
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539113
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_002",
+            "enabled": true,
+            "radius_bits": 1049539113
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_05",
+            "enabled": true,
+            "radius_bits": 1049539133
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539051
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_07",
+            "enabled": true,
+            "radius_bits": 1049539051
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539051
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_002",
+            "enabled": true,
+            "radius_bits": 1049539051
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539113
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539379
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_02",
+            "enabled": true,
+            "radius_bits": 1049539379
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_002",
+            "enabled": true,
+            "radius_bits": 1049539379
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815298
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_002",
+            "enabled": true,
+            "radius_bits": 1052815301
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_003",
+            "enabled": true,
+            "radius_bits": 1052815298
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_004",
+            "enabled": true,
+            "radius_bits": 1052815298
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815298
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_04",
+            "enabled": true,
+            "radius_bits": 1052815360
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815360
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815319
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815319
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_002",
+            "enabled": true,
+            "radius_bits": 1052815524
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815524
+          },
+          {
+            "model": "crypt_candle_big.bdae",
+            "name": "_anim_candle_big_001",
+            "enabled": true,
+            "radius_bits": 1053501685
+          },
+          {
+            "model": "crypt_candle_big.bdae",
+            "name": "_anim_candle_big_001",
+            "enabled": true,
+            "radius_bits": 1053501685
+          },
+          {
+            "model": "crypt_candle_big.bdae",
+            "name": "_anim_candle_big_001",
+            "enabled": true,
+            "radius_bits": 1053501685
+          },
+          {
+            "model": "crypt_candles.bdae",
+            "name": "_anim_candles_001",
+            "enabled": true,
+            "radius_bits": 1062186967
+          },
+          {
+            "model": "crypt_candles.bdae",
+            "name": "_anim_candles_001",
+            "enabled": true,
+            "radius_bits": 1062187008
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_002",
+            "enabled": true,
+            "radius_bits": 1056594698
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_003",
+            "enabled": true,
+            "radius_bits": 1056594677
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_004",
+            "enabled": true,
+            "radius_bits": 1056594677
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_005",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_006",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_05",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_002",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_03",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_002",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_04",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_002",
+            "enabled": true,
+            "radius_bits": 1056594985
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594985
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_02",
+            "enabled": true,
+            "radius_bits": 1056594985
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_002",
+            "enabled": true,
+            "radius_bits": 1056594985
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_003",
+            "enabled": true,
+            "radius_bits": 1056594985
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_003",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_004",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564105
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_04",
+            "enabled": true,
+            "radius_bits": 1065564119
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564119
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_002",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_003",
+            "enabled": true,
+            "radius_bits": 1065564106
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564119
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564098
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_10",
+            "enabled": true,
+            "radius_bits": 1065564119
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564119
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564106
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_02",
+            "enabled": true,
+            "radius_bits": 1065564106
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_03",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_04",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1061822423
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_002",
+            "enabled": true,
+            "radius_bits": 1061822423
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_002",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_09",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_003",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_002",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_002",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_05",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_003",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "swamp_caveentrance_effect.bdae",
+            "name": "_anim_swamp_dustmotes_001",
+            "enabled": false,
+            "radius_bits": 0
+          },
+          {
+            "model": "swamp_caveentrance_effect.bdae",
+            "name": "_anim_swamp_dustmotes_001",
+            "enabled": false,
+            "radius_bits": 0
+          }
+        ]
+      },
+      "visual-timeline": {
+        "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+        "native_sha256": "04a76d6d625a5d9b6a062d4b8050eb2e932d100b9e757f5b094a782e9f567c17",
+        "corpus_sha256": "a342fedeb86e30f7e6340b6b8cbffee25ccee59b0f654ffc68df7004c537ce7f",
+        "comparisons": 5970,
+        "operation_counts": {
+          "update": 1170,
+          "jump": 600,
+          "init": 600,
+          "range": 600,
+          "clip": 600,
+          "loop": 600,
+          "scale": 600,
+          "notify": 600,
+          "extra": 600
+        },
+        "callback_snapshots": 455,
+        "mismatches": 0,
+        "seconds": 4.125,
+        "scope": "Actual original timeline/AEABI instructions, explicit resolved clip-bound virtual fixtures. Reentrant callback methods execute actual instructions. Original Animator end notification and CharAnimator extra-time calculation execute. Full character sequence selection remains external."
+      },
+      "visual-timeline-replay": {
+        "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+        "native_sha256": "04a76d6d625a5d9b6a062d4b8050eb2e932d100b9e757f5b094a782e9f567c17",
+        "corpus_sha256": "7e93b56c15c73ec6e171b47cc8619e6c4f3dc72c4e0a38a633999952d926e6cb",
+        "comparisons": 640,
+        "ordered_callbacks": 1212,
+        "root_restart_requests": 312,
+        "mismatches": 0,
+        "seconds": 3.063,
+        "scope": "Actual full BlendedPlayClip control flow after fixture animator resolution/selection, actual GetApplicator/GetLoop/Jump/Scale/NewAnim control flow. Root Enable/reset backend observed; root onAnimate optionally executes actual timeline update. Existing authored selection/refcounts/blend weights remain external."
+      }
+    },
+    "studio": {
+      "move-state": {
+        "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+        "arm64_library_sha256": "091c2f8b0bf414d86faf6ccb00de783e44f469da7c26618aba277598f7e04972",
+        "reference_sha256": "f19ae53552f898d017e816b808f1c20a86598b8a900bc503068153e3a7b37a8c",
+        "comparisons": 4352,
+        "policy_getter_calls": 30464,
+        "walk_property_index": 46,
+        "rotation_property_index": 47,
+        "exact_original_animation_speed_argument": true,
+        "original_focus_prefix_executes": true,
+        "atomic_rejection_checks": 11,
+        "mismatches": 0,
+        "imports": {
+          "__aeabi_i2f": 10879,
+          "__aeabi_fmul": 26110,
+          "__aeabi_fadd": 10879,
+          "__aeabi_fcmpgt": 10879
+        },
+        "scope": "Original Character policy/property getters, actual ANIM_SetSpeed product,\nand exact CSMove OnFocus flag/type write prefix versus native ARM64 producers.\nVisual animator SetSpeed is an argument observer; full FSM/animation selection,\nfocus logging/UpdateType/unpin and property-sheet producers are outside this API.\n",
+        "elapsed_seconds": 6.14
+      },
+      "decor-body-config": {
+        "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+        "arm64_library_sha256": "091c2f8b0bf414d86faf6ccb00de783e44f469da7c26618aba277598f7e04972",
+        "reference_sha256": "f8ec882a5b6c5d13caa5b1394fc25565a88d14e34e9aced305b310c7b2bd55bf",
+        "mesh_comparisons": 2082,
+        "config_comparisons": 2222,
+        "mismatches": 0,
+        "level_world_bounds": [
+          -2000.0,
+          -2000.0,
+          2000.0,
+          2000.0
+        ],
+        "authored_placements": 84,
+        "authored_enabled": 82,
+        "authored_no_marker": 2,
+        "original_coverage": {
+          "_ZN7PODecorC1EP13PhysicalWorldP10GameObjectb.clone.2@0x388a2c": 25,
+          "_ZN7PODecorC1EP13PhysicalWorldP10GameObjectb.clone.2@0x39fc2c": 0,
+          "_ZN10GameObject17SetPhysicalObjectEP14PhysicalObjectb@0x394bf8": 69,
+          "_ZN5Level12_LoadProcessEv@0x3f6990": 11,
+          "_ZN14PhysicalObject5_initEP10b2ShapeDefffbb@0x46edf0": 45,
+          "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeERKSsb@0x352b74": 0,
+          "_ZN14PhysicalObject9_addShapeEP10b2ShapeDefb@0x46edb8": 14,
+          "_ZN12VisualObjectC2EP10GameObjectRKSsS3_@0x472c5c": 0,
+          "_ZN13PhysicalWorld4loadEffff@0x34c048": 14,
+          "_ZN7Point3DIfE9transformERKN6glitch4core8CMatrix4IfEE@0x312da8": 22,
+          "_ZN9Container9InitFinalEv@0x39fc98": 0,
+          "_ZN12VisualObject12ApplyMeshBoxEv@0x470a54": 12,
+          "_ZN13AnimatedDecor8InitPostEv@0x389128": 0,
+          "_ZN12VisualObject11CalcMeshBoxEv@0x47211c": 187,
+          "_ZN14PhysicalObjectC2EP13PhysicalWorldP10GameObjectbbbbstti@0x46f2f0": 163,
+          "_ZN10GameObject15SetRelativeAABBERK4aabbIfEb@0x38b110": 70,
+          "_ZN14PhysicalObject3pinEv@0x46eb20": 0,
+          "_ZN10GameObject18UpdateAbsoluteAABBEv@0x38aac8": 38,
+          "_ZN5Decor8InitPostEv@0x388a98": 32,
+          "_ZNK6glitch4core8CMatrix4IfE21multiplyWith1x4MatrixEPf@0x312bf8": 108,
+          "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeEPKcb@0x35a0e4": 0
+        },
+        "scope": "Original marker CalcMeshBox, bounds padding and PODecor construction/attach.\n\nMesh bounding boxes/parent scale/root matrices and allocation/body/shape/mass/PF\nservices are explicit fixtures. Original arithmetic, constructor and attachment\ninstructions execute; complete native physics is audited in physics-backend.\n Authored model bounds/scales/positions exercise identity-root-matrix service fixtures. Authored Euler/root scene matrix reconstruction and visual node database factories are not claimed.",
+        "elapsed_seconds": 12.92,
+        "authored": [
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_001",
+            "enabled": true,
+            "radius_bits": 1054605803
+          },
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_04",
+            "enabled": true,
+            "radius_bits": 1054605885
+          },
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_05",
+            "enabled": true,
+            "radius_bits": 1054605967
+          },
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_001",
+            "enabled": true,
+            "radius_bits": 1054605967
+          },
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_03",
+            "enabled": true,
+            "radius_bits": 1054605967
+          },
+          {
+            "model": "crypt_candle1.bdae",
+            "name": "_anim_candle1_001",
+            "enabled": true,
+            "radius_bits": 1054605967
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539133
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539113
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539113
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_002",
+            "enabled": true,
+            "radius_bits": 1049539113
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_05",
+            "enabled": true,
+            "radius_bits": 1049539133
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539051
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_07",
+            "enabled": true,
+            "radius_bits": 1049539051
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539051
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_002",
+            "enabled": true,
+            "radius_bits": 1049539051
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539113
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_001",
+            "enabled": true,
+            "radius_bits": 1049539379
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_02",
+            "enabled": true,
+            "radius_bits": 1049539379
+          },
+          {
+            "model": "crypt_candle1_small.bdae",
+            "name": "_anim_candle1_small_002",
+            "enabled": true,
+            "radius_bits": 1049539379
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815298
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_002",
+            "enabled": true,
+            "radius_bits": 1052815301
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_003",
+            "enabled": true,
+            "radius_bits": 1052815298
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_004",
+            "enabled": true,
+            "radius_bits": 1052815298
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815298
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_04",
+            "enabled": true,
+            "radius_bits": 1052815360
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815360
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815319
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815319
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_002",
+            "enabled": true,
+            "radius_bits": 1052815524
+          },
+          {
+            "model": "crypt_candle2.bdae",
+            "name": "_anim_candle2_001",
+            "enabled": true,
+            "radius_bits": 1052815524
+          },
+          {
+            "model": "crypt_candle_big.bdae",
+            "name": "_anim_candle_big_001",
+            "enabled": true,
+            "radius_bits": 1053501685
+          },
+          {
+            "model": "crypt_candle_big.bdae",
+            "name": "_anim_candle_big_001",
+            "enabled": true,
+            "radius_bits": 1053501685
+          },
+          {
+            "model": "crypt_candle_big.bdae",
+            "name": "_anim_candle_big_001",
+            "enabled": true,
+            "radius_bits": 1053501685
+          },
+          {
+            "model": "crypt_candles.bdae",
+            "name": "_anim_candles_001",
+            "enabled": true,
+            "radius_bits": 1062186967
+          },
+          {
+            "model": "crypt_candles.bdae",
+            "name": "_anim_candles_001",
+            "enabled": true,
+            "radius_bits": 1062187008
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_002",
+            "enabled": true,
+            "radius_bits": 1056594698
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_003",
+            "enabled": true,
+            "radius_bits": 1056594677
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_004",
+            "enabled": true,
+            "radius_bits": 1056594677
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_005",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_006",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_05",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_002",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_03",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_002",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_04",
+            "enabled": true,
+            "radius_bits": 1056594657
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_002",
+            "enabled": true,
+            "radius_bits": 1056594985
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_001",
+            "enabled": true,
+            "radius_bits": 1056594985
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_02",
+            "enabled": true,
+            "radius_bits": 1056594985
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_002",
+            "enabled": true,
+            "radius_bits": 1056594985
+          },
+          {
+            "model": "crypt_candles2_small.bdae",
+            "name": "_anim_candles2_small_003",
+            "enabled": true,
+            "radius_bits": 1056594985
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_003",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_004",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564105
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_04",
+            "enabled": true,
+            "radius_bits": 1065564119
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564119
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_002",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_003",
+            "enabled": true,
+            "radius_bits": 1065564106
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564119
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564098
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_10",
+            "enabled": true,
+            "radius_bits": 1065564119
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564119
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564106
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_02",
+            "enabled": true,
+            "radius_bits": 1065564106
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_03",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand.bdae",
+            "name": "_anim_candlestand_04",
+            "enabled": true,
+            "radius_bits": 1065564109
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_001",
+            "enabled": true,
+            "radius_bits": 1061822423
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_002",
+            "enabled": true,
+            "radius_bits": 1061822423
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_002",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_09",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_003",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_002",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_002",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_05",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "crypt_candlestand_big.bdae",
+            "name": "_anim_candlestand_003",
+            "enabled": true,
+            "radius_bits": 1061822464
+          },
+          {
+            "model": "swamp_caveentrance_effect.bdae",
+            "name": "_anim_swamp_dustmotes_001",
+            "enabled": false,
+            "radius_bits": 0
+          },
+          {
+            "model": "swamp_caveentrance_effect.bdae",
+            "name": "_anim_swamp_dustmotes_001",
+            "enabled": false,
+            "radius_bits": 0
+          }
+        ]
+      },
+      "visual-timeline": {
+        "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+        "native_sha256": "091c2f8b0bf414d86faf6ccb00de783e44f469da7c26618aba277598f7e04972",
+        "corpus_sha256": "a342fedeb86e30f7e6340b6b8cbffee25ccee59b0f654ffc68df7004c537ce7f",
+        "comparisons": 5970,
+        "operation_counts": {
+          "update": 1170,
+          "jump": 600,
+          "init": 600,
+          "range": 600,
+          "clip": 600,
+          "loop": 600,
+          "scale": 600,
+          "notify": 600,
+          "extra": 600
+        },
+        "callback_snapshots": 455,
+        "mismatches": 0,
+        "seconds": 4.469,
+        "scope": "Actual original timeline/AEABI instructions, explicit resolved clip-bound virtual fixtures. Reentrant callback methods execute actual instructions. Original Animator end notification and CharAnimator extra-time calculation execute. Full character sequence selection remains external."
+      },
+      "visual-timeline-replay": {
+        "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+        "native_sha256": "091c2f8b0bf414d86faf6ccb00de783e44f469da7c26618aba277598f7e04972",
+        "corpus_sha256": "7e93b56c15c73ec6e171b47cc8619e6c4f3dc72c4e0a38a633999952d926e6cb",
+        "comparisons": 640,
+        "ordered_callbacks": 1212,
+        "root_restart_requests": 312,
+        "mismatches": 0,
+        "seconds": 2.969,
+        "scope": "Actual full BlendedPlayClip control flow after fixture animator resolution/selection, actual GetApplicator/GetLoop/Jump/Scale/NewAnim control flow. Root Enable/reset backend observed; root onAnimate optionally executes actual timeline update. Existing authored selection/refcounts/blend weights remain external."
+      }
+    }
+  },
+  "new_cases_per_apk": 15266,
+  "previous_packaged_cases_per_apk": 35545,
+  "real_asset_root_samples_per_apk": 3567,
+  "world_cases": 10,
+  "all_required_assets_bundled": false,
+  "live_actor_uses_recovered_movement_pipeline": false,
+  "live_actor_movement_policy": "Existing development adapter; original movement frame scheduling and body/root-motion/controller integration remain pending.",
+  "physical_arm64_tested": false,
+  "original_gpu_parity_verified": false,
+  "full_game_playable": false,
+  "checkpoint_apk_created": false,
+  "goal_status": "active"
+}

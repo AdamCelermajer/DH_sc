@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10LuaManagerD1Ev",
+      "elf_address": "0x37a0ac",
+      "size": 100,
+      "sha256": "9ce222742771931e5b31bfa0949f321b5c2dd975c23008881f6cd5eadee0f83d"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeISsSt4lessISsESsNS_9_IdentityISsEENS_11_SetTraitsTISsEESaISsEE13insert_uniqueERKSs",
+      "elf_address": "0x37a9e8",
+      "size": 528,
+      "sha256": "3cdda168cedd4e33f1b67b4743a0a0816d122960a4922a4d3b09f5ca3cda5d33"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESsNS_9_IdentityISsEENS_11_SetTraitsTISsEESaISsEE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x37a190",
+      "size": 368,
+      "sha256": "52dc1d1b20cda19706d674abcfdc169bb9845823a2860a49cd16f2b5a7742b50"
+    },
+    {
+      "original_symbol": "_ZN10LuaManagerD2Ev",
+      "elf_address": "0x37a12c",
+      "size": 100,
+      "sha256": "431c87e0c2a55bfa123910d23c5c0f20fd8e5a41a593c1f72ca308769cadb382"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x37a300",
+      "size": 368,
+      "sha256": "d3b534d832ba9fe057ee357d50bdd94914eda8e85d3ad09ee81709520e11d432"
+    },
+    {
+      "original_symbol": "_ZN10LuaManagerD0Ev",
+      "elf_address": "0x37a110",
+      "size": 28,
+      "sha256": "18438cc43542e99f1f810247061734d916291ff02cec502afc120f7d6c5f0ecb"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript8_IncludeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37efe4",
+      "size": 88,
+      "sha256": "f85f744d423f9adbf7dea6b219f0c9a3ffb56ff4e80b2f33690ef25012052484"
+    },
+    {
+      "original_symbol": "_ZNSt3mapISsP12StreamBufferSt4lessISsESaISt4pairIKSsS1_EEEixIPKcEERS1_RKT_",
+      "elf_address": "0x37b0fc",
+      "size": 320,
+      "sha256": "c4f249bebb02591cc482f5775ce0ee944b3fb33b932a6e3116e0c82bfe83e8b2"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "12e20b4afedc8ecee7f665e8f04d13e388013f8386e0037ed7ddf1fb4f49c4a4",
+  "reference_sha256": "e4ea8610e902d7e0aad0e8be9ddff9d1fb8cdebf29f833232c5ef71c2310e4ab",
+  "comparisons": 5446,
+  "boundary_cases": 1350,
+  "synthetic_cases": 4096,
+  "operations": {
+    "set_linear": 908,
+    "add_linear": 908,
+    "set_angular": 908,
+    "query": 908,
+    "request_position": 907,
+    "stop": 907
+  },
+  "original_stop_gates": [
+    255,
+    219,
+    218,
+    215
+  ],
+  "original_drop_path_observations": 907,
+  "nonzero_linear_wakes": 1135,
+  "zero_linear_sleep_retained": 19,
+  "generated_nan_field_variants": 7,
+  "atomic_rejection_checks": 14,
+  "mismatches": 0,
+  "original_import_calls": {
+    "__aeabi_fcmpeq": 2392,
+    "__aeabi_fadd": 1816,
+    "__aeabi_fcmpgt": 1816,
+    "__aeabi_fmul": 4968
+  },
+  "arm64_pointers_above_4gib": true,
+  "finite_words_exact": true,
+  "nan_comparison": "classification; setter supplied bits preserved exactly",
+  "box2d_transform_backend_executes": false,
+  "scope": "Original PhysicalObject control instructions versus compiled native ARM64.\n\nThe original getters, velocity setters/caps and complete GameObject::Stop\nexecute. DropPath and virtual physical-movable query are fixtures. SetXForm\nis an argument/state observer; for Stop only, caller applies the emitted XY\nto its supplied body snapshot before direct Stop resets. Actual Box2D transform,\nshape synchronization, world simulation and contacts are outside this audit.\nImported IEEE float operations are modeled; generated NaN payloads may differ.\n",
+  "elapsed_seconds": 3.28
+}

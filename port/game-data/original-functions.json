@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Arrays9ModelDict4readEP11IStreamBase",
+      "elf_address": "0x4b86f0",
+      "size": 332,
+      "sha256": "43139166630afafd4edf72a14036069e05d2b565f273c665d77f0976257739f8"
+    },
+    {
+      "original_symbol": "_ZN7Structs19CharacterProperties4readEP11IStreamBase",
+      "elf_address": "0x4f2750",
+      "size": 21276,
+      "sha256": "e36675bc084dc08077b2f32397e55caff7d6e63fa0e1976fffa1c984d532f26d"
+    },
+    {
+      "original_symbol": "_ZN6Arrays9ModelDict9readNamesEP11IStreamBase",
+      "elf_address": "0x4b1ac0",
+      "size": 408,
+      "sha256": "465d60c9fa7ee12037eb9ba1b8398f3b6dc43e5ccf3feb88380ae47a1501c85e"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14CharacterTable4readEP11IStreamBase",
+      "elf_address": "0x4b4340",
+      "size": 324,
+      "sha256": "114e5785de05fc00c84c205edfc7365b359990d124aec051cc65f18219cc048d"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "elf_address": "0x459090",
+      "size": 176,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    }
+  ]
+}

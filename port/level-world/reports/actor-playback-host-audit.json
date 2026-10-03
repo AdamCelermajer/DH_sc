@@ -1,0 +1,44 @@
+{
+  "original_instruction_evidence": {
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "corpus_sha256": "979481e5ed42302507f757aaae47db3f3627a3feabfd4291d5c2b8be4d24735c",
+    "records": 5292,
+    "traces": 14,
+    "completion_callbacks": 130,
+    "replay_calls": 152,
+    "state_switches": 8,
+    "captured_vs_finalized_extra_distinctions": 128,
+    "record_bytes": 108,
+    "scope": "Actual original timeline, completion notification, BlendedPlayClip/NewAnim and RNG instructions. Authored default sequence selection/completion dispatch fixture; no original scene parser/root backend in this composition corpus."
+  },
+  "host_audit": {
+    "comparisons": 10584,
+    "original_phase_records": 5292,
+    "traces": 14,
+    "authored_bank_clips": 9,
+    "sampled_default_clips": 4,
+    "prince_nodes": 35,
+    "root_samples": 5628,
+    "synchronous_replay_samples": 276,
+    "state_switches": 16,
+    "strict_boundary_fixtures": 24,
+    "rejection_checks": 4,
+    "mismatches": 0
+  },
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "source_sha256": {
+    "port/level-world/actor_playback.hpp": "a6dab849421a916bb34856a182fe98da57cf3829199423b6bff47eaaf9ac68f4",
+    "port/level-world/actor_playback.cpp": "64d4ccdf7efe30c644d1bb0982a98fda78582d25fd5fc0c2e9d908d10faa9c29",
+    "port/level-world/tests/actor_playback.cpp": "693dbe00143a6b620027e311c7f95ad371c6a40ceb2406a52624c73157449389",
+    "port/game-data/animation_scheduler.hpp": "8339d8aa0f2a3f6ae9a9ee44aba057368dc62b7714ab26d34326fb94524c3848",
+    "port/game-data/animation_scheduler.cpp": "985671885862d67ce04d0d5e14c73c4548fb17eff60cc71f4e7a80b31036dd76"
+  },
+  "asset_provenance_sha256": "d70c80bed9f4a49c40d4b5dedfef4c4b46d7ff186ac9fc1dc5cb3956bce292d0",
+  "executable_sha256": "ecd9fd7befe15b3d8ec3e2cc3f955cfaa6f317a9c6bbf44b192de9d71f19906c",
+  "scope": "Original ARM32 timeline/notify/replay/RNG phase state plus independent authored root samples on real Prince graph. Original FSM/input/blending/FX/audio/body/subobjects/render scheduling remain explicit integration boundaries.",
+  "validation": "PASS",
+  "sanitizer_findings": 0
+}

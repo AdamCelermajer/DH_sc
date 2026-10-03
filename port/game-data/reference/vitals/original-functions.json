@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character9_InitHpMpEv",
+      "elf_address": "0x3b3a70",
+      "size": 32,
+      "sha256": "0c9ab776c61de88c1a933c450e708793c0e97c076328e3259881c62fad0911de"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties10_LoadClassERN7Structs19CharacterPropertiesEib",
+      "elf_address": "0x3e2e20",
+      "size": 500,
+      "sha256": "ea1c47f34e1c1c2359e4f86125017701d87ff2e1ed7bb1fab94c3f0aa78135d1"
+    },
+    {
+      "original_symbol": "_ZN9Character8InitPostEv",
+      "elf_address": "0x3b4d60",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079"
+    },
+    {
+      "original_symbol": "_ZN9Character6ReviveEP10GameObjectb",
+      "elf_address": "0x3a59ac",
+      "size": 312,
+      "sha256": "c17b6b9ee8943802d089fd8c928f391574e0a8134a4c2c8d32b741d6827ce680"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenMPEi",
+      "elf_address": "0x3bdbb8",
+      "size": 236,
+      "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16RecalcPropertiesEb",
+      "elf_address": "0x3e0810",
+      "size": 68,
+      "sha256": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenHPEi",
+      "elf_address": "0x3bdca4",
+      "size": 236,
+      "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties28_LinearWithPropPlusBaseValueERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "elf_address": "0x3e2d4c",
+      "size": 212,
+      "sha256": "b8b7d6bf3cda3aaddb025068ed61f290e0e4332b76579916dcce40369fa2078a"
+    }
+  ]
+}

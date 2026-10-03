@@ -1,0 +1,19 @@
+{
+  "original_application_cases": 2969,
+  "owner_words_per_case": 1792,
+  "result_and_actor_state_words": 20,
+  "application_words": 25,
+  "kill_requests": 339,
+  "hit_calls": 2291,
+  "status_requests": [
+    233,
+    395,
+    348,
+    1310,
+    326,
+    314,
+    216,
+    342
+  ],
+  "invalid_input_atomic": true
+}

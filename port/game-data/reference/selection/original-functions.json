@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Random9GetRandomEib.clone.1",
+      "elf_address": "0x3ca708",
+      "size": 148,
+      "sha256": "03f3b4e7e053e7f49bed5986910d6cb6cbd034dd586d53eae04fe5b3fc3daa27"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator6UpdateEv",
+      "elf_address": "0x3caf3c",
+      "size": 948,
+      "sha256": "a3ea6cd907c75e5ee0c8a915294b4d21f94efabb644f125c2009d401481eeebe"
+    },
+    {
+      "original_symbol": "_ZNK12CharAnimator15ANIM_IsSequenceEv",
+      "elf_address": "0x3c92d4",
+      "size": 88,
+      "sha256": "a6ac49ec5f120991d9f42ea3dec07b57ebbba6ccb8431e52fb4b285ac2d5b7fc"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator8_SetAnimEij",
+      "elf_address": "0x3cab38",
+      "size": 376,
+      "sha256": "29950d80f6d4a2b677edebbd7992bf2259cf3e5f1d31f1e5099ae2cc5c54caad"
+    },
+    {
+      "original_symbol": "_ZNK12CharAnimator13ANIM_IsUniqueEv",
+      "elf_address": "0x3c9228",
+      "size": 84,
+      "sha256": "b3f28fcae8d12613c72c95749e839f723399188e85c609d1a2322401f1362256"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator12_SetAnimStepEj",
+      "elf_address": "0x3ca79c",
+      "size": 924,
+      "sha256": "f30373543c3a10afae8ffa712a99f4d72b28ab46b828973dfafdcab01ce222cb"
+    },
+    {
+      "original_symbol": "_ZNK12CharAnimator13ANIM_IsRandomEv",
+      "elf_address": "0x3c927c",
+      "size": 88,
+      "sha256": "7c2fbd4145bf5fa2c67dfd10f0e4acd793d9159e2f14a94eea4ddf6b59ffbce7"
+    }
+  ]
+}

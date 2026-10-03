@@ -1,0 +1,123 @@
+{
+  "apk_sha256": "be6c78f2fefa7d916b34a1a72a3fe2e2dcac96b32a1a6bc07eb71ceb5959006e",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "8e77ea701de3a16c720894fa46b9bc1c39dc5671822a0e230f01acfce1dd779e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "8ae27fbb485e50d89a3b196f69ebc2e9028c2d37909f2d1ecf5d0fbbbc714b02",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "7c1f70878288930f826b3b0421d9f88b5027e272cc7f6487b32b3faec0cfe9fd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "cf39d1b70d9b7d06083726317644296cc06ab2c2130548b499acc6e69f82c453",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "dff86b62b2b9a0ce3dc5dd15fde5ab55f56bb5695aa8b08fbfda82b2761fe5ae",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "37785595d132dceab5e619dd9bb8ef05cc0bc7e16199cf4a13a1a040e73ef033",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "screenshot": "frozen-100.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        249,
+        741,
+        831,
+        1289
+      ],
+      "time_ms": 100
+    },
+    {
+      "screenshot": "frozen-100-repeat.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        249,
+        741,
+        831,
+        1289
+      ],
+      "frozen_pose_stable": true
+    },
+    {
+      "screenshot": "frozen-500.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        271,
+        768,
+        809,
+        1275
+      ],
+      "time_ms": 500
+    },
+    {
+      "screenshot": "live-first.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        250,
+        743,
+        830,
+        1289
+      ]
+    },
+    {
+      "screenshot": "live-second.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        240,
+        731,
+        839,
+        1295
+      ]
+    }
+  ],
+  "changed_pixels_between_100_and_500ms": 196785,
+  "live_animation_changed_pixels": true,
+  "frozen_pose_stable": true,
+  "physical_arm64_tested": false,
+  "skinning_implemented": false
+}

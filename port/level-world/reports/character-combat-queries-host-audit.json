@@ -1,0 +1,116 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "comparisons": 4401,
+    "range_queries": 2142,
+    "inventory_queries": 1694,
+    "combo_queries": 565,
+    "real_table_bridges": 448,
+    "native_guards": 15,
+    "sanitizer_findings": 0,
+    "mismatches": 0
+  },
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "source_sha256": {
+    "port/level-world/character_combat_queries.cpp": "0bee17391e579111e6e7e3fec4184bd44d868616884c332038576b8f4a4a7225",
+    "port/level-world/tests/character_combat_queries.cpp": "b12f152df20209671c0b65b824b3f08b24e211901e901a3d30ed3c16a4748f6c",
+    "port/game-data/data.cpp": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+    "port/game-data/animation_tables.cpp": "edf5d8fc71d225e975a4b7459a5ef2169ea3a84a8964b39290cfa9d91abc4b67",
+    "port/level-world/character_combat_queries.hpp": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf",
+    "port/game-data/data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+    "port/game-data/animation_tables.hpp": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d",
+    "port/level-world/tests/character_combat_queries_host.py": "b67db5eec99357374f7f1adb1a366badb442f9aa77a992bef302b9c632473979",
+    "port/level-world/tests/character_combat_queries_differential.py": "01ebc3493849d4969be17abaf67aa611952101f8555197d5cdd4c8d34f77b250"
+  },
+  "executable_sha256": "8362fc0f33a52b7b251c0f14bbb9646085114616c0d4df886ec4264da96a09b1",
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "command": "g++ -std=c++17 -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer -g port/level-world/character_combat_queries.cpp port/level-world/tests/character_combat_queries.cpp port/game-data/data.cpp port/game-data/animation_tables.cpp -o /home/adampalace/dh2-world-build/character_combat_queries_isolated_audit",
+  "build_inputs_sha256": "90df06b0535a64fc77e601b29be88a2118f203e1425ba84222c9773aa30c4945",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "cache_inputs": [
+    {
+      "asset": "data/character_properties_pyarray.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarray.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "asset": "data/character_properties_pyarraynames.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarraynames.bin",
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "asset": "data/character_properties_pystructnames.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pystructnames.bin",
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "asset": "data/animations_pyarray.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    {
+      "asset": "data/animations_pyarraynames.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarraynames.bin",
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+    },
+    {
+      "asset": "data/animations_pystructnames.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pystructnames.bin",
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    {
+      "asset": "data/animations_dictionary_pyarray.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarray.bin",
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    {
+      "asset": "data/animations_dictionary_pyarraynames.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarraynames.bin",
+      "bytes": 42616,
+      "sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3"
+    }
+  ],
+  "original_instruction_evidence": {
+    "report_sha256": "946255cd2579d283308db990dbf65f0ae6abf62377f60230182cb5ab631e7a25",
+    "validation": "PASS",
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "arm64_sha256": "7308940d17af6a9d22b4947c7d37015eab8bd2d8b09691c3c9896b2e11aa8301",
+    "manifest_sha256": "913858966a29d69c9c3fa3e28780f487131a8e2631ea91b11426493c59a46070",
+    "corpus_sha256": "341a2ea3b6d9af64a3e3354e6b5921c56bb8e654ab925be61cc236d6e705ebb8",
+    "script_sha256": "01ebc3493849d4969be17abaf67aa611952101f8555197d5cdd4c8d34f77b250",
+    "source_sha256": {
+      "port/level-world/character_combat_queries.hpp": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf",
+      "port/level-world/character_combat_queries.cpp": "0bee17391e579111e6e7e3fec4184bd44d868616884c332038576b8f4a4a7225"
+    },
+    "comparisons": 4401,
+    "range_queries": 2142,
+    "inventory_queries": 1694,
+    "combo_queries": 565,
+    "property32": "RangeProjectileID",
+    "property2": "AnimTable",
+    "real_property_rows": 448,
+    "real_animation_banks": 80,
+    "real_sequences": 785,
+    "table_inputs_sha256": {
+      "data\\animations_pyarray.bin": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+      "data\\character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "data\\character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    "mismatches": 0,
+    "scope": "Actual range/inventory/table lookup instructions vs optimized native ARM64.\n\nCharacter cached property words and immutable ItemTable/CharAnimTable/AnimTable\nrows are concrete fixture storage. Equipment ownership is borrowed read-only.\nNo query capability bool or GetItem/GetCharAnimTableId return is mocked.\n",
+    "elapsed_seconds": 0.203
+  },
+  "scope": "Isolated native query source plus real native property/animation-table loaders. Resolved ItemTable fixture rows and equipment references are supplied read-only inputs; item serialization and inventory ownership are not reconstructed by this module."
+}

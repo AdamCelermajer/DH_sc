@@ -1,0 +1,137 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_GLOBAL__I_.._.._sources_Game_Objects_Characters_Properties_CharProperties.cpp",
+      "elf_address": "0x3df548",
+      "size": 408,
+      "sha256": "72ca84fa592893be5fb724eacf20d93cc675f3549e97afe26a02d4b2d7419954"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties14_IsPropertySetERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3df114",
+      "size": 44,
+      "sha256": "2d40e1a43f3becbe9b22b2d5a93c9043c6757e591415e227d31d80ff963c7303"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties18_LoadFromCharTableERN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3df250",
+      "size": 84,
+      "sha256": "64632e1381f967cb747d5071e8b93b6e36135fd51b6eadd01b31595f17743a45"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16PROPS_SetToSheetEiiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3e0614",
+      "size": 244,
+      "sha256": "89624f1cadd21a02d9fa240064747e6eaa937cc1d0fc9a4280136ff7b9574592"
+    },
+    {
+      "original_symbol": "_ZNSt4priv20_Deque_iterator_baseIPN14CharProperties8BuffInstEE10_M_advanceEi",
+      "elf_address": "0x3de8b4",
+      "size": 116,
+      "sha256": "0e3aabbbc8cf294e938d9f598be3b6cc0d1fcdb24ded33eb25cf84ca9823f134"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties9PROPS_SetEii",
+      "elf_address": "0x3e07a0",
+      "size": 104,
+      "sha256": "e8dba6a3ac25d476f2bded4744830d789ad77a4b18271d7ae04b14f111422051"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties8_GetTypeEi",
+      "elf_address": "0x3deed8",
+      "size": 56,
+      "sha256": "2767da71c9c875e51ac9db94b0947e106cac232f998cba6be36d4fd5a4b945bb"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv20_Deque_iterator_baseIPN14CharProperties8BuffInstEE11_M_subtractERKS4_",
+      "elf_address": "0x3de870",
+      "size": 68,
+      "sha256": "b576532d6b53caa8f2bad02c29ba3ab863085da18345cfa566a53ed64c9154b0"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12PROPS_SetIntEii",
+      "elf_address": "0x3e0808",
+      "size": 8,
+      "sha256": "6dbf784d5661121e826220b3ddbfaa4ff1598dbe86491d341f15b8460b79bc51"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties20ResetGearsPropertiesEv",
+      "elf_address": "0x3defac",
+      "size": 8,
+      "sha256": "3f77b4414e6ee3c3feccdb753b8dfb22f382a12822cb6361d700c0ba6f78ea95"
+    },
+    {
+      "original_symbol": "_ZN14CharPropertiesC2Ev",
+      "elf_address": "0x3df084",
+      "size": 144,
+      "sha256": "cb416256fdefa6ddf1a8edcd720c377b94d5b957c665333f3191c0aab4c67eb6"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties20ResetSavedPropertiesEv",
+      "elf_address": "0x3defb4",
+      "size": 8,
+      "sha256": "dd7a6d36c1146de3048039da7f0f3d0988454d6a9d26e5ce0e7a3f882c68527b"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12_SetPropertyERN7Structs19CharacterPropertiesEii",
+      "elf_address": "0x3deca0",
+      "size": 276,
+      "sha256": "61d5cdfabfb0a114c233ebf4a4b867830a9f1c087009a5a5f8bf7503a4370510"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16PROPS_ApplyClassEib",
+      "elf_address": "0x3df3b8",
+      "size": 56,
+      "sha256": "7f84917c9003e247ed0660438304df06bc8fb77070254f5737e73e2113c281d0"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16_ResetPropertiesERN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3def34",
+      "size": 80,
+      "sha256": "76bfb4312f9a2a80f4f25ffa6933ba404ee59b7bd710702321d36686b58418e2"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties9PROPS_AddEii",
+      "elf_address": "0x3e0708",
+      "size": 144,
+      "sha256": "0e4a2cdfe4feef368849e8823b05d451f55b4178b762f3fa9fcaf27d8abf79c3"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties11_GetDefaultEi",
+      "elf_address": "0x3def10",
+      "size": 36,
+      "sha256": "6710c8429d947c675e85a03cbb9a7f46bb197eafcc3f847cabdcaa91385a3017"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12_AddPropertyERN7Structs19CharacterPropertiesEii",
+      "elf_address": "0x3df140",
+      "size": 96,
+      "sha256": "4d850624c15803158ef818077afaa6307d142de37f14c28fa56c85c65a15911e"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties19ResetBasePropertiesEv",
+      "elf_address": "0x3defbc",
+      "size": 8,
+      "sha256": "6df98f9e5196b34a1a0e14a8bbbca928abedeb8d6c3cbfeab98088d8b799ee00"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties18LoadBasePropertiesEi",
+      "elf_address": "0x3df2a4",
+      "size": 12,
+      "sha256": "3ed336411ed10ef85e6a82bd121fb3f065854cf7d1a4378a334acf938ef06e30"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties14RecalcPropertyEi",
+      "elf_address": "0x3dfe60",
+      "size": 1972,
+      "sha256": "9df07709d1780dd22c056b6bdca240de845b4c118b7b4b3d6719595193ec9030"
+    }
+  ]
+}

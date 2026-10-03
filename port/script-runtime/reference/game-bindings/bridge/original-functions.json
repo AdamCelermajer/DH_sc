@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "__aeabi_f2uiz",
+      "elf_address": "0x8be2a0",
+      "size": 84,
+      "sha256": "1bfbab489e0e7b2166376f736f04f891a50f7bf04191cfb8731e5294b752d66f"
+    },
+    {
+      "original_symbol": "__fixunssfsi",
+      "elf_address": "0x8be2a0",
+      "size": 84,
+      "sha256": "1bfbab489e0e7b2166376f736f04f891a50f7bf04191cfb8731e5294b752d66f"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5ValueC1Ei",
+      "elf_address": "0x37ca9c",
+      "size": 136,
+      "sha256": "d5fe85eb22a64d5abc88094c2803f670bd6508e04850f9424e9a02daf6e883a6"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder18__functionCallbackEP9lua_State",
+      "elf_address": "0x31a250",
+      "size": 452,
+      "sha256": "61f51278041010097fd66aba6aeb484aa978fba202c49e666110415fff2a0b8e"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9ArgumentsC1EP9lua_Statei",
+      "elf_address": "0x3196ec",
+      "size": 500,
+      "sha256": "8df464228d0c3a6f65a4fc8c5330288b50aa3d83ce2a0362e94467b76dd09b3c"
+    },
+    {
+      "original_symbol": "_ZN6CharAI7OnTimerEPv",
+      "elf_address": "0x3d0c10",
+      "size": 36,
+      "sha256": "3a33c2e8ef4aa19218df1b5976e4ed38e41f2d3d69173d6a5fadee457081c675"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "clips": [
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_idle_01.bdae",
+      "clip_id": 1194,
+      "tracks": 23,
+      "unbound": 3,
+      "speed": 1,
+      "poses": 9334
+    },
+    {
+      "model": "skeleton.bdae",
+      "clip": "skeleton_idle_02.bdae",
+      "clip_id": 1195,
+      "tracks": 23,
+      "unbound": 3,
+      "speed": 1,
+      "poses": 6100
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_idle.bdae",
+      "clip_id": 1258,
+      "tracks": 12,
+      "unbound": 0,
+      "speed": 1,
+      "poses": 1334
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "clip": "slime_idle_02.bdae",
+      "clip_id": 1259,
+      "tracks": 12,
+      "unbound": 0,
+      "speed": 1,
+      "poses": 1334
+    },
+    {
+      "model": "ghost.bdae",
+      "clip": "ghost_idle_01.bdae",
+      "clip_id": 706,
+      "tracks": 24,
+      "unbound": 0,
+      "speed": 1.3,
+      "poses": 6001
+    }
+  ],
+  "every_millisecond_poses": 24103,
+  "original_idle_choices": 5,
+  "finite_skinned_vertices": true
+}

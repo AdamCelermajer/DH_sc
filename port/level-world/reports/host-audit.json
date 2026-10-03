@@ -1,0 +1,26 @@
+{
+  "rooms": 8,
+  "nodes": 146,
+  "visual_instances": 97,
+  "triangles": 14251,
+  "navigation_triangles": 314,
+  "spawn": [
+    -2227.77,
+    1220.93,
+    842.364
+  ],
+  "accepted_steps": 127,
+  "end_position": [
+    -2227.77,
+    2109.93,
+    842.363
+  ],
+  "stairs_steps": 220,
+  "stairs_end_position": [
+    -2227.77,
+    -319.07,
+    209.679
+  ],
+  "synthetic_movement_checks": 9,
+  "mutated_descriptors": 2000
+}

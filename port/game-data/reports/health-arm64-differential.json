@@ -1,0 +1,155 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "eff47c3866b74429ce5a16a9c99437b7cfc73a46d31ad0d62812542a0faff218",
+  "synthetic_cases": 10000,
+  "threshold_boundary_cases": 30,
+  "source_character_cases": 896,
+  "comparisons": 10926,
+  "mismatches": 0,
+  "all_four_property_sheets_and_health_requests_compared": true,
+  "arm64_pointers_above_4gib": true,
+  "counts": {
+    "dead_skips": 5002,
+    "kill_requests": 2870,
+    "low_health_cues": 308,
+    "negative_adds": 2017,
+    "blocked_zero_adds": 3616
+  },
+  "source_snapshots": [
+    {
+      "character": "CryptSlime",
+      "damage_raw": 256,
+      "change": [
+        -256,
+        12160,
+        11904,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "character": "CryptSlime",
+      "damage_raw": 16384,
+      "change": [
+        -16384,
+        12160,
+        0,
+        1,
+        1,
+        0,
+        3,
+        0
+      ]
+    },
+    {
+      "character": "CryptSlime_RE",
+      "damage_raw": 256,
+      "change": [
+        -256,
+        12160,
+        11904,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "character": "CryptSlime_RE",
+      "damage_raw": 16384,
+      "change": [
+        -16384,
+        12160,
+        0,
+        1,
+        1,
+        0,
+        3,
+        0
+      ]
+    },
+    {
+      "character": "Crypt_Ghost",
+      "damage_raw": 256,
+      "change": [
+        -256,
+        12160,
+        11904,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "character": "Crypt_Ghost",
+      "damage_raw": 16384,
+      "change": [
+        -16384,
+        12160,
+        0,
+        1,
+        1,
+        0,
+        3,
+        0
+      ]
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "damage_raw": 256,
+      "change": [
+        -256,
+        12160,
+        11904,
+        0,
+        1,
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "damage_raw": 16384,
+      "change": [
+        -16384,
+        12160,
+        0,
+        1,
+        1,
+        0,
+        3,
+        0
+      ]
+    }
+  ],
+  "original_import_calls": {
+    "__aeabi_i2f": 1810,
+    "__aeabi_fmul": 905,
+    "__aeabi_fcmpge": 905
+  },
+  "service_fact_observer_calls": {
+    "0x36e478": 5924,
+    "0x337888": 11848,
+    "0x3140ec": 11848,
+    "0x337a88": 11848,
+    "0x318254": 11848,
+    "0x320e14": 5924,
+    "0x3a49f0": 13741,
+    "0x3bb8e4": 580,
+    "0x40570c": 2870,
+    "0x33dd10": 2870,
+    "0x3a3064": 2498
+  },
+  "audio_party_achievement_blocks_omitted": 6232,
+  "reference_sha256": "36020cd0e61d41beedf937174844eedf2d71aef258db0f08a6b879389ed2b5c7",
+  "spawn_reference_sha256": "356765b09e6aab353e299cf2ed7bc69b638d5f374eb5e0c70420bec413f59ed6",
+  "scope": "Original HitFor health branches and original PROPS_Add/Set/resolution run. Actor classification/remoteness, debug query, session/main-player facts are caller supplied; controller kill is observed without executing its backend; tutorial/audio/party/achievement services omitted. Separate IsDead lifecycle transition and full F_ApplyResult remain pending. Buff dictionary is empty.",
+  "elapsed_seconds": 11.48
+}

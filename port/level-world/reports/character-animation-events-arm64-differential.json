@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "actual_compiled_arm64_instructions_executed": true,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reference_sha256": "d47946a30666fdfc7d36571f1931e646b3ca3d8ce81462fc3c72eb79de3d96a2",
+  "original_probe_sha256": "f0b847148f1da9a9de70baced2813883a5dbc5fcad7d76a415d6f09c02ca3061",
+  "library_sha256": "b969131372f762524b6165e311ade57b7a900d8ea16469eb148e3dd4002a4966",
+  "source_sha256": {
+    "character_animation_events.cpp": "30f6c6ec8ddad18d89f1162943554d5e19228cd447601db5824aeed3cc1811a0",
+    "character_animation_events.hpp": "63dc4657bc693de9755e4be2575fc7592cc7e054ce83509fa85520010c4f7b34",
+    "tests/character_animation_events.cpp": "eae752a98410401e71922ce65bf4c7bf2fd2240ccfa347d8ddaff25c978c3045",
+    "tests/animation_event_routing_discovery.py": "f8a75d9eb657eb07160391023a9e609413041f8cf14c00bb8b04187d0103c3ee",
+    "tests/character_animation_events_differential.py": "d4ad4299e693321c8ee6635149a8cccdd8195c35dffa6bac3f91c035206d678f"
+  },
+  "comparisons": 1344,
+  "ordered_callbacks": 2422,
+  "mismatches": 0,
+  "atomic_rejections": 8,
+  "payload_and_context_above_4gib": true,
+  "imported_services": {},
+  "scope": "Replay original routing observations through compiled ARM64 instructions.\n\nAI consumers/FSM remain explicit synchronous services. This proves routing,\ngate decisions and preserved event/payload identity, not full AI behavior.\n"
+}

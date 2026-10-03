@@ -1,0 +1,35 @@
+{
+  "validation": "PASS",
+  "original_derived_replay": 5786,
+  "operation_counts": [
+    1053,
+    1053,
+    1053,
+    2627
+  ],
+  "copy_bit_exact_cases": 1647,
+  "ordered_libm_fixture_calls": 8246,
+  "atomic_rejection_checks": 36,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reference_sha256": "393c538d7eb584de465e22992b3fc7580b5294bc310e859425471ede8fb71a80",
+  "arm64_report_sha256": "73e5ad5934e0c5f8b5f913ff066cdc3ec7d3d15d63af01423bbaccb65b9761c8",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "leak_detection": true,
+  "source_sha256": {
+    "port/engine-animation/animation_blend.hpp": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3",
+    "port/engine-animation/animation_blend.cpp": "5066e683add9d92643f350aa91819f694a7b2be82201785be40cc7812536d2ac",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-animation/tests/animation_blend_differential.py": "d989bde7ea51d0f1e2e105bfe794e45066cf97c94a2efaf927d9558959aec42d",
+    "port/engine-animation/tests/animation_blend.cpp": "7e718adfe017b91e8ae675f125ce9c9cca2b07fdd79e886a16d7481aa9290714",
+    "port/engine-animation/tools/build_animation_blend_oracle.ps1": "1166cf6cd8ab31b223bbc07ee4d70459fe65153bdd09360bccfb512eae39b8a7"
+  },
+  "executable_sha256": "9d8d4522fad0acf06ba831b149776cccd31c54ddc3c28c15636ade00e46a8eb7",
+  "compiler": "WSL g++ -std=c++17 -O2 -g -fno-fast-math -ffp-contract=off -fno-builtin -fsanitize=address,undefined -fno-omit-frame-pointer -Wall -Wextra -Werror",
+  "dependency_fixtures": "Test-only --wrap=sinf/acosf/sqrtf verifies original dependency inputs/order and returns exact audited UCRT words; unchanged production blend and math sources.",
+  "scope": "Original-derived typed contribution replay and atomic caller contract checks; no scene binding, pose ownership, typed application, full blended GPU/FSM or historical Bionic libm claim."
+}

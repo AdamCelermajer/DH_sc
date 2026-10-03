@@ -1,0 +1,287 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14AnimApplicator10ResetDeltaEjRKN6glitch4core8vector3dIfEE",
+      "elf_address": "0x3644cc",
+      "size": 48,
+      "sha256": "96cbf33601b6a3ddb2fcf861070690249bcbebb6765d0475c96c92092f5ac0f8"
+    },
+    {
+      "original_symbol": "_Z13GetApplicatorPN6glitch5scene18ISceneNodeAnimatorE",
+      "elf_address": "0x369160",
+      "size": 100,
+      "sha256": "c0196c9e7660e8072a9b5f1961313469ae56022733e1022915a1e73e808e887e"
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core10quaternionmlERKNS0_8vector3dIfEE",
+      "elf_address": "0x35bc90",
+      "size": 532,
+      "sha256": "865ee3d8aa3f15d485bfdb86d72c6c4a13a00a5962ddef93d9f8a5f51f3366ec"
+    },
+    {
+      "original_symbol": "_ZN13RootSceneNode19_HandleDisplacementEj",
+      "elf_address": "0x35cf48",
+      "size": 544,
+      "sha256": "09c65ffca1cca6e4039dd89a6cfa8072de222e44e9985d137370dad5c7fda2b3"
+    },
+    {
+      "original_symbol": "_ZN10GameObject11SetPositionERK7Point3DIfEb",
+      "elf_address": "0x393db4",
+      "size": 220,
+      "sha256": "b2e7a850ec235757fe9b1406e0491006cc8ef1dda76927eb2e336374d93e26e7"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode11getPositionEv",
+      "elf_address": "0x597124",
+      "size": 8,
+      "sha256": "e7c5f4d5032caa61ba641b7edd3239a66346a177b7adf75338e1aafe8aa8dc70"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode11setPositionERKNS_4core8vector3dIfEE",
+      "elf_address": "0x59712c",
+      "size": 40,
+      "sha256": "b300b9db8ec709fa73872e371233a4eca0e3f642ac113ea86abf2093876acf05"
+    },
+    {
+      "original_symbol": "_ZN14AnimApplicator14CalculateDeltaEjRKN6glitch4core8vector3dIfEE",
+      "elf_address": "0x364444",
+      "size": 136,
+      "sha256": "8e139c248b2554b8b027c6e8fc1089b492492e5596ec4cdf998bcb9af27e6795"
+    },
+    {
+      "original_symbol": "_ZN14AnimApplicator10ResetDeltaEj",
+      "elf_address": "0x3644fc",
+      "size": 236,
+      "sha256": "28c20368fd590cb2d66e6bbcb08fb2f00d85d4874de864b1db84087e4c1cda7d"
+    },
+    {
+      "original_symbol": "_ZN13RootSceneNode7NewAnimEb",
+      "elf_address": "0x35d624",
+      "size": 88,
+      "sha256": "131f1a88a10b442788101a24b3aaf550a5e96a5cd12b37ddff257432dcf4e341"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject11SetPositionERK7Point3DIfE",
+      "elf_address": "0x470c24",
+      "size": 96,
+      "sha256": "b84dbc014302a72aab383009c9ddfc99afbc87f27b58eb3c7fd4c3b80f735015"
+    },
+    {
+      "original_symbol": "_ZN14AnimApplicator11AnimateNodeEj",
+      "elf_address": "0x3645e8",
+      "size": 308,
+      "sha256": "4f69d2e01b032199e0a3dc079d1d6a7f4f8aed1d9b01139a2e7427a53dd22636"
+    },
+    {
+      "original_symbol": "_ZN13RootSceneNode19_EnableDisplacementEb",
+      "elf_address": "0x35d4cc",
+      "size": 344,
+      "sha256": "293f235a52c4c4702ec5152ff2e2166376e9c510ac896ac0879a71dbfeed6974"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject11GetPositionER7Point3DIfE",
+      "elf_address": "0x470be4",
+      "size": 64,
+      "sha256": "dc2df383d8c6d6ce2543da70594fbdb9a22d3fb757c10aea671955e25911dc61"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject12SyncPositionEv",
+      "elf_address": "0x470cb8",
+      "size": 20,
+      "sha256": "0b12b65c824cb133ae35c2b3ebb9dc90b447e2c56cee89b2a1a57ac88723762a"
+    },
+    {
+      "original_symbol": "_ZN10GameObject18UpdateAbsoluteAABBEv",
+      "elf_address": "0x38aac8",
+      "size": 152,
+      "sha256": "8bdb0944ef983e11a5d18d269aab552dea3f691fa7b03abcc0f56c1b75471297"
+    },
+    {
+      "original_symbol": "_ZN14AnimApplicator10SetRefNodeEPN6glitch5scene10ISceneNodeE",
+      "elf_address": "0x36473c",
+      "size": 252,
+      "sha256": "11fe60035ef089ee8590de9b02bbf10c72aaf2cb3a2631e72dfbd7e8a36abd7e"
+    },
+    {
+      "original_symbol": "_Z16findSceneNodeRefPN6glitch5scene10ISceneNodeEPKc",
+      "elf_address": "0x50f780",
+      "size": 124,
+      "sha256": "5ab32cb0501d65b400658fa6345ec72886c9f948edb6fcfbd2dc9f84ec2f2937"
+    },
+    {
+      "original_symbol": "_ZN10GameObject14SetDestinationERK7Point3DIfE",
+      "elf_address": "0x393600",
+      "size": 28,
+      "sha256": "7749e968374487439a9c6b2fd8dc2e103fa2dcc0eefc1da00a29e35d8b22dab6"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject13ApplyPositionEv",
+      "elf_address": "0x47124c",
+      "size": 76,
+      "sha256": "6737ff2fad526a8bc1c2796d144ab7503641d4ea8ed203e64f25a526dadf3211"
+    },
+    {
+      "original_symbol": "_ZN13RootSceneNode9onAnimateEj",
+      "elf_address": "0x35d168",
+      "size": 868,
+      "sha256": "d511a78ce78535b3d7982d776c59a992150d498e73fc7b23734832a6fb88380e"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode11setPositionEfff",
+      "elf_address": "0x597154",
+      "size": 44,
+      "sha256": "4d1ddb1ecef616c9035893514a295fbe3f29065a76d16578d54b47d1bf41ce0b"
+    },
+    {
+      "original_symbol": "_ZN13RootSceneNode11GetAnimRootEb",
+      "elf_address": "0x35ccdc",
+      "size": 128,
+      "sha256": "f441da8d3cdd8a949c33a4917155ed7107df9d6d4ae48e2451735009ff3072cb"
+    },
+    {
+      "original_symbol": "_ZN13RootSceneNode10_CalcDeltaERN6glitch4core8vector3dIfEE",
+      "elf_address": "0x35cd5c",
+      "size": 272,
+      "sha256": "f43954bab407009b3bc44c8c49a146a26390447a376abc69a353e34e403900ad"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject6UpdateEv",
+      "elf_address": "0x470cf0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator6UpdateEv",
+      "elf_address": "0x3caf3c",
+      "size": 948,
+      "sha256": "a3ea6cd907c75e5ee0c8a915294b4d21f94efabb644f125c2009d401481eeebe"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator10__CallbackEPN6glitch5scene19ITimelineControllerEPv",
+      "elf_address": "0x3c90ec",
+      "size": 12,
+      "sha256": "9217b2f07a27b6abe7cf3fcb694a54ac71d54ec4f30e3136c4339c45ffbdd1fd"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject11SetRotationERK7Point3DIfE",
+      "elf_address": "0x472874",
+      "size": 212,
+      "sha256": "e9dd3e49a6e0fa5b14a85edde26828483288d2ca7932c51b1857d2b9f43ce879"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator8_SetAnimEij",
+      "elf_address": "0x3cab38",
+      "size": 376,
+      "sha256": "29950d80f6d4a2b677edebbd7992bf2259cf3e5f1d31f1e5099ae2cc5c54caad"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject12SyncRotationEv",
+      "elf_address": "0x472948",
+      "size": 20,
+      "sha256": "c2b11a82465b643bd9152bd7bfb68f8c2b5485b92e298d6b8ca3a14f22a4b297"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator12_SetAnimStepEj",
+      "elf_address": "0x3ca79c",
+      "size": 924,
+      "sha256": "f30373543c3a10afae8ffa712a99f4d72b28ab46b828973dfafdcab01ce222cb"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSet7_CBAnimEPN6glitch5scene19ITimelineControllerEPv",
+      "elf_address": "0x367338",
+      "size": 16,
+      "sha256": "601a7c9f2f41b13dc1b05ea744928714045635a974ca72364bad298980ef9ee1"
+    },
+    {
+      "original_symbol": "_ZN15AnimatorBlender17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE",
+      "elf_address": "0x366628",
+      "size": 160,
+      "sha256": "ebe253955c0d30ff759ae75315a7c4e30fee07b61cc0fe7e978b6dd2ecbadfd6"
+    },
+    {
+      "original_symbol": "_ZN8Animator17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE",
+      "elf_address": "0x366224",
+      "size": 112,
+      "sha256": "01aabdb4296894e061ea3a39b886deb8c375fd7c5d736046e31c936ec4c8be07"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada19CTimelineController6updateEi",
+      "elf_address": "0x667104",
+      "size": 508,
+      "sha256": "d92345e0862e62b6b2d62c85bb2ddf6a2864b8f242dc98ce3af54b1ef3b70ac4"
+    },
+    {
+      "original_symbol": "_ZN14AnimApplicator13CheckCallbackEPN6glitch5scene19ITimelineControllerE",
+      "elf_address": "0x36440c",
+      "size": 56,
+      "sha256": "1231f2f6febc828c60eb8d03d14dc10f33d0c13f41e4f08142b784aea6ab61ed"
+    },
+    {
+      "original_symbol": "_ZN13RootSceneNode12onUpdateTimeEj",
+      "elf_address": "0x35c0f4",
+      "size": 92,
+      "sha256": "18fcd500df862ea884dfcce858bcc6ae4ee3292adf2ac9e34159605f5e1e3b35"
+    },
+    {
+      "original_symbol": "_ZN15AnimatorBlender17BlenderApplicator11AnimateNodeEj",
+      "elf_address": "0x366888",
+      "size": 480,
+      "sha256": "a6a1a28b7200c50e16583ffef7789602dcfc69522d9f2c211998613710c24248"
+    },
+    {
+      "original_symbol": "_ZN15AnimatorBlender11animateNodeEPN6glitch5scene10ISceneNodeEj",
+      "elf_address": "0x366cb4",
+      "size": 220,
+      "sha256": "8da4cd8c82c2cc665f01ea35ebed8076379758c7bcd3c3e4ad12d330b261fc66"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSet17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE",
+      "elf_address": "0x3672c8",
+      "size": 112,
+      "sha256": "0f1e9cf749a2b3a20115ce49ab3aa625bfa63addaedbf9528228e427067a86f0"
+    },
+    {
+      "original_symbol": "_ZN15AnimatorBlender10updateTimeEj",
+      "elf_address": "0x366d90",
+      "size": 296,
+      "sha256": "2ead57bb909da235724e468f22f0cbd87a05c2681e151f844dda12c4324f1fc1"
+    },
+    {
+      "original_symbol": "_ZN8Animator11animateNodeEPN6glitch5scene10ISceneNodeEj",
+      "elf_address": "0x3662c8",
+      "size": 64,
+      "sha256": "abf55332bed8520dd4158f4a198cbb3f6de8cb7606428ae04450658a73293d8c"
+    },
+    {
+      "original_symbol": "_ZN11AnimatorSet11animateNodeEPN6glitch5scene10ISceneNodeEj",
+      "elf_address": "0x3673a4",
+      "size": 64,
+      "sha256": "f5a841bd3f19754a75089703273467dc9d3ad6f19e81730db90d05fa6891c88a"
+    },
+    {
+      "original_symbol": "_ZN14AnimController8PlayClipEjbij",
+      "elf_address": "0x474b50",
+      "size": 296,
+      "sha256": "9cd52e70458b322ac3aa18d2bcdfb038d62fe6844b7442172a5289c9094281c0"
+    },
+    {
+      "original_symbol": "_ZN24BlendedAnimSetController8PlayClipEjbij",
+      "elf_address": "0x47680c",
+      "size": 336,
+      "sha256": "38dc389a93924a5ed3315da44f194f1c8144fe9d1681bd00c67a13f38db679ff"
+    },
+    {
+      "original_symbol": "_ZN24BlendedAnimSetControllerC1EP13RootSceneNodei",
+      "elf_address": "0x476ddc",
+      "size": 656,
+      "sha256": "174a416331fc0e75523e342d94591682de8b9e688fac743d0d4a41357f4c7181"
+    },
+    {
+      "original_symbol": "_ZN17AnimSetControllerC1EP13RootSceneNodei",
+      "elf_address": "0x4751b4",
+      "size": 148,
+      "sha256": "32768d45ccf9abba0f02cf2b86a33313eb3f882b49e953c0c60c16b9065de7a2"
+    }
+  ]
+}

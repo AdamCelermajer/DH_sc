@@ -1,0 +1,45 @@
+{
+  "validation": "PASS",
+  "comparisons": 9393,
+  "operation_counts": [
+    1323,
+    1999,
+    1687,
+    2192,
+    2192
+  ],
+  "atomic_guards": 18,
+  "unused_inventory_short_circuit": true,
+  "mismatches": 0,
+  "source_bindings": {
+    "port\\level-world\\character_attack_geometry.cpp": "ea1f629b88bdd223253e51a6a344f01c87b257b18791169eae1cb92e9f413dd0",
+    "port\\level-world\\character_attack_geometry.hpp": "7dc77693466a6e547ff3948648ad58c0c79c3e210e3585528f708b617113acf2",
+    "port\\level-world\\tests\\character_attack_geometry.cpp": "9463593f2067c3b78b94d0d737637f709c76c8d9da86b6815ea33e09a539ed09",
+    "port\\level-world\\tests\\character_attack_geometry_host.py": "60728b7852de9d52c475b1979e8493b67e7a219d2b9aa0cd81fac5f973aa8af8",
+    "port\\level-world\\tests\\character_attack_geometry_differential.py": "cb9fd435ed8755d53f2f029bd7482fe0969b41e9975a79a4dac3cd8a27c78f89",
+    "port\\level-world\\reference\\prince-live-attack-services\\geometry-fixtures.bin": "3581a263af072b0f5edf807b452b24e72509c9a46f9cd7b99813ba6fa1e4de61",
+    "port\\level-world\\reports\\character-attack-geometry-arm64-differential.json": "232016340d1b6d27dc5b702a2df0cfb14ca0775f38ba83232bc3c831a13361b8",
+    "port\\level-world\\character_combat_queries.hpp": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf"
+  },
+  "asan_ubsan": true,
+  "sanitizer_findings": 0,
+  "scope": "Source-bound sanitizer replay of original attack query geometry gold.",
+  "compiler_command": [
+    "wsl.exe",
+    "--",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_attack_geometry.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_attack_geometry.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/prince-live-attack-services/character_attack_geometry_host"
+  ],
+  "executable_sha256": "119d25729152b14b11a571718dd09d57249fe808b5df3a7f6dfc4e78853abf86"
+}

@@ -1,0 +1,73 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "original_cases": 4209,
+    "hash_cases": 263,
+    "lookup_cases": 1882,
+    "source_guard_cases": 82,
+    "replay_checks": 64299,
+    "integration_checks": 33,
+    "commons_alias_absent": true,
+    "mismatches": 0
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "diagnostics": 0
+  },
+  "compiler_arguments": [
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/script_function_alias.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/tests/script_function_alias.cpp",
+    "-L/home/adampalace/dh2-lua514-build",
+    "-ldh2_script_runtime",
+    "-Wl,-rpath,/home/adampalace/dh2-lua514-build",
+    "-o",
+    "/home/adampalace/dh2-script-alias-audit/script_function_alias_audit"
+  ],
+  "source_sha256": {
+    "port/script-runtime/script_function_alias.cpp": "d6bc06c9ac09969b914f4d8025d2efea281eaf2bd91a9bb52dccc141512e3271",
+    "port/script-runtime/tests/script_function_alias.cpp": "eaa6236ba753d8bd087e6639af882b8062de919be244d2bf5af7a1d8b7ba0b73",
+    "port/script-runtime/script_function_alias.h": "9d138d3aa92e96fd0d0dabddea721c7fc8470b7e64d5bf116c98865e7c84d868",
+    "port/script-runtime/script_runtime.h": "f90ce7145e38e54e473c332be2727ce0f62c46c9e6efc95ef01d325cee173f39",
+    "port/script-runtime/reference/function-alias/run_host_audit.py": "1a00f91a86c6492663c4f0d6f00afae73f25ade38b9f7deb9037a4a98db0e4ee",
+    "port/script-runtime/reference/function-alias/probe_original.py": "a2b2b5adb0b39aff03b38f4b8d62b16663901b16f6ce31fb5ee021167eff4712",
+    "port/script-runtime/reference/function-alias/inventory_cache.py": "49cf447e2f0193bc9d2bad60868aaa7becf8c8eac630def060c8de5d463bf132"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_probe_sha256": "5410be0c37b059707af01bf7d2645d3e73f7ddf1309c05defcb1b2afe29dd246",
+  "gold_sha256": "154c320b65b43180ece8dbdaa4115305c58f21ab6aa6b5f3522992b2ad1a892e",
+  "manifest_sha256": "5528f8975e8484f7a0af7642ef8ab499e19c980447018ce0c8887460a3cbbaa8",
+  "assembly_sha256": "535a35a3ac53d3a84b0eb22d81a48574083566ae50d6ca580201525c396ceaea",
+  "actual_commons_sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+  "cache_inventory_sha256": "270ae66f7526067a96658d60f37e23a1ee423ddca670ffdd96f776a507e69eff",
+  "executable": {
+    "path": ".local-inputs/script-function-alias/script_function_alias_audit",
+    "sha256": "4a0a893718067bf7dd8e2f1f00145ae8efdabba9f8a849004a857a93a441a242"
+  },
+  "runtime_library": {
+    "path": ".local-inputs/script-function-alias/libdh2_script_runtime.so",
+    "sha256": "789ba044bb5913422405fefae901b21b94798667f173b19d7d91f09ba4f92e5b",
+    "source_report": "port/script-runtime/reports/lua514-host-audit.json",
+    "source_report_sha256": "c796200c4e9667657ca3f742fdfea7a8ac2803f62de8e51091a4703e4b60ed68"
+  },
+  "original_globals_lookup_cases": 3,
+  "explicit_original_services": [
+    "C++ std::string temporary construction/allocation",
+    "map::operator[]/erase/clear allocation and tree shape",
+    "strlen and zero-length memcmp",
+    "lazy hash initializer guard"
+  ],
+  "packaged_apk": false,
+  "arm64_instruction_differential": false,
+  "full_lua_manager": false,
+  "scope": "Original ARM32 alias kernels with explicit container/string allocation services versus native64 host replay, plus genuine float32 Lua DSO binding/call integration. No original full VM or allocator identity parity."
+}

@@ -1,0 +1,1295 @@
+{
+  "apk_sha256": "c47cb9553284981b3d33993ba6e4cdbea825407262930307f80f2af99e9cd18a",
+  "apk_bytes": 16629881,
+  "studio_apk_sha256": "5756093c50c755fea17ab57f497fb0e136a410d429d1a114bfe180667d839676",
+  "source_sync_verified": true,
+  "studio_source_sha256": {
+    "cpp/CMakeLists.txt": "3662e4544544a53b24e4780b3f31299a9f8fd1310f1b5b09cce33bde188e00bb",
+    "cpp/native_app.cpp": "07275a35b3b2bf11675e8f29a6198c040dbf9685b2548a7b27ffcc9eed2283ab",
+    "cpp/model_renderer.cpp": "97c4c3852f8638a90c1aba33d52f8741dab41a50888ffcf4c1b9890fde46e849",
+    "cpp/model_renderer.hpp": "0e22fc55336d2c392dcc2d16f52dabab2609ef4a858337ce0d843eca0ec08b1b",
+    "java/com/example/dh2/MainActivity.java": "32430e1dd2fe8785fcbeadcc9e2ccf500dc22257b876e2c9ee3145a77592db2d",
+    "java/com/example/dh2/NativeBridge.java": "41145ea6851921d5cccb7fe9e0e07e77d6e85752c4e8931216fa343552383fe3"
+  },
+  "module_source_sha256": {
+    "android-native/tools/actor_states_smoke.py": "63d2593a2a187d44a839834d5fef53274ef9d6900619ac77792934664d552737",
+    "android-native/tools/combat_application_smoke.py": "f99f620bbe24166967e2414db4e9da6d6e5957c43ab144ea466f37b95ae52beb",
+    "android-native/tools/player_combat_smoke.py": "73aedaa942e9e614257f38bcc287de93360508bf1b63ed65f36b5d6b413ad674",
+    "android-native/tools/player_defender_smoke.py": "9ea72127d70519b12fa40fb2b17643093635ea22b81062ad7807c520d1b0e96a",
+    "android-native/tools/validate_combat_application_checkpoint.py": "5395706ac14369cbd20c86cfb6cdd664b17f330a87994c212e209740c710f637",
+    "android-native/tools/validate_combat_checkpoint.py": "abb10c0b93b0db34592f7ab5d11b09944ddf1f7ac0038d90e347af837fd988c4",
+    "android-native/tools/validate_combat_result_checkpoint.py": "ec719d3cabb67d3c28ef19090a0e2f056a9929366b3ca29c24c06a2f65ebd383",
+    "android-native/tools/validate_events_checkpoint.py": "8bbad9a465755bc7b17973defb4b2ee31cbb7f27a5205c1dc04cb092dfdeb8a7",
+    "android-native/tools/validate_health_checkpoint.py": "0a5c7dbfea18bd856118a53e4194472749eb4a98159064c72b9e6fe3bc0d3441",
+    "android-native/tools/validate_player_combat_checkpoint.py": "6783e5c05b4f949425f9fab668a37157a08991035ac8943a6ed7685ccd4cfbf7",
+    "android-native/tools/validate_player_defender_checkpoint.py": "b13cea0327389dc54189c5959b4b25659c7de00f06914894ada3cab395e5dce4",
+    "android-native/tools/validate_properties_checkpoint.py": "b7ecaf838c12843abc7ce2732278646987bc4c042850f10ecf13388e994ba45e",
+    "android-native/tools/validate_vitals_checkpoint.py": "ae76fe3a600cd9d601cf8cb41b52fc275c1b8ac0319b34a7b119604569330a41",
+    "android-native/tools/world_smoke.py": "55529e761d46a08ea64b58f43527aa7f5554d212458e35cabeb7085b7a243d13",
+    "engine-animation/CMakeLists.txt": "92741e455e35370f49a2a5ea00a38499da8c5bfa33db50b05ef052f77e3e6abe",
+    "engine-animation/animation.cpp": "598e18a96301522bb5d6a7cf784a69300ccaa8739ed05beb72b2e4bbbe2c202e",
+    "engine-animation/animation.hpp": "8e74a97759bd27107cd50470e1fbad0b5e6ec868f5e796f20f532af70604b519",
+    "engine-animation/event_track.cpp": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+    "engine-animation/events.cpp": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+    "engine-animation/events.hpp": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+    "engine-animation/reference/events/binding.asm": "018aa44536b66976298e5755699212826a92d67cec111ebc1c1f09bf880aa2c4",
+    "engine-animation/reference/events/dispatch.asm": "d4e10b0b75ecfa9b2e5c575c5ae2be95808b40d6e140753f381659330680f9eb",
+    "engine-animation/reference/events/lookup.asm": "34dae3b8b526aa146514d6fa3372794babde8f825259c74d3a97d90e4a3d8fc1",
+    "engine-animation/reference/events/original-functions.json": "e5022de6e7bb1b187790a2676e92330a8973a7b4329452e88d75cf91ce1aff94",
+    "engine-animation/tests/events_audit.cpp": "a103548cdec83fcc303b1b45451d11bd6fefe96d4bd2ca77465bd2ad5ebdcd92",
+    "engine-animation/tests/events_differential.py": "31a0e4bc791417853138681942295f236a51edee28e94dbe7eaf1e4f93641681",
+    "engine-animation/tools/build_events_oracle.ps1": "8c21d19ea14f27818ec64b7be691a2ced85ccccd3b64ec1012f4018313804e75",
+    "engine-animation/tools/inspect_events.py": "f163cfd5cb08148ab761d04ffcdfd7cc30a04136d0c2d009bcc9efc91a2aa4fc",
+    "engine-skinning/skinning.cpp": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102",
+    "engine-skinning/skinning.hpp": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2",
+    "game-data/CMakeLists.txt": "7c41203d0ee99792a1f2f7df6e5e26733842030f80962105287e1d626452f97b",
+    "game-data/animation_scheduler.cpp": "ad99450151a5b2cdc6e3e0f21a9cc3bfb11716b2bab3febd1e5e6f21a8992783",
+    "game-data/animation_scheduler.hpp": "2e26b2720e3a301c00554e58b72105af4c03ef3d4464285b96237c17fa05bfa0",
+    "game-data/animation_selection.cpp": "3c45ece50511df67d7885388d8f56e64f1a979e9ed2a52d1983b6fa1dbea2880",
+    "game-data/animation_tables.cpp": "edf5d8fc71d225e975a4b7459a5ef2169ea3a84a8964b39290cfa9d91abc4b67",
+    "game-data/animation_tables.hpp": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d",
+    "game-data/class_tables.cpp": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+    "game-data/class_tables.hpp": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7",
+    "game-data/combat.cpp": "cd7adcea012ce9a7f4e8fba10a3bd16f515cea8bd66848c374bc6f5d42db1312",
+    "game-data/combat.hpp": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958",
+    "game-data/combat_application.cpp": "2cd3e5e75b78cd023a0510e5b8f2ff9554e1c5fe3c10bce15d7c36c7e8634b84",
+    "game-data/combat_application.hpp": "f32e8d69188beecc3f84551fd61c2d55e61d515a1b43df540734b9d222724334",
+    "game-data/combat_events.cpp": "4abdcbb44dc3b00348436f80658366ada3f9ec3473f94af25cd3a85bb4f8783a",
+    "game-data/combat_events.hpp": "9b8779bb369add564066f2da52ca6f444420806faa54959dd09fb1a3434bb7cf",
+    "game-data/combat_result.cpp": "e7a90976e2cc02d6a55dc6cd4d446b8f1f20bd62353f82d29cd85f7ef518e6b8",
+    "game-data/combat_result.hpp": "5c47ea89402de6b1fd5405ba751763edda8ee8b741c78e8ac3dd4c355ee68120",
+    "game-data/data.cpp": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+    "game-data/data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+    "game-data/health.cpp": "04a52298a1841645eb472b08b33095f80e09c8f6d9bdb211644e5389f495eeea",
+    "game-data/health.hpp": "fa8d4508a841c26cfcb72526cb5b811eee0a7775d82bea1b209588149c630aa8",
+    "game-data/properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "game-data/properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+    "game-data/reference/aggro/NOTES.md": "2e8258dfa9602617b6da9c3bdcc33382d675964f9b23e3718e60a10f8b988ab4",
+    "game-data/reference/aggro/original-functions.json": "4103ae897ee96429e862b651db1ae4b4251b0c07b140d0232069174965d27d14",
+    "game-data/reference/aggro/reference/original-functions.asm": "280788d9033518baf2cd967bab9f7bd600df497deda37bd5bcb890c8b5a37f55",
+    "game-data/reference/combat-application/death-fsm-functions.json": "f4cc903645a556a4a20016deabd9e7c586054533362f1af1742a032ff3573bae",
+    "game-data/reference/combat-application/death-fsm.asm": "72072491dc495ef0e994f7c737204ebc4fb2928ad35b380de67ae15a393ff40d",
+    "game-data/reference/combat-application/original-functions.json": "c5f44a6db408d54aa315963073972f10a7a3c67cb395e5d687772012053861a5",
+    "game-data/reference/combat-application/reference/original-functions.asm": "d139ba0eb6591197adfbcc4055ce6138aa3abbd7b9cd5d462a7190a84ed34256",
+    "game-data/reference/combat-events/attack-application-controller.asm": "cd8b93d48a6fbd07fb95b297bd87cd5e1a83eb6feaf71b69430b640f932d1869",
+    "game-data/reference/combat-events/attack-step-getters.asm": "1b0c3972c89e2845e34e94efb5eca62b4150bb8e7415479aa0e2a56ad32bfd6d",
+    "game-data/reference/combat-events/event-raise-evidence.asm": "1aac82de8b0975f9f1833ba98e28d7f80ea80cf081e744974a6cfb5c1faec6b8",
+    "game-data/reference/combat-events/event-state-routing-evidence.asm": "4a718587e6f13d3692e63ae5b25a6f88260e76979bf7bc9009ba5cc2ff4ecf16",
+    "game-data/reference/combat-events/melee-event-route-evidence.asm": "d4f321df0b66719a188d6efab3cbfcfd349c779c3cc4f13a8c7427f91811f66d",
+    "game-data/reference/combat-events/original-functions.json": "49eb2ecbb55964c18a016618094634188a118b5d61720424ead97758d73d6868",
+    "game-data/reference/combat-events/range-capability/original-functions.asm": "9d55c1b89a10fc58290d2b18105f19fd97bd04850d498ae8d6ba4658f0c75cf7",
+    "game-data/reference/combat-events/range-capability/original-functions.json": "90d36fedcf872713641df3fd5c038f1600ae637a99a21725457b392984e61d70",
+    "game-data/reference/combat-events/strings.json": "c0fc03d41a4c40020de7e60a2f199ace6079d85692293ddddb8937b4a0bc4d90",
+    "game-data/reference/combat-result/character-virtuals.json": "db6a1f2277936df3edaf3cb882d2bcbb4324488373a75fae43e77883c0434808",
+    "game-data/reference/combat-result/controller-functions.json": "2e4546283a5b80d7bca8141fd55bc7a319a58621868c3758cdb6eda41398955a",
+    "game-data/reference/combat-result/controller.asm": "83265b1747d8664505ac44263afae804ebb67d04be6fb823ebad3ec393c7a81c",
+    "game-data/reference/combat-result/original-functions.json": "e9b8314c3751b67462dbee866a43d6307490f1aa4cb6f65cbda1507d1dc45800",
+    "game-data/reference/combat-result/result.asm": "0c6a6bbbde9d67babead295f260c6d73dc1826cb10f0d5dd66aeb0eace778502",
+    "game-data/reference/combat/attack-formulas-evidence.asm": "7650cea823f634cb32b31c5e6ba1d5dc7f0df0480af2ef5a647f87bb3746467f",
+    "game-data/reference/combat/combat-equipment-extra.asm": "905c1929f52f3aa6699433265cdd3deeb5477143dea49f05b03d5d29883305d2",
+    "game-data/reference/combat/combat-equipment-getters.asm": "2a65af752ceb05a9ed4df7750445bb6ee174c39d950130580dcc8b16f793a916",
+    "game-data/reference/combat/combat-property-getters.asm": "52eca39ddc282d069f0bf21f7fa12cad86a36cf72d300b72f2c79b8822266141",
+    "game-data/reference/combat/damage-extra-evidence.asm": "bea2e9dd434a4a6bca868287e0064f4e3aa10dd73bb7e362e1aa6bf7ff9ce353",
+    "game-data/reference/combat/original-functions.json": "aa5993164dd2522f74ae9e24d0cd1e28f9894cb07670e4eba475df4cd5f0e7ba",
+    "game-data/reference/health/original-functions.json": "989e72f0f4616b5ad765a61b6d9180c6a8832142bbc3f8ac813a4a85a47dc249",
+    "game-data/reference/health/reference/original-functions.asm": "dc20b4e329f16d38299b137647ad994a44d8dcf7c28f407adfb8e7913846fe59",
+    "game-data/reference/player-defender/original-functions.json": "a42c7e5f8e72d664971f94a0b5253c4f64870d746ded779fcdc3290607a85850",
+    "game-data/reference/player-defender/reference/original-functions.asm": "eada6f74c278beaf3c5110e95adef8c3e1a30db82f513e9f2b80b257f7bb090b",
+    "game-data/reference/player-initialization/creation-functions.json": "e726dfdcac96d62df96eb5e094316786abb70fb312ec2d6cb7dbba78b9ee5f43",
+    "game-data/reference/player-initialization/creation.asm": "53a88212c83ba1529f2867377e6792adc497144331f34e42360462f3d656e744",
+    "game-data/reference/player-initialization/literals.json": "55b4a8527897323ad4b63546d2c2fdea07c2c7d112873b45095287f0e07d7072",
+    "game-data/reference/player-initialization/manager-functions.json": "aa042bbef60a97dcfa1e393e552195da3011c45f8f7a1d2eeba957ad1567422b",
+    "game-data/reference/player-initialization/manager.asm": "4ddc0ce7dbf9a839fed1c008dde3410f91c939a005ec7cf328a98c8e1f0da599",
+    "game-data/reference/player-initialization/original-functions.asm": "fd0d3255231342109f20ff260c89be4cf4e27a6721767eb095a1b1718f9e3899",
+    "game-data/reference/player-initialization/original-functions.json": "167750812ab121edd27114599da950cc7872d1416e83b9d9409021eb16fc4add",
+    "game-data/reference/properties/original-functions.json": "899a3de301e5ed7715a0162d25ef5f416ec1ba065705a2ccd1214a53a00bb3a0",
+    "game-data/reference/properties/property-rules.json": "62563819c67aa6a4fc911784fc0b291265d2243c791b0cf66dda246f340383ce",
+    "game-data/reference/properties/reference/original-functions.asm": "1df33294ed9f6c4fc6ab7387aa72d11531856966d4213fec28902904dfd56c4b",
+    "game-data/reference/vitals/original-functions.json": "739ef2b594647711a3311dcc2232157e92d28a4c1cba4c70a4d09c5cc04aa363",
+    "game-data/reference/vitals/reference/original-functions.asm": "f612c3d311e9616b9a6bb702ac6e90a0874145d18ff97559c4914a536e578522",
+    "game-data/tests/animation_scheduler.cpp": "1cb3f4c900505d194f68640331a6f65c421c4fac5cb468e0fffbafc028e46ca2",
+    "game-data/tests/classes.cpp": "828a587cf2d7c13e33c84ee5d471d5dc8e8214cf33221a11b845df235b6c053d",
+    "game-data/tests/classes_differential.py": "c778dcf414193bbe842680a8db1bcfd7f56a732c0c22fb0e874bf1266a37c4b1",
+    "game-data/tests/combat.cpp": "3019616a94ed847033f17aa6c6fd2689bdb49fa926c0597f4509f1fa79f5ace7",
+    "game-data/tests/combat_application.cpp": "c42a58f2078c1260e05484443f728021e023eebdb6869310484cf1953edaa9ba",
+    "game-data/tests/combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "game-data/tests/combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "game-data/tests/combat_events_differential.py": "9192d5f39a7e961a285ee9b465a1d5bd4b5f1451b9299f739b3e7b41f6bd2673",
+    "game-data/tests/combat_result.cpp": "7245a4607c61ecbca574b493294f62be1239831693299c0302120805df38e84d",
+    "game-data/tests/combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "game-data/tests/health.cpp": "b1ed8dd50a1e8c03311ffeffd4d052e47aea861a94d26a9f711e0f1a5efeffc4",
+    "game-data/tests/health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "game-data/tests/properties.cpp": "9ad21049161b6cd2fd3fd2306e8c33a2e72d50734a3a43e8abe12f741da144c9",
+    "game-data/tests/properties_differential.py": "67178fd80961ae5f87e07be8a7fef2fd6c53180f451c6bd7d2638992636ab906",
+    "game-data/tests/vitals.cpp": "e9e10de7b18b1f0894b8f6d8cf13cfaaec3af3c26105b031273d7deea091c0c5",
+    "game-data/tests/vitals_differential.py": "e018123f973d08eee11dd6c659c0f54618d60e5e4f109d11201e41b24d5ae0ae",
+    "game-data/tools/build_class_oracle.ps1": "982b6cfffa4545b6092dadc679a32c49fb382c70678c78f87b52e8cd7f7f2805",
+    "game-data/tools/build_combat_application_oracle.ps1": "53e073789568b22166e96f0703b6fe32accbcd36884b3fb88b934e9a57393522",
+    "game-data/tools/build_combat_oracle.ps1": "e63d6deee7f5751159a7626a0e3b3937068ecfe51b2b3bd3f3e232fb1cc4673c",
+    "game-data/tools/build_health_oracle.ps1": "4a1eadd38c5bbd176f226587edcd9ca438c84e6fce7d81bc44149cb492c63a99",
+    "game-data/tools/build_properties_oracle.ps1": "1d9a693e3b30bdb64fedd88083b8b0b2a93612102552ba91a1d9f88c84b60907",
+    "game-data/tools/build_vitals_oracle.ps1": "aff3f11556e71bd898f402045daf6dc54ca5ce364072315d4d8e6a483e1de96e",
+    "game-data/tools/inspect_class_tables.py": "7981979eb837206ec8c55d5edfe2dbbe72cac5e3e5334df9dc2b2cce7615ca23",
+    "game-data/tools/inspect_property_layout.py": "a54f8ee1050ba84ea407430e21f4671c6f1d977004d7cc689177b865b0206ec8",
+    "game-data/tools/inspect_property_rules.py": "5df67949a6b1f441d2979a55c3f2f311a008156598e6cf843e80e2fe23e8c45a",
+    "game-data/vitals.cpp": "117d155de48432916b4c86c897c2284e46cd1c4ed3d23d08244406fad20c59d8",
+    "game-data/vitals.hpp": "526cb0138fadc5964f4a74e27c65d33d2054a0cd61f3a71cbf08981c8954ed85",
+    "level-world/CMakeLists.txt": "b2d1837bb014fe6e2f5d787f2c543dcb1b00e5b709eff25918a01d7c430c15ea",
+    "level-world/objects.cpp": "0468f80973f478b4e141b0e16ef732b2692211df1db4d7d0fd2c46b61baf548b",
+    "level-world/objects.hpp": "530f0686b0c189119aa7f44bd9c796543116cb6c500857ced69aa55e966bde05",
+    "level-world/tests/actor_clips.cpp": "06ef0280dc524fcf3cc9bde106143c1c9c3ada738d71b1d84e97c1e97b23be27",
+    "level-world/tests/player_combat.cpp": "de6858b337c8fd9cd7fd86c00368519b48d3644619fc9d879ca98b1fc1c31ae0",
+    "level-world/tools/find_calls.py": "4fccacdeeb663d12711c16ec9274e3e15d720303ae1a3a3247e30908035f9c9a",
+    "level-world/tools/inspect_literals.py": "eef4105c1a5563d8c0b36038ea7d82cab105d63faf03d7e91cce906edd9d31ae",
+    "level-world/tools/inspect_virtuals.py": "9276528e7aee8b7d56513668c38437b6500fc4ea330908ce53e4e73e700537fb",
+    "level-world/tools/prepare_actor_states.py": "fc16aae0f9ea53abf4c874ecf919ed312a73ab4519d3361771805f7b8ef387a2",
+    "level-world/tools/prepare_class_tables.py": "cf1368527a63ef343771e0145e6ec4f3e6ac8923c8c52fe4bac02e1b6b8db6c7",
+    "level-world/tools/prepare_player_combat.py": "eee3d66c5ef6f4fdf91c76bd7b99bd2a7a20d06bd9f61a8e7b6db92e232db9b5",
+    "level-world/tools/prepare_player_defender.py": "5abafb45279983a2993c3f197041a60e1b5baee218dde2f0eb038fcc6bf2911a",
+    "level-world/world.cpp": "e30d918a07cd1718d29c36bbac515b9d740b3f6f176fc33ba1413e9b01caa57b",
+    "level-world/world.hpp": "394a505ad712b74bc3f0192144d413519061c8d35006a635e0e425fea8470ff0"
+  },
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "17c40127e95ae37e60b5759bfbace61a4fd6e8b84de12d3d5ceae67b1420b3f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "c2c49f01ce6c8504d9bd0f857a34e9d4aa150125bcd7023c16d6d3ce45dd80a2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "3772193ff7bace24b1cd4d4382024e1bcb57049de847f1abdbe82453ac5f295b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "46e95ca4f128b3ecc6658efe233422ef409000ca6542b8b4bfc203691fbff610",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "4ea022d87c92dd9e7c3192098b6a3387982f4a17d034a266af46fa9f470903d4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "478cf1644b281d031ed164b10974ee83124d514ab805179ebdd85b0674a7a9df",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "ab931894f28b50b089a7c43db349f8deaedbca19dca86c4ea4651ea6c53f0067",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "96c46d67487cd0a2984656800f65bfb62440f14654b9d3221216b40818806bbd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "7166ae8d43930ba4dfc47233bed718c27411ea663b2baa4e1a5cd22f9c38794f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "a38e5425fa205d9fd67226019eb7049e173ccf9211ab993f9e461719aea30a00",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "apk_16k_zip_alignment_verified": true,
+  "assets_verified": {
+    "textures/pvr2_env_darktemple_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714"
+    },
+    "textures/skybox_wind.tga": {
+      "bytes": 131132,
+      "sha256": "7e89b7ac4e2e8daea82e2f0f8397259af24b44c33e6cc88ef799eec15fa7074f"
+    },
+    "textures/env_selectorcharactere_solide.tga": {
+      "bytes": 524348,
+      "sha256": "afced3f99c4d32d04a173066cbd10ce4cabe9c1d9a896fededa6d23b6d05f7ec"
+    },
+    "textures/godparticle_face.tga": {
+      "bytes": 2108,
+      "sha256": "8e15108e74b443ee6c11bc2cfb05af23c046a53e0dac37df24973e848b6117ea"
+    },
+    "textures/env_crypt_spec.tga": {
+      "bytes": 131132,
+      "sha256": "d74002ba771e1ba50fc421cf1066d1b0f977d5377dbd4971d92643f007f1b737"
+    },
+    "textures/fx_smoke_03.tga": {
+      "bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0"
+    },
+    "textures/pvr2_env_crypt_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    "textures/skybox_selector.tga": {
+      "bytes": 131132,
+      "sha256": "d41ace06bf91f57b2bea7658414b4d6dfb04d0856f0575c8f2d250a8a6831594"
+    },
+    "textures/pvr2_env_darkwoods_alpha_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "087d110133be72b9a5f9e4339fbd6707ea3e6e834d1e6d8a97bbde4cc4ac1413"
+    },
+    "textures/atlas_modular_warrior.tga": {
+      "bytes": 524348,
+      "sha256": "b78abd158902679a467f4c86794c90554deca06a97bf3b4bdf8beba88ef10a5a"
+    },
+    "textures/env_crypt.tga": {
+      "bytes": 524348,
+      "sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad"
+    },
+    "textures/menugraphics03.tga": {
+      "bytes": 1048620,
+      "sha256": "0f0ec6784f20c469fc05becf9e82251fee19b4856ed15b14e3e01a695b92ca7b"
+    },
+    "textures/env_darkwoods_alpha.tga": {
+      "bytes": 524348,
+      "sha256": "e904c2fc1534b5708689903a650693e1f52acbe8b59483553fe002eef5551832"
+    },
+    "models/candle_flame.bdae": {
+      "bytes": 16856,
+      "sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6"
+    },
+    "models/main_menu_charactere_swamp.bdae": {
+      "bytes": 158440,
+      "sha256": "8a3462863a3d6ca2255d96989d53a21cddfba821e42c8a13e676f10e51d1300b"
+    },
+    "models/prince_modular.bdae": {
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    "animations/prince_menu_idle_knight.bdae": {
+      "bytes": 19400,
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a"
+    },
+    "animations/prince_walk_1hand.bdae": {
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    "animations/prince_idle_shield.bdae": {
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    "worlds/x07_crypt_backup.mlx": {
+      "bytes": 8124,
+      "sha256": "706b1e23ea7ca9c3c1695d6cf8679c177bdfb70e71d202e351a2b0c8564023c7"
+    },
+    "worlds/crypt_cemetery_entrance_01.mgp": {
+      "bytes": 10841,
+      "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+    },
+    "worlds/crypt_cemetery_entrance_01.mvp": {
+      "bytes": 8569,
+      "sha256": "3d85527d704c1b74869bfbb2f39be1585a905e66575a4cf251adac0cdeb80de7"
+    },
+    "worlds/crypt_straight_ns_01.mgp": {
+      "bytes": 3365,
+      "sha256": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25"
+    },
+    "worlds/crypt2_straight_ns_01.mvp": {
+      "bytes": 3135,
+      "sha256": "ee4cea2740331782278fd56f4bf7c064ca778a78d8c426696a0ce6bbabbe0007"
+    },
+    "worlds/crypt_corner_sw_02.mgp": {
+      "bytes": 1897,
+      "sha256": "ff4defedde868b53eeb5d5c9ac39dc41fc6b85d55cd27891e3009d3ad3e04168"
+    },
+    "worlds/crypt_corner_sw_01.mvp": {
+      "bytes": 4172,
+      "sha256": "7ccc9938cdf0e6ae58bb61d6c74e1908c6087874a161a4ac8b55fabc862873db"
+    },
+    "worlds/crypt_corner_ne_02.mgp": {
+      "bytes": 3523,
+      "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+    },
+    "worlds/crypt_corner_ne_01.mvp": {
+      "bytes": 5571,
+      "sha256": "2500af6ebb2d01126f739ae1ced635c6e46365cf3f13ed34cc1ae8e7fa885e78"
+    },
+    "worlds/crypt_t_sew_01.mgp": {
+      "bytes": 1731,
+      "sha256": "a34d860d4b94cbcb936ecc9ab1ad2d8ee8450c15067a44298ac88d0a5c3c8189"
+    },
+    "worlds/crypt_t_sew_01.mvp": {
+      "bytes": 5057,
+      "sha256": "5bdb426a45eef5d9edb2abc4cc5e9281a35ad4df27076e16ca0c252e55a9345f"
+    },
+    "worlds/crypt_deadend_e_01.mgp": {
+      "bytes": 2260,
+      "sha256": "41604cc014bfeeef32b93432f49d2dc7643915f8112a123f1d0de9c3e6e47c8b"
+    },
+    "worlds/crypt_deadend_e_01.mvp": {
+      "bytes": 3410,
+      "sha256": "d3f69fe0ffba96b35414d8db0399e7e6acbda0fb658ec2ec3fb8abfb1dc72440"
+    },
+    "worlds/crypt_corner_nw_02.mgp": {
+      "bytes": 1355,
+      "sha256": "5652c6b5d64cf75e9b8c043cc61f6308ea6ca67784b2342c836b22469aa03179"
+    },
+    "worlds/crypt_corner_nw_02.mvp": {
+      "bytes": 4127,
+      "sha256": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134"
+    },
+    "worlds/crypt_straight_c_ns_01.mgp": {
+      "bytes": 10307,
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    },
+    "worlds/crypt_straight_c_ns_01.mvp": {
+      "bytes": 8594,
+      "sha256": "bd06bd5a12043c40f028f5faeb059d531f6ea628770c05166ade227cfbc778b8"
+    },
+    "worlds/crypt.bdae": {
+      "bytes": 3922816,
+      "sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b"
+    },
+    "worlds/007_crypt_01.rule.xml": {
+      "bytes": 3684,
+      "sha256": "2970183f1be3b6a01470d45f0db124afb3bf6582e4ed166780e431ccdaff8b07"
+    },
+    "data/character_properties_pyarray.bin": {
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    "data/character_properties_pyarraynames.bin": {
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    "data/character_properties_pystructnames.bin": {
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    "data/character_models_dictionary_pyarray.bin": {
+      "bytes": 5366,
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+    },
+    "data/character_models_dictionary_pyarraynames.bin": {
+      "bytes": 1755,
+      "sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9"
+    },
+    "actors/skeleton.bdae": {
+      "bytes": 70736,
+      "sha256": "2cf63468a00c934f9b3d7b15b1c846ce575b9c62fc3aff83c7cd2bfbefacfb36"
+    },
+    "actors/skeleton_idle_01.bdae": {
+      "bytes": 49520,
+      "sha256": "bea7b628675e9bebf64a4da6e90b9cc8ca9f7411e053d6ce354eff7c38f0982d"
+    },
+    "textures/atlas_dh2_game_objects_001.tga": {
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c"
+    },
+    "textures/atlas_dh2_game_objects_001_alpha.tga": {
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79"
+    },
+    "textures/atlas_dh2_game_objects_001_specular.tga": {
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398"
+    },
+    "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga": {
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83"
+    },
+    "actors/slime_green_v2.bdae": {
+      "bytes": 27812,
+      "sha256": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1"
+    },
+    "actors/slime_idle.bdae": {
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472"
+    },
+    "textures/atlas_fx_particles_002.tga": {
+      "bytes": 524348,
+      "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18"
+    },
+    "actors/crypt_candles2_small.bdae": {
+      "bytes": 28448,
+      "sha256": "7e79edbbdde7b36d71876bc7f1250928096cffb90ed24bee3cced946b0c30fe4"
+    },
+    "textures/env_crypt_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    "actors/crypt_candlestand_big.bdae": {
+      "bytes": 33752,
+      "sha256": "89a313c943fb74445666ef373fea5bc091184ba849373daa84751b0ee1a44967"
+    },
+    "actors/crypt_candlestand.bdae": {
+      "bytes": 44268,
+      "sha256": "104c43a624272a223132b97808dc6c405d61ca94f97563fdefe33218d8af6bcf"
+    },
+    "actors/crypt_candle2.bdae": {
+      "bytes": 24532,
+      "sha256": "3cb10850b6acbafae8c296daa4bf466dcd95debd878cb0cf324a180eb8a9e502"
+    },
+    "actors/crypt_candle1_small.bdae": {
+      "bytes": 24772,
+      "sha256": "72455d1133489b8fb4c3c3f0365f02d3dee9c19df7f7ba231ef8a05099ead00e"
+    },
+    "actors/crypt_candles.bdae": {
+      "bytes": 31880,
+      "sha256": "0b0b0a5b001bc2fa5991207cf11eb3b03a84a73a6bbc1aa6e1b2e972b1bbb409"
+    },
+    "actors/swamp_caveentrance_effect.bdae": {
+      "bytes": 18208,
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    "textures/atlas_fx_particles_001.tga": {
+      "bytes": 131132,
+      "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b"
+    },
+    "textures/fx_magic_lenz_flares_008.tga": {
+      "bytes": 8252,
+      "sha256": "3b3153829a922c4328099b031c57d09d823daad52775cc2901fe5f7c105e90cc"
+    },
+    "textures/fx_spark_01.tga": {
+      "bytes": 2108,
+      "sha256": "bf4eccee918a7d440760b93b1f18666b5e3de62c147784bec7dbb3bca7a7d720"
+    },
+    "actors/crypt_candle_big.bdae": {
+      "bytes": 24668,
+      "sha256": "eca0dc98fbdf0f77c4ce00877546c5c153cf93c78745778cbfbfe0b02666e190"
+    },
+    "actors/crypt_candle1.bdae": {
+      "bytes": 24628,
+      "sha256": "d4ccf2aa24f9d6102ed0f7fad1a387a391536193dc422eec60ce4bcb0687e51d"
+    },
+    "actors/ghost.bdae": {
+      "bytes": 67104,
+      "sha256": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183"
+    },
+    "actors/ghost_idle_01.bdae": {
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895"
+    },
+    "worlds/crypt01.dwld": {
+      "bytes": 1048,
+      "sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+    },
+    "worlds/crypt01.dact": {
+      "bytes": 24336,
+      "sha256": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca"
+    },
+    "texture-provenance.json": {
+      "bytes": 5381,
+      "sha256": "fa58aabe2acfc31f07bcc386cdc442948deb217ca75c9b88de97c32c8625b190"
+    },
+    "actor-provenance.json": {
+      "bytes": 67099,
+      "sha256": "311703e439347808c5b37373bdb793a390d1d05d17feb8d750cc62e5f91d4117"
+    },
+    "worlds/crypt01-provenance.json": {
+      "bytes": 102896,
+      "sha256": "a38bbcfbde007bd328de9152ea1e5499a97903f472b36c9ccbac37f36de94126"
+    },
+    "data/animations_pyarray.bin": {
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    "data/animations_pyarraynames.bin": {
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+    },
+    "data/animations_pystructnames.bin": {
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    "data/animations_dictionary_pyarray.bin": {
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    "data/animations_dictionary_pyarraynames.bin": {
+      "bytes": 42616,
+      "sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3"
+    },
+    "actors/skeleton_idle_02.bdae": {
+      "bytes": 28632,
+      "sha256": "b468b9db81c8534e7b43691dcad66d6f57b3dd94feee4c684aa1885a14429349"
+    },
+    "actors/slime_idle_02.bdae": {
+      "bytes": 5728,
+      "sha256": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf"
+    },
+    "animation-provenance.json": {
+      "bytes": 11572,
+      "sha256": "e76052e803f4b4326415e1fd0d47811beade71a89ac8b5ec54b1e3f54a2e9f8b"
+    },
+    "actors/ghost_attack_01.bdae": {
+      "bytes": 8980,
+      "sha256": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a"
+    },
+    "actors/ghost_dying_01.bdae": {
+      "bytes": 11416,
+      "sha256": "10d0454f550b1aa90de4f22a2ffba2af585feb84b23d90fd62040c292e917327"
+    },
+    "actors/ghost_post_attack_01.bdae": {
+      "bytes": 8036,
+      "sha256": "7c0639fcfa028b2fc2595da67c2dfaaeecbbcbb3993ec3916d3586010f59c994"
+    },
+    "actors/ghost_pre_attack_01.bdae": {
+      "bytes": 7476,
+      "sha256": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0"
+    },
+    "actors/ghost_walk_01.bdae": {
+      "bytes": 39896,
+      "sha256": "bd381b8bdcd2e948620fcd90ca8bf5f4e54c156285584e4e130cd369933c3ddc"
+    },
+    "actors/skeleton_attack_01.bdae": {
+      "bytes": 11604,
+      "sha256": "65162e55af222d0231fb25027f5406e47d4a1b9e4b89864680cbca3ed738461a"
+    },
+    "actors/skeleton_attack_01_to_idle.bdae": {
+      "bytes": 16960,
+      "sha256": "8df25c9d89c7e3c343329fa6694661fa1968645f6176919312b5b64824a7ac17"
+    },
+    "actors/skeleton_attack_02.bdae": {
+      "bytes": 9824,
+      "sha256": "83276482fa53b376495a791792fb381eaa6f7cf9ce493cf7d5f39095ac222cb2"
+    },
+    "actors/skeleton_attack_02_to_idle.bdae": {
+      "bytes": 17120,
+      "sha256": "53bf12257a1df6411cd6e95c492cf6c0fbb50f557a17407f0a28176e3148b082"
+    },
+    "actors/skeleton_dying.bdae": {
+      "bytes": 12700,
+      "sha256": "4a66caf03f98ee89c008fda99372f8c8bdbd76f932f38ec79032031d0bc8af90"
+    },
+    "actors/skeleton_pre_attack_01.bdae": {
+      "bytes": 11004,
+      "sha256": "3c9c0f3f72c8ade5bca121ba172036f33b32bdc181a57ccc41cbff7012ca1d1e"
+    },
+    "actors/skeleton_pre_attack_02.bdae": {
+      "bytes": 11572,
+      "sha256": "97220c3139e1eee33616b4aee973d0272c156970a1c235ef41c608fe29608f0f"
+    },
+    "actors/skeleton_walk.bdae": {
+      "bytes": 18816,
+      "sha256": "0fcb603c72a725dbae62d4bc061ebf98ba9b0a504e40645f9ba09fe4fcc589b0"
+    },
+    "actors/slime_attack_01.bdae": {
+      "bytes": 3256,
+      "sha256": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0"
+    },
+    "actors/slime_attack_01_to_idle.bdae": {
+      "bytes": 4136,
+      "sha256": "19194ac919bcce58739a8df48b9448c251a09d0b598f7b597ee828361693843f"
+    },
+    "actors/slime_attack_02.bdae": {
+      "bytes": 3776,
+      "sha256": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1"
+    },
+    "actors/slime_attack_02_to_idle.bdae": {
+      "bytes": 4452,
+      "sha256": "86f01551aa577f5c86beac627914c288f5c3cacb05a08ef7d03dd3511c6f5238"
+    },
+    "actors/slime_dying.bdae": {
+      "bytes": 6992,
+      "sha256": "60057288188a3c56f4690e66529c7663ca67f7f05e9ff15d7d26bb6fa43321fc"
+    },
+    "actors/slime_pre_attack_01.bdae": {
+      "bytes": 3168,
+      "sha256": "eb07914aadac438e79cd901a05f0f90b2b7e08a6822494b08be68047dc8293ae"
+    },
+    "actors/slime_pre_attack_02.bdae": {
+      "bytes": 3252,
+      "sha256": "315a2f52e8cbcabc3899dd8763d1bfa36696ca23911f36a26c40ca4a52480a19"
+    },
+    "actors/slime_walk.bdae": {
+      "bytes": 5212,
+      "sha256": "966d248d406756d06f028570f79208ac3f047d0bb0c537103405b60694b80f05"
+    },
+    "actor-state-provenance.json": {
+      "bytes": 12618,
+      "sha256": "aa4f4b053e8536bf2a19181490a6e903ce952566e982b20d4bf7495c7e6d35f1"
+    },
+    "data/character_classes_pyarray.bin": {
+      "bytes": 34224,
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55"
+    },
+    "data/character_classes_pyarraynames.bin": {
+      "bytes": 6607,
+      "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"
+    },
+    "data/character_classes_pystructnames.bin": {
+      "bytes": 750,
+      "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+    },
+    "data/character_classes_pycst.bin": {
+      "bytes": 251,
+      "sha256": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84"
+    },
+    "class-provenance.json": {
+      "bytes": 1450,
+      "sha256": "dbd16c0372d611a5ed6806da326415204e934081d0446a8ba12e88e0349af9ec"
+    },
+    "animations/prince_1hand_combo_01.bdae": {
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    "animations/prince_1hand_combo_01_to_idle.bdae": {
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    "animations/prince_1hand_combo_02.bdae": {
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0"
+    },
+    "animations/prince_1hand_combo_02_to_idle.bdae": {
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091"
+    },
+    "animations/prince_1hand_combo_03.bdae": {
+      "bytes": 8632,
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003"
+    },
+    "animations/prince_1hand_combo_03_to_idle.bdae": {
+      "bytes": 9084,
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260"
+    },
+    "animations/prince_1hand_pre_combo_01.bdae": {
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    "animations/prince_1hand_pre_combo_02.bdae": {
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4"
+    },
+    "animations/prince_1hand_pre_combo_03.bdae": {
+      "bytes": 7548,
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058"
+    },
+    "player-combat-provenance.json": {
+      "bytes": 3430,
+      "sha256": "c7ed749721614b39fd5da30446ba286b3908b7b21cf9f456b65ac57d06be4860"
+    },
+    "animations/prince_dying_01.bdae": {
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a"
+    },
+    "player-defender-provenance.json": {
+      "bytes": 687,
+      "sha256": "78de8298a548404cde57f7d72a5da8b625792a008661aaf6ddd78aeb5c162b1e"
+    }
+  },
+  "original_input_count": 108,
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "packaged_combat_exports_verified": {
+    "arm64-v8a": [
+      "dh2_combat_apply_monster",
+      "dh2_combat_apply_monster_to_player",
+      "dh2_combat_apply_player_to_monster",
+      "dh2_combat_bonus",
+      "dh2_combat_damage",
+      "dh2_combat_dot",
+      "dh2_combat_event_route",
+      "dh2_combat_melee",
+      "dh2_combat_random",
+      "dh2_combat_result",
+      "dh2_health_hit"
+    ],
+    "x86_64": [
+      "dh2_combat_apply_monster",
+      "dh2_combat_apply_monster_to_player",
+      "dh2_combat_apply_player_to_monster",
+      "dh2_combat_bonus",
+      "dh2_combat_damage",
+      "dh2_combat_dot",
+      "dh2_combat_event_route",
+      "dh2_combat_melee",
+      "dh2_combat_random",
+      "dh2_combat_result",
+      "dh2_health_hit"
+    ]
+  },
+  "player_defender_asan_ubsan": {
+    "original_application_cases": 2969,
+    "owner_words_per_case": 1792,
+    "result_and_actor_state_words": 20,
+    "application_words": 25,
+    "kill_requests": 339,
+    "hit_calls": 2291,
+    "status_requests": [
+      233,
+      395,
+      348,
+      1310,
+      326,
+      314,
+      216,
+      342
+    ],
+    "invalid_input_atomic": true
+  },
+  "player_death_pose_asan_ubsan": {
+    "player_row": 263,
+    "original_owner_words_compared": 896,
+    "hp_raw": 42265,
+    "mp_raw": 6976,
+    "animation_table": 48,
+    "clips": [
+      {
+        "id": 1023,
+        "name": "prince_dying_01.bdae",
+        "start": 0,
+        "end": 1399,
+        "tracks": 27,
+        "attack_mainhand_ms": -1,
+        "poses": 1400
+      }
+    ],
+    "warrior_skins": 4,
+    "every_millisecond_poses": 1400,
+    "melee_event_tracks": 0,
+    "finite_skinned_vertices": true
+  },
+  "player_attacker_host_regression": {
+    "original_application_cases": 2732,
+    "owner_words_per_case": 1792,
+    "result_and_actor_state_words": 20,
+    "application_words": 25,
+    "kill_requests": 691,
+    "hit_calls": 2183,
+    "status_requests": [
+      188,
+      256,
+      244,
+      275,
+      266,
+      257,
+      140,
+      262
+    ],
+    "invalid_input_atomic": true
+  },
+  "monster_application_host_regression": {
+    "original_application_cases": 6914,
+    "owner_words_per_case": 1792,
+    "result_and_actor_state_words": 20,
+    "application_words": 25,
+    "kill_requests": 1463,
+    "hit_calls": 4907,
+    "status_requests": [
+      691,
+      1017,
+      1106,
+      1043,
+      1052,
+      1032,
+      593,
+      1053
+    ],
+    "invalid_input_atomic": true
+  },
+  "player_attack_pose_host_regression": {
+    "player_row": 263,
+    "original_owner_words_compared": 896,
+    "hp_raw": 42265,
+    "mp_raw": 6976,
+    "animation_table": 48,
+    "clips": [
+      {
+        "id": 955,
+        "name": "prince_1hand_combo_01.bdae",
+        "start": 266,
+        "end": 600,
+        "tracks": 26,
+        "attack_mainhand_ms": 300,
+        "poses": 335
+      },
+      {
+        "id": 957,
+        "name": "prince_1hand_combo_01_to_idle.bdae",
+        "start": 600,
+        "end": 1100,
+        "tracks": 27,
+        "attack_mainhand_ms": -1,
+        "poses": 501
+      },
+      {
+        "id": 958,
+        "name": "prince_1hand_combo_02.bdae",
+        "start": 833,
+        "end": 1200,
+        "tracks": 26,
+        "attack_mainhand_ms": 899,
+        "poses": 368
+      },
+      {
+        "id": 960,
+        "name": "prince_1hand_combo_02_to_idle.bdae",
+        "start": 1200,
+        "end": 1833,
+        "tracks": 27,
+        "attack_mainhand_ms": -1,
+        "poses": 634
+      },
+      {
+        "id": 961,
+        "name": "prince_1hand_combo_03.bdae",
+        "start": 1433,
+        "end": 1799,
+        "tracks": 26,
+        "attack_mainhand_ms": 1500,
+        "poses": 367
+      },
+      {
+        "id": 963,
+        "name": "prince_1hand_combo_03_to_idle.bdae",
+        "start": 1799,
+        "end": 2333,
+        "tracks": 26,
+        "attack_mainhand_ms": -1,
+        "poses": 535
+      },
+      {
+        "id": 967,
+        "name": "prince_1hand_pre_combo_01.bdae",
+        "start": 0,
+        "end": 266,
+        "tracks": 26,
+        "attack_mainhand_ms": -1,
+        "poses": 267
+      },
+      {
+        "id": 969,
+        "name": "prince_1hand_pre_combo_02.bdae",
+        "start": 600,
+        "end": 833,
+        "tracks": 26,
+        "attack_mainhand_ms": -1,
+        "poses": 234
+      },
+      {
+        "id": 971,
+        "name": "prince_1hand_pre_combo_03.bdae",
+        "start": 1200,
+        "end": 1433,
+        "tracks": 26,
+        "attack_mainhand_ms": -1,
+        "poses": 234
+      }
+    ],
+    "warrior_skins": 4,
+    "every_millisecond_poses": 3475,
+    "melee_event_tracks": 3,
+    "finite_skinned_vertices": true
+  },
+  "player_defender_original_arm64_comparisons": {
+    "cases": 2969,
+    "report_sha256": "6fc5587608f4b0ecac7e6924464e6f1e4f0b2dc02a626c5a563e50b4d02cad98",
+    "arm64_library_sha256": "d8455c86b54a8cb6951f97c6a5defe03c0ee5a0072b9499efb218f6a43a743f1",
+    "reference_sha256": "ceee9019b4d7b1b8de2fee19566c2611f28902565ef05ce69cde728a23a619b4"
+  },
+  "actor_state_cases": 24,
+  "world_cases": 10,
+  "native_player_attack_attempts_verified": 112,
+  "native_player_damage_attempts_verified": 73,
+  "native_player_deaths_verified": 3,
+  "native_monster_deaths_verified": 1,
+  "low_health_cues_verified": 3,
+  "native_android_health_probes_verified": 22,
+  "native_android_result_probes_verified": 11,
+  "prior_player_combat_checkpoint_apk_sha256": "503e2171fbbbcc81fa4eba795088f94d045bfe21dfcca05dba6b082d645be99b",
+  "prior_unchanged_helper_evidence": {
+    "combat_asan_ubsan": {
+      "original_character_damage_cases": 1792,
+      "original_attack_event_decisions": 6000,
+      "all_damage_words_and_rng_verified": true,
+      "invalid_input_atomic": true,
+      "zero_range_and_counter_wrap_verified": true,
+      "unarmed_crypt_projectile_properties": {
+        "CryptSlime": -1,
+        "CryptSlime_RE": -1,
+        "Crypt_Ghost": -1,
+        "Crypt_Skeleton": -1
+      }
+    },
+    "vitals_host_regression": {
+      "uncached_original_character_owner_states": 448,
+      "two_pass_spawn_original_owner_states": 448,
+      "properties_compared_per_owner": 896,
+      "crypt_hp_raw": 12160,
+      "crypt_mp_raw": 5632,
+      "crypt_first_hp_add_raw": 12160,
+      "crypt_second_hp_add_raw": 1,
+      "positive_and_fill_regen_verified": true,
+      "saved_level_influences_uncached_class": true,
+      "recursive_failure_atomic": true,
+      "invalid_view_atomic": true
+    },
+    "damage_original_arm64_comparisons": {
+      "comparisons": 23792,
+      "arm64_library_sha256": "768ccfeec6594e4525fd67f65a71807c434cd7dcca1721af08f675f6b27c3fcf",
+      "report_sha256": "39785e1962be855fc940d3370e490829f4d1bba42e332b2447a52920f43ed0ba"
+    },
+    "attack_event_original_arm64_comparisons": {
+      "comparisons": 6000,
+      "arm64_library_sha256": "768ccfeec6594e4525fd67f65a71807c434cd7dcca1721af08f675f6b27c3fcf",
+      "report_sha256": "09837818f31a0053672ab7117905f9a4c54ccbba475a14aa8a0bd11998f5f28b"
+    },
+    "prior_unchanged_animation_host_checks": {
+      "events_asan_ubsan": {
+        "original_bdae_files": 38,
+        "authored_tracks": 5,
+        "authored_groups": 5,
+        "callback_events": 5,
+        "mutations": 5000,
+        "move_ownership_verified": true,
+        "invalid_input_rejected": true
+      },
+      "actor_clip_host_regression": {
+        "clips": [
+          {
+            "model": "skeleton.bdae",
+            "clip": "skeleton_attack_01.bdae",
+            "clip_id": 1178,
+            "start": 0,
+            "end": 1000,
+            "tracks": 25,
+            "unbound": 3,
+            "unsupported": 0,
+            "poses": 1001
+          },
+          {
+            "model": "skeleton.bdae",
+            "clip": "skeleton_attack_01_to_idle.bdae",
+            "clip_id": 1179,
+            "start": 0,
+            "end": 2000,
+            "tracks": 25,
+            "unbound": 3,
+            "unsupported": 0,
+            "poses": 2001
+          },
+          {
+            "model": "skeleton.bdae",
+            "clip": "skeleton_attack_02.bdae",
+            "clip_id": 1180,
+            "start": 0,
+            "end": 566,
+            "tracks": 25,
+            "unbound": 3,
+            "unsupported": 0,
+            "poses": 567
+          },
+          {
+            "model": "skeleton.bdae",
+            "clip": "skeleton_attack_02_to_idle.bdae",
+            "clip_id": 1181,
+            "start": 0,
+            "end": 1966,
+            "tracks": 25,
+            "unbound": 3,
+            "unsupported": 0,
+            "poses": 1967
+          },
+          {
+            "model": "skeleton.bdae",
+            "clip": "skeleton_dying.bdae",
+            "clip_id": 1185,
+            "start": 0,
+            "end": 899,
+            "tracks": 27,
+            "unbound": 3,
+            "unsupported": 0,
+            "poses": 900
+          },
+          {
+            "model": "skeleton.bdae",
+            "clip": "skeleton_idle_01.bdae",
+            "clip_id": 1194,
+            "start": 0,
+            "end": 9333,
+            "tracks": 23,
+            "unbound": 3,
+            "unsupported": 0,
+            "poses": 9334
+          },
+          {
+            "model": "skeleton.bdae",
+            "clip": "skeleton_idle_02.bdae",
+            "clip_id": 1195,
+            "start": 0,
+            "end": 6099,
+            "tracks": 23,
+            "unbound": 3,
+            "unsupported": 0,
+            "poses": 6100
+          },
+          {
+            "model": "skeleton.bdae",
+            "clip": "skeleton_pre_attack_01.bdae",
+            "clip_id": 1197,
+            "start": 0,
+            "end": 1066,
+            "tracks": 23,
+            "unbound": 3,
+            "unsupported": 0,
+            "poses": 1067
+          },
+          {
+            "model": "skeleton.bdae",
+            "clip": "skeleton_pre_attack_02.bdae",
+            "clip_id": 1198,
+            "start": 0,
+            "end": 1166,
+            "tracks": 23,
+            "unbound": 3,
+            "unsupported": 0,
+            "poses": 1167
+          },
+          {
+            "model": "skeleton.bdae",
+            "clip": "skeleton_walk.bdae",
+            "clip_id": 1204,
+            "start": 0,
+            "end": 2033,
+            "tracks": 26,
+            "unbound": 3,
+            "unsupported": 0,
+            "poses": 2034
+          },
+          {
+            "model": "slime_green_v2.bdae",
+            "clip": "slime_attack_01.bdae",
+            "clip_id": 1246,
+            "start": 200,
+            "end": 500,
+            "tracks": 12,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 301
+          },
+          {
+            "model": "slime_green_v2.bdae",
+            "clip": "slime_attack_01_to_idle.bdae",
+            "clip_id": 1247,
+            "start": 500,
+            "end": 1500,
+            "tracks": 12,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 1001
+          },
+          {
+            "model": "slime_green_v2.bdae",
+            "clip": "slime_attack_02.bdae",
+            "clip_id": 1248,
+            "start": 200,
+            "end": 600,
+            "tracks": 12,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 401
+          },
+          {
+            "model": "slime_green_v2.bdae",
+            "clip": "slime_attack_02_to_idle.bdae",
+            "clip_id": 1249,
+            "start": 600,
+            "end": 1500,
+            "tracks": 12,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 901
+          },
+          {
+            "model": "slime_green_v2.bdae",
+            "clip": "slime_dying.bdae",
+            "clip_id": 1251,
+            "start": 0,
+            "end": 2500,
+            "tracks": 12,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 2501
+          },
+          {
+            "model": "slime_green_v2.bdae",
+            "clip": "slime_idle.bdae",
+            "clip_id": 1258,
+            "start": 0,
+            "end": 1333,
+            "tracks": 12,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 1334
+          },
+          {
+            "model": "slime_green_v2.bdae",
+            "clip": "slime_idle_02.bdae",
+            "clip_id": 1259,
+            "start": 0,
+            "end": 1333,
+            "tracks": 12,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 1334
+          },
+          {
+            "model": "slime_green_v2.bdae",
+            "clip": "slime_pre_attack_01.bdae",
+            "clip_id": 1261,
+            "start": 0,
+            "end": 200,
+            "tracks": 12,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 201
+          },
+          {
+            "model": "slime_green_v2.bdae",
+            "clip": "slime_pre_attack_02.bdae",
+            "clip_id": 1262,
+            "start": 0,
+            "end": 200,
+            "tracks": 12,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 201
+          },
+          {
+            "model": "slime_green_v2.bdae",
+            "clip": "slime_walk.bdae",
+            "clip_id": 1268,
+            "start": 0,
+            "end": 1066,
+            "tracks": 12,
+            "unbound": 1,
+            "unsupported": 0,
+            "poses": 1067
+          },
+          {
+            "model": "ghost.bdae",
+            "clip": "ghost_attack_01.bdae",
+            "clip_id": 697,
+            "start": 366,
+            "end": 1033,
+            "tracks": 26,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 668
+          },
+          {
+            "model": "ghost.bdae",
+            "clip": "ghost_dying_01.bdae",
+            "clip_id": 700,
+            "start": 0,
+            "end": 1033,
+            "tracks": 28,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 1034
+          },
+          {
+            "model": "ghost.bdae",
+            "clip": "ghost_idle_01.bdae",
+            "clip_id": 706,
+            "start": 0,
+            "end": 6000,
+            "tracks": 24,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 6001
+          },
+          {
+            "model": "ghost.bdae",
+            "clip": "ghost_post_attack_01.bdae",
+            "clip_id": 707,
+            "start": 1033,
+            "end": 1466,
+            "tracks": 26,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 434
+          },
+          {
+            "model": "ghost.bdae",
+            "clip": "ghost_pre_attack_01.bdae",
+            "clip_id": 710,
+            "start": 0,
+            "end": 366,
+            "tracks": 26,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 367
+          },
+          {
+            "model": "ghost.bdae",
+            "clip": "ghost_walk_01.bdae",
+            "clip_id": 717,
+            "start": 0,
+            "end": 1333,
+            "tracks": 26,
+            "unbound": 0,
+            "unsupported": 0,
+            "poses": 1334
+          }
+        ],
+        "clip_count": 26,
+        "every_millisecond_poses": 45218,
+        "unbound_tracks": 31,
+        "unsupported_tracks": 0,
+        "finite_skinned_vertices": true
+      }
+    }
+  },
+  "prior_combat_result_comparisons": {
+    "result_cases": 9792,
+    "melee_request_cases": 2000,
+    "total": 11792,
+    "arm64_library_sha256": "af2a92bd3d085b517d8b30510761eef421ae46287fb7e75fbc14a7d8b50e3e5d",
+    "report_sha256": "098fc5bd6d7fab84c869e774e4bf5486e9d77ef0a93208959bf12b1b20f6bbac"
+  },
+  "expanded_event_original_comparisons": {
+    "cases": 6000,
+    "runtime_sequences": [
+      0,
+      1,
+      2
+    ],
+    "runtime_cases": 24,
+    "report_sha256": "2799bd2a1e82f07504644d59224e6d848a689c2304e253ad5fd2dbd544f72320",
+    "arm64_library_sha256": "af2a92bd3d085b517d8b30510761eef421ae46287fb7e75fbc14a7d8b50e3e5d"
+  },
+  "player_defender_scope": "Player defender: original SM_IsIdle(false)/SM_GetState, idle hurt/dodge mutation, low-health hysteresis, and saved block/evade/knockdown counters execute. Offline single-player non-tutorial difficulty; player stat manager, threshold achievement dispatch, tutorial and warning audio omitted. Offline single-player F_ApplyResult, direct health owner, debug switches false, living main player, no inventory gold mask. Original damage gates, combo, threat arithmetic, HitFor, regen and property instructions run; original Ctrl_Kill/Kill dead/HP prefix and death event execute. Remaining kill rewards/scripts, aggro tree, status/buff/FSM, cancel-sneak, combat text/sound and AI callbacks are observed/omitted. Impact FX skipped. Buff dictionaries empty. Live fixtures run original F_MeleeAttack/getters/inventory/result/RNG before application with persistent owner sheets.",
+  "enemy_target_scope": "Explicit development target -2 means Prince; automatic enemy AI/acquisition and actual status/audio services pending.",
+  "player_input_scope": "New nearest living target within 220 horizontal units and 96 vertical units; single tap plays original stationary three-combo sequence. Original targeting/input, root motion/blending and full AI remain pending.",
+  "hud_scope": "Native property values; new health/mana/defeated display, original HUD reconstruction pending",
+  "player_damage_and_death_implemented": true,
+  "full_ai_fsm_or_kill_rewards_implemented": false,
+  "aggro_or_status_services_implemented": false,
+  "physical_arm64_tested": false,
+  "full_cache_bundled": false,
+  "full_game_playable": false,
+  "goal_status": "active"
+}

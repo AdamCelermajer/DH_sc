@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12CharAnimator17ANIM_SkipNextStepEv",
+      "elf_address": "0x3c9464",
+      "size": 8,
+      "sha256": "59a361926e8c313fb7b560862180eb1ec77670544cd19d0e6fb156e06edd24a8"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator13ANIM_StopLoopEb",
+      "elf_address": "0x3c948c",
+      "size": 44,
+      "sha256": "59dfca1f42f2a4bfd1f56b47a71fcfa90c010facd6f2356860e17171fd0792bf"
+    },
+    {
+      "original_symbol": "_ZNK12CharAnimator17ANIM_GetStepCountEv",
+      "elf_address": "0x3c934c",
+      "size": 76,
+      "sha256": "cfde16b3ab8de34a4516b12a979c4f3d38da0a2cc495f3c6e0c6b4f82b28c4a0"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator12ANIM_SetStepEjj",
+      "elf_address": "0x3c946c",
+      "size": 24,
+      "sha256": "9ce6a53dcd6a3b2e07fa85189d64dd9f497a8e4e618992c9e349911b10a69947"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator17ANIM_SkipNextStepEj",
+      "elf_address": "0x3c9444",
+      "size": 32,
+      "sha256": "5ea593f879d2aef660628b2e4eb5b4d4b64bb46af2b556d0af988f281607cada"
+    },
+    {
+      "original_symbol": "_ZNK12CharAnimator17ANIM_GetStepIndexEv",
+      "elf_address": "0x3c932c",
+      "size": 32,
+      "sha256": "7b4597c47373dc93d648c72e5c679d00eb7123d0106c93df00992dbd34c67985"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator12ANIM_SetStepEj",
+      "elf_address": "0x3c9484",
+      "size": 8,
+      "sha256": "c10c6b5beb66c8aff76b2ccae5269dfffebce8bafc2e9cbe3f0ba14875fbf632"
+    }
+  ]
+}

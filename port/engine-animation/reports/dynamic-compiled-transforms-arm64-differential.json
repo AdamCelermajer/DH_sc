@@ -1,0 +1,154 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "583c32e52dcbbebd5bae9887c868cef6338d82b0e2cf2552f4c6d9ef01103cb7",
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "arm64_library_sha256": "6edda644526e4b4556e08714684565dbfbbd40a8bdffab17f0faed12eb51cd40",
+  "reference_sha256": "773efd7506761ccd66d33707573ce2823b9c079d8665869afe4d8969f287d518",
+  "input_corpus_sha256": "d5999b9cd6f9bec206d13dfd17b4e24101623f9a0126c0fb8831d6e15ca2ca31",
+  "cases": [
+    {
+      "mismatch": 1,
+      "default_library": -1,
+      "clip_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "targets": 33,
+      "samples": 35970
+    },
+    {
+      "mismatch": 1,
+      "default_library": -2,
+      "clip_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "targets": 33,
+      "samples": 35970
+    },
+    {
+      "mismatch": 0,
+      "default_library": -2,
+      "clip_order": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "targets": 0,
+      "samples": 0
+    },
+    {
+      "mismatch": 0,
+      "default_library": 7,
+      "clip_order": [
+        7
+      ],
+      "targets": 1,
+      "samples": 170
+    },
+    {
+      "mismatch": 0,
+      "default_library": -1,
+      "clip_order": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "targets": 23,
+      "samples": 13800
+    },
+    {
+      "mismatch": 1,
+      "default_library": 7,
+      "clip_order": [
+        8,
+        7,
+        1,
+        0
+      ],
+      "targets": 28,
+      "samples": 13720
+    },
+    {
+      "mismatch": 1,
+      "default_library": -2,
+      "clip_order": [
+        1,
+        0,
+        4,
+        3,
+        2
+      ],
+      "targets": 29,
+      "samples": 17400
+    }
+  ],
+  "targets": 147,
+  "bindings": 967,
+  "samples": 117030,
+  "retained": 29380,
+  "libm": 15070,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-animation/animation.hpp": "3a5b3af0b1c2221e1e132e397a83d16188462a0dd8215e7f68498d55aa622d48",
+    "port/engine-animation/animation.cpp": "476bff4e192d4cdb091b1e235e1d9204ff4802a4e626600a87d69782e2155fb8",
+    "port/engine-animation/tests/dynamic_compiled_transforms_differential.py": "c94ad1705068c94341d438cbe34c7f8016dd68d9bccdebd39b6eb7711cee31b6",
+    "port/engine-animation/tests/dynamic_compiled_transforms.cpp": "212493483f540c4d35e5d766de09af45b9a3df2a307b714ebf5171a409172d2a",
+    "port/engine-animation/events.cpp": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+    "port/engine-animation/event_track.cpp": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+    "port/engine-animation/events.hpp": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+    "port/scene-materials/scene.cpp": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+    "port/scene-materials/scene.hpp": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/asset-payloads/payloads.hpp": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "factory_identity_calls": 186,
+  "imports": {
+    "strcmp": 33254,
+    "__aeabi_i2f": 688086,
+    "__aeabi_fdiv": 179125,
+    "__aeabi_fcmpgt": 212651,
+    "__aeabi_fcmplt": 222991,
+    "__aeabi_fmul": 415386,
+    "__aeabi_fcmpeq": 136593,
+    "__aeabi_f2iz": 84672,
+    "__aeabi_fsub": 46718,
+    "__aeabi_fadd": 160062,
+    "__aeabi_fcmpge": 12775,
+    "sqrtf": 11670,
+    "acosf": 850,
+    "sinf": 2550,
+    "memcpy": 50010,
+    "memmove": 36
+  },
+  "elapsed_seconds": 67.0,
+  "scope": "Full node1/5/10 dynamic compiler, ordered caller registration, strict0/retain1 pruning, clip/default DB bindings and actual typed accessors. Factory type/identity, preallocated vector capacities and selected segment are explicit fixtures. No whole Prince registration schedule, resource cache mutation, generic unsupported channels or historical Bionic libm claim."
+}

@@ -1,0 +1,395 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "c1ca19de58a486f8b9cf8f1d3f789b641c2b903cea315e2046e1afc3f2efd625",
+  "reference_sha256": "d2c353252f7a2db97b7c5d85b9cdd1959afee45e0f9e46a4c641f41cae7978ee",
+  "scenes": 48,
+  "comparisons": 1776,
+  "world_steps": 576,
+  "operations": {
+    "set_linear": 384,
+    "add_linear": 336,
+    "set_angular": 96,
+    "set_position": 96,
+    "stop": 96,
+    "pin": 96,
+    "unpin": 96,
+    "step": 576
+  },
+  "mismatches": 0,
+  "public_state_words_compared": 19,
+  "game_query_words_compared": 4,
+  "finite_words_exact": true,
+  "genuine_shape_broadphase_and_mass": true,
+  "genuine_original_and_native_step": true,
+  "original_empty_drop_path_and_policy_getter_execute": true,
+  "original_import_calls": {
+    "malloc": 192,
+    "memset": 48,
+    "__aeabi_fsub": 11856,
+    "__aeabi_fdiv": 768,
+    "__aeabi_idiv": 96,
+    "cosf": 1104,
+    "sinf": 1104,
+    "__aeabi_fmul": 29760,
+    "__aeabi_fadd": 16128,
+    "__aeabi_fcmpgt": 12336,
+    "__aeabi_fcmpeq": 1776,
+    "__aeabi_fcmplt": 4224,
+    "memmove": 1536,
+    "sqrtf": 192,
+    "__aeabi_fcmpge": 1488,
+    "__isfinitef": 2112,
+    "free": 192
+  },
+  "native_import_calls": {
+    "_Znwm": 96,
+    "malloc": 192,
+    "memset": 96,
+    "cosf": 1104,
+    "sinf": 1104,
+    "memmove": 1536,
+    "memcpy": 1776,
+    "finite": 2112,
+    "free": 192,
+    "_ZdlPvm": 96
+  },
+  "coverage": [
+    {
+      "symbol": "_ZN14PhysicalObject17addLinearVelocityEffff",
+      "address": "0x46e864",
+      "instruction_addresses_seen": 40
+    },
+    {
+      "symbol": "_ZNK14PhysicalObject9getRadiusEv",
+      "address": "0x46e750",
+      "instruction_addresses_seen": 6
+    },
+    {
+      "symbol": "_ZN14PhysicalObject17setLinearVelocityEff",
+      "address": "0x46e918",
+      "instruction_addresses_seen": 24
+    },
+    {
+      "symbol": "_ZNK14PhysicalObject8getAngleEv",
+      "address": "0x46e858",
+      "instruction_addresses_seen": 3
+    },
+    {
+      "symbol": "_ZNK14PhysicalObject11getPositionEv",
+      "address": "0x46e818",
+      "instruction_addresses_seen": 16
+    },
+    {
+      "symbol": "_ZN14PhysicalObject18setAngularVelocityEf",
+      "address": "0x46e978",
+      "instruction_addresses_seen": 9
+    },
+    {
+      "symbol": "_ZN10GameObject4StopEv",
+      "address": "0x3938f8",
+      "instruction_addresses_seen": 59
+    },
+    {
+      "symbol": "_ZN14PhysicalObject11setPositionEff",
+      "address": "0x46ea80",
+      "instruction_addresses_seen": 21
+    },
+    {
+      "symbol": "_ZN14PhysicalObject5unpinEv",
+      "address": "0x46eae0",
+      "instruction_addresses_seen": 16
+    },
+    {
+      "symbol": "_ZN6b2Body7SetMassEPK10b2MassData",
+      "address": "0x7e1b28",
+      "instruction_addresses_seen": 114
+    },
+    {
+      "symbol": "_ZN14PhysicalObject3pinEv",
+      "address": "0x46eb20",
+      "instruction_addresses_seen": 20
+    },
+    {
+      "symbol": "_ZN6b2Body17SetMassFromShapesEv",
+      "address": "0x7e1818",
+      "instruction_addresses_seen": 186
+    },
+    {
+      "symbol": "_ZN7PFWorld8DropPathER8PFObject",
+      "address": "0x52aae4",
+      "instruction_addresses_seen": 11
+    },
+    {
+      "symbol": "_ZNK9Character29IsUpdatingPositionFromPhysicsEv",
+      "address": "0x3a2e44",
+      "instruction_addresses_seen": 3
+    },
+    {
+      "symbol": "_ZN13b2PairManager6CommitEv",
+      "address": "0x7e42e0",
+      "instruction_addresses_seen": 24
+    },
+    {
+      "symbol": "_ZN7b2WorldD1Ev",
+      "address": "0x7e7f7c",
+      "instruction_addresses_seen": 29
+    },
+    {
+      "symbol": "_ZNK13b2CircleShape11ComputeMassEP10b2MassData",
+      "address": "0x7e95ac",
+      "instruction_addresses_seen": 47
+    },
+    {
+      "symbol": "_ZN6b2Body20SynchronizeTransformEv",
+      "address": "0x7e761c",
+      "instruction_addresses_seen": 48
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase6CommitEv",
+      "address": "0x7e2ac8",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZN13b2PairManager10InitializeEP12b2BroadPhaseP14b2PairCallback",
+      "address": "0x7e3eec",
+      "instruction_addresses_seen": 2
+    },
+    {
+      "symbol": "_ZN12b2BroadPhaseC1ERK6b2AABBP14b2PairCallback",
+      "address": "0x7e3048",
+      "instruction_addresses_seen": 77
+    },
+    {
+      "symbol": "_ZN7b2World10CreateBodyEPK9b2BodyDef",
+      "address": "0x7e7ef8",
+      "instruction_addresses_seen": 33
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase11CreateProxyERK6b2AABBPv",
+      "address": "0x7e2d54",
+      "instruction_addresses_seen": 174
+    },
+    {
+      "symbol": "_ZN7b2Shape12DestroyProxyEP12b2BroadPhase",
+      "address": "0x7e6180",
+      "instruction_addresses_seen": 12
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase5QueryEPiS0_ttP7b2Boundii",
+      "address": "0x7e2820",
+      "instruction_addresses_seen": 18
+    },
+    {
+      "symbol": "_ZN6b2Body17SynchronizeShapesEv",
+      "address": "0x7e20ac",
+      "instruction_addresses_seen": 70
+    },
+    {
+      "symbol": "_ZN16b2ContactManager7CollideEv",
+      "address": "0x7ea010",
+      "instruction_addresses_seen": 9
+    },
+    {
+      "symbol": "_ZN16b2BlockAllocatorD1Ev",
+      "address": "0x7e8ddc",
+      "instruction_addresses_seen": 18
+    },
+    {
+      "symbol": "_ZN7b2Shape6CreateEPK10b2ShapeDefP16b2BlockAllocator",
+      "address": "0x7e6558",
+      "instruction_addresses_seen": 13
+    },
+    {
+      "symbol": "_ZN6b2Body11CreateShapeEP10b2ShapeDef",
+      "address": "0x7e1dc8",
+      "instruction_addresses_seen": 33
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase9MoveProxyEiRK6b2AABB",
+      "address": "0x7e3344",
+      "instruction_addresses_seen": 150
+    },
+    {
+      "symbol": "_Z6b2FreePv",
+      "address": "0x7f34bc",
+      "instruction_addresses_seen": 12
+    },
+    {
+      "symbol": "_ZN16b2BlockAllocator8AllocateEi",
+      "address": "0x7e90bc",
+      "instruction_addresses_seen": 62
+    },
+    {
+      "symbol": "_ZN8b2Island5SolveERK10b2TimeStepRK6b2Vec2bb",
+      "address": "0x7ea9d0",
+      "instruction_addresses_seen": 294
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase18IncrementTimeStampEv",
+      "address": "0x7e276c",
+      "instruction_addresses_seen": 8
+    },
+    {
+      "symbol": "_ZN7b2ShapeC2EPK10b2ShapeDef",
+      "address": "0x7e6068",
+      "instruction_addresses_seen": 32
+    },
+    {
+      "symbol": "_ZN7b2Shape13RefilterProxyEP12b2BroadPhaseRK7b2XForm",
+      "address": "0x7e61b0",
+      "instruction_addresses_seen": 73
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase13ComputeBoundsEPtS0_RK6b2AABB",
+      "address": "0x7e25b8",
+      "instruction_addresses_seen": 109
+    },
+    {
+      "symbol": "_ZN16b2StackAllocator4FreeEPv",
+      "address": "0x7f35a8",
+      "instruction_addresses_seen": 36
+    },
+    {
+      "symbol": "_ZN12b2BroadPhaseD1Ev",
+      "address": "0x7e247c",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZN7b2World4StepEfi",
+      "address": "0x7e8b1c",
+      "instruction_addresses_seen": 73
+    },
+    {
+      "symbol": "_ZN16b2StackAllocator8AllocateEi",
+      "address": "0x7f3644",
+      "instruction_addresses_seen": 49
+    },
+    {
+      "symbol": "_ZN8b2IslandD1Ev",
+      "address": "0x7eb078",
+      "instruction_addresses_seen": 13
+    },
+    {
+      "symbol": "_ZN6b2BodyC1EPK9b2BodyDefP7b2World",
+      "address": "0x7e2218",
+      "instruction_addresses_seen": 142
+    },
+    {
+      "symbol": "_ZN16b2StackAllocatorD1Ev",
+      "address": "0x7f3594",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZN16b2BlockAllocator4FreeEPvi",
+      "address": "0x7e8da0",
+      "instruction_addresses_seen": 13
+    },
+    {
+      "symbol": "_ZN7b2World13DrawDebugDataEv",
+      "address": "0x7e6b78",
+      "instruction_addresses_seen": 10
+    },
+    {
+      "symbol": "_ZN8b2IslandC1EiiiP16b2StackAllocatorP17b2ContactListener",
+      "address": "0x7eb0e0",
+      "instruction_addresses_seen": 31
+    },
+    {
+      "symbol": "_ZN13b2CircleShape17UpdateSweepRadiusERK6b2Vec2",
+      "address": "0x7e993c",
+      "instruction_addresses_seen": 29
+    },
+    {
+      "symbol": "_ZN13b2CircleShapeC1EPK10b2ShapeDef",
+      "address": "0x7e99b0",
+      "instruction_addresses_seen": 20
+    },
+    {
+      "symbol": "_Z7b2Alloci",
+      "address": "0x7f34f4",
+      "instruction_addresses_seen": 13
+    },
+    {
+      "symbol": "_ZN12b2BroadPhase12DestroyProxyEi",
+      "address": "0x7e2acc",
+      "instruction_addresses_seen": 122
+    },
+    {
+      "symbol": "_ZN6b2Body8SetXFormERK6b2Vec2f",
+      "address": "0x7e164c",
+      "instruction_addresses_seen": 114
+    },
+    {
+      "symbol": "_ZN16b2BlockAllocatorC1Ev",
+      "address": "0x7e8efc",
+      "instruction_addresses_seen": 52
+    },
+    {
+      "symbol": "_ZN16b2StackAllocatorC1Ev",
+      "address": "0x7f3560",
+      "instruction_addresses_seen": 12
+    },
+    {
+      "symbol": "_ZNK13b2CircleShape16ComputeSweptAABBEP6b2AABBRK7b2XFormS4_",
+      "address": "0x7e93fc",
+      "instruction_addresses_seen": 108
+    },
+    {
+      "symbol": "_ZNK6b2AABB7IsValidEv",
+      "address": "0x7e32b0",
+      "instruction_addresses_seen": 35
+    },
+    {
+      "symbol": "_ZN7b2Shape11SynchronizeEP12b2BroadPhaseRK7b2XFormS4_",
+      "address": "0x7e63d0",
+      "instruction_addresses_seen": 66
+    },
+    {
+      "symbol": "_ZN7b2World8SolveTOIERK10b2TimeStep",
+      "address": "0x7e8458",
+      "instruction_addresses_seen": 64
+    },
+    {
+      "symbol": "_ZN7b2World5SolveERK10b2TimeStep",
+      "address": "0x7e76dc",
+      "instruction_addresses_seen": 171
+    },
+    {
+      "symbol": "_ZN7b2Shape11CreateProxyEP12b2BroadPhaseRK7b2XForm",
+      "address": "0x7e62d4",
+      "instruction_addresses_seen": 63
+    },
+    {
+      "symbol": "_ZN13b2PairManagerC1Ev",
+      "address": "0x7e3e54",
+      "instruction_addresses_seen": 38
+    },
+    {
+      "symbol": "_ZN7b2World11DestroyBodyEP6b2Body",
+      "address": "0x7e7db0",
+      "instruction_addresses_seen": 40
+    },
+    {
+      "symbol": "_ZN6b2BodyD1Ev",
+      "address": "0x7e1648",
+      "instruction_addresses_seen": 1
+    },
+    {
+      "symbol": "_ZN7b2WorldC1ERK6b2AABBRK6b2Vec2b",
+      "address": "0x7e80b8",
+      "instruction_addresses_seen": 112
+    },
+    {
+      "symbol": "_ZN8b2Island6ReportEP19b2ContactConstraint",
+      "address": "0x7ea6a8",
+      "instruction_addresses_seen": 8
+    },
+    {
+      "symbol": "_ZNK13b2CircleShape11ComputeAABBEP6b2AABBRK7b2XForm",
+      "address": "0x7e9320",
+      "instruction_addresses_seen": 55
+    }
+  ],
+  "scope": "Actual original PhysicalObject/Stop/pin/unpin and Box2D world instructions\nversus the native adapter linked to the genuine Box2D 2.0.1 release. No shape,\nproxy, mass, transform, DropPath, policy getter, solver or Step is intercepted.\nAllocator/libc/imported IEEE arithmetic and trig are the desktop CPU services.\nThe public snapshot contains no inferred native private force/sleep-time fields.\n",
+  "elapsed_seconds": 8.42
+}

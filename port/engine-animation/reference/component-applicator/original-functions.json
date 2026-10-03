@@ -1,0 +1,251 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode8setScaleERKNS_4core8vector3dIfEE",
+      "elf_address": "0x5970c4",
+      "size": 40,
+      "sha256": "84a37425a9d36f76be2192c3a77ce11a4e361909a52b594a4c984ee00a4d7f4b"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleZExIfEELi2EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60ef1c",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionYExIfEELi1EfEEEEE15getBlendedValueEPvPfiSD_",
+      "elf_address": "0x6270a4",
+      "size": 228,
+      "sha256": "94be590c40003ec849e0dd2f8922e5c0f0c990683435d7777713a90fb70ece44"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleYExIfEELi1EfEEE19applyBlendedValueExEPvPfiSB_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x62c944",
+      "size": 248,
+      "sha256": "00b397d91b74f46041e72ae7b4fb3d39221da8eaa54c226e4583d19a1246da26"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleXExIfEELi0EfEEEEE17applyBlendedValueEPvPfiSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x62d0b4",
+      "size": 28,
+      "sha256": "e7ecfdacaee34dd6f39b726dc7b5ffcc3adf55e2c7037d1df0d3033e53eb0543"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleZExIfEELi2EfEEEEE11getInstanceEv",
+      "elf_address": "0x610ebc",
+      "size": 148,
+      "sha256": "8988e83ab1bff42745f2830fdc2798fc15d84dbd63e844c2623e86784c46ceb7"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionXExIfEELi0EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x623d90",
+      "size": 24,
+      "sha256": "06fc797d9829df4c3ad795586996a0d7396a61dd027ef8eae5cc3c573e7243d4"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode11setPositionERKNS_4core8vector3dIfEE",
+      "elf_address": "0x59712c",
+      "size": 40,
+      "sha256": "b300b9db8ec709fa73872e371233a4eca0e3f642ac113ea86abf2093876acf05"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionZExIfEELi2EfEEEEE17applyBlendedValueEPvPfiSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x628e24",
+      "size": 28,
+      "sha256": "e7ecfdacaee34dd6f39b726dc7b5ffcc3adf55e2c7037d1df0d3033e53eb0543"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleYExIfEELi1EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x622c40",
+      "size": 24,
+      "sha256": "1ba23be83fb2f7bacb9aa58898067a75156a26dc2a9dc94490374e5366b27b6f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionZExIfEELi2EfEEE19applyBlendedValueExEPvPfiSB_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x628d2c",
+      "size": 248,
+      "sha256": "10929d2e872c7e1d2268e8ec4af0d2739e8fb31f9c448295d7f7c21922cd2534"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionZExIfEELi2EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x622cb8",
+      "size": 24,
+      "sha256": "06fc797d9829df4c3ad795586996a0d7396a61dd027ef8eae5cc3c573e7243d4"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleZExIfEELi2EfEEE19applyBlendedValueExEPvPfiSB_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x62c2cc",
+      "size": 248,
+      "sha256": "a32c2e75a37be2ce820273280ccd8e62fb921a4dc34d40a2c837017c57c93464"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionXExIfEELi0EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60efe0",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleYExIfEELi1EfEEEEE11getInstanceEv",
+      "elf_address": "0x610d00",
+      "size": 148,
+      "sha256": "5edf4386b54c5f298b2ada360a2417f3c435509848bf5c16c0d9e6927ae46e04"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionYExIfEELi1EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x623d48",
+      "size": 24,
+      "sha256": "06fc797d9829df4c3ad795586996a0d7396a61dd027ef8eae5cc3c573e7243d4"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleYExIfEELi1EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60ef34",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada16CColladaDatabase19getAnimationTrackExEPKNS0_10SAnimationE",
+      "elf_address": "0x611ae0",
+      "size": 1608,
+      "sha256": "bb7590a23775d34fa5821fac78f1e6330a691b0c929b23cf1a3eedb733f37f72"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionYExIfEELi1EfEEEEE11getInstanceEv",
+      "elf_address": "0x610610",
+      "size": 148,
+      "sha256": "860fa40e8f899d3c3ec007bdd2877d971751f30e2c05d46e923cad7b734a04b3"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleZExIfEELi2EfEEEEE17applyBlendedValueEPvPfiSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x62c3c4",
+      "size": 28,
+      "sha256": "e7ecfdacaee34dd6f39b726dc7b5ffcc3adf55e2c7037d1df0d3033e53eb0543"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core10quaternionENS1_30CSceneNodeQuaternionAngleMixinIfEEEEE11getInstanceEv",
+      "elf_address": "0x6100dc",
+      "size": 148,
+      "sha256": "0082e79234aebffe20c5e8c2ad3d5d00da68252be30b30bf386b970760dfee5f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleXExIfEELi0EfEEEEE11getInstanceEv",
+      "elf_address": "0x610b44",
+      "size": 148,
+      "sha256": "664318ccfae2cb05b4a2b0277f02c39cc376c98b1dfbd61d3593c5b1015c98a3"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionXExIfEELi0EfEEEEE17applyBlendedValueEPvPfiSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x629b14",
+      "size": 28,
+      "sha256": "e7ecfdacaee34dd6f39b726dc7b5ffcc3adf55e2c7037d1df0d3033e53eb0543"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleZExIfEELi2EfEEEEE15getBlendedValueEPvPfiSD_",
+      "elf_address": "0x62a2e0",
+      "size": 228,
+      "sha256": "d2ab92714e5513ef610cffcd5ae5270694b31b06d935e9939cf6c6a0aa38c6b9"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionXExIfEELi0EfEEE19applyBlendedValueExEPvPfiSB_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x629a1c",
+      "size": 248,
+      "sha256": "14549a1cd16b79625022c2c911c82e7f7904482c5997ff64ef03d14019ac7940"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleXExIfEELi0EfEEE19applyBlendedValueExEPvPfiSB_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x62cfbc",
+      "size": 248,
+      "sha256": "28581612e0f7e7bff5e650352fe9a9506b97d32c1c92f5b4682d086c8278c999"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleXExIfEELi0EfEEEEE15getBlendedValueEPvPfiSD_",
+      "elf_address": "0x6278a8",
+      "size": 228,
+      "sha256": "7edd554463a7738126068cb391510fc4fb10221391dfe46f0584cf49a9673963"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionZExIfEELi2EfEEEEE15getBlendedValueEPvPfiSD_",
+      "elf_address": "0x627350",
+      "size": 228,
+      "sha256": "12ee7283084e34a4ee223bfbeffa313886ef7a823ce25676f1f5ca54ff046207"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionZExIfEELi2EfEEEEE11getInstanceEv",
+      "elf_address": "0x6107cc",
+      "size": 148,
+      "sha256": "bcd5e9205d79c9e5a547f566f0804998aa149fd78ca9d6000eb455e6ac7814fd"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionXExIfEELi0EfEEEEE11getInstanceEv",
+      "elf_address": "0x610454",
+      "size": 148,
+      "sha256": "79fcf6e97ff879ad6afcc5005200a17fae0bd2d00693fcee9e8db35e04281247"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionYExIfEELi1EfEEE19applyBlendedValueExEPvPfiSB_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x6293a4",
+      "size": 248,
+      "sha256": "f974c5021a6aad88ced9fb3c6e2c2a34af64d17ddfec3e2c58ddb3a809ec4207"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleZExIfEELi2EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x622bf8",
+      "size": 24,
+      "sha256": "1ba23be83fb2f7bacb9aa58898067a75156a26dc2a9dc94490374e5366b27b6f"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionXExIfEELi0EfEEEEE15getBlendedValueEPvPfiSD_",
+      "elf_address": "0x626df8",
+      "size": 228,
+      "sha256": "e4f315523574a22b129304ca0d3f02827d51474b38225a787d5a262aa6518e29"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionYExIfEELi1EfEEEEE17applyBlendedValueEPvPfiSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x62949c",
+      "size": 28,
+      "sha256": "e7ecfdacaee34dd6f39b726dc7b5ffcc3adf55e2c7037d1df0d3033e53eb0543"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionYExIfEELi1EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60efc8",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_32CSceneNodePositionComponentMixinINS1_21CSceneNodePositionZExIfEELi2EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60efb0",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNode11setRotationERKNS_4core10quaternionE",
+      "elf_address": "0x5970f4",
+      "size": 48,
+      "sha256": "77ec1d7c1d6ce26615e9282492d5be9f47746fd4a0a584068e6de661cad521d6"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleYExIfEELi1EfEEEEE17applyBlendedValueEPvPfiSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x62ca3c",
+      "size": 28,
+      "sha256": "e7ecfdacaee34dd6f39b726dc7b5ffcc3adf55e2c7037d1df0d3033e53eb0543"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleYExIfEELi1EfEEEEE15getBlendedValueEPvPfiSD_",
+      "elf_address": "0x62a034",
+      "size": 228,
+      "sha256": "1f72192de84a960cfe6caa07033411fe2197265ebc9bcb331656dd6b80f747fd"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleXExIfEELi0EfEEEEE12getValueSizeEv",
+      "elf_address": "0x60ef4c",
+      "size": 8,
+      "sha256": "3e8a4d187fd09086abbee6fdcaed9e6195f6b5b8b3b55f27497a024e2d6b3d88"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_29CSceneNodeScaleComponentMixinINS1_18CSceneNodeScaleXExIfEELi0EfEEEEE10applyValueEPvSD_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x6238f4",
+      "size": 24,
+      "sha256": "1ba23be83fb2f7bacb9aa58898067a75156a26dc2a9dc94490374e5366b27b6f"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "3bf5e7bb4671aa58b0207aa28cc9af513080cf014523936b07d4c35670126aec",
+  "original_address": "0x598908",
+  "fixture_matrices": 13,
+  "synthetic_matrices": 200,
+  "bit_exact_matches": 213,
+  "scope": "local node TRS only; imported libc and soft-float modeled; no full-scene or GPU equivalence"
+}

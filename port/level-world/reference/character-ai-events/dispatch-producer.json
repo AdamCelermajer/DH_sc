@@ -1,0 +1,880 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "first_switch": [
+    {
+      "event": 0,
+      "entry": "0x3cbb58",
+      "target": "0x3cbc58"
+    },
+    {
+      "event": 1,
+      "entry": "0x3cbb5c",
+      "target": "0x3cbe90"
+    },
+    {
+      "event": 2,
+      "entry": "0x3cbb60",
+      "target": "0x3cbe98"
+    },
+    {
+      "event": 3,
+      "entry": "0x3cbb64",
+      "target": "0x3cbe2c"
+    },
+    {
+      "event": 4,
+      "entry": "0x3cbb68",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 5,
+      "entry": "0x3cbb6c",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 6,
+      "entry": "0x3cbb70",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 7,
+      "entry": "0x3cbb74",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 8,
+      "entry": "0x3cbb78",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 9,
+      "entry": "0x3cbb7c",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 10,
+      "entry": "0x3cbb80",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 11,
+      "entry": "0x3cbb84",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 12,
+      "entry": "0x3cbb88",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 13,
+      "entry": "0x3cbb8c",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 14,
+      "entry": "0x3cbb90",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 15,
+      "entry": "0x3cbb94",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 16,
+      "entry": "0x3cbb98",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 17,
+      "entry": "0x3cbb9c",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 18,
+      "entry": "0x3cbba0",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 19,
+      "entry": "0x3cbba4",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 20,
+      "entry": "0x3cbba8",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 21,
+      "entry": "0x3cbbac",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 22,
+      "entry": "0x3cbbb0",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 23,
+      "entry": "0x3cbbb4",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 24,
+      "entry": "0x3cbbb8",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 25,
+      "entry": "0x3cbbbc",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 26,
+      "entry": "0x3cbbc0",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 27,
+      "entry": "0x3cbbc4",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 28,
+      "entry": "0x3cbbc8",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 29,
+      "entry": "0x3cbbcc",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 30,
+      "entry": "0x3cbbd0",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 31,
+      "entry": "0x3cbbd4",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 32,
+      "entry": "0x3cbbd8",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 33,
+      "entry": "0x3cbbdc",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 34,
+      "entry": "0x3cbbe0",
+      "target": "0x3cbe40"
+    },
+    {
+      "event": 35,
+      "entry": "0x3cbbe4",
+      "target": "0x3cbe64"
+    },
+    {
+      "event": 36,
+      "entry": "0x3cbbe8",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 37,
+      "entry": "0x3cbbec",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 38,
+      "entry": "0x3cbbf0",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 39,
+      "entry": "0x3cbbf4",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 40,
+      "entry": "0x3cbbf8",
+      "target": "0x3cbe80"
+    },
+    {
+      "event": 41,
+      "entry": "0x3cbbfc",
+      "target": "0x3cbc78"
+    },
+    {
+      "event": 42,
+      "entry": "0x3cbc00",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 43,
+      "entry": "0x3cbc04",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 44,
+      "entry": "0x3cbc08",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 45,
+      "entry": "0x3cbc0c",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 46,
+      "entry": "0x3cbc10",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 47,
+      "entry": "0x3cbc14",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 48,
+      "entry": "0x3cbc18",
+      "target": "0x3cbc5c"
+    },
+    {
+      "event": 49,
+      "entry": "0x3cbc1c",
+      "target": "0x3cbc8c"
+    },
+    {
+      "event": 50,
+      "entry": "0x3cbc20",
+      "target": "0x3cbc98"
+    },
+    {
+      "event": 51,
+      "entry": "0x3cbc24",
+      "target": "0x3cbca4"
+    },
+    {
+      "event": 52,
+      "entry": "0x3cbc28",
+      "target": "0x3cbcac"
+    },
+    {
+      "event": 53,
+      "entry": "0x3cbc2c",
+      "target": "0x3cbcbc"
+    },
+    {
+      "event": 54,
+      "entry": "0x3cbc30",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 55,
+      "entry": "0x3cbc34",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 56,
+      "entry": "0x3cbc38",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 57,
+      "entry": "0x3cbc3c",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 58,
+      "entry": "0x3cbc40",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 59,
+      "entry": "0x3cbc44",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 60,
+      "entry": "0x3cbc48",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 61,
+      "entry": "0x3cbc4c",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 62,
+      "entry": "0x3cbc50",
+      "target": "0x3cbcfc"
+    },
+    {
+      "event": 63,
+      "entry": "0x3cbc54",
+      "target": "0x3cbcf0"
+    }
+  ],
+  "gated_switch": [
+    {
+      "event": 4,
+      "entry": "0x3cbd40",
+      "target": "0x3cc1f8"
+    },
+    {
+      "event": 5,
+      "entry": "0x3cbd44",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 6,
+      "entry": "0x3cbd48",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 7,
+      "entry": "0x3cbd4c",
+      "target": "0x3cc1e0"
+    },
+    {
+      "event": 8,
+      "entry": "0x3cbd50",
+      "target": "0x3cc1c8"
+    },
+    {
+      "event": 9,
+      "entry": "0x3cbd54",
+      "target": "0x3cc1ac"
+    },
+    {
+      "event": 10,
+      "entry": "0x3cbd58",
+      "target": "0x3cc198"
+    },
+    {
+      "event": 11,
+      "entry": "0x3cbd5c",
+      "target": "0x3cc184"
+    },
+    {
+      "event": 12,
+      "entry": "0x3cbd60",
+      "target": "0x3cc170"
+    },
+    {
+      "event": 13,
+      "entry": "0x3cbd64",
+      "target": "0x3cc15c"
+    },
+    {
+      "event": 14,
+      "entry": "0x3cbd68",
+      "target": "0x3cc148"
+    },
+    {
+      "event": 15,
+      "entry": "0x3cbd6c",
+      "target": "0x3cc134"
+    },
+    {
+      "event": 16,
+      "entry": "0x3cbd70",
+      "target": "0x3cc120"
+    },
+    {
+      "event": 17,
+      "entry": "0x3cbd74",
+      "target": "0x3cc10c"
+    },
+    {
+      "event": 18,
+      "entry": "0x3cbd78",
+      "target": "0x3cc0f8"
+    },
+    {
+      "event": 19,
+      "entry": "0x3cbd7c",
+      "target": "0x3cc0e4"
+    },
+    {
+      "event": 20,
+      "entry": "0x3cbd80",
+      "target": "0x3cc0d0"
+    },
+    {
+      "event": 21,
+      "entry": "0x3cbd84",
+      "target": "0x3cc0bc"
+    },
+    {
+      "event": 22,
+      "entry": "0x3cbd88",
+      "target": "0x3cc0a8"
+    },
+    {
+      "event": 23,
+      "entry": "0x3cbd8c",
+      "target": "0x3cc094"
+    },
+    {
+      "event": 24,
+      "entry": "0x3cbd90",
+      "target": "0x3cc080"
+    },
+    {
+      "event": 25,
+      "entry": "0x3cbd94",
+      "target": "0x3cc06c"
+    },
+    {
+      "event": 26,
+      "entry": "0x3cbd98",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 27,
+      "entry": "0x3cbd9c",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 28,
+      "entry": "0x3cbda0",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 29,
+      "entry": "0x3cbda4",
+      "target": "0x3cc044"
+    },
+    {
+      "event": 30,
+      "entry": "0x3cbda8",
+      "target": "0x3cc038"
+    },
+    {
+      "event": 31,
+      "entry": "0x3cbdac",
+      "target": "0x3cc02c"
+    },
+    {
+      "event": 32,
+      "entry": "0x3cbdb0",
+      "target": "0x3cc020"
+    },
+    {
+      "event": 33,
+      "entry": "0x3cbdb4",
+      "target": "0x3cc014"
+    },
+    {
+      "event": 34,
+      "entry": "0x3cbdb8",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 35,
+      "entry": "0x3cbdbc",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 36,
+      "entry": "0x3cbdc0",
+      "target": "0x3cc004"
+    },
+    {
+      "event": 37,
+      "entry": "0x3cbdc4",
+      "target": "0x3cbff4"
+    },
+    {
+      "event": 38,
+      "entry": "0x3cbdc8",
+      "target": "0x3cbfe4"
+    },
+    {
+      "event": 39,
+      "entry": "0x3cbdcc",
+      "target": "0x3cbfd4"
+    },
+    {
+      "event": 40,
+      "entry": "0x3cbdd0",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 41,
+      "entry": "0x3cbdd4",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 42,
+      "entry": "0x3cbdd8",
+      "target": "0x3cbfbc"
+    },
+    {
+      "event": 43,
+      "entry": "0x3cbddc",
+      "target": "0x3cbfa4"
+    },
+    {
+      "event": 44,
+      "entry": "0x3cbde0",
+      "target": "0x3cbf8c"
+    },
+    {
+      "event": 45,
+      "entry": "0x3cbde4",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 46,
+      "entry": "0x3cbde8",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 47,
+      "entry": "0x3cbdec",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 48,
+      "entry": "0x3cbdf0",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 49,
+      "entry": "0x3cbdf4",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 50,
+      "entry": "0x3cbdf8",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 51,
+      "entry": "0x3cbdfc",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 52,
+      "entry": "0x3cbe00",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 53,
+      "entry": "0x3cbe04",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 54,
+      "entry": "0x3cbe08",
+      "target": "0x3cbc60"
+    },
+    {
+      "event": 55,
+      "entry": "0x3cbe0c",
+      "target": "0x3cbf70"
+    },
+    {
+      "event": 56,
+      "entry": "0x3cbe10",
+      "target": "0x3cbf54"
+    },
+    {
+      "event": 57,
+      "entry": "0x3cbe14",
+      "target": "0x3cbf38"
+    },
+    {
+      "event": 58,
+      "entry": "0x3cbe18",
+      "target": "0x3cbf1c"
+    },
+    {
+      "event": 59,
+      "entry": "0x3cbe1c",
+      "target": "0x3cbf00"
+    },
+    {
+      "event": 60,
+      "entry": "0x3cbe20",
+      "target": "0x3cbee4"
+    },
+    {
+      "event": 61,
+      "entry": "0x3cbe24",
+      "target": "0x3cbec8"
+    },
+    {
+      "event": 62,
+      "entry": "0x3cbe28",
+      "target": "0x3cbeac"
+    }
+  ],
+  "ai_virtual_address_point": "0x966798",
+  "virtuals": [
+    {
+      "slot": 0,
+      "address": "0x3cdb60",
+      "symbol": "_ZN6CharAID1Ev"
+    },
+    {
+      "slot": 4,
+      "address": "0x3cdd5c",
+      "symbol": "_ZN6CharAID0Ev"
+    },
+    {
+      "slot": 8,
+      "address": "0x3d12b0",
+      "symbol": "_ZN6CharAI6OnInitEv"
+    },
+    {
+      "slot": 12,
+      "address": "0x3d0b80",
+      "symbol": "_ZN6CharAI10OnInitPostEv"
+    },
+    {
+      "slot": 16,
+      "address": "0x3d0ba4",
+      "symbol": "_ZN6CharAI11OnInitFinalEv"
+    },
+    {
+      "slot": 20,
+      "address": "0x3d11bc",
+      "symbol": "_ZN6CharAI11OnTerminateEv"
+    },
+    {
+      "slot": 24,
+      "address": "0x3d1050",
+      "symbol": "_ZN6CharAI8OnUpdateEv"
+    },
+    {
+      "slot": 28,
+      "address": "0x3d0bc8",
+      "symbol": "_ZN6CharAI5OnMsgEiPKv"
+    },
+    {
+      "slot": 32,
+      "address": "0x3d0bec",
+      "symbol": "_ZN6CharAI14OnStateChangedEii"
+    },
+    {
+      "slot": 36,
+      "address": "0x3d1000",
+      "symbol": "_ZN6CharAI6OnDiedEP10GameObject"
+    },
+    {
+      "slot": 40,
+      "address": "0x3d0f1c",
+      "symbol": "_ZN6CharAI9OnRevivedEP10GameObject"
+    },
+    {
+      "slot": 44,
+      "address": "0x3d2230",
+      "symbol": "_ZN6CharAI15OnFriendSpottedEP9Character"
+    },
+    {
+      "slot": 48,
+      "address": "0x3d217c",
+      "symbol": "_ZN6CharAI16OnNeutralSpottedEP9Character"
+    },
+    {
+      "slot": 52,
+      "address": "0x3d14b4",
+      "symbol": "_ZN6CharAI14OnEnemySpottedEP9Character"
+    },
+    {
+      "slot": 56,
+      "address": "0x3d20c8",
+      "symbol": "_ZN6CharAI7OnAggroEP9Character"
+    },
+    {
+      "slot": 60,
+      "address": "0x3d2014",
+      "symbol": "_ZN6CharAI9OnDeAggroEP9Character"
+    },
+    {
+      "slot": 64,
+      "address": "0x3d1f60",
+      "symbol": "_ZN6CharAI12OnTargetDiedEv"
+    },
+    {
+      "slot": 68,
+      "address": "0x3d1eb4",
+      "symbol": "_ZN6CharAI15OnTargetRevivedEv"
+    },
+    {
+      "slot": 72,
+      "address": "0x3d2410",
+      "symbol": "_ZN6CharAI18OnTargetOutOfSightEv"
+    },
+    {
+      "slot": 76,
+      "address": "0x3d22e4",
+      "symbol": "_ZN6CharAI15OnTargetInSightEv"
+    },
+    {
+      "slot": 80,
+      "address": "0x3d1e00",
+      "symbol": "_ZN6CharAI18OnTargetOutOfRangeEv"
+    },
+    {
+      "slot": 84,
+      "address": "0x3d1d4c",
+      "symbol": "_ZN6CharAI21OnTargetInRangedRangeEv"
+    },
+    {
+      "slot": 88,
+      "address": "0x3d1ca0",
+      "symbol": "_ZN6CharAI20OnTargetInCloseRangeEv"
+    },
+    {
+      "slot": 92,
+      "address": "0x3d1bf4",
+      "symbol": "_ZN6CharAI20OnTargetInMeleeRangeEv"
+    },
+    {
+      "slot": 96,
+      "address": "0x3d1b48",
+      "symbol": "_ZN6CharAI12OnMasterDiedEv"
+    },
+    {
+      "slot": 100,
+      "address": "0x3d1a9c",
+      "symbol": "_ZN6CharAI15OnMasterRevivedEv"
+    },
+    {
+      "slot": 104,
+      "address": "0x3d19f0",
+      "symbol": "_ZN6CharAI18OnMasterOutOfSightEv"
+    },
+    {
+      "slot": 108,
+      "address": "0x3d1944",
+      "symbol": "_ZN6CharAI15OnMasterInSightEv"
+    },
+    {
+      "slot": 112,
+      "address": "0x3d1898",
+      "symbol": "_ZN6CharAI18OnMasterOutOfRangeEv"
+    },
+    {
+      "slot": 116,
+      "address": "0x3d17ec",
+      "symbol": "_ZN6CharAI21OnMasterInRangedRangeEv"
+    },
+    {
+      "slot": 120,
+      "address": "0x3d1740",
+      "symbol": "_ZN6CharAI20OnMasterInCloseRangeEv"
+    },
+    {
+      "slot": 124,
+      "address": "0x3d1694",
+      "symbol": "_ZN6CharAI20OnMasterInMeleeRangeEv"
+    },
+    {
+      "slot": 128,
+      "address": "0x3d0c10",
+      "symbol": "_ZN6CharAI7OnTimerEPv"
+    },
+    {
+      "slot": 132,
+      "address": "0x3d0c34",
+      "symbol": "_ZN6CharAI13OnStunExpiredEv"
+    },
+    {
+      "slot": 136,
+      "address": "0x3d0c58",
+      "symbol": "_ZN6CharAI13OnFearExpiredEv"
+    },
+    {
+      "slot": 140,
+      "address": "0x3d0c7c",
+      "symbol": "_ZN6CharAI20OnAttackDelayExpiredEv"
+    },
+    {
+      "slot": 144,
+      "address": "0x3d0ca0",
+      "symbol": "_ZN6CharAI13OnScriptTimerEj"
+    },
+    {
+      "slot": 148,
+      "address": "0x3d0cc4",
+      "symbol": "_ZN6CharAI11OnAnimEventEPKc"
+    },
+    {
+      "slot": 152,
+      "address": "0x3d0ce8",
+      "symbol": "_ZN6CharAI11OnEndOfAnimEv"
+    },
+    {
+      "slot": 156,
+      "address": "0x3d0d0c",
+      "symbol": "_ZN6CharAI13OnPreInteractEv"
+    },
+    {
+      "slot": 160,
+      "address": "0x3d0d38",
+      "symbol": "_ZN6CharAI10OnInteractEv"
+    },
+    {
+      "slot": 164,
+      "address": "0x3d0ed4",
+      "symbol": "_ZN6CharAI11OnPreAttackEi"
+    },
+    {
+      "slot": 168,
+      "address": "0x3d0e7c",
+      "symbol": "_ZN6CharAI8OnAttackEiib"
+    },
+    {
+      "slot": 172,
+      "address": "0x3d0d5c",
+      "symbol": "_ZN6CharAI15OnProjectileHitEP10GameObject"
+    },
+    {
+      "slot": 176,
+      "address": "0x3d0d80",
+      "symbol": "_ZN6CharAI6OnKillEP9Character"
+    },
+    {
+      "slot": 180,
+      "address": "0x3d0da4",
+      "symbol": "_ZN6CharAI15OnCombatResultsEP9CharacterS1_Pv"
+    },
+    {
+      "slot": 184,
+      "address": "0x3d0dc8",
+      "symbol": "_ZN6CharAI15OnCombatResultsEP10GameObjectPv"
+    },
+    {
+      "slot": 188,
+      "address": "0x3d0dec",
+      "symbol": "_ZN6CharAI16OnCollisionBeginEP10GameObjectb"
+    },
+    {
+      "slot": 192,
+      "address": "0x3d0e10",
+      "symbol": "_ZN6CharAI18OnCollisionPersistEP10GameObjectb"
+    },
+    {
+      "slot": 196,
+      "address": "0x3d0e34",
+      "symbol": "_ZN6CharAI14OnCollisionEndEP10GameObjectb"
+    },
+    {
+      "slot": 200,
+      "address": "0x3d0e58",
+      "symbol": "_ZN6CharAI17OnCollisionResultEP10GameObjectb"
+    }
+  ]
+}

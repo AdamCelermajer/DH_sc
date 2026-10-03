@@ -1,0 +1,357 @@
+{
+  "validation": "ORIGINAL_CAPTURED",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "fdb058cb42615047ba5a440be82bb9ca61e2d88a5eb31ced602a287a889e5694",
+  "script_sha256": "e2d1ae5eccadab13d80b30918d3cf9d1842d0b090902d5dd9d8c8c813ad27b8b",
+  "bank_sha256": "76633bb4f0ab5f645f4516e407e1f926df61641ea66faa805f68da57f043eb81",
+  "corpus_sha256": "2f48967edd83a4318b1103919351d455246513981e0986374913be5a7ef689a2",
+  "component_uris": [
+    "Bip01_L_Calf-node",
+    "Bip01_L_Forearm-node",
+    "Bip01_R_Calf-node",
+    "anchor_weapon_left-node",
+    "anchor_weapon_right-node"
+  ],
+  "cases": [
+    {
+      "order": [
+        1111,
+        1029,
+        1028,
+        1027,
+        984,
+        1022,
+        1009,
+        1014,
+        1077,
+        1078,
+        1079
+      ],
+      "targets": 81,
+      "samples": 3888,
+      "cross_type_bindings": [
+        {
+          "clip_id": 1029,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1029,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1028,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1028,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1027,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1027,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 984,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 1,
+          "accessor_type": 3
+        },
+        {
+          "clip_id": 1022,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 4
+        },
+        {
+          "clip_id": 1009,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1014,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 1,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1079,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        }
+      ],
+      "original_import_calls": {
+        "strcmp": 31244,
+        "memcpy": 3888,
+        "__aeabi_i2f": 14464,
+        "__aeabi_fdiv": 3652,
+        "__aeabi_fcmpgt": 4538,
+        "__aeabi_fmul": 4938,
+        "__aeabi_fcmpeq": 2404,
+        "__aeabi_fcmplt": 3076,
+        "__aeabi_f2iz": 1980,
+        "__aeabi_fsub": 535,
+        "__aeabi_fadd": 1170,
+        "__aeabi_fcmpge": 20,
+        "sqrtf": 20
+      },
+      "factory_identity_calls": 81
+    },
+    {
+      "order": [
+        1029,
+        1028,
+        1027,
+        984,
+        1022,
+        1009,
+        1014,
+        1077,
+        1078,
+        1079,
+        1111
+      ],
+      "targets": 81,
+      "samples": 3888,
+      "cross_type_bindings": [
+        {
+          "clip_id": 984,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 4,
+          "accessor_type": 3
+        },
+        {
+          "clip_id": 1009,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 4,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1014,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 4,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1079,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1111,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 4,
+          "accessor_type": 1
+        },
+        {
+          "clip_id": 1111,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 4,
+          "accessor_type": 1
+        }
+      ],
+      "original_import_calls": {
+        "strcmp": 30816,
+        "memcpy": 3888,
+        "__aeabi_i2f": 14464,
+        "__aeabi_fdiv": 3652,
+        "__aeabi_fcmpgt": 4538,
+        "__aeabi_fcmplt": 3076,
+        "__aeabi_fmul": 4603,
+        "__aeabi_fcmpeq": 2404,
+        "__aeabi_f2iz": 1980,
+        "__aeabi_fsub": 535,
+        "__aeabi_fadd": 835,
+        "__aeabi_fcmpge": 20,
+        "sqrtf": 20
+      },
+      "factory_identity_calls": 81
+    },
+    {
+      "order": [
+        1029,
+        1028,
+        1027,
+        984,
+        1022,
+        1009,
+        1014,
+        1077,
+        1078,
+        1079
+      ],
+      "targets": 31,
+      "samples": 1600,
+      "cross_type_bindings": [
+        {
+          "clip_id": 984,
+          "uri": "anchor_weapon_right-node",
+          "union_type": 4,
+          "accessor_type": 3
+        },
+        {
+          "clip_id": 1009,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 4,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1014,
+          "uri": "anchor_weapon_left-node",
+          "union_type": 4,
+          "accessor_type": 2
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1077,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1078,
+          "uri": "Bip01_R_Calf-node",
+          "union_type": 5,
+          "accessor_type": 9
+        },
+        {
+          "clip_id": 1079,
+          "uri": "Bip01_L_Forearm-node",
+          "union_type": 5,
+          "accessor_type": 9
+        }
+      ],
+      "original_import_calls": {
+        "strcmp": 11141,
+        "__aeabi_i2f": 13600,
+        "__aeabi_fdiv": 3364,
+        "__aeabi_fcmpgt": 4250,
+        "__aeabi_fcmplt": 3076,
+        "__aeabi_fmul": 4315,
+        "__aeabi_fcmpeq": 2116,
+        "__aeabi_f2iz": 1980,
+        "__aeabi_fsub": 535,
+        "__aeabi_fadd": 835,
+        "__aeabi_fcmpge": 20,
+        "sqrtf": 20,
+        "memcpy": 420
+      },
+      "factory_identity_calls": 31
+    }
+  ],
+  "elapsed_seconds": 17.09,
+  "scope": "Actual original dynamic compiler and sampling. No native parity or live renderer claim."
+}

@@ -1,0 +1,70 @@
+{
+  "actual_source_sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+  "base_library_dependency": [
+    "type"
+  ],
+  "bytes_consumed": 4540,
+  "game_bindings_installed": [],
+  "global_reads": [
+    "StartTimer",
+    "StopTimer",
+    "Trace",
+    "evnet_name",
+    "type"
+  ],
+  "global_writes": [
+    "AttachToAnimEvent",
+    "DetachFromAnimEvent",
+    "OnAnimEvent",
+    "OnCombatResults",
+    "OnDied",
+    "OnEndOfAnim",
+    "OnEnemySpotted",
+    "OnFriendSpotted",
+    "OnInit",
+    "OnInitFinal",
+    "OnInitPost",
+    "OnMasterDied",
+    "OnMasterInCloseRange",
+    "OnMasterInMeleeRange",
+    "OnMasterInRangedRange",
+    "OnMasterInSight",
+    "OnMasterOutOfRange",
+    "OnMasterOutOfSight",
+    "OnNeutralSpotted",
+    "OnProjectileHit",
+    "OnRevived",
+    "OnTargetDied",
+    "OnTargetHit",
+    "OnTargetInCloseRange",
+    "OnTargetInMeleeRange",
+    "OnTargetInRangedRange",
+    "OnTargetInSight",
+    "OnTargetMissed",
+    "OnTargetOutOfRange",
+    "OnTargetOutOfSight",
+    "OnTerminate",
+    "OnTimer",
+    "OnUpdate",
+    "StartTimerCB",
+    "StopTimerCB"
+  ],
+  "load_requires_game_bindings": false,
+  "native_compiler_dump": ".local-inputs/lua514-source/ai-commons-native.luac",
+  "native_compiler_dump_sha256": "df6471ac9b25ff50bf36ee62d11c69962b7ab178a3ffcea4cb3bf5c031425929",
+  "prototypes": 36,
+  "required_game_bindings": [
+    "StartTimer",
+    "StopTimer",
+    "Trace"
+  ],
+  "scope": "Native compiler bytecode inventory plus actual source execution; no timer/game service stubs.",
+  "serialized_number": 4,
+  "serialized_size_t": 4,
+  "source_is_plaintext": true,
+  "source_typo_dependency": [
+    "evnet_name"
+  ],
+  "timer_callbacks_executed": false,
+  "validation": "PASS"
+}

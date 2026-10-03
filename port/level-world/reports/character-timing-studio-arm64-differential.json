@@ -1,0 +1,58 @@
+{
+  "validation": "PASS",
+  "apk": "C:\\Users\\adamc\\AndroidStudioProjects\\dh2\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+  "apk_sha256": "b24674839e2fc03030a8907eecc714ab66e82baea9a7ad6a7719bd3c0b516aaf",
+  "apk_member": "lib/arm64-v8a/libdh2_level_world.so",
+  "library_sha256": "9afaebe264533c1aff2ac741a952f01d719a9f090885713aa867a9c85de445da",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "fdc2415e2b41acac78a14ea4fd33118dbe78f46765f1b45d7ec3e8a0e0bc3f5f",
+  "prior_state_gold_sha256": "9e11a899a29f9682959c00e988ad4fc04ee4a3f610de9044e933d47997d27a57",
+  "source_sha256": {
+    "port/level-world/character_timers.cpp": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+    "port/level-world/character_timers.hpp": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+    "port/level-world/character_stance.cpp": "7aa106e88b4931132013be78f918143940e93780fdbff8f9c4fb08dff2483f6f",
+    "port/level-world/character_stance.hpp": "b4166f82c932a2122cccb1bee48cfedc930ee78903413a0ed342e6ed61e6c757",
+    "port/level-world/character_state.cpp": "bba1b88cfa918c0c59936db555efeb404dce93d37230702e8514279813ed9227",
+    "port/level-world/character_state.hpp": "a9b39da71bfde7cff4d91af364552c11c1a262591456046422a33c0950a2fb97"
+  },
+  "script_sha256": "ec09c2b7f878fe2541ed8a1e6fbfb0f00a60a43953c4245d98fa1d6044ad7661",
+  "reused_package_harness_sha256": "a499ab1726307607a5c77dc0cd831e596a1bb6df5c9af8800ff7d814844db642",
+  "timing_differential": {
+    "validation": "PASS",
+    "timer_update_cases": 1856,
+    "timer_expiry_observations": 1488,
+    "timer_source_reentry_cases": 4,
+    "timer_malformed_no_mutation_cases": 10,
+    "stance_cases": 576,
+    "stance_malformed_no_mutation_cases": 5,
+    "gate_projection_cases": 30,
+    "expiry_chain_cases": 16,
+    "borrowed_context_owner_and_user_ref_above4gib": true,
+    "grow_service_outside_update_only": true,
+    "mismatches": 0,
+    "scope": "Actual ARM64 timer/stance/state-event prefix instructions; expiry reentry, AI routing/expired callback, allocator, clock, equipment/constants are controlled services. Source original gate before OnEvent is compared to native post-event projection; no full AIS or live frame parity."
+  },
+  "prior_state_differential": {
+    "comparisons": 3910,
+    "ordered_service_requests": 8773,
+    "operation_counts": {
+      "0": 937,
+      "1": 975,
+      "2": 906,
+      "3": 1010,
+      "4": 82
+    },
+    "malformed_no_mutation_cases": 21,
+    "callback_context_and_target_identity_above_4gib": true,
+    "finite_scalar_words_and_all_nonfloat_words_exact": true,
+    "arithmetic_nan_comparison": "cached speed/scalar NaN class only; all other words exact",
+    "mismatches": 0,
+    "scope": "Packaged coordinator exports replay original-derived bounded state/service gold. Controller/body/animation/AI/timer/FX backends are controlled fixtures; no full FSM or frame parity claim."
+  },
+  "native_import_calls": {
+    "__memcpy_chk": 3
+  },
+  "data_relocations": 321,
+  "elapsed_seconds": 0.52,
+  "scope": "Execute original-derived timing gold against optimized or actual APK ARM64.\n\nExpiry/debug/clock/equipment/constants/AI services are explicit fixtures. The\ntimer, stance and state-prefix kernels execute actual ARM64 instructions. This\ndoes not validate the complete player AIS, callback allocating during expiry,\nor live frame/touch/gameplay behavior. No build/install/device operation.\n"
+}

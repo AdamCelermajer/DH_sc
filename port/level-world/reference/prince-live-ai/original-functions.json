@@ -1,0 +1,209 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI16AI_DoMeleeAttackEP10GameObjectb",
+      "elf_address": "0x3d01ac",
+      "size": 1472,
+      "sha256": "0899628bfcb3ab31927428f0d03ddeee6feb1161a690e88a565c1ccc5519b947"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13AI_BeginSpellEb",
+      "elf_address": "0x3d81c0",
+      "size": 364,
+      "sha256": "ad01a1076435bf859f8e6ed617332dd70ceefb06f8c54adcda54f483bfd7a4d0"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12OnTargetDiedEv",
+      "elf_address": "0x3d1f60",
+      "size": 180,
+      "sha256": "6da8d908e16d3107681420588e4b3b1016fd743c20b08cd1457dc53bf8e8c791"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnPreAttackEi",
+      "elf_address": "0x3dbef8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAIC1Ev",
+      "elf_address": "0x3ced50",
+      "size": 352,
+      "sha256": "e4a3df105876c622bb394d7f12bb43ac915bf8ba4927708337bf8ba786323919"
+    },
+    {
+      "original_symbol": "_Z19NativeLockCharacterRKN7gameswf7fn_callE",
+      "elf_address": "0x43eac0",
+      "size": 188,
+      "sha256": "ec231784f5fc206e34b0933a9a9cc544101a8bbbdf59f13898dfa0b85ebaf1fa"
+    },
+    {
+      "original_symbol": "_ZN20Script_LockCharacter7ExecuteEbi",
+      "elf_address": "0x45dda0",
+      "size": 304,
+      "sha256": "12c12576751894503b251139f6712d1115633a3cb22857021a609843838a5c55"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13AI_BeginSkillEj",
+      "elf_address": "0x3d86bc",
+      "size": 428,
+      "sha256": "07f9880765e3246c9b29f75f02dbb681ffcd0f2cfb9e2ada082c3286fc6eb258"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_EndSpellEb",
+      "elf_address": "0x3d7f60",
+      "size": 216,
+      "sha256": "35bc0ef467370d7aa862b5ef5f61f152c3d2c11b78c6b846d00599b1c8a5999a"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnEndOfAnimEv",
+      "elf_address": "0x3dbeec",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN16Script_MoveActor7ExecuteEbi",
+      "elf_address": "0x45f0a8",
+      "size": 596,
+      "sha256": "7d755ff415862a69d647f81537740039b2d1a83872851a44cc4f822939231443"
+    },
+    {
+      "original_symbol": "_ZN9Character22UpdateObjectOfInterestEv",
+      "elf_address": "0x3abb9c",
+      "size": 764,
+      "sha256": "7bc279cc0252233671e5b5d08e4426ea0c3f2a7a979e25181256bf682b400f71"
+    },
+    {
+      "original_symbol": "_ZN14v2ControllableC2Ev",
+      "elf_address": "0x404db8",
+      "size": 44,
+      "sha256": "424abfc84886b98cbe686d0127e4362b9489b62b629ded9b2a935d765c14ad12"
+    },
+    {
+      "original_symbol": "_ZN6CharAI6UpdateEv",
+      "elf_address": "0x3cfbf4",
+      "size": 372,
+      "sha256": "ac1373709c4ba656b3deba4c9e5f75b3677a7f526e009e748acc2880f884dcfe"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16AI_DoRangeAttackEP10GameObjectb",
+      "elf_address": "0x3d076c",
+      "size": 1044,
+      "sha256": "737997b44b60147b93e52ac2b829db669a4e9c5f961e786ca9c0c8ed9031b3bb"
+    },
+    {
+      "original_symbol": "_ZN14v2Controllable13SetControllerEP12v2Controller",
+      "elf_address": "0x404e10",
+      "size": 64,
+      "sha256": "40a1e046908edffda1a8c8928340cf876be33ad8d6ef7c9eb11d1df932b7407c"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11OnPreAttackEi",
+      "elf_address": "0x3d0ed4",
+      "size": 72,
+      "sha256": "2867d9c04d1eb9af8cd446a6532ad8ed863aa8cbe52f41509049daee0db072d5"
+    },
+    {
+      "original_symbol": "_ZN6CharAIC2Ev",
+      "elf_address": "0x3cebf0",
+      "size": 352,
+      "sha256": "90203efdaeb5c4e378736be80a95ab30a278cf81e2ccbe097e43a20f34db4009"
+    },
+    {
+      "original_symbol": "_ZN13ScriptManager5FlushEv",
+      "elf_address": "0x45a2ac",
+      "size": 64,
+      "sha256": "7339fda6965d6126468467cd9cad9924625e8e0b0983cbd34f70737e167165e3"
+    },
+    {
+      "original_symbol": "_ZN11HUDControls6UpdateEv",
+      "elf_address": "0x41a780",
+      "size": 636,
+      "sha256": "9d488158664f79160e6ab2002db04a01617f0d6aeeedd06e5f9090d322c19c3b"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12SetCharacterEP9Character",
+      "elf_address": "0x3cb7c0",
+      "size": 148,
+      "sha256": "8ee4e0ea8331204521a208e4dae4af2a3745db82d6a778fd243710decfeaaf0a"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11OnEndOfAnimEv",
+      "elf_address": "0x3d0ce8",
+      "size": 36,
+      "sha256": "7ce0618563c3b8418ecc9451ee09255e1591f92dabc2e089a41021675deef30d"
+    },
+    {
+      "original_symbol": "_ZN22Script_UnlockCharacter7ExecuteEbi",
+      "elf_address": "0x45dc80",
+      "size": 288,
+      "sha256": "08621522404dfbc0ce377cf99b544e1756c1ef902484dc7f45eea21ce8dd59bf"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+    },
+    {
+      "original_symbol": "_ZN6CharAI21AI_PauseTargetSeekingEj",
+      "elf_address": "0x3d53ec",
+      "size": 48,
+      "sha256": "344f0cda564290a635b5a79e966e33715bf6e31fd644784e912dd7ab0044f344"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_EndSkillEj",
+      "elf_address": "0x3d8474",
+      "size": 108,
+      "sha256": "311acd353c02d9db01124eefbf8b15cfe15f05e3dd38041fcce0efeac3f54ca9"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x3aa1b4",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6"
+    },
+    {
+      "original_symbol": "_ZN16Script_LookActor7ExecuteEbi",
+      "elf_address": "0x45ec50",
+      "size": 624,
+      "sha256": "057034e3c8587790f21b29d16a675c1c179ff1d5058e654c18e9ae8bb4e2019a"
+    },
+    {
+      "original_symbol": "_ZN6CharAI21_ClearNonStickyTargetEv",
+      "elf_address": "0x3d8d70",
+      "size": 44,
+      "sha256": "8fad1c042a0d9820c05cf118c2bc721b52ca9fa5b792d60ce66c81dee4bf73e8"
+    },
+    {
+      "original_symbol": "_ZN15v2HudControllerC1EP14v2Controllable",
+      "elf_address": "0x408930",
+      "size": 212,
+      "sha256": "a1e0a5adae085ab373a2d234a6c5867c3b0432472589cba0fad89d5a032ba3bc"
+    },
+    {
+      "original_symbol": "_ZN9Character10Ctrl_ClickERK7Point3DIfEb",
+      "elf_address": "0x3addc8",
+      "size": 1704,
+      "sha256": "3b08e77a3865370f9927b448642edbee7b8cef92e4a516f6532ab5e6b15ec9be"
+    },
+    {
+      "original_symbol": "_ZN16Script_KillActor7ExecuteEbi",
+      "elf_address": "0x45ea04",
+      "size": 272,
+      "sha256": "692aebf263c21a1aba41ca7250e61b2ede23e2d2174ea03ad5a51d372ad41beb"
+    }
+  ]
+}

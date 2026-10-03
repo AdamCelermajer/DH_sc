@@ -1,0 +1,11 @@
+{
+  "comparisons": 3864,
+  "service_requests": 22218,
+  "malformed_checks": 5,
+  "mismatches": 0,
+  "reference_sha256": "63f1cd1e6bc3b0fd956fa638cba5483208ea65fcbbeb29eb1431a39770cd6dce",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

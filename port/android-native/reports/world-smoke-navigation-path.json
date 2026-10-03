@@ -1,0 +1,320 @@
+{
+  "apk_sha256": "243a217fb1e47a0fcbbf21b93d48e6e43626bffedfc6733450f6cd209802633d",
+  "installed_apk_sha256": "243a217fb1e47a0fcbbf21b93d48e6e43626bffedfc6733450f6cd209802633d",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "669f4f51cfd80c6491976594cacca50a024889eb21abcb0e47b2c681dc4f730b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "fada64ceb7536894e654ed7d97bd7a38d267502a1acf9c999dc9ded07c208d33",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "30ac639fa4ba935d63829359b4da63d6a4f44a27f928007b84863b7b859922cb",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "fa261fb376a49796c19529ceb38833f5d344ba118662a597bdd71c4c382eb9a0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "3b9af42f5a7e6472bc41e45127b3f7d2f703d117cb2cea09e2f10db52aee2bcf",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "636fd01174bb912a242c6c204929cd87110b215ce66bbc377483b736f484356b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "bb23bf3bc26522103e4b1b29e6e865a9b79cd99ed942c2023da4f2924d975233",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "cb971f41bdffc74d93cd8582248d37565a0abf1ac82781e4c2f9b760edb1bb50",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "63b7cd04a9482f86066de528b810aff6b18c0bd60f783f96acff4e86ad27f7f4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "00c7a2e259df9ecdfc5bd28b2c96ef15b3fdfa79b90568e47c54b751d9f0509b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "04f9a7b038343ef6a6be3df8271636c20f827c6e955f83fafb1e894a10873995",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "screenshot": "idle-frozen-100.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187195
+    },
+    {
+      "screenshot": "idle-frozen-repeat.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187195
+    },
+    {
+      "screenshot": "idle-frozen-700.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187066
+    },
+    {
+      "screenshot": "idle-live.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187117
+    },
+    {
+      "screenshot": "idle-live-repeat.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187064
+    },
+    {
+      "screenshot": "walk-stairs.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1092565
+    },
+    {
+      "screenshot": "landscape-restored.png",
+      "viewport": [
+        2400,
+        612
+      ],
+      "movement_control_bounds": [
+        42,
+        555,
+        462,
+        975
+      ],
+      "rendered_pixels": 1006808
+    },
+    {
+      "screenshot": "portrait-restored.png",
+      "viewport": [
+        1080,
+        1932
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1262401
+    },
+    {
+      "screenshot": "resume-stopped.png",
+      "viewport": [
+        1080,
+        1932
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1089981
+    },
+    {
+      "screenshot": "rubble-boundary.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1275904
+    }
+  ],
+  "movement": [
+    {
+      "case": "stairs",
+      "start": [
+        -2227.77,
+        1220.9301,
+        842.3644
+      ],
+      "end": [
+        -2227.77,
+        -453.7395,
+        141.6855
+      ],
+      "ground_height": 141.68550981692405,
+      "moved_frames": 255,
+      "blocked_frames": 0
+    },
+    {
+      "case": "pause_cancels_held_touch",
+      "paused": [
+        -2227.77,
+        -206.0333,
+        266.7493
+      ],
+      "resumed": [
+        -2227.77,
+        -206.0333,
+        266.7493
+      ],
+      "stationary_after_resume": [
+        -2227.77,
+        -206.0333,
+        266.7493
+      ]
+    },
+    {
+      "case": "rubble_boundary",
+      "start": [
+        -2227.77,
+        1220.9301,
+        842.3644
+      ],
+      "end": [
+        -2057.5029,
+        1220.9301,
+        842.3644
+      ],
+      "moved_frames": 26,
+      "blocked_frames": 127,
+      "ground_height": 842.3643798828125
+    }
+  ],
+  "frozen_idle_stable": true,
+  "live_idle_changed_pixels": true,
+  "rotation_position_preserved": true,
+  "pause_cancels_movement": true,
+  "floor_geometry_sha256": "05fed3c646ac7e2f1e188cc5abbd2975db063cdbe7517c87709bf8c911581fe0",
+  "physical_arm64_tested": false,
+  "original_pf_parity_verified": false,
+  "original_gpu_parity_verified": false,
+  "full_game_playable": false,
+  "native_floor_records": 8,
+  "native_graph_nodes": 335,
+  "native_graph_edges": 838,
+  "native_selector_collision_used_by_height": true,
+  "original_movement_controller_reconstructed": false,
+  "native_neighbour_floor_relations": 14,
+  "native_validation_references": 998,
+  "native_floor_sewing_used_by_level_load": true,
+  "native_route_search_used_by_gameplay": false,
+  "native_graph_node_search_used_by_startup_probe": true,
+  "crypt_route_probe": {
+    "floor_pairs": 64,
+    "successful": 64,
+    "segments": 1598,
+    "state_fnv1a64": "5454073390c7d916"
+  },
+  "world_endpoint_selection_reconstructed": true,
+  "native_world_coordinate_search_used_by_startup_probe": true,
+  "crypt_world_route_probe": {
+    "floor_pairs": 64,
+    "successful": 64,
+    "direct": 0,
+    "graph": 64,
+    "segments": 2086,
+    "state_fnv1a64": "3a3ab2a724cc383b"
+  },
+  "original_smoothing_reconstructed": true,
+  "original_findpath_reconstructed": true,
+  "native_findpath_used_by_startup_probe": true,
+  "original_waypoint_path_step_reconstructed": true,
+  "native_findpath_used_by_actor_movement": false,
+  "crypt_findpath_probe": {
+    "floor_pairs": 64,
+    "successful": 64,
+    "owned": 64,
+    "segments": 2086,
+    "state_fnv1a64": "9356b419cae2bc57"
+  }
+}

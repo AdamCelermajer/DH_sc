@@ -1,0 +1,101 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch5video16CPrimitiveStream10SMapBufferIKtE5resetERKS1_NS0_24E_BUFFER_READ_MAP_ACCESSE.clone.2",
+      "elf_address": "0x5911a0",
+      "size": 152,
+      "sha256": "17b7746ab56c45cdf7564d1175cc94fc06886330dbeea8cd80c9e0a0531020b6"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN6glitch4core10triangle3dIfEENS1_10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE22_M_insert_overflow_auxEPS3_RKS3_RKSt12__false_typejb.clone.3",
+      "elf_address": "0x591238",
+      "size": 452,
+      "sha256": "29915904e7bb057985d6862aa4e39d4bc564d9b89bdeb428178c0c6c579aaef9"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIfSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+      "elf_address": "0x591d38",
+      "size": 1904,
+      "sha256": "f76115582186f65c35f4205a6732509a50d2a8fae2365cfe979e3a8528411d65"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIjSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+      "elf_address": "0x5924a8",
+      "size": 2480,
+      "sha256": "ce6173e29092782d060c3dcbadc6da5eddd7df4e3f810093a86229781b59ae6e"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIaSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+      "elf_address": "0x592e58",
+      "size": 2480,
+      "sha256": "3eae95d3da50ab7c0ee71ca245488225ff4c09e9ff0dfe63c987cb389dc98132"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIhSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+      "elf_address": "0x593808",
+      "size": 2480,
+      "sha256": "4a884cdb5278aaedb8354054e825105fc86d3ecc2956179a0a31876a9e35af09"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIsSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+      "elf_address": "0x5941b8",
+      "size": 2480,
+      "sha256": "95e2c58bc7dabc0bcb1f17018670d94404daad41c14e8211d46759cc6c88d634"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesItSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+      "elf_address": "0x594b68",
+      "size": 2480,
+      "sha256": "edaa7294f83080aef287d7f35fe8cfa6be318bebdf99c8fbec244b069cf64f2d"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene12_GLOBAL__N_115createTrianglesIiSt6vectorINS_4core10triangle3dIfEENS4_10SAllocatorIS6_LNS_6memory13E_MEMORY_HINTE0EEEEEEvPKtjRKNS_5video13SVertexStreamERT0_",
+      "elf_address": "0x595518",
+      "size": 2480,
+      "sha256": "7b022cc1d87b306fba61246404a3b200086f9c173cf604c1762f69788401a721"
+    },
+    {
+      "original_symbol": "_ZN7PFFloor12_LoadNavMeshEPN6glitch5scene14IMeshSceneNodeE",
+      "elf_address": "0x520b40",
+      "size": 1112,
+      "sha256": "d3493cf0f54587075fd26b84e92cf1331d4d0eb070a90ed320b9d200000939d3"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN6glitch4core10triangle3dIfEENS1_10SAllocatorIS3_LNS0_6memory13E_MEMORY_HINTE0EEEE7reserveEj",
+      "elf_address": "0x591060",
+      "size": 320,
+      "sha256": "750193b045349a5a7bf78867b907043b9f21d8a38824934eac58f31178f35f68"
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core8CMatrix4IfE14transformBoxExERNS0_8aabbox3dIfEE",
+      "elf_address": "0x597548",
+      "size": 452,
+      "sha256": "d6ff3483864c4659df2d539ce9a074d91a75188abb0ee275aa65b86c76beaa58"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode25getTransformedBoundingBoxEv",
+      "elf_address": "0x59770c",
+      "size": 124,
+      "sha256": "3ac37225aa9d7b429a9f40792c29254043fb1aa970ece65873bd6f22b357296d"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene17CTriangleSelector12getTrianglesEPNS_4core10triangle3dIfEEiRiPKNS2_8CMatrix4IfEE",
+      "elf_address": "0x591464",
+      "size": 1340,
+      "sha256": "6edd69cbbc0773a5fa4fdac8448c0bae90f070dd1c76b9defd0d6533e9d61cf3"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene17CTriangleSelectorC2ERKN5boost13intrusive_ptrIKNS0_5IMeshEEEPKNS0_10ISceneNodeEb",
+      "elf_address": "0x596598",
+      "size": 1744,
+      "sha256": "0f63e61d56cea915b3afff39b8fb6148ebbcdd47f14baaf77f60f2c2e8c7efc2"
+    },
+    {
+      "original_symbol": "_ZN5boost13intrusive_ptrIKN6glitch5video14CVertexStreamsEED1Ev",
+      "elf_address": "0x35eb90",
+      "size": 64,
+      "sha256": "a451df958834ac54d933cf82b8ed3e137a9467e036d7d39d744d6e310987564a"
+    }
+  ]
+}

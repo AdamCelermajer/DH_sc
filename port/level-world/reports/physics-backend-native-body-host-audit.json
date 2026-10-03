@@ -1,0 +1,14 @@
+{
+  "genuine_world_steps": 163,
+  "contact_additions": 1,
+  "contact_solver_results": 31,
+  "pin_unpin_move_stop_verified": true,
+  "native_force_clearing_verified_by_step": true,
+  "subobjects_native_services": 4,
+  "atomic_rejection_checks": 5,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

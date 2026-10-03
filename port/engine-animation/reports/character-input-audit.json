@@ -1,0 +1,46 @@
+{
+  "scope": "input inventory for the next skinning/character milestone; not implemented playback",
+  "inputs": [
+    {
+      "name": "goblin_idle_01.bdae",
+      "bytes": 10152,
+      "sha256": "31c29a1f957191541d3c16c42ff0b4734aa97d7c57333925cbded7309e0c2c3c",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/goblin/animations/goblin_idle_01.bdae",
+      "geometries": 0,
+      "controllers": 0,
+      "animations": 23,
+      "visualscenes": 0,
+      "animation_track_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 1
+      }
+    },
+    {
+      "name": "prince_modular.bdae",
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/prince_modular.bdae",
+      "geometries": 173,
+      "controllers": 173,
+      "animations": 0,
+      "visualscenes": 1,
+      "animation_track_type_counts": {}
+    },
+    {
+      "name": "prince_menu_idle_knight.bdae",
+      "bytes": 19400,
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_menu_idle_knight.bdae",
+      "geometries": 0,
+      "controllers": 0,
+      "animations": 29,
+      "visualscenes": 0,
+      "animation_track_type_counts": {
+        "5": 25,
+        "10": 1,
+        "1": 3
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "cases": 525,
+  "sessions": 346,
+  "direct_routes": 11,
+  "graph_routes": 109,
+  "failed_routes": 405,
+  "referenced_floor_queries": 981,
+  "atomic_rejection_checks": 5,
+  "authored_graph_nodes": 335,
+  "authored_graph_edges": 838,
+  "mismatches": 0,
+  "reference_sha256": "5790a2179e78308fd3503c468348979b64d6c1aeaa60cd92b9cfbe3e7c7191ed",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "bres_sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+  "descriptor_sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+}

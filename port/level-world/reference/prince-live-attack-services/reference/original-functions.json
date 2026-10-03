@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNSt4priv11_Deque_baseIN14ObjectSearcher10TargetInfoESaIS2_EE17_M_initialize_mapEj.clone.4",
+      "elf_address": "0x4a2240",
+      "size": 116,
+      "sha256": "7e979de3b1d8415f5ea45c2c429668ffbde00fbb1e83415309036e85d49b189f"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList6SearchEffRNS_11IObjectListE",
+      "elf_address": "0x4a3428",
+      "size": 100,
+      "sha256": "940cc0a5eac7a2b4d371fed4a90b4441a86c0b53e462a792b82e94e321e181e1"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList6SearchEff",
+      "elf_address": "0x3d0020",
+      "size": 96,
+      "sha256": "a2c856d63b496b56ddbf0fb85c9e0215c4bff1700dba2a3335811b242192b3f2"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory14CanMeleeAttackEv",
+      "elf_address": "0x3ffd38",
+      "size": 28,
+      "sha256": "b8954d6bf9cc99789dd4d41c57e2c491d3c1a17ffbc4d0dec4f6e6d5d88e2814"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList12SetRefObjectEP10GameObject",
+      "elf_address": "0x4a191c",
+      "size": 52,
+      "sha256": "352e90a1c50195ce1c9d5527196cfe14bf209e6dc80bf1c422b30d56820b569c"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI10AI_IsEnemyEPK10GameObject",
+      "elf_address": "0x3d574c",
+      "size": 844,
+      "sha256": "e99c62ec437b85a44ef4162fb17029fd851e01f66a92d226dc2d92b785713f4d"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_IsInRangeEPK10GameObject",
+      "elf_address": "0x3d6604",
+      "size": 496,
+      "sha256": "4a6ba18738818814cbc83a009688bbeda2a59c02e440fd8a6b65d47ff4e32372"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI17AI_IsInMeleeRangeEPK10GameObject",
+      "elf_address": "0x3d6188",
+      "size": 592,
+      "sha256": "6c13d41b93867847c30a7ab0d56dea1bc82b864d278bc000e2f024628ae4a624"
+    }
+  ]
+}

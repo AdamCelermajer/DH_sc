@@ -1,0 +1,349 @@
+{
+  "validation": "PASS",
+  "actual_packaged_library_executed": true,
+  "apk": "C:\\Users\\adamc\\AndroidStudioProjects\\dh2\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+  "apk_sha256": "b24674839e2fc03030a8907eecc714ab66e82baea9a7ad6a7719bd3c0b516aaf",
+  "libraries": {
+    "lib/arm64-v8a/libdh2_engine_animation.so": {
+      "sha256": "5eca9a57d6f7431eb6744b767e1076aaf974af61aa6b731260c4184ac6ac0be6",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\animation-blend-packaged\\b24674839e2fc03030a8907eecc714ab66e82baea9a7ad6a7719bd3c0b516aaf\\libdh2_engine_animation.so"
+    },
+    "lib/arm64-v8a/libdh2_scene_materials.so": {
+      "sha256": "a1930fd7b9ea40fbb876cf5746d8d790bf2d1a0e0ef361eff4d61bb84a7138c0",
+      "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\animation-blend-packaged\\b24674839e2fc03030a8907eecc714ab66e82baea9a7ad6a7719bd3c0b516aaf\\libdh2_scene_materials.so"
+    }
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reference_sha256": "393c538d7eb584de465e22992b3fc7580b5294bc310e859425471ede8fb71a80",
+  "original_differential_report_sha256": "73e5ad5934e0c5f8b5f913ff066cdc3ec7d3d15d63af01423bbaccb65b9761c8",
+  "source_sha256": {
+    "port/engine-animation/animation_blend.cpp": "5066e683add9d92643f350aa91819f694a7b2be82201785be40cc7812536d2ac",
+    "port/engine-animation/animation_blend.hpp": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+    "port/engine-animation/tests/animation_blend_differential.py": "d989bde7ea51d0f1e2e105bfe794e45066cf97c94a2efaf927d9558959aec42d"
+  },
+  "script_sha256": "7d5637be6f1f288faca0f601e60aebc8e208bcec642b87e622d1df6e9262556c",
+  "differential": {
+    "comparisons": 5786,
+    "operation_counts": {
+      "0": 1053,
+      "1": 1053,
+      "2": 1053,
+      "3": 2627
+    },
+    "copy_bit_exact_cases": 1647,
+    "ordered_external_sinf_acosf_calls": 8080,
+    "original_sqrtf_observations": 166,
+    "native_external_sqrtf_calls": 0,
+    "atomic_rejection_checks": 36,
+    "genuine_packaged_slerp_calls": 2299,
+    "packaged_math_unique_instructions": 406,
+    "mismatches": 0
+  },
+  "cross_library_resolutions": [
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZTISt13runtime_error",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800709d0"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt13runtime_errorD1Ev",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18004983c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZTISt12length_error",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180070938"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt12length_errorD1Ev",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800497a8"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZTVSt12length_error",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180070910"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZTISt20bad_array_new_length",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800707f8"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt20bad_array_new_lengthD1Ev",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180049670"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZTISt9exception",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800707a8"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZTISt9exception",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800707a8"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "__gxx_personality_v0",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180065d2c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_quat_slerp",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800405c4"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "__cxa_allocate_exception",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800651c4"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt13runtime_errorC1EPKc",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180040c20"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "__cxa_throw",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800653f0"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "__cxa_free_exception",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800652b0"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_bres_open",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003a99c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt13runtime_errorC1ERKNSt6__ndk112basic_stringIcNS0_11char_traitsIcEENS0_9allocatorIcEEEE",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180040b8c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_bres_library_count",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003b058"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_segments",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003ccdc"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_open",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003cddc"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_channels",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003dc8c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_samplers",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003dce4"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_type",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003dc2c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_scales",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003e000"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_offsets",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003dfd4"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_target",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003da8c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEED1Ev",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800413e8"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_vector",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003e0e0"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_interpolation",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003dd9c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_vector_read",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003e1b0"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_key_time",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003e308"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "__cxa_begin_catch",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180065214"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "__cxa_end_catch",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18006547c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6appendEPKc",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180042f7c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6__initEPKcm",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180041680"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6assignEPKc",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180042ba0"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZSt9terminatev",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18004936c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "dh2_animation_find",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18003e9c0"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZN3dh25scene12update_worldERNS0_5SceneERNSt6__ndk112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEE",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18002ed6c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZdlPvmSt11align_val_t",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180065160"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZdlPvm",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x1800650d0"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt11logic_errorC2EPKc",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180040a70"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt20bad_array_new_lengthC1Ev",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180049750"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZnwmSt11align_val_t",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18006b51c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_Znwm",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18006b4a8"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1ERKS5_",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x18004123c"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEaSERKS5_",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180042d60"
+    },
+    {
+      "consumer": "libdh2_engine_animation.so",
+      "symbol": "_ZNKSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE7compareEmmPKcm",
+      "provider": "libdh2_scene_materials.so",
+      "target": "0x180042a24"
+    }
+  ],
+  "dynamic_relocations": {
+    "1027": 1337,
+    "1025": 50,
+    "257": 483,
+    "1026": 398
+  },
+  "native_import_calls": {
+    "__memcpy_chk": 12962,
+    "acosf": 1928,
+    "sinf": 6152
+  },
+  "libm_dependency_model": "Existing Windows UCRT sinf/acosf/sqrtf model; genuine packaged quaternion/math algorithm executes. Compiler FSQRT allowed; no finite/signed-zero output tolerance. Not a historical Bionic libm claim.",
+  "nonfinite_input_policy": "All copy-branch bits exact including signaling/payload NaNs; arithmetic NaNs classification only; finite/signed-zero outputs exact.",
+  "scope": "Actual packaged typed contribution kernels plus packaged quaternion math.\n\nBoth APK ELFs execute in one ARM64 instruction CPU. Cross-library calls resolve\nto actual packaged dh2_quat_slerp; only imported libc and the existing Windows\nUCRT sinf/acosf/sqrtf contract are modeled. This is the original audit's libm\ncontract, not historical Bionic parity. Copy branches preserve all bits,\nincluding NaNs; arithmetic NaNs compare by classification. No device/build.\n",
+  "elapsed_seconds": 1.093
+}

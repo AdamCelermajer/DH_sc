@@ -1,0 +1,119 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "samples": [
+    {
+      "name": "pvr2_env_darktemple_alpha.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_darktemple_alpha.tga",
+      "bytes": 262204,
+      "sha256": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714"
+    },
+    {
+      "name": "skybox_wind.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_wind.tga",
+      "bytes": 131132,
+      "sha256": "7e89b7ac4e2e8daea82e2f0f8397259af24b44c33e6cc88ef799eec15fa7074f"
+    },
+    {
+      "name": "env_selectorcharactere_solide.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_selectorcharactere_solide.tga",
+      "bytes": 524348,
+      "sha256": "afced3f99c4d32d04a173066cbd10ce4cabe9c1d9a896fededa6d23b6d05f7ec"
+    },
+    {
+      "name": "godparticle_face.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/godparticle_face.tga",
+      "bytes": 2108,
+      "sha256": "8e15108e74b443ee6c11bc2cfb05af23c046a53e0dac37df24973e848b6117ea"
+    },
+    {
+      "name": "env_crypt_spec.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_crypt_spec.tga",
+      "bytes": 131132,
+      "sha256": "d74002ba771e1ba50fc421cf1066d1b0f977d5377dbd4971d92643f007f1b737"
+    },
+    {
+      "name": "fx_smoke_03.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_03.tga",
+      "bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0"
+    },
+    {
+      "name": "pvr2_env_crypt_alpha.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_crypt_alpha.tga",
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    {
+      "name": "skybox_selector.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_selector.tga",
+      "bytes": 131132,
+      "sha256": "d41ace06bf91f57b2bea7658414b4d6dfb04d0856f0575c8f2d250a8a6831594"
+    },
+    {
+      "name": "pvr2_env_darkwoods_alpha_alpha.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_darkwoods_alpha_alpha.tga",
+      "bytes": 262204,
+      "sha256": "087d110133be72b9a5f9e4339fbd6707ea3e6e834d1e6d8a97bbde4cc4ac1413"
+    },
+    {
+      "name": "atlas_modular_warrior.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_modular_warrior.tga",
+      "bytes": 524348,
+      "sha256": "b78abd158902679a467f4c86794c90554deca06a97bf3b4bdf8beba88ef10a5a"
+    },
+    {
+      "name": "env_crypt.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_crypt.tga",
+      "bytes": 524348,
+      "sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad"
+    },
+    {
+      "name": "menugraphics03.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/menugraphics03.tga",
+      "bytes": 1048620,
+      "sha256": "0f0ec6784f20c469fc05becf9e82251fee19b4856ed15b14e3e01a695b92ca7b"
+    },
+    {
+      "name": "env_darkwoods_alpha.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_darkwoods_alpha.tga",
+      "bytes": 524348,
+      "sha256": "e904c2fc1534b5708689903a650693e1f52acbe8b59483553fe002eef5551832"
+    },
+    {
+      "name": "candle_flame.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/candle_flame.bdae",
+      "bytes": 16856,
+      "sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6"
+    },
+    {
+      "name": "main_menu_charactere_swamp.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/menu/main_menu_charactere_swamp.bdae",
+      "bytes": 158440,
+      "sha256": "8a3462863a3d6ca2255d96989d53a21cddfba821e42c8a13e676f10e51d1300b"
+    },
+    {
+      "name": "prince_modular.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/prince_modular.bdae",
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "name": "prince_menu_idle_knight.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_menu_idle_knight.bdae",
+      "bytes": 19400,
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a"
+    },
+    {
+      "name": "prince_walk_1hand.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "name": "prince_idle_shield.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    }
+  ]
+}

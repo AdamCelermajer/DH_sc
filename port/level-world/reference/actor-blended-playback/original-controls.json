@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "06fc59bffe26bfce4d0a5089877f1a4e8fca11613b461bcd5ff7f041d0549f1a",
+  "script_sha256": "5504e364fcd6cec215055455700fd8d8bbe944540da16dab1e79163bdb27c7ce",
+  "corpus_sha256": "5e05b6c3acab8b8f86709881ae4b0bca8e79747e808a320eb3dafc8abd9b8fd0",
+  "original_control_cases": 2160,
+  "scope": "Original public ANIM_SetStep/SkipNextStep/StopLoop and closed getters.\n\nThese metadata adapters are distinct from private _SetAnimStep selection.\nThe resolved immutable sequence table is an explicit fixture for GetStepCount.\n"
+}

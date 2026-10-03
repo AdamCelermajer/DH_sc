@@ -1,0 +1,138 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "1c97444357cc3de3a62aeb4e4fd3ac5a86597e6785a114eacf5619d4719e9226",
+  "build": {
+    "source_sha256": {
+      "port/script-runtime/script_function_alias.cpp": "d6bc06c9ac09969b914f4d8025d2efea281eaf2bd91a9bb52dccc141512e3271",
+      "port/script-runtime/script_runtime.h": "f90ce7145e38e54e473c332be2727ce0f62c46c9e6efc95ef01d325cee173f39",
+      "port/script-runtime/script_function_alias.h": "9d138d3aa92e96fd0d0dabddea721c7fc8470b7e64d5bf116c98865e7c84d868"
+    },
+    "ndk": "29.0.14206865",
+    "arguments": [
+      "--target=aarch64-linux-android24",
+      "-shared",
+      "-fPIC",
+      "-O2",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "port/script-runtime/script_function_alias.cpp",
+      "-o",
+      ".local-inputs/script-function-alias/oracle.so"
+    ],
+    "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+    "libcxx_header_sha256": {
+      "map": "d298e22554e05ff08b9412ecc8c2c4b7cbd80fe6db0c0aa359182045a7d6ab41",
+      "__tree": "9df7eb09668849396646b56d17b8bd0ec1a8c7156e7c56de00708ac2114d7674",
+      "string": "298c6881f44af57422956cf4de6c77df1ce064e391981907e1e5fd93c424ab0b"
+    },
+    "compiler_version": "Android (13989888, based on r563880c) clang version 21.0.0 (https://android.googlesource.com/toolchain/llvm-project 5e96669f06077099aa41290cdb4c5e6fa0f59349)\r\nTarget: x86_64-w64-windows-gnu\r\nThread model: posix\r\nInstalledDir: C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/bin",
+    "compiler": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+    "library_sha256": "1c97444357cc3de3a62aeb4e4fd3ac5a86597e6785a114eacf5619d4719e9226"
+  },
+  "build_manifest_sha256": "9a0e5730a45b7084bd6124744fb80f277fc55633179c95f2d8d5f0c630b2da32",
+  "optimized_arm64": true,
+  "native_pointers_above_4GiB": true,
+  "preserved_original_cases": 4209,
+  "extension_cases": 162,
+  "comparisons": 4371,
+  "mismatches": 0,
+  "preserved_gold_sha256": "154c320b65b43180ece8dbdaa4115305c58f21ab6aa6b5f3522992b2ad1a892e",
+  "extension_gold_sha256": "2fab4c5eaa3589d47e36fec3fae0977470e7d6cee658f754bb454a9325d65ad0",
+  "original_probe_sha256": "5410be0c37b059707af01bf7d2645d3e73f7ddf1309c05defcb1b2afe29dd246",
+  "preserved_host_report_sha256": "6ceea1f2623f170ee1b1fd8e46872c1e47dd7cead61ac7ce8d6de3716f863771",
+  "original_manifest_sha256": "5528f8975e8484f7a0af7642ef8ab499e19c980447018ce0c8887460a3cbbaa8",
+  "original_assembly_sha256": "535a35a3ac53d3a84b0eb22d81a48574083566ae50d6ca580201525c396ceaea",
+  "source_sha256": {
+    "port/level-world/../game-data/tests/aggro_differential.py": "3d5fc4103199edbe847f886344f048738067ee8b329816531b82d8bc7174a759",
+    "port/level-world/../game-data/tests/combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "port/level-world/../game-data/tests/combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "port/level-world/../game-data/tests/combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "port/level-world/../game-data/tests/health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "port/level-world/tests/collision_differential.py": "d88930fd2d1c94834e1b378f0aa1e799ba736c1da7a28c41a49905cf474e1fba",
+    "port/level-world/tests/navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148",
+    "port/level-world/tests/navigation_motion_differential.py": "717a7e9967138ba4ce1235a3b4d8a270a578905ba61b947a3ab55b255a92b464",
+    "port/level-world/tests/navigation_search_differential.py": "c5b450239ddb884e421d3a3dd0dd87d1ae21d854fe7f5e1f985db57c9ab9f511",
+    "port/level-world/tests/navigation_world_differential.py": "49a6903a984e60e446e354522658d3a43193447fc95d9fa4ecba324c61ccd7a1",
+    "port/level-world/tests/selector_differential.py": "97edf2512d11dd1f0ac0d647aef700f4564c4e41d627c6284f8454befbf2d837",
+    "port/level-world/tests/subobjects_update_differential.py": "9e77526580b39c4560e5f8b49d96e1a3014b5821499e6fc8e19c7b74c0769443",
+    "port/level-world/tests/visual_timeline_differential.py": "ce516c7e9f913ea92389c7e74b14eee7f629f9d8e623eb2b646b5afb2234fb0e",
+    "port/script-runtime/reference/function-alias/build_arm64_oracle.ps1": "68332ae236214a71b4bbb439a34c56260599a4123a09cdc4835539a68887fd68",
+    "port/script-runtime/reference/function-alias/probe_original.py": "a2b2b5adb0b39aff03b38f4b8d62b16663901b16f6ce31fb5ee021167eff4712",
+    "port/script-runtime/script_function_alias.cpp": "d6bc06c9ac09969b914f4d8025d2efea281eaf2bd91a9bb52dccc141512e3271",
+    "port/script-runtime/script_function_alias.h": "9d138d3aa92e96fd0d0dabddea721c7fc8470b7e64d5bf116c98865e7c84d868",
+    "port/script-runtime/script_runtime.h": "f90ce7145e38e54e473c332be2727ce0f62c46c9e6efc95ef01d325cee173f39",
+    "port/script-runtime/tests/script_function_alias_differential.py": "56bbd13f6566fec5e27b9c3086996ba58990d3ec78fee3aef20747ea0ea443d7"
+  },
+  "cases_by_operation": [
+    263,
+    1935,
+    1796,
+    272,
+    51,
+    52,
+    2
+  ],
+  "ordered_string_copy_services_compared": 317,
+  "complete_main_and_backup_state_comparisons": 4108,
+  "native_RB_integrity_checks": 8216,
+  "native_long_string_assignments": 84,
+  "actual_native_bound_producer_callback_calls": 377,
+  "native_binding_registration_names": [
+    "AddToVFTable",
+    "PushVFTable",
+    "PopVFTable",
+    "AddToVFTable",
+    "PushVFTable",
+    "PopVFTable",
+    "AddToVFTable",
+    "PushVFTable",
+    "PopVFTable"
+  ],
+  "resolved_call_contract_cases": 3,
+  "resolved_call_contract": [
+    {
+      "name_hex": "52656e616d6564",
+      "requested_identity": false
+    },
+    {
+      "name_hex": "556e6d6170706564",
+      "requested_identity": true
+    },
+    {
+      "name_hex": "4f74686572",
+      "requested_identity": false
+    }
+  ],
+  "native_tree_insertion_balance_erase_destroy_instructions_execute": true,
+  "native_import_calls": {
+    "_Znwm": 134,
+    "dh2_script_vm_bind_source_values": 9,
+    "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEE6assignEPKc": 192,
+    "_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEaSERKS5_": 127,
+    "_ZdlPvm": 187,
+    "dh2_script_vm_call_discard_source": 3
+  },
+  "explicit_services": {
+    "original": [
+      "C++ std::string temporary construction/allocation",
+      "map::operator[]/erase/clear allocation and tree shape",
+      "strlen and zero-length memcmp",
+      "lazy hash initializer guard",
+      "Lua globals primitive and pCall execution for three resolved-call cases"
+    ],
+    "arm64": [
+      "operator new/delete fixture storage",
+      "libc++ string assignment/copy with actual short/long object ABI",
+      "VM binding registration/call observation; no Lua argument projection or complete VM execution"
+    ]
+  },
+  "packaged_apk": false,
+  "full_VM_or_allocator_parity": false,
+  "elapsed_seconds": 4.34,
+  "scope": "Actual original hashing/unsigned lookup/contains/VFTable producer guards, backup, restore, erase and copy order versus O2 ARM64 source. ARM32 container allocation/shape is a service; native std::map tree instructions execute. String allocation/copy primitives are explicit on both sides, byte results and complete main/backup states exact."
+}

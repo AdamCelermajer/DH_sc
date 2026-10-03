@@ -1,0 +1,547 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "vtables": [
+    {
+      "symbol": "_ZTVN7Structs14SpawnCharacterE",
+      "address": "0x96a910",
+      "sha256": "1da6f2446b5a823c2bb30d44b330cb876c850e340413b02ba07ad9bf741cf89f",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTVN7Structs16GameObjectVisualE",
+      "address": "0x96b480",
+      "sha256": "fda28fcefef692c0c2732d868741a74a05e2a9249a04930fd32da43ff9b2088c",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTVN7Structs16GameObjectDamageE",
+      "address": "0x96b498",
+      "sha256": "bbd3f7d471116d046ed45e83b24edc2b138964b6aa9f90a9b47e1863d127bd6d",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs21v2QuestOpenGameObjectE17QE_OpenGameObjectE",
+      "address": "0x9695b0",
+      "sha256": "1690035e6a7c50f5fd36f6707a664d43cf7d86d8c9a6f3f2852d74a398ef83cb",
+      "slots": {
+        "0x28": {
+          "address": "0x47ab54",
+          "symbol": "_ZN18Objective_SavedQty9_loadDataEP11IStreamBase"
+        },
+        "0x34": {
+          "address": "0x47acf0",
+          "symbol": "_ZN23Objective_EventReceiver7onEventEPK6IEventPK12EventManager"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTV19MenuCharacterSelect",
+      "address": "0x967d88",
+      "sha256": "cd7789ba06682165b5a436b8f6ad46e0e77bf988b6c91c841a521f96cd597342",
+      "slots": {
+        "0x28": {
+          "address": "0x41b3bc",
+          "symbol": "_ZN6MenuFX5State16UpdateBackgroundEi"
+        },
+        "0x34": {
+          "address": "0x41f3fc",
+          "symbol": "_ZN8MenuBase14CanHandleEventERN8RenderFX5EventE"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTV11POCharacter",
+      "address": "0x968f48",
+      "sha256": "023ca6a90cc8f80dbe7499401964b6e61cf50dbf3b071d2f5eaa389aa77039fe",
+      "slots": {
+        "0x28": {
+          "address": "0x46fb14",
+          "symbol": "_ZN11POCharacter18onCollisionResultsEP18PhysicalBaseObjectRK7Point2DIfEb"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTVN5batch17BatchNodeCompiler25SGameObjectLinkedCallbackE",
+      "address": "0x967638",
+      "sha256": "2c65aa7c71f8c62c08cac2ed74ae847f5152e3b04f11e517e519ecdb7c30704f",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTVN7Structs21v2QuestOpenGameObjectE",
+      "address": "0x969f50",
+      "sha256": "00975b7534a50177a3a8ae2637c6e635a7e2baef943a70c2b90e0363c914dc8f",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV20QE_DestroyGameObject",
+      "address": "0x9659e0",
+      "sha256": "9f5ab4ca94656e605ad79cfbd899bae8f994fdcc627dcbcd44d9b1cd71f392a9",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV21Reward_CharacterProps",
+      "address": "0x969a68",
+      "sha256": "74ee9ceef26b92802bfe5ce130bb5d98d4b924e895e9a277d32f2ec8811a2c33",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV31ObjectiveTemplate_KillCharacterIN7Structs18v2QuestKillEnemiesE14QE_KillEnemies14TestCharPropId18Objective_SavedQtyE",
+      "address": "0x9698b0",
+      "sha256": "d10454cd0e2640633b603ba77b2d100a7ae63c4ce4e6a1d2aa90209301156a79",
+      "slots": {
+        "0x28": {
+          "address": "0x47ab54",
+          "symbol": "_ZN18Objective_SavedQty9_loadDataEP11IStreamBase"
+        },
+        "0x34": {
+          "address": "0x47acf0",
+          "symbol": "_ZN23Objective_EventReceiver7onEventEPK6IEventPK12EventManager"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTV27Script_PutCharacterInLimbus",
+      "address": "0x968930",
+      "sha256": "fc0b3de078467fcb0b8331de9a7574018f94016663595e0355d857982c576d5f",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV30Script_MarkCharacterAsScripted",
+      "address": "0x9688e8",
+      "sha256": "983a1f0eab4992557196824d3cfc490f7d83e17a2a7c93e5c5d6868f47f01752",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTVN7Structs13LockCharacterE",
+      "address": "0x96a9a0",
+      "sha256": "1aad48d76f154df57fb7df936dbe02109a6316328ed7a1a4e3526e69bb42b941",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTVN7Structs20PutCharacterInLimbusE",
+      "address": "0x96a928",
+      "sha256": "32301b3f96ea91b603113a4c31a5dbd160fef15042b0fdd96540cc13badab1f8",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTVN14ObjectSearcher13CharacterListE",
+      "address": "0x964868",
+      "sha256": "30c6322aa6a968cb8b1ca02b696301bf84638a0d76a364e26725b019017089aa",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV31ObjectiveTemplate_KillCharacterIN7Structs19v2QuestClearEnemiesE15QE_ClearEnemies14TestCharPropId18Objective_SavedQtyE",
+      "address": "0x969800",
+      "sha256": "2d1955f9df1d5f67f729319dfc3d121147b97439fba4bbcbcee478e616248dc5",
+      "slots": {
+        "0x28": {
+          "address": "0x47ab54",
+          "symbol": "_ZN18Objective_SavedQty9_loadDataEP11IStreamBase"
+        },
+        "0x34": {
+          "address": "0x47acf0",
+          "symbol": "_ZN23Objective_EventReceiver7onEventEPK6IEventPK12EventManager"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTV31ObjectiveTemplate_KillCharacterIN7Structs25v2QuestClearEnemyTemplateE21QE_ClearEnemyTemplate16TestCharTemplate18Objective_SavedQtyE",
+      "address": "0x969348",
+      "sha256": "332ab878d642b85b4848bf2f52b7faf6e2da07a45494251223fd1b77ce254e2c",
+      "slots": {
+        "0x28": {
+          "address": "0x47ab54",
+          "symbol": "_ZN18Objective_SavedQty9_loadDataEP11IStreamBase"
+        },
+        "0x34": {
+          "address": "0x47acf0",
+          "symbol": "_ZN23Objective_EventReceiver7onEventEPK6IEventPK12EventManager"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTV17QE_OpenGameObject",
+      "address": "0x965b08",
+      "sha256": "698aa2073eaa7dd57d3fc6c8d093d3c42314bcc323419457f12867b4afa9e36b",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV20Script_LockCharacter",
+      "address": "0x9689a8",
+      "sha256": "1a674dbf07bbac7375b2425e04c910288b6f68acf47b27ddab99d189fbe9175f",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTVN7Structs19CharacterPropertiesE",
+      "address": "0x96bbb8",
+      "sha256": "b3e58dd838837ab73aad84b5714a64e60dbce3cf81116ca345958467c7160353",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV10GameObject",
+      "address": "0x964748",
+      "sha256": "20946008a7c25972ba6ed28270cea7513d89965fdf2373e27fe4effabae3b68b",
+      "slots": {
+        "0x28": {
+          "address": "0x33dcd8",
+          "symbol": "_ZNK10ObjectBase8IsPlayerEv"
+        },
+        "0x34": {
+          "address": "0x3400ac",
+          "symbol": "_ZNK10GameObject6IsDeadEv"
+        },
+        "0xc4": {
+          "address": "0x3883b8",
+          "symbol": "_ZNK10GameObject9IsZonableEv"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTVN7Structs18PutCharacterInIdleE",
+      "address": "0x96a8f8",
+      "sha256": "17f23d481445987df7e102c699cd1f026e6589a9e26f3565d88f603ee79a9aa8",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV9Character",
+      "address": "0x965f30",
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6",
+      "slots": {
+        "0x28": {
+          "address": "0x3a49f0",
+          "symbol": "_ZNK9Character8IsPlayerEv"
+        },
+        "0x34": {
+          "address": "0x3a2ed4",
+          "symbol": "_ZNK9Character6IsDeadEv"
+        },
+        "0xc4": {
+          "address": "0x3a36e4",
+          "symbol": "_ZNK9Character9IsZonableEv"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTV31ObjectiveTemplate_KillCharacterIN7Structs24v2QuestKillEnemyTemplateE20QE_KillEnemyTemplate16TestCharTemplate18Objective_SavedQtyE",
+      "address": "0x9694a8",
+      "sha256": "eae16be3bd73e41342b7ac1fffc6297ccb394465a221ba2fe67a6e6ead534b39",
+      "slots": {
+        "0x28": {
+          "address": "0x47ab54",
+          "symbol": "_ZN18Objective_SavedQty9_loadDataEP11IStreamBase"
+        },
+        "0x34": {
+          "address": "0x47acf0",
+          "symbol": "_ZN23Objective_EventReceiver7onEventEPK6IEventPK12EventManager"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTVN6glitch5scene13CBatchMeshExtIP10GameObjectEE",
+      "address": "0x96bde0",
+      "sha256": "a592c553dd7939b310286e0aa53b4721ad58b9a1d9aae70fdb1d361e4bcaa24b",
+      "slots": {
+        "0x28": {
+          "address": "0x578c78",
+          "symbol": "_ZN6glitch5scene10CBatchMesh14setBoundingBoxERKNS_4core8aabbox3dIfEE"
+        },
+        "0x34": {
+          "address": "0x57cd48",
+          "symbol": "_ZNK6glitch5scene10CBatchMesh4saveEPNS_2io10IWriteFileEPNS_5video12IVideoDriverENS_2os8E_ENDIANEbb"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTV25Script_PutCharacterInIdle",
+      "address": "0x968900",
+      "sha256": "9f18ecb566cde8309a339efb29b2695e442aec6d9072385ac8b81f5684b8e9b7",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTVN9Character18NetStructCharacterE",
+      "address": "0x965ec8",
+      "sha256": "ddee4dedd76e373e2a179dad14421b96814000237af3da0289075a451b01f4e4",
+      "slots": {
+        "0x28": {
+          "address": "0x81375c",
+          "symbol": "_ZN9NetStruct13HasDataToSendEi"
+        },
+        "0x34": {
+          "address": "0x81349c",
+          "symbol": "_ZN9NetStruct10SetAckedByEi"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs24v2QuestDestroyGameObjectE20QE_DestroyGameObjectE",
+      "address": "0x969750",
+      "sha256": "07b54e68b09e57050e9395c27c7d2b24153f4038876f3b800ac5b6a5a47ea28d",
+      "slots": {
+        "0x28": {
+          "address": "0x47ab54",
+          "symbol": "_ZN18Objective_SavedQty9_loadDataEP11IStreamBase"
+        },
+        "0x34": {
+          "address": "0x47acf0",
+          "symbol": "_ZN23Objective_EventReceiver7onEventEPK6IEventPK12EventManager"
+        }
+      }
+    },
+    {
+      "symbol": "_ZTVN7Structs15UnlockCharacterE",
+      "address": "0x96a988",
+      "sha256": "92eee9747bb44d56530a35a4536ddf72393ea953256db3e765d1e9c7795003a5",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV22Script_UnlockCharacter",
+      "address": "0x968990",
+      "sha256": "7ca3f9dc80e66ec213245ad81e421168bce5ca77d07bcafdd5fff719b12ebf41",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTVN7Structs24v2QuestDestroyGameObjectE",
+      "address": "0x969f68",
+      "sha256": "7ba5b962917e2235781c1a278112e350fa09187122f663091c3ceec8a7add735",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTVN7Structs23MarkCharacterAsScriptedE",
+      "address": "0x96a8e0",
+      "sha256": "a91b407b34992bb2877a68baa9717e3c4a6ba59a4c59300244c6bb25722066b2",
+      "slots": {}
+    },
+    {
+      "symbol": "_ZTV21Script_SpawnCharacter",
+      "address": "0x968918",
+      "sha256": "9b5570288987c8816b8ff7278d6d07f519183460bfd989f6a27e5cfef86c76c5",
+      "slots": {}
+    }
+  ],
+  "saved_position_xrefs": [
+    {
+      "symbol": "_ZN10CSInteract6OnBlurEiP9CharacterP16CharStateMachinei",
+      "address": "0x3c4f8c",
+      "size": 296,
+      "sha256": "1d9b60e1890e9e494206f5198c39728db6b4e934a3af71b3161c32adfd9873a8",
+      "hits": [
+        {
+          "address": "0x3c5064",
+          "instruction": "add r1, r5, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN9Character8InitPostEv",
+      "address": "0x3b4d60",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079",
+      "hits": [
+        {
+          "address": "0x3b53a8",
+          "instruction": "mov r3, #0x1440"
+        },
+        {
+          "address": "0x3b53d8",
+          "instruction": "add r1, r4, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN19MultiplayerCallback24HandleSpawnObjectMessageEPv",
+      "address": "0x49aa60",
+      "size": 440,
+      "sha256": "becd4d0fbde2557e579a1118b69e4c7cb9c83a601c6450c355a1c1311c2cf62d",
+      "hits": [
+        {
+          "address": "0x49ab84",
+          "instruction": "add r1, r8, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN9Character18SetInitialPositionERK7Point3DIfE",
+      "address": "0x3a58f4",
+      "size": 128,
+      "sha256": "6b51f4ed914771f9964fdae11ac10f8e9700fc13a9673272444527c8c28bd33d",
+      "hits": [
+        {
+          "address": "0x3a58fc",
+          "instruction": "movw r2, #0x1450"
+        },
+        {
+          "address": "0x3a590c",
+          "instruction": "movw r3, #0x1454"
+        },
+        {
+          "address": "0x3a5930",
+          "instruction": "movw r5, #0x1458"
+        },
+        {
+          "address": "0x3a5934",
+          "instruction": "add r1, r4, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN9Character11InitSpawnedEiRK7Point3DIfE",
+      "address": "0x3b379c",
+      "size": 136,
+      "sha256": "cfca6e8b4d35bfdc2f4bce13e234c2a79768f7ae917d29b86ba289c29ccbed36",
+      "hits": [
+        {
+          "address": "0x3b37c4",
+          "instruction": "add r1, r4, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN9Character11DeserializeEP11IStreamBase",
+      "address": "0x3a6210",
+      "size": 940,
+      "sha256": "6977066f072bf8f183e97ba5a882f8bb9517f510c00cb2f9d68309935e777892",
+      "hits": [
+        {
+          "address": "0x3a62a0",
+          "instruction": "add r8, r4, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN13PlayerManager13_AddCharacterEi",
+      "address": "0x372220",
+      "size": 1180,
+      "sha256": "65ea83bee92dba22f0ef9af011ace77538e81e2a81fee1fe0244d1e7571a8702",
+      "hits": [
+        {
+          "address": "0x372558",
+          "instruction": "add r1, r8, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN6CharAI8OnUpdateEv",
+      "address": "0x3d1050",
+      "size": 364,
+      "sha256": "b7f3702aa3d33a84667fd56c9fd44b1694acd7a557b9bd301dcb978a51d8ebde",
+      "hits": [
+        {
+          "address": "0x3d1158",
+          "instruction": "add r1, r0, #0x1440"
+        },
+        {
+          "address": "0x3d1184",
+          "instruction": "movw r2, #0x1450"
+        },
+        {
+          "address": "0x3d118c",
+          "instruction": "movw r2, #0x1454"
+        },
+        {
+          "address": "0x3d1194",
+          "instruction": "movw r2, #0x1458"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN9Character9SerializeEP11IStreamBase",
+      "address": "0x3a65c4",
+      "size": 248,
+      "sha256": "0919be98c4899965543d3e033494f94779609ae1cd42ef51605f21f094bf7385",
+      "hits": [
+        {
+          "address": "0x3a6618",
+          "instruction": "add r6, r4, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN9Character26InterpretIncomingNetStructEb",
+      "address": "0x3a7f10",
+      "size": 1508,
+      "sha256": "3c3ce149d59125ee3b060c8061262b0a5fb0feb0dbb4f401b09a8ff187723e27",
+      "hits": [
+        {
+          "address": "0x3a82f8",
+          "instruction": "add r1, r4, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "address": "0x3aa1b4",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6",
+      "hits": [
+        {
+          "address": "0x3aa43c",
+          "instruction": "movw r2, #0x1450"
+        },
+        {
+          "address": "0x3aa444",
+          "instruction": "movw r2, #0x1454"
+        },
+        {
+          "address": "0x3aa44c",
+          "instruction": "movw r2, #0x1458"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN7CSSpawn7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "address": "0x3c35ec",
+      "size": 424,
+      "sha256": "28e75a41daa974cdc84cfd7d4960533b6402863dfdddd6ad0be0eae815b30876",
+      "hits": [
+        {
+          "address": "0x3c3738",
+          "instruction": "mov r3, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN8CSLimbus6OnBlurEiP9CharacterP16CharStateMachinei",
+      "address": "0x3c2be4",
+      "size": 344,
+      "sha256": "f3c50b20f129706b7c8cd8e0b5d283fa876a2246cbedd5734a25f104d593b57f",
+      "hits": [
+        {
+          "address": "0x3c2c5c",
+          "instruction": "add r8, r4, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN14CheckpointZone17OnCollisionBeginsEP10GameObject",
+      "address": "0x395f04",
+      "size": 536,
+      "sha256": "5b6e350431c71bf6002c67bd68db2905d62ab2b31e71cb8d09ef05e1ab5a2a61",
+      "hits": [
+        {
+          "address": "0x396020",
+          "instruction": "add r1, r5, #0x1440"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+      "address": "0x3a9340",
+      "size": 1448,
+      "sha256": "ef72da53c9a0ec2014a3fbcf81a04d57cc49859415d822fd932ca11ff0e77ceb",
+      "hits": [
+        {
+          "address": "0x3a95c8",
+          "instruction": "movw r2, #0x1450"
+        },
+        {
+          "address": "0x3a95d0",
+          "instruction": "movw r2, #0x1454"
+        },
+        {
+          "address": "0x3a95d8",
+          "instruction": "movw r2, #0x1458"
+        }
+      ]
+    }
+  ]
+}

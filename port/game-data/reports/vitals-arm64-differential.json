@@ -1,0 +1,165 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "28bdba1a0d206c10454ad276b8f8df828fea6d5f1a43b005ab1ef2703286c207",
+  "uncached_class_entire_owner_state_cases": 2080,
+  "regeneration_entire_owner_state_cases": 10000,
+  "positive_regeneration_cases": 4803,
+  "full_original_character_class_recalc_cases": 448,
+  "original_character_two_pass_spawn_vitals_cases": 448,
+  "crypt_spawn_snapshots": [
+    {
+      "character": "CryptSlime",
+      "hp_raw": 12160,
+      "max_hp_raw": 12160,
+      "mp_raw": 5632,
+      "max_mp_raw": 5632,
+      "resolved_sheet_fnv1a64": "a1f87e373eade438",
+      "resolved_sheet_sha256": "e4a1cca623989b2358aeeedc2f67b04bfe8775627651ad050dce53e8b041e88f",
+      "init_passes": 2,
+      "changes": [
+        [
+          12160,
+          -1,
+          12159
+        ],
+        [
+          5632,
+          -1,
+          5631
+        ],
+        [
+          1,
+          12159,
+          12160
+        ],
+        [
+          1,
+          5631,
+          5632
+        ]
+      ]
+    },
+    {
+      "character": "CryptSlime_RE",
+      "hp_raw": 12160,
+      "max_hp_raw": 12160,
+      "mp_raw": 5632,
+      "max_mp_raw": 5632,
+      "resolved_sheet_fnv1a64": "6eba0582f78691bb",
+      "resolved_sheet_sha256": "2cfca159de79e51660d1ac3b03ce0490387d08400ef00f7580cc947df51c5cb6",
+      "init_passes": 2,
+      "changes": [
+        [
+          12160,
+          -1,
+          12159
+        ],
+        [
+          5632,
+          -1,
+          5631
+        ],
+        [
+          1,
+          12159,
+          12160
+        ],
+        [
+          1,
+          5631,
+          5632
+        ]
+      ]
+    },
+    {
+      "character": "Crypt_Ghost",
+      "hp_raw": 12160,
+      "max_hp_raw": 12160,
+      "mp_raw": 5632,
+      "max_mp_raw": 5632,
+      "resolved_sheet_fnv1a64": "e41199bf55080334",
+      "resolved_sheet_sha256": "96f9a1dce4310e801fb63f619a243778a800e64004e8e662cbf50a63fc665f29",
+      "init_passes": 2,
+      "changes": [
+        [
+          12160,
+          -1,
+          12159
+        ],
+        [
+          5632,
+          -1,
+          5631
+        ],
+        [
+          1,
+          12159,
+          12160
+        ],
+        [
+          1,
+          5631,
+          5632
+        ]
+      ]
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "hp_raw": 12160,
+      "max_hp_raw": 12160,
+      "mp_raw": 5632,
+      "max_mp_raw": 5632,
+      "resolved_sheet_fnv1a64": "ee913bf1bab19e05",
+      "resolved_sheet_sha256": "a37ef27aa09d632eb17120979d2fa2b4f25b5707bb0a2f9699c005e7b24f6716",
+      "init_passes": 2,
+      "changes": [
+        [
+          12160,
+          -1,
+          12159
+        ],
+        [
+          5632,
+          -1,
+          5631
+        ],
+        [
+          1,
+          12159,
+          12160
+        ],
+        [
+          1,
+          5631,
+          5632
+        ]
+      ]
+    }
+  ],
+  "original_stat_functions_unmocked": true,
+  "original_regen_debug_switch_query_blocks_skipped": 6115,
+  "discarded_query_blocks": [
+    "0x3bdc28..0x3bdc60",
+    "0x3bdd14..0x3bdd4c"
+  ],
+  "fixture_scope": "Initialized original class/table globals, raw sheets and valid ordered buff containers. Original uncached source resolution and regen cap/add decisions execute. Debug-switch load/query/string lifecycle omitted; query result is discarded. Fresh InitPost HP/MP call sequence inferred from its Revive call and explicit _InitHpMp call; full InitPost/Revive and actor lifecycle not emulated.",
+  "references": {
+    "uncached": {
+      "bytes": 1605632,
+      "sha256": "2f2c7b8e970758889f83e0ef140df20447fd45b655b8f9381dc53566f936fda7"
+    },
+    "spawn": {
+      "bytes": 1605632,
+      "sha256": "356765b09e6aab353e299cf2ed7bc69b638d5f374eb5e0c70420bec413f59ed6"
+    }
+  },
+  "input_sha256": {
+    "character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+  },
+  "combat_or_regen_scheduling_implemented": false
+}

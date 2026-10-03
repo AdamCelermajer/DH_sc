@@ -1,0 +1,559 @@
+{
+  "apk_sha256": "8a2c257135c720773a59dba97ba7a98a5953c240456673dd5c332bba0541d8b8",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "17c40127e95ae37e60b5759bfbace61a4fd6e8b84de12d3d5ceae67b1420b3f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "c2c49f01ce6c8504d9bd0f857a34e9d4aa150125bcd7023c16d6d3ce45dd80a2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "3772193ff7bace24b1cd4d4382024e1bcb57049de847f1abdbe82453ac5f295b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "46e95ca4f128b3ecc6658efe233422ef409000ca6542b8b4bfc203691fbff610",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "4ea022d87c92dd9e7c3192098b6a3387982f4a17d034a266af46fa9f470903d4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "478cf1644b281d031ed164b10974ee83124d514ab805179ebdd85b0674a7a9df",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "e4baee9c747718cb6ae07df1ca4466ae85d3e83f6a754b84ed5c4f5375d0ee6a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "d26363ba21ec326ab6d353f42ee99c6a68bea66d3b13a9143a974da087f8eb97",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "d0fa2aa2ea8070a6719be7ce1d46ea98bb46be7413d9438217543a2afed0e7c7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "f817b0b796d48807a01b46c6a54b421c90872c91267610e1a31b86dfad88aa49",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "screenshot": "skeleton-Walk-100.png",
+      "index": 0,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Walk-700.png",
+      "index": 0,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Attack-100.png",
+      "index": 0,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Attack-700.png",
+      "index": 0,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Died-100.png",
+      "index": 0,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Died-700.png",
+      "index": 0,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Attack-finished.png",
+      "index": 0,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Died-finished.png",
+      "index": 0,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Walk-100.png",
+      "index": 2,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Walk-700.png",
+      "index": 2,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Attack-100.png",
+      "index": 2,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Attack-700.png",
+      "index": 2,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Died-100.png",
+      "index": 2,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Died-700.png",
+      "index": 2,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Attack-finished.png",
+      "index": 2,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Died-finished.png",
+      "index": 2,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Walk-100.png",
+      "index": 76,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Walk-700.png",
+      "index": 76,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Attack-100.png",
+      "index": 76,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Attack-700.png",
+      "index": 76,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Died-100.png",
+      "index": 76,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Died-700.png",
+      "index": 76,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Attack-finished.png",
+      "index": 76,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Died-finished.png",
+      "index": 76,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    }
+  ],
+  "pose_changed_pixels": {
+    "skeleton.bdae:Walk": 34834,
+    "skeleton.bdae:Attack": 38006,
+    "skeleton.bdae:Died": 26788,
+    "slime_green_v2.bdae:Walk": 175195,
+    "slime_green_v2.bdae:Attack": 108085,
+    "slime_green_v2.bdae:Died": 116735,
+    "ghost.bdae:Walk": 125296,
+    "ghost.bdae:Attack": 100004,
+    "ghost.bdae:Died": 84768
+  },
+  "three_stage_attacks": [
+    {
+      "model": "skeleton.bdae",
+      "object_index": 0,
+      "events": [
+        [
+          1,
+          1,
+          1178,
+          2
+        ],
+        [
+          2,
+          1,
+          1179,
+          2
+        ],
+        [
+          3,
+          0,
+          1179,
+          0
+        ]
+      ],
+      "animation_events": [
+        [
+          1178,
+          "attack_mainhand",
+          0,
+          100,
+          1
+        ]
+      ],
+      "combat_actions": [
+        [
+          1178,
+          "attack_mainhand",
+          1,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ]
+      ]
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "object_index": 2,
+      "events": [
+        [
+          1,
+          1,
+          1248,
+          2
+        ],
+        [
+          2,
+          1,
+          1249,
+          2
+        ],
+        [
+          3,
+          0,
+          1249,
+          0
+        ]
+      ],
+      "animation_events": [
+        [
+          1248,
+          "attack_mainhand",
+          10,
+          310,
+          1
+        ]
+      ],
+      "combat_actions": [
+        [
+          1248,
+          "attack_mainhand",
+          1,
+          1,
+          0,
+          0,
+          0,
+          -1
+        ]
+      ]
+    },
+    {
+      "model": "ghost.bdae",
+      "object_index": 76,
+      "events": [
+        [
+          1,
+          1,
+          697,
+          2
+        ],
+        [
+          2,
+          1,
+          707,
+          2
+        ],
+        [
+          3,
+          0,
+          707,
+          0
+        ]
+      ],
+      "animation_events": [
+        [
+          697,
+          "attack_mainhand",
+          33,
+          1033,
+          1
+        ]
+      ],
+      "combat_actions": [
+        [
+          697,
+          "attack_mainhand",
+          1,
+          0,
+          0,
+          0,
+          0,
+          -1
+        ]
+      ]
+    }
+  ],
+  "one_stage_deaths": [
+    {
+      "model": "skeleton.bdae",
+      "object_index": 0,
+      "events": [
+        [
+          1,
+          0,
+          1185,
+          0
+        ]
+      ],
+      "animation_events": [],
+      "combat_actions": []
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "object_index": 2,
+      "events": [
+        [
+          1,
+          0,
+          1251,
+          0
+        ]
+      ],
+      "animation_events": [],
+      "combat_actions": []
+    },
+    {
+      "model": "ghost.bdae",
+      "object_index": 76,
+      "events": [
+        [
+          1,
+          0,
+          700,
+          0
+        ]
+      ],
+      "animation_events": [],
+      "combat_actions": []
+    }
+  ],
+  "independent_idle_instances_verified": true,
+  "physical_arm64_tested": false,
+  "combat_or_ai_implemented": false,
+  "blending_or_root_motion_dispatch_implemented": false,
+  "authored_animation_events_verified": true,
+  "original_event_report_sha256": "9269e29cb390112ec7d7d4cd3facf4529062132d9e744b2fe10930781a577425",
+  "actor_animation_event_tracks": 5,
+  "state5_attack_event_decisions_verified": true,
+  "frozen_attack_events_absent_verified": true,
+  "original_combat_event_report_sha256": "09837818f31a0053672ab7117905f9a4c54ccbba475a14aa8a0bd11998f5f28b",
+  "combat_execution_implemented": false,
+  "packaged_combat_result_probes_verified": true,
+  "combat_result_probe_count": 11,
+  "original_combat_result_report_sha256": "098fc5bd6d7fab84c869e774e4bf5486e9d77ef0a93208959bf12b1b20f6bbac",
+  "base_class_snapshots_verified": true,
+  "base_class_instance_count": 11,
+  "original_class_report_sha256": "5468ae99351d485c2c675aec290084abbb00b92a0042cd1422de46468ed8082f",
+  "resolved_property_snapshots_verified": true,
+  "resolved_property_instance_count": 11,
+  "original_property_report_sha256": "55d89e8051ccfb5e5380fe7c786f6c2f13714949c6fc6460ca8ee8662113d81e",
+  "spawn_vitals_verified": true,
+  "spawn_vitals_instance_count": 11,
+  "original_vitals_report_sha256": "1803696c230c33a00837097a203a237329e60dbf7dc8c0f06e4b955081f3d13c"
+}

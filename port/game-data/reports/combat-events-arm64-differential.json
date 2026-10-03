@@ -1,0 +1,238 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "768ccfeec6594e4525fd67f65a71807c434cd7dcca1721af08f675f6b27c3fcf",
+  "attack_event_decisions_compared": 6000,
+  "observed_attack_requests": 291,
+  "observed_projectile_requests": 183,
+  "mismatches": 0,
+  "discarded_debug_switch_blocks_skipped": 321,
+  "scope": "State-5 main/off-hand and ranged attack-event decisions, sequence/substep arguments and name gating; original timeline/state getters execute; capability/projectile/attack backends are caller fixtures; noncombat events and full AI/combat lifecycle remain pending",
+  "elapsed_seconds": 5.14,
+  "native_host_reference_sha256": "71dd689e16a90712b40d04a51a3c6f7656922bb06d9940a7d90cae2eb51abaef",
+  "runtime_cases": [
+    {
+      "state": 5,
+      "sequence_step": 0,
+      "clip_step": 1,
+      "can_range": 0,
+      "projectile": 123,
+      "name": "attack_mainhand",
+      "action": [
+        1,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 0,
+      "clip_step": 1,
+      "can_range": 0,
+      "projectile": 123,
+      "name": "attack_offhand",
+      "action": [
+        1,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 0,
+      "clip_step": 1,
+      "can_range": 0,
+      "projectile": 123,
+      "name": "attack_ranged",
+      "action": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 0,
+      "clip_step": 1,
+      "can_range": 0,
+      "projectile": 123,
+      "name": "do_skill",
+      "action": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 0,
+      "clip_step": 1,
+      "can_range": 1,
+      "projectile": 123,
+      "name": "attack_mainhand",
+      "action": [
+        2,
+        123,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 0,
+      "clip_step": 1,
+      "can_range": 1,
+      "projectile": 123,
+      "name": "attack_offhand",
+      "action": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 0,
+      "clip_step": 1,
+      "can_range": 1,
+      "projectile": 123,
+      "name": "attack_ranged",
+      "action": [
+        2,
+        123,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 0,
+      "clip_step": 1,
+      "can_range": 1,
+      "projectile": 123,
+      "name": "do_skill",
+      "action": [
+        2,
+        123,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 1,
+      "clip_step": 1,
+      "can_range": 0,
+      "projectile": 123,
+      "name": "attack_mainhand",
+      "action": [
+        1,
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 1,
+      "clip_step": 1,
+      "can_range": 0,
+      "projectile": 123,
+      "name": "attack_offhand",
+      "action": [
+        1,
+        1,
+        0,
+        1
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 1,
+      "clip_step": 1,
+      "can_range": 0,
+      "projectile": 123,
+      "name": "attack_ranged",
+      "action": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 1,
+      "clip_step": 1,
+      "can_range": 0,
+      "projectile": 123,
+      "name": "do_skill",
+      "action": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 1,
+      "clip_step": 1,
+      "can_range": 1,
+      "projectile": 123,
+      "name": "attack_mainhand",
+      "action": [
+        2,
+        123,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 1,
+      "clip_step": 1,
+      "can_range": 1,
+      "projectile": 123,
+      "name": "attack_offhand",
+      "action": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 1,
+      "clip_step": 1,
+      "can_range": 1,
+      "projectile": 123,
+      "name": "attack_ranged",
+      "action": [
+        2,
+        123,
+        0,
+        0
+      ]
+    },
+    {
+      "state": 5,
+      "sequence_step": 1,
+      "clip_step": 1,
+      "can_range": 1,
+      "projectile": 123,
+      "name": "do_skill",
+      "action": [
+        2,
+        123,
+        0,
+        0
+      ]
+    }
+  ]
+}

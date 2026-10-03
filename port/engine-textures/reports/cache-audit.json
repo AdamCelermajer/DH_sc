@@ -1,0 +1,4532 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "native_library_sha256": "19a80c1099cf80216361d037c8658006a022e756c5191c4218f7ddbb1f431791",
+  "decoded_files": 242,
+  "formats": {
+    "0": 17,
+    "1": 217,
+    "3": 8
+  },
+  "gpu_execution": false,
+  "original_pixel_equivalence": false,
+  "files": [
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_darktemple_alpha.tga",
+      "input_sha256": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "4fe76b001065167a0065485025719067243cd4b52dfca8846a96d28236cda973",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_death_claw.tga",
+      "input_sha256": "96f743150afef4e374f8a550bbed3ff2e21a30e4bd6eaf84c0e065591a673878",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "a194b8bca8ab523ff37a979d5ba346d87ca6cbf75a19c84268b0994432d62795",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "input_sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "ab66a254cc0ffd63930b18866ad4bfbfa682b3f95506b349bb2635b459f757a6",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_wind_bolt.tga",
+      "input_sha256": "8d819f2463b351b7c00f556ea9301ce7d0566b7bd8182c96524f1e1c2703912d",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "bd6a79f928f0f94391f875b7e7a1b9bf09aece82a07fa6950d293f0069e4edfb",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_firetemple_spec.tga",
+      "input_sha256": "2d42e05b72424a1e7be188b9030b7c5ffe696eb6631764d73da66cf56a489998",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "dda9d35322de5facb67ed56126d74c3941ac95f99f220ee0e467347f4c07e4b5",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_pollen_cloud.tga",
+      "input_sha256": "bb343106f127f08781acb0ea247c255c86beccdb9efb541c20a0b187e5019877",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "ccff5c8156743aa66589e6819d3714f87026b53f059ab6e96136732262c8cfd7",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_verticallightlines.tga",
+      "input_sha256": "a621a04c8e25f7a5168ca0b050d34d2ef89b8b67770cea90025a2f8f93899d3b",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "ef8044c099f0b6152bd1a622383f0b3f90cb866874aea6ce5872bfaf9162ca75",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_wind.tga",
+      "input_sha256": "7e89b7ac4e2e8daea82e2f0f8397259af24b44c33e6cc88ef799eec15fa7074f",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "003e1ff2ba0822865a8bb0f07521dc6d4019ccce18ee86f3d1f28773f7b5c039",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_icy_cliffs.tga",
+      "input_sha256": "a872132d8a9c50fd2ef33a88eb5383b4324c924ea818e6d4527f7755c4226230",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "99e1ef685e05b30218efcd0c3cb12c9b44409d364a16e0bed06d338d7a17d2ff",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_fog.tga",
+      "input_sha256": "4285ef68549245cb3921b19204b553f1eee0455dd43fea94fc6a9a31db0f6bbf",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "78285f931875cb904c800906b09365cf436dfa0c52de3e38f84ae43b2e1e36ca",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_shockwave_05.tga",
+      "input_sha256": "a33a21f9e1a5dd7de694753eb7138eb03a1333dd4368888db9c247199aa120d3",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "af72f5324489a103cf71843caad8b7a148f398afd3c2e8c9c5a5cbfd57addf9d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_modular_mage.tga",
+      "input_sha256": "3a171eb9f83cc008fb577a4dd66fdbc98db65499eda85e6a5a7de62c064ce6b9",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "fcec0d3183fcfb87231e7a6a6a8b36e6ed896fcc1aa555ba44c0769b8d0a07d8",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_icyhub_spec.tga",
+      "input_sha256": "41ea09cf58c1624a0e0d132ca83425142a9b6d56baed539a014d9ea66df8a005",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "e9415cc70e172a7436073cec4b7701cea6ad48d537c93412628a69991bcd572b",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_aura_paladin_offensive.tga",
+      "input_sha256": "c3d122826b0378facbf8bec410607a35387d5b60b33fa03b431f6822fee6e1e5",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "315063f9ef68b8de65d88910a200cdd02fc267705a55c1ace71aa4c00cbee196",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_selectorcharactere_solide.tga",
+      "input_sha256": "afced3f99c4d32d04a173066cbd10ce4cabe9c1d9a896fededa6d23b6d05f7ec",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "139e67e4daf576d707fdeae1c0930f0805e9a6fac38bb00c28ca2a1ae768ea35",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_modular_rogue.tga",
+      "input_sha256": "edbd02af477575a8f83f3a80933b44018e86c5f4300fa5c01b356759011c03fc",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "ed0e1a2ea29c5c4e8fc8a0ad4415655035370b54763812131fca36ba5238c11e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_underworldhub_trans_spec.tga",
+      "input_sha256": "01133e6d7ba7559cbec2d60486ecaf7b0bfb8e34623fd9745bff35c80be912bc",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "b39697837931de4e81cbd96f611915defedd4673a2826a84f1293ca7da76a7fe",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_fogdot_mask.tga",
+      "input_sha256": "6384d3c814cf23ab86399103706f6328ea95f20f5ec531c5a5995440dfbe2328",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "9c863fe056b920404b654868df716d5754da33a94e9e21b776acdff53646f2f2",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/char_bandit.tga",
+      "input_sha256": "d02ec314fd9280d278f9d026a73a56c68c532320366d3e6349146075bbeb73d3",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "e3063234bc27bb639c073642af7164ee28835cc5585b009823f8ceb536259c23",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_icy_lightmap.tga",
+      "input_sha256": "5e5ba2fa9fbb2b13834846a5c0386c2f9b8026a58cf2c75d40643696238433b7",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "fbd2790363e683541135264f4f1346f328b1b564dfba2e1632b05ed5585d01b6",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/splash_final_old.tga",
+      "input_sha256": "439ac4bd0038d0da5982cb41e77633cd4ff94561ed9d3143b1213540ea575da3",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "705a2527c800e2f40fff6a0a61e3284af421c13eb936baa5ef0da03f71423f99",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/char_cultist.tga",
+      "input_sha256": "74c9595969af03356ce5340e4c971bc25208110128725882095e39705d226d86",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "bb03b2c0c972c2c57e18fb7da39654ac7221b6f43fdd808e591761151b42c453",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_underworldhub.tga",
+      "input_sha256": "f02b1dffe32ea64688dcf35a090d1c79a70f0240830547de1d9d16380fc3fc61",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "0569ce7ed9beb04f3f675d1c7f3b7499ed06e09b68f163e4100c8e3e921b1d79",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/dhalliance_ko.tga",
+      "input_sha256": "db281e89cd296eaad34190a8db87729ed4267ee99bfe1355d246ac6fdb585e5f",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "3cbf98c2f2c49a371d76c96b57176b488fbf7e9b0be7f4a4474f0ec6e4777f1c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_swamp_spec.tga",
+      "input_sha256": "cd892b928ea9671bff1bf49154cecb3ee2271064aa2236127cb5b3542e95c0fc",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "bc51c52e6a449ed5d64d0b1994a778dadcc599bb41aa653f00c520f5173c4eb8",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_water_shockwave.tga",
+      "input_sha256": "2815ac7524a7be36383f2c960f1e94a3267f147c0467f9b8cc3e938f76788c04",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "08c76208dd40027c7ee433c26bf3424efdc60cb9ce9dae5361b758cfa43be1b3",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/anim_bubule_swamp.tga",
+      "input_sha256": "189a06019c4d6502d023af7f3e5045b3aa3285255ab6546327e06aef6d0a1d3c",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "a49680f7f338290a340380f4d40da846518c0ad3dcf10f787e73f1b13a2f282b",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_cloud_02.tga",
+      "input_sha256": "c8da23e11fd19984b0568b19ef79374528aa78b2bbb1a220743b57365b163080",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "7a3e656d1f0471718b88845873e0613355777c41f8a1f9b129fe531406d5da25",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_selector.tga",
+      "input_sha256": "cda46c83de116acf267490cfb3991b41ef4febb10f2fb349f14b0532cfb07f22",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "95eb520f404eab6f4d7f9b47f01c38d681d9fdf88402a149c24ae879ef4f557b",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_earth_temple.tga",
+      "input_sha256": "2853699d71695bdab8315640346a403e31b66ca6af6031913af85eb1d213b17c",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "d417da04ff5a05a1a331dbf6be46d3a4e4760463fd1d7cb9415876726c551519",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_sparkles_02.tga",
+      "input_sha256": "cd0eab66834ff960132cee37ffe1dc34f69db9b6eb821d21b1527117d3efbaa7",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "b0ffc40f8a4a094273b0a7ba9c643a2744455bd50fe77cb51927f61c55d1075d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_ghost.tga",
+      "input_sha256": "0760ded152921cfaa0eac9a9e67859e7848f0d142169fba86f015eb880a3a2a6",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "a1e46fffdf4a20c31413d5db23402e7ccc9e44c0622379ba5bb9ec0786842120",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_modular_character_03.tga",
+      "input_sha256": "2ceee18d7c2d5ed48eb8e8283066bdadc7ccef748e3d8f2952a0b930a6cfa3f8",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "e36fef90c8526503a255b68b21ad0cb47a5da29c4ce1e1d94adeb50dc87c975f",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/dhalliance_it.tga",
+      "input_sha256": "dd88fa32d4ba9d978878a9f273ba8be14caa409cb67ccad0e4d36680b84e101b",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "a50dd24fa7937dc061d539ec073672d4e062067d7bf9b10c5399b1c839c6b39d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/char_assassin.tga",
+      "input_sha256": "20094f61453560071c3b9c6290e5996f3c424ab923753f9d814276be91cf9b27",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "fddae7de56f1f5f115c77f592bcb5c1c8621361795d3264417349f7f5bc9960d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_blood_desert_spec.tga",
+      "input_sha256": "bfe3f76a7596ce551ace3d977e02d7d60948422837c2439ad638cac18a4a6cce",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "50bd0f315181fc59390e38d44a5a6e0d33af28cd689feaec1ee07e494555d4b2",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_rogue_poisonsting_blob.tga",
+      "input_sha256": "ac3c55f0af30a660ae3ebd97412e243e2fa7f0745ecd888ee8b142adbf8ab444",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "a3267c298fcbd84d26c0d0e10f047ec079d4e7668068df541ce9b4b25aca19c4",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/envmap_swamp.tga",
+      "input_sha256": "db73421e085b1068185f7ec04f8a0950fa0cb5a768a0b81953a692cbafd47bb7",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "a5b95975dec5d724c1e05fc3bddbc8cbc0b8b1642dab68274e366de74964c4b2",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_shockwave_03.tga",
+      "input_sha256": "49e83d0a8ecf79f1a54dca10269e36e3644698e27040703899c7c042b97ea727",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "6926fa2bee56e248a1e7a1de17c079229d591ebee95c5fde0504d0b78216673c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/char_king.tga",
+      "input_sha256": "01ca2be546e3452871ed8d263697b0e0d7613d3874aa67e00a6eca8efab84ca6",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "1230dfbabc1d90e8b79fbf0b25527b393240ab597a205929fca4cb835d97732d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/godparticle_face.tga",
+      "input_sha256": "8e15108e74b443ee6c11bc2cfb05af23c046a53e0dac37df24973e848b6117ea",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "c3c08af9210889eb55a3ade22a7a3d6d06dcd961b1c9b8078f95c60d13b07ccd",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_modular_character_02.tga",
+      "input_sha256": "39ca4494961952437d9122ed4d68f299c91d9899aad0686aa49b19189996e10a",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "bb5965da61d2d25e1ff62672bc7005c8d3636f581676f9693ae691ca364d12e1",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/dhalliance_de.tga",
+      "input_sha256": "e3babb0f74a19f15f06cb2911da28add91a95dea735bfa69047d069823ea4e8c",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "5034b839d93901732260a32287396ee8426620fd9ca6643dc248f2d818330ec3",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_desert_cave.tga",
+      "input_sha256": "706fcc8d64451741ef9e142feb04c5ccb990402722dae847fdabd81a6b88e521",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "eed4d5014a53b84accc162d90f172dd80711144304e03b436b7bbbea83216819",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_desert_cave_spec.tga",
+      "input_sha256": "a0a064865df322d0c37f2b182d26a12d988161faf42f1fcfc121cdfce97aaeb1",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "eaec37fc1e47c7548d6f697b3b540cc5d8a651b4852ef48b9671e523e844f85d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_008.tga",
+      "input_sha256": "3b3153829a922c4328099b031c57d09d823daad52775cc2901fe5f7c105e90cc",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "1659fe47c5861dcaeb21b3def3b7f964d139e9a7449b18651378d28c013216ab",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_ground_trail.tga",
+      "input_sha256": "0b027c79d2fabcb2f7963a9807471958970ae20b004aab35c88c39772a41b5a3",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "872a41830f6cd2e0d9cc39825fb87e32860fa88bb7b0618671a8f40fda398505",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_sparkles_01.tga",
+      "input_sha256": "6a6777da305970e4932eabd95a9302ca61e6e5c0bd66a8f7b672252ab7a8ba80",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "2b842b7ee66bf9b05b1a5db4927225c5bb8b8005d5c725c5bd2415666c21295d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_smoke_black.tga",
+      "input_sha256": "29df1652125536531f8451c30b747a2839e84b7adffbd1e512ae0b6cd533aeac",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "cc475d93076de67828e5fabebca4120945a69da7a0b3c6efaf68487152c541ab",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_wind_hurt_additive.tga",
+      "input_sha256": "9f6d6d4d548a029448f41a823869421ad68fd767e1b77ff1b2d6cadd459e7c7b",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "765f466e542fba2c06fd5ab7ca7121687d195215c44291c2350d3da60b48d70e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/char_dk.tga",
+      "input_sha256": "5798b197cacaa1fe4124926dba1c39efae1dff7a2655f19904f421ab245cf0e9",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "38a2e56fb303896f18c1e100161b008e284cc984e64feb89984bd532a53fc107",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_swamp_alpha.tga",
+      "input_sha256": "928622d0ef735d0cda4120b5bbe66e2d58e56d81cd7646579a23f683c20e76a0",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "9baac17ceec4ed46d3eb4d76192481eed4ebd47e4a9d13e3437153432e3f619a",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/anim_torch_fire.tga",
+      "input_sha256": "b39d1d951304579006cedfb8799c60fee99ef0be9f4d933aea4216ee6d6b094f",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "43e0e3037ac80f9b33eb9abfdea0ed30991d6ad3bd1d3d455d77dfb53f0d296c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_modular_character_01.tga",
+      "input_sha256": "8a9dbda3b603acf05de48a45adc0f1c2fa1c68b001b966fbf9750e2bd26b9618",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "bf9b45ffc4fb99f68aa9486308eb5bf80f499a2285a15d6849925e737918d9a4",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_lighthousse_spec.tga",
+      "input_sha256": "67b60d350fddf07f7fadfc13fdf6a9bac92b464dc62f5b8e715427af971fb85d",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "29326b4616d7cc0e2b4528cada95f069c568acab95493885b08b4fd56d784588",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/iphone_table_dh2.tga",
+      "input_sha256": "9850caf0375d313529b4219ecc4bb2be24118e70546c5edfc577f4028dc0f58b",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "a517d3142325f150c3f3ce8c98ccf1cf7ce3672a45be65c1705272d2f66bd577",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_icy_cavern_alpha.tga",
+      "input_sha256": "2f8427fcc390f59da30b946317d55f7e3901c285f711bb95410487eb4c161c81",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "cebaeaa6a8f165a15c7a29c29b5923b45f9e1e9439ddc118a5cbeda5f0dbda97",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_castle_alpha.tga",
+      "input_sha256": "7ac29b271107587f62a33879703ed46e710e3ef240203399b182bfa222982f88",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "087f142190f9d47ca51c5e439891913f3a91dcbb1bd9ff1c799d954827d52dac",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_warrior_berzerker_whirlwind.tga",
+      "input_sha256": "80cc1a4ca8dab9fe8eb74af9f3e536f6b02b4447075b258799427b92e2625f4b",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "e49bb6fdb54ea8f14c523fa71fc5045c253a7dab0ec58785f94f35c998a51d77",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_swamp.tga",
+      "input_sha256": "f3eb432f6f2332b65a2bbeeb26528c3a6e3075ada4df9c6425aa1934816b4e4e",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "88c6c1f9f81c8c6c52eec0adea193590527cc5dd1696b5df927c54fbcf4f0c09",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_black_eclipse.tga",
+      "input_sha256": "cb71b26bdfd476f0514d93f25ce6a878118df8633e7ab205fe08f882b7e23672",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "f3e8f49f5d3af74fc6ba345e293956fc9a95fe0ccf9b3d320bd11a0eebb51966",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_blue_gradual.tga",
+      "input_sha256": "28d2da9ef8dc3c03ecca6969cca7a35c9f3cf6e1b4bd92dc8bfc4752e41f09e3",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "f05197a488c05032680854897b072039c706667f190689420fdaa11f2aa899d4",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics_droid.tga",
+      "input_sha256": "c75e8f4df8a9b28fcca7aa819a05cd69e6206d27a391b4364fd67790aeea86c7",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "5e2d8d8479dcd43e736b3a80c08f714d4910ef1a2f28c23d7e1f9dab99f57e22",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_abbey.tga",
+      "input_sha256": "7688a668f773b3e5ca181ba01b2658791f1b4784f12a92a2ff79062df0bbc6c9",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "a85e07ca3113a0f40984e9dd3a446e5c604f7de80d1b238b161652f53c9251a7",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/walls.tga",
+      "input_sha256": "662a01391922d460bef6a6d1fd2a9971dab219f19d32f82637c63eb57bdc0af2",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "cdb14e0c81e2403132392dbd26748999f7296d3e320f03043d3e9c9e4426b14c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/prince-warrior.tga",
+      "input_sha256": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "12882f48906aadddfac944e7bcdde96ddf5bcdb02b5db52f48e15c59fbbf2985",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/anim_earth_temple_plant.tga",
+      "input_sha256": "c074767fda25d5c338e417855b8b6a3eb3314ac347ee4612122fdd8c6e4b5080",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "3a9edefb35f6503971d6ab4be99be336d5ddf31d89a7ac8c35508fbd105fff17",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_infectedvillage_spec.tga",
+      "input_sha256": "9aad1a5f39f08782c15c0ee4586f27425c683ab4138930b2749917df6d2c3b59",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "b811140ba4ea329f812cfd78c92a34f3e61803cdf068559dcd7b800f97ca2c6c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_wind_temple.tga",
+      "input_sha256": "c587cf9b4deff19e3fee9cfe563a63332b6720daf0d0164d305f3986467ca02b",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "302f9477106b2b6dc89fd5fd70152783040a475ee1c5230a4cb6cf8974a41874",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_desert_cave_alpha.tga",
+      "input_sha256": "b27bb80e42ccb4510f0304aa8870a8ac6dc20c82ea1a0ac80187f83fd4417d2b",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "d07cd7b10efb415bc6442ee00375de1a02f42683df16cf97107b2749bb86521a",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics.tga",
+      "input_sha256": "ddc6194e85381e07ecc9586040e0546fd3219a53fc054095277f6c0d7262ad74",
+      "width": 1024,
+      "height": 1024,
+      "format": 3,
+      "alpha": 1,
+      "rgba_sha256": "dbee34fe8840ca9e593a966cbf9b748e9a7d8308584ca88f48d3da49605533f9"
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_skill_dh2_prince_warrior_paladin_offensive_aura_weapon.tga",
+      "input_sha256": "8b6dffa6088fc47b25fd6606993268d484ab21eb7395b10d826a87c41e0acba2",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "a0fa36765865c93e964b6fe5b12506acad48f42c36488cc45876964a12bc94bc",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_underworldhub_spec.tga",
+      "input_sha256": "6f463994dd2cd833001b380556fdf82a2e6820708d9f83a57a397c3a8c5c82f8",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "e6f321cb6cff9c437ee73ddeea2982d09976f74c20a0323b4201266b4504f323",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_ring_hallow.tga",
+      "input_sha256": "2af5e74aa6a3eea477e98264d9a1f216de9af4584538887ebeef9e6cfec20858",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "88c38f53f76226bdb956ed934bd6a08b0036e9acf8476b7a23b6bca1611aedfe",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_shockwave_05_rogue_purple.tga",
+      "input_sha256": "ae412094b0f63d81a8af6234e16da926b6928a6c32aefc8d0d8c825f398bb532",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "642b42962d2470051fbf74a87a00b52a31e0f5406df40f40f02689a9bc398d56",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/char_statue.tga",
+      "input_sha256": "5355e0abe5a197052503df8cfd2cff2e03b57efd80400a7b4a015277e3b63ea7",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "1f787cea7023ffba701120a234060e3b7ec9088f985a6d4ea9d33fb5fd6c5128",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_glow_highlight.tga",
+      "input_sha256": "3cfe055715dd4aeaa419cf631c8a5aad1bc6bfd5b76343cdbeccf0aa6c3f1a7a",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "bfefcc113844c3784c7a25d64f79379ffbd0358cbadb60879b8b7e3a858f23de",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_machineroom.tga",
+      "input_sha256": "ec13d245f82ed404025f36c75ccc78217313e077f82194ece906511639b8d64f",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "2f4e177dfcf2843792cdc389559addfaaa59b7d2cd01c9e75787e291e8ff31e6",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/map.tga",
+      "input_sha256": "d4826f36b61551b2ed1d49698ff2c708e2973839f31cc64f8973ecf75598ba66",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "41589bd59b5893f1d19e1ca5c978faea8b874a98286e8be20003c0f03bee4cd3",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_crypt_spec.tga",
+      "input_sha256": "d74002ba771e1ba50fc421cf1066d1b0f977d5377dbd4971d92643f007f1b737",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "105542a16bdda21574720d5142174a0a4e6de5b4a5e1cae99082e3920871cfb6",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_dust.tga",
+      "input_sha256": "0070f744e79f1cc87cba0559805035c4fbac059f773645b73731bbc18cd7cec8",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "ba92c2e713e46b43a37c63423bf57e018c708cb4ba0496f99e0adc6d2ca1abc1",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_frostcloud.tga",
+      "input_sha256": "6064611b9e1e75ddba807b5c40eff4c023fb763861039ccee8f13aa644398de7",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "956500ac33070918117fb1b9e4c95a41ec7434b3ee684458b7c6727d87f384e7",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_wind_01.tga",
+      "input_sha256": "f63b083a4e800fd8c02061e6717dc8bc0bbafcd3a675165e68eaeb7bc3b9604f",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "cbdce382cf74138b50c144d9e9f9a4831a7f6d0a819c8f50d5f6d1e089c95613",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/ipad_table_dh2.tga",
+      "input_sha256": "28ba2048571dd143829ec49480df49f855cacbf7631abb712262cebdb2088f59",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "38808c240e7c5c98f3fbf26a8603d831585957239e05be8bf342c78d042af1ad",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_rottingvillage.tga",
+      "input_sha256": "7e6b500dda94b92dec027e910b36bbe23ed79c48ac4b4c8e4aa8accf297f7e3a",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "4716b0c5867ca105b0ab3f9294057271370fdde3439455589be673f48510b132",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/buttons_i9000.tga",
+      "input_sha256": "a2b8a752111b6bd1d787ef130156d899d53b4529c02ba30964ca3bde8e8983e6",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "029f3ac1013bfbb3a1ab6cd48d74ffca71b3c200ff8b153e3bd214232e014b1b",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "input_sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "68cd1f5908f08662959faa441976b67711fa21da9272c0094e298aec46cb662a",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_000.tga",
+      "input_sha256": "cac12d1c4eb6c29410088c85721fb682d1893d3586a22234402fb2873f2c0253",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "c615bc66dc6daabe6d96e93fe7afb62cb2bf4fd7df6424e45bba1219196a972e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/anim_cryptfoam.tga",
+      "input_sha256": "d824125b1a83606c7af778e2d1467b20a0f3cc4216fa8939df846145024abcda",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "30cbc916b8d0704224adffbe7f90b357b32b5148b540d9c481be868168432c06",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_lighthousse_alpha.tga",
+      "input_sha256": "23d19d45bcdbfffb37f791dc5c172639784d232b3bc48d9435a31c1a8a10b36d",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "26faeaf5ea2e36423754f5d8b6ef67ef5d58c4bff503df51c939eec544fedf7e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_root_den.tga",
+      "input_sha256": "ea4ad7a65ea50a85bc2c6d6636bc6151a0d3219b31fffea68b292d6ef631eff1",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "23f515a37c4f9582626231614b98373dd125442da1ed7bbb4ef24e1406039774",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/dh1_lightray.tga",
+      "input_sha256": "5062831a497f402bf43d12aeb04920ee6a4d88fce222023d4cc9021546441549",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "cfe5eee1a389a1865e0b808864b9775e7f77b2f7bb71a937f2ea29b68445144c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_001.tga",
+      "input_sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "e6a1d5d2b8861c84ab13c1cc1c2754511a27b212eb77dee38eb443b5c16dab69",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/char_headcultist.tga",
+      "input_sha256": "04025fb1b687197b8548fb9a34ba482b4192c8fe658133c217f97b3a60bbcc77",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "5919bbb6ab8c564725a70751e3e93af80f2396b163b6d22231667708f458d9fb",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_01.tga",
+      "input_sha256": "e9cff69a305fd0ed92dce9b8cef6c0e5ef949e00e2c03bc55e87f068db2bf263",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "08cb36ccdbd568d548562d0bf2a67464e9e15330f641522e1c35706763b3a374",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/anim_skull_eyes.tga",
+      "input_sha256": "cdf197fec04b6551a63d552b2cd874f1dbffe3bd3854c187fd395789f31af9c7",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "952dd732fd5404e78f69c44224ebaca1c3c82b5797f958894d6139786cd748dd",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/map_top.tga",
+      "input_sha256": "d758912d7e9e9cfaee64bb8fe7afdafd70eaf7841c106b82f205e176a2b97be9",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "ea783757d842c3571913f767f75af3dfdcb0456c896bc54afdfa990a62750e51",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_03.tga",
+      "input_sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "526dec58e84f851ff136c8ce6c222b7fdbfc409c53fb514e1c9c8af48c9fd7b6",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga",
+      "input_sha256": "80bb4294c81a677bca7b2725ca170c4bbd663ccfc6d05c7c57399413f0a44309",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "1ed246752f33e24981940b453b0e7da5c6cdafddfff0eb27f80ba3b34ca2747d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/splash_final_jp.tga",
+      "input_sha256": "e7d9b24f61dc82b22bb216c723479f0d5452c3d2ed5c8f8b2cce8a3d1966c3c3",
+      "width": 2048,
+      "height": 1024,
+      "format": 3,
+      "alpha": 1,
+      "rgba_sha256": "c2edd69f6d9fa37730b27195fa716404e7f90bd87a0fb48bcf336f9a38e97b29"
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_water_02.tga",
+      "input_sha256": "0ecbf8e374e2564202bfa07da8ed3a4a36354bf9ac285775dadaa59e200955a2",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "76cbc3513de91d757a1b67f7837248b05020072a9f8c32efdb25c0e0ba7baf7a",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_energygathering.tga",
+      "input_sha256": "163532289e4a9cd8186fbfb2ce10a52d59fd9788af2912d4159f5e3d6e77ad53",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "5d5a7aa0a3fe2ec87857ecc1d1b5aab5c7c54a08085a576ec26fa85afa4d43b0",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_spiral.tga",
+      "input_sha256": "758ad080373f79ceddefbced3a349620aceab7e5d6cb407d0e3d981e7058fd8b",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "8d3f0c8e7f2fe9b1e5f2a9b70d07ed05301ba816f5a3878bb803d0cbe10b2be7",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_darkwoods_solide.tga",
+      "input_sha256": "fbc1b66eedf326c7fe20c1da0f341422aa1b21e4c170a6c190f174dfb7a6c5ed",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "378f597392dd5a515525e3ee437bb92d154a3d479a79f53d58a26a691dccaa36",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/splash_final.tga",
+      "input_sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8",
+      "width": 2048,
+      "height": 1024,
+      "format": 3,
+      "alpha": 1,
+      "rgba_sha256": "e3fbad331b54235cd4ada04b36be4dd6ad5476babf42ed68404507b8bd69bdf7"
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_firetemple_alpha.tga",
+      "input_sha256": "3586c0d110c907772513a033fe7df4a433a205e4716fcb70f89b12c0c7610ac7",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "4eea4810dd489fac8f25276d91aa5c8d4f1ed817634769a297ce3581ff42d1d9",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_skill_gradual.tga",
+      "input_sha256": "d6c0de9233d4f24ae963495135505f1c0f74d0207f7d2604d48c214c460e8ec1",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "fdb4724cb37017c7860aa05ec80312171fa667dc4681872b05ebe022d9db838a",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_002.tga",
+      "input_sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "14a27e1f955321ea863baa6aeec56a6e0fdc23fb34d0bd7878f6c22df6765415",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_003.tga",
+      "input_sha256": "82df8f4496b2a652477bc11b230b721663c3f91e806743f66703255bd08c1adc",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "270535a366b937ccbf05617909b99afa0d7d47792f0cacd97a37b9848d5b7fb5",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_portal_strongeralpha001.tga",
+      "input_sha256": "ea03fb2aca534c59d1134e930d677ee8891ecad8d2d1435005f68cfecaf14cf5",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "805ffdaff7b46b67d050b0eb1c816227e0f04baf3b1aa39bc32cb5213a3af0a9",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_wind_hurt.tga",
+      "input_sha256": "52f90f166c122dd7ce185aff17e4340040d26bedd4af64feb900a45ec6ed6da1",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "22d3fa21f0da71117e70e6c8ee6ee981a17d5026df0027434935ae55f59baee9",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/splash_final_i9000.tga",
+      "input_sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8",
+      "width": 2048,
+      "height": 1024,
+      "format": 3,
+      "alpha": 1,
+      "rgba_sha256": "e3fbad331b54235cd4ada04b36be4dd6ad5476babf42ed68404507b8bd69bdf7"
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_firetemple.tga",
+      "input_sha256": "8e96046c4f07b9321e50a54d72197f505ba0272f6fca17735f2319c0568a3f51",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "ec8913046b2b13222a14d523e8eb5aa1c3422119d062dbf38ce31c56b226ca48",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_underworld_alpha.tga",
+      "input_sha256": "97ac8ceffb53a8f72b3e7d90e169fa96e8c7b087a39ecab5e5a429e4757f7d38",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "48e23d62d7146fd83084e77f67bae7af70ec73474a5551bf8c3abae8f66c232f",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/portraits_skills.tga",
+      "input_sha256": "17c87eabd7596fa96b6d1a19b560d0469944e40a738b06cbceb6687b6ea75903",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "eb84872893ee2412841da0920e2eb3d94bb3528d8966e8bbb7e4a0c35a83e9cc",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_lightning_ground_flash.tga",
+      "input_sha256": "ebc5cfaacc129976aed397434d5b67a33a276c6f7ce75780e39a0c12f1e28cba",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "f48e89b5b1e446b617e7c4e9d267c4209296e358348ddfc17b36bfee6c4c99be",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_infectedvillage_alpha.tga",
+      "input_sha256": "e56337feadc0b571536a72e0f3a7f0d1f2b8706858494b3d64fc0a83d51693ac",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "4574ea57aaef2e8fb5172956a1b68c4d68fb93c229ada41395df0b52459b04ff",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_swamp.tga",
+      "input_sha256": "20d272bca81fa16444d0a48979b132bfca2f2d041b3db02f58c45973b5ac7dbc",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "1266cfc3437b583cd9c9d56ba8f178023960bf9a37289f3c536fe978ba73e095",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/map_bottom.tga",
+      "input_sha256": "038faedbd0f68f42975deca4638257382dcd79fc5907138fad67efb026c0a1b3",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "5695f684558db9bf98033eb03c58b5ae9dd9458c053aef3ef1061bf519964aec",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_machineroom_spec.tga",
+      "input_sha256": "c82a4a0c25046ec04ba5c6da72603a739168d6dfd15fdd853d8c259b2ef214da",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "f7ef23f3c0fd87161c7569d61d341f778bb740cb087a48b2a933c5c53baa0704",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_castle_spec.tga",
+      "input_sha256": "128064664285b370e9d8763913ede443822e9039dc730a8f89756d69c7f305d6",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "78210df553e3cdcb9595832d76ef96daced88a3052991ab91f6f343b7309076b",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_icyhub.tga",
+      "input_sha256": "599d761297158701b05df61d116ac8c5e7eb33ab042649d2bf04d591700bf46d",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "186809ee274e4a0d7fc358ea202812a8b3e02efb5f19c5b4bc3c5dbc360eacdc",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_torch_fire_halo.tga",
+      "input_sha256": "0ade002957c87ef2ea185c10f1e93b0cd1c29c926c73cabd0e460dd84fa51f69",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "a145c72d996305c92ce98ff0f8a5faceb3b8c7ff4f1e793959c3cfd09e330330",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/anim_torch_fire_green.tga",
+      "input_sha256": "e4bbc5d56193d0f7b77597653f33ada78ab539538ecfae364ad1d7bfbaf28df9",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "6b85a51dbe3ddab4fb039fb28fbee2395ba1feb7464f4e50be2b670d2abf21e3",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_blast_wave.tga",
+      "input_sha256": "795b9a0cdb71a9d057ba6a4c8745d9d804d8cfd79e3ccea079adff56839d2151",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "05ead22d159cf2a26e31d4c5a2560dafa4702b00a2ad733fdf5b8221efb36608",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_aura_paladin_lightray_halo.tga",
+      "input_sha256": "0dfb44c134588d89d0d5a04a584ebaf1dabb9807fe149b5f54de8e87cefebac7",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "b3de72cce9f801cdb596fd79a6fa08f7beb7b5fc73e296870e9b35abc26129b9",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spark_01.tga",
+      "input_sha256": "bf4eccee918a7d440760b93b1f18666b5e3de62c147784bec7dbb3bca7a7d720",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "f18aea1aaba7fec6a7d3aa3d9704287b305baca7daa1bc72b3f7d48dcc2fa9a2",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/dh1_atlas_catacombes.tga",
+      "input_sha256": "19268e7a9501a9c8dd0d4ec0c50c843b030e05c72474df6b57e113db269d3c5e",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "2a42d5ae856f7b6adeb49ed5054c3a4250c3cab467bb03514ad100c96ca1cd64",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_blooddesert_alpha.tga",
+      "input_sha256": "1a6cdefb68d591b66ba6261dc01b9f9f139338781be4c5329cba20a468cad71b",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "f4b3be1e9c2a9109415cf544cc0206012bdcde63e7eb35545014d05a8915e072",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_uneder.tga",
+      "input_sha256": "66a73749826acc4a68561184b9e93d9b385ddeff7c96f547cc822226ca4962a5",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "312bd201745b0f272ff04b283cf79cb67b639af7647777259cdfc5ba98e35ba0",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/splash.tga",
+      "input_sha256": "dbedee3785c85769041d0990dbfe800ab62823d03eb37c4e99eec1e34c87422c",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "1d05ae280ae4469f4e58a584c334eea1eb14ba3ccab41b445af449993a3ad6bc",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/buttons.tga",
+      "input_sha256": "3daaa15d31a6e44271965f9bfa8b75d4e47e56d73340cdd4ae0c67a9c584ec05",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "ed8d52a758e7ec57e780a3d2462cccd12d4d18c45ad0bbb58b3b1dfcf5fb2db2",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_wind_hurt2.tga",
+      "input_sha256": "8520772eb3f2fcd97b6ca7e708af00c36b2d6736dce06c8b0064d7ca049321f7",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "cad0e18f06f7c8038957dad203bd7ce83f91b114eac5564a234bf2ac1957ea64",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_crypt_alpha.tga",
+      "input_sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "68c284aaeb5500009e2851d1d2f28185bb7e0335665ce1ff90c6ad16984f2500",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_lazer.tga",
+      "input_sha256": "3b7bd3e9506ad14d4e7363b43cdd6af41f3ac062b178453f20f5b9d81cc53395",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "1a95a1fe3ed2a2e784f66b27390c008a1e08801ca512a8248d11cb67e588fa6b",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/prince-rogue.tga",
+      "input_sha256": "3950c7c9739014b88435a7f91175951be2f21d578c9e5b212435447a6c5c72c0",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "bf4ec43aa3799d08e28eac150fa2c31bb1fd856a67dfd2cfd50ee9dd9ac34536",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_weapons.tga",
+      "input_sha256": "b24f6e9bdc316b396502b6ccbc1a6bc30530f6e1164a668e03f33599dd61190a",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "d7fd07f078ef241837b7f9f71fee75c3f22050cafec0fc6394adc77beaf56cd7",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_earth_temple_alpha.tga",
+      "input_sha256": "d1ef48eeb7dc850a6b8efe346af16fe1fbe12bc13e8cb90e998b14f2a5dd2495",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "151c2ae843ab1e982a246822a8419b7a75ebf5de9f84f051fa1f5917832d1232",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spectral_light.tga",
+      "input_sha256": "b899ee5709e6c555610cb07759446c370ca7fe4cc8ead7162e5e3e0ac86e6ae3",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "66dba2a6c62ea304ad3ce775f388f0328a081f2eb133d7a6a8977bc2588b0a06",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_doorfire.tga",
+      "input_sha256": "fb7d25f7566126e877a3c58ac2b01219f2ccb82e0db23c972ea814365a78a37e",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "599369d65a411ba7a89e5d562e3d1520b1c6650f8e3aa9c8b0809f9a5e6d77e8",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_rogue_poisonsting.tga",
+      "input_sha256": "a98523f7ad3ea5031369c19759ad879dc06ec39811d5797ae827bb3dd2fe133e",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "a2b3ebefc027ccf347d00ba1fb0395d8cd36f375d6ec362ac7b5ea6baea252ef",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_skill_gradual_rogue_purple.tga",
+      "input_sha256": "cd4c71e93839b6dcde7709ac258b03f382c2126f10741bd14b5bf350220b0b3f",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "27d7abe5e6f3de69a95f84744f8ba1cc458c3524b6d8b2565bdb57b29608b6c1",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_wave.tga",
+      "input_sha256": "251cbaa238807e07993d5a4c44791c9cb3ad8d2e7d2346fd3be4df43473560c5",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "559a9476898758eda484250ad1b35fabe4f40dbec5a24fe33ce7ed34e6f7e9ac",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/anim_caustics.tga",
+      "input_sha256": "f44b114a3c79ad0c5a9c0a0028a80cc501bae79ade894f711325b4c3b1f9b841",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "4c463a4e6ea7385f80dc74602f0725391830d9ffffd92b4e6b8e38cf1ad84aed",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_darktemple_spec.tga",
+      "input_sha256": "01c9cbd5233ac1bb21d3ad1d467f71257ff5f675cfa426646a28119f0489e86e",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "1142487b74db3fa59412a609c111ebf34c180c720ca1a9521fade92098a26ef8",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_under_lightingmap.tga",
+      "input_sha256": "069c5a9d26bd75b84313724f6948d575a67ad65992826431712ed30c06b6c07a",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "2d4f4f249276bdbafb5f5164345121ef43cd55bb40a8369eb4e179ab7e901355",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_waterfall_fog_01.tga",
+      "input_sha256": "3011410b15bd6d721660a2e76d8d3ea468119434dcee0ff3335f82ac92a3ee0e",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "d87cef988d4893e1aa77449e29a40329ea51a9160be1cbce45659d9a2d82274a",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_particles_dust.tga",
+      "input_sha256": "94139370ed4d8f3f9a88c86e61d3adea80888a10123ee4706b183205a633db47",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "b4c8cd1fcaaf46cc1b14c84825e5f43076cf980f15ddad42f6f13daa09067d44",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_water_temple.tga",
+      "input_sha256": "7a4b09dabaae3f0a1e83b387f2af9257c58e4a849d62ed25d8d22e7b086cde74",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "71c6cd9e1f5e9214d7362827feba25909d3bc4933030d99ecc5f37fa26af92fa",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_earth_temple_spec.tga",
+      "input_sha256": "0bc3b02490bb0814dc821eef69a7b91b0ce482a2a3b498ff2d6409e2e009e634",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "06102771128b15d76723736e2d6b36ad1340a981d6c92b7ae2a0c0d2416d0c6e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_blue.tga",
+      "input_sha256": "12b1a3a51461ab1d790e1d722cafd21d0d7f1141c1b654a8e4bc54c5381d1196",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "35186d2d24e3c7e31d3d8c83755eb6146c3668390b9a429481b8e0a872e60e55",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_blood_desert.tga",
+      "input_sha256": "f001c319d49b0b98a0a7e4117020e9aa3f8a086b5d7b652e1b733847174c4d76",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "d3cd171e05aa4bdc7723daffa137107f57f33c9653e71be3dd79783bc1cde87c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_lightning_01.tga",
+      "input_sha256": "ea5976dcf2c4e3c9e001d9d6021a4c9bc65f0a63c58495a678ce31da83a5cdd8",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "1a2a93117890568145bb7d9867b357b77c71ac4fd2f203427a31df1fc2038c73",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_water_temple_spec.tga",
+      "input_sha256": "413a8df3df5be2ab09d3a390cfeebd73b48ad186c835ffccb85584c2d202df70",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "ee16b3f6b7c3f891718cd090f4cbded85b96ba293cc51ecea306eeef2c9deb44",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_windtemple_alpha.tga",
+      "input_sha256": "5628e7270e67a8fed1ceb5311dccc089c1245eee17132d3e0faa23473855fad3",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "9c88acc1c6efcab8698bd5c5358591af1b57996b32ea06d6b483ac3d91029a74",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/floor.tga",
+      "input_sha256": "8a7e46eabe3e7c5a02dcb4af55856a80a69d9f179f69a564f9f75fd632e44095",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "daea09170fa796405dc8a21a4eca000e70bf0d04da6e8479a739cc60398d4704",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_selector.tga",
+      "input_sha256": "d41ace06bf91f57b2bea7658414b4d6dfb04d0856f0575c8f2d250a8a6831594",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "22a772bcb44b25e5b71f216d6af022bd624102fc829257c9a96158ced557485c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_icy_cavern_spec.tga",
+      "input_sha256": "d9437731dd2dcb07a40f6d6c5116347bd0f5fcc3eb9220598b52534a767354c4",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "4c371240be52018a09c19f480b2a6819531e6cc38358205866d5f01602e85b95",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_voidmaze.tga",
+      "input_sha256": "aac2c1923d2b9add49d6d8c32211d0af9d1f0a9e022530d551d1dc65d2703c20",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "bdc4b0c3a1b7d9d5427e3945518b884908c08a9a020f3e2e5bf48a75518cd18c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_icy_cavern.tga",
+      "input_sha256": "3b849fbf0fc34eabd057448044f711eafedb8c043339d092b6eb93fa1e108087",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "11eb6d0c74cf878ae2ef3c637d925f479bced43cb7e2c494d7d800a6715e4e1c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_blood_bloodstain_bw_15.tga",
+      "input_sha256": "29d9a5636fe4145a1b547718ed5e17ae768c9727d1ec07e7a2aa8608f8651093",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "252d3d6393000bf49c7666cbaa5565ee421501fc74072ca74384bcc2a91b47de",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_underworldhub_trans.tga",
+      "input_sha256": "ddceff85f52f315d0c7c855d8ec8983ed58385f0788b063b119954ceefaeb038",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "bbfeee9a4ce6e2edc161fa00855a3b1d2f89bbd3b6404952a5eda1e1f3a080fc",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_lightning_03.tga",
+      "input_sha256": "24d4bcf87ac5efdda6e6b6333e18de05ff3a198151203ea54a8c60febe5c9816",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "085bef7a2721debb22ec40bc3ae155e2f5b3bce24eb71de61ba0c24c7eff8f45",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_darkwoods_alpha_alpha.tga",
+      "input_sha256": "087d110133be72b9a5f9e4339fbd6707ea3e6e834d1e6d8a97bbde4cc4ac1413",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "1b837126dfae50ddec60a5b9dd9f9beb454c0e292b5f0e87f3c1f6ff05d0684e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_torch_fire_blue.tga",
+      "input_sha256": "3278f12eaecf62774a98adfccf1a556759383cf48bce0d4827a6d5834c1a715a",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "913e70307bf74198f438b8f7af1ace239ffe1eb818f643d182694bc951ea8b0e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_hellgate.tga",
+      "input_sha256": "15c50774dd07b6d80031008113cfcfb4ba9c6255d96faaf5764ec61a37ae5b24",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "1eaf0cebee275cbdbc9a08af72da83e53200d1c14210ae5737add4d6e8ef91ba",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_skill_dh2_prince_warrior_berseker_berserk.tga",
+      "input_sha256": "3653faf3147f4cbbf84755ccf7e18405bed956aa2bdcf3859136730ded7af3dc",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "3193fd6b1aceec0e14efc374e5a3867858283bb2f9ba1667dce7734b94492e70",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_modular_warrior.tga",
+      "input_sha256": "b78abd158902679a467f4c86794c90554deca06a97bf3b4bdf8beba88ef10a5a",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "10982527c0959a8ad04eec194f8c60728abf5067c334f65ef40c0a17ef7b9a50",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_lighthousse.tga",
+      "input_sha256": "908c811948cc6fb628138d9fd1a2443952b8d4efb9cc8b96571849ba7b7800af",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "611f0d1e087b84673031995f00f26976fbd29f76bca314c6ec74c266e88b6555",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_crypt.tga",
+      "input_sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "4d9cd10cc9fbaf8ab621e25f6e6f1d01b81d13246f4aa5e2ce8a61e86c32233a",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_007_black.tga",
+      "input_sha256": "e438e2815ed463ce0de3cf022cf2a012ec63fcd74cb98ced005f2c39688fd859",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "20228b3c4db7fd6b2613d966b664b8b8c8346de1a5e776f0b995bbf89ae1fa75",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_lightmap_deserrt.tga",
+      "input_sha256": "e84578c66fde2e34baf1ce027fce0c398eab23817a66bd28b4e85b47019bc5f8",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "04dbbeac6bed29bc9f2e844ce3e0ee405068fee73c979a315b58cccde24d180b",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_lightning_02.tga",
+      "input_sha256": "2d98b666171f4dc269f184dde15cf49175fb15fcc688685800d70bf2a89fb0a3",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "1be14f6e920fd32b42f399d4d1eb317e260a0831a97cad6760600feed5b5e241",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_black_spell_wind_hurt.tga",
+      "input_sha256": "dca2f120057a913e8f9f5f1415bd78d0a9886b74f1de830818a578a330856f5f",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "94a04fc30ecd3d4560ac1cf3d05bbfcf2c2cca3f25dde355093b35465c74203a",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_aura_paladin_persistent.tga",
+      "input_sha256": "1433b781e4e2715621689bc67db6381080aa601635bc2033dbf621f7066f4a21",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "9ff8d21147a4f903b55b84a3071b3a774b758d2186259bce19044da2bab90d9e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/portraits.tga",
+      "input_sha256": "362c55bd39d63016b4eaa7e463e425c2a8fd0633267f04f5b1f041671d26d4a4",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "2e14fd15938ac1f5b47e5251301267506a42f0b2e6dfbf7ba7d8b50c1090f667",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_darktemple.tga",
+      "input_sha256": "1973a30d0686443b68efb8c016f7f762e7339ad20e9b4ea7cc0773d9dd847835",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "ae3ae95f76db6ec52cdfd8c017bebc7fd83341024f907d03ba79e209c27e9d64",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_004.tga",
+      "input_sha256": "5d17d5987362bff65b3f8d352cbbc43d30f94abbaaf73d5c822d6ecac8e2eb14",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "cc98b171d81bd82b6ac9cbc29964b46365e79a0edaf2da689290478c2342ba11",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_010.tga",
+      "input_sha256": "4c0f286e63869ab15c69a5d89b512da11ec459e519f8acec55ac2c3afc78443c",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "f86334f02dbc17f13e8e31e29888715e4a38eec76a8ebaf795e2f3e2868aa0f0",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_ground_trail_01.tga",
+      "input_sha256": "c66dacd3f9e1d74a109304bea24907b8a4b26dedc72811a09c51e6ed320c4b78",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "9cf0f448eadea15a171fa988bf8c540eb18549a086b5c1e149bc8da98a36dc1c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_darktemple_alpha.tga",
+      "input_sha256": "ef6d05050f177eef434a0138c7fc2c91a6f927bf2d24fa2f6a923b47ebb63ff9",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "ea3741487163bf27d75831e348f16bd1d767ed55b583bebc021971f98af9f41b",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/menugraphics01.tga",
+      "input_sha256": "e69d37def0fdd9c8e6d579f74150fe163ed404c11169c17e98eef3bafe150e5c",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "ab7491e9e889829001df365dcd071880321447d7a7e214521079dbb3eea51793",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_windtemple_lightmap.tga",
+      "input_sha256": "4e10a1a2ca746f93b78237bf6bb5960a69221280ed6bf4f70656381728e1f43d",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "51d6cddea1a0146dbc30f3028be67f23e3fc251e88a8a738d679fb04f8c480df",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_illusionist_hypnoticstare.tga",
+      "input_sha256": "0a6714a87315152eb78dbfd7f22afdbcb14e55226dba5e1f05cdbdefbb79667f",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "167f2af30b6d2ec87b0dacec8c2d54deebe0f07a4106900628a9f4d235e08019",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "input_sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "970763a0a8700ad017c06673a7f1f68dc45dbc7045c8823183e5f5f9540d33c8",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/menusgraphics1.tga",
+      "input_sha256": "364498ef2145d5176e98694311aa3de90cb27f3c4d1480c892c451544b35f3b0",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "cb3d78b24290226a45386746d00238621a02b7fbb4a8d33eb7b2ba1074d622ea",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/marker_slow.tga",
+      "input_sha256": "6f9210643ca8b2716b3e579e7b56c3177bf2a94ffb154ef7a318cab776961313",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "2594236adf0d860e9875953c4d640e97f5a92fa771571eeee627f7b6c75eea26",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_streak_02.tga",
+      "input_sha256": "ed6869932e99ee5dc55a4c53303659a3226cee7eb8bf531d1a6b2fcec25d7f92",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "6355c9a4ae25cf17804a5ad74afcdcb66e0621c4cc74a760bb7fdfa6fe856b32",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_yellowtrail.tga",
+      "input_sha256": "83730e5cd96b8b1755b26bfe0ec97e183526ae26610dbbf57c89afcd830af50f",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "841fe016505028fcf1ab8f5d28c004e17556519771aeba989741ea7914f83cef",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenusGraphics_I9000.tga",
+      "input_sha256": "44d275f3e6ce9b06ed4870eba4a0d8e3e6707b3667203fa6b86f724a4356d282",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "c914e5331a5ddb41bcde559a21f9dcd65ae3ec5331432fb4d3aa719ae8008762",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/dhalliance_sc.tga",
+      "input_sha256": "dc2beeb4838b2393c5c0d2636b2c126f52246d5e2da419cca872c1f0a113f686",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "d80936a24aae62eae4937bff16c4a0d8f6041026f024150ff2b52544a4c30628",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_011.tga",
+      "input_sha256": "7c32b3dbab89ca5f7ffd39f2180e5e25fb696179a943726fbb0d5c4c5af70df1",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "e5e0eda06786a475aff4beea2662bd69c8af422b441ac9fedc7524bb79e1034e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_005.tga",
+      "input_sha256": "1b43f3316d72f8c753e7a7ce731c7d3fbfc667b1c1f3885899c82f7ce52cf875",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "f5ef224b44c4a4107fa9e11430ca324517c18d20d36c33724d09c6c727f9be25",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_007.tga",
+      "input_sha256": "3ffa620ae9e8005bcb2a669fbfcbac89fdb8936dc89df0141f53a635062acaec",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "5998bc399fd788da0da84970421bd4d695b7bd4bb78f3bc3ccab9bc0a8aae58c",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_black.tga",
+      "input_sha256": "a80b3c12616e3cb0ada9545874a23e434e3d38393c04d798fd4889eaa3da9420",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "57997ad81f2f02be0f103900992cafbf1acc21a32ea2b32170ca26dce74624ef",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenuGraphics02.tga",
+      "input_sha256": "d7a94470c783b0d59dc7d7384b523977c398bbde10b7e460fe529b68a7f4a12d",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "20ea75d29a87f0589014d3d85c37893888333fabdabdc1c758a2e23ab971f556",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/skybox_blood.tga",
+      "input_sha256": "2b4473c8003f793706b4aaafcc2ffa82c7d27f00760b510f19ae5ca44b438cc7",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "4c70b2346f39ef1caac1815de2a76c092f200e812ee3af5546b013fb3aca9dae",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/splash_final_kor.tga",
+      "input_sha256": "ce029bd1e221843d8c1ad4521189d0ce0870548914e9d53c01c461068d6c3b07",
+      "width": 2048,
+      "height": 2048,
+      "format": 3,
+      "alpha": 1,
+      "rgba_sha256": "f971030c919e841422395f90e2c0da088b35711d5cc7af5e9511ca9a648f6d58"
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_lightcolumn.tga",
+      "input_sha256": "150f93dee7e64b2515ee87ff0ba11dd7d26ca4769483f353d76035c3340ff50d",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "48d1a370ad189193cc26b5114e5afbda934e82f824aa3263d46081802eb3b4f9",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_arrows.tga",
+      "input_sha256": "7b37b14e7ae4c2be465d4a5fedaf1916656ce48a4767bda3f6af163983913a16",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "31c40d7207aa0f3c002f94f62c4682f1e2912aaae8c2274a5d82378b7da73da5",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_water_temple_alpha.tga",
+      "input_sha256": "8d0d798dcaba64a5a5a291d79ebfcc401b4d587801eee55e7a829453327df6e2",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "fcd42f84f7663175f72118b4423715699982b45b9b9fd7100cc63bb8d3b2f828",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/marker_stun_stars.tga",
+      "input_sha256": "f69974b9c0c3f4bed6001e75470303b24ba28b8229e171b274e1420827c33f01",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "e69ae4c0876f83a79e4a929db57efce78bd76423015c9ca81bcc0b21d0d3a64a",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/gameloft.tga",
+      "input_sha256": "3e3f123d4b68c3577ddbb37fd02a9b9dcb2ac9104408534a740d5264e78e5567",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "23010123088e9faae38c1ddfa332dcf6c28af60e55da42c33e87f2cebad66c09",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/menugraphics03.tga",
+      "input_sha256": "0f0ec6784f20c469fc05becf9e82251fee19b4856ed15b14e3e01a695b92ca7b",
+      "width": 512,
+      "height": 512,
+      "format": 3,
+      "alpha": 1,
+      "rgba_sha256": "b7218b8354dc08048246a79d5cbe6fdae6b8934a725fdb766483c8f2cebaae5c"
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_weapons_dh2.tga",
+      "input_sha256": "5f096c7ddbcf4aff6c3ebcf436fd60efcf023ca275b90f9c89d0721d71b9b6c1",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "7b38e612d2b5ed4e4363354b172ffc2089603850c849c197d70d6d68945839b3",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_012.tga",
+      "input_sha256": "231bbd1409c1355395f82d36806cc25294035742242b1843525d427cfa5126ba",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "60b186c8c373e80acd9b8702947fbcd1fa89b1c63692d4b44fdf4c6900a9c3f2",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_002.tga",
+      "input_sha256": "2e56375003fa46578500fd10d0e04a35e66852e5ea88e7570dfb00fab6050552",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "3e7e80b45cc5113cb57b41eca46d10938defba74d365871f616a20ace43245a6",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_stone_escape.tga",
+      "input_sha256": "7771f188abe0880d8f888b3d7cabaa43ac0bfba9187fbb3f04033171cbb8334d",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "1ada2c5746e53f720baf81a903fbfcf5ffee31f497bdee9a508348675574446a",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/anim_cryptwater.tga",
+      "input_sha256": "328e4ef3ac9f099528501378bd2c3e34eb23a647f87c1d1b987b2fa104dac043",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "0c84cedcfc6ab2f2c5f2cc7ee0850fcbd6b98fdb06471710179f974c07200f32",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/dhalliance_fr.tga",
+      "input_sha256": "3100588c6f5e8d3b11f6a8257bfa9842876202c758044d41043f9128bfed4c2c",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "1023b8e517b1126dc91d6d92320e61395461b9544436129dedc7943e52eddc3d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_waterfall01.tga",
+      "input_sha256": "c272944451a407ff45fb78506fe9c0213008563933c0297a81ff63e1cd4b6aaf",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "9d4167003fa373686957a23f198abac31930343365855ceee3d8174f3bf7d3e2",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/buttons3.tga",
+      "input_sha256": "651fd4175b28c039cb9451478ec05114641b8ca47421ceb37b4f73a3d1bab748",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "0269b4c15010f65d162b4ea97ecb30fddba6a60c2c04abf066d98541ab4820b6",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_root_den_spec.tga",
+      "input_sha256": "97aa92d93bcc7e96e7704a14ca4abf6d409d97b3c57faf81ff2a7200fafb5e7b",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "31aebd05d00204cb064806ff5aa806239d304b4a868809158ef0658e0f16e420",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/prince-mage.tga",
+      "input_sha256": "2166eb4e099fb860bcddcab254bdedac97c18ea84dc3f6ee9413ce196236aca5",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "47e3cbbb8dda80b22ba38350f192a6c688508b19c6ea31b52230df3ebab16ef2",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_infectedvillage.tga",
+      "input_sha256": "13c095502316871aafa6cfc557c7b21c434c24a00880941f7bab2b3d25270fdf",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "afb4d94a3c883820eb09105062110b58598a147603576100765688704057370d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/buttons_droid.tga",
+      "input_sha256": "23fab670c5d27612d23c7ff84153000e2f56b66fa04c2a7b6803cbc8942543ad",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "7955ca30e15f54c4fb494fc9bb765b2ec364234cd315923124093bd8b309e169",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_castle.tga",
+      "input_sha256": "0dad91823d4039906214574a29e383b6cacd54bbf924355897585b9b3dc22d62",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "31937b72d56885098e97ecb6a6545393b5a87fd8e97908189e216615f35bab17",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "input_sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "59e014f61ad195ae2f2e0a4b6e9baccc19b86a2ab9630117c5e62ee9cd24ba66",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_darkwoods_alpha.tga",
+      "input_sha256": "e904c2fc1534b5708689903a650693e1f52acbe8b59483553fe002eef5551832",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "b1d24e966c8f17110ca85ac80389b1bc1a7d0e300d870c8fb7d3f5b66ab32878",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/dhalliance_jp.tga",
+      "input_sha256": "f1d1ceaea7125d1f7a6896bf29ed6cb562b264ff72bf80156504960616888842",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "13978b6c553632bf5c60f664052c0f9e0827d8508372fd842c3505f30eddda6f",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/buttons2.tga",
+      "input_sha256": "fba5f94d4c16de33a31dcaa7d5487d3b61dc34e6e7f2b66b02cb33aae09d77a5",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "7ce9e69f04f96012fedda4290d2171e66a0412af865c3344b743e35049d21680",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_darktemple.tga",
+      "input_sha256": "af79ad2905fbb422ab224c36eb202e0a799086ce9826cef7edcfde2603407001",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "50ddb02edbf787cfcebcea2f1bcaa4559c79ac7f2e796d5eb3e5cc59745ead07",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_swamp_lightspec.tga",
+      "input_sha256": "fdfdc7b73d17eb896eed68131406c16060c715acad20c812ed1817c7999c8d19",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "763452d2d7191069bf7af07109bce1c838a2784501a383fe2102274529ced148",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/debrifmap.tga",
+      "input_sha256": "26cb5c6c5d0aeb05a76477e7314179b978db6bc71a613ccb94bb340d2497ba94",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "6bb37a0644fef277863076c9d5cdfeb6084a23a4ab1fd89a8cc974451b26804e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/menugraphics06.tga",
+      "input_sha256": "9e56c4e9bba6167997ca94ed83abd9304a832f40f5984bcd63f5f14f9f6ec65c",
+      "width": 256,
+      "height": 256,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "2c5fa66a3b78e3d23f0157d7c91f269c204bca685601d5e89c817d78bf3941d6",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 256,
+        "height": 256,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_icyhub_alpha.tga",
+      "input_sha256": "72201bf51652b677fcaa11f597c024b234a7da50f0f63b7dec6ef4ef91ddc1db",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "a90f20c1ec6c0b1259366bc3f5336943d9b0f0a88e52954138c7128a27b15579",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/dhalliance_sp.tga",
+      "input_sha256": "b184105cf86b2b6c659be9abe52b60e2bbac0b708cc908b9d69ed5c21e8a4f15",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "7e75169cea156ae32513ffd9984fdd8f322e51ddda1479700cda143b81eabfca",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/MenuGraphics04.tga",
+      "input_sha256": "e331e4215dee9c662369508c100f6231b4acc7a176f42c184ac0318e00465fb3",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "7c09982e261426d5e20da4a6b6be91c08ff8222301c5762ef7e7e14ffb7a96f8",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_whirlpool.tga",
+      "input_sha256": "e5db0691c16920cdb34a49d10638450f97798a5e942416ffa1890966644387df",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "6c86ab959c0f1b2f04b5bc35e40ec888d354e42e4f9de1e1a32557b2dab04b95",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_skill_dh2_prince_warrior_paladin_guarding_aura_shield.tga",
+      "input_sha256": "489aac4fd1006058b1833e9873498b81e9e2a3233d5ef55faf482138d27e1cfe",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "61368e9049920f9387a60abddf0f01bb4e746b23389d799d5247b7bde65ad629",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_lightning_sparks.tga",
+      "input_sha256": "b46b3d33adfdce43e8bdf28df4764057aba1ac9f0c96133944ece7eb05cb170f",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "070dd14eb08df0aa8a9dd40092ce8005d08032b058023fb627cfb2bf63429e59",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/background_swamp_main_menu.tga",
+      "input_sha256": "2bf69bc07bd7824e6671f8ec8563c399b86feeae2c7063154dfd043132081d12",
+      "width": 512,
+      "height": 512,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "f9a93b2bf8cb1af87d639429f97c957247029397984117f40e1de54cbf5ea755",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 512,
+        "height": 512,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_blooddesert_lightmap.tga",
+      "input_sha256": "e84578c66fde2e34baf1ce027fce0c398eab23817a66bd28b4e85b47019bc5f8",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "04dbbeac6bed29bc9f2e844ce3e0ee405068fee73c979a315b58cccde24d180b",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/splash_final_droid.tga",
+      "input_sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8",
+      "width": 2048,
+      "height": 1024,
+      "format": 3,
+      "alpha": 1,
+      "rgba_sha256": "e3fbad331b54235cd4ada04b36be4dd6ad5476babf42ed68404507b8bd69bdf7"
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_portal_001.tga",
+      "input_sha256": "4bdfe90daa2b2656509220c02a4d142bf3de6cfaa787aa60d30b6339313a7524",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "6069ac1905d7046403544c5978e78366c2121d5be01b9811759dff5b860c6d3d",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_blast_sphere.tga",
+      "input_sha256": "57e147c57d738756fc9187e6720b25f2360eb708fb7544d8ca7880f90723858f",
+      "width": 64,
+      "height": 64,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "6e956ea2768b0822ffda6c02adaf625e43c5d71881e9fd6b1502638582cf15c9",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 64,
+        "height": 64,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_radial_white.tga",
+      "input_sha256": "3e9b0cc09505efcb18af67df69da286639949e4b4eaba87386858bb77c7121e6",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "803dceb5d625807b56d35c39320b5f8120f9ad82ed2d58b7635ca2dbdd21d11e",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_shockwave_madruk01.tga",
+      "input_sha256": "ae10fb52cbf0ce1465d849fe4d9f0bf7139eb58e5ad904ba8272106a1a42b547",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "a84b149cac2f97f31d9e0775dbdfc2077257c1abb7541548bfd576fbf71ac986",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/menugraphics05.tga",
+      "input_sha256": "e7e8f36bb2c818befe24fc62012b9712055bb3602833feaca449b307f7953cad",
+      "width": 512,
+      "height": 512,
+      "format": 3,
+      "alpha": 1,
+      "rgba_sha256": "406061ef822d3df8b89eac36a0e87cc0c178ee092fd62a46dbae935f2a1278bb"
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_root_den_alpha.tga",
+      "input_sha256": "6bc9103440e0437e6bcd24e41e1d6dacb7a7a69ca4594d4cdaf6ebc5850746d1",
+      "width": 1024,
+      "height": 1024,
+      "format": 0,
+      "alpha": 1,
+      "rgba_sha256": "b3ee530cc244e78711cd238b9f74d1f1e81149cca6eb1280a27c57e0959b79b9",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 25,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/_debug_alphatest.tga",
+      "input_sha256": "f62b1ccf1f610de2b07ef75d93cd56adbe486aa976011dd507e5d992bf0e4531",
+      "width": 128,
+      "height": 128,
+      "format": 1,
+      "alpha": 1,
+      "rgba_sha256": "bdecac10f78623837ed6a38398f8078964fadb0f0b7b6afa630f829187b0c045",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 27,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 128,
+        "height": 128,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    },
+    {
+      "path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/dhalliance.tga",
+      "input_sha256": "01b05f879bf569d1754b728551139030776064acc5e518612d0e71fda7acf5d7",
+      "width": 1024,
+      "height": 1024,
+      "format": 1,
+      "alpha": 0,
+      "rgba_sha256": "c65fb7b8f69cc443c3057891e8fead37756d59c44d7d950fbb3d5c2da44db0e1",
+      "engine_description": {
+        "kind": 0,
+        "engine_format": 26,
+        "base_mip": 0,
+        "reserved": 0,
+        "width": 1024,
+        "height": 1024,
+        "surfaces": 1,
+        "mipmapped": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "091c2f8b0bf414d86faf6ccb00de783e44f469da7c26618aba277598f7e04972",
+  "corpus_sha256": "a342fedeb86e30f7e6340b6b8cbffee25ccee59b0f654ffc68df7004c537ce7f",
+  "comparisons": 5970,
+  "operation_counts": {
+    "update": 1170,
+    "jump": 600,
+    "init": 600,
+    "range": 600,
+    "clip": 600,
+    "loop": 600,
+    "scale": 600,
+    "notify": 600,
+    "extra": 600
+  },
+  "callback_snapshots": 455,
+  "mismatches": 0,
+  "seconds": 4.469,
+  "scope": "Actual original timeline/AEABI instructions, explicit resolved clip-bound virtual fixtures. Reentrant callback methods execute actual instructions. Original Animator end notification and CharAnimator extra-time calculation execute. Full character sequence selection remains external."
+}

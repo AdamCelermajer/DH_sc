@@ -1,0 +1,480 @@
+{
+  "apk_sha256": "6b97f48e7f71eec6227998001b117f0c6dd26faeedebe771f382a49b52e06ef9",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "27f28f6f653c92e0274692b380ccc3700314df22016de98266d0981c3934d939",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "17c40127e95ae37e60b5759bfbace61a4fd6e8b84de12d3d5ceae67b1420b3f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "a265318afe0c882c4701d8a2f21e8e88c241d0b262c1aac4bd82b1054fe13c40",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "c2c49f01ce6c8504d9bd0f857a34e9d4aa150125bcd7023c16d6d3ce45dd80a2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "db959e6e1b5377ae7a3f516b2e79f50b0c2fe4a635b7e1254c9dcd90853fbb1d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "d8e69f1b4b9b2f0642de36313a4ae8b15b2c4e1626fb69cfc8d42e967c71e19a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "60ed4d776114a88fae1c90d600e9716184c299b7bab908eb25100f6d355e7ed1",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "e0a41b45c2faf2e14ca18a155bb069bdb9ffccfee2196389ee30110eba6cf00d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "0d389b132b5a960dee7e98b9ad7f46ea1b81e16c7fed2079f53ab393eabca2a8",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "57c54235cfd9796256cd33bd02539b6f5677bb050241da232392b8f7ef1dff3d",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "screenshot": "skeleton-Walk-100.png",
+      "index": 0,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Walk-700.png",
+      "index": 0,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Attack-100.png",
+      "index": 0,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Attack-700.png",
+      "index": 0,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Died-100.png",
+      "index": 0,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Died-700.png",
+      "index": 0,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Attack-finished.png",
+      "index": 0,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "skeleton-Died-finished.png",
+      "index": 0,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Walk-100.png",
+      "index": 2,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Walk-700.png",
+      "index": 2,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Attack-100.png",
+      "index": 2,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Attack-700.png",
+      "index": 2,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Died-100.png",
+      "index": 2,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Died-700.png",
+      "index": 2,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Attack-finished.png",
+      "index": 2,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "slime_green_v2-Died-finished.png",
+      "index": 2,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Walk-100.png",
+      "index": 76,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Walk-700.png",
+      "index": 76,
+      "state": "Walk",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Attack-100.png",
+      "index": 76,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Attack-700.png",
+      "index": 76,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Died-100.png",
+      "index": 76,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Died-700.png",
+      "index": 76,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Attack-finished.png",
+      "index": 76,
+      "state": "Attack",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    },
+    {
+      "screenshot": "ghost-Died-finished.png",
+      "index": 76,
+      "state": "Died",
+      "bounds": [
+        0,
+        405,
+        1080,
+        2337
+      ]
+    }
+  ],
+  "pose_changed_pixels": {
+    "skeleton.bdae:Walk": 34834,
+    "skeleton.bdae:Attack": 38006,
+    "skeleton.bdae:Died": 26788,
+    "slime_green_v2.bdae:Walk": 175195,
+    "slime_green_v2.bdae:Attack": 108085,
+    "slime_green_v2.bdae:Died": 116735,
+    "ghost.bdae:Walk": 125296,
+    "ghost.bdae:Attack": 100004,
+    "ghost.bdae:Died": 84768
+  },
+  "three_stage_attacks": [
+    {
+      "model": "skeleton.bdae",
+      "object_index": 0,
+      "events": [
+        [
+          1,
+          1,
+          1178,
+          2
+        ],
+        [
+          2,
+          1,
+          1179,
+          2
+        ],
+        [
+          3,
+          0,
+          1179,
+          0
+        ]
+      ]
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "object_index": 2,
+      "events": [
+        [
+          1,
+          1,
+          1248,
+          2
+        ],
+        [
+          2,
+          1,
+          1249,
+          2
+        ],
+        [
+          3,
+          0,
+          1249,
+          0
+        ]
+      ]
+    },
+    {
+      "model": "ghost.bdae",
+      "object_index": 76,
+      "events": [
+        [
+          1,
+          1,
+          697,
+          2
+        ],
+        [
+          2,
+          1,
+          707,
+          2
+        ],
+        [
+          3,
+          0,
+          707,
+          0
+        ]
+      ]
+    }
+  ],
+  "one_stage_deaths": [
+    {
+      "model": "skeleton.bdae",
+      "object_index": 0,
+      "events": [
+        [
+          1,
+          0,
+          1185,
+          0
+        ]
+      ]
+    },
+    {
+      "model": "slime_green_v2.bdae",
+      "object_index": 2,
+      "events": [
+        [
+          1,
+          0,
+          1251,
+          0
+        ]
+      ]
+    },
+    {
+      "model": "ghost.bdae",
+      "object_index": 76,
+      "events": [
+        [
+          1,
+          0,
+          700,
+          0
+        ]
+      ]
+    }
+  ],
+  "independent_idle_instances_verified": true,
+  "physical_arm64_tested": false,
+  "combat_or_ai_implemented": false,
+  "blending_or_root_motion_dispatch_implemented": false,
+  "base_class_snapshots_verified": true,
+  "base_class_instance_count": 11,
+  "original_class_report_sha256": "5468ae99351d485c2c675aec290084abbb00b92a0042cd1422de46468ed8082f",
+  "resolved_property_snapshots_verified": true,
+  "resolved_property_instance_count": 11,
+  "original_property_report_sha256": "55d89e8051ccfb5e5380fe7c786f6c2f13714949c6fc6460ca8ee8662113d81e",
+  "spawn_vitals_verified": true,
+  "spawn_vitals_instance_count": 11,
+  "original_vitals_report_sha256": "1803696c230c33a00837097a203a237329e60dbf7dc8c0f06e4b955081f3d13c"
+}

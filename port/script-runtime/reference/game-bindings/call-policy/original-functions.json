@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9LuaScript12_GetFuncNameEPKc",
+      "elf_address": "0x37c314",
+      "size": 124,
+      "sha256": "95436489c5691b9496ae0d0b137d649e57f11f728fc28a31bf19ab86c1207872"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5ValueD1Ev",
+      "elf_address": "0x3193e8",
+      "size": 108,
+      "sha256": "2c8a80608091b1bc218495a57fd14763f954e0e3ef080df4772b7c3f0fe038a8"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance5pCallEPKcRKNS1_9ArgumentsERNS1_12ReturnValuesE",
+      "elf_address": "0x31abe8",
+      "size": 60,
+      "sha256": "db90645f481b6bc4118bf16642680e0db6b7ac19bde4a3c49391f067cd08c3fc"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5Error8setErrorEP9lua_Statei",
+      "elf_address": "0x31a8ac",
+      "size": 108,
+      "sha256": "cc2c5b87b7715baf78a20858c1f9176ab3058ee07dc472e5fbc3985f7faa7124"
+    }
+  ]
+}

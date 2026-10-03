@@ -1,0 +1,138 @@
+{
+  "apk_sha256": "ffcf83651b9b005452c0acf4dc886f2476fae08919cbf429749aa8ee7c01e7b1",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "model": "prince_modular.bdae",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "ddfc5fa1ec6cea6d38400a43fe6e2670ae68a0f9f220afd841b8367451638ea8",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "680299a380c2ee5fba7bc24c2973ffc47e99953b10809aedb2499c7b95a21859",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "70e653874d20879a86957d6d77d7b209487d3df7b0a2ebfed69d899f2e4e0c06",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "43a0e6efb0e1fa09cc9c6115030ca7d417e35f3ef06662e262af4d2ed40d1209",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "8cc6f2be734a0821cd0553d7e8bf7bba8c48054df3c8fc2c5ad6ce7507bed174",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "dc2d07be9b82c81cca5b178e98e28c1e617b872f725e44f332a43be5f16b63b6",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "screenshot": "frozen-100.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        378,
+        577,
+        702,
+        1379
+      ],
+      "time_ms": 100
+    },
+    {
+      "screenshot": "frozen-100-repeat.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        378,
+        577,
+        702,
+        1379
+      ],
+      "frozen_pose_stable": true
+    },
+    {
+      "screenshot": "frozen-1700.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        381,
+        580,
+        702,
+        1379
+      ],
+      "time_ms": 1700
+    },
+    {
+      "screenshot": "live-first.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        378,
+        579,
+        702,
+        1379
+      ]
+    },
+    {
+      "screenshot": "live-second.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_bounds": [
+        378,
+        579,
+        702,
+        1379
+      ]
+    }
+  ],
+  "changed_pixels_between_poses": 97291,
+  "pose_times_ms": [
+    100,
+    1700
+  ],
+  "live_animation_changed_pixels": true,
+  "frozen_pose_stable": true,
+  "physical_arm64_tested": false,
+  "skinning_implemented": true
+}

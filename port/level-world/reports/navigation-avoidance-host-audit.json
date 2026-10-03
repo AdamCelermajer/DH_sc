@@ -1,0 +1,26 @@
+{
+  "cases": 2008,
+  "operation_counts": [
+    832,
+    750,
+    426
+  ],
+  "force_records": 4524,
+  "contributions": 4535,
+  "adjusted": 220,
+  "turn_limited": 181,
+  "gated": 275,
+  "registry_keys_compared": 3377,
+  "atomic_rejection_checks": 8,
+  "empty_registry_early_gate_checks": 1,
+  "authored_graph_nodes": 335,
+  "authored_graph_edges": 838,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "c5aca85e49895c1408052886e2d6721d4f4fb41c623a4dcf1193209f7c53d42f",
+  "bres_sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+  "descriptor_sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+}

@@ -1,0 +1,10 @@
+{
+  "original_character_rows_resolved": 448,
+  "properties_per_sheet": 224,
+  "original_default_type_rows_verified": true,
+  "default_collision_and_wrapping_verified": true,
+  "buff_group_and_insertion_precedence_verified": true,
+  "fixed_point_health_mutations_verified": true,
+  "runtime_only_recalc_preserved": true,
+  "invalid_input_atomic": true
+}

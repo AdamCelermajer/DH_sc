@@ -1,0 +1,21 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reference_sha256": "d2c353252f7a2db97b7c5d85b9cdd1959afee45e0f9e46a4c641f41cae7978ee",
+  "original_derived_replay": 1776,
+  "replay_scenes": 48,
+  "replay_genuine_world_steps": 576,
+  "host_modeled_trig_imports": true,
+  "finite_body_and_query_words_exact": true,
+  "genuine_world_fixture_steps": 163,
+  "contact_additions": 1,
+  "contact_solver_results": 31,
+  "pin_unpin_move_stop_verified": true,
+  "native_force_clearing_verified_by_step": true,
+  "subobjects_native_services": 4,
+  "atomic_rejection_checks": 5,
+  "address_sanitizer": true,
+  "undefined_behavior_sanitizer": true,
+  "leak_detection": true,
+  "mismatches": 0,
+  "scope": "Public native Body2D adapter linked to complete recovered Box2D 2.0.1 source. Original-derived replay supplies test-only modeled sinf/cosf/sincosf imports to remove host-libm drift. Independent genuine-world fixture tests static pin, dynamic unpin and stepping, stored velocities, Stop force clearing, native services, out-of-range freeze and contact blocking. Private force/torque/sleep-time fields are never read or synthesized."
+}

@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK16CharStateMachine9SM_IsIdleEb",
+      "elf_address": "0x3c0260",
+      "size": 60,
+      "sha256": "190a17e8b266a7c7b3d041c023b3c80dbce2f72e8024738bec9d5c57cff61014"
+    },
+    {
+      "original_symbol": "_ZN10GameObject11SetPositionERK7Point3DIfEb",
+      "elf_address": "0x393db4",
+      "size": 220,
+      "sha256": "b2e7a850ec235757fe9b1406e0491006cc8ef1dda76927eb2e336374d93e26e7"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine20SM_IsAwaitingToSpawnEv",
+      "elf_address": "0x3c0230",
+      "size": 24,
+      "sha256": "9c84b7e9a22ca895a54266c1e32ba749e1e3afb08f001790d6a112896ace8494"
+    },
+    {
+      "original_symbol": "_ZN10GameObject12EnableZoningEv",
+      "elf_address": "0x38c790",
+      "size": 236,
+      "sha256": "24c9d94288ca5582a38d4521805c19251a3c53b121c801d071b6831081e1604e"
+    },
+    {
+      "original_symbol": "_ZN6CharAI8OnUpdateEv",
+      "elf_address": "0x3d1050",
+      "size": 364,
+      "sha256": "b7f3702aa3d33a84667fd56c9fd44b1694acd7a557b9bd301dcb978a51d8ebde"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject14SyncVisibilityEv",
+      "elf_address": "0x4713d0",
+      "size": 108,
+      "sha256": "c12bd8d5cb7bc0e53560e134f53a090760751b352a917f89beaace5c29e3032d"
+    },
+    {
+      "original_symbol": "_ZN10GameObject13DisableZoningEv",
+      "elf_address": "0x38c600",
+      "size": 156,
+      "sha256": "47fa96d4d91a54767abd925e2f27914bb3772231df5ece440ce109f2806bcdd9"
+    }
+  ]
+}

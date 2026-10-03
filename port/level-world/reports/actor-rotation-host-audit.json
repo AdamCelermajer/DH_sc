@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reference_sha256": "b77af2fe9f0bbf99c75a0ea1442c4fe497baed7ec2123593b1f586d2d4be9fe7",
+  "original_derived_replay": 5590,
+  "atomic_rejection_checks": 15,
+  "address_sanitizer": true,
+  "undefined_behavior_sanitizer": true,
+  "leak_detection": true,
+  "mismatches": 0,
+  "scope": "Pure original UpdateRotation state coordinator, with a visual SyncRotation request. Original-derived golden replay; scene/quaternion operations and complete frame lifecycle are separate integration services."
+}

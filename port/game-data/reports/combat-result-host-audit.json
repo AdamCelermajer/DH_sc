@@ -1,0 +1,17 @@
+{
+  "original_result_cases": 9792,
+  "result_words_per_case": 10,
+  "random_state_verified": true,
+  "invalid_input_atomic": true,
+  "outcomes_observed": [
+    1523,
+    385,
+    913,
+    1595,
+    1240,
+    1093,
+    1147,
+    1203,
+    625
+  ]
+}

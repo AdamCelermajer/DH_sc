@@ -1,0 +1,77 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "6d38e75ad317f55fda07f7c73e6606c7c418f98d364e0fbc3ba1e776f3b99f84",
+  "reference_sha256": "393c538d7eb584de465e22992b3fc7580b5294bc310e859425471ede8fb71a80",
+  "comparisons": 5786,
+  "operation_counts": {
+    "0": 1053,
+    "1": 1053,
+    "2": 1053,
+    "3": 2627
+  },
+  "scenarios": {
+    "empty": 4,
+    "count1 raw copy": 39,
+    "zero and exceptional arithmetic": 39,
+    "ordered random": 3072,
+    "cancellation slot order": 3,
+    "read inputs alias": 4,
+    "one quaternion contribution": 117,
+    "quaternion exceptional and branch corpus": 972,
+    "ordered quaternion random": 1536
+  },
+  "ordered_libm_calls": 8246,
+  "atomic_rejection_checks": 36,
+  "mismatches": 0,
+  "libm_dependency_model": "Windows UCRT sinf/acosf/sqrtf shared across instruction CPUs",
+  "optimized_native_sqrt": "Compiler-generated FSQRT permitted; complete output words still compared, no output tolerance.",
+  "nonfinite_input_policy": "accepted; arithmetic NaNs classification only; all copy-branch bits exact",
+  "native_output_alias_policy": "all read-input overlap rejected atomically; source alias behavior is not claimed",
+  "source_sha256": {
+    "port/engine-animation/animation_blend.hpp": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3",
+    "port/engine-animation/animation_blend.cpp": "5066e683add9d92643f350aa91819f694a7b2be82201785be40cc7812536d2ac",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-animation/tests/animation_blend_differential.py": "d989bde7ea51d0f1e2e105bfe794e45066cf97c94a2efaf927d9558959aec42d"
+  },
+  "original_import_calls": {
+    "__aeabi_fmul": 74316,
+    "__aeabi_fadd": 58488,
+    "__aeabi_fcmpeq": 9266,
+    "__aeabi_fdiv": 4393,
+    "__aeabi_fcmplt": 2299,
+    "__aeabi_fcmpgt": 2299,
+    "__aeabi_fsub": 4414,
+    "__aeabi_fcmpge": 2115,
+    "sqrtf": 166,
+    "acosf": 1928,
+    "sinf": 6152
+  },
+  "original_functions": {
+    "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIfNS1_6CMixinIfLi1ENS1_17SMaterialSetParamINS1_15SAnimationTypesIffEEEELin1EfEEEEE15getBlendedValueEPvPfiSC_": {
+      "instructions": 27,
+      "seen": 27
+    },
+    "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE15getBlendedValueEPvPfiSB_": {
+      "instructions": 57,
+      "seen": 57
+    },
+    "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE15getBlendedValueEPvPfiSB_": {
+      "instructions": 57,
+      "seen": 57
+    },
+    "_ZN6glitch4core10quaternion5slerpES1_S1_f": {
+      "instructions": 245,
+      "seen": 245
+    },
+    "_ZN6glitch4core10quaternion9normalizeEv": {
+      "instructions": 58,
+      "seen": 58
+    },
+    "_ZN6glitch7collada15animation_track8CBlenderINS_4core10quaternionELi1ES4_E17getBlendedValueExEPvPfiS6_": {
+      "instructions": 112,
+      "seen": 112
+    }
+  },
+  "scope": "Actual original typed contribution and slerp instructions versus O2 ARM64.\n\nOnly imported IEEE soft-float/libc/libm contracts are modeled. Both sides use\nthe same Windows UCRT single-precision libm model, not a historical Bionic\nclaim. Host replay can bind these exact libm call inputs/results as fixtures.\nAll finite and signed-zero outputs are bit exact; arithmetic NaNs compare\nclassification. Copy branches must retain every input bit, including NaNs.\n",
+  "elapsed_seconds": 5.938
+}

@@ -1,0 +1,13 @@
+{
+  "transform_argument_checks": 1122,
+  "stop_intermediate_state_checks": 215,
+  "generated_nan_field_variants": 10,
+  "atomic_rejection_checks": 14,
+  "mismatches": 0,
+  "comparisons": 5446,
+  "reference_sha256": "e4ea8610e902d7e0aad0e8be9ddff9d1fb8cdebf29f833232c5ef71c2310e4ab",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

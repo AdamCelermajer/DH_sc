@@ -1,0 +1,116 @@
+{
+  "apk_sha256": "ffcf83651b9b005452c0acf4dc886f2476fae08919cbf429749aa8ee7c01e7b1",
+  "apk_bytes": 10890184,
+  "repo_and_studio_gradle_builds_passed": true,
+  "studio_source_sha256": {
+    "cpp/CMakeLists.txt": "bedc7c19fa547a6ec29c4c0a8c341375f5705bff7a7b293eef237337e8b683f0",
+    "cpp/native_app.cpp": "56bec13c95baa48edd597280e51cb4c193cd03033f09edf63a2fa64ee2cfe04b",
+    "cpp/model_renderer.cpp": "cbb5526caa42d37f8799a07471c94f58c941bb4fb1b8198bc798d401c78868a4",
+    "cpp/model_renderer.hpp": "d90bd8b6e6af9ae070fe3bf4208cefc62e386e4fd4624964a2e40003349d8d91",
+    "java/com/example/dh2/MainActivity.java": "c928d9541d9ecb90c919824e3c1f1bee2b5319c3420d84572ae6dae90a9730cd",
+    "java/com/example/dh2/NativeBridge.java": "5767f630303ff7586b8d30029cae4e6dbceb0896d72b7310e6b91e1220e135a5"
+  },
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "ddfc5fa1ec6cea6d38400a43fe6e2670ae68a0f9f220afd841b8367451638ea8",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "680299a380c2ee5fba7bc24c2973ffc47e99953b10809aedb2499c7b95a21859",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "70e653874d20879a86957d6d77d7b209487d3df7b0a2ebfed69d899f2e4e0c06",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "43a0e6efb0e1fa09cc9c6115030ca7d417e35f3ef06662e262af4d2ed40d1209",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "8cc6f2be734a0821cd0553d7e8bf7bba8c48054df3c8fc2c5ad6ce7507bed174",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "dc2d07be9b82c81cca5b178e98e28c1e617b872f725e44f332a43be5f16b63b6",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "apk_16k_zip_alignment_verified": true,
+  "bundled_assets_verified": [
+    "assets/textures/pvr2_env_darktemple_alpha.tga",
+    "assets/textures/skybox_wind.tga",
+    "assets/textures/env_selectorcharactere_solide.tga",
+    "assets/textures/godparticle_face.tga",
+    "assets/textures/env_crypt_spec.tga",
+    "assets/textures/fx_smoke_03.tga",
+    "assets/textures/skybox_selector.tga",
+    "assets/textures/pvr2_env_darkwoods_alpha_alpha.tga",
+    "assets/textures/atlas_modular_warrior.tga",
+    "assets/textures/env_crypt.tga",
+    "assets/textures/menugraphics03.tga",
+    "assets/textures/env_darkwoods_alpha.tga",
+    "assets/models/candle_flame.bdae",
+    "assets/models/main_menu_charactere_swamp.bdae",
+    "assets/models/prince_modular.bdae",
+    "assets/animations/prince_menu_idle_knight.bdae"
+  ],
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "host_asan_ubsan": {
+    "controllers": 173,
+    "vertices": 25204,
+    "nodes": 35,
+    "instances": 1,
+    "tracks": 29,
+    "poses": 11,
+    "changed_skin_poses": 1720,
+    "mutations": 1000,
+    "rejected_mutations": 57
+  },
+  "animation_mutation_regression": 5000,
+  "scene_mutation_regression": 10000,
+  "original_instruction_comparisons": {
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "arm64_library_sha256": "afddef55968feaee4be454a6dc7907926cdad78363e6af799201d5de48e1f781",
+    "affine_matrix_bit_exact_cases": 200,
+    "skinned_vertex_bit_exact_cases": 100,
+    "position_bit_exact_cases": 100,
+    "quaternion_bit_exact_cases": 100,
+    "dependency_model": "UCRT float libm shared across CPUs; Python soft-float rounded to float32",
+    "scope": "original matrix and animation routines plus isolated vertex instruction range execute; no full game or GPU equivalence"
+  },
+  "emulator_models": 3,
+  "emulator_scene_captures": 9,
+  "emulator_texture_cases": 7,
+  "physical_arm64_tested": false,
+  "original_gpu_parity_verified": false,
+  "full_cache_bundled": false,
+  "playable_game": false,
+  "goal_status": "active"
+}

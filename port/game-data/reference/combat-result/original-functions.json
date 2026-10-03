@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character14_F_ResetResultERNS_12AttackResultE",
+      "elf_address": "0x3af3b0",
+      "size": 72,
+      "sha256": "f03e6cb1f80f67bb024f886a68f69d4d818ce9f89e56315c5bf3873e317e8531"
+    },
+    {
+      "original_symbol": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+      "elf_address": "0x3b2638",
+      "size": 2096,
+      "sha256": "825bf38a123d73fde3febee5b40a1189b041bfad6782deb37518d628f4d59eb7"
+    },
+    {
+      "original_symbol": "_ZN9Character6HitForEjP10GameObject",
+      "elf_address": "0x3a8bc4",
+      "size": 1704,
+      "sha256": "b01deb99cff30fee694bd246951f00f863c82a3c0135b3302290a475443f8230"
+    },
+    {
+      "original_symbol": "_ZN6CharAI8OnAttackEiib",
+      "elf_address": "0x3d0e7c",
+      "size": 88,
+      "sha256": "db4031a6d5b578d84fc50ee3407c6d5beab779e04040a15677484a548e5566fc"
+    }
+  ]
+}

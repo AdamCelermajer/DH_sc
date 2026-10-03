@@ -1,0 +1,382 @@
+{
+  "apk_sha256": "08bd79f29f04bb71b2ff5430746f9f2624d2ad62a5d5efd159efa5be5f529e2a",
+  "automatic_damage_attempts_verified": 24,
+  "original_result_health_rng_owner_checksums_match": true,
+  "attempts": [
+    {
+      "attempt": 1,
+      "hp_after": 40250,
+      "checksum": "03a8429b254d7f42",
+      "rng": [
+        9988867,
+        9
+      ]
+    },
+    {
+      "attempt": 2,
+      "hp_after": 39057,
+      "checksum": "00613de18bf3dad9",
+      "rng": [
+        11996333,
+        18
+      ]
+    },
+    {
+      "attempt": 3,
+      "hp_after": 37017,
+      "checksum": "e582bad52f3af4e9",
+      "rng": [
+        9007020,
+        27
+      ]
+    },
+    {
+      "attempt": 4,
+      "hp_after": 34799,
+      "checksum": "381d345a9a92e78e",
+      "rng": [
+        407936,
+        36
+      ]
+    },
+    {
+      "attempt": 5,
+      "hp_after": 32636,
+      "checksum": "c3b8f407940102c5",
+      "rng": [
+        12280425,
+        45
+      ]
+    },
+    {
+      "attempt": 6,
+      "hp_after": 30649,
+      "checksum": "8d6bb19de9727e84",
+      "rng": [
+        13297027,
+        54
+      ]
+    },
+    {
+      "attempt": 7,
+      "hp_after": 28518,
+      "checksum": "c3778ddeec864f1b",
+      "rng": [
+        10548042,
+        63
+      ]
+    },
+    {
+      "attempt": 8,
+      "hp_after": 26351,
+      "checksum": "bcaa0977ef2e1559",
+      "rng": [
+        11339093,
+        72
+      ]
+    },
+    {
+      "attempt": 9,
+      "hp_after": 24193,
+      "checksum": "6d53dd8156ef419f",
+      "rng": [
+        6410582,
+        81
+      ]
+    },
+    {
+      "attempt": 10,
+      "hp_after": 24193,
+      "checksum": "e2c3a78bf00b2d74",
+      "rng": [
+        3365546,
+        83
+      ]
+    },
+    {
+      "attempt": 11,
+      "hp_after": 22236,
+      "checksum": "ee318665b9eb23fd",
+      "rng": [
+        394163,
+        92
+      ]
+    },
+    {
+      "attempt": 12,
+      "hp_after": 20091,
+      "checksum": "1705e9b7197699b2",
+      "rng": [
+        4854437,
+        101
+      ]
+    },
+    {
+      "attempt": 13,
+      "hp_after": 17857,
+      "checksum": "932fdac8cf24c965",
+      "rng": [
+        2273734,
+        110
+      ]
+    },
+    {
+      "attempt": 14,
+      "hp_after": 15811,
+      "checksum": "11427dc46a0d1557",
+      "rng": [
+        11627791,
+        119
+      ]
+    },
+    {
+      "attempt": 15,
+      "hp_after": 13611,
+      "checksum": "b17727a6ae192817",
+      "rng": [
+        11136446,
+        128
+      ]
+    },
+    {
+      "attempt": 16,
+      "hp_after": 11206,
+      "checksum": "b1bb9c9c37bc0344",
+      "rng": [
+        5247671,
+        137
+      ]
+    },
+    {
+      "attempt": 17,
+      "hp_after": 8800,
+      "checksum": "84d48d00f48c6e95",
+      "rng": [
+        13342486,
+        146
+      ]
+    },
+    {
+      "attempt": 18,
+      "hp_after": 6654,
+      "checksum": "7b89286b233a32da",
+      "rng": [
+        1312605,
+        155
+      ]
+    },
+    {
+      "attempt": 19,
+      "hp_after": 6654,
+      "checksum": "f0f8f275bc561eaf",
+      "rng": [
+        7619675,
+        157
+      ]
+    },
+    {
+      "attempt": 20,
+      "hp_after": 6654,
+      "checksum": "6668bc8055720a84",
+      "rng": [
+        6988388,
+        159
+      ]
+    },
+    {
+      "attempt": 21,
+      "hp_after": 4506,
+      "checksum": "2b0848c1e5c1fc70",
+      "rng": [
+        13458769,
+        168
+      ]
+    },
+    {
+      "attempt": 22,
+      "hp_after": 2451,
+      "checksum": "36586aefeee04009",
+      "rng": [
+        7826987,
+        177
+      ]
+    },
+    {
+      "attempt": 23,
+      "hp_after": 329,
+      "checksum": "709e93f68ed8fe53",
+      "rng": [
+        9261015,
+        186
+      ]
+    },
+    {
+      "attempt": 24,
+      "hp_after": 0,
+      "checksum": "0567f6d9c9a6cebd",
+      "rng": [
+        11759837,
+        195
+      ]
+    }
+  ],
+  "approach_position": [
+    -1400.5658,
+    -534.6915,
+    109.873
+  ],
+  "movement": [
+    {
+      "start": [
+        -2227.77,
+        1220.9301,
+        842.3644
+      ],
+      "end": [
+        -2227.77,
+        749.7711,
+        749.3234
+      ],
+      "axis": 1
+    },
+    {
+      "start": [
+        -2227.77,
+        749.7711,
+        749.3234
+      ],
+      "end": [
+        -2227.77,
+        278.7578,
+        511.5145
+      ],
+      "axis": 1
+    },
+    {
+      "start": [
+        -2227.77,
+        278.7578,
+        511.5145
+      ],
+      "end": [
+        -2227.77,
+        -198.4565,
+        270.5748
+      ],
+      "axis": 1
+    },
+    {
+      "start": [
+        -2227.77,
+        -198.4565,
+        270.5748
+      ],
+      "end": [
+        -2227.77,
+        -675.332,
+        41.7078
+      ],
+      "axis": 1
+    },
+    {
+      "start": [
+        -2227.77,
+        -675.332,
+        41.7078
+      ],
+      "end": [
+        -2227.77,
+        -929.1467,
+        41.708
+      ],
+      "axis": 1
+    },
+    {
+      "start": [
+        -2227.77,
+        -929.1467,
+        41.708
+      ],
+      "end": [
+        -2227.77,
+        -1005.6852,
+        41.708
+      ],
+      "axis": 1
+    },
+    {
+      "start": [
+        -2227.77,
+        -1005.6852,
+        41.708
+      ],
+      "end": [
+        -1756.8909,
+        -1005.6852,
+        41.708
+      ],
+      "axis": 0
+    },
+    {
+      "start": [
+        -1756.8909,
+        -1005.6852,
+        41.708
+      ],
+      "end": [
+        -1476.8831,
+        -1005.6852,
+        41.708
+      ],
+      "axis": 0
+    },
+    {
+      "start": [
+        -1476.8831,
+        -1005.6852,
+        41.708
+      ],
+      "end": [
+        -1400.5658,
+        -1005.6852,
+        41.708
+      ],
+      "axis": 0
+    },
+    {
+      "start": [
+        -1400.5658,
+        -1005.6852,
+        41.708
+      ],
+      "end": [
+        -1400.5658,
+        -534.6915,
+        109.873
+      ],
+      "axis": 1
+    }
+  ],
+  "rotations": [
+    {
+      "orientation": 1,
+      "damage_attempts": 1
+    },
+    {
+      "orientation": 0,
+      "damage_attempts": 1
+    }
+  ],
+  "frozen_no_damage": true,
+  "pause_no_damage": true,
+  "death_clears_enemy_target_and_stops_controller": true,
+  "screenshots": [
+    "enemy-attacks-automatically.png",
+    "automatic-player-death.png"
+  ],
+  "explicit_development_targets_used": false,
+  "automatic_targeting_default_enabled": true,
+  "physical_arm64_tested": false,
+  "full_game_playable": false,
+  "scope": "One hostile player candidate adapter, original faction/3D melee/target event rules and authored attack events. Original spatial query, pursuit, full FSM/attack delay, status/audio and game-over remain pending."
+}

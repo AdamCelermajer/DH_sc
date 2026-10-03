@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch4core8CMatrix4IfEC1ERKS2_NS2_12eConstructorE.clone.0",
+      "elf_address": "0x586a14",
+      "size": 32,
+      "sha256": "f79b0f4dae3bcaf5c0f4f942b6023c8618b0f9ed0f57a0acf45662ad10c33a3d"
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core8CMatrix4IfE12transformBoxERNS0_8aabbox3dIfEE",
+      "elf_address": "0x587398",
+      "size": 620,
+      "sha256": "3993b8652435360765cf430409fde041d1fb13ae30ce7f8065132a9bb0485cf9"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core6detail12CMatrix4BaseIfE6multEqERKS3_",
+      "elf_address": "0x50f6d8",
+      "size": 108,
+      "sha256": "edd6184884f411aeacf2671860437443a06846a3613e3b3a6bb652ade1a351e0"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene17CTriangleSelector16getTriangleCountEv",
+      "elf_address": "0x590f20",
+      "size": 48,
+      "sha256": "c8fed74b155782a35f32b33e638fa5b0091001747d3ed433c63b463304107434"
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core8CMatrix4IfE10getInverseERS2_",
+      "elf_address": "0x3232c0",
+      "size": 2080,
+      "sha256": "aef821d2b23eaa7845586bd9a43b5a604b9b56fda72ea05e69faf129f8f45dc1"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core8CMatrix4IfE11makeInverseEv",
+      "elf_address": "0x5822f8",
+      "size": 80,
+      "sha256": "fa4c1c5e713ee389ea628866c8725364cd447a7c3e784b73f340cd482c985d9f"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene17CTriangleSelector5SetupEPKNS_4core8CMatrix4IfEE",
+      "elf_address": "0x586a34",
+      "size": 152,
+      "sha256": "7109dc7e64e7f5db1f9a23a3981998d447e239aa9a3b625179f322b3b3505255"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene24COctTreeTriangleSelector12getTrianglesEPNS_4core10triangle3dIfEEiRiRKNS2_8aabbox3dIfEEPKNS2_8CMatrix4IfEE",
+      "elf_address": "0x587694",
+      "size": 80,
+      "sha256": "55baa4862be706b5c370d51429b13198553e682fdffbe4faaf78ac8281640714"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core6detail12CMatrix4BaseIfE20setbyproduct_nocheckERKS3_S5_",
+      "elf_address": "0x40ea54",
+      "size": 1632,
+      "sha256": "0e2da1b1fd9d83ce6cea6781c6e5839beedae1349ae4ff7d8a7b5682ccb5ce1f"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene17CTriangleSelector5SetupERKNS_4core8aabbox3dIfEE",
+      "elf_address": "0x587604",
+      "size": 144,
+      "sha256": "a7f38065d617a2c702dc100c48e681af9495d16d339d6f1ec93bd5072a82adcc"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene17CTriangleSelector9AddResultERKNS_4core10triangle3dIfEE",
+      "elf_address": "0x586acc",
+      "size": 1020,
+      "sha256": "323cb989525ae8b76c8a4e621b404a9ce74c05a30d1214ffbd32af23de98d430"
+    }
+  ]
+}

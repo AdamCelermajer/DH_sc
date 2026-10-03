@@ -1,0 +1,419 @@
+{
+  "source_project": "Box2D",
+  "source_release": "2.0.1",
+  "primary_archive_index": "https://code.google.com/archive/p/box2d/downloads",
+  "primary_download_index_json": "https://storage.googleapis.com/google-code-archive/v2/code.google.com/box2d/downloads-page-2.json",
+  "primary_source_archive": "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/box2d/Box2D_v2.0.1.zip",
+  "published_archive_sha1": "27a1a0bd08c81bbf661fa008645ee5c538bb2767",
+  "archive_sha256": "62857048aa089b558561074154430883cee491eedd71247f75f488cba859e21f",
+  "original_engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_version_symbol_address": "0x99e228",
+  "original_version": [
+    2,
+    0,
+    1
+  ],
+  "vendor_files": 65,
+  "modified_files": [
+    "Source/Common/b2Settings.cpp",
+    "Source/Common/b2Settings.h"
+  ],
+  "alterations": {
+    "Source/Common/b2Settings.cpp": "64-bit aligned allocator header instead of original +4; preserves allocator size header and byte accounting with native header width.",
+    "Source/Common/b2Settings.h": "DH2 binary fork capacity:2048 proxies and 16384 pairs; official release has512/4096. Recovered original constructor loops and broadphase layout."
+  },
+  "license_file_sha256": "6d77641123753e054c382a0bd224f79af81a87bf69a8157ee66dff653a43b58e",
+  "license": "Original zlib/libpng license notices preserved; auxiliary Fixed.h retains its original MIT notice.",
+  "files": [
+    {
+      "file": "Include/Box2D.h",
+      "upstream_sha256": "0ad13b9cdae52a4d57f70f824a856601b151d7d5ac483d354740a3e9a46aa7a5",
+      "native_sha256": "0ad13b9cdae52a4d57f70f824a856601b151d7d5ac483d354740a3e9a46aa7a5",
+      "modified": false
+    },
+    {
+      "file": "License.txt",
+      "upstream_sha256": "6d77641123753e054c382a0bd224f79af81a87bf69a8157ee66dff653a43b58e",
+      "native_sha256": "6d77641123753e054c382a0bd224f79af81a87bf69a8157ee66dff653a43b58e",
+      "modified": false
+    },
+    {
+      "file": "Readme.txt",
+      "upstream_sha256": "1595747ac49b9c3333d828bae8d9776f4497946f1aecc2a8d7832273f4a305bc",
+      "native_sha256": "1595747ac49b9c3333d828bae8d9776f4497946f1aecc2a8d7832273f4a305bc",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/b2BroadPhase.cpp",
+      "upstream_sha256": "cfa4503a3c9a95db001e10dcc4cd6a9f27a97cbe5c676e46a5751cab7a8c06af",
+      "native_sha256": "cfa4503a3c9a95db001e10dcc4cd6a9f27a97cbe5c676e46a5751cab7a8c06af",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/b2BroadPhase.h",
+      "upstream_sha256": "b5e0f3f4c15c15f365bae101f819e21098b6a1c819fc2329f3830aa5bdd953d8",
+      "native_sha256": "b5e0f3f4c15c15f365bae101f819e21098b6a1c819fc2329f3830aa5bdd953d8",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/b2CollideCircle.cpp",
+      "upstream_sha256": "a0ce1f621ae819514cfd26b2b9231cfd1fb301d960857256c809bd0620495113",
+      "native_sha256": "a0ce1f621ae819514cfd26b2b9231cfd1fb301d960857256c809bd0620495113",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/b2CollidePoly.cpp",
+      "upstream_sha256": "22b2e4611e696f041298ae0b63596f2eb54159d4a039fc65036290295080dacc",
+      "native_sha256": "22b2e4611e696f041298ae0b63596f2eb54159d4a039fc65036290295080dacc",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/b2Collision.cpp",
+      "upstream_sha256": "052c979a72176b10b404c7c8b900e1a8662f661ffa6476d2c18edec47e57ddd4",
+      "native_sha256": "052c979a72176b10b404c7c8b900e1a8662f661ffa6476d2c18edec47e57ddd4",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/b2Collision.h",
+      "upstream_sha256": "d1f825e57717f8163ff8e937b02f2e39a99a16714a37919fa83daca9a62f84a9",
+      "native_sha256": "d1f825e57717f8163ff8e937b02f2e39a99a16714a37919fa83daca9a62f84a9",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/b2Distance.cpp",
+      "upstream_sha256": "0e5e43d8a6318555994ad7dbd44e3d8d38430964ea8989991aed9c880365dc1a",
+      "native_sha256": "0e5e43d8a6318555994ad7dbd44e3d8d38430964ea8989991aed9c880365dc1a",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/b2PairManager.cpp",
+      "upstream_sha256": "0ba3ce40b97bc5c4c50aacbd131f665a63e44c8130c2ddf4c9ecc9abe75e2f4c",
+      "native_sha256": "0ba3ce40b97bc5c4c50aacbd131f665a63e44c8130c2ddf4c9ecc9abe75e2f4c",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/b2PairManager.h",
+      "upstream_sha256": "f22b19e47d91b75d2fe2f691e5e10100ce1463672524c1fadecb79339e91c1ae",
+      "native_sha256": "f22b19e47d91b75d2fe2f691e5e10100ce1463672524c1fadecb79339e91c1ae",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/b2TimeOfImpact.cpp",
+      "upstream_sha256": "a4b145c6773ad798844f83ee7fb621a143261a237372e1fbb82c27bb72ee6201",
+      "native_sha256": "a4b145c6773ad798844f83ee7fb621a143261a237372e1fbb82c27bb72ee6201",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/Shapes/b2CircleShape.cpp",
+      "upstream_sha256": "0629b27c6fd842dea90070e8ea7dcb27fc0eb86bafe9aadaa13b114dfb61aa20",
+      "native_sha256": "0629b27c6fd842dea90070e8ea7dcb27fc0eb86bafe9aadaa13b114dfb61aa20",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/Shapes/b2CircleShape.h",
+      "upstream_sha256": "a575f875afa9c0aae4e01b1aa186ddfb4fc2aa6f217be69d7d09996e4ab30fcd",
+      "native_sha256": "a575f875afa9c0aae4e01b1aa186ddfb4fc2aa6f217be69d7d09996e4ab30fcd",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/Shapes/b2PolygonShape.cpp",
+      "upstream_sha256": "2281e552b7cf16b79d704a89160550c5e0a56da2a210ce926fd0719301cb61e1",
+      "native_sha256": "2281e552b7cf16b79d704a89160550c5e0a56da2a210ce926fd0719301cb61e1",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/Shapes/b2PolygonShape.h",
+      "upstream_sha256": "54b78992f13caf81515710d9341eba4f61a72820a341ce567fdad3062b7041c6",
+      "native_sha256": "54b78992f13caf81515710d9341eba4f61a72820a341ce567fdad3062b7041c6",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/Shapes/b2Shape.cpp",
+      "upstream_sha256": "2bcfc135682d3c311ea246b2b8d2ce14ccc7694a5d586348761ae12bc9cd696e",
+      "native_sha256": "2bcfc135682d3c311ea246b2b8d2ce14ccc7694a5d586348761ae12bc9cd696e",
+      "modified": false
+    },
+    {
+      "file": "Source/Collision/Shapes/b2Shape.h",
+      "upstream_sha256": "ea59008f09889b632c0ac6cd5f2724781c9dbe23f9663ab9d38a2b21ef07fa4c",
+      "native_sha256": "ea59008f09889b632c0ac6cd5f2724781c9dbe23f9663ab9d38a2b21ef07fa4c",
+      "modified": false
+    },
+    {
+      "file": "Source/Common/b2BlockAllocator.cpp",
+      "upstream_sha256": "12426570e627db745da2bc5f7edbe0629d95b834dfabf87ef621a91623ae39f5",
+      "native_sha256": "12426570e627db745da2bc5f7edbe0629d95b834dfabf87ef621a91623ae39f5",
+      "modified": false
+    },
+    {
+      "file": "Source/Common/b2BlockAllocator.h",
+      "upstream_sha256": "b9056e01399ee810604c54097a25d71f8e867e0ffad2712bc98498fce2d5bfce",
+      "native_sha256": "b9056e01399ee810604c54097a25d71f8e867e0ffad2712bc98498fce2d5bfce",
+      "modified": false
+    },
+    {
+      "file": "Source/Common/b2Math.cpp",
+      "upstream_sha256": "9dd538fca46377fc5ddfccaa5aaf293397c83d06e8400426856f0dbb8489a688",
+      "native_sha256": "9dd538fca46377fc5ddfccaa5aaf293397c83d06e8400426856f0dbb8489a688",
+      "modified": false
+    },
+    {
+      "file": "Source/Common/b2Math.h",
+      "upstream_sha256": "bb9eb24351da6c1bb1ff6fee57e013e502057e4837511b1d236c2b252d1ba418",
+      "native_sha256": "bb9eb24351da6c1bb1ff6fee57e013e502057e4837511b1d236c2b252d1ba418",
+      "modified": false
+    },
+    {
+      "file": "Source/Common/b2Settings.cpp",
+      "upstream_sha256": "31c1c1729dffb0db8ea2eaade96297c5e727c53e47fd8565dcd736f4d272ff40",
+      "native_sha256": "72cc86a675e9caff585175b36ef3eef9d83f2785bba26f5dfd0ad3433aacc6a2",
+      "modified": true
+    },
+    {
+      "file": "Source/Common/b2Settings.h",
+      "upstream_sha256": "dca52469d98c8bdeb0f9e811c94ba6894d6e6bcda0fb7d3d95559db0c3ce7a81",
+      "native_sha256": "8f37991405eb70bf175e3dd47685bbbb167c2aa1d522941a91aefa69ae1780e7",
+      "modified": true
+    },
+    {
+      "file": "Source/Common/b2StackAllocator.cpp",
+      "upstream_sha256": "abbfebe42cd6d45ee5a46d8afb031c8e6560908eadaab010152afb94e3a8a8c4",
+      "native_sha256": "abbfebe42cd6d45ee5a46d8afb031c8e6560908eadaab010152afb94e3a8a8c4",
+      "modified": false
+    },
+    {
+      "file": "Source/Common/b2StackAllocator.h",
+      "upstream_sha256": "3b65b1456f10ccf5ecb72583f05eaaf50094d3cffbbca1012cb0bee100484e60",
+      "native_sha256": "3b65b1456f10ccf5ecb72583f05eaaf50094d3cffbbca1012cb0bee100484e60",
+      "modified": false
+    },
+    {
+      "file": "Source/Common/Fixed.h",
+      "upstream_sha256": "818f120b7f17eee3bf0ceb54acb888650732fa1d267458e5477792d81483ffc5",
+      "native_sha256": "818f120b7f17eee3bf0ceb54acb888650732fa1d267458e5477792d81483ffc5",
+      "modified": false
+    },
+    {
+      "file": "Source/Common/jtypes.h",
+      "upstream_sha256": "4ba0ec25429a79495203fc9ae80d1b82168e5cfa0a85d842f2ed3e89829f9c79",
+      "native_sha256": "4ba0ec25429a79495203fc9ae80d1b82168e5cfa0a85d842f2ed3e89829f9c79",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/b2Body.cpp",
+      "upstream_sha256": "54055e4d49d2dbfb618768bac214855b20eceba404864a585eaf665cd9698cf3",
+      "native_sha256": "54055e4d49d2dbfb618768bac214855b20eceba404864a585eaf665cd9698cf3",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/b2Body.h",
+      "upstream_sha256": "634324f14ef3835a5d33e2043a80dbcc4fb2bcbc1db9f9089e8205be998216ea",
+      "native_sha256": "634324f14ef3835a5d33e2043a80dbcc4fb2bcbc1db9f9089e8205be998216ea",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/b2ContactManager.cpp",
+      "upstream_sha256": "7c370f2d5012f921ce8b2a3ae194332792f5e773f3031e61e7c2c4f4a9dcb6a8",
+      "native_sha256": "7c370f2d5012f921ce8b2a3ae194332792f5e773f3031e61e7c2c4f4a9dcb6a8",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/b2ContactManager.h",
+      "upstream_sha256": "1e17705e78b21186149ae7177a3725911e7d35a42c503eec383b5eb7813777ed",
+      "native_sha256": "1e17705e78b21186149ae7177a3725911e7d35a42c503eec383b5eb7813777ed",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/b2Island.cpp",
+      "upstream_sha256": "6cb95aa76e75683326a5e0a1c841d7df4501559d79d5456ef74dcc7787a0d79f",
+      "native_sha256": "6cb95aa76e75683326a5e0a1c841d7df4501559d79d5456ef74dcc7787a0d79f",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/b2Island.h",
+      "upstream_sha256": "12a643d7d1215966c1f95dc10857bdbce50f1f55aef33a122345b89b12b2d733",
+      "native_sha256": "12a643d7d1215966c1f95dc10857bdbce50f1f55aef33a122345b89b12b2d733",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/b2World.cpp",
+      "upstream_sha256": "ad0dd30502b442b6b27bc05e62239ff6ef823ade04a19c34482665c25ecbdd56",
+      "native_sha256": "ad0dd30502b442b6b27bc05e62239ff6ef823ade04a19c34482665c25ecbdd56",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/b2World.h",
+      "upstream_sha256": "8b54a4fc617e0e15828063ca00b8529c9c254a1b13a100bc91ad7b3d322df93d",
+      "native_sha256": "8b54a4fc617e0e15828063ca00b8529c9c254a1b13a100bc91ad7b3d322df93d",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/b2WorldCallbacks.cpp",
+      "upstream_sha256": "335f631fd1ab520f44025ca684568905be30fe5ab0eb6f9449af1a756be64ee9",
+      "native_sha256": "335f631fd1ab520f44025ca684568905be30fe5ab0eb6f9449af1a756be64ee9",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/b2WorldCallbacks.h",
+      "upstream_sha256": "3aab4ccbfc8a8c4d207d7ac82d2fa0509a8942eba792cb0f788e9c1b115b1d19",
+      "native_sha256": "3aab4ccbfc8a8c4d207d7ac82d2fa0509a8942eba792cb0f788e9c1b115b1d19",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2CircleContact.cpp",
+      "upstream_sha256": "ded2f2cda858750019b6859922ac5d2b0916ff1f0d388a3fab2ed9689a665c9d",
+      "native_sha256": "ded2f2cda858750019b6859922ac5d2b0916ff1f0d388a3fab2ed9689a665c9d",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2CircleContact.h",
+      "upstream_sha256": "7d5d026bc0f7e4d05bfb43f6f01cc5581b672138cd30ab5fb804a8dd42abd231",
+      "native_sha256": "7d5d026bc0f7e4d05bfb43f6f01cc5581b672138cd30ab5fb804a8dd42abd231",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2Contact.cpp",
+      "upstream_sha256": "a0875445d2a2b253fa2815b26373611fe1cfdfcc24084cae74dba20a21e81b2b",
+      "native_sha256": "a0875445d2a2b253fa2815b26373611fe1cfdfcc24084cae74dba20a21e81b2b",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2Contact.h",
+      "upstream_sha256": "da89817056b93e124f53bb520402466df01986d3da9d449222838ff6ad841ac0",
+      "native_sha256": "da89817056b93e124f53bb520402466df01986d3da9d449222838ff6ad841ac0",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2ContactSolver.cpp",
+      "upstream_sha256": "c9c0560fe24e87b37c54268b8a90a36ce3261e61647fc76acf4b38f09b6cf65c",
+      "native_sha256": "c9c0560fe24e87b37c54268b8a90a36ce3261e61647fc76acf4b38f09b6cf65c",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2ContactSolver.h",
+      "upstream_sha256": "4a41c009fd2af2aee9b7c499095f767c92812dc06ab309add137b91be68ebe60",
+      "native_sha256": "4a41c009fd2af2aee9b7c499095f767c92812dc06ab309add137b91be68ebe60",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2NullContact.h",
+      "upstream_sha256": "74899863e071428be4d71d6c1fe062650cde7d49ba7064fc9f9d7f5e8c43d8aa",
+      "native_sha256": "74899863e071428be4d71d6c1fe062650cde7d49ba7064fc9f9d7f5e8c43d8aa",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp",
+      "upstream_sha256": "0ff192b00e5a99843a0c9515b60a600540f2bdb87b0c493d7d8427798b1891fb",
+      "native_sha256": "0ff192b00e5a99843a0c9515b60a600540f2bdb87b0c493d7d8427798b1891fb",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2PolyAndCircleContact.h",
+      "upstream_sha256": "a15c3588c089059af1d99b7733412518059e16c2dc2df6c92cd99089fb66d55e",
+      "native_sha256": "a15c3588c089059af1d99b7733412518059e16c2dc2df6c92cd99089fb66d55e",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2PolyContact.cpp",
+      "upstream_sha256": "04e0d8d2be9eb55e2374935f01d09be785959e806f49ec478700cd07f7d6955c",
+      "native_sha256": "04e0d8d2be9eb55e2374935f01d09be785959e806f49ec478700cd07f7d6955c",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Contacts/b2PolyContact.h",
+      "upstream_sha256": "67ad4841a0f4a008722bbd1fb41b49b46bb60ea0b1d63fd92002528224acbd8a",
+      "native_sha256": "67ad4841a0f4a008722bbd1fb41b49b46bb60ea0b1d63fd92002528224acbd8a",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2DistanceJoint.cpp",
+      "upstream_sha256": "0853ceb8d146a5db0ec0eea208f8751f61386f41532f4edf3ac0e72a0108a34c",
+      "native_sha256": "0853ceb8d146a5db0ec0eea208f8751f61386f41532f4edf3ac0e72a0108a34c",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2DistanceJoint.h",
+      "upstream_sha256": "c167e9f0362edb80c8949e8c66fb9ac267fed3628313c4b696cd055cd88ed100",
+      "native_sha256": "c167e9f0362edb80c8949e8c66fb9ac267fed3628313c4b696cd055cd88ed100",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2GearJoint.cpp",
+      "upstream_sha256": "4a5424b398f016dc9a8c5b5538066a6c5e391e9748498e702bb5d060ad44083d",
+      "native_sha256": "4a5424b398f016dc9a8c5b5538066a6c5e391e9748498e702bb5d060ad44083d",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2GearJoint.h",
+      "upstream_sha256": "e61df42dd9366d6f472bf18843838579863602281c336b4148f634b7f9a60fd5",
+      "native_sha256": "e61df42dd9366d6f472bf18843838579863602281c336b4148f634b7f9a60fd5",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2Joint.cpp",
+      "upstream_sha256": "b6a439cbbf8bc4a4fe835d29b652fcfedf5affb3a8dc7786b68ed1e1a45547dd",
+      "native_sha256": "b6a439cbbf8bc4a4fe835d29b652fcfedf5affb3a8dc7786b68ed1e1a45547dd",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2Joint.h",
+      "upstream_sha256": "b01f4e90a0ea7044b9cadeb5c8cf91ae752e2c115cf0f764c1f45a249e4778f9",
+      "native_sha256": "b01f4e90a0ea7044b9cadeb5c8cf91ae752e2c115cf0f764c1f45a249e4778f9",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2MouseJoint.cpp",
+      "upstream_sha256": "0a9d8342dfa3dc12af1876421d3c33e71b5532d14db8cba0bbf24bf80f6b1e78",
+      "native_sha256": "0a9d8342dfa3dc12af1876421d3c33e71b5532d14db8cba0bbf24bf80f6b1e78",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2MouseJoint.h",
+      "upstream_sha256": "820476f8770f51e86df059703a54244e37291cadf48be436582d2341d5921473",
+      "native_sha256": "820476f8770f51e86df059703a54244e37291cadf48be436582d2341d5921473",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2PrismaticJoint.cpp",
+      "upstream_sha256": "ee3981cfa0e94d82799d6eebecf81a09cd2bc137ac6f43a6c04ef5de197a9a28",
+      "native_sha256": "ee3981cfa0e94d82799d6eebecf81a09cd2bc137ac6f43a6c04ef5de197a9a28",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2PrismaticJoint.h",
+      "upstream_sha256": "0f9fc788a01c0cb02b3e959d9d2a2d6eed1012276288bff39d1dd6cd019f9081",
+      "native_sha256": "0f9fc788a01c0cb02b3e959d9d2a2d6eed1012276288bff39d1dd6cd019f9081",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2PulleyJoint.cpp",
+      "upstream_sha256": "5cb5b0c762d2e6164c79e62316930f9d317fe4f99be8376481f08ebae157a83a",
+      "native_sha256": "5cb5b0c762d2e6164c79e62316930f9d317fe4f99be8376481f08ebae157a83a",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2PulleyJoint.h",
+      "upstream_sha256": "3a3b2642c88952e5412c29409ea066d18b82611710e8cb926b2d83f1931731c4",
+      "native_sha256": "3a3b2642c88952e5412c29409ea066d18b82611710e8cb926b2d83f1931731c4",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2RevoluteJoint.cpp",
+      "upstream_sha256": "c720e0b2cfe29d40292536913d32b2da0f74cc2d60759c5fe6e67cb735b56c33",
+      "native_sha256": "c720e0b2cfe29d40292536913d32b2da0f74cc2d60759c5fe6e67cb735b56c33",
+      "modified": false
+    },
+    {
+      "file": "Source/Dynamics/Joints/b2RevoluteJoint.h",
+      "upstream_sha256": "608269ad82b95ba822abcb65d55f1c82dcba40ed07cb35eba22236ebfc58d1ff",
+      "native_sha256": "608269ad82b95ba822abcb65d55f1c82dcba40ed07cb35eba22236ebfc58d1ff",
+      "modified": false
+    },
+    {
+      "file": "Source/Makefile",
+      "upstream_sha256": "5840926486ed275068b7662514732e699c1a96008e3adce00ddd277debe1b17e",
+      "native_sha256": "5840926486ed275068b7662514732e699c1a96008e3adce00ddd277debe1b17e",
+      "modified": false
+    }
+  ]
+}

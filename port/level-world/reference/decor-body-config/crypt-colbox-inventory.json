@@ -1,0 +1,4260 @@
+{
+  "models": [
+    {
+      "model": "crypt_candle1.bdae",
+      "sha256": "d4ccf2aa24f9d6102ed0f7fad1a387a391536193dc422eec60ce4bcb0687e51d",
+      "nodes": [
+        {
+          "id": "_anim_candle1-node",
+          "name": "_anim_candle1",
+          "sid": "Bone1",
+          "record_offset": 21372,
+          "parent": null,
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone1-node",
+          "name": "_bone1",
+          "sid": "Bone2",
+          "record_offset": 21452,
+          "parent": "_anim_candle1-node",
+          "translation": [
+            -79.33589935302734,
+            -65.30470275878906,
+            294.9630126953125
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone_-node",
+          "name": "_bone_",
+          "sid": "",
+          "record_offset": 21532,
+          "parent": "_anim_candle1-node",
+          "translation": [
+            -84.15070343017578,
+            -76.34829711914062,
+            60.94279861450195
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node",
+          "name": "_mesh_halo_nobatch",
+          "sid": "",
+          "record_offset": 21772,
+          "parent": "_bone_-node",
+          "translation": [
+            4.943920135498047,
+            -1.445080041885376,
+            220.49099731445312
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.9582170248031616,
+            1.128890037536621,
+            0.9582170248031616
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node_PIVOT",
+          "name": "_mesh_halo_nobatch_PIVOT",
+          "sid": "",
+          "record_offset": 21852,
+          "parent": "_mesh_halo_nobatch-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_halo_nobatch-mesh",
+              "geometry_record": 20276,
+              "mesh_bounds": [
+                -149.44900512695312,
+                -121.66899871826172,
+                115.46499633789062,
+                149.44900512695312,
+                121.66899871826172,
+                115.46499633789062
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_colbox_crypt_candle1-node",
+          "name": "_colbox_crypt_candle1",
+          "sid": "",
+          "record_offset": 21612,
+          "parent": "_anim_candle1-node",
+          "translation": [
+            -73.29170227050781,
+            -72.82479858398438,
+            159.3159942626953
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candle1-mesh",
+              "geometry_record": 20244,
+              "mesh_bounds": [
+                -42.970401763916016,
+                -42.970401763916016,
+                0.0,
+                42.970401763916016,
+                42.970401763916016,
+                165.43699645996094
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_mesh_candle1-node",
+          "name": "_mesh_candle1",
+          "sid": "",
+          "record_offset": 21692,
+          "parent": "_anim_candle1-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        }
+      ],
+      "colbox_nodes": [
+        {
+          "id": "_colbox_crypt_candle1-node",
+          "name": "_colbox_crypt_candle1",
+          "sid": "",
+          "record_offset": 21612,
+          "parent": "_anim_candle1-node",
+          "translation": [
+            -73.29170227050781,
+            -72.82479858398438,
+            159.3159942626953
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candle1-mesh",
+              "geometry_record": 20244,
+              "mesh_bounds": [
+                -42.970401763916016,
+                -42.970401763916016,
+                0.0,
+                42.970401763916016,
+                42.970401763916016,
+                165.43699645996094
+              ]
+            }
+          ]
+        }
+      ],
+      "authored_instances": [
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candle1_001",
+          "character": "",
+          "model": "crypt_candle1.bdae",
+          "clip": "",
+          "position": [
+            -5589.659,
+            7440.469999999999,
+            142.634
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candle1_04",
+          "character": "",
+          "model": "crypt_candle1.bdae",
+          "clip": "",
+          "position": [
+            -3472.02,
+            7683.43,
+            142.634
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candle1_05",
+          "character": "",
+          "model": "crypt_candle1.bdae",
+          "clip": "",
+          "position": [
+            -5317.156,
+            11481.08,
+            95.1631
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 4,
+          "name": "_anim_candle1_001",
+          "character": "",
+          "model": "crypt_candle1.bdae",
+          "clip": "",
+          "position": [
+            -5438.125,
+            13572.467,
+            146.997
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 4,
+          "name": "_anim_candle1_03",
+          "character": "",
+          "model": "crypt_candle1.bdae",
+          "clip": "",
+          "position": [
+            -3725.71,
+            13816.643,
+            146.997
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 6,
+          "name": "_anim_candle1_001",
+          "character": "",
+          "model": "crypt_candle1.bdae",
+          "clip": "",
+          "position": [
+            -919.47,
+            15079.541,
+            102.452
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        }
+      ]
+    },
+    {
+      "model": "crypt_candle1_small.bdae",
+      "sha256": "72455d1133489b8fb4c3c3f0365f02d3dee9c19df7f7ba231ef8a05099ead00e",
+      "nodes": [
+        {
+          "id": "_anim_candle1_small-node",
+          "name": "_anim_candle1_small",
+          "sid": "Bone1",
+          "record_offset": 21516,
+          "parent": null,
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.648593008518219,
+            0.648593008518219,
+            0.648593008518219
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone1-node",
+          "name": "_bone1",
+          "sid": "Bone2",
+          "record_offset": 21596,
+          "parent": "_anim_candle1_small-node",
+          "translation": [
+            -79.33589935302734,
+            -65.30470275878906,
+            294.9630126953125
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone_-node",
+          "name": "_bone_",
+          "sid": "",
+          "record_offset": 21676,
+          "parent": "_anim_candle1_small-node",
+          "translation": [
+            -84.15080261230469,
+            -76.34829711914062,
+            60.94279861450195
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node",
+          "name": "_mesh_halo_nobatch",
+          "sid": "",
+          "record_offset": 21916,
+          "parent": "_bone_-node",
+          "translation": [
+            4.943920135498047,
+            -1.445080041885376,
+            220.49099731445312
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.9582170248031616,
+            1.128890037536621,
+            0.9582170248031616
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node_PIVOT",
+          "name": "_mesh_halo_nobatch_PIVOT",
+          "sid": "",
+          "record_offset": 21996,
+          "parent": "_mesh_halo_nobatch-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_halo_nobatch-mesh",
+              "geometry_record": 20420,
+              "mesh_bounds": [
+                -149.44900512695312,
+                -121.66899871826172,
+                115.46499633789062,
+                149.44900512695312,
+                121.66899871826172,
+                115.46499633789062
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_colbox_crypt_candle1_small-node",
+          "name": "_colbox_crypt_candle1_small",
+          "sid": "",
+          "record_offset": 21756,
+          "parent": "_anim_candle1_small-node",
+          "translation": [
+            -73.29170227050781,
+            -72.82479858398438,
+            159.3159942626953
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candle1_small-mesh",
+              "geometry_record": 20388,
+              "mesh_bounds": [
+                -42.970401763916016,
+                -42.970401763916016,
+                0.0,
+                42.970401763916016,
+                42.970401763916016,
+                165.43699645996094
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_mesh_candle1_small-node",
+          "name": "_mesh_candle1_small",
+          "sid": "",
+          "record_offset": 21836,
+          "parent": "_anim_candle1_small-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        }
+      ],
+      "colbox_nodes": [
+        {
+          "id": "_colbox_crypt_candle1_small-node",
+          "name": "_colbox_crypt_candle1_small",
+          "sid": "",
+          "record_offset": 21756,
+          "parent": "_anim_candle1_small-node",
+          "translation": [
+            -73.29170227050781,
+            -72.82479858398438,
+            159.3159942626953
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candle1_small-mesh",
+              "geometry_record": 20388,
+              "mesh_bounds": [
+                -42.970401763916016,
+                -42.970401763916016,
+                0.0,
+                42.970401763916016,
+                42.970401763916016,
+                165.43699645996094
+              ]
+            }
+          ]
+        }
+      ],
+      "authored_instances": [
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candle1_small_001",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            2276.34,
+            1703.25,
+            73.8477
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 1,
+          "name": "_anim_candle1_small_001",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            556.251,
+            5469.7119999999995,
+            99.0464
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 2,
+          "name": "_anim_candle1_small_001",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            543.648,
+            10852.73,
+            56.7247
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 2,
+          "name": "_anim_candle1_small_002",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            -655.047,
+            8689.301,
+            203.718
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 2,
+          "name": "_anim_candle1_small_05",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            -1763.86,
+            10257.043,
+            159.366
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candle1_small_001",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            -6157.14,
+            7861.32,
+            952.949
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candle1_small_07",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            -6157.14,
+            10290.116,
+            952.949
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 5,
+          "name": "_anim_candle1_small_001",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            -11618.630000000001,
+            15225.311,
+            112.69
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 5,
+          "name": "_anim_candle1_small_002",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            -10739.31,
+            13951.029,
+            -85.2231
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 6,
+          "name": "_anim_candle1_small_001",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            682.209,
+            14183.008,
+            200.137
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candle1_small_001",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            -1971.62,
+            18673.441,
+            157.323
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candle1_small_02",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            2124.96,
+            17717.58,
+            157.323
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candle1_small_002",
+          "character": "",
+          "model": "crypt_candle1_small.bdae",
+          "clip": "",
+          "position": [
+            1815.37,
+            21987.510000000002,
+            559.533
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        }
+      ]
+    },
+    {
+      "model": "crypt_candle2.bdae",
+      "sha256": "3cb10850b6acbafae8c296daa4bf466dcd95debd878cb0cf324a180eb8a9e502",
+      "nodes": [
+        {
+          "id": "_anim_candle2-node",
+          "name": "_anim_candle2",
+          "sid": "Bone1",
+          "record_offset": 21276,
+          "parent": null,
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone2-node",
+          "name": "_bone2",
+          "sid": "Bone2",
+          "record_offset": 21356,
+          "parent": "_anim_candle2-node",
+          "translation": [
+            -8.076169967651367,
+            -1.4804699420928955,
+            293.8580017089844
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone_-node",
+          "name": "_bone_",
+          "sid": "",
+          "record_offset": 21436,
+          "parent": "_anim_candle2-node",
+          "translation": [
+            8.806380271911621,
+            -12.740699768066406,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.9451349973678589,
+            0.9451349973678589,
+            0.9451349973678589
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node",
+          "name": "_mesh_halo_nobatch",
+          "sid": "",
+          "record_offset": 21676,
+          "parent": "_bone_-node",
+          "translation": [
+            4.943920135498047,
+            -1.445080041885376,
+            277.5220031738281
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.9582170248031616,
+            1.128890037536621,
+            0.9582170248031616
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node_PIVOT",
+          "name": "_mesh_halo_nobatch_PIVOT",
+          "sid": "",
+          "record_offset": 21756,
+          "parent": "_mesh_halo_nobatch-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_halo_nobatch-mesh",
+              "geometry_record": 20180,
+              "mesh_bounds": [
+                -149.44900512695312,
+                -121.66899871826172,
+                115.46499633789062,
+                149.44900512695312,
+                121.66899871826172,
+                115.46499633789062
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_colbox_crypt_candle2-node",
+          "name": "_colbox_crypt_candle2",
+          "sid": "",
+          "record_offset": 21516,
+          "parent": "_anim_candle2-node",
+          "translation": [
+            -3.5542800426483154,
+            -8.665730476379395,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candle2-mesh",
+              "geometry_record": 20148,
+              "mesh_bounds": [
+                -37.63410186767578,
+                -37.63410186767578,
+                161.08099365234375,
+                37.63410186767578,
+                37.63410186767578,
+                327.59100341796875
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_mesh_candle2-node",
+          "name": "_mesh_candle2",
+          "sid": "",
+          "record_offset": 21596,
+          "parent": "_anim_candle2-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        }
+      ],
+      "colbox_nodes": [
+        {
+          "id": "_colbox_crypt_candle2-node",
+          "name": "_colbox_crypt_candle2",
+          "sid": "",
+          "record_offset": 21516,
+          "parent": "_anim_candle2-node",
+          "translation": [
+            -3.5542800426483154,
+            -8.665730476379395,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candle2-mesh",
+              "geometry_record": 20148,
+              "mesh_bounds": [
+                -37.63410186767578,
+                -37.63410186767578,
+                161.08099365234375,
+                37.63410186767578,
+                37.63410186767578,
+                327.59100341796875
+              ]
+            }
+          ]
+        }
+      ],
+      "authored_instances": [
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candle2_001",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            -2613.86,
+            -761.059,
+            107.242
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candle2_002",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            2256.01,
+            -2.81055,
+            24.9297
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candle2_003",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            2242.66,
+            900.795,
+            11.252
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candle2_004",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            -446.449,
+            -2212.93,
+            -272.348
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 1,
+          "name": "_anim_candle2_001",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            499.555,
+            3970.533,
+            60.9565
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 1,
+          "name": "_anim_candle2_04",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            499.555,
+            6491.7,
+            9.49695
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candle2_001",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            -6191.03,
+            9417.377,
+            891.504
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 4,
+          "name": "_anim_candle2_001",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            -4119.74,
+            13366.35,
+            139.719
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 6,
+          "name": "_anim_candle2_001",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            -1737.98,
+            13771.455,
+            146.091
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 6,
+          "name": "_anim_candle2_002",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            671.663,
+            16572.35,
+            136.867
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candle2_001",
+          "character": "",
+          "model": "crypt_candle2.bdae",
+          "clip": "",
+          "position": [
+            2040.98,
+            20642.82,
+            622.842
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        }
+      ]
+    },
+    {
+      "model": "crypt_candle_big.bdae",
+      "sha256": "eca0dc98fbdf0f77c4ce00877546c5c153cf93c78745778cbfbfe0b02666e190",
+      "nodes": [
+        {
+          "id": "_anim_candle_big-node",
+          "name": "_anim_candle_big",
+          "sid": "",
+          "record_offset": 21296,
+          "parent": null,
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone3-node",
+          "name": "_bone3",
+          "sid": "Bone1",
+          "record_offset": 21376,
+          "parent": "_anim_candle_big-node",
+          "translation": [
+            68.19819641113281,
+            66.720703125,
+            273.9320068359375
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone_-node",
+          "name": "_bone_",
+          "sid": "",
+          "record_offset": 21456,
+          "parent": "_anim_candle_big-node",
+          "translation": [
+            68.51170349121094,
+            56.820499420166016,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node",
+          "name": "_mesh_halo_nobatch",
+          "sid": "",
+          "record_offset": 21696,
+          "parent": "_bone_-node",
+          "translation": [
+            4.943920135498047,
+            -1.445080041885376,
+            255.26400756835938
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.9582170248031616,
+            1.128890037536621,
+            0.9582170248031616
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node_PIVOT",
+          "name": "_mesh_halo_nobatch_PIVOT",
+          "sid": "",
+          "record_offset": 21776,
+          "parent": "_mesh_halo_nobatch-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_halo_nobatch-mesh",
+              "geometry_record": 20324,
+              "mesh_bounds": [
+                -150.3159942626953,
+                -122.375,
+                115.46499633789062,
+                150.3159942626953,
+                122.375,
+                115.46499633789062
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_colbox_crypt_candle_big-node",
+          "name": "_colbox_crypt_candle_big",
+          "sid": "",
+          "record_offset": 21536,
+          "parent": "_anim_candle_big-node",
+          "translation": [
+            77.64790344238281,
+            54.98500061035156,
+            130.1510009765625
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candle_big-mesh",
+              "geometry_record": 20292,
+              "mesh_bounds": [
+                -39.679500579833984,
+                -39.679500579833984,
+                0.0,
+                39.679500579833984,
+                39.679500579833984,
+                183.85499572753906
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_mesh_candle_big-node",
+          "name": "_mesh_candle_big",
+          "sid": "",
+          "record_offset": 21616,
+          "parent": "_anim_candle_big-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        }
+      ],
+      "colbox_nodes": [
+        {
+          "id": "_colbox_crypt_candle_big-node",
+          "name": "_colbox_crypt_candle_big",
+          "sid": "",
+          "record_offset": 21536,
+          "parent": "_anim_candle_big-node",
+          "translation": [
+            77.64790344238281,
+            54.98500061035156,
+            130.1510009765625
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candle_big-mesh",
+              "geometry_record": 20292,
+              "mesh_bounds": [
+                -39.679500579833984,
+                -39.679500579833984,
+                0.0,
+                39.679500579833984,
+                39.679500579833984,
+                183.85499572753906
+              ]
+            }
+          ]
+        }
+      ],
+      "authored_instances": [
+        {
+          "kind": 2,
+          "room": 2,
+          "name": "_anim_candle_big_001",
+          "character": "",
+          "model": "crypt_candle_big.bdae",
+          "clip": "",
+          "position": [
+            428.049,
+            7973.57,
+            94.9996
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 5,
+          "name": "_anim_candle_big_001",
+          "character": "",
+          "model": "crypt_candle_big.bdae",
+          "clip": "",
+          "position": [
+            -7754.58,
+            13669.743,
+            163.907
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candle_big_001",
+          "character": "",
+          "model": "crypt_candle_big.bdae",
+          "clip": "",
+          "position": [
+            1949.03,
+            17804.55,
+            52.3904
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        }
+      ]
+    },
+    {
+      "model": "crypt_candles.bdae",
+      "sha256": "0b0b0a5b001bc2fa5991207cf11eb3b03a84a73a6bbc1aa6e1b2e972b1bbb409",
+      "nodes": [
+        {
+          "id": "_anim_candles-node",
+          "name": "_anim_candles",
+          "sid": "Bone1",
+          "record_offset": 25988,
+          "parent": null,
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.648593008518219,
+            0.648593008518219,
+            0.648593008518219
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone1-node",
+          "name": "_bone1",
+          "sid": "Bone2",
+          "record_offset": 26068,
+          "parent": "_anim_candles-node",
+          "translation": [
+            -79.33589935302734,
+            -65.30470275878906,
+            294.9630126953125
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone2-node",
+          "name": "_bone2",
+          "sid": "Bone3",
+          "record_offset": 26148,
+          "parent": "_anim_candles-node",
+          "translation": [
+            -8.076169967651367,
+            -1.4804699420928955,
+            293.8580017089844
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone3-node",
+          "name": "_bone3",
+          "sid": "Bone4",
+          "record_offset": 26228,
+          "parent": "_anim_candles-node",
+          "translation": [
+            68.19819641113281,
+            66.720703125,
+            273.9320068359375
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone_-node",
+          "name": "_bone_",
+          "sid": "",
+          "record_offset": 26308,
+          "parent": "_anim_candles-node",
+          "translation": [
+            8.806380271911621,
+            -12.740699768066406,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node",
+          "name": "_mesh_halo_nobatch",
+          "sid": "",
+          "record_offset": 26548,
+          "parent": "_bone_-node",
+          "translation": [
+            4.943920135498047,
+            -1.445080041885376,
+            293.6839904785156
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.9582170248031616,
+            1.128890037536621,
+            0.9582170248031616
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node_PIVOT",
+          "name": "_mesh_halo_nobatch_PIVOT",
+          "sid": "",
+          "record_offset": 26628,
+          "parent": "_mesh_halo_nobatch-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_halo_nobatch-mesh",
+              "geometry_record": 24644,
+              "mesh_bounds": [
+                -250.66299438476562,
+                -204.07000732421875,
+                115.46499633789062,
+                250.66299438476562,
+                204.07000732421875,
+                115.46499633789062
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_colbox_crypt_candles-node",
+          "name": "_colbox_crypt_candles",
+          "sid": "",
+          "record_offset": 26388,
+          "parent": "_anim_candles-node",
+          "translation": [
+            4.781260013580322,
+            -10.273599624633789,
+            90.29039764404297
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.4226182699203491,
+            0.9063077569007874
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candles-mesh",
+              "geometry_record": 24612,
+              "mesh_bounds": [
+                -36.52450180053711,
+                -126.05699920654297,
+                66.80909729003906,
+                18.72209930419922,
+                124.10800170898438,
+                242.25100708007812
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_mesh_candles-node",
+          "name": "_mesh_candles",
+          "sid": "",
+          "record_offset": 26468,
+          "parent": "_anim_candles-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        }
+      ],
+      "colbox_nodes": [
+        {
+          "id": "_colbox_crypt_candles-node",
+          "name": "_colbox_crypt_candles",
+          "sid": "",
+          "record_offset": 26388,
+          "parent": "_anim_candles-node",
+          "translation": [
+            4.781260013580322,
+            -10.273599624633789,
+            90.29039764404297
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.4226182699203491,
+            0.9063077569007874
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candles-mesh",
+              "geometry_record": 24612,
+              "mesh_bounds": [
+                -36.52450180053711,
+                -126.05699920654297,
+                66.80909729003906,
+                18.72209930419922,
+                124.10800170898438,
+                242.25100708007812
+              ]
+            }
+          ]
+        }
+      ],
+      "authored_instances": [
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candles_001",
+          "character": "",
+          "model": "crypt_candles.bdae",
+          "clip": "",
+          "position": [
+            2232.58,
+            -1552.11,
+            82.3379
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            36.1449
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candles_001",
+          "character": "",
+          "model": "crypt_candles.bdae",
+          "clip": "",
+          "position": [
+            -4142.1810000000005,
+            11616.11,
+            190.738
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            44.5957
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        }
+      ]
+    },
+    {
+      "model": "crypt_candles2_small.bdae",
+      "sha256": "7e79edbbdde7b36d71876bc7f1250928096cffb90ed24bee3cced946b0c30fe4",
+      "nodes": [
+        {
+          "id": "_anim_candles2_small-node",
+          "name": "_anim_candles2_small",
+          "sid": "Bone3",
+          "record_offset": 23876,
+          "parent": null,
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.648593008518219,
+            0.648593008518219,
+            0.648593008518219
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone1-node",
+          "name": "_bone1",
+          "sid": "Bone1",
+          "record_offset": 23956,
+          "parent": "_anim_candles2_small-node",
+          "translation": [
+            -79.33589935302734,
+            -65.30470275878906,
+            294.9630126953125
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone2-node",
+          "name": "_bone2",
+          "sid": "Bone2",
+          "record_offset": 24036,
+          "parent": "_anim_candles2_small-node",
+          "translation": [
+            -8.076169967651367,
+            -1.4804699420928955,
+            293.8580017089844
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone_-node",
+          "name": "_bone_",
+          "sid": "",
+          "record_offset": 24116,
+          "parent": "_anim_candles2_small-node",
+          "translation": [
+            8.806380271911621,
+            -12.740699768066406,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node",
+          "name": "_mesh_halo_nobatch",
+          "sid": "",
+          "record_offset": 24356,
+          "parent": "_bone_-node",
+          "translation": [
+            -39.53559875488281,
+            -33.18949890136719,
+            268.2539978027344
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.7371320128440857,
+            0.8684269785881042,
+            0.7371330261230469
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node_PIVOT",
+          "name": "_mesh_halo_nobatch_PIVOT",
+          "sid": "",
+          "record_offset": 24436,
+          "parent": "_mesh_halo_nobatch-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_halo_nobatch-mesh",
+              "geometry_record": 22656,
+              "mesh_bounds": [
+                -250.66299438476562,
+                -204.07000732421875,
+                115.46499633789062,
+                250.66299438476562,
+                204.07000732421875,
+                115.46499633789062
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_colbox_crypt_candles2_small-node",
+          "name": "_colbox_crypt_candles2_small",
+          "sid": "",
+          "record_offset": 24196,
+          "parent": "_anim_candles2_small-node",
+          "translation": [
+            4.781260013580322,
+            -10.273599624633789,
+            90.29039764404297
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.4226182699203491,
+            0.9063077569007874
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candles2_small-mesh",
+              "geometry_record": 22624,
+              "mesh_bounds": [
+                -39.027400970458984,
+                -126.05699920654297,
+                66.80909729003906,
+                17.88360023498535,
+                24.72330093383789,
+                242.25100708007812
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_mesh_candles2_small-node",
+          "name": "_mesh_candles2_small",
+          "sid": "",
+          "record_offset": 24276,
+          "parent": "_anim_candles2_small-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        }
+      ],
+      "colbox_nodes": [
+        {
+          "id": "_colbox_crypt_candles2_small-node",
+          "name": "_colbox_crypt_candles2_small",
+          "sid": "",
+          "record_offset": 24196,
+          "parent": "_anim_candles2_small-node",
+          "translation": [
+            4.781260013580322,
+            -10.273599624633789,
+            90.29039764404297
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.4226182699203491,
+            0.9063077569007874
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candles2_small-mesh",
+              "geometry_record": 22624,
+              "mesh_bounds": [
+                -39.027400970458984,
+                -126.05699920654297,
+                66.80909729003906,
+                17.88360023498535,
+                24.72330093383789,
+                242.25100708007812
+              ]
+            }
+          ]
+        }
+      ],
+      "authored_instances": [
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candles2_small_001",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            1240.13,
+            2222.96,
+            203.729
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -11.8278
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candles2_small_002",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -2593.3,
+            -1532.05,
+            169.791
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            22.8276
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candles2_small_003",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            2247.0,
+            -716.641,
+            83.6211
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            27.3222
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candles2_small_004",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            2257.51,
+            806.086,
+            85.8574
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            29.6105
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candles2_small_005",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            807.54,
+            -2195.51,
+            -210.396
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -10.6787
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candles2_small_006",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            2030.47,
+            2238.64,
+            163.756
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -27.7856
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 1,
+          "name": "_anim_candles2_small_001",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            677.47,
+            3101.49,
+            195.415
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 2,
+          "name": "_anim_candles2_small_001",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -968.488,
+            10202.793,
+            158.668
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -37.4132
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candles2_small_001",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -2803.29,
+            10148.501,
+            64.5189
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -22.0404
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candles2_small_05",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -5962.49,
+            7496.16,
+            154.583
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -22.0404
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candles2_small_002",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -6197.97,
+            8636.342,
+            951.42
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            39.881
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 4,
+          "name": "_anim_candles2_small_001",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -4080.975,
+            13506.325,
+            196.098
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 4,
+          "name": "_anim_candles2_small_03",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -4140.832,
+            12523.59,
+            196.098
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            37.4948
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 5,
+          "name": "_anim_candles2_small_001",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -9543.5049,
+            13462.006,
+            -90.5767
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 5,
+          "name": "_anim_candles2_small_002",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -7790.4,
+            13709.629,
+            238.786
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 6,
+          "name": "_anim_candles2_small_001",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            359.667,
+            13760.745,
+            203.194
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 6,
+          "name": "_anim_candles2_small_04",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -1779.81,
+            15018.61,
+            159.944
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -28.1642
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 6,
+          "name": "_anim_candles2_small_002",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            673.786,
+            16472.53,
+            199.893
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candles2_small_001",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -2001.49,
+            17828.72,
+            159.434
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            24.3101
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candles2_small_02",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            2077.84,
+            18586.803,
+            159.434
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            24.3101
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candles2_small_002",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            2028.75,
+            19891.967,
+            672.149
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            38.9583
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candles2_small_003",
+          "character": "",
+          "model": "crypt_candles2_small.bdae",
+          "clip": "",
+          "position": [
+            -1396.07,
+            21787.15,
+            567.363
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            39.0069
+          ],
+          "scale": [
+            0.648593,
+            0.648593,
+            0.648593
+          ],
+          "animation_table": null
+        }
+      ]
+    },
+    {
+      "model": "crypt_candlestand.bdae",
+      "sha256": "104c43a624272a223132b97808dc6c405d61ca94f97563fdefe33218d8af6bcf",
+      "nodes": [
+        {
+          "id": "_anim_candlestand-node",
+          "name": "_anim_candlestand",
+          "sid": "Bone1",
+          "record_offset": 31332,
+          "parent": null,
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone1-node",
+          "name": "_bone1",
+          "sid": "Bone2",
+          "record_offset": 31412,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            -79.33589935302734,
+            -65.30470275878906,
+            294.9630126953125
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone2-node",
+          "name": "_bone2",
+          "sid": "Bone3",
+          "record_offset": 31492,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            -8.076169967651367,
+            -1.4804699420928955,
+            293.8580017089844
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone3-node",
+          "name": "_bone3",
+          "sid": "Bone4",
+          "record_offset": 31572,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            68.19819641113281,
+            66.720703125,
+            273.9320068359375
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone_-node",
+          "name": "_bone_",
+          "sid": "",
+          "record_offset": 31652,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            8.806380271911621,
+            -12.740699768066406,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node",
+          "name": "_mesh_halo_nobatch",
+          "sid": "",
+          "record_offset": 31972,
+          "parent": "_bone_-node",
+          "translation": [
+            4.943920135498047,
+            -1.4450900554656982,
+            263.0539855957031
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.9582170248031616,
+            1.128890037536621,
+            0.9582170248031616
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node_PIVOT",
+          "name": "_mesh_halo_nobatch_PIVOT",
+          "sid": "",
+          "record_offset": 32052,
+          "parent": "_mesh_halo_nobatch-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_halo_nobatch-mesh",
+              "geometry_record": 29692,
+              "mesh_bounds": [
+                -250.66299438476562,
+                -204.07000732421875,
+                115.46499633789062,
+                250.66299438476562,
+                204.07000732421875,
+                115.46499633789062
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_colbox_crypt_candlestand-node",
+          "name": "_colbox_crypt_candlestand",
+          "sid": "",
+          "record_offset": 31732,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            8.137200355529785,
+            -10.542200088500977,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candlestand-mesh",
+              "geometry_record": 29660,
+              "mesh_bounds": [
+                -102.51399993896484,
+                -102.51399993896484,
+                -50.12229919433594,
+                102.51399993896484,
+                102.51399993896484,
+                355.21099853515625
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_mesh_candlestand-node",
+          "name": "_mesh_candlestand",
+          "sid": "",
+          "record_offset": 31812,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_shadow_nobatch-node",
+          "name": "_mesh_shadow_nobatch",
+          "sid": "",
+          "record_offset": 31892,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            0.0,
+            -11.721699714660645,
+            -45.499000549316406
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_shadow_nobatch-mesh",
+              "geometry_record": 29708,
+              "mesh_bounds": [
+                -111.00299835205078,
+                -111.00299835205078,
+                -3.300000025774352e-05,
+                111.00299835205078,
+                111.00299835205078,
+                -3.300000025774352e-05
+              ]
+            }
+          ]
+        }
+      ],
+      "colbox_nodes": [
+        {
+          "id": "_colbox_crypt_candlestand-node",
+          "name": "_colbox_crypt_candlestand",
+          "sid": "",
+          "record_offset": 31732,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            8.137200355529785,
+            -10.542200088500977,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candlestand-mesh",
+              "geometry_record": 29660,
+              "mesh_bounds": [
+                -102.51399993896484,
+                -102.51399993896484,
+                -50.12229919433594,
+                102.51399993896484,
+                102.51399993896484,
+                355.21099853515625
+              ]
+            }
+          ]
+        }
+      ],
+      "authored_instances": [
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candlestand_003",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -1544.31,
+            2136.67,
+            857.207
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candlestand_004",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -914.396,
+            1143.87,
+            -342.455
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            11.9332
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 1,
+          "name": "_anim_candlestand_001",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -529.643,
+            2906.58,
+            49.6461
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            40.2993
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 1,
+          "name": "_anim_candlestand_04",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -529.643,
+            6805.29,
+            49.6461
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            40.2993
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 2,
+          "name": "_anim_candlestand_001",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -525.711,
+            8045.24,
+            60.5891
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            38.2516
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 2,
+          "name": "_anim_candlestand_002",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -1800.55,
+            9105.873,
+            58.3906
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -27.4641
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 2,
+          "name": "_anim_candlestand_003",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -476.66,
+            11098.41,
+            59.4136
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 3,
+          "name": "_anim_candlestand_001",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -6095.78,
+            11704.85,
+            845.913
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 4,
+          "name": "_anim_candlestand_001",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -2748.26,
+            14922.213,
+            45.8438
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -25.165
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 4,
+          "name": "_anim_candlestand_10",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -6724.76,
+            13934.813,
+            50.5449
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -25.165
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 5,
+          "name": "_anim_candlestand_001",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -7781.0,
+            14855.571,
+            50.1274
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 6,
+          "name": "_anim_candlestand_001",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -499.705,
+            16513.19,
+            53.6421
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            13.6611
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candlestand_001",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -1134.22,
+            19007.344,
+            55.1841
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candlestand_02",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            970.194,
+            19007.344,
+            55.1841
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candlestand_03",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            1415.82,
+            23215.87,
+            655.476
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -24.1602
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candlestand_04",
+          "character": "",
+          "model": "crypt_candlestand.bdae",
+          "clip": "",
+          "position": [
+            -1514.93,
+            21095.91,
+            655.476
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            -24.1602
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        }
+      ]
+    },
+    {
+      "model": "crypt_candlestand_big.bdae",
+      "sha256": "89a313c943fb74445666ef373fea5bc091184ba849373daa84751b0ee1a44967",
+      "nodes": [
+        {
+          "id": "_anim_candlestand-node",
+          "name": "_anim_candlestand",
+          "sid": "Bone1",
+          "record_offset": 26688,
+          "parent": null,
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone2-node",
+          "name": "_bone2",
+          "sid": "Bone2",
+          "record_offset": 26768,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            -8.076169967651367,
+            -1.4804699420928955,
+            293.8580017089844
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.3420201241970062,
+            0.9396926164627075
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_bone_-node",
+          "name": "_bone_",
+          "sid": "",
+          "record_offset": 26848,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            -13.189800262451172,
+            -2.916800022125244,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node",
+          "name": "_mesh_halo_nobatch",
+          "sid": "",
+          "record_offset": 27168,
+          "parent": "_bone_-node",
+          "translation": [
+            4.943920135498047,
+            -1.4450900554656982,
+            220.49099731445312
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            0.9582170248031616,
+            1.128890037536621,
+            0.9582170248031616
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_halo_nobatch-node_PIVOT",
+          "name": "_mesh_halo_nobatch_PIVOT",
+          "sid": "",
+          "record_offset": 27248,
+          "parent": "_mesh_halo_nobatch-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_halo_nobatch-mesh",
+              "geometry_record": 25296,
+              "mesh_bounds": [
+                -250.66299438476562,
+                -204.07000732421875,
+                115.46499633789062,
+                250.66299438476562,
+                204.07000732421875,
+                115.46499633789062
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_colbox_crypt_candlestand_big-node",
+          "name": "_colbox_crypt_candlestand_big",
+          "sid": "",
+          "record_offset": 26928,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            -1.114650011062622,
+            -10.599100112915039,
+            132.3090057373047
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candlestand_big-mesh",
+              "geometry_record": 25264,
+              "mesh_bounds": [
+                -78.95480346679688,
+                -78.95480346679688,
+                -182.1540069580078,
+                78.95480346679688,
+                78.95480346679688,
+                157.91000366210938
+              ]
+            }
+          ]
+        },
+        {
+          "id": "_mesh_candlestand-node",
+          "name": "_mesh_candlestand",
+          "sid": "",
+          "record_offset": 27008,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_shadow_nobatch-node",
+          "name": "_mesh_shadow_nobatch",
+          "sid": "",
+          "record_offset": 27088,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            0.0,
+            -11.721699714660645,
+            -45.38909912109375
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_shadow_nobatch-mesh",
+              "geometry_record": 25312,
+              "mesh_bounds": [
+                -111.00299835205078,
+                -111.00299835205078,
+                -3.300000025774352e-05,
+                111.00299835205078,
+                111.00299835205078,
+                -3.300000025774352e-05
+              ]
+            }
+          ]
+        }
+      ],
+      "colbox_nodes": [
+        {
+          "id": "_colbox_crypt_candlestand_big-node",
+          "name": "_colbox_crypt_candlestand_big",
+          "sid": "",
+          "record_offset": 26928,
+          "parent": "_anim_candlestand-node",
+          "translation": [
+            -1.114650011062622,
+            -10.599100112915039,
+            132.3090057373047
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_colbox_crypt_candlestand_big-mesh",
+              "geometry_record": 25264,
+              "mesh_bounds": [
+                -78.95480346679688,
+                -78.95480346679688,
+                -182.1540069580078,
+                78.95480346679688,
+                78.95480346679688,
+                157.91000366210938
+              ]
+            }
+          ]
+        }
+      ],
+      "authored_instances": [
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candlestand_001",
+          "character": "",
+          "model": "crypt_candlestand_big.bdae",
+          "clip": "",
+          "position": [
+            703.134,
+            1334.98,
+            -339.363
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_candlestand_002",
+          "character": "",
+          "model": "crypt_candlestand_big.bdae",
+          "clip": "",
+          "position": [
+            -1259.42,
+            -1922.01,
+            71.7832
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 4,
+          "name": "_anim_candlestand_002",
+          "character": "",
+          "model": "crypt_candlestand_big.bdae",
+          "clip": "",
+          "position": [
+            -2844.88,
+            13905.855,
+            50.0181
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 4,
+          "name": "_anim_candlestand_09",
+          "character": "",
+          "model": "crypt_candlestand_big.bdae",
+          "clip": "",
+          "position": [
+            -5286.604,
+            12474.66,
+            49.7701
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 4,
+          "name": "_anim_candlestand_003",
+          "character": "",
+          "model": "crypt_candlestand_big.bdae",
+          "clip": "",
+          "position": [
+            -6774.14,
+            14929.498,
+            62.3278
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 5,
+          "name": "_anim_candlestand_002",
+          "character": "",
+          "model": "crypt_candlestand_big.bdae",
+          "clip": "",
+          "position": [
+            -9056.429,
+            14977.74,
+            50.478
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candlestand_002",
+          "character": "",
+          "model": "crypt_candlestand_big.bdae",
+          "clip": "",
+          "position": [
+            -964.727,
+            19307.502,
+            660.688
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candlestand_05",
+          "character": "",
+          "model": "crypt_candlestand_big.bdae",
+          "clip": "",
+          "position": [
+            989.965,
+            19307.502,
+            660.688
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_candlestand_003",
+          "character": "",
+          "model": "crypt_candlestand_big.bdae",
+          "clip": "",
+          "position": [
+            -1311.56,
+            23285.58,
+            674.796
+          ],
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        }
+      ]
+    },
+    {
+      "model": "swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1",
+      "nodes": [
+        {
+          "id": "_anim_swamp_dustmotes-node",
+          "name": "_anim_swamp_dustmotes",
+          "sid": "",
+          "record_offset": 17424,
+          "parent": null,
+          "translation": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "GL_PCloud01-node",
+          "name": "GL_PCloud01",
+          "sid": "",
+          "record_offset": 17504,
+          "parent": "_anim_swamp_dustmotes-node",
+          "translation": [
+            0.0,
+            -3.5000000934815034e-05,
+            154.53900146484375
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "GL_PCloud02-node",
+          "name": "GL_PCloud02",
+          "sid": "",
+          "record_offset": 17584,
+          "parent": "_anim_swamp_dustmotes-node",
+          "translation": [
+            0.0,
+            -4.8999998398358e-05,
+            213.99099731445312
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "instances": []
+        },
+        {
+          "id": "_mesh_glow_nobatch-node",
+          "name": "_mesh_glow_nobatch",
+          "sid": "",
+          "record_offset": 17664,
+          "parent": "_anim_swamp_dustmotes-node",
+          "translation": [
+            0.0,
+            -1.9999999949504854e-06,
+            12.0
+          ],
+          "quaternion": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "scale": [
+            1.3273500204086304,
+            1.3273500204086304,
+            1.0
+          ],
+          "instances": [
+            {
+              "geometry": "#_mesh_glow_nobatch-mesh",
+              "geometry_record": 16784,
+              "mesh_bounds": [
+                -278.2359924316406,
+                -257.9670104980469,
+                0.0,
+                278.2359924316406,
+                257.9670104980469,
+                0.0
+              ]
+            }
+          ]
+        }
+      ],
+      "colbox_nodes": [],
+      "authored_instances": [
+        {
+          "kind": 2,
+          "room": 0,
+          "name": "_anim_swamp_dustmotes_001",
+          "character": "",
+          "model": "swamp_caveentrance_effect.bdae",
+          "clip": "",
+          "position": [
+            -2421.47,
+            1513.91,
+            813.438
+          ],
+          "rotation_degrees": [
+            5.54824e-05,
+            0.0,
+            6.83019e-06
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        },
+        {
+          "kind": 2,
+          "room": 7,
+          "name": "_anim_swamp_dustmotes_001",
+          "character": "",
+          "model": "swamp_caveentrance_effect.bdae",
+          "clip": "",
+          "position": [
+            0.0,
+            24028.98,
+            810.732
+          ],
+          "rotation_degrees": [
+            -0.000109283,
+            0.0,
+            1.36604e-05
+          ],
+          "scale": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "animation_table": null
+        }
+      ]
+    }
+  ]
+}

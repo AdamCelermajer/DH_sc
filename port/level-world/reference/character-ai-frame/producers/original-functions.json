@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character6UpdateEv",
+      "elf_address": "0x3abe98",
+      "size": 3776,
+      "sha256": "b74b4f3405a8456ce440b642e97f1b0c028c29e9e74abaa1be0aaf1534e1f8c2"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14AI_PauseUpdateEj",
+      "elf_address": "0x3cb748",
+      "size": 52,
+      "sha256": "de9ac712fac2b8969681f06b50d8efe78a6a5a7d972824050467d369a92d67c0"
+    },
+    {
+      "original_symbol": "_ZN11Application9ComputeDtEv",
+      "elf_address": "0x320da4",
+      "size": 104,
+      "sha256": "0d6f69e21f01d2108f9f8989c95edfb39ab47ca07aa5bd027f79f33b4f8b3feb"
+    },
+    {
+      "original_symbol": "_ZN11Application7_UpdateEi",
+      "elf_address": "0x32c438",
+      "size": 2188,
+      "sha256": "6bdf2110adfc4642bbfb230cc6856fbacd4d5223728ce84d2c374311bc1c5e6a"
+    },
+    {
+      "original_symbol": "_ZN11Application5GetDtEv",
+      "elf_address": "0x31f66c",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387"
+    },
+    {
+      "original_symbol": "_ZN11Application6UpdateEv",
+      "elf_address": "0x32ccc4",
+      "size": 772,
+      "sha256": "3d77c4faff6ba5170a29e0c661a287e11aaad0ff49d7b5ec6da8e30cc0e92118"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers6UpdateEv",
+      "elf_address": "0x3db640",
+      "size": 612,
+      "sha256": "9de6ea9eecf3a80b360e1088589d15d4a49373c922fc4eb1cd83b0792b5d67de"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault18OnCollisionPersistEP10GameObjectb",
+      "elf_address": "0x3dbfa0",
+      "size": 396,
+      "sha256": "8856dcbbd7f710014b7f4339e341b836c0b17f04756c23e2feb2ca2b3e06df4f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+    }
+  ]
+}

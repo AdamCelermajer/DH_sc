@@ -1,0 +1,19 @@
+{
+  "cases": 366,
+  "sessions": 46,
+  "direct_paths": 9,
+  "graph_paths": 127,
+  "failed_paths": 230,
+  "referenced_floor_queries": 669,
+  "atomic_rejection_checks": 6,
+  "authored_graph_nodes": 335,
+  "authored_graph_edges": 838,
+  "mismatches": 0,
+  "reference_sha256": "46804399df59eaf2f8b0ba20a58d91ca4c29d635da3c2593ca7ae2d43c9c9384",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "bres_sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+  "descriptor_sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+}

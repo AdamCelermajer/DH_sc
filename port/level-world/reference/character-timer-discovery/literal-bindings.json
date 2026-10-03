@@ -1,0 +1,24 @@
+[
+  {
+    "label": "timer-global +0x30",
+    "got": "0x9964b8",
+    "target": "0x9a5fdc",
+    "symbol": "_ZN13ScriptManager6s_instE"
+  },
+  {
+    "label": "stack-canary",
+    "got": "0x998b44",
+    "target": "0x0",
+    "symbol": "__stack_chk_guard"
+  },
+  {
+    "label": "group",
+    "address": "0x8c3298",
+    "string": "AnimStances"
+  },
+  {
+    "label": "key",
+    "address": "0x8c32a8",
+    "string": "COUNT_IPHONE"
+  }
+]

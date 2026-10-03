@@ -1,0 +1,16 @@
+{
+  "build_comparisons": 74,
+  "node_comparisons": 875,
+  "partitioned_triangle_comparisons": 3235,
+  "box_comparisons": 2294,
+  "selected_triangle_comparisons": 10341,
+  "bounded_query_checks": 6882,
+  "storage_rejection_checks": 134,
+  "empty_tree_checks": 2,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "ca5c48edbd76f97703fe698d41b70f87ea4adb9e3c351e244bc8812257b7b055"
+}

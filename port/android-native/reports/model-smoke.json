@@ -1,0 +1,141 @@
+{
+  "apk_sha256": "68c92049ffd337b98c538fe9dafca58aaa9b6a21f72af8e8a173d1a737afc28c",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "page_size": "4096",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "0da6743833769dd2552dae09f8b67357d153ff2168e06e63e5a3996f0dff3ee5",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "76f8bd8eb1c2b4d09cd5fa100957b5a33e9805d723918de80f0972eb049c2f50",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "f820c44447d094c2abbf5ffbd879144139d536cc59fe259e18f14919f367b25d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "c4128b5108fe9c360f151b5d2d91fddd0d5735e90549bfffb29af104a2728a6a",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "screenshot": "candle_flame-portrait.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_pixels": 226435,
+      "rendered_bounds": [
+        256,
+        751,
+        823,
+        1284
+      ],
+      "model": "candle_flame.bdae",
+      "rotation": 0,
+      "upload_ok": true
+    },
+    {
+      "screenshot": "candle_flame-orbit.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_pixels": 82472,
+      "rendered_bounds": [
+        342,
+        727,
+        732,
+        1244
+      ],
+      "model": "candle_flame.bdae",
+      "orbit_changed_pixels": true
+    },
+    {
+      "screenshot": "candle_flame-landscape.png",
+      "viewport": [
+        2400,
+        655
+      ],
+      "rendered_pixels": 78212,
+      "rendered_bounds": [
+        1033,
+        190,
+        1367,
+        504
+      ],
+      "model": "candle_flame.bdae",
+      "rotation": 1
+    },
+    {
+      "screenshot": "main_menu_charactere_swamp-portrait.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_pixels": 116725,
+      "rendered_bounds": [
+        204,
+        872,
+        882,
+        1196
+      ],
+      "model": "main_menu_charactere_swamp.bdae",
+      "rotation": 0,
+      "upload_ok": true
+    },
+    {
+      "screenshot": "main_menu_charactere_swamp-orbit.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "rendered_pixels": 166878,
+      "rendered_bounds": [
+        246,
+        693,
+        819,
+        1331
+      ],
+      "model": "main_menu_charactere_swamp.bdae",
+      "orbit_changed_pixels": true
+    },
+    {
+      "screenshot": "main_menu_charactere_swamp-landscape.png",
+      "viewport": [
+        2400,
+        655
+      ],
+      "rendered_pixels": 40731,
+      "rendered_bounds": [
+        1010,
+        262,
+        1398,
+        458
+      ],
+      "model": "main_menu_charactere_swamp.bdae",
+      "rotation": 1
+    }
+  ],
+  "physical_arm64_tested": false,
+  "original_visual_parity_verified": false
+}

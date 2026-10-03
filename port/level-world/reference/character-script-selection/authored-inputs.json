@@ -1,0 +1,66 @@
+{
+  "validation": "PASS",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "inputs": [
+    {
+      "asset": "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarray.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_pyarray.bin",
+      "sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc"
+    },
+    {
+      "asset": "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarraynames.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_pyarraynames.bin",
+      "sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a"
+    },
+    {
+      "asset": "port\\android-native\\app\\src\\main\\assets\\data\\ai_pystructnames.bin",
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_pystructnames.bin",
+      "sha256": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82"
+    }
+  ],
+  "table_rows": 76,
+  "selected_rows": [
+    {
+      "id": 8,
+      "name": "Basic",
+      "serialized_script_bytes": 0,
+      "AttackDelay": 0,
+      "CombatBeat": -1,
+      "CombatMusic": -1,
+      "DelayedLoad": 1,
+      "Flags": 1,
+      "InteractRadius": 250.0,
+      "LeashDistance": 1500.0,
+      "MeleeRadius": 200.0,
+      "OnAggroSFX": -1,
+      "Script": "",
+      "SelfFX": -1,
+      "Trophy": -1,
+      "Type": 0,
+      "ViewRadius": 2300.0,
+      "ViewRadiusNoAggro": 2300.0
+    },
+    {
+      "id": 44,
+      "name": "Player",
+      "serialized_script_bytes": 10,
+      "AttackDelay": 0,
+      "CombatBeat": -1,
+      "CombatMusic": -1,
+      "DelayedLoad": 1,
+      "Flags": 1,
+      "InteractRadius": 250.0,
+      "LeashDistance": 1500.0,
+      "MeleeRadius": 200.0,
+      "OnAggroSFX": -1,
+      "Script": "__player__",
+      "SelfFX": -1,
+      "Trophy": -1,
+      "Type": 1,
+      "ViewRadius": 1000.0,
+      "ViewRadiusNoAggro": 2300.0
+    }
+  ],
+  "inspector_sha256": "133a6c23ce20ad71a6a02aa99ca5e07f37df3dc5583b1b8fdb29fc94a36aea83",
+  "scope": "Authored cache input inspection only. Row44 script selects AISPlayerIPhone through the separately original-audited selector. Row8 fallback depends on the actual owner name, whose creation producer is not proven here. No AIS initialization/live APK claim."
+}

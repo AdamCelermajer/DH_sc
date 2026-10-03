@@ -1,0 +1,36 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "prior_state_reference_sha256": "9e11a899a29f9682959c00e988ad4fc04ee4a3f610de9044e933d47997d27a57",
+  "timer_chain_reference_sha256": "8b5afb5ec45e409bf27259a1c3d1a186fdbc716bb5695cb952b2f0f06230e4e7",
+  "original_discovery_gold_sha256": "fdc2415e2b41acac78a14ea4fd33118dbe78f46765f1b45d7ec3e8a0e0bc3f5f",
+  "source_sha256": {
+    "character_state.cpp": "bba1b88cfa918c0c59936db555efeb404dce93d37230702e8514279813ed9227",
+    "character_state.hpp": "a9b39da71bfde7cff4d91af364552c11c1a262591456046422a33c0950a2fb97",
+    "character_timers.cpp": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+    "character_timers.hpp": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+    "tests\\character_state.cpp": "f4b06e24e1b37ca7cfaf9b38eb65fb82ddb14348d1c847bd491c45e8c1f5c2bd",
+    "tests\\character_state_timers.cpp": "c15cc2bb503ca382293800e995d8f88aff868ebd472483e05aaa7614f8c08157",
+    "tests\\character_timers_differential.py": "ab965b0438463def2cbacdbd6fc5b93e46783bf9867d3f75e26cad1b34936405"
+  },
+  "prior_corpus_host_replay": {
+    "original_reference_cases": 3910,
+    "ordered_service_requests": 8773,
+    "malformed_no_mutation_cases": 21,
+    "synchronous_reentry_passed": true,
+    "mismatches": 0
+  },
+  "new_gate_and_chain_host_replay": {
+    "source_gate_projection_cases": 30,
+    "source_expiry_routing_chain_cases": 16,
+    "invalid_callback_gate_unchanged": true,
+    "AI_expiry_service_fixture": true,
+    "mismatches": 0
+  },
+  "scope": "New 2a/2b/2c prefix plus original3910 corpus under host ASan/UBSan. AI expiry service and routing adapter are fixtures; no new ARM64/package proof. Existing original state gold/reports unchanged.",
+  "host_executable_sha256": {
+    "character_state_host": "f2b7d58b99b3aea3d60be750455d9a7c52df2cb15ff0b05a891403d217267eb4",
+    "character_state_timers_host": "c6298fd1703c4b9f5890b888690a9e6c3fb3ba34614bdc2811b47005b0897ef8"
+  },
+  "host_flags": "g++ -std=c++17 -O1 -g -Wall -Wextra -Werror -fsanitize=address,undefined -fno-omit-frame-pointer -fno-fast-math -ffp-contract=off"
+}

@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "4fcd57717ba456abf1a40b841f10cc98c6682aa870d5590d8f4f07798e10265c",
+  "floor_source_sha256": "bd467e0e269a118bf20dee9483b792b454255f4af575cec59d28772cf0f94a5f",
+  "reference_sha256": "da4f473f6c5c137d33d90d7bef9654a45b7cd662a57379f570e5ee79bc205206",
+  "comparisons": 5071,
+  "cases": {
+    "line": 2409,
+    "ray": 1400,
+    "floor": 1262
+  },
+  "hits": {
+    "line": 1469,
+    "ray": 735,
+    "floor": 937
+  },
+  "plane_hit_outside_triangle_cases": 554,
+  "mismatches": 0,
+  "atomic_rejection_checks": 1,
+  "original_import_calls": {
+    "__aeabi_fsub": 223490,
+    "__aeabi_fmul": 408096,
+    "__aeabi_fadd": 228479,
+    "__aeabi_fcmpeq": 8349,
+    "__aeabi_fcmple": 23012,
+    "sqrtf": 8214,
+    "__aeabi_fdiv": 13564,
+    "__aeabi_fcmpge": 13983,
+    "selector fixture": 6412,
+    "__aeabi_fcmplt": 306518,
+    "__aeabi_fcmpgt": 95595
+  },
+  "scope": "Original line/selector-ray/floor collision instructions versus ARM64.\n\nThe triangle selector supplies an ordered, already-transformed triangle list;\nits BVH selection/transform and scene-service pointers are caller fixtures.\nOriginal normalization, same-side tests, plane intersection, all collision\nmanager candidate/nearest-hit branches and PFFloor bounds/vertical ray execute.\n",
+  "elapsed_seconds": 22.31
+}

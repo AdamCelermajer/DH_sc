@@ -1,0 +1,704 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "capture_script_sha256": "ff5bcb1bef1e664166a28e0763ff9ce110f6999382f19cfcdc32eba389bbcd07",
+  "bindings": [
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b56f8",
+      "name": "SetActorPosition",
+      "callback": "0x3928f0"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b572c",
+      "name": "RotateBy",
+      "callback": "0x3b7704"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5760",
+      "name": "LookAt",
+      "callback": "0x3b8ed8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5794",
+      "name": "Stop",
+      "callback": "0x3b56b4"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b57c8",
+      "name": "HeadTo",
+      "callback": "0x3ba71c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b57fc",
+      "name": "MoveTo",
+      "callback": "0x3bada8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5830",
+      "name": "WarpTo",
+      "callback": "0x3bb268"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5864",
+      "name": "WarpBehind",
+      "callback": "0x3b8d98"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5898",
+      "name": "Flee",
+      "callback": "0x3b91a0"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b58cc",
+      "name": "Attack",
+      "callback": "0x3b9f44"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5900",
+      "name": "DoSkill",
+      "callback": "0x3b8bd8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5934",
+      "name": "BeginSkill",
+      "callback": "0x3b8cb8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5968",
+      "name": "EndSkill",
+      "callback": "0x3b93cc"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b599c",
+      "name": "Kill",
+      "callback": "0x3b7e40"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b59d0",
+      "name": "GetCharAIFlags",
+      "callback": "0x3b6e80"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5a04",
+      "name": "HasAggro",
+      "callback": "0x3b7044"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5a38",
+      "name": "AddAggro",
+      "callback": "0x3b8098"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5a6c",
+      "name": "ClearAggro",
+      "callback": "0x3b8648"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5aa0",
+      "name": "HasTarget",
+      "callback": "0x3b6f50"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5ad4",
+      "name": "GetTarget",
+      "callback": "0x3b6c7c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5b08",
+      "name": "SetTarget",
+      "callback": "0x3b8f38"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5b3c",
+      "name": "ClearTarget",
+      "callback": "0x3b5690"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5b74",
+      "name": "SetIsActorTargetable",
+      "callback": "0x3b7a64"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5b9c",
+      "name": "SetIsTargetable",
+      "callback": "0x3b7a64"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5bd0",
+      "name": "LookAtTarget",
+      "callback": "0x3b5684"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5c04",
+      "name": "TargetInMeleeRange",
+      "callback": "0x3b7020"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5c38",
+      "name": "HasMaster",
+      "callback": "0x3b6f3c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5c6c",
+      "name": "IsMasterHostPlayer",
+      "callback": "0x3b6fc4"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5ca0",
+      "name": "GetMaster",
+      "callback": "0x3b6c70"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5cd4",
+      "name": "SetMaster",
+      "callback": "0x3b9084"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5d08",
+      "name": "ClearMaster",
+      "callback": "0x3b5678"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5d3c",
+      "name": "GetSkillIDFromOID",
+      "callback": "0x3b856c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5d70",
+      "name": "GetCurrentSkillInfo__",
+      "callback": "0x3b8f9c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5da4",
+      "name": "GetCurrentSpellInfo",
+      "callback": "0x3b6e30"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5dd8",
+      "name": "GetCurrentEquippedFaeryId",
+      "callback": "0x3b6da0"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5e0c",
+      "name": "GetCurrentEquippedFaeryLevel",
+      "callback": "0x3b6df8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5e40",
+      "name": "GetEquippedFaeryElement",
+      "callback": "0x3b6dc4"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5e74",
+      "name": "SpawnSkillProjectile__",
+      "callback": "0x3b99d0"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5ea0",
+      "name": "SetProjectileTarget",
+      "callback": "0x3ba298"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5ec4",
+      "name": "EnableSpotTargeting",
+      "callback": "0x3b7144"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5ef8",
+      "name": "GetSpotTarget",
+      "callback": "0x3b6c88"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5f2c",
+      "name": "StopSkill__",
+      "callback": "0x3b94ac"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5f60",
+      "name": "SkillCombatRoll__",
+      "callback": "0x3b9fbc"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5f94",
+      "name": "SpellCombatRoll",
+      "callback": "0x3b92a4"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5fcc",
+      "name": "RegisterActorAnim",
+      "callback": "0x3b70d8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b5ff4",
+      "name": "RegisterAnim",
+      "callback": "0x3b70d8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b602c",
+      "name": "PlayActorAnim",
+      "callback": "0x3ba388"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6054",
+      "name": "PlayAnim",
+      "callback": "0x3ba388"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6088",
+      "name": "GetState",
+      "callback": "0x3b6d78"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b60bc",
+      "name": "GetStateTime",
+      "callback": "0x3b6d6c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b60f0",
+      "name": "SetScareState",
+      "callback": "0x3b96b0"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6124",
+      "name": "SetStunState",
+      "callback": "0x3b9580"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6158",
+      "name": "SetKnockBackState",
+      "callback": "0x3b7680"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6190",
+      "name": "AllowCharacterRotDuringSkill",
+      "callback": "0x3b79ec"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b61b8",
+      "name": "AllowRotation",
+      "callback": "0x3b79ec"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b61ec",
+      "name": "AllowSkillBreak",
+      "callback": "0x3b7974"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6220",
+      "name": "StartTimer",
+      "callback": "0x3b7590"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6254",
+      "name": "PauseTimer",
+      "callback": "0x3b751c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6288",
+      "name": "ResumeTimer",
+      "callback": "0x3b74a8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b62bc",
+      "name": "StopTimer",
+      "callback": "0x3b7064"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b62f0",
+      "name": "GetCharID",
+      "callback": "0x3b6d5c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6324",
+      "name": "DBG_DumpProps",
+      "callback": "0x3b7dbc"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6358",
+      "name": "SetLevel",
+      "callback": "0x3b73a4"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b638c",
+      "name": "SetProp",
+      "callback": "0x3b7eac"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b63c0",
+      "name": "GetProp",
+      "callback": "0x3b9d8c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b63f4",
+      "name": "ApplyPropClass",
+      "callback": "0x3babdc"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6428",
+      "name": "ClearProps",
+      "callback": "0x3b82e4"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b645c",
+      "name": "CreateBuff",
+      "callback": "0x3b86a8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6498",
+      "name": "RemoveBuff",
+      "callback": "0x3b842c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b64cc",
+      "name": "SetBuffProp",
+      "callback": "0x3b842c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b64f4",
+      "name": "GetBuffProp",
+      "callback": "0x3b9d8c"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b651c",
+      "name": "ApplyBuff",
+      "callback": "0x3babdc"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6554",
+      "name": "GetPropHP",
+      "callback": "0x3b6cd8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b657c",
+      "name": "GetHP",
+      "callback": "0x3b6cd8"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b65b0",
+      "name": "GetAttackRatingBonus",
+      "callback": "0x3b7b84"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b65e4",
+      "name": "GetCritRatingBonus",
+      "callback": "0x3b7b28"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6618",
+      "name": "GetDamageBonus",
+      "callback": "0x3b7acc"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b664c",
+      "name": "HasMana",
+      "callback": "0x3b78ec"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6680",
+      "name": "UseMana",
+      "callback": "0x3b7864"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b66b4",
+      "name": "RegenHP",
+      "callback": "0x3b77ec"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b5f0",
+      "name": "Include",
+      "callback": "0x37efe4"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b60c",
+      "name": "Trace",
+      "callback": "0x37ee80"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b628",
+      "name": "SetInt",
+      "callback": "0x37de5c"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b644",
+      "name": "GetInt",
+      "callback": "0x37ec14"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b660",
+      "name": "AddToVFTable",
+      "callback": "0x37ec70"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b67c",
+      "name": "PushVFTable",
+      "callback": "0x37be00"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b698",
+      "name": "PopVFTable",
+      "callback": "0x37dc44"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b6b4",
+      "name": "ToFixed",
+      "callback": "0x37ebc4"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b6d0",
+      "name": "FromFixed",
+      "callback": "0x37ee84"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b6ec",
+      "name": "MulFixed",
+      "callback": "0x37e1a4"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b708",
+      "name": "DivFixed",
+      "callback": "0x37e068"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b724",
+      "name": "Rand",
+      "callback": "0x37df30"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b740",
+      "name": "RandF",
+      "callback": "0x37e2d8"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b75c",
+      "name": "BitNot",
+      "callback": "0x37f814"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b778",
+      "name": "BitAnd",
+      "callback": "0x37e9ec"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b794",
+      "name": "BitOr",
+      "callback": "0x37e814"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b7b0",
+      "name": "BitXOr",
+      "callback": "0x37f750"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b7cc",
+      "name": "GetPyCst",
+      "callback": "0x37f354"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b7e8",
+      "name": "GetPyStruct",
+      "callback": "0x37f4a8"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b804",
+      "name": "GetPyOID",
+      "callback": "0x37f5fc"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b820",
+      "name": "CallPyScript",
+      "callback": "0x37ef3c"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b83c",
+      "name": "GetNumPlayers",
+      "callback": "0x37cbd8"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b858",
+      "name": "GetHostPlayer",
+      "callback": "0x37ca60"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b874",
+      "name": "GetHostPlayerLevel",
+      "callback": "0x37cc00"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b890",
+      "name": "GetHostPlayerDifficulty",
+      "callback": "0x37cb8c"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b8ac",
+      "name": "GetCurrentLevelRange",
+      "callback": "0x37f1f0"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b8c8",
+      "name": "GetGameObjectsByType",
+      "callback": "0x37f03c"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b8e4",
+      "name": "SetGameType",
+      "callback": "0x37f878"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b900",
+      "name": "GetGameScript",
+      "callback": "0x37c934"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b91c",
+      "name": "OnTargetDied",
+      "callback": "0x37ddc8"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b938",
+      "name": "PlayMusic",
+      "callback": "0x37e420"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b954",
+      "name": "PlaySound",
+      "callback": "0x37e578"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b974",
+      "name": "StopSound",
+      "callback": "0x37e730"
+    }
+  ],
+  "selected": [
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b6220",
+      "name": "StartTimer",
+      "callback": "0x3b7590"
+    },
+    {
+      "caller": "0x3b56bc",
+      "instruction": "0x3b62bc",
+      "name": "StopTimer",
+      "callback": "0x3b7064"
+    },
+    {
+      "caller": "0x37b5a0",
+      "instruction": "0x37b60c",
+      "name": "Trace",
+      "callback": "0x37ee80"
+    }
+  ]
+}

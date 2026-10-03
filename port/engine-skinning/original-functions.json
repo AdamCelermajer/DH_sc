@@ -1,0 +1,82 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique4skinERNS0_11SSkinBufferEPNS_5scene11CMeshBufferE",
+      "elf_address": "0x66ff48",
+      "size": 2840,
+      "sha256": "602275e61a5df4dd23f80cd4729f265f68ae78525470302e0c019b8b6ea2b679",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada6detail21IColladaSkinTechnique15initProxyBufferEPNS_5scene11CMeshBufferERNS0_11SSkinBufferERNS0_5SSkinEPNS_5video12IVideoDriverE",
+      "elf_address": "0x670ec8",
+      "size": 1376,
+      "sha256": "bbf565c2b9a3e619eb5de395f0b0046b661db3efaa7dbdafb1f26ce06896e2c1",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada12CSkinnedMesh15instanciateMeshEPNS_5video12IVideoDriverEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x664af8",
+      "size": 396,
+      "sha256": "23569c04b1f8b7c6847a87e38f19de004a300e2635402e88efd72a146661e520",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch4coremlIfNS_7collada7SMatrixEEENS0_8CMatrix4IT_EERKS6_RKT0_",
+      "elf_address": "0x6651a0",
+      "size": 992,
+      "sha256": "17291993d9f28fe9fadc4ab7537e2caa93a244258b48eb38d75eecaf6ef23059",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique15preparePtrCacheEv",
+      "elf_address": "0x66fab4",
+      "size": 176,
+      "sha256": "458ee04a0f5795b70643d1e0d8464bcf980ab666a43b118bd24579918e8e5de4",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique4initERNS0_11SSkinBufferEPNS_5scene11CMeshBufferEPNS_5video12IVideoDriverEb",
+      "elf_address": "0x66f8ec",
+      "size": 456,
+      "sha256": "6aac68d39894bf94151f0276e4f0e820a25f28e3bbce58ccdd9b0e5e54965093",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada12CSkinnedMeshC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERNS0_11SControllerEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x6664f0",
+      "size": 1288,
+      "sha256": "29658b99c6d082d0c087d7a91818fac8ad28dab5b1c5ff0f711ba4947331f4f3",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique12prepareCacheEv",
+      "elf_address": "0x66fe34",
+      "size": 276,
+      "sha256": "3817c413bb4ad9461afa6fa5b17b5ba71aec1bc8c636bcab544633f4c7ef87f5",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase19constructControllerEPNS_5video12IVideoDriverEPNS0_19SInstanceControllerEPNS0_14CRootSceneNodeEb",
+      "elf_address": "0x61ace8",
+      "size": 464,
+      "sha256": "49aca2080d1e3d6804f15624b2a323d7ba90f34e7215f7d194fb00a570d62953",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase19constructControllerEPNS_5video12IVideoDriverEPNS0_11SControllerEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x60fa24",
+      "size": 76,
+      "sha256": "60416ffca6232a47ca640aa4d92494e91a315e1822d9b17324aba9293066104a",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada12CSkinnedMesh4skinEj",
+      "elf_address": "0x664ee0",
+      "size": 292,
+      "sha256": "0bb58b4ad46037e591e4a3a6869bd47269648c14f01cf506a6c2379ff39068a0",
+      "use": "serialized field and algorithm evidence; full runtime class ABI not ported"
+    }
+  ]
+}

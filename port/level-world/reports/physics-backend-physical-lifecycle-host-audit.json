@@ -1,0 +1,14 @@
+{
+  "comparisons": 4846,
+  "compute_mass_checks": 3545,
+  "sweep_radius_checks": 6991,
+  "refilter_proxy_checks": 4617,
+  "type_changes": 2270,
+  "atomic_rejection_checks": 4,
+  "mismatches": 0,
+  "reference_sha256": "5e0b41a0f86256352d89b03a483581a1c7b0ff8c9f3e8f2ca5d5b417ad5b9d6d",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ]
+}

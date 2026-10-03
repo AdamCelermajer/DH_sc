@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNSt6vectorIP9CharacterSaIS1_EEC1Ej.clone.3",
+      "elf_address": "0x3ccf9c",
+      "size": 72,
+      "sha256": "127f83bc4278c41aa4277e7aac23ecc2dee2b4564aa49c8bb023ef98848a2b89"
+    },
+    {
+      "original_symbol": "_ZN10GameObject14createBindingsERN3sfc6script3lua6BinderE",
+      "elf_address": "0x38d7ec",
+      "size": 2648,
+      "sha256": "6e6e9a59b26f95443502e28d0ae7e4b98d033019ede8c0cd59e47187571c7d8d"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder10bindMethodEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvE",
+      "elf_address": "0x319af4",
+      "size": 336,
+      "sha256": "b2924944c3bcaad99116186a30f064d7f8a8f7956fdd78d0b1e1d58238c269fe"
+    }
+  ]
+}

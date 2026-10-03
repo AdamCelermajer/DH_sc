@@ -1,0 +1,26 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "19660f3365dfd0d8f41659cc774056ad2e04f68482e334e4457f46e69f48561e",
+  "floor_source_sha256": "bd467e0e269a118bf20dee9483b792b454255f4af575cec59d28772cf0f94a5f",
+  "reference_sha256": "ca5c48edbd76f97703fe698d41b70f87ea4adb9e3c351e244bc8812257b7b055",
+  "build_comparisons": 74,
+  "node_comparisons": 875,
+  "partitioned_triangle_comparisons": 3235,
+  "box_comparisons": 2294,
+  "selected_triangle_comparisons": 10341,
+  "mismatches": 0,
+  "original_allocations": 6964,
+  "original_deallocations": 6619,
+  "original_import_calls": {
+    "__aeabi_fcmpgt": 88770,
+    "__aeabi_fcmplt": 220144,
+    "__aeabi_fadd": 9044,
+    "__aeabi_fmul": 5250,
+    "__aeabi_fsub": 5691,
+    "__aeabi_fcmple": 89865,
+    "__aeabi_fcmpge": 81189,
+    "memcpy": 3545
+  },
+  "scope": "Original octree construction and identity-space box selection vs ARM64.\n\nOriginal bounds, getEdges, octant containment, stable partition, vector growth,\nrecursive tree construction, node/triangle box filters and AddResult execute.\nAllocation/deallocation are caller storage services. Mesh loading, selector\nsetup/inverse transforms and nonidentity AddResult transforms are not covered.\n",
+  "elapsed_seconds": 13.89
+}

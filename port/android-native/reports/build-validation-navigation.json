@@ -1,0 +1,979 @@
+{
+  "apk_sha256": "c4b15249513ab00ffd3e5060ee8df02df42d71b75b190df300044b76124c50b6",
+  "apk_bytes": 16709681,
+  "studio_apk_sha256": "305fc299adf28351e0b87489b9a152eb1087de340f2ff6d7e8f2c7b0b435ed1e",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "17c40127e95ae37e60b5759bfbace61a4fd6e8b84de12d3d5ceae67b1420b3f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "c2c49f01ce6c8504d9bd0f857a34e9d4aa150125bcd7023c16d6d3ce45dd80a2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "3772193ff7bace24b1cd4d4382024e1bcb57049de847f1abdbe82453ac5f295b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "4ea022d87c92dd9e7c3192098b6a3387982f4a17d034a266af46fa9f470903d4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "669f4f51cfd80c6491976594cacca50a024889eb21abcb0e47b2c681dc4f730b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "67f0c881312726a0426827c2b183051341d3ce822142de2580197ef402a6b4ba",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "fada64ceb7536894e654ed7d97bd7a38d267502a1acf9c999dc9ded07c208d33",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "d965c26783f0bb2d504b18e051a8e07e5885890d7a00634d97060b09209c74af",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "471d645804e0eae7684783e76e62a2275368103293762be6f4d9d0e366d73cc0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "2fd2cd67f7a93c212ba3fc6e6afc6c87277e0c71b0184ab05d157be4d03a2658",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "studio_libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "66a1bb803aab9eb4c4cdf21cff24d9473fff1eb540a1ff774b8cbca2cc3ad80d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "cce43ebfe6afa05441b0f1a3e23037573c2ab941e196dfd1ae03d9be3f4daeb4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "979f60074b0d9c81b025c41460cb33ece473793e9c87867a62ed4cef2735f7f9",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "c37aff83815af6d9efdfda208594f9916a59ffaaa26d8136169ca4d4b5a61699",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "53512685f73439169401db0e48498c73e30bc465b1b8d4f51a894474c6376f43",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "d23008299c046892952eb250df21a8052e750ffd34079737d4a54bd7a9ba1e51",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "7b6096890419e140f88e89e07caa0265ecb04671c049fcd17342bbe7af99518c",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "3eb67d17e27538d0567f3deec1d43029b2af090e48b5a39f30c4b95bc1c9e004",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "87dbc6d911a9cffc513552e8b3f88016b9c0f229c5652c2b81d4ee93927e32e4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "2ca320c93bfe7bd0208f661790e00692fbc0072c475e11ba78f60ff256220d28",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "8f87ba65ec7e8346fc301b56e1c5f64a33399032b84e306b7b1dc87aca8b77df",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "14362b98101625655ee1c802a95df85c333924421b9f640ffbe336ea8e72d6fc",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "34b4116778a26496d2a29563e8a3b7d5a0737a36f3ca90b8cb8ef0cfd125254f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "1e6eaf8483e00d9269d1beb34a542c67109b5b08a265e7a7c8b46608f4459c56",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "unchanged_gameplay_libraries": [
+    "lib/arm64-v8a/libdh2_engine_textures.so",
+    "lib/arm64-v8a/libdh2_scene_materials.so",
+    "lib/x86_64/libdh2_engine_textures.so",
+    "lib/x86_64/libdh2_scene_materials.so",
+    "lib/arm64-v8a/libdh2_engine_skinning.so",
+    "lib/x86_64/libdh2_engine_skinning.so",
+    "lib/arm64-v8a/libdh2_engine_animation.so",
+    "lib/x86_64/libdh2_engine_animation.so",
+    "lib/arm64-v8a/libdh2_game_data.so",
+    "lib/arm64-v8a/libdh2_native.so",
+    "lib/x86_64/libdh2_game_data.so",
+    "lib/x86_64/libdh2_native.so"
+  ],
+  "assets_verified": {
+    "textures/fx_smoke_03.tga": {
+      "bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0"
+    },
+    "textures/godparticle_face.tga": {
+      "bytes": 2108,
+      "sha256": "8e15108e74b443ee6c11bc2cfb05af23c046a53e0dac37df24973e848b6117ea"
+    },
+    "textures/menugraphics03.tga": {
+      "bytes": 1048620,
+      "sha256": "0f0ec6784f20c469fc05becf9e82251fee19b4856ed15b14e3e01a695b92ca7b"
+    },
+    "textures/pvr2_env_darktemple_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714"
+    },
+    "textures/skybox_wind.tga": {
+      "bytes": 131132,
+      "sha256": "7e89b7ac4e2e8daea82e2f0f8397259af24b44c33e6cc88ef799eec15fa7074f"
+    },
+    "models/candle_flame.bdae": {
+      "bytes": 16856,
+      "sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6"
+    },
+    "models/main_menu_charactere_swamp.bdae": {
+      "bytes": 158440,
+      "sha256": "8a3462863a3d6ca2255d96989d53a21cddfba821e42c8a13e676f10e51d1300b"
+    },
+    "textures/env_crypt.tga": {
+      "bytes": 524348,
+      "sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad"
+    },
+    "textures/env_crypt_spec.tga": {
+      "bytes": 131132,
+      "sha256": "d74002ba771e1ba50fc421cf1066d1b0f977d5377dbd4971d92643f007f1b737"
+    },
+    "textures/env_darkwoods_alpha.tga": {
+      "bytes": 524348,
+      "sha256": "e904c2fc1534b5708689903a650693e1f52acbe8b59483553fe002eef5551832"
+    },
+    "textures/env_selectorcharactere_solide.tga": {
+      "bytes": 524348,
+      "sha256": "afced3f99c4d32d04a173066cbd10ce4cabe9c1d9a896fededa6d23b6d05f7ec"
+    },
+    "textures/pvr2_env_darkwoods_alpha_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "087d110133be72b9a5f9e4339fbd6707ea3e6e834d1e6d8a97bbde4cc4ac1413"
+    },
+    "textures/skybox_selector.tga": {
+      "bytes": 131132,
+      "sha256": "d41ace06bf91f57b2bea7658414b4d6dfb04d0856f0575c8f2d250a8a6831594"
+    },
+    "animations/prince_menu_idle_knight.bdae": {
+      "bytes": 19400,
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a"
+    },
+    "models/prince_modular.bdae": {
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    "textures/atlas_modular_warrior.tga": {
+      "bytes": 524348,
+      "sha256": "b78abd158902679a467f4c86794c90554deca06a97bf3b4bdf8beba88ef10a5a"
+    },
+    "animations/prince_idle_shield.bdae": {
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    "animations/prince_walk_1hand.bdae": {
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    "texture-provenance.json": {
+      "bytes": 5381,
+      "sha256": "fa58aabe2acfc31f07bcc386cdc442948deb217ca75c9b88de97c32c8625b190"
+    },
+    "textures/pvr2_env_crypt_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    "worlds/007_crypt_01.rule.xml": {
+      "bytes": 3684,
+      "sha256": "2970183f1be3b6a01470d45f0db124afb3bf6582e4ed166780e431ccdaff8b07"
+    },
+    "worlds/crypt.bdae": {
+      "bytes": 3922816,
+      "sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b"
+    },
+    "worlds/crypt01-provenance.json": {
+      "bytes": 102896,
+      "sha256": "a38bbcfbde007bd328de9152ea1e5499a97903f472b36c9ccbac37f36de94126"
+    },
+    "worlds/crypt01.dwld": {
+      "bytes": 1048,
+      "sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+    },
+    "worlds/crypt2_straight_ns_01.mvp": {
+      "bytes": 3135,
+      "sha256": "ee4cea2740331782278fd56f4bf7c064ca778a78d8c426696a0ce6bbabbe0007"
+    },
+    "worlds/crypt_cemetery_entrance_01.mgp": {
+      "bytes": 10841,
+      "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+    },
+    "worlds/crypt_cemetery_entrance_01.mvp": {
+      "bytes": 8569,
+      "sha256": "3d85527d704c1b74869bfbb2f39be1585a905e66575a4cf251adac0cdeb80de7"
+    },
+    "worlds/crypt_corner_ne_01.mvp": {
+      "bytes": 5571,
+      "sha256": "2500af6ebb2d01126f739ae1ced635c6e46365cf3f13ed34cc1ae8e7fa885e78"
+    },
+    "worlds/crypt_corner_ne_02.mgp": {
+      "bytes": 3523,
+      "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+    },
+    "worlds/crypt_corner_nw_02.mgp": {
+      "bytes": 1355,
+      "sha256": "5652c6b5d64cf75e9b8c043cc61f6308ea6ca67784b2342c836b22469aa03179"
+    },
+    "worlds/crypt_corner_nw_02.mvp": {
+      "bytes": 4127,
+      "sha256": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134"
+    },
+    "worlds/crypt_corner_sw_01.mvp": {
+      "bytes": 4172,
+      "sha256": "7ccc9938cdf0e6ae58bb61d6c74e1908c6087874a161a4ac8b55fabc862873db"
+    },
+    "worlds/crypt_corner_sw_02.mgp": {
+      "bytes": 1897,
+      "sha256": "ff4defedde868b53eeb5d5c9ac39dc41fc6b85d55cd27891e3009d3ad3e04168"
+    },
+    "worlds/crypt_deadend_e_01.mgp": {
+      "bytes": 2260,
+      "sha256": "41604cc014bfeeef32b93432f49d2dc7643915f8112a123f1d0de9c3e6e47c8b"
+    },
+    "worlds/crypt_deadend_e_01.mvp": {
+      "bytes": 3410,
+      "sha256": "d3f69fe0ffba96b35414d8db0399e7e6acbda0fb658ec2ec3fb8abfb1dc72440"
+    },
+    "worlds/crypt_straight_c_ns_01.mgp": {
+      "bytes": 10307,
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    },
+    "worlds/crypt_straight_c_ns_01.mvp": {
+      "bytes": 8594,
+      "sha256": "bd06bd5a12043c40f028f5faeb059d531f6ea628770c05166ade227cfbc778b8"
+    },
+    "worlds/crypt_straight_ns_01.mgp": {
+      "bytes": 3365,
+      "sha256": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25"
+    },
+    "worlds/crypt_t_sew_01.mgp": {
+      "bytes": 1731,
+      "sha256": "a34d860d4b94cbcb936ecc9ab1ad2d8ee8450c15067a44298ac88d0a5c3c8189"
+    },
+    "worlds/crypt_t_sew_01.mvp": {
+      "bytes": 5057,
+      "sha256": "5bdb426a45eef5d9edb2abc4cc5e9281a35ad4df27076e16ca0c252e55a9345f"
+    },
+    "worlds/x07_crypt_backup.mlx": {
+      "bytes": 8124,
+      "sha256": "706b1e23ea7ca9c3c1695d6cf8679c177bdfb70e71d202e351a2b0c8564023c7"
+    },
+    "actors/crypt_candle1.bdae": {
+      "bytes": 24628,
+      "sha256": "d4ccf2aa24f9d6102ed0f7fad1a387a391536193dc422eec60ce4bcb0687e51d"
+    },
+    "actors/crypt_candle1_small.bdae": {
+      "bytes": 24772,
+      "sha256": "72455d1133489b8fb4c3c3f0365f02d3dee9c19df7f7ba231ef8a05099ead00e"
+    },
+    "actors/crypt_candle2.bdae": {
+      "bytes": 24532,
+      "sha256": "3cb10850b6acbafae8c296daa4bf466dcd95debd878cb0cf324a180eb8a9e502"
+    },
+    "actors/crypt_candle_big.bdae": {
+      "bytes": 24668,
+      "sha256": "eca0dc98fbdf0f77c4ce00877546c5c153cf93c78745778cbfbfe0b02666e190"
+    },
+    "actors/crypt_candles.bdae": {
+      "bytes": 31880,
+      "sha256": "0b0b0a5b001bc2fa5991207cf11eb3b03a84a73a6bbc1aa6e1b2e972b1bbb409"
+    },
+    "actors/crypt_candles2_small.bdae": {
+      "bytes": 28448,
+      "sha256": "7e79edbbdde7b36d71876bc7f1250928096cffb90ed24bee3cced946b0c30fe4"
+    },
+    "actors/crypt_candlestand.bdae": {
+      "bytes": 44268,
+      "sha256": "104c43a624272a223132b97808dc6c405d61ca94f97563fdefe33218d8af6bcf"
+    },
+    "actors/crypt_candlestand_big.bdae": {
+      "bytes": 33752,
+      "sha256": "89a313c943fb74445666ef373fea5bc091184ba849373daa84751b0ee1a44967"
+    },
+    "actors/ghost.bdae": {
+      "bytes": 67104,
+      "sha256": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183"
+    },
+    "actors/ghost_idle_01.bdae": {
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895"
+    },
+    "actors/skeleton.bdae": {
+      "bytes": 70736,
+      "sha256": "2cf63468a00c934f9b3d7b15b1c846ce575b9c62fc3aff83c7cd2bfbefacfb36"
+    },
+    "actors/skeleton_idle_01.bdae": {
+      "bytes": 49520,
+      "sha256": "bea7b628675e9bebf64a4da6e90b9cc8ca9f7411e053d6ce354eff7c38f0982d"
+    },
+    "actors/slime_green_v2.bdae": {
+      "bytes": 27812,
+      "sha256": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1"
+    },
+    "actors/slime_idle.bdae": {
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472"
+    },
+    "actors/swamp_caveentrance_effect.bdae": {
+      "bytes": 18208,
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    "data/character_models_dictionary_pyarray.bin": {
+      "bytes": 5366,
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+    },
+    "data/character_models_dictionary_pyarraynames.bin": {
+      "bytes": 1755,
+      "sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9"
+    },
+    "data/character_properties_pyarray.bin": {
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    "data/character_properties_pyarraynames.bin": {
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    "data/character_properties_pystructnames.bin": {
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    "textures/atlas_dh2_game_objects_001.tga": {
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c"
+    },
+    "textures/atlas_dh2_game_objects_001_alpha.tga": {
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79"
+    },
+    "textures/atlas_dh2_game_objects_001_specular.tga": {
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398"
+    },
+    "textures/atlas_fx_particles_001.tga": {
+      "bytes": 131132,
+      "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b"
+    },
+    "textures/atlas_fx_particles_002.tga": {
+      "bytes": 524348,
+      "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18"
+    },
+    "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga": {
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83"
+    },
+    "textures/env_crypt_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    "textures/fx_magic_lenz_flares_008.tga": {
+      "bytes": 8252,
+      "sha256": "3b3153829a922c4328099b031c57d09d823daad52775cc2901fe5f7c105e90cc"
+    },
+    "textures/fx_spark_01.tga": {
+      "bytes": 2108,
+      "sha256": "bf4eccee918a7d440760b93b1f18666b5e3de62c147784bec7dbb3bca7a7d720"
+    },
+    "worlds/crypt01.dact": {
+      "bytes": 24336,
+      "sha256": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca"
+    },
+    "actor-provenance.json": {
+      "bytes": 67099,
+      "sha256": "311703e439347808c5b37373bdb793a390d1d05d17feb8d750cc62e5f91d4117"
+    },
+    "actors/skeleton_idle_02.bdae": {
+      "bytes": 28632,
+      "sha256": "b468b9db81c8534e7b43691dcad66d6f57b3dd94feee4c684aa1885a14429349"
+    },
+    "actors/slime_idle_02.bdae": {
+      "bytes": 5728,
+      "sha256": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf"
+    },
+    "animation-provenance.json": {
+      "bytes": 11572,
+      "sha256": "e76052e803f4b4326415e1fd0d47811beade71a89ac8b5ec54b1e3f54a2e9f8b"
+    },
+    "data/animations_dictionary_pyarray.bin": {
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    "data/animations_dictionary_pyarraynames.bin": {
+      "bytes": 42616,
+      "sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3"
+    },
+    "data/animations_pyarray.bin": {
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    "data/animations_pyarraynames.bin": {
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+    },
+    "data/animations_pystructnames.bin": {
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    "actor-state-provenance.json": {
+      "bytes": 12618,
+      "sha256": "aa4f4b053e8536bf2a19181490a6e903ce952566e982b20d4bf7495c7e6d35f1"
+    },
+    "actors/ghost_attack_01.bdae": {
+      "bytes": 8980,
+      "sha256": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a"
+    },
+    "actors/ghost_dying_01.bdae": {
+      "bytes": 11416,
+      "sha256": "10d0454f550b1aa90de4f22a2ffba2af585feb84b23d90fd62040c292e917327"
+    },
+    "actors/ghost_post_attack_01.bdae": {
+      "bytes": 8036,
+      "sha256": "7c0639fcfa028b2fc2595da67c2dfaaeecbbcbb3993ec3916d3586010f59c994"
+    },
+    "actors/ghost_pre_attack_01.bdae": {
+      "bytes": 7476,
+      "sha256": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0"
+    },
+    "actors/ghost_walk_01.bdae": {
+      "bytes": 39896,
+      "sha256": "bd381b8bdcd2e948620fcd90ca8bf5f4e54c156285584e4e130cd369933c3ddc"
+    },
+    "actors/skeleton_attack_01.bdae": {
+      "bytes": 11604,
+      "sha256": "65162e55af222d0231fb25027f5406e47d4a1b9e4b89864680cbca3ed738461a"
+    },
+    "actors/skeleton_attack_01_to_idle.bdae": {
+      "bytes": 16960,
+      "sha256": "8df25c9d89c7e3c343329fa6694661fa1968645f6176919312b5b64824a7ac17"
+    },
+    "actors/skeleton_attack_02.bdae": {
+      "bytes": 9824,
+      "sha256": "83276482fa53b376495a791792fb381eaa6f7cf9ce493cf7d5f39095ac222cb2"
+    },
+    "actors/skeleton_attack_02_to_idle.bdae": {
+      "bytes": 17120,
+      "sha256": "53bf12257a1df6411cd6e95c492cf6c0fbb50f557a17407f0a28176e3148b082"
+    },
+    "actors/skeleton_dying.bdae": {
+      "bytes": 12700,
+      "sha256": "4a66caf03f98ee89c008fda99372f8c8bdbd76f932f38ec79032031d0bc8af90"
+    },
+    "actors/skeleton_pre_attack_01.bdae": {
+      "bytes": 11004,
+      "sha256": "3c9c0f3f72c8ade5bca121ba172036f33b32bdc181a57ccc41cbff7012ca1d1e"
+    },
+    "actors/skeleton_pre_attack_02.bdae": {
+      "bytes": 11572,
+      "sha256": "97220c3139e1eee33616b4aee973d0272c156970a1c235ef41c608fe29608f0f"
+    },
+    "actors/skeleton_walk.bdae": {
+      "bytes": 18816,
+      "sha256": "0fcb603c72a725dbae62d4bc061ebf98ba9b0a504e40645f9ba09fe4fcc589b0"
+    },
+    "actors/slime_attack_01.bdae": {
+      "bytes": 3256,
+      "sha256": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0"
+    },
+    "actors/slime_attack_01_to_idle.bdae": {
+      "bytes": 4136,
+      "sha256": "19194ac919bcce58739a8df48b9448c251a09d0b598f7b597ee828361693843f"
+    },
+    "actors/slime_attack_02.bdae": {
+      "bytes": 3776,
+      "sha256": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1"
+    },
+    "actors/slime_attack_02_to_idle.bdae": {
+      "bytes": 4452,
+      "sha256": "86f01551aa577f5c86beac627914c288f5c3cacb05a08ef7d03dd3511c6f5238"
+    },
+    "actors/slime_dying.bdae": {
+      "bytes": 6992,
+      "sha256": "60057288188a3c56f4690e66529c7663ca67f7f05e9ff15d7d26bb6fa43321fc"
+    },
+    "actors/slime_pre_attack_01.bdae": {
+      "bytes": 3168,
+      "sha256": "eb07914aadac438e79cd901a05f0f90b2b7e08a6822494b08be68047dc8293ae"
+    },
+    "actors/slime_pre_attack_02.bdae": {
+      "bytes": 3252,
+      "sha256": "315a2f52e8cbcabc3899dd8763d1bfa36696ca23911f36a26c40ca4a52480a19"
+    },
+    "actors/slime_walk.bdae": {
+      "bytes": 5212,
+      "sha256": "966d248d406756d06f028570f79208ac3f047d0bb0c537103405b60694b80f05"
+    },
+    "class-provenance.json": {
+      "bytes": 1450,
+      "sha256": "dbd16c0372d611a5ed6806da326415204e934081d0446a8ba12e88e0349af9ec"
+    },
+    "data/character_classes_pyarray.bin": {
+      "bytes": 34224,
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55"
+    },
+    "data/character_classes_pyarraynames.bin": {
+      "bytes": 6607,
+      "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"
+    },
+    "data/character_classes_pycst.bin": {
+      "bytes": 251,
+      "sha256": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84"
+    },
+    "data/character_classes_pystructnames.bin": {
+      "bytes": 750,
+      "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+    },
+    "animations/prince_1hand_combo_01.bdae": {
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    "animations/prince_1hand_combo_01_to_idle.bdae": {
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    "animations/prince_1hand_combo_02.bdae": {
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0"
+    },
+    "animations/prince_1hand_combo_02_to_idle.bdae": {
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091"
+    },
+    "animations/prince_1hand_combo_03.bdae": {
+      "bytes": 8632,
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003"
+    },
+    "animations/prince_1hand_combo_03_to_idle.bdae": {
+      "bytes": 9084,
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260"
+    },
+    "animations/prince_1hand_pre_combo_01.bdae": {
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    "animations/prince_1hand_pre_combo_02.bdae": {
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4"
+    },
+    "animations/prince_1hand_pre_combo_03.bdae": {
+      "bytes": 7548,
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058"
+    },
+    "player-combat-provenance.json": {
+      "bytes": 3430,
+      "sha256": "c7ed749721614b39fd5da30446ba286b3908b7b21cf9f456b65ac57d06be4860"
+    },
+    "animations/prince_dying_01.bdae": {
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a"
+    },
+    "player-defender-provenance.json": {
+      "bytes": 687,
+      "sha256": "78de8298a548404cde57f7d72a5da8b625792a008661aaf6ddd78aeb5c162b1e"
+    },
+    "ai-provenance.json": {
+      "bytes": 1857,
+      "sha256": "df4f7ee668495c48dc7c913614945b6c2ec9ddb71a2d627b526bd9b3af841159"
+    },
+    "data/ai_factions_pyarray.bin": {
+      "bytes": 636,
+      "sha256": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d"
+    },
+    "data/ai_factions_pyarraynames.bin": {
+      "bytes": 230,
+      "sha256": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211"
+    },
+    "data/ai_factions_pystructnames.bin": {
+      "bytes": 35,
+      "sha256": "8ebbc7927e58b9dd93d03f1f76b366ecd88f3d9b3abcaee31196dd21a05bda15"
+    },
+    "data/ai_pyarray.bin": {
+      "bytes": 5071,
+      "sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc"
+    },
+    "data/ai_pyarraynames.bin": {
+      "bytes": 1068,
+      "sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a"
+    },
+    "data/ai_pystructnames.bin": {
+      "bytes": 209,
+      "sha256": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82"
+    }
+  },
+  "original_input_count": 114,
+  "studio_source_sha256": {
+    "cpp/CMakeLists.txt": "3662e4544544a53b24e4780b3f31299a9f8fd1310f1b5b09cce33bde188e00bb",
+    "cpp/native_app.cpp": "3a87446898693592886bba68b994be968ce2c077b9345a2465a2376e1966ff41",
+    "cpp/model_renderer.cpp": "101e4dac2b0305ca658aadcb61260b7362d0299afae8ff6a9929fa0727ecd78f",
+    "cpp/model_renderer.hpp": "340979710151cb5c566c8ed8cfb9ce9923ef53106dfa019eca434d961b65da1c",
+    "java/com/example/dh2/MainActivity.java": "6495cf1d27ec38985e44a634005c7dd8bbd26d7c6a090db2e7dd59777685f234",
+    "java/com/example/dh2/NativeBridge.java": "f505fa83151ca0755e7cbe68ae8aee30e22fbd8494fc06501e23958d7d036b70"
+  },
+  "module_source_sha256": {
+    "android-native/tools/actor_states_smoke.py": "25e86a6341ea96a65019765fe01ec5a5f11f636c272c0352bc211b5adb5c101a",
+    "android-native/tools/combat_application_smoke.py": "4c27731d9563dcf27f8b03dcd91014dfa7acad347b11b5356799f1445348c570",
+    "android-native/tools/enemy_ai_smoke.py": "9fd20d8cd797543027c4d9db564b09f440c2f094ef3921f295d093dd4a6145f4",
+    "android-native/tools/player_combat_smoke.py": "b2825d04a0ed8c526130ae1e164ece35cf0c1921b65ab9b89a75275d393a5705",
+    "android-native/tools/player_defender_smoke.py": "62338ce6f699f681265ae19032a8caa4932e13ae64794baeb9e66fcdeed53d2d",
+    "android-native/tools/validate_aggro_module_checkpoint.py": "ff7484767ee0c0db3960046e9d3f78827976a3c9ed4421c7a61e3e3fee5d315f",
+    "android-native/tools/validate_combat_application_checkpoint.py": "5395706ac14369cbd20c86cfb6cdd664b17f330a87994c212e209740c710f637",
+    "android-native/tools/validate_combat_checkpoint.py": "abb10c0b93b0db34592f7ab5d11b09944ddf1f7ac0038d90e347af837fd988c4",
+    "android-native/tools/validate_combat_result_checkpoint.py": "ec719d3cabb67d3c28ef19090a0e2f056a9929366b3ca29c24c06a2f65ebd383",
+    "android-native/tools/validate_enemy_ai_checkpoint.py": "97deeaa6d9329ebebc64929274a716c6a05583e86c59b7f7b6f26f59fcc499fa",
+    "android-native/tools/validate_events_checkpoint.py": "8bbad9a465755bc7b17973defb4b2ee31cbb7f27a5205c1dc04cb092dfdeb8a7",
+    "android-native/tools/validate_health_checkpoint.py": "0a5c7dbfea18bd856118a53e4194472749eb4a98159064c72b9e6fe3bc0d3441",
+    "android-native/tools/validate_navigation_checkpoint.py": "eb58358729e2b987e092c84f24ab8c27c1ef42c66d446d0f7a3ff6a81466ad5b",
+    "android-native/tools/validate_player_combat_checkpoint.py": "6783e5c05b4f949425f9fab668a37157a08991035ac8943a6ed7685ccd4cfbf7",
+    "android-native/tools/validate_player_defender_checkpoint.py": "b13cea0327389dc54189c5959b4b25659c7de00f06914894ada3cab395e5dce4",
+    "android-native/tools/validate_properties_checkpoint.py": "b7ecaf838c12843abc7ce2732278646987bc4c042850f10ecf13388e994ba45e",
+    "android-native/tools/validate_vitals_checkpoint.py": "ae76fe3a600cd9d601cf8cb41b52fc275c1b8ac0319b34a7b119604569330a41",
+    "android-native/tools/world_smoke.py": "55529e761d46a08ea64b58f43527aa7f5554d212458e35cabeb7085b7a243d13",
+    "engine-animation/CMakeLists.txt": "92741e455e35370f49a2a5ea00a38499da8c5bfa33db50b05ef052f77e3e6abe",
+    "engine-animation/animation.cpp": "598e18a96301522bb5d6a7cf784a69300ccaa8739ed05beb72b2e4bbbe2c202e",
+    "engine-animation/animation.hpp": "8e74a97759bd27107cd50470e1fbad0b5e6ec868f5e796f20f532af70604b519",
+    "engine-animation/event_track.cpp": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+    "engine-animation/events.cpp": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+    "engine-animation/events.hpp": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+    "engine-animation/reference/events/binding.asm": "018aa44536b66976298e5755699212826a92d67cec111ebc1c1f09bf880aa2c4",
+    "engine-animation/reference/events/dispatch.asm": "d4e10b0b75ecfa9b2e5c575c5ae2be95808b40d6e140753f381659330680f9eb",
+    "engine-animation/reference/events/lookup.asm": "34dae3b8b526aa146514d6fa3372794babde8f825259c74d3a97d90e4a3d8fc1",
+    "engine-animation/reference/events/original-functions.json": "e5022de6e7bb1b187790a2676e92330a8973a7b4329452e88d75cf91ce1aff94",
+    "engine-animation/tests/events_audit.cpp": "a103548cdec83fcc303b1b45451d11bd6fefe96d4bd2ca77465bd2ad5ebdcd92",
+    "engine-animation/tests/events_differential.py": "31a0e4bc791417853138681942295f236a51edee28e94dbe7eaf1e4f93641681",
+    "engine-animation/tools/build_events_oracle.ps1": "8c21d19ea14f27818ec64b7be691a2ced85ccccd3b64ec1012f4018313804e75",
+    "engine-animation/tools/inspect_events.py": "f163cfd5cb08148ab761d04ffcdfd7cc30a04136d0c2d009bcc9efc91a2aa4fc",
+    "engine-skinning/skinning.cpp": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102",
+    "engine-skinning/skinning.hpp": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2",
+    "game-data/CMakeLists.txt": "897ac9699b7409d264b1b7c7c74ce49537ff3f963586ba443ce46010a8a25584",
+    "game-data/aggro.cpp": "ae05055695fb38680e41b8a11c79ce8f31b3865c14d44864e6da52def34c89fe",
+    "game-data/aggro.hpp": "a4624693ae19a5ab6f058f4137d535a9b3ad41a5129faa5c0eb1a82850a1f703",
+    "game-data/ai.cpp": "e36de5efc51972186aa9a480e55da72b1353fd4c05bbca2211441685881b2e01",
+    "game-data/ai.hpp": "e74238d1609df42c9086c0bdbad0b0e3a863d8081dba7260cc33fa67e512bf70",
+    "game-data/animation_scheduler.cpp": "ad99450151a5b2cdc6e3e0f21a9cc3bfb11716b2bab3febd1e5e6f21a8992783",
+    "game-data/animation_scheduler.hpp": "2e26b2720e3a301c00554e58b72105af4c03ef3d4464285b96237c17fa05bfa0",
+    "game-data/animation_selection.cpp": "3c45ece50511df67d7885388d8f56e64f1a979e9ed2a52d1983b6fa1dbea2880",
+    "game-data/animation_tables.cpp": "edf5d8fc71d225e975a4b7459a5ef2169ea3a84a8964b39290cfa9d91abc4b67",
+    "game-data/animation_tables.hpp": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d",
+    "game-data/class_tables.cpp": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+    "game-data/class_tables.hpp": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7",
+    "game-data/combat.cpp": "cd7adcea012ce9a7f4e8fba10a3bd16f515cea8bd66848c374bc6f5d42db1312",
+    "game-data/combat.hpp": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958",
+    "game-data/combat_application.cpp": "2cd3e5e75b78cd023a0510e5b8f2ff9554e1c5fe3c10bce15d7c36c7e8634b84",
+    "game-data/combat_application.hpp": "f32e8d69188beecc3f84551fd61c2d55e61d515a1b43df540734b9d222724334",
+    "game-data/combat_events.cpp": "4abdcbb44dc3b00348436f80658366ada3f9ec3473f94af25cd3a85bb4f8783a",
+    "game-data/combat_events.hpp": "9b8779bb369add564066f2da52ca6f444420806faa54959dd09fb1a3434bb7cf",
+    "game-data/combat_result.cpp": "e7a90976e2cc02d6a55dc6cd4d446b8f1f20bd62353f82d29cd85f7ef518e6b8",
+    "game-data/combat_result.hpp": "5c47ea89402de6b1fd5405ba751763edda8ee8b741c78e8ac3dd4c355ee68120",
+    "game-data/data.cpp": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+    "game-data/data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+    "game-data/health.cpp": "04a52298a1841645eb472b08b33095f80e09c8f6d9bdb211644e5389f495eeea",
+    "game-data/health.hpp": "fa8d4508a841c26cfcb72526cb5b811eee0a7775d82bea1b209588149c630aa8",
+    "game-data/properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "game-data/properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+    "game-data/reference/aggro/NOTES.md": "0ab0b0a1edcbf7d094d972b5e5bf02d9f04a2a345df35f02c668511a4f847bc2",
+    "game-data/reference/aggro/original-functions.json": "6783108b8a19f7603c06a3b9768e7c90b2fbdee8e471adf41585877093ba1bf1",
+    "game-data/reference/aggro/reference/original-functions.asm": "2079b8f3f39a37722a3cbd7937b53fa41a6c0ccb4cec86b2764bf93e4399f6e0",
+    "game-data/reference/ai-reader/original-functions.json": "cc4d4c20c63f16634dfc745d208d36d45a8985551d98b117cceb5476449fa9de",
+    "game-data/reference/ai-reader/reference/original-functions.asm": "535869cc293d8f47818da7a37a0c06683731a79b885c63098bf2651c86522ad3",
+    "game-data/reference/ai-target/NOTES.md": "177ad3861b4aff6dc88b4133d0d22448bc9aa03962de9bd47c81e9976a28915e",
+    "game-data/reference/ai-target/original-functions.json": "663d337b6c43299b1dd5cc08b53e2659930455c4b08c8c7c42979c191858454f",
+    "game-data/reference/ai-target/reference/original-functions.asm": "2499cb1a846e81ab717d7593e3e072fdc213fc5ef50c85e7b671eaa168e998e6",
+    "game-data/reference/combat-application/death-fsm-functions.json": "f4cc903645a556a4a20016deabd9e7c586054533362f1af1742a032ff3573bae",
+    "game-data/reference/combat-application/death-fsm.asm": "72072491dc495ef0e994f7c737204ebc4fb2928ad35b380de67ae15a393ff40d",
+    "game-data/reference/combat-application/original-functions.json": "c5f44a6db408d54aa315963073972f10a7a3c67cb395e5d687772012053861a5",
+    "game-data/reference/combat-application/reference/original-functions.asm": "d139ba0eb6591197adfbcc4055ce6138aa3abbd7b9cd5d462a7190a84ed34256",
+    "game-data/reference/combat-events/attack-application-controller.asm": "cd8b93d48a6fbd07fb95b297bd87cd5e1a83eb6feaf71b69430b640f932d1869",
+    "game-data/reference/combat-events/attack-step-getters.asm": "1b0c3972c89e2845e34e94efb5eca62b4150bb8e7415479aa0e2a56ad32bfd6d",
+    "game-data/reference/combat-events/event-raise-evidence.asm": "1aac82de8b0975f9f1833ba98e28d7f80ea80cf081e744974a6cfb5c1faec6b8",
+    "game-data/reference/combat-events/event-state-routing-evidence.asm": "4a718587e6f13d3692e63ae5b25a6f88260e76979bf7bc9009ba5cc2ff4ecf16",
+    "game-data/reference/combat-events/melee-event-route-evidence.asm": "d4f321df0b66719a188d6efab3cbfcfd349c779c3cc4f13a8c7427f91811f66d",
+    "game-data/reference/combat-events/original-functions.json": "49eb2ecbb55964c18a016618094634188a118b5d61720424ead97758d73d6868",
+    "game-data/reference/combat-events/range-capability/original-functions.asm": "9d55c1b89a10fc58290d2b18105f19fd97bd04850d498ae8d6ba4658f0c75cf7",
+    "game-data/reference/combat-events/range-capability/original-functions.json": "90d36fedcf872713641df3fd5c038f1600ae637a99a21725457b392984e61d70",
+    "game-data/reference/combat-events/strings.json": "c0fc03d41a4c40020de7e60a2f199ace6079d85692293ddddb8937b4a0bc4d90",
+    "game-data/reference/combat-result/character-virtuals.json": "db6a1f2277936df3edaf3cb882d2bcbb4324488373a75fae43e77883c0434808",
+    "game-data/reference/combat-result/controller-functions.json": "2e4546283a5b80d7bca8141fd55bc7a319a58621868c3758cdb6eda41398955a",
+    "game-data/reference/combat-result/controller.asm": "83265b1747d8664505ac44263afae804ebb67d04be6fb823ebad3ec393c7a81c",
+    "game-data/reference/combat-result/original-functions.json": "e9b8314c3751b67462dbee866a43d6307490f1aa4cb6f65cbda1507d1dc45800",
+    "game-data/reference/combat-result/result.asm": "0c6a6bbbde9d67babead295f260c6d73dc1826cb10f0d5dd66aeb0eace778502",
+    "game-data/reference/combat/attack-formulas-evidence.asm": "7650cea823f634cb32b31c5e6ba1d5dc7f0df0480af2ef5a647f87bb3746467f",
+    "game-data/reference/combat/combat-equipment-extra.asm": "905c1929f52f3aa6699433265cdd3deeb5477143dea49f05b03d5d29883305d2",
+    "game-data/reference/combat/combat-equipment-getters.asm": "2a65af752ceb05a9ed4df7750445bb6ee174c39d950130580dcc8b16f793a916",
+    "game-data/reference/combat/combat-property-getters.asm": "52eca39ddc282d069f0bf21f7fa12cad86a36cf72d300b72f2c79b8822266141",
+    "game-data/reference/combat/damage-extra-evidence.asm": "bea2e9dd434a4a6bca868287e0064f4e3aa10dd73bb7e362e1aa6bf7ff9ce353",
+    "game-data/reference/combat/original-functions.json": "aa5993164dd2522f74ae9e24d0cd1e28f9894cb07670e4eba475df4cd5f0e7ba",
+    "game-data/reference/health/original-functions.json": "989e72f0f4616b5ad765a61b6d9180c6a8832142bbc3f8ac813a4a85a47dc249",
+    "game-data/reference/health/reference/original-functions.asm": "dc20b4e329f16d38299b137647ad994a44d8dcf7c28f407adfb8e7913846fe59",
+    "game-data/reference/player-defender/original-functions.json": "a42c7e5f8e72d664971f94a0b5253c4f64870d746ded779fcdc3290607a85850",
+    "game-data/reference/player-defender/reference/original-functions.asm": "eada6f74c278beaf3c5110e95adef8c3e1a30db82f513e9f2b80b257f7bb090b",
+    "game-data/reference/player-initialization/creation-functions.json": "e726dfdcac96d62df96eb5e094316786abb70fb312ec2d6cb7dbba78b9ee5f43",
+    "game-data/reference/player-initialization/creation.asm": "53a88212c83ba1529f2867377e6792adc497144331f34e42360462f3d656e744",
+    "game-data/reference/player-initialization/literals.json": "55b4a8527897323ad4b63546d2c2fdea07c2c7d112873b45095287f0e07d7072",
+    "game-data/reference/player-initialization/manager-functions.json": "aa042bbef60a97dcfa1e393e552195da3011c45f8f7a1d2eeba957ad1567422b",
+    "game-data/reference/player-initialization/manager.asm": "4ddc0ce7dbf9a839fed1c008dde3410f91c939a005ec7cf328a98c8e1f0da599",
+    "game-data/reference/player-initialization/original-functions.asm": "fd0d3255231342109f20ff260c89be4cf4e27a6721767eb095a1b1718f9e3899",
+    "game-data/reference/player-initialization/original-functions.json": "167750812ab121edd27114599da950cc7872d1416e83b9d9409021eb16fc4add",
+    "game-data/reference/properties/original-functions.json": "899a3de301e5ed7715a0162d25ef5f416ec1ba065705a2ccd1214a53a00bb3a0",
+    "game-data/reference/properties/property-rules.json": "62563819c67aa6a4fc911784fc0b291265d2243c791b0cf66dda246f340383ce",
+    "game-data/reference/properties/reference/original-functions.asm": "1df33294ed9f6c4fc6ab7387aa72d11531856966d4213fec28902904dfd56c4b",
+    "game-data/reference/vitals/original-functions.json": "739ef2b594647711a3311dcc2232157e92d28a4c1cba4c70a4d09c5cc04aa363",
+    "game-data/reference/vitals/reference/original-functions.asm": "f612c3d311e9616b9a6bb702ac6e90a0874145d18ff97559c4914a536e578522",
+    "game-data/tests/aggro.cpp": "2c1eec23a12f78eed965b4ad72b5a77deeaa30882b0579417051dab6e3170b83",
+    "game-data/tests/aggro_differential.py": "3d5fc4103199edbe847f886344f048738067ee8b329816531b82d8bc7174a759",
+    "game-data/tests/ai.cpp": "7f4af8710640d30a6ceccc48c669b4da1567f55c4300eb5b89a0a355c78d2e70",
+    "game-data/tests/ai_differential.py": "aa88e0b496e90ec9ea5089a5544198dfdb80e6738d7754823e3c6a3ef07d25a1",
+    "game-data/tests/animation_scheduler.cpp": "1cb3f4c900505d194f68640331a6f65c421c4fac5cb468e0fffbafc028e46ca2",
+    "game-data/tests/classes.cpp": "828a587cf2d7c13e33c84ee5d471d5dc8e8214cf33221a11b845df235b6c053d",
+    "game-data/tests/classes_differential.py": "c778dcf414193bbe842680a8db1bcfd7f56a732c0c22fb0e874bf1266a37c4b1",
+    "game-data/tests/combat.cpp": "3019616a94ed847033f17aa6c6fd2689bdb49fa926c0597f4509f1fa79f5ace7",
+    "game-data/tests/combat_application.cpp": "c42a58f2078c1260e05484443f728021e023eebdb6869310484cf1953edaa9ba",
+    "game-data/tests/combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "game-data/tests/combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "game-data/tests/combat_events_differential.py": "9192d5f39a7e961a285ee9b465a1d5bd4b5f1451b9299f739b3e7b41f6bd2673",
+    "game-data/tests/combat_result.cpp": "7245a4607c61ecbca574b493294f62be1239831693299c0302120805df38e84d",
+    "game-data/tests/combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "game-data/tests/health.cpp": "b1ed8dd50a1e8c03311ffeffd4d052e47aea861a94d26a9f711e0f1a5efeffc4",
+    "game-data/tests/health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "game-data/tests/properties.cpp": "9ad21049161b6cd2fd3fd2306e8c33a2e72d50734a3a43e8abe12f741da144c9",
+    "game-data/tests/properties_differential.py": "67178fd80961ae5f87e07be8a7fef2fd6c53180f451c6bd7d2638992636ab906",
+    "game-data/tests/vitals.cpp": "e9e10de7b18b1f0894b8f6d8cf13cfaaec3af3c26105b031273d7deea091c0c5",
+    "game-data/tests/vitals_differential.py": "e018123f973d08eee11dd6c659c0f54618d60e5e4f109d11201e41b24d5ae0ae",
+    "game-data/tools/build_aggro_oracle.ps1": "55c2482bd6dfda519b8af65e7f6cfe6be8fe909cf72f4211c160ff8ce3e5c735",
+    "game-data/tools/build_ai_oracle.ps1": "df5801440f3fc5ff0312a90639d41f8ef2d05d45788f0cd62ed3fa73747575a0",
+    "game-data/tools/build_class_oracle.ps1": "982b6cfffa4545b6092dadc679a32c49fb382c70678c78f87b52e8cd7f7f2805",
+    "game-data/tools/build_combat_application_oracle.ps1": "53e073789568b22166e96f0703b6fe32accbcd36884b3fb88b934e9a57393522",
+    "game-data/tools/build_combat_oracle.ps1": "e63d6deee7f5751159a7626a0e3b3937068ecfe51b2b3bd3f3e232fb1cc4673c",
+    "game-data/tools/build_health_oracle.ps1": "4a1eadd38c5bbd176f226587edcd9ca438c84e6fce7d81bc44149cb492c63a99",
+    "game-data/tools/build_properties_oracle.ps1": "1d9a693e3b30bdb64fedd88083b8b0b2a93612102552ba91a1d9f88c84b60907",
+    "game-data/tools/build_vitals_oracle.ps1": "aff3f11556e71bd898f402045daf6dc54ca5ce364072315d4d8e6a483e1de96e",
+    "game-data/tools/inspect_class_tables.py": "7981979eb837206ec8c55d5edfe2dbbe72cac5e3e5334df9dc2b2cce7615ca23",
+    "game-data/tools/inspect_property_layout.py": "a54f8ee1050ba84ea407430e21f4671c6f1d977004d7cc689177b865b0206ec8",
+    "game-data/tools/inspect_property_rules.py": "5df67949a6b1f441d2979a55c3f2f311a008156598e6cf843e80e2fe23e8c45a",
+    "game-data/vitals.cpp": "117d155de48432916b4c86c897c2284e46cd1c4ed3d23d08244406fad20c59d8",
+    "game-data/vitals.hpp": "526cb0138fadc5964f4a74e27c65d33d2054a0cd61f3a71cbf08981c8954ed85",
+    "level-world/CMakeLists.txt": "82908a39bd189f3af3c90df24a7f8ad1eeb4a91dd8526135fc094d7ab820cb9b",
+    "level-world/README.md": "1ab2492acd7ce195c990e4c0e961cf12c9a73fdbbd8aa920b95db7268b163493",
+    "level-world/navigation.cpp": "774c13eb57b3b71ff6662037257552a4d130dacf0643238d94340106dc907249",
+    "level-world/navigation.hpp": "4d9b29d4e92cd6a7e7f914997636bfbc9d5b1225804096190d65d6162745ef18",
+    "level-world/objects.cpp": "0468f80973f478b4e141b0e16ef732b2692211df1db4d7d0fd2c46b61baf548b",
+    "level-world/objects.hpp": "530f0686b0c189119aa7f44bd9c796543116cb6c500857ced69aa55e966bde05",
+    "level-world/reference/navigation/NOTES.md": "f4de3ca781e302813f9f6111c69f7d9bdf716502c74d093dc815151796d94270",
+    "level-world/reference/navigation/original-functions.json": "261dfcccc4cc5ae8c1bbf006879303f4a25df3adf27f8e2ee0f0ed21060d2aac",
+    "level-world/reference/navigation/reference/original-functions.asm": "ea5c77defda5718720ca9ccbc06d187772998b71201fb1904bb79bc2511d229e",
+    "level-world/tests/actor_clips.cpp": "06ef0280dc524fcf3cc9bde106143c1c9c3ada738d71b1d84e97c1e97b23be27",
+    "level-world/tests/navigation.cpp": "1fb35d9b0b389f804845fcfea9e947fee9865298fbb45f2a1617ee83bc5f7762",
+    "level-world/tests/navigation_differential.py": "3c7758db838292dd00c9db0cc6fb1e83fddd5b0d57481fec68d36a56ee1f2f30",
+    "level-world/tests/player_combat.cpp": "de6858b337c8fd9cd7fd86c00368519b48d3644619fc9d879ca98b1fc1c31ae0",
+    "level-world/tools/build_navigation_oracle.ps1": "d093a66ab4dea74bd14fa7084725e43a22e4f589231360d017a484b8015146b4",
+    "level-world/tools/find_calls.py": "4fccacdeeb663d12711c16ec9274e3e15d720303ae1a3a3247e30908035f9c9a",
+    "level-world/tools/inspect_literals.py": "eef4105c1a5563d8c0b36038ea7d82cab105d63faf03d7e91cce906edd9d31ae",
+    "level-world/tools/inspect_virtuals.py": "9276528e7aee8b7d56513668c38437b6500fc4ea330908ce53e4e73e700537fb",
+    "level-world/tools/prepare_actor_states.py": "fc16aae0f9ea53abf4c874ecf919ed312a73ab4519d3361771805f7b8ef387a2",
+    "level-world/tools/prepare_ai.py": "a7eca5960fdd7ee3f789c17327456ae276e8f8c4bb0f0932456b411dddffc4c3",
+    "level-world/tools/prepare_class_tables.py": "cf1368527a63ef343771e0145e6ec4f3e6ac8923c8c52fe4bac02e1b6b8db6c7",
+    "level-world/tools/prepare_player_combat.py": "eee3d66c5ef6f4fdf91c76bd7b99bd2a7a20d06bd9f61a8e7b6db92e232db9b5",
+    "level-world/tools/prepare_player_defender.py": "5abafb45279983a2993c3f197041a60e1b5baee218dde2f0eb038fcc6bf2911a",
+    "level-world/world.cpp": "e30d918a07cd1718d29c36bbac515b9d740b3f6f176fc33ba1413e9b01caa57b",
+    "level-world/world.hpp": "394a505ad712b74bc3f0192144d413519061c8d35006a635e0e425fea8470ff0"
+  },
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "navigation_reports": {
+    "oracle": {
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "arm64_library_sha256": "b0aa1b9a69c93fca5e32d2eb3dfeaf10a5407d2287f2b881a46c326be2227893",
+      "floor_source_sha256": "bd467e0e269a118bf20dee9483b792b454255f4af575cec59d28772cf0f94a5f",
+      "reference_sha256": "0987b6a28b22c20364aa7332c65d97b10bf3397ea0ea82dce45355f15f59f18c",
+      "batches": 72,
+      "triangle_comparisons": 1880,
+      "node_record_comparisons": 142970,
+      "edge_record_comparisons": 340190,
+      "invalid_record_comparisons": 63781,
+      "validation_reference_comparisons": 120366,
+      "tree_record_comparisons": 38521,
+      "floor_query_comparisons": 6666,
+      "mismatches": 0,
+      "atomic_rejection_checks": 2,
+      "flags": {
+        "disabled_nodes": 166,
+        "disabled_edges": 160
+      },
+      "original_map_allocations": 1547,
+      "graph_storage_allocations": 4366,
+      "original_import_calls": {
+        "__aeabi_fsub": 86586,
+        "__aeabi_fmul": 93825,
+        "__aeabi_fadd": 64431,
+        "sqrtf": 10815,
+        "__aeabi_fdiv": 18078,
+        "__aeabi_fcmplt": 63240,
+        "__aeabi_fcmpgt": 3180,
+        "floor/id callback": 6484
+      },
+      "scope": "Original PFFloor graph construction versus compiled ARM64 source.\n\nCreateNodes/CreateNode/CreateEdge, CompPos lookup/insertion and RB balancing,\nnormalization and weight writes execute original instructions. GraphSparse node\nand edge allocation are caller storage fixtures (deduplicated directed pairs).\nFloor collision results are supplied snapshots, with every query coordinate and\ncall order compared. This does not validate floor collision or A* routing.\n",
+      "elapsed_seconds": 15.47
+    },
+    "packaged": {
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "arm64_library_sha256": "471d645804e0eae7684783e76e62a2275368103293762be6f4d9d0e366d73cc0",
+      "floor_source_sha256": "bd467e0e269a118bf20dee9483b792b454255f4af575cec59d28772cf0f94a5f",
+      "reference_sha256": "0987b6a28b22c20364aa7332c65d97b10bf3397ea0ea82dce45355f15f59f18c",
+      "batches": 72,
+      "triangle_comparisons": 1880,
+      "node_record_comparisons": 142970,
+      "edge_record_comparisons": 340190,
+      "invalid_record_comparisons": 63781,
+      "validation_reference_comparisons": 120366,
+      "tree_record_comparisons": 38521,
+      "floor_query_comparisons": 6666,
+      "mismatches": 0,
+      "atomic_rejection_checks": 2,
+      "flags": {
+        "disabled_nodes": 166,
+        "disabled_edges": 160
+      },
+      "original_map_allocations": 1547,
+      "graph_storage_allocations": 4366,
+      "original_import_calls": {
+        "__aeabi_fsub": 86586,
+        "__aeabi_fmul": 93825,
+        "__aeabi_fadd": 64431,
+        "sqrtf": 10815,
+        "__aeabi_fdiv": 18078,
+        "__aeabi_fcmplt": 63240,
+        "__aeabi_fcmpgt": 3180,
+        "floor/id callback": 6484
+      },
+      "scope": "Original PFFloor graph construction versus compiled ARM64 source.\n\nCreateNodes/CreateNode/CreateEdge, CompPos lookup/insertion and RB balancing,\nnormalization and weight writes execute original instructions. GraphSparse node\nand edge allocation are caller storage fixtures (deduplicated directed pairs).\nFloor collision results are supplied snapshots, with every query coordinate and\ncall order compared. This does not validate floor collision or A* routing.\n",
+      "elapsed_seconds": 14.64
+    },
+    "studio": {
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "arm64_library_sha256": "34b4116778a26496d2a29563e8a3b7d5a0737a36f3ca90b8cb8ef0cfd125254f",
+      "floor_source_sha256": "bd467e0e269a118bf20dee9483b792b454255f4af575cec59d28772cf0f94a5f",
+      "reference_sha256": "0987b6a28b22c20364aa7332c65d97b10bf3397ea0ea82dce45355f15f59f18c",
+      "batches": 72,
+      "triangle_comparisons": 1880,
+      "node_record_comparisons": 142970,
+      "edge_record_comparisons": 340190,
+      "invalid_record_comparisons": 63781,
+      "validation_reference_comparisons": 120366,
+      "tree_record_comparisons": 38521,
+      "floor_query_comparisons": 6666,
+      "mismatches": 0,
+      "atomic_rejection_checks": 2,
+      "flags": {
+        "disabled_nodes": 166,
+        "disabled_edges": 160
+      },
+      "original_map_allocations": 1547,
+      "graph_storage_allocations": 4366,
+      "original_import_calls": {
+        "__aeabi_fsub": 86586,
+        "__aeabi_fmul": 93825,
+        "__aeabi_fadd": 64431,
+        "sqrtf": 10815,
+        "__aeabi_fdiv": 18078,
+        "__aeabi_fcmplt": 63240,
+        "__aeabi_fcmpgt": 3180,
+        "floor/id callback": 6484
+      },
+      "scope": "Original PFFloor graph construction versus compiled ARM64 source.\n\nCreateNodes/CreateNode/CreateEdge, CompPos lookup/insertion and RB balancing,\nnormalization and weight writes execute original instructions. GraphSparse node\nand edge allocation are caller storage fixtures (deduplicated directed pairs).\nFloor collision results are supplied snapshots, with every query coordinate and\ncall order compared. This does not validate floor collision or A* routing.\n",
+      "elapsed_seconds": 14.64
+    }
+  },
+  "navigation_host_audit": {
+    "batches": 72,
+    "triangle_comparisons": 1880,
+    "floor_query_comparisons": 6666,
+    "atomic_rejection_checks": 2,
+    "mismatches": 0,
+    "sanitizers": [
+      "address",
+      "undefined"
+    ]
+  },
+  "navigation_reference_sha256": "0987b6a28b22c20364aa7332c65d97b10bf3397ea0ea82dce45355f15f59f18c",
+  "world_cases": 10,
+  "apk_16k_zip_alignment_verified": true,
+  "previous_combat_checkpoint": {
+    "apk_sha256": "08bd79f29f04bb71b2ff5430746f9f2624d2ad62a5d5efd159efa5be5f529e2a",
+    "validation_sha256": "9ab915844d167e68b10dd7400eba507fc2707d64ac6bb59e23777326f1c303f2",
+    "automatic_damage_attempts": 24,
+    "isolated_player_attempts": 112
+  },
+  "navigation_builder_compiled": true,
+  "navigation_builder_used_by_gameplay": false,
+  "floor_support_answers_are_caller_fixtures": true,
+  "full_original_enemy_ai_implemented": false,
+  "pending_navigation": "Original floor collision/selector, floor identities/flags, cross-floor sewing, graph search, smoothing, obstacle handling, movement controller/animation integration.",
+  "physical_arm64_tested": false,
+  "full_cache_bundled": false,
+  "full_game_playable": false,
+  "goal_status": "active"
+}

@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11Application5GetDtEv",
+      "elf_address": "0x31f66c",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_IsMovingEb",
+      "elf_address": "0x3c029c",
+      "size": 52,
+      "sha256": "f56604e37033474979649426096f78e9945140bee00e6d7ccc058c653b646547"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault18OnCollisionPersistEP10GameObjectb",
+      "elf_address": "0x3dbfa0",
+      "size": 396,
+      "sha256": "8856dcbbd7f710014b7f4339e341b836c0b17f04756c23e2feb2ca2b3e06df4f"
+    }
+  ]
+}

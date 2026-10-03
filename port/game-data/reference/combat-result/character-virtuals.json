@@ -1,0 +1,594 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "vtable_symbol": "_ZTV9Character",
+  "address": "0x965f30",
+  "address_point": "0x965f38",
+  "bytes": 812,
+  "raw_sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6",
+  "absolute_relocations_applied": [],
+  "primary_slots": 83,
+  "secondary_bytes": 472,
+  "entries": [
+    {
+      "offset": "0x0",
+      "pointer": "0x3a7c84",
+      "symbols": [
+        "_ZN9CharacterD1Ev"
+      ]
+    },
+    {
+      "offset": "0x4",
+      "pointer": "0x3a7de0",
+      "symbols": [
+        "_ZN9CharacterD0Ev"
+      ]
+    },
+    {
+      "offset": "0x8",
+      "pointer": "0x3a2f08",
+      "symbols": [
+        "_ZNK9Character13getUDTypeNameEv"
+      ]
+    },
+    {
+      "offset": "0xc",
+      "pointer": "0x3b56bc",
+      "symbols": [
+        "_ZN9Character14createBindingsERN3sfc6script3lua6BinderE"
+      ]
+    },
+    {
+      "offset": "0x10",
+      "pointer": "0x3a65c4",
+      "symbols": [
+        "_ZN9Character9SerializeEP11IStreamBase"
+      ]
+    },
+    {
+      "offset": "0x14",
+      "pointer": "0x3a6210",
+      "symbols": [
+        "_ZN9Character11DeserializeEP11IStreamBase"
+      ]
+    },
+    {
+      "offset": "0x18",
+      "pointer": "0x3a9fe4",
+      "symbols": [
+        "_ZN9Character17DeclarePropertiesEv"
+      ]
+    },
+    {
+      "offset": "0x1c",
+      "pointer": "0x3b4d60",
+      "symbols": [
+        "_ZN9Character8InitPostEv"
+      ]
+    },
+    {
+      "offset": "0x20",
+      "pointer": "0x340054",
+      "symbols": [
+        "_ZNK10GameObject12IsGameObjectEv"
+      ]
+    },
+    {
+      "offset": "0x24",
+      "pointer": "0x3a2e1c",
+      "symbols": [
+        "_ZNK9Character11IsCharacterEv"
+      ]
+    },
+    {
+      "offset": "0x28",
+      "pointer": "0x3a49f0",
+      "symbols": [
+        "_ZNK9Character8IsPlayerEv"
+      ]
+    },
+    {
+      "offset": "0x2c",
+      "pointer": "0x3abe98",
+      "symbols": [
+        "_ZN9Character6UpdateEv"
+      ]
+    },
+    {
+      "offset": "0x30",
+      "pointer": "0x3a84f4",
+      "symbols": [
+        "_ZNK9Character4DrawEv"
+      ]
+    },
+    {
+      "offset": "0x34",
+      "pointer": "0x3a2ed4",
+      "symbols": [
+        "_ZNK9Character6IsDeadEv"
+      ]
+    },
+    {
+      "offset": "0x38",
+      "pointer": "0x38aac0",
+      "symbols": [
+        "_ZNK10GameObject11IsUpdatableEv"
+      ]
+    },
+    {
+      "offset": "0x3c",
+      "pointer": "0x33dcf0",
+      "symbols": [
+        "_ZN10ObjectBase11setUpdatingEb"
+      ]
+    },
+    {
+      "offset": "0x40",
+      "pointer": "0x38b0f0",
+      "symbols": [
+        "_ZN10GameObject10SetVisibleEb"
+      ]
+    },
+    {
+      "offset": "0x44",
+      "pointer": "0x3a598c",
+      "symbols": [
+        "_ZN9Character7EnabledEv"
+      ]
+    },
+    {
+      "offset": "0x48",
+      "pointer": "0x3a5974",
+      "symbols": [
+        "_ZN9Character8DisabledEv"
+      ]
+    },
+    {
+      "offset": "0x4c",
+      "pointer": "0x3a6f0c",
+      "symbols": [
+        "_ZN9Character25PopulateOutgoingNetStructEb"
+      ]
+    },
+    {
+      "offset": "0x50",
+      "pointer": "0x3a7f10",
+      "symbols": [
+        "_ZN9Character26InterpretIncomingNetStructEb"
+      ]
+    },
+    {
+      "offset": "0x54",
+      "pointer": "0x33dd10",
+      "symbols": [
+        "_ZNK10ObjectBase17IsRemotelyUpdatedEv"
+      ]
+    },
+    {
+      "offset": "0x58",
+      "pointer": "0x3b4978",
+      "symbols": [
+        "_ZN9Character9InitFinalEv"
+      ]
+    },
+    {
+      "offset": "0x5c",
+      "pointer": "0x3a2e2c",
+      "symbols": [
+        "_ZNK9Character14IsUpdatingPathEv"
+      ]
+    },
+    {
+      "offset": "0x60",
+      "pointer": "0x3a2e38",
+      "symbols": [
+        "_ZNK9Character28IsUpdatingPositionFromVisualEv"
+      ]
+    },
+    {
+      "offset": "0x64",
+      "pointer": "0x3a2e44",
+      "symbols": [
+        "_ZNK9Character29IsUpdatingPositionFromPhysicsEv"
+      ]
+    },
+    {
+      "offset": "0x68",
+      "pointer": "0x3a2e50",
+      "symbols": [
+        "_ZNK9Character28IsUpdatingRotationFromVisualEv"
+      ]
+    },
+    {
+      "offset": "0x6c",
+      "pointer": "0x3a2e5c",
+      "symbols": [
+        "_ZNK9Character29IsUpdatingRotationFromPhysicsEv"
+      ]
+    },
+    {
+      "offset": "0x70",
+      "pointer": "0x3a2e68",
+      "symbols": [
+        "_ZNK9Character28IsUpdatingVisualWithRotationEv"
+      ]
+    },
+    {
+      "offset": "0x74",
+      "pointer": "0x3a2e78",
+      "symbols": [
+        "_ZNK9Character25IsValidatingFloorPositionEv"
+      ]
+    },
+    {
+      "offset": "0x78",
+      "pointer": "0x3a2e88",
+      "symbols": [
+        "_ZNK9Character24IsValidatingCameraLimitsEv"
+      ]
+    },
+    {
+      "offset": "0x7c",
+      "pointer": "0x3a3754",
+      "symbols": [
+        "_ZNK9Character19IsAvoidingObstaclesEv"
+      ]
+    },
+    {
+      "offset": "0x80",
+      "pointer": "0x3a2ee0",
+      "symbols": [
+        "_ZNK9Character10IsAnimatedEv"
+      ]
+    },
+    {
+      "offset": "0x84",
+      "pointer": "0x3400b4",
+      "symbols": [
+        "_ZNK10GameObject5IsHitEv"
+      ]
+    },
+    {
+      "offset": "0x88",
+      "pointer": "0x3a4870",
+      "symbols": [
+        "_ZNK9Character13IsInteractiveEP10GameObject"
+      ]
+    },
+    {
+      "offset": "0x8c",
+      "pointer": "0x38ad30",
+      "symbols": [
+        "_ZNK10GameObject15IsInteractiveExEPS_"
+      ]
+    },
+    {
+      "offset": "0x90",
+      "pointer": "0x3a47e8",
+      "symbols": [
+        "_ZNK9Character18GetInteractionTypeEP10GameObject"
+      ]
+    },
+    {
+      "offset": "0x94",
+      "pointer": "0x3a374c",
+      "symbols": [
+        "_ZNK9Character20GetInteractionRadiusEv"
+      ]
+    },
+    {
+      "offset": "0x98",
+      "pointer": "0x3a4d78",
+      "symbols": [
+        "_ZN9Character8InteractEP10GameObject"
+      ]
+    },
+    {
+      "offset": "0x9c",
+      "pointer": "0x3a4398",
+      "symbols": [
+        "_ZN9Character15SetRelativeAABBERK4aabbIfEb"
+      ]
+    },
+    {
+      "offset": "0xa0",
+      "pointer": "0x3a2e9c",
+      "symbols": [
+        "_ZNK9Character10GetFXScaleEv"
+      ]
+    },
+    {
+      "offset": "0xa4",
+      "pointer": "0x3a2ecc",
+      "symbols": [
+        "_ZNK9Character15GetFXScaleValueEv"
+      ]
+    },
+    {
+      "offset": "0xa8",
+      "pointer": "0x3400e4",
+      "symbols": [
+        "_ZNK10GameObject8GetSpeedEv"
+      ]
+    },
+    {
+      "offset": "0xac",
+      "pointer": "0x3a372c",
+      "symbols": [
+        "_ZNK9Character16GetRotationSpeedEv"
+      ]
+    },
+    {
+      "offset": "0xb0",
+      "pointer": "0x3a2e24",
+      "symbols": [
+        "_ZNK9Character14GetFocusObjectEv"
+      ]
+    },
+    {
+      "offset": "0xb4",
+      "pointer": "0x3a2ee8",
+      "symbols": [
+        "_ZNK9Character10IsObstacleEv"
+      ]
+    },
+    {
+      "offset": "0xb8",
+      "pointer": "0x3a2ef0",
+      "symbols": [
+        "_ZNK9Character17GetObstacleRadiusEv"
+      ]
+    },
+    {
+      "offset": "0xbc",
+      "pointer": "0x3a2efc",
+      "symbols": [
+        "_ZNK9Character19GetObstacleStrengthEv"
+      ]
+    },
+    {
+      "offset": "0xc0",
+      "pointer": "0x3a3724",
+      "symbols": [
+        "_ZNK9Character10GetOpacityEv"
+      ]
+    },
+    {
+      "offset": "0xc4",
+      "pointer": "0x3a36e4",
+      "symbols": [
+        "_ZNK9Character9IsZonableEv"
+      ]
+    },
+    {
+      "offset": "0xc8",
+      "pointer": "0x3addc8",
+      "symbols": [
+        "_ZN9Character10Ctrl_ClickERK7Point3DIfEb"
+      ]
+    },
+    {
+      "offset": "0xcc",
+      "pointer": "0x3ad418",
+      "symbols": [
+        "_ZN9Character13Ctrl_RotateByEf"
+      ]
+    },
+    {
+      "offset": "0xd0",
+      "pointer": "0x3addbc",
+      "symbols": [
+        "_ZN9Character11Ctrl_LookAtERK7Point3DIfE"
+      ]
+    },
+    {
+      "offset": "0xd4",
+      "pointer": "0x3ad9ac",
+      "symbols": [
+        "_ZN9Character11Ctrl_LookAtEP10GameObject"
+      ]
+    },
+    {
+      "offset": "0xd8",
+      "pointer": "0x3adcf4",
+      "symbols": [
+        "_ZN9Character11Ctrl_WarpToERK7Point3DIfE"
+      ]
+    },
+    {
+      "offset": "0xdc",
+      "pointer": "0x3adb60",
+      "symbols": [
+        "_ZN9Character16Ctrl_HeadTowardsERK7Point3DIfE"
+      ]
+    },
+    {
+      "offset": "0xe0",
+      "pointer": "0x3ad8d4",
+      "symbols": [
+        "_ZN9Character16Ctrl_HeadTowardsEP10GameObject"
+      ]
+    },
+    {
+      "offset": "0xe4",
+      "pointer": "0x3adac8",
+      "symbols": [
+        "_ZN9Character11Ctrl_HeadToERK7Point3DIfE"
+      ]
+    },
+    {
+      "offset": "0xe8",
+      "pointer": "0x3ada6c",
+      "symbols": [
+        "_ZN9Character11Ctrl_HeadToEP10GameObject"
+      ]
+    },
+    {
+      "offset": "0xec",
+      "pointer": "0x3ada30",
+      "symbols": [
+        "_ZN9Character11Ctrl_MoveToERK7Point3DIfE"
+      ]
+    },
+    {
+      "offset": "0xf0",
+      "pointer": "0x3ad9e4",
+      "symbols": [
+        "_ZN9Character11Ctrl_MoveToEP10GameObject"
+      ]
+    },
+    {
+      "offset": "0xf4",
+      "pointer": "0x3ad890",
+      "symbols": [
+        "_ZN9Character9Ctrl_StopEv"
+      ]
+    },
+    {
+      "offset": "0xf8",
+      "pointer": "0x3ad87c",
+      "symbols": [
+        "_ZN9Character11Ctrl_AttackEP10GameObject"
+      ]
+    },
+    {
+      "offset": "0xfc",
+      "pointer": "0x3ad86c",
+      "symbols": [
+        "_ZN9Character15Ctrl_BeginSkillEj"
+      ]
+    },
+    {
+      "offset": "0x100",
+      "pointer": "0x3ad85c",
+      "symbols": [
+        "_ZN9Character13Ctrl_EndSkillEj"
+      ]
+    },
+    {
+      "offset": "0x104",
+      "pointer": "0x3ad84c",
+      "symbols": [
+        "_ZN9Character14Ctrl_BeginCastEb"
+      ]
+    },
+    {
+      "offset": "0x108",
+      "pointer": "0x3ad83c",
+      "symbols": [
+        "_ZN9Character12Ctrl_EndCastEb"
+      ]
+    },
+    {
+      "offset": "0x10c",
+      "pointer": "0x3ad6f0",
+      "symbols": [
+        "_ZN9Character14Ctrl_UsePotionEv"
+      ]
+    },
+    {
+      "offset": "0x110",
+      "pointer": "0x3ad690",
+      "symbols": [
+        "_ZN9Character11Ctrl_UseOOIEP10GameObject"
+      ]
+    },
+    {
+      "offset": "0x114",
+      "pointer": "0x3ad57c",
+      "symbols": [
+        "_ZN9Character15Ctrl_DropObjectEv"
+      ]
+    },
+    {
+      "offset": "0x118",
+      "pointer": "0x3ad528",
+      "symbols": [
+        "_ZN9Character9Ctrl_KillEP10GameObjectb"
+      ]
+    },
+    {
+      "offset": "0x11c",
+      "pointer": "0x3ad478",
+      "symbols": [
+        "_ZN9Character12Ctrl_OpenIGMEv"
+      ]
+    },
+    {
+      "offset": "0x120",
+      "pointer": "0x3b4834",
+      "symbols": [
+        "_ZN9Character23InitLightSetAndMaterialEv"
+      ]
+    },
+    {
+      "offset": "0x124",
+      "pointer": "0x3a4d3c",
+      "symbols": [
+        "_ZNK9Character14CanRangeAttackEv"
+      ]
+    },
+    {
+      "offset": "0x128",
+      "pointer": "0x3a4cd0",
+      "symbols": [
+        "_ZNK9Character14CanRangeAttackERiS0_S0_"
+      ]
+    },
+    {
+      "offset": "0x12c",
+      "pointer": "0x3a4cc0",
+      "symbols": [
+        "_ZN9Character15AddItemInstanceEP12ItemInstancebb"
+      ]
+    },
+    {
+      "offset": "0x130",
+      "pointer": "0x3a9fa8",
+      "symbols": [
+        "_ZN9Character13EquipItemAutoEj"
+      ]
+    },
+    {
+      "offset": "0x134",
+      "pointer": "0x3a9f6c",
+      "symbols": [
+        "_ZN9Character15UnEquipItemAutoEj"
+      ]
+    },
+    {
+      "offset": "0x138",
+      "pointer": "0x3a4c14",
+      "symbols": [
+        "_ZN9Character17EquipAllSlotsAutoEv"
+      ]
+    },
+    {
+      "offset": "0x13c",
+      "pointer": "0x3a9f30",
+      "symbols": [
+        "_ZN9Character15EquipItemToSlotEjj"
+      ]
+    },
+    {
+      "offset": "0x140",
+      "pointer": "0x3a9ee8",
+      "symbols": [
+        "_ZN9Character13EquipSlotAutoEj"
+      ]
+    },
+    {
+      "offset": "0x144",
+      "pointer": "0x3a9eb0",
+      "symbols": [
+        "_ZN9Character19UnEquipItemFromSlotEj"
+      ]
+    },
+    {
+      "offset": "0x148",
+      "pointer": "0x3a52a4",
+      "symbols": [
+        "_ZN9Character9CanUpdateEv"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "04a76d6d625a5d9b6a062d4b8050eb2e932d100b9e757f5b094a782e9f567c17",
+  "reference_sha256": "87c9e0e850edda18fbe0fca5266777eb152c127ab517a9985a20f8fe87356fc3",
+  "comparisons": 4320,
+  "mismatches": 0,
+  "counts": {
+    "locked": 178,
+    "frozen": 641,
+    "committed": 1099,
+    "failed": 2402,
+    "synchronized": 9231,
+    "destroyed": 11468
+  },
+  "coverage": {
+    "_ZN6b2Body8SetXFormERK6b2Vec2f": {
+      "instructions": 115,
+      "seen": 115
+    }
+  },
+  "original_import_calls": {
+    "cosf": 3501,
+    "sinf": 3501,
+    "__aeabi_fmul": 14004,
+    "__aeabi_fadd": 14004
+  },
+  "native_import_calls": {
+    "cosf": 3501,
+    "sinf": 3501
+  },
+  "arm64_callback_context_and_shape_identity_above_4gib": true,
+  "same_new_transform_pointer_for_both_sync_args": true,
+  "scope": "Original SetXForm instructions versus ARM64; shape/broadphase callbacks are controlled fixtures. Original shape Synchronize/DestroyProxy and broadphase Commit backends are supplied callback fixtures; collision, contacts and world stepping remain unreconstructed. sinf/cosf are identically modeled imported services; finite arithmetic and signed zero compare exactly, arithmetic NaN payload/sign by class.",
+  "elapsed_seconds": 5.62
+}

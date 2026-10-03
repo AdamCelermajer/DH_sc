@@ -1,0 +1,60 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "cases": 1872,
+    "direct_applies": 624,
+    "blended_applies": 624,
+    "contributions": 624,
+    "scene_bridge_applies": 1248,
+    "atomic_rejections": 14,
+    "world_refresh_checks": 1,
+    "sanitizer_findings": 0
+  },
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "executable": ".local-inputs/component-applicator-discovery/host-audit",
+  "executable_sha256": "a2f94aa968fa9db0be1eac74091739aa486f6ef165b1c31ce96fc26f31ad4843",
+  "compiler": "WSL g++",
+  "compiler_flags": [
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fno-builtin"
+  ],
+  "source_sha256": {
+    "port/engine-animation/component_applicator.hpp": "dd30a665ff1ad58ddceb04c8d204ac597237a17761eee9055fb985b219af945d",
+    "port/engine-animation/component_applicator.cpp": "9abca1a630447b10b7ea871f66af1e523511af5328fd03189e8be13dd1bb57bd",
+    "port/engine-animation/tests/component_applicator.cpp": "05068866b9034099a6fda72c3e24300df1ef6ab6212c8776b8d9e65d96407491",
+    "port/engine-animation/tests/component_applicator_differential.py": "584f255601ece1d095b7c498953f3c46975b2951d3613fa648bd4c74a0190eb2",
+    "port/engine-animation/animation_blend.hpp": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3",
+    "port/engine-animation/animation_blend.cpp": "5066e683add9d92643f350aa91819f694a7b2be82201785be40cc7812536d2ac",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/scene-materials/scene.hpp": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90",
+    "port/scene-materials/scene.cpp": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+    "port/engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/asset-payloads/payloads.hpp": "a57d4f01d93dcd13eee90944490ab9d645d2e4c9210ede952c1cb79f030ad4ee",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/engine-animation/tests/component_applicator_host.py": "28f4dbe53fe3496a1661dd822fac86332c73c7b0761bf1de5b4da436c5fdd68c"
+  },
+  "original_instruction_evidence": {
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "kernel_report_sha256": "ae244ca0d0a820656ba59d2b9ee3b39ee69081b4a16ecc21da70b19a1331dba4",
+    "reference_sha256": "5df40ca79b2e96fc70a892a7d8b3d1af5dda0b0c695622ff8a1c784275675874",
+    "manifest_sha256": "759eda4ee61c92960c7527bb980b952f90fa12f5af4c7dc846a6a3e3ceb788e6",
+    "factory_type_checks": 10
+  },
+  "scope": "Original-derived concrete component typed/apply replay and borrowed C++ Scene::Node bridge, full XYZ ordered overwrite with caller-owned dirty flags and separately requested genuine scene::update_world. Non-component factory tags6..10 reject atomically. Arithmetic NaNs compare classification; copy operations preserve bytes. No raw compiler/default/accessor, quaternion/Euler, whole scene animation, gameplay/GPU or APK parity claim."
+}

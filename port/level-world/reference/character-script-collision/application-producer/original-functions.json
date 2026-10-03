@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11Application7_UpdateEi",
+      "elf_address": "0x32c438",
+      "size": 2188,
+      "sha256": "6bdf2110adfc4642bbfb230cc6856fbacd4d5223728ce84d2c374311bc1c5e6a"
+    },
+    {
+      "original_symbol": "_ZN11Application6UpdateEv",
+      "elf_address": "0x32ccc4",
+      "size": 772,
+      "sha256": "3d77c4faff6ba5170a29e0c661a287e11aaad0ff49d7b5ec6da8e30cc0e92118"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "animation_stream_sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+  "sequence_count": 785,
+  "character_table_count": 80,
+  "authored_bank": 48,
+  "Attack_root": 248,
+  "AttackStatic_root": 243,
+  "Attack_type": 1,
+  "source_HasComboAttack": 1,
+  "Attack_sequence": {
+    "loop": 0,
+    "steps": [
+      {
+        "anchorFX": 1,
+        "anim": 467,
+        "blendOut": 100,
+        "cam": -1,
+        "camDir": 0,
+        "fx": -1,
+        "moveGO": 1,
+        "randomCam": [],
+        "redir": 1,
+        "sound": -1,
+        "speed_bits": 1065353216,
+        "swoosh": 0
+      },
+      {
+        "anchorFX": 1,
+        "anim": 468,
+        "blendOut": 100,
+        "cam": -1,
+        "camDir": 0,
+        "fx": -1,
+        "moveGO": 1,
+        "randomCam": [],
+        "redir": 1,
+        "sound": -1,
+        "speed_bits": 1065353216,
+        "swoosh": 0
+      },
+      {
+        "anchorFX": 1,
+        "anim": 469,
+        "blendOut": 100,
+        "cam": -1,
+        "camDir": 0,
+        "fx": -1,
+        "moveGO": 1,
+        "randomCam": [],
+        "redir": 1,
+        "sound": -1,
+        "speed_bits": 1065353216,
+        "swoosh": 0
+      }
+    ],
+    "type": 1
+  },
+  "AttackStatic_sequence": {
+    "loop": 0,
+    "steps": [
+      {
+        "anchorFX": 1,
+        "anim": 470,
+        "blendOut": 100,
+        "cam": -1,
+        "camDir": 0,
+        "fx": -1,
+        "moveGO": 1,
+        "randomCam": [],
+        "redir": 1,
+        "sound": -1,
+        "speed_bits": 1065353216,
+        "swoosh": 0
+      },
+      {
+        "anchorFX": 1,
+        "anim": 471,
+        "blendOut": 100,
+        "cam": -1,
+        "camDir": 0,
+        "fx": -1,
+        "moveGO": 1,
+        "randomCam": [],
+        "redir": 1,
+        "sound": -1,
+        "speed_bits": 1065353216,
+        "swoosh": 0
+      },
+      {
+        "anchorFX": 1,
+        "anim": 472,
+        "blendOut": 100,
+        "cam": -1,
+        "camDir": 0,
+        "fx": -1,
+        "moveGO": 1,
+        "randomCam": [],
+        "redir": 1,
+        "sound": -1,
+        "speed_bits": 1065353216,
+        "swoosh": 0
+      }
+    ],
+    "type": 1
+  },
+  "renderer_producer": "model_renderer.cpp: reset KnightPlayerBase, recalc class/properties, fresh_player.animation_table=resolved[2]. Empty weapon inputs affect GetAnimStance, not HasCombo table predicate. This probe verifies authored bank48; source runtime property resolution is separately audited."
+}

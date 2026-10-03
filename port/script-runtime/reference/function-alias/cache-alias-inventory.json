@@ -1,0 +1,1509 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "script_sha256": "49cf447e2f0193bc9d2bad60868aaa7becf8c8eac630def060c8de5d463bf132",
+  "scripts_inspected": 219,
+  "scripts_with_alias_names": 31,
+  "commons": {
+    "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+    "alias_names_present": false
+  },
+  "scope": "Textual inventory of exact supplied cache. Names are not proof of executed control-flow or exhaustive dynamic name creation.",
+  "observations": [
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/generic_boss_core.luac",
+      "sha256": "aa5fc6811aa170a80efd20ee786d7fa70498cadca86255927bbc96df66a7aeea",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 376,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"myBoss_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 398,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"myBoss_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 422,
+          "excerpt": "AddToVFTable(\"OnDied\", \"myBoss_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 429,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"myBoss_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 450,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"myBoss_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 463,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"myBoss_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 470,
+          "excerpt": "AddToVFTable(\"OnTargetInSight\", \"myBoss_OnTargetInSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 485,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"myBoss_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 504,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"myBoss_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 516,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"myBoss_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 534,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"myBoss_OnTargetInMeleeRange\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/roottroll_core.luac",
+      "sha256": "0df5c0646bbfaa50f97fa5f97ca3ba711807fdc747a7eb50062d7a4cb62e2e9d",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 229,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"myBoss_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 260,
+          "excerpt": "AddToVFTable(\"OnDied\", \"myBoss_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 266,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"myBoss_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 284,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"myBoss_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 294,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"myBoss_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 301,
+          "excerpt": "AddToVFTable(\"OnTargetInSight\", \"myBoss_OnTargetInSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 314,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"myBoss_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 331,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"myBoss_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 343,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"myBoss_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 359,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"myBoss_OnTargetInMeleeRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 382,
+          "excerpt": "AddToVFTable(\"OnEndOfAnim\", \"myBoss_OnEndOfAnim\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/largeplant_core.luac",
+      "sha256": "a6096bfd92b416efd62eba824e9b63887c59a96390c41a60ed2fa82e5f8af346",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 56,
+          "excerpt": "AddToVFTable(\"OnInit\", \"LargePlantOnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 70,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"LargePlant_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 80,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"LargePlant_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 89,
+          "excerpt": "AddToVFTable(\"OnTargetDied\", \"LargePlant_OnTargetDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 108,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"LargePlant_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 140,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"LargePlant_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 158,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"LargePlant_OnTargetInMeleeRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 174,
+          "excerpt": "AddToVFTable(\"OnDied\", \"LargePlant_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 181,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"LargePlant_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 195,
+          "excerpt": "AddToVFTable(\"OnTargetHit\", \"LargePlant_OnTargetHit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 196,
+          "excerpt": "AddToVFTable(\"OnTargetMissed\", \"LargePlant_OnTargetHit\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/sandworm_core.luac",
+      "sha256": "16f26062059cf65d662651da36dffe8d08460a0a07356227fa6f6274ee09fde3",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 339,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"sandworm_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 348,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"sandworm_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 357,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"sandworm_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 373,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"sandworm_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 391,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"sandworm_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 409,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"sandworm_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 418,
+          "excerpt": "AddToVFTable(\"OnTargetDied\", \"sandworm_OnTargetDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 450,
+          "excerpt": "AddToVFTable(\"OnDied\", \"sandworm_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 456,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"sandworm_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 484,
+          "excerpt": "AddToVFTable(\"OnEndOfAnim\", \"sandworm_OnEndOfAnim\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/edwardboss_core.luac",
+      "sha256": "368a1f578bab3752bfaab8fa97bd4d37481ea3cc0385ba4ee9fd101ca961a828",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 219,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"edwardboss_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 260,
+          "excerpt": "AddToVFTable(\"OnDied\", \"edwardboss_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 267,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"edwardboss_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 283,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"edwardboss_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 294,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"edwardboss_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 301,
+          "excerpt": "AddToVFTable(\"OnTargetInSight\", \"edwardboss_OnTargetInSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 314,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"edwardboss_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 329,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"edwardboss_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 339,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"edwardboss_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 355,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"edwardboss_OnTargetInMeleeRange\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/soundtest/referee_sdd.luac",
+      "sha256": "bd1b4f3da71b15c034d2b49ec74e2734feabfa71ac57d94d913b33cd2eed96af",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 55,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"referee_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 61,
+          "excerpt": "AddToVFTable(\"OnFriendSpotted\", \"referee_OnFriendSpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 62,
+          "excerpt": "AddToVFTable(\"OnNeutralSpotted\", \"referee_OnFriendSpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 70,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"referee_OnUpdate\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/witch.luac",
+      "sha256": "86daa21e1b918f3b5a4ea17bb379bc7110eeea0258d8360741ea12f3d634fb36",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 137,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"Witch_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 154,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"Witch_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 166,
+          "excerpt": "AddToVFTable(\"OnTargetDied\", \"Witch_OnTargetDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 175,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"Witch_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 186,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"Witch_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 194,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"Witch_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 195,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"Witch_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 201,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"Witch_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 224,
+          "excerpt": "AddToVFTable(\"OnDied\", \"Witch_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 233,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"Witch_OnTerminate\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/swampking_core.luac",
+      "sha256": "c6ea4676f14bfa5340a7c3f5160490202742781326b779bb85f6542649c9781b",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 563,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"swampking_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 580,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"swampking_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 591,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"swampking_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 611,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"swampking_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 631,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"swampking_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 673,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"swampking_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 685,
+          "excerpt": "AddToVFTable(\"OnTargetDied\", \"swampking_OnTargetDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 726,
+          "excerpt": "AddToVFTable(\"OnDied\", \"swampking_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 732,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"swampking_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 768,
+          "excerpt": "AddToVFTable(\"OnEndOfAnim\", \"swampking_OnEndOfAnim\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/attacking_follower.luac",
+      "sha256": "6a9c560b8a7904a19518db0fcecba593c63061fdabe34abedc8f2c88f0a3438c",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 20,
+          "excerpt": "AddToVFTable(\"OnFriendSpotted\", \"attacking_follower_OnFriendSpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 32,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"attacking_follower_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 46,
+          "excerpt": "AddToVFTable(\"OnMasterOutOfSight\", \"attacking_follower_OnMasterOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 61,
+          "excerpt": "AddToVFTable(\"OnMasterOutOfRange\", \"attacking_follower_OnMasterOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 72,
+          "excerpt": "AddToVFTable(\"OnMasterInRangedRange\", \"attacking_follower_OnMasterInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 83,
+          "excerpt": "AddToVFTable(\"OnMasterInCloseRange\", \"attacking_follower_OnMasterInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 94,
+          "excerpt": "AddToVFTable(\"OnMasterInMeleeRange\", \"attacking_follower_OnMasterInMeleeRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 106,
+          "excerpt": "AddToVFTable(\"OnTargetDied\", \"attacking_follower_OnTargetDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 116,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"attacking_follower_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 126,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"attacking_follower_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 138,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"attacking_follower_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 153,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"attacking_follower_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 165,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"attacking_follower_OnTargetInMeleeRange\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/madruk_core.luac",
+      "sha256": "db4425a8023b73e5a2c89ff13323c5859a6c2fef1b074490ed9d641c78c4a724",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 282,
+          "excerpt": "AddToVFTable(\"OnInit\", \"madruk_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 305,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"madruk_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 332,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"madruk_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 356,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"madruk_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 371,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"madruk_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 395,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"madruk_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 405,
+          "excerpt": "AddToVFTable(\"OnTargetDied\", \"madruk_OnTargetDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 435,
+          "excerpt": "AddToVFTable(\"OnDied\", \"madruk_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 441,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"madruk_OnTerminate\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/machineroom/referee_vip_escort_big.luac",
+      "sha256": "2ba6592f7a946bb88b20601fe26484091b1c92b2890ba3538221cbfcaad404e8",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 147,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"referee_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 153,
+          "excerpt": "AddToVFTable(\"OnFriendSpotted\", \"referee_OnFriendSpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 154,
+          "excerpt": "AddToVFTable(\"OnNeutralSpotted\", \"referee_OnFriendSpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 160,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"referee_OnUpdate\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/machineroom/referee.luac",
+      "sha256": "9f0b9b62edbe2d35b85159826df909409cc8acff632539b8e4880ee0261e3c35",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 227,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"referee_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 249,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"referee_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 255,
+          "excerpt": "AddToVFTable(\"OnDied\", \"referee_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 262,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"referee_OnTerminate\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/sandworm_small_core.luac",
+      "sha256": "0b39e21b8936ce7ac6adfa727f8755948b05b982f6bc6a3ee181cef0a248c6bc",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 279,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"sandworm_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 288,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"sandworm_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 297,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"sandworm_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 309,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"sandworm_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 328,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"sandworm_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 362,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"sandworm_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 371,
+          "excerpt": "AddToVFTable(\"OnTargetDied\", \"sandworm_OnTargetDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 405,
+          "excerpt": "AddToVFTable(\"OnDied\", \"sandworm_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 411,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"sandworm_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 456,
+          "excerpt": "AddToVFTable(\"OnEndOfAnim\", \"sandworm_OnEndOfAnim\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/resurrectinggod.luac",
+      "sha256": "4a966153f41619a657b98dc158fdd417f63270dd56bd3552cae857e4a0022839",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 69,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"ResurrectingGod_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 80,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"ResurrectingGod_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 107,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"ResurrectingGod_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 118,
+          "excerpt": "AddToVFTable(\"OnTargetHit\", \"ResurrectingGod_OnTargetHit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 133,
+          "excerpt": "AddToVFTable(\"OnDied\", \"ResurrectingGod_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 143,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"ResurrectingGod_OnTerminate\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/madruk_healer.luac",
+      "sha256": "eea3bbb17166e11424c8eca6beccb1e7913d71bb8b076acb41b6350681c97f71",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 36,
+          "excerpt": "AddToVFTable(\"OnFriendSpotted\", \"madruk_healer_OnFriendSpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 47,
+          "excerpt": "AddToVFTable(\"OnMasterOutOfSight\", \"madruk_healer_OnMasterOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 60,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"madruk_healer_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 65,
+          "excerpt": "AddToVFTable(\"OnMasterOutOfRange\", \"madruk_healer_OnMasterOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 70,
+          "excerpt": "AddToVFTable(\"OnMasterInRangedRange\", \"madruk_healer_OnMasterInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 75,
+          "excerpt": "AddToVFTable(\"OnMasterInCloseRange\", \"madruk_healer_OnMasterInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 85,
+          "excerpt": "AddToVFTable(\"OnMasterInMeleeRange\", \"madruk_healer_OnMasterInMeleeRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 94,
+          "excerpt": "AddToVFTable(\"OnDied\", \"madruk_healer_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 103,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"madruk_healer_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 109,
+          "excerpt": "AddToVFTable(\"OnMasterDied\", \"madruk_healer_OnMasterDied\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/dummy.luac",
+      "sha256": "a0744a21f63018213ae08b0ad68d526ae1ab98fb93dd5dc9ba871ce84f296f1d",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 13,
+          "excerpt": "AddToVFTable(\"OnInit\", \"dummy_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 23,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"dummy_OnInitFinal\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 30,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"dummy_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 38,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"dummy_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 45,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"Dummy_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 53,
+          "excerpt": "-- AddToVFTable(\"OnTargetOutOfRange\", \"dummy_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 71,
+          "excerpt": "-- AddToVFTable(\"OnTargetInRangedRange\", \"dummy_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 81,
+          "excerpt": "-- AddToVFTable(\"OnTargetInMeleeRange\", \"dummy_OnTargetInMeleeRange\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/sandworm_small.luac",
+      "sha256": "b08b58ad7827f089cb1f5f2544bbd92c403f89a6f84ed0bb703555b1a1786479",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 352,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"sandworm_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 361,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"sandworm_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 370,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"sandworm_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 387,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"sandworm_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 406,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"sandworm_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 440,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"sandworm_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 448,
+          "excerpt": "AddToVFTable(\"OnDied\", \"sandworm_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 493,
+          "excerpt": "AddToVFTable(\"OnEndOfAnim\", \"sandworm_OnEndOfAnim\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/miniboss_state.luac",
+      "sha256": "1916f43a0496b8d9f67169a52a184151980d5fa806d27d13c5bd55438bdd95a3",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 19,
+          "excerpt": "\tAddToVFTable(\"OnTimer\",\t\t\t\"StateBasicOnTimer\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 20,
+          "excerpt": " \tAddToVFTable(\"OnTargetInRangedRange\", \"StateBasicInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 21,
+          "excerpt": "\tAddToVFTable(\"OnTargetInMeleeRange\", \"StateBasicInMeleeRange\");\t\t\t"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 22,
+          "excerpt": " \tAddToVFTable(\"OnTargetOutOfRange\", \"StateBasicOnTargetOutOfRange\");\t\t\t"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 23,
+          "excerpt": "-- \tAddToVFTable(\"OnInitFinal\", \"StateBasicOnInitFinal\");"
+        },
+        {
+          "name": "PushVFTable",
+          "line": 18,
+          "excerpt": "\tPushVFTable();"
+        },
+        {
+          "name": "PopVFTable",
+          "line": 30,
+          "excerpt": "\tPopVFTable();"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/darkqueen1_core.luac",
+      "sha256": "da091bb399bb87bce647468419730b7cb37d7cb92608d98893c1bd9d0f55fedc",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 391,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"darkqueen1_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 434,
+          "excerpt": "AddToVFTable(\"OnDied\", \"darkqueen1_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 441,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"darkqueen1_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 460,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"darkqueen1_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 471,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"darkqueen1_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 478,
+          "excerpt": "AddToVFTable(\"OnTargetInSight\", \"darkqueen1_OnTargetInSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 491,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"darkqueen1_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 506,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"darkqueen1_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 516,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"darkqueen1_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 532,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"darkqueen1_OnTargetInMeleeRange\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/winddragon_core.luac",
+      "sha256": "004b967ead00af0fd5abb1590d5dea83b70fce1e78c665641272af4a0a3b885b",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 305,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"myBoss_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 327,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"myBoss_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 351,
+          "excerpt": "AddToVFTable(\"OnDied\", \"myBoss_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 358,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"myBoss_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 379,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"myBoss_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 392,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"myBoss_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 399,
+          "excerpt": "AddToVFTable(\"OnTargetInSight\", \"myBoss_OnTargetInSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 414,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"myBoss_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 433,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"myBoss_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 445,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"myBoss_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 463,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"myBoss_OnTargetInMeleeRange\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/madruk_torso_core.luac",
+      "sha256": "a88528da836c6717d3292d4bd4ff09a043413ed1cdb99ba39a93064b521e06df",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 209,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"madrukTorso_OnInitFinal\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 226,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"madrukTorso_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 237,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"madrukTorso_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 248,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"madrukTorso_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 256,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"madrukTorso_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 294,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"madrukTorso_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 305,
+          "excerpt": "AddToVFTable(\"OnDied\", \"madrukTorso_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 313,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"madrukTorso_OnTerminate\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/coward_core.luac",
+      "sha256": "ff18ad1d56a4298e43ca4b4809875e25dd65c64e9f6fd51078e2f5f259161e24",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 9,
+          "excerpt": "AddToVFTable(\"OnInit\", \"coward_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 55,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"coward_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 66,
+          "excerpt": "AddToVFTable(\"OnTimer\", \"coward_OnTimer\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 77,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"coward_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 88,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"coward_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 96,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"coward_TargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 104,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"coward_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 112,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"coward_TargetInMeleeRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 123,
+          "excerpt": "AddToVFTable(\"OnTargetHit\", \"coward_OnTargetHit\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/madruk_buffer.luac",
+      "sha256": "656ced4ef7e34e1899a12f82c870863f6bfe215b9635fead5f42c6f0694f6b24",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 29,
+          "excerpt": "AddToVFTable(\"OnFriendSpotted\", \"madruk_buffer_OnFriendSpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 40,
+          "excerpt": "AddToVFTable(\"OnMasterOutOfSight\", \"madruk_buffer_OnMasterOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 54,
+          "excerpt": "AddToVFTable(\"OnMasterOutOfRange\", \"madruk_buffer_OnMasterOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 59,
+          "excerpt": "AddToVFTable(\"OnMasterInRangedRange\", \"madruk_buffer_OnMasterInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 64,
+          "excerpt": "AddToVFTable(\"OnMasterInCloseRange\", \"madruk_buffer_OnMasterInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 74,
+          "excerpt": "AddToVFTable(\"OnMasterInMeleeRange\", \"madruk_buffer_OnMasterInMeleeRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 83,
+          "excerpt": "AddToVFTable(\"OnDied\", \"madruk_buffer_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 92,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"madruk_buffer_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 98,
+          "excerpt": "AddToVFTable(\"OnMasterDied\", \"madruk_buffer_OnMasterDied\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/miniboss.luac",
+      "sha256": "7114798daa0d7e77ef43ff8e1b1b2abfbef94a468f5ef62eb5aa0b4448a1c78c",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 20,
+          "excerpt": "AddToVFTable(\"OnInit\", \"myOnInit\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/rene.luac",
+      "sha256": "631e7137c6ba49fca45e6cf0b37d1e45e4f42af4ca120106274e7e28d5f56fc7",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 64,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"rene_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 151,
+          "excerpt": "AddToVFTable(\"OnUpdate\", \"rene_OnUpdate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 165,
+          "excerpt": "AddToVFTable(\"OnFriendSpotted\", \"rene_OnFriendSpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 175,
+          "excerpt": "AddToVFTable(\"OnMasterOutOfSight\", \"rene_OnMasterOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 183,
+          "excerpt": "AddToVFTable(\"OnMasterInSight\", \"rene_OnMasterInSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 193,
+          "excerpt": "AddToVFTable(\"OnMasterInRangedRange\", \"rene_OnMasterInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 203,
+          "excerpt": "AddToVFTable(\"OnMasterInCloseRange\", \"rene_OnMasterInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 216,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"rene_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 222,
+          "excerpt": "AddToVFTable(\"OnTargetDied\", \"rene_OnTargetDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 228,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"rene_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 234,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"rene_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 244,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"rene_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 251,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"rene_OnTargetInCloseRange\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/energyspawner.luac",
+      "sha256": "7f3f1be7b33590941c1546aa580b16ed88f4b8dc1fbcf8d3363e3863f5c8f4a5",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 18,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"energyspawner_OnInitFinal\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 33,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"energyspawner_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 42,
+          "excerpt": "AddToVFTable(\"OnTargetDied\", \"energyspawner_OnTargetDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 49,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"energyspawner_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 56,
+          "excerpt": "AddToVFTable(\"OnTargetInSight\", \"energyspawner_OnTargetInSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 63,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"energyspawner_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 89,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"energyspawner_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 99,
+          "excerpt": "AddToVFTable(\"OnDied\", \"energyspawner_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 106,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"energyspawner_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 113,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"energyspawner_OnTargetInMeleeRange\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/follower.luac",
+      "sha256": "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 12,
+          "excerpt": "AddToVFTable(\"OnFriendSpotted\", \"follower_OnFriendSpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 24,
+          "excerpt": "AddToVFTable(\"OnMasterOutOfSight\", \"follower_OnMasterOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 38,
+          "excerpt": "AddToVFTable(\"OnMasterOutOfRange\", \"follower_OnMasterOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 45,
+          "excerpt": "AddToVFTable(\"OnMasterInRangedRange\", \"follower_OnMasterInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 52,
+          "excerpt": "AddToVFTable(\"OnMasterInCloseRange\", \"follower_OnMasterInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 59,
+          "excerpt": "AddToVFTable(\"OnMasterInMeleeRange\", \"follower_OnMasterInMeleeRange\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/mothcocoon_core.luac",
+      "sha256": "686676e994cf7509d45f4b08a4d8f73fa4948a6deff9bbab682eff866ae86ea2",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 66,
+          "excerpt": "AddToVFTable(\"OnInit\", \"MothCocoonOnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 181,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"MothCocoonOnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 190,
+          "excerpt": "AddToVFTable(\"OnDied\", \"MothCocoonOnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 200,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"MothCocoonOnTerminate\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/monster.luac",
+      "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 54,
+          "excerpt": "AddToVFTable(\"OnInit\", \"monster_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 72,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"monster_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 86,
+          "excerpt": "AddToVFTable(\"OnTargetDied\", \"monster_OnTargetDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 97,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"monster_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 104,
+          "excerpt": "AddToVFTable(\"OnTargetInSight\", \"monster_OnTargetInSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 115,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"monster_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 139,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"monster_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 177,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"monster_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 196,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"monster_OnTargetInMeleeRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 213,
+          "excerpt": "AddToVFTable(\"OnDied\", \"monster_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 221,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"monster_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 235,
+          "excerpt": "AddToVFTable(\"OnTargetHit\", \"monster_OnTargetHit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 236,
+          "excerpt": "AddToVFTable(\"OnTargetMissed\", \"monster_OnTargetHit\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/flaminite_core.luac",
+      "sha256": "ff160954e2f02d68edb655ad5a5531a5c849f20b87c7d98b876df1c0fb387519",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 347,
+          "excerpt": "AddToVFTable(\"OnInitFinal\", \"myBoss_OnInit\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 381,
+          "excerpt": "AddToVFTable(\"OnDied\", \"myBoss_OnDied\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 388,
+          "excerpt": "AddToVFTable(\"OnTerminate\", \"myBoss_OnTerminate\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 407,
+          "excerpt": "AddToVFTable(\"OnEnemySpotted\", \"myBoss_OnEnemySpotted\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 418,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfSight\", \"myBoss_OnTargetOutOfSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 425,
+          "excerpt": "AddToVFTable(\"OnTargetInSight\", \"myBoss_OnTargetInSight\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 438,
+          "excerpt": "AddToVFTable(\"OnTargetOutOfRange\", \"myBoss_OnTargetOutOfRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 455,
+          "excerpt": "AddToVFTable(\"OnTargetInRangedRange\", \"myBoss_OnTargetInRangedRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 465,
+          "excerpt": "AddToVFTable(\"OnTargetInCloseRange\", \"myBoss_OnTargetInCloseRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 481,
+          "excerpt": "AddToVFTable(\"OnTargetInMeleeRange\", \"myBoss_OnTargetInMeleeRange\");"
+        },
+        {
+          "name": "AddToVFTable",
+          "line": 493,
+          "excerpt": "AddToVFTable(\"OnEndOfAnim\", \"myBoss_OnEndOfAnim\");"
+        }
+      ]
+    },
+    {
+      "cache_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/skills/_commons.luac",
+      "sha256": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d",
+      "findings": [
+        {
+          "name": "AddToVFTable",
+          "line": 315,
+          "excerpt": "\t\t\tAddToVFTable(eventName, \"AIEventProxy_\"..eventName);"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "actor_frames": 14,
+  "caller_world_steps": 14,
+  "crypt_graph_nodes": 335,
+  "crypt_graph_edges": 838,
+  "prince_scene_nodes": 35,
+  "root_motion_distance": 146.154,
+  "floor_registry_verified": true,
+  "path_rotation_subobjects_order_verified": true,
+  "controller_requested_genuine_stop": true,
+  "explicit_absent_camera_queries": 12,
+  "atomic_rejection_checks": 5,
+  "explicit_service_failure_checks": 1,
+  "address_sanitizer": true,
+  "undefined_behavior_sanitizer": true,
+  "leak_detection": true,
+  "mismatches": 0,
+  "scope": "Functional composite actor adapter using genuine native body/world, authored scene/clip and real floor/registry services. Underlying module instruction audits are separate; this is not a complete original frame/FSM oracle.",
+  "source_sha256": {
+    "port/level-world/actor_runtime.hpp": "e1e0f84529dbf69811994a73c092afded509ec07a066d7f411fc7ed849195c38",
+    "port/level-world/actor_runtime.cpp": "d276eac12a0cce1faaa40e9b13a16fdfad07b19e0cd28316a8a669ac21f0f9d5",
+    "port/level-world/tests/actor_runtime.cpp": "fd0039e467ab7824acc564464a02dda248fe74689ba82a80bf0bb14227c5e107"
+  },
+  "asset_sha256": {
+    ".local-inputs/world/crypt01/crypt.bdae": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+    ".local-inputs/world/crypt01/crypt01.dwld": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da",
+    ".local-inputs/prince_modular.bdae": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+    ".local-inputs/world/prince_walk_1hand.bdae": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+  }
+}

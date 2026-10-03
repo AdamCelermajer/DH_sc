@@ -1,0 +1,1216 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "cd48bfdba9089678eea9e3026dff60fd42122c16a2b65bb49795fb6f7b3fb9f9",
+  "original_instruction_cases": 25,
+  "native_comparisons": 0,
+  "records": [
+    {
+      "action": "close",
+      "initial_request": -1,
+      "callback_event": 0,
+      "callback_request": -1,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 34,
+          "payload": 0,
+          "pending": 1,
+          "closed": 1,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "close",
+      "initial_request": 243,
+      "callback_event": 0,
+      "callback_request": -1,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 34,
+          "payload": 0,
+          "pending": 1,
+          "closed": 1,
+          "queued": 243,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 243,
+          "depth": 0,
+          "pending": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "close",
+      "initial_request": -1,
+      "callback_event": 39,
+      "callback_request": 248,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 34,
+          "payload": 0,
+          "pending": 1,
+          "closed": 1,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "close",
+      "initial_request": -1,
+      "callback_event": 37,
+      "callback_request": 248,
+      "observer_result": 1,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 34,
+          "payload": 0,
+          "pending": 1,
+          "closed": 1,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "close",
+      "initial_request": -1,
+      "callback_event": 35,
+      "callback_request": 248,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 34,
+          "payload": 0,
+          "pending": 1,
+          "closed": 1,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "close",
+      "initial_request": -1,
+      "callback_event": 34,
+      "callback_request": 248,
+      "observer_result": 1,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 34,
+          "payload": 0,
+          "pending": 1,
+          "closed": 1,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "advance",
+      "initial_request": -1,
+      "callback_event": 0,
+      "callback_request": -1,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 1,
+          "repeat": 0
+        },
+        {
+          "op": "PrepareAnim",
+          "sequence": 1,
+          "depth": 0,
+          "pending": 1,
+          "queued": 4294967295,
+          "step": 1,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "advance",
+      "initial_request": 243,
+      "callback_event": 0,
+      "callback_request": -1,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 243,
+          "step": 1,
+          "repeat": 0
+        },
+        {
+          "op": "PrepareAnim",
+          "sequence": 1,
+          "depth": 0,
+          "pending": 1,
+          "queued": 243,
+          "step": 1,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 243,
+          "depth": 0,
+          "pending": 0,
+          "queued": 243,
+          "step": 1,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "advance",
+      "initial_request": -1,
+      "callback_event": 39,
+      "callback_request": 248,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 248,
+          "step": 1,
+          "repeat": 0
+        },
+        {
+          "op": "PrepareAnim",
+          "sequence": 1,
+          "depth": 0,
+          "pending": 1,
+          "queued": 248,
+          "step": 1,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 1,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "advance",
+      "initial_request": -1,
+      "callback_event": 37,
+      "callback_request": 248,
+      "observer_result": 1,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 1,
+          "repeat": 0
+        },
+        {
+          "op": "PrepareAnim",
+          "sequence": 1,
+          "depth": 0,
+          "pending": 1,
+          "queued": 4294967295,
+          "step": 1,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "advance",
+      "initial_request": -1,
+      "callback_event": 35,
+      "callback_request": 248,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 1,
+          "repeat": 0
+        },
+        {
+          "op": "PrepareAnim",
+          "sequence": 1,
+          "depth": 1,
+          "pending": 1,
+          "queued": 248,
+          "step": 1,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 1,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "advance",
+      "initial_request": -1,
+      "callback_event": 34,
+      "callback_request": 248,
+      "observer_result": 1,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 1,
+          "repeat": 0
+        },
+        {
+          "op": "PrepareAnim",
+          "sequence": 1,
+          "depth": 0,
+          "pending": 1,
+          "queued": 4294967295,
+          "step": 1,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat",
+      "initial_request": -1,
+      "callback_event": 0,
+      "callback_request": -1,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 0,
+          "depth": 0,
+          "pending": 1,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat",
+      "initial_request": 243,
+      "callback_event": 0,
+      "callback_request": -1,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 243,
+          "depth": 0,
+          "pending": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat",
+      "initial_request": -1,
+      "callback_event": 39,
+      "callback_request": 248,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat",
+      "initial_request": -1,
+      "callback_event": 37,
+      "callback_request": 248,
+      "observer_result": 1,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat",
+      "initial_request": -1,
+      "callback_event": 35,
+      "callback_request": 248,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat",
+      "initial_request": -1,
+      "callback_event": 34,
+      "callback_request": 248,
+      "observer_result": 1,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 1
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 0,
+          "depth": 0,
+          "pending": 1,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat_forever",
+      "initial_request": -1,
+      "callback_event": 0,
+      "callback_request": -1,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 0,
+          "depth": 0,
+          "pending": 1,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat_forever",
+      "initial_request": 243,
+      "callback_event": 0,
+      "callback_request": -1,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 243,
+          "depth": 0,
+          "pending": 0,
+          "queued": 243,
+          "step": 0,
+          "repeat": 4294967295
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat_forever",
+      "initial_request": -1,
+      "callback_event": 39,
+      "callback_request": 248,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 4294967295
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat_forever",
+      "initial_request": -1,
+      "callback_event": 37,
+      "callback_request": 248,
+      "observer_result": 1,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 4294967295
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat_forever",
+      "initial_request": -1,
+      "callback_event": 35,
+      "callback_request": 248,
+      "observer_result": 0,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 248,
+          "depth": 0,
+          "pending": 0,
+          "queued": 248,
+          "step": 0,
+          "repeat": 4294967295
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "repeat_forever",
+      "initial_request": -1,
+      "callback_event": 34,
+      "callback_request": 248,
+      "observer_result": 1,
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "event",
+          "event": 35,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        },
+        {
+          "op": "_SetAnim",
+          "sequence": 0,
+          "depth": 0,
+          "pending": 1,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 4294967295
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    },
+    {
+      "action": "closed_repeated_pending",
+      "trace": [
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 0,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 34,
+          "payload": 0,
+          "pending": 1,
+          "closed": 1,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 39,
+          "payload": 0,
+          "pending": 1,
+          "closed": 1,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        },
+        {
+          "op": "event",
+          "event": 37,
+          "payload": 0,
+          "pending": 1,
+          "closed": 1,
+          "queued": 4294967295,
+          "step": 0,
+          "repeat": 0
+        }
+      ],
+      "pending_after": 0,
+      "queued_after": -1
+    }
+  ],
+  "scope": "Actual CharAnimator Update and synchronous ANIM_Set; resolved depth0 sequence records, owner fields/loggers and _SetAnim/PrepareAnim service observers. Event/service returns0/1 are fixtures; source callsites ignore these returns. Nested scheduler stack and AIS behavior are not supplied."
+}

@@ -1,0 +1,11 @@
+{
+  "scenes": 40,
+  "world_steps": 157,
+  "contact_listener_events": 68,
+  "allocation_accounting_balanced": true,
+  "mismatches": 0,
+  "sanitizers": "address,undefined",
+  "optimization": "O1, no fast math, fp-contract off",
+  "reference_sha256": "5ae68c359fc20bde45faa79a4f1a0b4ee25391ee9974a072c2c26d939589ebf5",
+  "scope": "Complete source physics with real host libc/math, original-derived body/world/contact snapshots; no physics service stubs. Joint dynamics and arbitrary authored polygons not exercised."
+}

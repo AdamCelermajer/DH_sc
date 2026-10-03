@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI13_SkillCleanUpEv",
+      "elf_address": "0x3d8ae0",
+      "size": 72,
+      "sha256": "48496c272608ec923072a79d7bc3d31e383592b9f64010437647596b90bc415c"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript12BindFunctionEv",
+      "elf_address": "0x3d8f2c",
+      "size": 24,
+      "sha256": "2e24a5f9be3c511be8d4a56e5bf06dc6bb29b1715fc8ac8af1e34db163ea4130"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SpellCleanUpEv",
+      "elf_address": "0x3d8a98",
+      "size": 72,
+      "sha256": "221946bb28d69c3a38b1c8facd237368549c342a8282399bda287b871377d5aa"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnTerminateEv",
+      "elf_address": "0x3dbe84",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN9AISPlayer7InitVCBEv",
+      "elf_address": "0x3dd884",
+      "size": 60,
+      "sha256": "1aaa9782e59485904111dc5d003caca509d511727deab98475926def81aa8fbe"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11OnTerminateEv",
+      "elf_address": "0x3d11bc",
+      "size": 244,
+      "sha256": "ead4b5af954c48b97791f708829fa1b8b4646e9b0addce93467948f10257359a"
+    }
+  ]
+}

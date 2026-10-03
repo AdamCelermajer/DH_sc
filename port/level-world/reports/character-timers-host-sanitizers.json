@@ -1,0 +1,25 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_discovery_gold_sha256": "fdc2415e2b41acac78a14ea4fd33118dbe78f46765f1b45d7ec3e8a0e0bc3f5f",
+  "reference_sha256": "7fa73a9fea98130172e68e432986a6815fdf971404ed8cba5d92b064f4ee992c",
+  "source_sha256": {
+    "character_timers.cpp": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+    "character_timers.hpp": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+    "tests\\character_timers.cpp": "40c2152cbe23ba503d1ed245614a4f4397d00820f3102b790cf8254ae6b93e9f",
+    "tests\\character_timers_differential.py": "ab965b0438463def2cbacdbd6fc5b93e46783bf9867d3f75e26cad1b34936405"
+  },
+  "scope": "Original ARM observation replay against host C++ with explicit clock/debug/equipment/constant services. No native ARM64 or packaged parity claimed.",
+  "host_sanitizer_audit": {
+    "original_reference_cases": 1856,
+    "source_reentry_cases": 4,
+    "malformed_no_mutation_cases": 10,
+    "owner_and_user_ref_above4GiB": true,
+    "expiry_growth_rejected": true,
+    "one_shot_start_reentry_passed": true,
+    "caller_growth_outside_update_passed": true,
+    "mismatches": 0
+  },
+  "host_executable_sha256": "469e3407b1843d88c3bd171e70ef442a87d5cd7268d5a53796da0d6db9bc8103",
+  "host_flags": "g++ -std=c++17 -O1 -g -Wall -Wextra -Werror -fsanitize=address,undefined -fno-omit-frame-pointer -fno-fast-math -ffp-contract=off"
+}

@@ -1,0 +1,3138 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "46d58d463e6db0d368445a00e159a014c1c3aa66050309f545f6063c73008e4d",
+  "fixture_dependency_sha256": "5d183fe0ed2330621cd1b492df3222e9c3312d7e2f2ed175f6af3272866b147f",
+  "manifest_sha256": "26744b7f25da5f080576a8f5dd79026fb38f887c3894b22336b5ab4359d03471",
+  "reference_sha256": "d7b17db74006fdfbee747fb486c507b2cbbd9a73f2d0088839cf19a343120f99",
+  "original_instruction_cases": 72,
+  "records": [
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 0,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 100
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 117,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 117
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 117,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 83,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 83
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 83,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 2147483747,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 2147483747
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 2147483747,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 100
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 117,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 117
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 117,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 83,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 83
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 83,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 2147483747,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 2147483747
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 2147483747,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 100
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 117,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 117
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 117,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 83,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 83
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 83,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 2147483747,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 2147483747
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 2147483747,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 100
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 117,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 117
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 117,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 83,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 83
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 83,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 2,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 2147483747,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 2147483747
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 2147483747,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 0,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 1040,
+      "initial_ended": 1,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 100
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 117,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 117
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 117,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 83,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 83
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 83,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 0,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 2147483747,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 2147483747
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 2147483747,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 100
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 117,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 117
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 117,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 83,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 83
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 83,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 7,
+      "dictionary_id": 1041,
+      "initial_ended": 1,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 2147483747,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "actual_SetTime",
+          "time": 2147483747
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 2147483747,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 0,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": 0,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 0
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 0
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": 17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 17
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 17
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": -17,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 4294967279
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 4294967279
+          }
+        }
+      ]
+    },
+    {
+      "previous_engine": 7,
+      "mapped_engine": 2,
+      "dictionary_id": 20001,
+      "initial_ended": 1,
+      "extra_ms": 2147483647,
+      "result": {
+        "current_ms": 100,
+        "initialized": 0,
+        "ended": 0,
+        "loop": 1,
+        "start_ms": 100,
+        "end_ms": 900,
+        "pending": 1,
+        "extra_ms": 2147483647
+      },
+      "calls": [
+        {
+          "op": "actual_SetClip",
+          "clip": 0
+        },
+        {
+          "op": "install_event_callback"
+        },
+        {
+          "op": "install_slot_callback"
+        },
+        {
+          "op": "RootNewAnim_service",
+          "timeline": {
+            "current_ms": 100,
+            "initialized": 0,
+            "ended": 0,
+            "loop": 1,
+            "start_ms": 100,
+            "end_ms": 900,
+            "pending": 1,
+            "extra_ms": 2147483647
+          }
+        }
+      ]
+    }
+  ],
+  "service_boundaries": [
+    "resolved AnimationSet map entry with caller-supplied engine index",
+    "timeline identity/bound virtuals start100/end900",
+    "event callback installation",
+    "root NewAnim observer"
+  ],
+  "scope": "Focused original PlayClip engine-index comparison with resolved map services.\n\nReuses the audited original selector fixture prefix without running its writer.\nActual Blend/SetCurrentAnimation/setCurrentAnimation/SetClip/jump instructions\nexecute. Resource resolution supplies the registered engine index; registration\nmap correctness has separate actual LoadAnimation/map/refresh instruction gold.\n"
+}

@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11POCharacterC2EP13PhysicalWorldP10GameObjectbsttb.clone.2",
+      "elf_address": "0x3b4010",
+      "size": 120,
+      "sha256": "172350683f3aa5c8e71de7ef1e9d0e9b568ced5cf60e35c197bdc7eda59778f2"
+    },
+    {
+      "original_symbol": "_ZN10GameObject17SetPhysicalObjectEP14PhysicalObjectb",
+      "elf_address": "0x394bf8",
+      "size": 316,
+      "sha256": "90b0246b94a2bd8f289f8a96b68661b0c2de1ad58f24e42a8c2f64d5d4b7b4e4"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15RaiseStateEventEiPv",
+      "elf_address": "0x3c5684",
+      "size": 508,
+      "sha256": "5508184fa6236ab106322e2ac88495dd991dcba5b1c8f3a2d9ca89eb2d633477"
+    },
+    {
+      "original_symbol": "_ZN6CSMove6OnBlurEiP9CharacterP16CharStateMachinei",
+      "elf_address": "0x3c3aa4",
+      "size": 168,
+      "sha256": "787001b74becc7acb5f20baf917ee31bf589c18a82acc23b25d3ad05e298ffae"
+    },
+    {
+      "original_symbol": "_ZN6CSMove7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "0x3c3bf8",
+      "size": 200,
+      "sha256": "27a72a124c962b750306aa755412d4205b734d4c2a246104f0f24266d85d5d7b"
+    }
+  ]
+}

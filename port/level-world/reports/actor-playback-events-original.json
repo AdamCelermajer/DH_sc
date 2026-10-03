@@ -1,0 +1,197 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "05d0ac905d14080f3b1b8b9d6b2e583ce9a35e5bd88706c53abc00396e8c99ec",
+  "corpus_sha256": "445525fb12514e69b7ca872bc9fa8a5a2ab9616e494cd3b3e940685c99e35627",
+  "handoff_comparisons": 400,
+  "event_manager_comparisons": 1300,
+  "authored_events_compared": 216,
+  "swap_instruction_fixtures": 144,
+  "authored_tracks": [
+    {
+      "id": 955,
+      "file": "prince_1hand_combo_01.bdae",
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa",
+      "keys": [
+        9
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    },
+    {
+      "id": 956,
+      "file": "prince_1hand_combo_01_moving.bdae",
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238",
+      "keys": [
+        10
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    },
+    {
+      "id": 957,
+      "file": "prince_1hand_combo_01_to_idle.bdae",
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624",
+      "keys": [],
+      "names": []
+    },
+    {
+      "id": 958,
+      "file": "prince_1hand_combo_02.bdae",
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0",
+      "keys": [
+        27
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    },
+    {
+      "id": 959,
+      "file": "prince_1hand_combo_02_moving.bdae",
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01",
+      "keys": [
+        27
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    },
+    {
+      "id": 960,
+      "file": "prince_1hand_combo_02_to_idle.bdae",
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091",
+      "keys": [],
+      "names": []
+    },
+    {
+      "id": 961,
+      "file": "prince_1hand_combo_03.bdae",
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003",
+      "keys": [
+        45
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    },
+    {
+      "id": 962,
+      "file": "prince_1hand_combo_03_moving.bdae",
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1",
+      "keys": [
+        46
+      ],
+      "names": [
+        [
+          "attack_mainhand"
+        ]
+      ]
+    },
+    {
+      "id": 963,
+      "file": "prince_1hand_combo_03_to_idle.bdae",
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260",
+      "keys": [],
+      "names": []
+    },
+    {
+      "id": 967,
+      "file": "prince_1hand_pre_combo_01.bdae",
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32",
+      "keys": [],
+      "names": []
+    },
+    {
+      "id": 969,
+      "file": "prince_1hand_pre_combo_02.bdae",
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4",
+      "keys": [],
+      "names": []
+    },
+    {
+      "id": 971,
+      "file": "prince_1hand_pre_combo_03.bdae",
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058",
+      "keys": [],
+      "names": []
+    },
+    {
+      "id": 1023,
+      "file": "prince_dying_01.bdae",
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a",
+      "keys": [],
+      "names": []
+    }
+  ],
+  "mismatches": 0,
+  "scope": "Actual original EventManager and Char callback vs ARM64 event/handoff kernels; actual original ANIM_Swap metadata and explicit ANIM_Set/SetSpeed service boundary. Host composition separately validates phase/reentry/root behavior.",
+  "original_scene_callback_order": [
+    [
+      40,
+      234,
+      "first",
+      600,
+      2
+    ],
+    [
+      40,
+      234,
+      "second",
+      600,
+      2
+    ],
+    [
+      40,
+      134,
+      "third",
+      600,
+      2
+    ]
+  ],
+  "original_closure_trace": [
+    [
+      39,
+      0,
+      0,
+      1
+    ],
+    [
+      37,
+      0,
+      0,
+      1
+    ],
+    [
+      34,
+      0,
+      1,
+      1
+    ],
+    [
+      39,
+      0,
+      1,
+      1
+    ],
+    [
+      37,
+      0,
+      1,
+      1
+    ]
+  ],
+  "retained_manager_batch_callbacks": 3,
+  "finite_closure_repeated_updates": 2
+}

@@ -1,0 +1,115 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "path_comparisons": 937,
+    "look_comparisons": 989,
+    "find_path_requests": 84,
+    "host_angle_variants_within_two_ulp": 0,
+    "native_guards": 11,
+    "genuine_authored_floor_route_sessions": 64,
+    "genuine_routes_found": 14,
+    "genuine_routes_failed": 50,
+    "mismatches": 0
+  },
+  "source_sha256": {
+    "port/level-world/character_path_commands.hpp": "780c25895e0f633769c78b4d6311d8f3a08d44c964fcb2ff84f00589c8cb98f7",
+    "port/level-world/character_path_commands.cpp": "0c9f22f1f8ba398e5549c2ab6329d47d32ac09c35da99c38df25d9895f1b243c",
+    "port/level-world/navigation_heading.hpp": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e",
+    "port/level-world/navigation_heading.cpp": "98f771927be4021dad6432e1aee509bf91f4db17f7525668ef1332ba09b3818d",
+    "port/level-world/tests/character_path_commands.cpp": "16c22add33ed32e6518efa3648926c3e54645743cd7375a1ec2060e0f0356cf1",
+    "port/level-world/tests/character_path_commands_differential.py": "bc6cc4d2465224a3cdd635a1999e981fc14f4ffb9bc6b5ee24fdf3fa88189a9f",
+    "port/level-world/tests/character_path_commands_host.py": "87a4eafec1c0558fd3a6a14d0a982a41ed3131d88e284e1c11f324ffc110a37a",
+    "port/level-world/CMakeLists.txt": "69e9520400fd6fa6a3f872326e9f5ac1d085b82917b74bbe36f172e4424da5f5"
+  },
+  "binary_sha256": {
+    "/home/adampalace/dh2-world-build/character_path_commands_audit": "e77508c404be1c2d1e1e594acc10572c206309c06ce6f50cdbb5d85a94e2cd1d",
+    "/home/adampalace/dh2-world-build/libdh2_level_world.so": "fd4f5cb350a85a5dfbd21cc8826d076e89645299f91d01a56052ca86f5570c3f"
+  },
+  "linked_dependencies": "linux-vdso.so.1 (0x0000788ab9241000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000788ab8a00000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x0000788ab7800000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x0000788ab7736000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x0000788ab7400000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x0000788ab726b000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x0000788ab6c00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000788ab6800000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000788ab6ada000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000788ab6000000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000788ab911b000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000788ab5c00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000788ab9243000)",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_corpus_sha256": "12d4e2f6eb4f77f1c69ce59a2cfb03000d7e3cfe461866a995f939afd5af70d9",
+  "original_instruction_report_sha256": "62ee9278fb91c929d3976d36274a26fc39ac827c836f16341b455efb5b494953",
+  "authored_inputs_sha256": {
+    ".local-inputs/world/crypt.bdae": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+    ".local-inputs/world/crypt01/crypt01.dwld": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+  },
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "commands": [
+    {
+      "arguments": [
+        "cmake",
+        "-LA",
+        "-N",
+        "/home/adampalace/dh2-world-build"
+      ],
+      "exit_code": 0,
+      "stdout": "-- Cache values\nCMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line\nCMAKE_AR:FILEPATH=/usr/bin/ar\nCMAKE_BUILD_TYPE:STRING=Debug\nCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++\nCMAKE_CXX_COMPILER_AR:FILEPATH=/usr/bin/gcc-ar-15\nCMAKE_CXX_COMPILER_RANLIB:FILEPATH=/usr/bin/gcc-ranlib-15\nCMAKE_CXX_FLAGS:STRING=-fsanitize=address,undefined -fno-omit-frame-pointer\nCMAKE_CXX_FLAGS_DEBUG:STRING=-g\nCMAKE_CXX_FLAGS_MINSIZEREL:STRING=-Os -DNDEBUG\nCMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG\nCMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=-O2 -g -DNDEBUG\nCMAKE_DLLTOOL:FILEPATH=CMAKE_DLLTOOL-NOTFOUND\nCMAKE_EXE_LINKER_FLAGS:STRING=-fsanitize=address,undefined\nCMAKE_EXE_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_EXE_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_EXE_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_EXPORT_BUILD_DATABASE:BOOL=\nCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=\nCMAKE_INSTALL_PREFIX:PATH=/usr/local\nCMAKE_LINKER:FILEPATH=/usr/bin/ld\nCMAKE_MAKE_PROGRAM:FILEPATH=/usr/bin/ninja\nCMAKE_MODULE_LINKER_FLAGS:STRING=\nCMAKE_MODULE_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_MODULE_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_MODULE_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_NM:FILEPATH=/usr/bin/nm\nCMAKE_OBJCOPY:FILEPATH=/usr/bin/objcopy\nCMAKE_OBJDUMP:FILEPATH=/usr/bin/objdump\nCMAKE_RANLIB:FILEPATH=/usr/bin/ranlib\nCMAKE_READELF:FILEPATH=/usr/bin/readelf\nCMAKE_SHARED_LINKER_FLAGS:STRING=-fsanitize=address,undefined\nCMAKE_SHARED_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_SHARED_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_SHARED_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_SHARED_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_SKIP_INSTALL_RPATH:BOOL=NO\nCMAKE_SKIP_RPATH:BOOL=NO\nCMAKE_STATIC_LINKER_FLAGS:STRING=\nCMAKE_STATIC_LINKER_FLAGS_DEBUG:STRING=\nCMAKE_STATIC_LINKER_FLAGS_MINSIZEREL:STRING=\nCMAKE_STATIC_LINKER_FLAGS_RELEASE:STRING=\nCMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=\nCMAKE_STRIP:FILEPATH=/usr/bin/strip\nCMAKE_TAPI:FILEPATH=CMAKE_TAPI-NOTFOUND\nCMAKE_VERBOSE_MAKEFILE:BOOL=FALSE\nDH2_PHYSICS_BACKEND_BUILD_TESTS:BOOL=OFF\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/home/adampalace/dh2-world-build/character_path_commands_audit"
+      ],
+      "exit_code": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x0000788ab9241000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000788ab8a00000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x0000788ab7800000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x0000788ab7736000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x0000788ab7400000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x0000788ab726b000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x0000788ab6c00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000788ab6800000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000788ab6ada000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000788ab6000000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000788ab911b000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000788ab5c00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000788ab9243000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/character_path_commands_audit"
+      ],
+      "exit_code": 0,
+      "stdout": "e77508c404be1c2d1e1e594acc10572c206309c06ce6f50cdbb5d85a94e2cd1d  /home/adampalace/dh2-world-build/character_path_commands_audit\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+      ],
+      "exit_code": 0,
+      "stdout": "fd4f5cb350a85a5dfbd21cc8826d076e89645299f91d01a56052ca86f5570c3f  /home/adampalace/dh2-world-build/libdh2_level_world.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/home/adampalace/dh2-world-build/character_path_commands_audit",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-path-commands/original-corpus.bin",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/world/crypt.bdae",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/world/crypt01/crypt01.dwld"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"path_comparisons\":937,\"look_comparisons\":989,\"find_path_requests\":84,\"host_angle_variants_within_two_ulp\":0,\"native_guards\":11,\"genuine_authored_floor_route_sessions\":64,\"genuine_routes_found\":14,\"genuine_routes_failed\":50,\"mismatches\":0}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/character_path_commands_audit"
+      ],
+      "exit_code": 0,
+      "stdout": "e77508c404be1c2d1e1e594acc10572c206309c06ce6f50cdbb5d85a94e2cd1d  /home/adampalace/dh2-world-build/character_path_commands_audit\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+      ],
+      "exit_code": 0,
+      "stdout": "fd4f5cb350a85a5dfbd21cc8826d076e89645299f91d01a56052ca86f5570c3f  /home/adampalace/dh2-world-build/libdh2_level_world.so\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "Actual world DSO replays original PathTo/LookAt gold. The extra64 floor-pair sessions use genuine native FindPath/graph/collision, report actual found/failed outcomes, and check reuse after success; these extra outcomes are not original floor-pair differentials. No live pursuit or whole-game parity claim."
+}

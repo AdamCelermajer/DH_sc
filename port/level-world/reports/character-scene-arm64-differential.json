@@ -1,0 +1,142 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "f020853d25207e5e3eff6f920adb14dc69b8913e809ac742a14656577aaadac6",
+  "reference_sha256": "a5f05813f0760e28b5fd723ce9f5eb75d2567746a7027a3dfaf64fe884ec4119",
+  "skin_comparisons": 206,
+  "original_skin_technique_observations": 824,
+  "mesh_comparisons": 202,
+  "visual_scale_comparisons": 5,
+  "owner_bounds_comparisons": 101,
+  "mismatches": 0,
+  "scope": "Original skin-technique joint-box/point bounds and non-marker CalcMeshBox.\n\nCached joint absolute matrices, mesh providers, scene collection and root\nmatrix are explicit services. The native bridge's actual Prince controllers\nare tested with authored joint boxes and the model's factory/rest matrices.\nOuter Euler conversion is separately verified by decor_scene_differential.\n",
+  "prince": {
+    "model_sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+    "selected_controllers": [
+      {
+        "controller": 42,
+        "name": "MC_Feet_default_warrior-mesh-skin",
+        "joint_count": 8,
+        "box_count": 8,
+        "bounds": [
+          -54.002525329589844,
+          -34.560401916503906,
+          0.5546398162841797,
+          47.560604095458984,
+          24.318178176879883,
+          222.24444580078125
+        ]
+      },
+      {
+        "controller": 85,
+        "name": "MC_Hands_default_warrior-mesh-skin",
+        "joint_count": 6,
+        "box_count": 6,
+        "bounds": [
+          -147.89683532714844,
+          -17.930267333984375,
+          214.89508056640625,
+          149.35714721679688,
+          16.028120040893555,
+          277.61199951171875
+        ]
+      },
+      {
+        "controller": 128,
+        "name": "MC_Head_default_warrior-mesh-skin",
+        "joint_count": 3,
+        "box_count": 3,
+        "bounds": [
+          -19.88494300842285,
+          -28.95282554626465,
+          283.0447998046875,
+          19.090471267700195,
+          44.900047302246094,
+          355.0706787109375
+        ]
+      },
+      {
+        "controller": 171,
+        "name": "MC_Torso_default_warrior-mesh-skin",
+        "joint_count": 10,
+        "box_count": 10,
+        "bounds": [
+          -81.08868408203125,
+          -35.50712585449219,
+          191.4457244873047,
+          91.01348876953125,
+          29.41879653930664,
+          321.373291015625
+        ]
+      }
+    ],
+    "provider_parent_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "selected_modular_union": [
+      -147.89683532714844,
+      -35.50712585449219,
+      0.5546398162841797,
+      149.35714721679688,
+      44.900047302246094,
+      355.0706787109375
+    ],
+    "mesh_box": [
+      -148.62698364257812,
+      -40.20358657836914,
+      -177.25802612304688,
+      148.62698364257812,
+      40.20358657836914,
+      177.25802612304688
+    ],
+    "knight_base_scale_properties": [
+      100,
+      100,
+      100
+    ],
+    "knight_visual_scale": [
+      0.8999999761581421,
+      0.8999999761581421,
+      1.0
+    ],
+    "knight_resolved_collision_scale": 85,
+    "knight_scaled_mesh_box": [
+      -133.7642822265625,
+      -36.1832275390625,
+      -177.25802612304688,
+      133.7642822265625,
+      36.1832275390625,
+      177.25802612304688
+    ],
+    "knight_owner_relative_box": [
+      -113.69963836669922,
+      -30.7557430267334,
+      -150.6693115234375,
+      113.69963836669922,
+      30.7557430267334,
+      150.6693115234375
+    ],
+    "joint_pose": "Complete authored factory/rest node matrices; no outer owner transform and no sampled rendered vertices."
+  },
+  "original_coverage": {
+    "_ZNK6glitch4core8CMatrix4IfE12transformBoxERNS0_8aabbox3dIfEE@0x587398": 155,
+    "_ZN6glitch7collada6detail33CColladaHardwareQuatSkinTechnique18computeBoundingBoxEv@0x66e384": 172,
+    "_ZN10GameObject11SetPositionERK7Point3DIfEb@0x393db4": 0,
+    "_ZN6glitch7collada6detail35CColladaHardwareMatrixSkinTechnique18computeBoundingBoxEv@0x66c5f4": 172,
+    "_ZN9Character8InitPostEv@0x3b4d60": 20,
+    "_ZN9Character6ReviveEP10GameObjectb@0x3a59ac": 0,
+    "_ZN12VisualObject11SetPositionERK7Point3DIfE@0x470c24": 0,
+    "_ZN6glitch7collada12CSkinnedMesh18computeBoundingBoxEv@0x663648": 0,
+    "_ZN9Character15SetRelativeAABBERK4aabbIfEb@0x3a4398": 54,
+    "_ZN6glitch7collada6detail36CColladaHardwareTextureSkinTechnique18computeBoundingBoxEv@0x66ef44": 172,
+    "_ZN12VisualObject11CalcMeshBoxEv@0x47211c": 313,
+    "_ZN6glitch5scene10ISceneNode22updateAbsolutePositionEb@0x597c60": 0,
+    "_ZN6glitch7collada19CModularSkinnedMesh18computeBoundingBoxEv@0x646c1c": 44,
+    "_ZN12VisualObject12SyncPositionEv@0x470cb8": 0,
+    "_ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique18computeBoundingBoxEv@0x66fb84": 172,
+    "_ZN10GameObject15SetRelativeAABBERK4aabbIfEb@0x38b110": 70,
+    "_ZN10GameObject18UpdateAbsoluteAABBEv@0x38aac8": 38
+  },
+  "elapsed_seconds": 6.3
+}

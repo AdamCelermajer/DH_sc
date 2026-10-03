@@ -1,0 +1,98 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "3ef034b7f619f4978363dcad043e8a6239d54b6d78ece52a400684274afe04bd",
+  "floor_source_sha256": "05fed3c646ac7e2f1e188cc5abbd2975db063cdbe7517c87709bf8c911581fe0",
+  "reference_sha256": "d413f80c3c1aa9d427c34baea69d6bba5a24be7a6c50cf7fee184e27c73d096e",
+  "batches": 1,
+  "last_graph_counts": [
+    321,
+    778,
+    300,
+    942
+  ],
+  "last_graph_state_fnv1a64": "542a55a83f199cd9",
+  "bounds_from_authored_floor_records": true,
+  "triangle_comparisons": 314,
+  "node_record_comparisons": 51342,
+  "edge_record_comparisons": 115812,
+  "invalid_record_comparisons": 8987,
+  "validation_reference_comparisons": 33243,
+  "tree_record_comparisons": 13289,
+  "floor_query_comparisons": 1239,
+  "mismatches": 0,
+  "atomic_rejection_checks": 2,
+  "flags": {
+    "disabled_nodes": 0,
+    "disabled_edges": 0
+  },
+  "original_map_allocations": 321,
+  "graph_storage_allocations": 1099,
+  "original_import_calls": {
+    "__aeabi_fsub": 19417,
+    "__aeabi_fmul": 15459,
+    "__aeabi_fadd": 10613,
+    "sqrtf": 2041,
+    "__aeabi_fdiv": 2826,
+    "__aeabi_fcmplt": 18076,
+    "floor/id callback": 1556,
+    "__aeabi_fcmpgt": 646
+  },
+  "scope": "Original graph/floor/manager/selector/matrix/octree/triangle instructions receive authored geometry and bounds verified separately by floor_records_differential. Object flags come from authored floor records; scene/service ownership is supplied. Full original loader/metadata lookup, cross-floor sewing and route search do not execute.",
+  "elapsed_seconds": 18.59,
+  "floor_support_answers_are_caller_fixtures": false,
+  "original_floor_collision_calls": 1239,
+  "floor_summaries": [
+    {
+      "floor": 0,
+      "nodes": 72,
+      "edges": 162,
+      "invalid": 75
+    },
+    {
+      "floor": 1,
+      "nodes": 10,
+      "edges": 18,
+      "invalid": 13
+    },
+    {
+      "floor": 2,
+      "nodes": 16,
+      "edges": 34,
+      "invalid": 19
+    },
+    {
+      "floor": 3,
+      "nodes": 41,
+      "edges": 90,
+      "invalid": 44
+    },
+    {
+      "floor": 4,
+      "nodes": 17,
+      "edges": 36,
+      "invalid": 20
+    },
+    {
+      "floor": 5,
+      "nodes": 24,
+      "edges": 52,
+      "invalid": 27
+    },
+    {
+      "floor": 6,
+      "nodes": 14,
+      "edges": 26,
+      "invalid": 17
+    },
+    {
+      "floor": 7,
+      "nodes": 127,
+      "edges": 360,
+      "invalid": 85
+    }
+  ],
+  "original_octree_selector_executes": true,
+  "native_octree_selector_used": true,
+  "selector_triangle_order_is_caller_fixture": false,
+  "object_flags_from_authored_floor_records": true
+}

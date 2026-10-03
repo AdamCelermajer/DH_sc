@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character11GetCharAIIdEv",
+      "elf_address": "0x3a2fec",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad"
+    },
+    {
+      "original_symbol": "_ZN9Character18SafeGetCharPropsIdEv",
+      "elf_address": "0x3b3d38",
+      "size": 728,
+      "sha256": "81064f2b90877e862e4956c7502ecab84f6802b5d207a5daeb3dcade373c82cd"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame7SG_LoadEi",
+      "elf_address": "0x465430",
+      "size": 32,
+      "sha256": "e1733c6af3054e499ed2a742b42bbb25ff574f857df8aa0de897752035ac99b3"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame19_SetupSavedSectionsEbb",
+      "elf_address": "0x468630",
+      "size": 656,
+      "sha256": "3dff016c15ac6cd207c9a21ab4e106fc63551782e3d1a89f340cfa82198a8704"
+    }
+  ]
+}

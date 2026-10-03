@@ -1,0 +1,12 @@
+{
+  "cases": 5446,
+  "transform_argument_checks": 1122,
+  "stop_intermediate_state_checks": 215,
+  "generated_nan_field_variants": 0,
+  "atomic_rejection_checks": 14,
+  "mismatches": 0,
+  "sanitizers": ["address", "undefined"],
+  "compiler": "WSL g++ C++17 -O1 -fno-fast-math -ffp-contract=off",
+  "original_reference_sha256": "e4ea8610e902d7e0aad0e8be9ddff9d1fb8cdebf29f833232c5ef71c2310e4ab",
+  "scope": "Standalone native host replay of original-instruction-derived physical controls. Transform arguments and Stop state before/after a caller snapshot transform are compared. Actual Box2D transforms, shape proxies, contacts and world simulation do not execute in this corpus."
+}

@@ -1,0 +1,89 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12_OnEndOfAnimEv",
+      "elf_address": "0x3d3aec",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZN6CharAI19_OnEndOfAnimSectionEv",
+      "elf_address": "0x3d3ae4",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZN6CharAI18_OnAnimSequenceEndEv",
+      "elf_address": "0x3d3d30",
+      "size": 28,
+      "sha256": "f9d0ac4aad85d9aec6813fd7a46680447e2fefbbbb9ae4308b2fb81c25f9b225"
+    },
+    {
+      "original_symbol": "_ZN6CharAI20_OnAnimSequenceBeginEv",
+      "elf_address": "0x3d3d4c",
+      "size": 28,
+      "sha256": "5e0369edff44c3d2b26435f6c846afd70b5bb1b75369f3ab0c642d1133bb095f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14_OnAnimStepEndEv",
+      "elf_address": "0x3d3ff8",
+      "size": 76,
+      "sha256": "3075b4fd11e5796d45af02b6cb721bc2ba7a2ebe719d81c59a67b1a5b4d41d7b"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16_OnAnimStepBeginEv",
+      "elf_address": "0x3d4204",
+      "size": 100,
+      "sha256": "6fe456527d1ea70d56139cd47385895f7b49620b99305056d47f14501cd81479"
+    },
+    {
+      "original_symbol": "_ZN6CharAI21_OnAnimStepEnd_AttackEv",
+      "elf_address": "0x3d3e44",
+      "size": 436,
+      "sha256": "93ae13b867c93a099d05b52c28b6b5cbad9c4a2771e75e91fcee3587c49853cc"
+    },
+    {
+      "original_symbol": "_ZN6CharAI25_OnAnimStepEnd_SkillSpellEv",
+      "elf_address": "0x3d3d68",
+      "size": 108,
+      "sha256": "d9e4b6a1c57d06ee04031759f4a2499e848514758d9b7c7455ff1197a1abb135"
+    },
+    {
+      "original_symbol": "_ZN6CharAI23_OnAnimStepBegin_AttackEv",
+      "elf_address": "0x3d4044",
+      "size": 220,
+      "sha256": "9645b80bae6459ef6f077ebc34cc864636ba094b6b2f354d5d85c3512c43b571"
+    },
+    {
+      "original_symbol": "_ZN6CharAI27_OnAnimStepBegin_SkillSpellEv",
+      "elf_address": "0x3d3dd4",
+      "size": 112,
+      "sha256": "cfa02bc9fb8909976dc97a4b0419916416be7c894ef2f0801db6b95811870a16"
+    },
+    {
+      "original_symbol": "_ZN6CharAI21_OnAnimStepBegin_MoveEv",
+      "elf_address": "0x3d4120",
+      "size": 228,
+      "sha256": "db29af182c7068557f8d258b5f23e50c9063dbc7999992ef9a3702f672f2cf38"
+    }
+  ]
+}

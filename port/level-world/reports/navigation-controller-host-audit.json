@@ -1,0 +1,21 @@
+{
+  "comparisons": 1132,
+  "updates": 1035,
+  "destination_queries": 97,
+  "move_calls": 173,
+  "boundary_checks": 318,
+  "physical_stop_requests": 7,
+  "floor_queries_compared_by_arm64_oracle": 605,
+  "host_libm_angle_variants": 0,
+  "maximum_host_angle_ulp": 0,
+  "atomic_rejection_checks": 8,
+  "physical_backend_reconstructed": false,
+  "mismatches": 0,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "reference_sha256": "862ea13b7d921e9dd75f9b82830c9cd1fec8fa513359ac44e3040c3fcef9687b",
+  "bres_sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+  "descriptor_sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+}

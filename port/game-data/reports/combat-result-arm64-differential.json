@@ -1,0 +1,141 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "af2a92bd3d085b517d8b30510761eef421ae46287fb7e75fbc14a7d8b50e3e5d",
+  "synthetic_result_cases": 8000,
+  "source_character_result_cases": 1792,
+  "comparisons": 9792,
+  "mismatches": 0,
+  "all_ten_result_words_and_rng_state_compared": true,
+  "arm64_pointers_above_4gib": true,
+  "outcomes_observed": [
+    1206,
+    385,
+    912,
+    1567,
+    1084,
+    1093,
+    1147,
+    1128,
+    625
+  ],
+  "random_draw_counts_observed": {
+    "0": 309,
+    "2": 2087,
+    "1": 2191,
+    "3": 85,
+    "8": 799,
+    "11": 229,
+    "9": 672,
+    "10": 429,
+    "7": 596,
+    "6": 396,
+    "5": 171,
+    "4": 36
+  },
+  "original_import_calls": {
+    "__aeabi_uidivmod": 56423,
+    "__aeabi_i2f": 14644,
+    "__aeabi_fmul": 7322,
+    "__aeabi_fadd": 3661,
+    "__aeabi_f2iz": 7322,
+    "__aeabi_fsub": 3661
+  },
+  "discarded_debug_query_blocks_skipped": 9318,
+  "spawn_reference_sha256": "356765b09e6aab353e299cf2ed7bc69b638d5f374eb5e0c70420bec413f59ed6",
+  "native_host_reference_sha256": "bdd5180f3267a574eeeadb44c0a8065bd39ee45917debfbfe7c39db77073e586",
+  "crypt_unarmed_melee_snapshots": [
+    {
+      "character": "CryptSlime",
+      "result": [
+        2036,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "random_after": [
+        3406292,
+        9
+      ]
+    },
+    {
+      "character": "CryptSlime_RE",
+      "result": [
+        2135,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "random_after": [
+        7440849,
+        9
+      ]
+    },
+    {
+      "character": "Crypt_Ghost",
+      "result": [
+        2263,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "random_after": [
+        3474079,
+        9
+      ]
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "result": [
+        2030,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2271925,
+        -1,
+        -1
+      ],
+      "random_after": [
+        11805120,
+        9
+      ]
+    }
+  ],
+  "scope": "Complete _F_CalculateResult and real miss/dodge/block/critical/status/damage/getter/inventory/RNG instructions; imported IEEE soft-float/division modeled; discarded debug query skipped; supplied combatant sheets/equipment; application/targeting/full AI and lifecycle remain pending",
+  "elapsed_seconds": 11.27,
+  "melee_request_cases": 2000,
+  "melee_discarded_debug_query_blocks_skipped": 2000,
+  "total_comparisons": 11792,
+  "all_outcomes_observed": [
+    1523,
+    385,
+    913,
+    1595,
+    1240,
+    1093,
+    1147,
+    1203,
+    625
+  ],
+  "melee_scope": "Original F_MeleeAttack request/category/mask and full result calculations; caller buff dictionary is empty, so alternate-mode buff removal is not exercised"
+}

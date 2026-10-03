@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10AISDefault8OnUpdateEv",
+      "elf_address": "0x3dc798",
+      "size": 64,
+      "sha256": "b4b2accbca71efc2e95e37357589e0c2e722873cac3f1395065000d8561a8913"
+    }
+  ]
+}

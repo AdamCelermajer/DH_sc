@@ -1,0 +1,287 @@
+{
+  "apk_sha256": "2dbf2b6e4006f79e43fe5ef7570ea9f9331643c01b6d7ddf524f55af41287a9e",
+  "installed_apk_sha256": "2dbf2b6e4006f79e43fe5ef7570ea9f9331643c01b6d7ddf524f55af41287a9e",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "669f4f51cfd80c6491976594cacca50a024889eb21abcb0e47b2c681dc4f730b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "fada64ceb7536894e654ed7d97bd7a38d267502a1acf9c999dc9ded07c208d33",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "30ac639fa4ba935d63829359b4da63d6a4f44a27f928007b84863b7b859922cb",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "fa261fb376a49796c19529ceb38833f5d344ba118662a597bdd71c4c382eb9a0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "483172ba8e41c4ac524d082aa51ed9fd02689b5d4d8bd9288051db59f2ba6559",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "3b9af42f5a7e6472bc41e45127b3f7d2f703d117cb2cea09e2f10db52aee2bcf",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "636fd01174bb912a242c6c204929cd87110b215ce66bbc377483b736f484356b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "c3885bd44f01aef05a5201e75c35fd0b1e6fc9882db7935bc57ed4c19c201cc5",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "bb23bf3bc26522103e4b1b29e6e865a9b79cd99ed942c2023da4f2924d975233",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "ef03c75ca2b91cedb3e311b1d4e62c42d0379bae64e5be74453d5936001820ad",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "74456611153608136697905f8b79b4eed3061111025b90fe977973fbf6bbdda7",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "screenshot": "idle-frozen-100.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187195
+    },
+    {
+      "screenshot": "idle-frozen-repeat.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187195
+    },
+    {
+      "screenshot": "idle-frozen-700.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187066
+    },
+    {
+      "screenshot": "idle-live.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187156
+    },
+    {
+      "screenshot": "idle-live-repeat.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187013
+    },
+    {
+      "screenshot": "walk-stairs.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1155219
+    },
+    {
+      "screenshot": "landscape-restored.png",
+      "viewport": [
+        2400,
+        612
+      ],
+      "movement_control_bounds": [
+        42,
+        555,
+        462,
+        975
+      ],
+      "rendered_pixels": 1053643
+    },
+    {
+      "screenshot": "portrait-restored.png",
+      "viewport": [
+        1080,
+        1932
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1338632
+    },
+    {
+      "screenshot": "resume-stopped.png",
+      "viewport": [
+        1080,
+        1932
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1158987
+    },
+    {
+      "screenshot": "rubble-boundary.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1275105
+    }
+  ],
+  "movement": [
+    {
+      "case": "stairs",
+      "start": [
+        -2227.77,
+        1220.9301,
+        842.3644
+      ],
+      "end": [
+        -2227.77,
+        -554.92,
+        90.6007
+      ],
+      "ground_height": 90.60071012993829,
+      "moved_frames": 276,
+      "blocked_frames": 0
+    },
+    {
+      "case": "pause_cancels_held_touch",
+      "paused": [
+        -2227.77,
+        -305.4774,
+        216.5411
+      ],
+      "resumed": [
+        -2227.77,
+        -305.4774,
+        216.5412
+      ],
+      "stationary_after_resume": [
+        -2227.77,
+        -305.4774,
+        216.5412
+      ]
+    },
+    {
+      "case": "rubble_boundary",
+      "start": [
+        -2227.77,
+        1220.9301,
+        842.3644
+      ],
+      "end": [
+        -2055.4846,
+        1220.9301,
+        842.3644
+      ],
+      "moved_frames": 27,
+      "blocked_frames": 125,
+      "ground_height": 842.3643798828125
+    }
+  ],
+  "frozen_idle_stable": true,
+  "live_idle_changed_pixels": true,
+  "rotation_position_preserved": true,
+  "pause_cancels_movement": true,
+  "floor_geometry_sha256": "05fed3c646ac7e2f1e188cc5abbd2975db063cdbe7517c87709bf8c911581fe0",
+  "physical_arm64_tested": false,
+  "original_pf_parity_verified": false,
+  "original_gpu_parity_verified": false,
+  "full_game_playable": false,
+  "native_floor_records": 8,
+  "native_graph_nodes": 321,
+  "native_graph_edges": 778,
+  "native_selector_collision_used_by_height": true,
+  "original_movement_controller_reconstructed": false
+}

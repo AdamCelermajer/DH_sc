@@ -1,0 +1,716 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "registration_services": [
+    {
+      "file": "ai_pyarray.bin",
+      "read": "0x4b3b84",
+      "finalize": "0x4aa138"
+    },
+    {
+      "file": "ai_pyarraynames.bin",
+      "read": "0x4b7634",
+      "finalize": "0x4aa09c"
+    },
+    {
+      "file": "ai_factions_pyarray.bin",
+      "read": "0x4b3a38",
+      "finalize": "0x4a9fb8"
+    },
+    {
+      "file": "ai_factions_pyarraynames.bin",
+      "read": "0x4b7498",
+      "finalize": "0x4a9f1c"
+    },
+    {
+      "file": "animations_pyarray.bin",
+      "read": "0x4b38f0",
+      "finalize": "0x4a9e38"
+    },
+    {
+      "file": "animations_pyarraynames.bin",
+      "read": "0x4b4d88",
+      "finalize": "0x4a9d9c"
+    },
+    {
+      "file": "animations_pyarray.bin",
+      "read": "0x4b37a4",
+      "finalize": "0x4a9cb8"
+    },
+    {
+      "file": "animations_pyarraynames.bin",
+      "read": "0x4b4a58",
+      "finalize": "0x4a9c1c"
+    },
+    {
+      "file": "animations_pyarray.bin",
+      "read": "0x4b45d0",
+      "finalize": "0x4a9b38"
+    },
+    {
+      "file": "animations_pyarraynames.bin",
+      "read": "0x4b8174",
+      "finalize": "0x4a9a9c"
+    },
+    {
+      "file": "character_classes_pyarray.bin",
+      "read": "0x4b4484",
+      "finalize": "0x4a99b8"
+    },
+    {
+      "file": "character_classes_pyarraynames.bin",
+      "read": "0x4b8170",
+      "finalize": "0x4a991c"
+    },
+    {
+      "file": "character_properties_pyarray.bin",
+      "read": "0x4b4340",
+      "finalize": "0x4a9838"
+    },
+    {
+      "file": "character_properties_pyarraynames.bin",
+      "read": "0x4b7e40",
+      "finalize": "0x4a979c"
+    },
+    {
+      "file": "character_properties_pyarray.bin",
+      "read": "0x4b41f4",
+      "finalize": "0x4a96b8"
+    },
+    {
+      "file": "character_properties_pyarraynames.bin",
+      "read": "0x4b7e3c",
+      "finalize": "0x4a961c"
+    },
+    {
+      "file": "character_properties_pyarray.bin",
+      "read": "0x4b40a8",
+      "finalize": "0x4a9538"
+    },
+    {
+      "file": "character_properties_pyarraynames.bin",
+      "read": "0x4b7ca0",
+      "finalize": "0x4a949c"
+    },
+    {
+      "file": "character_templates_pyarray.bin",
+      "read": "0x4b3f5c",
+      "finalize": "0x4a93b8"
+    },
+    {
+      "file": "character_templates_pyarraynames.bin",
+      "read": "0x4b7970",
+      "finalize": "0x4a931c"
+    },
+    {
+      "file": "common_pyarray.bin",
+      "read": "0x4b3e18",
+      "finalize": "0x4a9238"
+    },
+    {
+      "file": "common_pyarraynames.bin",
+      "read": "0x4b796c",
+      "finalize": "0x4a919c"
+    },
+    {
+      "file": "design_pyarray.bin",
+      "read": "0x4b3cd0",
+      "finalize": "0x4a90b8"
+    },
+    {
+      "file": "design_pyarraynames.bin",
+      "read": "0x4b77d0",
+      "finalize": "0x4a901c"
+    },
+    {
+      "file": "design_pyarray.bin",
+      "read": "0x4af5e8",
+      "finalize": "0x4a8f38"
+    },
+    {
+      "file": "design_pyarraynames.bin",
+      "read": "0x4b57d4",
+      "finalize": "0x4a8e9c"
+    },
+    {
+      "file": "design_pyarray.bin",
+      "read": "0x4bc8e0",
+      "finalize": "0x4a8dc4"
+    },
+    {
+      "file": "design_pyarraynames.bin",
+      "read": "0x4b360c",
+      "finalize": "0x4a8d28"
+    },
+    {
+      "file": "dialogs_pyarray.bin",
+      "read": "0x4bc798",
+      "finalize": "0x4a8c44"
+    },
+    {
+      "file": "dialogs_pyarraynames.bin",
+      "read": "0x4b3608",
+      "finalize": "0x4a8ba8"
+    },
+    {
+      "file": "dialogs_pyarray.bin",
+      "read": "0x4bc64c",
+      "finalize": "0x4a8ac4"
+    },
+    {
+      "file": "dialogs_pyarraynames.bin",
+      "read": "0x4b2e04",
+      "finalize": "0x4a8a28"
+    },
+    {
+      "file": "effects_pyarray.bin",
+      "read": "0x4bc504",
+      "finalize": "0x4a8944"
+    },
+    {
+      "file": "effects_pyarraynames.bin",
+      "read": "0x4b2ad4",
+      "finalize": "0x4a88a8"
+    },
+    {
+      "file": "effects_pyarray.bin",
+      "read": "0x4bc3c0",
+      "finalize": "0x4a87c4"
+    },
+    {
+      "file": "effects_pyarraynames.bin",
+      "read": "0x4b3138",
+      "finalize": "0x4a8728"
+    },
+    {
+      "file": "effects_pyarray.bin",
+      "read": "0x4bc278",
+      "finalize": "0x4a8650"
+    },
+    {
+      "file": "effects_pyarraynames.bin",
+      "read": "0x4b2e08",
+      "finalize": "0x4a85b4"
+    },
+    {
+      "file": "faeries_pyarray.bin",
+      "read": "0x4bc12c",
+      "finalize": "0x4a84d0"
+    },
+    {
+      "file": "faeries_pyarraynames.bin",
+      "read": "0x4b279c",
+      "finalize": "0x4a8434"
+    },
+    {
+      "file": "faeries_pyarray.bin",
+      "read": "0x4bbfe0",
+      "finalize": "0x4a8350"
+    },
+    {
+      "file": "faeries_pyarraynames.bin",
+      "read": "0x4b2600",
+      "finalize": "0x4a82b4"
+    },
+    {
+      "file": "fonts_pyarray.bin",
+      "read": "0x4bbe9c",
+      "finalize": "0x4a81d0"
+    },
+    {
+      "file": "fonts_pyarraynames.bin",
+      "read": "0x4b2ad0",
+      "finalize": "0x4a8134"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bbd50",
+      "finalize": "0x4a8050"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b27a0",
+      "finalize": "0x4a7fb4"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bbc04",
+      "finalize": "0x4a7ed0"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b6164",
+      "finalize": "0x4a7e34"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bbabc",
+      "finalize": "0x4a7d50"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b5fcc",
+      "finalize": "0x4a7cb4"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bb978",
+      "finalize": "0x4a7bd0"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b662c",
+      "finalize": "0x4a7b34"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bb844",
+      "finalize": "0x4a7a5c"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b62fc",
+      "finalize": "0x4a79c0"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bb6f8",
+      "finalize": "0x4a78dc"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b5b04",
+      "finalize": "0x4a7840"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bb5ac",
+      "finalize": "0x4a775c"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b596c",
+      "finalize": "0x4a76c0"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bb46c",
+      "finalize": "0x4a75e8"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b5e34",
+      "finalize": "0x4a754c"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bb320",
+      "finalize": "0x4a7468"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b5c9c",
+      "finalize": "0x4a73cc"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bb1e8",
+      "finalize": "0x4a72f4"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b6e30",
+      "finalize": "0x4a7258"
+    },
+    {
+      "file": "game_objects_pyarray.bin",
+      "read": "0x4bb09c",
+      "finalize": "0x4a7174"
+    },
+    {
+      "file": "game_objects_pyarraynames.bin",
+      "read": "0x4b6c98",
+      "finalize": "0x4a70d8"
+    },
+    {
+      "file": "help_pages_pyarray.bin",
+      "read": "0x4baf58",
+      "finalize": "0x4a6ff4"
+    },
+    {
+      "file": "help_pages_pyarraynames.bin",
+      "read": "0x4b72fc",
+      "finalize": "0x4a6f58"
+    },
+    {
+      "file": "help_pages_pyarray.bin",
+      "read": "0x4bae14",
+      "finalize": "0x4a6e74"
+    },
+    {
+      "file": "help_pages_pyarraynames.bin",
+      "read": "0x4b7160",
+      "finalize": "0x4a6dd8"
+    },
+    {
+      "file": "item_powers_pyarray.bin",
+      "read": "0x4bacc8",
+      "finalize": "0x4a6cf4"
+    },
+    {
+      "file": "item_powers_pyarraynames.bin",
+      "read": "0x4b6960",
+      "finalize": "0x4a6c58"
+    },
+    {
+      "file": "item_powers_pyarray.bin",
+      "read": "0x4bab7c",
+      "finalize": "0x4a6b74"
+    },
+    {
+      "file": "item_powers_pyarraynames.bin",
+      "read": "0x4b6630",
+      "finalize": "0x4a6ad8"
+    },
+    {
+      "file": "item_powers_monopoly_pyarray.bin",
+      "read": "0x4baa30",
+      "finalize": "0x4a69f4"
+    },
+    {
+      "file": "item_powers_monopoly_pyarraynames.bin",
+      "read": "0x4b6c94",
+      "finalize": "0x4a6958"
+    },
+    {
+      "file": "levels_pyarray.bin",
+      "read": "0x4ba8e4",
+      "finalize": "0x4a6874"
+    },
+    {
+      "file": "levels_pyarraynames.bin",
+      "read": "0x4b6964",
+      "finalize": "0x4a67d8"
+    },
+    {
+      "file": "levels_pyarray.bin",
+      "read": "0x4ba794",
+      "finalize": "0x4a66f4"
+    },
+    {
+      "file": "levels_pyarraynames.bin",
+      "read": "0x4b4f28",
+      "finalize": "0x4a6658"
+    },
+    {
+      "file": "loot_audiovisual_pyarray.bin",
+      "read": "0x4ba648",
+      "finalize": "0x4a6574"
+    },
+    {
+      "file": "loot_audiovisual_pyarraynames.bin",
+      "read": "0x4b4f24",
+      "finalize": "0x4a64d8"
+    },
+    {
+      "file": "loot_table_pyarray.bin",
+      "read": "0x4ba4fc",
+      "finalize": "0x4a63f4"
+    },
+    {
+      "file": "loot_table_pyarraynames.bin",
+      "read": "0x4b53f4",
+      "finalize": "0x4a6358"
+    },
+    {
+      "file": "loot_table_pyarray.bin",
+      "read": "0x4ba3c8",
+      "finalize": "0x4a6280"
+    },
+    {
+      "file": "loot_table_pyarraynames.bin",
+      "read": "0x4b5258",
+      "finalize": "0x4a61e4"
+    },
+    {
+      "file": "loot_table_pyarray.bin",
+      "read": "0x4ba27c",
+      "finalize": "0x4a6100"
+    },
+    {
+      "file": "loot_table_pyarraynames.bin",
+      "read": "0x4b4a54",
+      "finalize": "0x4a6064"
+    },
+    {
+      "file": "loot_table_pyarray.bin",
+      "read": "0x4ba12c",
+      "finalize": "0x4a5f80"
+    },
+    {
+      "file": "loot_table_pyarraynames.bin",
+      "read": "0x4b4724",
+      "finalize": "0x4a5ee4"
+    },
+    {
+      "file": "loot_table_pyarray.bin",
+      "read": "0x4b9fe0",
+      "finalize": "0x4a5e00"
+    },
+    {
+      "file": "loot_table_pyarraynames.bin",
+      "read": "0x4b0128",
+      "finalize": "0x4a5d64"
+    },
+    {
+      "file": "loot_table_pyarray.bin",
+      "read": "0x4b9e8c",
+      "finalize": "0x4a5c80"
+    },
+    {
+      "file": "loot_table_pyarraynames.bin",
+      "read": "0x4aff8c",
+      "finalize": "0x4a5be4"
+    },
+    {
+      "file": "loot_table_pyarray.bin",
+      "read": "0x4b9d40",
+      "finalize": "0x4a5b00"
+    },
+    {
+      "file": "loot_table_pyarraynames.bin",
+      "read": "0x4b0460",
+      "finalize": "0x4a5a64"
+    },
+    {
+      "file": "loot_table_pyarray.bin",
+      "read": "0x4b9bf4",
+      "finalize": "0x4a5980"
+    },
+    {
+      "file": "loot_table_pyarraynames.bin",
+      "read": "0x4b02c4",
+      "finalize": "0x4a58e4"
+    },
+    {
+      "file": "projectiles_pyarray.bin",
+      "read": "0x4b9ab0",
+      "finalize": "0x4a5800"
+    },
+    {
+      "file": "projectiles_pyarraynames.bin",
+      "read": "0x4b0798",
+      "finalize": "0x4a5764"
+    },
+    {
+      "file": "skills_pyarray.bin",
+      "read": "0x4b9964",
+      "finalize": "0x4a5680"
+    },
+    {
+      "file": "skills_pyarraynames.bin",
+      "read": "0x4b05fc",
+      "finalize": "0x4a55e4"
+    },
+    {
+      "file": "skills_pyarray.bin",
+      "read": "0x4b9810",
+      "finalize": "0x4a5500"
+    },
+    {
+      "file": "skills_pyarraynames.bin",
+      "read": "0x4b0938",
+      "finalize": "0x4a5464"
+    },
+    {
+      "file": "sounds_pyarray.bin",
+      "read": "0x4b96bc",
+      "finalize": "0x4a5380"
+    },
+    {
+      "file": "sounds_pyarraynames.bin",
+      "read": "0x4b0934",
+      "finalize": "0x4a52e4"
+    },
+    {
+      "file": "sounds_pyarray.bin",
+      "read": "0x4b9578",
+      "finalize": "0x4a5200"
+    },
+    {
+      "file": "sounds_pyarraynames.bin",
+      "read": "0x4b0c68",
+      "finalize": "0x4a5164"
+    },
+    {
+      "file": "sounds_pyarray.bin",
+      "read": "0x4b9434",
+      "finalize": "0x4a5080"
+    },
+    {
+      "file": "sounds_pyarraynames.bin",
+      "read": "0x4b0ad0",
+      "finalize": "0x4a4fe4"
+    },
+    {
+      "file": "sounds_pyarray.bin",
+      "read": "0x4b92f8",
+      "finalize": "0x4a4f0c"
+    },
+    {
+      "file": "sounds_pyarraynames.bin",
+      "read": "0x4b0f98",
+      "finalize": "0x4a4e70"
+    },
+    {
+      "file": "sounds_pyarray.bin",
+      "read": "0x4b91ac",
+      "finalize": "0x4a4d8c"
+    },
+    {
+      "file": "sounds_pyarraynames.bin",
+      "read": "0x4b0e00",
+      "finalize": "0x4a4cf0"
+    },
+    {
+      "file": "spawn_groups_pyarray.bin",
+      "read": "0x4b9060",
+      "finalize": "0x4a4c0c"
+    },
+    {
+      "file": "spawn_groups_pyarraynames.bin",
+      "read": "0x4b12c8",
+      "finalize": "0x4a4b70"
+    },
+    {
+      "file": "trophies_pyarray.bin",
+      "read": "0x4b8f28",
+      "finalize": "0x4a4a98"
+    },
+    {
+      "file": "trophies_pyarraynames.bin",
+      "read": "0x4b1130",
+      "finalize": "0x4a49fc"
+    },
+    {
+      "file": "v2conditions_pyarray.bin",
+      "read": "0x4b8dec",
+      "finalize": "0x4a4924"
+    },
+    {
+      "file": "v2conditions_pyarraynames.bin",
+      "read": "0x4b15f8",
+      "finalize": "0x4a4888"
+    },
+    {
+      "file": "v2eventmanager_pyarray.bin",
+      "read": "0x4b8c9c",
+      "finalize": "0x4a47a4"
+    },
+    {
+      "file": "v2eventmanager_pyarraynames.bin",
+      "read": "0x4b1460",
+      "finalize": "0x4a4708"
+    },
+    {
+      "file": "v2quests_pyarray.bin",
+      "read": "0x4b8acc",
+      "finalize": "0x4a4624"
+    },
+    {
+      "file": "v2quests_pyarraynames.bin",
+      "read": "0x4b1928",
+      "finalize": "0x4a4588"
+    },
+    {
+      "file": "worldmap_pyarray.bin",
+      "read": "0x4b8980",
+      "finalize": "0x4a44a4"
+    },
+    {
+      "file": "worldmap_pyarraynames.bin",
+      "read": "0x4b1790",
+      "finalize": "0x4a4408"
+    },
+    {
+      "file": "worldmap_pyarray.bin",
+      "read": "0x4b883c",
+      "finalize": "0x4a4324"
+    },
+    {
+      "file": "worldmap_pyarraynames.bin",
+      "read": "0x4b1df4",
+      "finalize": "0x4a4288"
+    },
+    {
+      "file": "character_models_dictionary_pyarray.bin",
+      "read": "0x4b86f0",
+      "finalize": "0x4a41a4"
+    },
+    {
+      "file": "character_models_dictionary_pyarraynames.bin",
+      "read": "0x4b1c58",
+      "finalize": "0x4a4108"
+    },
+    {
+      "file": "animations_dictionary_pyarray.bin",
+      "read": "0x4b85a4",
+      "finalize": "0x4a4024"
+    },
+    {
+      "file": "animations_dictionary_pyarraynames.bin",
+      "read": "0x4b212c",
+      "finalize": "0x4a3f88"
+    },
+    {
+      "file": "effects_dictionary_pyarray.bin",
+      "read": "0x4b8458",
+      "finalize": "0x4a3ea4"
+    },
+    {
+      "file": "effects_dictionary_pyarraynames.bin",
+      "read": "0x4b1f90",
+      "finalize": "0x4a3e08"
+    },
+    {
+      "file": "projectiles_dictionary_pyarray.bin",
+      "read": "0x4b830c",
+      "finalize": "0x4a3d24"
+    },
+    {
+      "file": "projectiles_dictionary_pyarraynames.bin",
+      "read": "0x4b2464",
+      "finalize": "0x4a3c88"
+    },
+    {
+      "file": "game_objects_dictionary_pyarray.bin",
+      "read": "0x4b5544",
+      "finalize": "0x4a3ba4"
+    },
+    {
+      "file": "game_objects_dictionary_pyarraynames.bin",
+      "read": "0x4b22c8",
+      "finalize": "0x4a3b08"
+    },
+    {
+      "file": "common_text_pyarray.bin",
+      "read": "0x4b53f8",
+      "finalize": "0x4a3a24"
+    },
+    {
+      "file": "common_text_pyarraynames.bin",
+      "read": "0x4b346c",
+      "finalize": "0x4a3988"
+    },
+    {
+      "file": "sdd_dungeon_hunter_2_iphone_pyarray.bin",
+      "read": "0x4b5690",
+      "finalize": "0x4a38a4"
+    },
+    {
+      "file": "sdd_dungeon_hunter_2_iphone_pyarraynames.bin",
+      "read": "0x4b313c",
+      "finalize": "0x4a3808"
+    }
+  ],
+  "scope": "Actual PyDataArrays ctor executes; addFuncsForFile and registerClassByName observed services, map storage not executed."
+}

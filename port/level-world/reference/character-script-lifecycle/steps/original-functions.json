@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12CharAIScript12SetCharacterEP9Character",
+      "elf_address": "0x3d90f8",
+      "size": 192,
+      "sha256": "db53ac6d263c6b9c782d2bb78b05727377145b429b217254794a0dfe10af0df8"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16StepSetCharacterEv",
+      "elf_address": "0x3cc26c",
+      "size": 12,
+      "sha256": "4c9fc8ac180dc9023a6c891bec5c08d20a78be957af348e2926505dbad8f0056"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14StepLoadCommonEv",
+      "elf_address": "0x3cc218",
+      "size": 32,
+      "sha256": "04421ceb2c97b09a6a9f3b6b6667bd839341d06274e11876a402d355f36e8951"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16StepBindFunctionEv",
+      "elf_address": "0x3cc278",
+      "size": 8,
+      "sha256": "545d77c45bf6eae352b7d9496ddce58b6333288c494d18d7128e4b9cf72327c2"
+    },
+    {
+      "original_symbol": "_ZN6CharAI22StepQueryAvailableStepEi",
+      "elf_address": "0x3cb854",
+      "size": 180,
+      "sha256": "9c62f0d57c314ea7a9e2259a389f5854224374844815fc8bc6db1ed476c660dc"
+    }
+  ]
+}

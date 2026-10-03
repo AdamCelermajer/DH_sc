@@ -1,0 +1,32 @@
+{
+  "rooms": 8,
+  "nodes": 146,
+  "visual_instances": 97,
+  "triangles": 14251,
+  "navigation_triangles": 314,
+  "spawn": [
+    -2227.77,
+    1220.93,
+    842.364
+  ],
+  "accepted_steps": 127,
+  "end_position": [
+    -2227.77,
+    2109.93,
+    842.364
+  ],
+  "stairs_steps": 220,
+  "stairs_end_position": [
+    -2227.77,
+    -319.07,
+    209.678
+  ],
+  "synthetic_movement_checks": 9,
+  "mutated_descriptors": 2000,
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "bres_sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+  "descriptor_sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+}

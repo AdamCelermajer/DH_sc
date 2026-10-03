@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK13ItemInventory14CanMeleeAttackEv",
+      "elf_address": "0x3ffd38",
+      "size": 28,
+      "sha256": "b8954d6bf9cc99789dd4d41c57e2c491d3c1a17ffbc4d0dec4f6e6d5d88e2814"
+    }
+  ]
+}

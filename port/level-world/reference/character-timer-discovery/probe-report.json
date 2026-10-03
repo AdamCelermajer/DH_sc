@@ -1,0 +1,154 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "bdb56fb9d288bcacf46ba27e22df04252cf76fcdabddc41ca902f8369353e9a9",
+  "script_sha256": "4baf8dccf686ca015514bab9cf6b07a3879bfe01b325c320722690fbd6b84012",
+  "gold_sha256": "fdc2415e2b41acac78a14ea4fd33118dbe78f46765f1b45d7ec3e8a0e0bc3f5f",
+  "timer_update_cases": 1856,
+  "timer_expiry_observations": 1488,
+  "timer_reentry_cases": [
+    {
+      "case": "stop",
+      "events": [
+        [
+          42,
+          0,
+          305419896
+        ]
+      ],
+      "timer_words": [
+        0,
+        0,
+        4294967295,
+        10,
+        25,
+        0,
+        42,
+        305419896,
+        0,
+        1,
+        0,
+        10,
+        0,
+        0,
+        42,
+        305419896
+      ]
+    },
+    {
+      "case": "pause",
+      "events": [
+        [
+          42,
+          0,
+          305419896
+        ],
+        [
+          42,
+          0,
+          305419896
+        ],
+        [
+          42,
+          0,
+          305419896
+        ]
+      ],
+      "timer_words": [
+        0,
+        0,
+        4294967295,
+        10,
+        5,
+        257,
+        42,
+        305419896,
+        0,
+        1,
+        0,
+        10,
+        0,
+        0,
+        42,
+        305419896
+      ]
+    },
+    {
+      "case": "restart",
+      "events": [
+        [
+          42,
+          0,
+          305419896
+        ]
+      ],
+      "timer_words": [
+        0,
+        0,
+        0,
+        30,
+        0,
+        1,
+        42,
+        305419896,
+        0,
+        1,
+        0,
+        10,
+        0,
+        0,
+        42,
+        305419896
+      ]
+    },
+    {
+      "case": "start-later",
+      "events": [
+        [
+          42,
+          0,
+          305419896
+        ],
+        [
+          42,
+          0,
+          305419896
+        ],
+        [
+          42,
+          0,
+          305419896
+        ],
+        [
+          43,
+          32,
+          305419896
+        ]
+      ],
+      "timer_words": [
+        0,
+        0,
+        4294967295,
+        10,
+        5,
+        1,
+        42,
+        305419896,
+        0,
+        1,
+        0,
+        10,
+        35,
+        0,
+        43,
+        305419896
+      ]
+    }
+  ],
+  "timer_control_cases": 6,
+  "timer_to_attack_gate_chain_cases": 16,
+  "state_gate_projection_cases": 30,
+  "stance_cases": 576,
+  "mismatches": 0,
+  "scope": "Read-only original ARM timer, expiry routing and stance execution probes.\n\nNo native reconstruction or packaged parity is claimed. Clock/debug logging,\ninventory predicates/constants, and empty FSM transition-map lookup are explicit\nfixture services. Timer arithmetic, slot selection/append, AI routing, gate\nclearing and Attack OnEvent execute original instructions.\n"
+}

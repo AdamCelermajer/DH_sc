@@ -1,0 +1,33 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "76f9d7ca75b79e9658c974f9186377594ebc5d6d1a21e4e76915fae61cee4209",
+  "corpus_sha256": "12d4e2f6eb4f77f1c69ce59a2cfb03000d7e3cfe461866a995f939afd5af70d9",
+  "path_comparisons": 937,
+  "look_comparisons": 989,
+  "find_path_requests": 84,
+  "unavailable_failure_checks": 3,
+  "mismatches": 0,
+  "source_sha256": {
+    "character_path_commands.hpp": "780c25895e0f633769c78b4d6311d8f3a08d44c964fcb2ff84f00589c8cb98f7",
+    "character_path_commands.cpp": "0c9f22f1f8ba398e5549c2ab6329d47d32ac09c35da99c38df25d9895f1b243c",
+    "navigation_heading.hpp": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e",
+    "navigation_heading.cpp": "98f771927be4021dad6432e1aee509bf91f4db17f7525668ef1332ba09b3818d",
+    "tests/character_path_commands_differential.py": "bc6cc4d2465224a3cdd635a1999e981fc14f4ffb9bc6b5ee24fdf3fa88189a9f"
+  },
+  "scope": "Original complete PathTo and LookAt(Point) versus compiled native ARM64.\n\nPathTo executes original list traversal, arithmetic and route-reuse gates;\ncomplete FindPath remains one explicit synchronous service. LookAt executes\nthe complete original LookTowards with existing consistent IEEE/libm imports.\nFinite words compare exactly; arithmetic NaN payloads compare by NaN class.\n",
+  "original_math_imports": {
+    "__aeabi_fsub": 3300,
+    "__aeabi_fmul": 333,
+    "__aeabi_fadd": 454,
+    "__aeabi_fcmpgt": 1332,
+    "__aeabi_fcmpeq": 989,
+    "__aeabi_fdiv": 456,
+    "atanf": 456,
+    "__aeabi_fcmplt": 521
+  },
+  "native_math_imports": {
+    "atanf": 456
+  },
+  "valid_original_ring_projection": "native path_nonempty describes a valid owned ring; corrupt ring traversal is outside contract"
+}

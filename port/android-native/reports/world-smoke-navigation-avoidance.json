@@ -1,0 +1,357 @@
+{
+  "apk_sha256": "2b5d821efeaba867843f3415c34baf13328d6de2123cad80d638042ed72efd6e",
+  "installed_apk_sha256": "2b5d821efeaba867843f3415c34baf13328d6de2123cad80d638042ed72efd6e",
+  "serial": "emulator-5554",
+  "api": "37",
+  "abi": "x86_64",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "669f4f51cfd80c6491976594cacca50a024889eb21abcb0e47b2c681dc4f730b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "fada64ceb7536894e654ed7d97bd7a38d267502a1acf9c999dc9ded07c208d33",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "30ac639fa4ba935d63829359b4da63d6a4f44a27f928007b84863b7b859922cb",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "fa261fb376a49796c19529ceb38833f5d344ba118662a597bdd71c4c382eb9a0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "3b9af42f5a7e6472bc41e45127b3f7d2f703d117cb2cea09e2f10db52aee2bcf",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "636fd01174bb912a242c6c204929cd87110b215ce66bbc377483b736f484356b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "bb23bf3bc26522103e4b1b29e6e865a9b79cd99ed942c2023da4f2924d975233",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "aa9d4deb9c9328ba70b9cbbd8fbed684e0643f91411ff8d088d3e45037d9b3e4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "8d9622d32d3088ef66661ddecd5c4e660ed73cd70a303a6a043a12f51841739b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "760d35a5ce9e484dda7614b7ac1454731900fdbb6573d4402678e121380df7ac",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "8c986f051243eab47195b73f8043f9a5b51e8e29295d4652aaf3a78c9e6d42ec",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "screenshot": "idle-frozen-100.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187195
+    },
+    {
+      "screenshot": "idle-frozen-repeat.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187195
+    },
+    {
+      "screenshot": "idle-frozen-700.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187066
+    },
+    {
+      "screenshot": "idle-live.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187195
+    },
+    {
+      "screenshot": "idle-live-repeat.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1187213
+    },
+    {
+      "screenshot": "walk-stairs.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1185629
+    },
+    {
+      "screenshot": "landscape-restored.png",
+      "viewport": [
+        2400,
+        612
+      ],
+      "movement_control_bounds": [
+        42,
+        555,
+        462,
+        975
+      ],
+      "rendered_pixels": 1086705
+    },
+    {
+      "screenshot": "portrait-restored.png",
+      "viewport": [
+        1080,
+        1932
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1380774
+    },
+    {
+      "screenshot": "resume-stopped.png",
+      "viewport": [
+        1080,
+        1932
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1175747
+    },
+    {
+      "screenshot": "rubble-boundary.png",
+      "viewport": [
+        1080,
+        1975
+      ],
+      "movement_control_bounds": [
+        42,
+        1875,
+        462,
+        2295
+      ],
+      "rendered_pixels": 1275304
+    }
+  ],
+  "movement": [
+    {
+      "case": "stairs",
+      "start": [
+        -2227.77,
+        1220.9301,
+        842.3644
+      ],
+      "end": [
+        -2227.77,
+        -604.6529,
+        65.4911
+      ],
+      "ground_height": 65.49117583871715,
+      "moved_frames": 181,
+      "blocked_frames": 0
+    },
+    {
+      "case": "pause_cancels_held_touch",
+      "paused": [
+        -2227.77,
+        -338.3278,
+        199.9554
+      ],
+      "resumed": [
+        -2227.77,
+        -338.3278,
+        199.9555
+      ],
+      "stationary_after_resume": [
+        -2227.77,
+        -338.3278,
+        199.9555
+      ]
+    },
+    {
+      "case": "rubble_boundary",
+      "start": [
+        -2227.77,
+        1220.9301,
+        842.3644
+      ],
+      "end": [
+        -2056.2683,
+        1220.9301,
+        842.3644
+      ],
+      "moved_frames": 17,
+      "blocked_frames": 88,
+      "ground_height": 842.3643798828125
+    }
+  ],
+  "frozen_idle_stable": true,
+  "live_idle_changed_pixels": true,
+  "rotation_position_preserved": true,
+  "pause_cancels_movement": true,
+  "floor_geometry_sha256": "05fed3c646ac7e2f1e188cc5abbd2975db063cdbe7517c87709bf8c911581fe0",
+  "physical_arm64_tested": false,
+  "original_pf_parity_verified": false,
+  "original_gpu_parity_verified": false,
+  "full_game_playable": false,
+  "native_floor_records": 8,
+  "native_graph_nodes": 335,
+  "native_graph_edges": 838,
+  "native_selector_collision_used_by_height": true,
+  "original_movement_controller_reconstructed": false,
+  "native_neighbour_floor_relations": 14,
+  "native_validation_references": 998,
+  "native_floor_sewing_used_by_level_load": true,
+  "native_route_search_used_by_gameplay": false,
+  "native_graph_node_search_used_by_startup_probe": true,
+  "crypt_route_probe": {
+    "floor_pairs": 64,
+    "successful": 64,
+    "segments": 1598,
+    "state_fnv1a64": "5454073390c7d916"
+  },
+  "world_endpoint_selection_reconstructed": true,
+  "native_world_coordinate_search_used_by_startup_probe": true,
+  "crypt_world_route_probe": {
+    "floor_pairs": 64,
+    "successful": 64,
+    "direct": 0,
+    "graph": 64,
+    "segments": 2086,
+    "state_fnv1a64": "3a3ab2a724cc383b"
+  },
+  "original_smoothing_reconstructed": true,
+  "original_findpath_reconstructed": true,
+  "native_findpath_used_by_startup_probe": true,
+  "original_waypoint_path_step_reconstructed": true,
+  "native_findpath_used_by_actor_movement": false,
+  "crypt_findpath_probe": {
+    "floor_pairs": 64,
+    "successful": 64,
+    "owned": 64,
+    "segments": 2086,
+    "state_fnv1a64": "9356b419cae2bc57"
+  },
+  "native_floor_motion_used_by_startup_probe": true,
+  "original_position_validation_reconstructed": true,
+  "original_floor_direction_validation_reconstructed": true,
+  "original_obstacle_parent_backend_reconstructed": true,
+  "native_floor_motion_used_by_actor_movement": false,
+  "crypt_motion_probe": {
+    "floor_pairs": 64,
+    "position_valid": 64,
+    "accepted": 64,
+    "direction_valid": 64,
+    "state_fnv1a64": "d60ad48039cc85c6"
+  },
+  "native_object_initialization_used_by_startup_probe": true,
+  "original_motion_obstacle_defaults_reconstructed": true,
+  "original_init_object_reconstructed": true,
+  "original_init_obstacle_reconstructed": true,
+  "native_obstacle_registry_used_by_actor_movement": false,
+  "original_obstacle_force_reconstructed": true,
+  "crypt_objects_probe": {
+    "floor_pairs": 64,
+    "accepted": 64,
+    "registered": 64,
+    "relocated": 56,
+    "state_fnv1a64": "22a98dfc4102db51"
+  },
+  "original_obstacle_avoidance_reconstructed": true,
+  "original_concrete_physical_collision_filter_reconstructed": true,
+  "native_avoidance_used_by_startup_probe": true,
+  "native_avoidance_used_by_actor_movement": false,
+  "original_actor_navigation_producers_reconstructed": false,
+  "crypt_avoidance_probe": {
+    "floors": 8,
+    "force_contributions": 16,
+    "adjusted": 8,
+    "turn_limited": 8,
+    "state_fnv1a64": "09d1d79d2612c945"
+  }
+}

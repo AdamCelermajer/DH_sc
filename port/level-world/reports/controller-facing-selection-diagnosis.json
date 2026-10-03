@@ -1,0 +1,121 @@
+{
+  "validation": "DIAGNOSED_TEST_CONTRACT_RACE",
+  "scope": "Read-only frozen source, original instruction captures and saved emulator logs; no new emulator, build or native parity run.",
+  "apk_sha256": "d17eec5ecd1cf9fc2d334767b91254b2a29b8cbcceba0e69a99087b68259b656",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "authored_sequences": {
+    "262": {
+      "loop": -1,
+      "type": 2,
+      "steps": [
+        {
+          "anim": 1040,
+          "redir": 0,
+          "speed": 1.0,
+          "blend_out": 100,
+          "move_go": 1
+        },
+        {
+          "anim": 1040,
+          "redir": 0,
+          "speed": 1.0,
+          "blend_out": 100,
+          "move_go": 1
+        },
+        {
+          "anim": 1040,
+          "redir": 0,
+          "speed": 1.0,
+          "blend_out": 100,
+          "move_go": 1
+        },
+        {
+          "anim": 1040,
+          "redir": 0,
+          "speed": 1.0,
+          "blend_out": 100,
+          "move_go": 1
+        },
+        {
+          "anim": 1040,
+          "redir": 0,
+          "speed": 1.0,
+          "blend_out": 100,
+          "move_go": 1
+        },
+        {
+          "anim": 1041,
+          "redir": 0,
+          "speed": 1.0,
+          "blend_out": 100,
+          "move_go": 1
+        }
+      ]
+    },
+    "271": {
+      "loop": -1,
+      "type": 0,
+      "steps": [
+        {
+          "anim": 1114,
+          "redir": 0,
+          "speed": 1.2999999523162842,
+          "blend_out": 0,
+          "move_go": 1
+        }
+      ]
+    },
+    "280": {
+      "loop": -1,
+      "type": 0,
+      "steps": [
+        {
+          "anim": 1126,
+          "redir": 0,
+          "speed": 1.2999999523162842,
+          "blend_out": 0,
+          "move_go": 1
+        }
+      ]
+    }
+  },
+  "authored_table_sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+  "source_sha256": {
+    "port/level-world/actor_blended_playback.cpp": "139ebade8b14e07771c1a9a34d4996fa9940dcf99b05e291db3a07f1056cfa3b",
+    "port/level-world/visual_timeline.cpp": "9a6ffdec646fc927ce82199a193df7d1d14ba2f738464e312efead143b4899ca",
+    "port/game-data/animation_scheduler.cpp": "9e59745dab060de37f56268e39be515bb918ccf24e18b8de115e1a7be32727b5",
+    "port/level-world/character_state.cpp": "bba1b88cfa918c0c59936db555efeb404dce93d37230702e8514279813ed9227",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "0c4ecd27f8dc7fd5ace431cb2f27ee3f96559d6c6db1c8733dabfffa119b696d"
+  },
+  "evidence_sha256": {
+    ".local-inputs/controller-facing-build-capture.zip": "84c71f7047c47416e07d97e72ed65101c823a1f76c63741a895990262375452b",
+    ".local-inputs/prince-bank-build-capture.zip": "67b82b49a5be9ddb45c6b1fedcb5c93ec2eca9b3ee0f5d8576674c212149dd0f",
+    ".local-inputs/controller-facing-live-bank/prince-bank.log": "ca0783fd3ebcce923985a4f413165b4a62424c540d222341daba05470a53390c",
+    ".local-inputs/controller-facing-live-bank/prince-bank-smoke.json": "8e79bf19af2d5836afb1574f14e94b28a0a14196b6cda896a4ccc3a23e6e274b",
+    ".local-inputs/controller-facing-live-movement/live-actor.log": "98838be7e1c158159d4cf2cfbf9f9a16b737749f0a04b7f1c3729b16fba92885",
+    ".local-inputs/controller-facing-live-movement/live-actor-smoke.json": "465d305f3b2dfbe30a19459db1606244e5292905e7d084914912ad7f854a7979",
+    "port/level-world/reference/animation-blend-composition-reentry/reference/original-functions.asm": "8ede05326816eebeccef1435ccf7fea94b69f1a4490eef725d8e216c431ab53d",
+    "port/level-world/reference/animation-blend-composition-reentry/source-probes.json": "79a07f1213d75bc096983858a01d1df15368b8bce719c96410ae84ce55f5d5b1",
+    "port/level-world/reference/move-state/original-functions.asm": "1084dbf7852154fcba0991bed4d94632833a13e6b3a717c48da91c9a91a5afb8",
+    "port/android-native/tools/prince_bank_smoke.py": "f3849a49b507c249c476a04d789a46eb1103cc4e3db323082d6914b364a44784",
+    "port/android-native/tools/live_actor_smoke.py": "dbb2056ac74a7fdfeea9303996c1532fd5720d83e23daf8acf744f0db2dbfccd"
+  },
+  "kernel_same_between_d17_and_4f": {
+    "port/level-world/actor_blended_playback.cpp": true,
+    "port/level-world/visual_timeline.cpp": true,
+    "port/game-data/animation_scheduler.cpp": true,
+    "port/level-world/character_state.cpp": true,
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": false
+  },
+  "live_cases": {
+    "movement": "PASS",
+    "bank": "FAIL: Source Walk selection absent"
+  },
+  "conclusion": "Source root280 queues while actor pending49 is true; immediate request logs retained Idle1040/scale1. Later authored Walk1126 event and displaced frame prove applied selection. Test incorrectly requires immediate log clip1126/scale1.3.",
+  "proposed_fix": "Separate requested sequence log from applied clip validation. Continue requiring actual Walk/Run clip plus measured body displacement. For scale proof, observe actual current timeline after queued application; do not infer scale1.3 from retained Idle immediate log. Preserve pending source behavior.",
+  "limitations": [
+    "Logs do not expose pending49 or current timeline scale in later frame marker; queued branch is inferred from frozen control flow and callback chronology.",
+    "No complete original live frame parity or eventual scale measurement is claimed.",
+    "Subsequent bank freeze/recreation checks were not reached and remain unverified in this failed run."
+  ]
+}

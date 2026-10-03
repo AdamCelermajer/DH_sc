@@ -1,0 +1,45 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "687609085643ff85a6e7bdad5d980be59bcb7513a0a88c6be9dd973aa9588541",
+  "floor_source_sha256": "bd467e0e269a118bf20dee9483b792b454255f4af575cec59d28772cf0f94a5f",
+  "reference_sha256": "8d4836cb4ca0a6000e8f495ad12af7ab4faff64a93f0721cdfab87062d933f8a",
+  "matrix_inverse_comparisons": 1007,
+  "singular_inverses": 57,
+  "octree_builds": 32,
+  "selector_box_comparisons": 3072,
+  "selected_triangle_comparisons": 31246,
+  "coupled_ray_comparisons": 3072,
+  "coupled_floor_comparisons": 3072,
+  "hits": {
+    "ray": 1086,
+    "floor": 1306
+  },
+  "node_modes": {
+    "absent": 1024,
+    "dynamic": 1024,
+    "baked": 1024
+  },
+  "extra_matrix_cases": 768,
+  "original_matrix_getters": 6024,
+  "original_allocations": 2716,
+  "original_deallocations": 2571,
+  "mismatches": 0,
+  "atomic_rejection_checks": 1,
+  "original_import_calls": {
+    "__aeabi_fmul": 1209797,
+    "__aeabi_fsub": 353058,
+    "__aeabi_fadd": 755633,
+    "__aeabi_fcmple": 215101,
+    "__aeabi_fdiv": 19404,
+    "memcpy": 10950,
+    "__aeabi_fcmpgt": 169409,
+    "__aeabi_fcmplt": 761399,
+    "__aeabi_fcmpge": 122711,
+    "memset": 9041,
+    "__aeabi_fcmpeq": 11082,
+    "sqrtf": 11082,
+    "selector fixture": 2897
+  },
+  "scope": "Original transformed octree selector and coupled floor collision vs ARM64.\n\nOriginal getTriangles, Setup matrix/bounds, multiplication, inversion,\ntransformBox, octree construction/selection, AddResult, collision manager and\nfloor/triangle instructions execute. Allocation, supplied geometry, node-world\nmatrix getter and scene-service pointers are caller services. Mesh decoding,\nbaked-geometry production and real floor identities/flags remain separate.\n",
+  "elapsed_seconds": 69.22
+}

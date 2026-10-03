@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character8IsFaerieEv",
+      "elf_address": "0x3a3094",
+      "size": 24,
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4"
+    },
+    {
+      "original_symbol": "_ZN9Character8InitPostEv",
+      "elf_address": "0x3b4d60",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079"
+    },
+    {
+      "original_symbol": "_ZN9Character18SetInitialPositionERK7Point3DIfE",
+      "elf_address": "0x3a58f4",
+      "size": 128,
+      "sha256": "6b51f4ed914771f9964fdae11ac10f8e9700fc13a9673272444527c8c28bd33d"
+    },
+    {
+      "original_symbol": "_ZN9Character11InitSpawnedEiRK7Point3DIfE",
+      "elf_address": "0x3b379c",
+      "size": 136,
+      "sha256": "cfca6e8b4d35bfdc2f4bce13e234c2a79768f7ae917d29b86ba289c29ccbed36"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase8IsPlayerEv",
+      "elf_address": "0x33dcd8",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject13MeetConditionEv",
+      "elf_address": "0x38ab60",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10GameObject14UpdatePFObjectEv",
+      "elf_address": "0x393ea0",
+      "size": 240,
+      "sha256": "691c6e39910469dec78aba5f4a58eb592b0fb609c084ff3b1e05e89cbdb5f51b"
+    },
+    {
+      "original_symbol": "_ZNK9Container10IsObstacleEv",
+      "elf_address": "0x39f3a8",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZNK9Container19GetObstacleStrengthEv",
+      "elf_address": "0x39f3bc",
+      "size": 12,
+      "sha256": "d1513099dfb32f6b726ef0291358899b1e740ef2dcd0aca545af729041c22a30"
+    },
+    {
+      "original_symbol": "_ZNK11TriggerTrap19GetObstacleStrengthEv",
+      "elf_address": "0x39cb10",
+      "size": 12,
+      "sha256": "d1513099dfb32f6b726ef0291358899b1e740ef2dcd0aca545af729041c22a30"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject17GetObstacleRadiusEv",
+      "elf_address": "0x34010c",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZNK9Character17GetObstacleRadiusEv",
+      "elf_address": "0x3a2ef0",
+      "size": 12,
+      "sha256": "cf859b89178017a736878ea9262a0b79bbfd3b793ab457043c31a80db64e8e7f"
+    },
+    {
+      "original_symbol": "_ZNK9Container17GetObstacleRadiusEv",
+      "elf_address": "0x39f3b0",
+      "size": 12,
+      "sha256": "c366d8ed454478fb5e15477fad1fa194964eeb90cc6feae9d03055eddf8bb1ab"
+    },
+    {
+      "original_symbol": "_ZNK14LiftableObject19GetObstacleStrengthEv",
+      "elf_address": "0x3ee420",
+      "size": 12,
+      "sha256": "d1513099dfb32f6b726ef0291358899b1e740ef2dcd0aca545af729041c22a30"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsObstacleEv",
+      "elf_address": "0x3a2ee8",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject19GetObstacleStrengthEv",
+      "elf_address": "0x340114",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject10IsObstacleEv",
+      "elf_address": "0x340104",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZNK14PhysicalObject9getRadiusEv",
+      "elf_address": "0x46e750",
+      "size": 24,
+      "sha256": "c8e57319a67f1135805b339cb789b2f8cbb1ea8bb14a5875f4b47ec4a7348aca"
+    },
+    {
+      "original_symbol": "_ZNK11TriggerTrap10IsObstacleEv",
+      "elf_address": "0x39cafc",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZNK14LiftableObject17GetObstacleRadiusEv",
+      "elf_address": "0x3ee414",
+      "size": 12,
+      "sha256": "c366d8ed454478fb5e15477fad1fa194964eeb90cc6feae9d03055eddf8bb1ab"
+    },
+    {
+      "original_symbol": "_ZNK9Character19GetObstacleStrengthEv",
+      "elf_address": "0x3a2efc",
+      "size": 12,
+      "sha256": "d210e879cda14c327c29ce422c7e56f1dcb10a1a64e504132ddc7391b5f773ae"
+    },
+    {
+      "original_symbol": "_ZNK14LiftableObject10IsObstacleEv",
+      "elf_address": "0x3ee40c",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZNK11TriggerTrap17GetObstacleRadiusEv",
+      "elf_address": "0x39cb04",
+      "size": 12,
+      "sha256": "c366d8ed454478fb5e15477fad1fa194964eeb90cc6feae9d03055eddf8bb1ab"
+    }
+  ]
+}

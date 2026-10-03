@@ -1,0 +1,10 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "afddef55968feaee4be454a6dc7907926cdad78363e6af799201d5de48e1f781",
+  "affine_matrix_bit_exact_cases": 200,
+  "skinned_vertex_bit_exact_cases": 100,
+  "position_bit_exact_cases": 100,
+  "quaternion_bit_exact_cases": 100,
+  "dependency_model": "UCRT float libm shared across CPUs; Python soft-float rounded to float32",
+  "scope": "original matrix and animation routines plus isolated vertex instruction range execute; no full game or GPU equivalence"
+}

@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character18GetInteractionTypeEP10GameObject",
+      "elf_address": "0x3a47e8",
+      "size": 136,
+      "sha256": "397bd786683142e311100653a24c7446227199eaaad56c4532caf32f0f4ddcd5"
+    },
+    {
+      "original_symbol": "_ZNK9Character13IsInteractiveEP10GameObject",
+      "elf_address": "0x3a4870",
+      "size": 192,
+      "sha256": "98594cbfb1cf08a894782c03ba19831bd0bd1852373a9b2cfbfb342dd9fad03f"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList5ResetEv",
+      "elf_address": "0x4a18fc",
+      "size": 32,
+      "sha256": "0c4696db7cc14c9f779a1ba05c35ce8afac84cb120ef3cb419e29d2935c4c6d5"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher14RoomObjectList7GetCharEv",
+      "elf_address": "0x4a1cfc",
+      "size": 52,
+      "sha256": "b498aeb9b89e12b04a3285ffe4cf3b39d8413a903cd751d1fa05fbb7b34073c1"
+    },
+    {
+      "original_symbol": "_ZNK9Character14CanRangeAttackERiS0_S0_",
+      "elf_address": "0x3a4cd0",
+      "size": 100,
+      "sha256": "f8c60f21f6594d07424c35db95caa12e6268791cd183556949d89a03d65adfa7"
+    }
+  ]
+}

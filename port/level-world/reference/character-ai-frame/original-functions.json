@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI13_UpdateTargetEv",
+      "elf_address": "0x3cb908",
+      "size": 556,
+      "sha256": "d8f8d308b4778d2c4bd43b1e72df8476cb18f1137a7a774cced65cc3c7054ce0"
+    },
+    {
+      "original_symbol": "_Z20PushProfilingContextPKc",
+      "elf_address": "0x3136b4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI6UpdateEv",
+      "elf_address": "0x3cfbf4",
+      "size": 372,
+      "sha256": "ac1373709c4ba656b3deba4c9e5f75b3677a7f526e009e748acc2880f884dcfe"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12_UpdateAggroEv",
+      "elf_address": "0x3cf3f0",
+      "size": 2052,
+      "sha256": "710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692"
+    },
+    {
+      "original_symbol": "_Z19PopProfilingContextPKc",
+      "elf_address": "0x3136b8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_UpdateMasterEv",
+      "elf_address": "0x3cc5a4",
+      "size": 444,
+      "sha256": "c9ce018b17bc2a9f1580a52e932fb40124914af1053028b16aeb40b1d0610fa9"
+    }
+  ]
+}

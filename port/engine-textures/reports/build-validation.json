@@ -1,0 +1,28 @@
+{
+  "android_abis": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "compiler": "GNU C++ 15.2",
+  "cmake": "3.22.1",
+  "random_inputs": 25000,
+  "host": "Windows with WSL2 Ubuntu",
+  "sanitizer_flags": "-fsanitize=address,undefined -fno-omit-frame-pointer",
+  "build": "Debug",
+  "apk_sha256": "9e77da842dc21635572390872b17fb3c11623107fd9b9f0326ed819b1185ad06",
+  "android_studio_mcp_build_project": {
+    "refreshes_apk": false,
+    "isSuccess": true,
+    "problems": []
+  },
+  "ctest": "texture_safety: passed",
+  "date": "2026-10-02",
+  "ndk": "29.0.14206865",
+  "android_gradle_task": ":app:assembleDebug",
+  "source_sha256": {
+    "textures.hpp": "806ba7487bda7dda7de8e8f7b8c22f3165cd9ee46cadb635f4f0bf8ccf34cb61",
+    "textures.cpp": "80264623322fd3262ceeebe1473711ebf5c9546a1f2028d0915c17d5572eb7cb",
+    "pvrtc.cpp": "dd88a34faff7b5741da77be72a49c0668e75f5aa57c146a3ea7c51817228d575"
+  },
+  "zipalign_16k_check": "passed"
+}

@@ -1,0 +1,184 @@
+{
+  "apk_sha256": "c9bee71c0fa3032e3b96715380ac945f1918ca92d6ae48b25b779575ed71d373",
+  "serial": "emulator-5554",
+  "android_api": "37",
+  "abi": "x86_64",
+  "device_page_size": "4096",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "ddfc5fa1ec6cea6d38400a43fe6e2670ae68a0f9f220afd841b8367451638ea8",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "8cc6f2be734a0821cd0553d7e8bf7bba8c48054df3c8fc2c5ad6ce7507bed174",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "c2ac467d01005bd7da64292a760b3a7c326854c1b737905f7e4f8dfe3f28c1d5",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "680299a380c2ee5fba7bc24c2973ffc47e99953b10809aedb2499c7b95a21859",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "dc2d07be9b82c81cca5b178e98e28c1e617b872f725e44f332a43be5f16b63b6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "5ad98008984506059f426d7a7a5a44736f6f657bdd9c356c1e85ad67e63a15d9",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "e01ad5b1e78266ad3a1acc62a7a9e5a252506df7098458e75d381007908a1857",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "c85cea4328054e28ddda8b8a566171c6a8969c157007915d2e5ac620b2d20d5a",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "cases": [
+    {
+      "texture": "fx_smoke_03.tga",
+      "rotation": 0,
+      "viewport": [
+        1080,
+        1975
+      ],
+      "image_bounds": [
+        0,
+        448,
+        1080,
+        1528
+      ],
+      "screenshot": "0-fx_smoke_03.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "godparticle_face.tga",
+      "rotation": 0,
+      "viewport": [
+        1080,
+        1975
+      ],
+      "image_bounds": [
+        0,
+        448,
+        1080,
+        1528
+      ],
+      "screenshot": "0-godparticle_face.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "menugraphics03.tga",
+      "rotation": 0,
+      "viewport": [
+        1080,
+        1975
+      ],
+      "image_bounds": [
+        0,
+        448,
+        1080,
+        1528
+      ],
+      "screenshot": "0-menugraphics03.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "pvr2_env_darktemple_alpha.tga",
+      "rotation": 0,
+      "viewport": [
+        1080,
+        1975
+      ],
+      "image_bounds": [
+        0,
+        448,
+        1080,
+        1528
+      ],
+      "screenshot": "0-pvr2_env_darktemple_alpha.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "skybox_wind.tga",
+      "rotation": 0,
+      "viewport": [
+        1080,
+        1975
+      ],
+      "image_bounds": [
+        0,
+        448,
+        1080,
+        1528
+      ],
+      "screenshot": "0-skybox_wind.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "menugraphics03.tga",
+      "rotation": 1,
+      "viewport": [
+        2400,
+        655
+      ],
+      "image_bounds": [
+        872,
+        0,
+        1527,
+        655
+      ],
+      "screenshot": "1-menugraphics03.png",
+      "upload_ok": true
+    },
+    {
+      "texture": "skybox_wind.tga",
+      "rotation": 1,
+      "viewport": [
+        2400,
+        655
+      ],
+      "image_bounds": [
+        872,
+        0,
+        1527,
+        655
+      ],
+      "screenshot": "1-skybox_wind.png",
+      "upload_ok": true
+    }
+  ],
+  "physical_phone_tested": false
+}

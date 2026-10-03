@@ -1,0 +1,237 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "manifest_sha256": "bfc4921ed04ff19a8ff0972515de9e41dffe3da44471e48833af300f6cbaf234",
+  "producer_report_sha256": "663429c6905a55f6ce013e4297ca0716e91146432e64369d2e291984415a5cd4",
+  "arm64_library_sha256": "74dd0f99d035eddaf94d581d58a918c6b52b87725d3a1fae6752d16f97c8fa96",
+  "reference_sha256": "341570b29d5a4dece607d0919d3b708a6c3064f5342ae12d9575dc6f6f07628d",
+  "source_sha256": {
+    "port/engine-animation/animation_registration.hpp": "2a7d8c0f6cb887af5e2268c88e28fc5408441d9770d7fbc779efbcd897bca8b1",
+    "port/engine-animation/animation_registration.cpp": "74365756322d081aa171ca54802fbf5a94488f1e29a9b9a0260ff0bb2514f0ae",
+    "port/engine-animation/tests/animation_registration.cpp": "67bc8da79ee978cdb377d947051058b3293495dda8a164d8a0f0e328be4e788d",
+    "port/engine-animation/tests/animation_registration_differential.py": "201b0385c99ac7043d97d182e39e75fb481ed353006dbeba93f21c32237da9e6"
+  },
+  "cases": [
+    {
+      "case": 0,
+      "requests": 158,
+      "unique_dictionary_entries": 116
+    },
+    {
+      "case": 1,
+      "requests": 0,
+      "unique_dictionary_entries": 0
+    },
+    {
+      "case": 2,
+      "requests": 1,
+      "unique_dictionary_entries": 1
+    },
+    {
+      "case": 3,
+      "requests": 3,
+      "unique_dictionary_entries": 2
+    },
+    {
+      "case": 4,
+      "requests": 4,
+      "unique_dictionary_entries": 3
+    },
+    {
+      "case": 5,
+      "requests": 3,
+      "unique_dictionary_entries": 2
+    },
+    {
+      "case": 6,
+      "requests": 85,
+      "unique_dictionary_entries": 34
+    },
+    {
+      "case": 7,
+      "requests": 12,
+      "unique_dictionary_entries": 11
+    },
+    {
+      "case": 8,
+      "requests": 24,
+      "unique_dictionary_entries": 18
+    },
+    {
+      "case": 9,
+      "requests": 95,
+      "unique_dictionary_entries": 34
+    },
+    {
+      "case": 10,
+      "requests": 45,
+      "unique_dictionary_entries": 21
+    },
+    {
+      "case": 11,
+      "requests": 92,
+      "unique_dictionary_entries": 32
+    },
+    {
+      "case": 12,
+      "requests": 46,
+      "unique_dictionary_entries": 23
+    },
+    {
+      "case": 13,
+      "requests": 99,
+      "unique_dictionary_entries": 34
+    },
+    {
+      "case": 14,
+      "requests": 69,
+      "unique_dictionary_entries": 34
+    },
+    {
+      "case": 15,
+      "requests": 71,
+      "unique_dictionary_entries": 30
+    },
+    {
+      "case": 16,
+      "requests": 12,
+      "unique_dictionary_entries": 11
+    },
+    {
+      "case": 17,
+      "requests": 39,
+      "unique_dictionary_entries": 21
+    },
+    {
+      "case": 18,
+      "requests": 22,
+      "unique_dictionary_entries": 17
+    },
+    {
+      "case": 19,
+      "requests": 121,
+      "unique_dictionary_entries": 34
+    },
+    {
+      "case": 20,
+      "requests": 33,
+      "unique_dictionary_entries": 25
+    },
+    {
+      "case": 21,
+      "requests": 120,
+      "unique_dictionary_entries": 33
+    },
+    {
+      "case": 22,
+      "requests": 78,
+      "unique_dictionary_entries": 30
+    },
+    {
+      "case": 23,
+      "requests": 8,
+      "unique_dictionary_entries": 6
+    },
+    {
+      "case": 24,
+      "requests": 64,
+      "unique_dictionary_entries": 28
+    },
+    {
+      "case": 25,
+      "requests": 105,
+      "unique_dictionary_entries": 33
+    },
+    {
+      "case": 26,
+      "requests": 31,
+      "unique_dictionary_entries": 21
+    },
+    {
+      "case": 27,
+      "requests": 64,
+      "unique_dictionary_entries": 31
+    },
+    {
+      "case": 28,
+      "requests": 8,
+      "unique_dictionary_entries": 8
+    },
+    {
+      "case": 29,
+      "requests": 89,
+      "unique_dictionary_entries": 30
+    },
+    {
+      "case": 30,
+      "requests": 112,
+      "unique_dictionary_entries": 34
+    },
+    {
+      "case": 31,
+      "requests": 29,
+      "unique_dictionary_entries": 20
+    },
+    {
+      "case": 32,
+      "requests": 65,
+      "unique_dictionary_entries": 30
+    },
+    {
+      "case": 33,
+      "requests": 11,
+      "unique_dictionary_entries": 11
+    },
+    {
+      "case": 34,
+      "requests": 82,
+      "unique_dictionary_entries": 31
+    },
+    {
+      "case": 35,
+      "requests": 26,
+      "unique_dictionary_entries": 17
+    },
+    {
+      "case": 36,
+      "requests": 106,
+      "unique_dictionary_entries": 34
+    },
+    {
+      "case": 37,
+      "requests": 70,
+      "unique_dictionary_entries": 30
+    },
+    {
+      "case": 38,
+      "requests": 111,
+      "unique_dictionary_entries": 34
+    },
+    {
+      "case": 39,
+      "requests": 109,
+      "unique_dictionary_entries": 31
+    },
+    {
+      "case": 40,
+      "requests": 100,
+      "unique_dictionary_entries": 33
+    },
+    {
+      "case": 41,
+      "requests": 107,
+      "unique_dictionary_entries": 32
+    }
+  ],
+  "appends": 2529,
+  "lookups": 2529,
+  "entry_checks": 2120,
+  "refreshes": 42,
+  "default_checks": 42,
+  "atomic_rejections": 210,
+  "mismatches": 0,
+  "elapsed_seconds": 8.45,
+  "scope": "Actual original LoadAnimation, database append, unique red-black game-ID insertion/lookup, UpdateAnimationIndices and first-word CCDB identity matching versus native occurrence adapter. Full158 Prince registration requests are replayed, plus aliases/different resource identities/unsorted/repeated IDs and high64-bit migrated identity tokens. Resource loading/identity, string storage, allocation/profiling/clock are explicit services. No pose compiler/component support, cache destruction, events, timeline or renderer integration claim."
+}

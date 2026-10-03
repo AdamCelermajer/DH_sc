@@ -1,0 +1,188 @@
+{
+  "apk_sha256": "c9bee71c0fa3032e3b96715380ac945f1918ca92d6ae48b25b779575ed71d373",
+  "apk_bytes": 13191937,
+  "studio_apk_sha256": "b6fb160f2c120eeed024da49ddcaf7ce2cfa4762af7f7f5ec7540a72884f7a44",
+  "repo_and_studio_gradle_builds_passed": true,
+  "studio_source_sha256": {
+    "cpp/CMakeLists.txt": "3662e4544544a53b24e4780b3f31299a9f8fd1310f1b5b09cce33bde188e00bb",
+    "cpp/native_app.cpp": "79078fe105f8699d163ae84f389b3a97478debb5c57871e626a109cafee2e5ab",
+    "cpp/model_renderer.cpp": "5f526b9ff22cc3db0526fcee8ba239499f311ca3b81a181c6c65a0a731a46875",
+    "cpp/model_renderer.hpp": "3c850df701ed33baa4c1cacf9ef159215ec4b96a49138eeae04868b431fa9947",
+    "java/com/example/dh2/MainActivity.java": "9539b7ae50df29b97749502a109d30be8fba010c61a6a238db281677976f291c",
+    "java/com/example/dh2/NativeBridge.java": "ed745629b619957c2600813d4af80f4966bf92d5ceb1ae1ca0197a246c08dd7d"
+  },
+  "world_source_sha256": {
+    "world.cpp": "e30d918a07cd1718d29c36bbac515b9d740b3f6f176fc33ba1413e9b01caa57b",
+    "world.hpp": "394a505ad712b74bc3f0192144d413519061c8d35006a635e0e425fea8470ff0",
+    "CMakeLists.txt": "068d597ed47243f5259bf743001c51c57ec3be1f2f739e32c509bf1216cc63f9"
+  },
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "ddfc5fa1ec6cea6d38400a43fe6e2670ae68a0f9f220afd841b8367451638ea8",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "8cc6f2be734a0821cd0553d7e8bf7bba8c48054df3c8fc2c5ad6ce7507bed174",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "c2ac467d01005bd7da64292a760b3a7c326854c1b737905f7e4f8dfe3f28c1d5",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "45ed071f53fec0049c15fef6d2aaa633d104149e9cbfcd0afb271b1f0daedb71",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "680299a380c2ee5fba7bc24c2973ffc47e99953b10809aedb2499c7b95a21859",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "dc2d07be9b82c81cca5b178e98e28c1e617b872f725e44f332a43be5f16b63b6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "5ad98008984506059f426d7a7a5a44736f6f657bdd9c356c1e85ad67e63a15d9",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "7f376bbc86ec4203455306d5390579700221e0ed5e094e5c3ad4a0f0c72451b7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "e01ad5b1e78266ad3a1acc62a7a9e5a252506df7098458e75d381007908a1857",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "c85cea4328054e28ddda8b8a566171c6a8969c157007915d2e5ac620b2d20d5a",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "apk_16k_zip_alignment_verified": true,
+  "bundled_assets_verified": [
+    "assets/textures/pvr2_env_darktemple_alpha.tga",
+    "assets/textures/skybox_wind.tga",
+    "assets/textures/env_selectorcharactere_solide.tga",
+    "assets/textures/godparticle_face.tga",
+    "assets/textures/env_crypt_spec.tga",
+    "assets/textures/fx_smoke_03.tga",
+    "assets/textures/pvr2_env_crypt_alpha.tga",
+    "assets/textures/skybox_selector.tga",
+    "assets/textures/pvr2_env_darkwoods_alpha_alpha.tga",
+    "assets/textures/atlas_modular_warrior.tga",
+    "assets/textures/env_crypt.tga",
+    "assets/textures/menugraphics03.tga",
+    "assets/textures/env_darkwoods_alpha.tga",
+    "assets/models/candle_flame.bdae",
+    "assets/models/main_menu_charactere_swamp.bdae",
+    "assets/models/prince_modular.bdae",
+    "assets/animations/prince_menu_idle_knight.bdae",
+    "assets/animations/prince_walk_1hand.bdae",
+    "assets/animations/prince_idle_shield.bdae",
+    "assets/worlds/x07_crypt_backup.mlx",
+    "assets/worlds/crypt_cemetery_entrance_01.mgp",
+    "assets/worlds/crypt_cemetery_entrance_01.mvp",
+    "assets/worlds/crypt_straight_ns_01.mgp",
+    "assets/worlds/crypt2_straight_ns_01.mvp",
+    "assets/worlds/crypt_corner_sw_02.mgp",
+    "assets/worlds/crypt_corner_sw_01.mvp",
+    "assets/worlds/crypt_corner_ne_02.mgp",
+    "assets/worlds/crypt_corner_ne_01.mvp",
+    "assets/worlds/crypt_t_sew_01.mgp",
+    "assets/worlds/crypt_t_sew_01.mvp",
+    "assets/worlds/crypt_deadend_e_01.mgp",
+    "assets/worlds/crypt_deadend_e_01.mvp",
+    "assets/worlds/crypt_corner_nw_02.mgp",
+    "assets/worlds/crypt_corner_nw_02.mvp",
+    "assets/worlds/crypt_straight_c_ns_01.mgp",
+    "assets/worlds/crypt_straight_c_ns_01.mvp",
+    "assets/worlds/crypt.bdae",
+    "assets/worlds/007_crypt_01.rule.xml",
+    "assets/worlds/crypt01.dwld",
+    "assets/worlds/crypt01-provenance.json"
+  ],
+  "original_input_count": 38,
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "host_asan_ubsan": {
+    "rooms": 8,
+    "nodes": 146,
+    "visual_instances": 97,
+    "triangles": 14251,
+    "navigation_triangles": 314,
+    "spawn": [
+      -2227.77,
+      1220.93,
+      842.364
+    ],
+    "accepted_steps": 127,
+    "end_position": [
+      -2227.77,
+      2109.93,
+      842.363
+    ],
+    "stairs_steps": 220,
+    "stairs_end_position": [
+      -2227.77,
+      -319.07,
+      209.679
+    ],
+    "synthetic_movement_checks": 9,
+    "mutated_descriptors": 2000
+  },
+  "locomotion_asan_ubsan": {
+    "skins": 4,
+    "clips": [
+      {
+        "tracks": 23,
+        "skipped": 0,
+        "segments": 1,
+        "start_ms": 0,
+        "end_ms": 1066,
+        "sampled_poses": 1067,
+        "changed_poses": 1066,
+        "minimum_foot_z": 2.28918,
+        "maximum_foot_z": 2.51274
+      },
+      {
+        "tracks": 27,
+        "skipped": 0,
+        "segments": 1,
+        "start_ms": 0,
+        "end_ms": 800,
+        "sampled_poses": 801,
+        "changed_poses": 800,
+        "minimum_foot_z": -19.4365,
+        "maximum_foot_z": 27.1443
+      }
+    ]
+  },
+  "world_screenshot_cases": 10,
+  "emulator_model_captures": 9,
+  "emulator_texture_cases": 7,
+  "physical_arm64_tested": false,
+  "original_pf_parity_verified": false,
+  "original_gpu_parity_verified": false,
+  "full_cache_bundled": false,
+  "full_game_playable": false,
+  "goal_status": "active"
+}

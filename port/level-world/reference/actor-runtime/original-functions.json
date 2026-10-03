@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK10GameObject8GetSpeedEv",
+      "elf_address": "0x3400e4",
+      "size": 12,
+      "sha256": "6e4fd1c8ac328cf23d4bb8fa5c8716e2b63208ed8c6050a181c64b3808f3bd2e"
+    },
+    {
+      "original_symbol": "_ZN10GameObject6UpdateEv",
+      "elf_address": "0x38cbe8",
+      "size": 352,
+      "sha256": "b5206fb49b4a8562124ee6ae3f1e5a82b047a9b93ce63b979be9d1fad5f4d316"
+    },
+    {
+      "original_symbol": "_ZN10GameObject20UpdateTargetPositionEv",
+      "elf_address": "0x393d74",
+      "size": 64,
+      "sha256": "9bc7c5b9c2bb0c4d56cabe44e41bad06739e84e8b846fd33fb50644dd0bba8ac"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode19getAbsolutePositionEv",
+      "elf_address": "0x597180",
+      "size": 28,
+      "sha256": "838bfc1189afc8ba78d01b2649377fcff42faa12c4169d1b57cfcf2e2b641faf"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_ZN9Character18SafeGetCharPropsIdEv",
+      "address": "0x3b3d38",
+      "size": 728,
+      "strings": [
+        {
+          "load_instruction": "0x3b3ed4",
+          "add_instruction": "0x3b3ee0",
+          "literal_field": "0x3b3ffc",
+          "literal_word": "0x50fe80",
+          "target": "0x8c3d68",
+          "text": "KnightPlayerBase"
+        },
+        {
+          "load_instruction": "0x3b3fb4",
+          "add_instruction": "0x3b3fc8",
+          "literal_field": "0x3b4008",
+          "literal_word": "0x50fdb0",
+          "target": "0x8c3d80",
+          "text": "random >= 0 && random < (int)charTemplate.CharInfoSize"
+        },
+        {
+          "load_instruction": "0x3b3fbc",
+          "add_instruction": "0x3b3fcc",
+          "literal_field": "0x3b400c",
+          "literal_word": "0x50fde4",
+          "target": "0x8c3db8",
+          "text": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Objects\\Characters\\Character_Initialization.cpp"
+        }
+      ]
+    }
+  ],
+  "scope": "Direct PC-relative string literals; not control-flow or indirect/GOT evaluation"
+}

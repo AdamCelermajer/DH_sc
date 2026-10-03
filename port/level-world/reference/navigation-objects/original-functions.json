@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_GLOBAL__I_.._.._sources_Utils_Point3D.cpp",
+      "elf_address": "0x312e00",
+      "size": 156,
+      "sha256": "7bcdd53ea893943a79f375b9fc89b1d7fdc62bbd64fbc0265bfbbb44415e4a7a"
+    },
+    {
+      "original_symbol": "_ZN7PFWorld10InitObjectER8PFObjectbRK7Point3DIfEfPv",
+      "elf_address": "0x526b18",
+      "size": 156,
+      "sha256": "80fe6f5e132454d626d9a3addc199f63cb1015e9a40dcf82e7532eadca91a6eb"
+    },
+    {
+      "original_symbol": "_ZN8PFObject9SetFlyingEb",
+      "elf_address": "0x5241f4",
+      "size": 24,
+      "sha256": "4d8bbb03e7b865bfeceb6553cf16401df6286d08a94bb489aa32a9874b657a64"
+    },
+    {
+      "original_symbol": "_ZN8PFObject11SetSwimmingEb",
+      "elf_address": "0x524218",
+      "size": 24,
+      "sha256": "6bdb331f7a0bd12b224418b5b896c8dcd1b4614162ddf43fbe5826139e9f4358"
+    },
+    {
+      "original_symbol": "_ZN7PFWorld25_ChangeObstacleParentListERK8PFObjectP7PFFloor",
+      "elf_address": "0x528484",
+      "size": 300,
+      "sha256": "83f282a421aea3cb174f30564b98d585c66b3940b8e3a56f8fd84041bce91019"
+    },
+    {
+      "original_symbol": "_ZN7PFWorld12InitObstacleER8PFObjectbff",
+      "elf_address": "0x528234",
+      "size": 592,
+      "sha256": "79ca9b6a9b69639b8bfb74c919a043c0df3d1ef779481e644b44f120ad6b3ad7"
+    },
+    {
+      "original_symbol": "_ZNK8PFObject8IsFlyingEv",
+      "elf_address": "0x5241e8",
+      "size": 12,
+      "sha256": "644af3e6949e0247ceeb270bc2b2dc8ac09b71bf844adb21f8b06211f4b7e17f"
+    },
+    {
+      "original_symbol": "_ZN8PFObjectC1Ev",
+      "elf_address": "0x524644",
+      "size": 268,
+      "sha256": "d4267a65f3179da535492b827836f9aecaa8907694f9766204068c4f0401687d"
+    },
+    {
+      "original_symbol": "_ZNK8PFObject10IsSwimmingEv",
+      "elf_address": "0x52420c",
+      "size": 12,
+      "sha256": "b34a36ffd86ff69c183bcdfc456d1427e9fddcfa2c96c037a8d943274102ca2e"
+    },
+    {
+      "original_symbol": "_ZN7PFWorldC1Ev",
+      "elf_address": "0x522e2c",
+      "size": 212,
+      "sha256": "40b3958d7673e2901815851677f2dee06c0b8d190c5e1e73bad940662af4f9c9"
+    }
+  ]
+}

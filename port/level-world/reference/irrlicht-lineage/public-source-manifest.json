@@ -1,0 +1,167 @@
+[
+  {
+    "version": "1.6.1",
+    "path": "include/ISceneNode.h",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/include/ISceneNode.h",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/include/ISceneNode.h",
+    "sha256": "6390d2261dcd8d4fa71fef74dc82d4ac9022d9250a8277c0b7c69b8218276d1f",
+    "bytes": 25716,
+    "svn_etag": "\"2927//tags/release-1.6.1/include/ISceneNode.h\"",
+    "source_last_modified": "Wed, 25 Nov 2009 08:32:57 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:39 GMT"
+  },
+  {
+    "version": "1.6.1",
+    "path": "include/irrlicht.h",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/include/irrlicht.h",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/include/irrlicht.h",
+    "sha256": "72ef454154ac2743961021f9d0ff5abddd8440a3290b53a737569278e06997b6",
+    "bytes": 13814,
+    "svn_etag": "\"2753//tags/release-1.6.1/include/irrlicht.h\"",
+    "source_last_modified": "Mon, 26 Oct 2009 11:39:58 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:39 GMT"
+  },
+  {
+    "version": "1.6.1",
+    "path": "source/Irrlicht/CSceneManager.cpp",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/source/Irrlicht/CSceneManager.cpp",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/source/Irrlicht/CSceneManager.cpp",
+    "sha256": "81dc3c59ce2d5712e7f6dfbd7f08bd4ba8feee46c621f0c720234017665319ac",
+    "bytes": 67328,
+    "svn_etag": "\"2834//tags/release-1.6.1/source/Irrlicht/CSceneManager.cpp\"",
+    "source_last_modified": "Tue, 10 Nov 2009 16:35:22 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:39 GMT"
+  },
+  {
+    "version": "1.6.1",
+    "path": "source/Irrlicht/CGUIEnvironment.cpp",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/source/Irrlicht/CGUIEnvironment.cpp",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/source/Irrlicht/CGUIEnvironment.cpp",
+    "sha256": "4636b07dfd5b000ce31de5c799e3aef7fce5d9ca4665f6f79189a8b11b0977ac",
+    "bytes": 36077,
+    "svn_etag": "\"2629//tags/release-1.6.1/source/Irrlicht/CGUIEnvironment.cpp\"",
+    "source_last_modified": "Mon, 17 Aug 2009 14:22:52 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:39 GMT"
+  },
+  {
+    "version": "1.6.1",
+    "path": "source/Irrlicht/CGUIButton.cpp",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/source/Irrlicht/CGUIButton.cpp",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/source/Irrlicht/CGUIButton.cpp",
+    "sha256": "7c909663edde9cb74a78a5bc23c373db7c7b9038dcdcca90bf7130c8e7e84b82",
+    "bytes": 11977,
+    "svn_etag": "\"2548//tags/release-1.6.1/source/Irrlicht/CGUIButton.cpp\"",
+    "source_last_modified": "Mon, 03 Aug 2009 12:18:47 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:39 GMT"
+  },
+  {
+    "version": "1.6.1",
+    "path": "source/Irrlicht/CGUICheckBox.cpp",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/source/Irrlicht/CGUICheckBox.cpp",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/source/Irrlicht/CGUICheckBox.cpp",
+    "sha256": "e06c89820cb064e3e87634d7afa37a98868db6c881630e385ba43bb527c6f3fa",
+    "bytes": 4928,
+    "svn_etag": "\"2528//tags/release-1.6.1/source/Irrlicht/CGUICheckBox.cpp\"",
+    "source_last_modified": "Thu, 30 Jul 2009 09:03:25 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:39 GMT"
+  },
+  {
+    "version": "1.6.1",
+    "path": "source/Irrlicht/COpenGLDriver.cpp",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/source/Irrlicht/COpenGLDriver.cpp",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/source/Irrlicht/COpenGLDriver.cpp",
+    "sha256": "de0abcd87c02572f5fd93dbcd9c035968150e6cc72fe97e50784b2344ded341f",
+    "bytes": 106043,
+    "svn_etag": "\"3048//tags/release-1.6.1/source/Irrlicht/COpenGLDriver.cpp\"",
+    "source_last_modified": "Sat, 12 Dec 2009 15:27:57 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:40 GMT"
+  },
+  {
+    "version": "1.6.1",
+    "path": "include/quaternion.h",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/include/quaternion.h",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/include/quaternion.h",
+    "sha256": "dff258b1ab8bb743f1d4ec5b248670b51d5163e0ebf3d6d1813d28d8a688484c",
+    "bytes": 14583,
+    "svn_etag": "\"2738//tags/release-1.6.1/include/quaternion.h\"",
+    "source_last_modified": "Wed, 21 Oct 2009 16:49:13 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:40 GMT"
+  },
+  {
+    "version": "1.6.1",
+    "path": "readme.txt",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/readme.txt",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.6.1/readme.txt",
+    "sha256": "3a5437a5fc38ef045cacb55a0574d29e7ee4130479aed7519ee0457fa0903f95",
+    "bytes": 11211,
+    "svn_etag": "\"2659//tags/release-1.6.1/readme.txt\"",
+    "source_last_modified": "Sat, 22 Aug 2009 22:04:09 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:40 GMT"
+  },
+  {
+    "version": "1.5.1",
+    "path": "include/ISceneNode.h",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.5.1/include/ISceneNode.h",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.5.1/include/ISceneNode.h",
+    "sha256": "2ffedaea538f5200f95a38dd1833ae20f4d1613df55d9bfb5cbd0f87fd5c5ae3",
+    "bytes": 24598,
+    "svn_etag": "\"2202//tags/release-1.5.1/include/ISceneNode.h\"",
+    "source_last_modified": "Sat, 07 Feb 2009 10:31:48 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:40 GMT"
+  },
+  {
+    "version": "1.5.1",
+    "path": "source/Irrlicht/CGUIButton.cpp",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.5.1/source/Irrlicht/CGUIButton.cpp",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.5.1/source/Irrlicht/CGUIButton.cpp",
+    "sha256": "6084ae4f5fffa11dff2ee1349d6f9074c611135ee6e7bc83853e8a23e8f66331",
+    "bytes": 11656,
+    "svn_etag": "\"2418//tags/release-1.5.1/source/Irrlicht/CGUIButton.cpp\"",
+    "source_last_modified": "Wed, 10 Jun 2009 20:58:01 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:40 GMT"
+  },
+  {
+    "version": "1.5.1",
+    "path": "source/Irrlicht/CGUIEnvironment.cpp",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.5.1/source/Irrlicht/CGUIEnvironment.cpp",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.5.1/source/Irrlicht/CGUIEnvironment.cpp",
+    "sha256": "b1e0b2bc38f17b7bb1e66ac4a958767643d2199cff3d6977f0f743929bd0f3ff",
+    "bytes": 35318,
+    "svn_etag": "\"2426//tags/release-1.5.1/source/Irrlicht/CGUIEnvironment.cpp\"",
+    "source_last_modified": "Fri, 19 Jun 2009 22:15:15 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:40 GMT"
+  },
+  {
+    "version": "1.4.2",
+    "path": "include/ISceneNode.h",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.4.2/include/ISceneNode.h",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.4.2/include/ISceneNode.h",
+    "sha256": "d06071131ee816fa698c4448856b3d114b78822a589c5dbdbdcccb6b6a8398c4",
+    "bytes": 22622,
+    "svn_etag": "\"1506//tags/release-1.4.2/include/ISceneNode.h\"",
+    "source_last_modified": "Tue, 19 Aug 2008 13:29:23 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:41 GMT"
+  },
+  {
+    "version": "1.4.2",
+    "path": "source/Irrlicht/CGUIButton.cpp",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.4.2/source/Irrlicht/CGUIButton.cpp",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.4.2/source/Irrlicht/CGUIButton.cpp",
+    "sha256": "1c8d6dc1cb9b1f43f4e7e6b1a5c54353bf7e5c118a94c17f753fe1bcce9a9f7e",
+    "bytes": 11659,
+    "svn_etag": "\"1345//tags/release-1.4.2/source/Irrlicht/CGUIButton.cpp\"",
+    "source_last_modified": "Tue, 13 May 2008 13:33:15 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:41 GMT"
+  },
+  {
+    "version": "1.4.2",
+    "path": "source/Irrlicht/CGUIEnvironment.cpp",
+    "source_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.4.2/source/Irrlicht/CGUIEnvironment.cpp",
+    "response_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.4.2/source/Irrlicht/CGUIEnvironment.cpp",
+    "sha256": "7e46377d41649a743200e79a7f433161cda8d882709cadf24f466c1a9ca40706",
+    "bytes": 35026,
+    "svn_etag": "\"1492//tags/release-1.4.2/source/Irrlicht/CGUIEnvironment.cpp\"",
+    "source_last_modified": "Thu, 14 Aug 2008 08:21:54 GMT",
+    "retrieved_utc": "Sat, 03 Oct 2026 15:48:41 GMT"
+  }
+]

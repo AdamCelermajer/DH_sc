@@ -1,0 +1,6282 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "manifest_sha256": "bfc4921ed04ff19a8ff0972515de9e41dffe3da44471e48833af300f6cbaf234",
+  "script_sha256": "3700c2418d1027acc90d45cf3d5f1e50ae7af3d92dd53039cabbb1d15b4d1b31",
+  "character": "KnightPlayerBase",
+  "character_row": 263,
+  "animation_table": 48,
+  "skill_list": 14,
+  "skill_sequences": [
+    347,
+    350,
+    349,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1
+  ],
+  "animation_set_id": 12302,
+  "constant_queries": [
+    {
+      "group": "AnimStances",
+      "key": "COUNT_IPHONE",
+      "value": 5
+    },
+    {
+      "group": "AnimStancedAnim",
+      "key": "SL__LIST_IPHONE",
+      "value": 210
+    }
+  ],
+  "model_property": {
+    "dictionary_id": 78,
+    "path": "data/3D/characters/prince/prince_modular.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/prince_modular.bdae",
+    "bytes": 3207072,
+    "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+    "scene_nodes": 35
+  },
+  "native_character_table_fields": {
+    "0x4": "Attack",
+    "0x8": "AttackStatic",
+    "0xc": "Blocking",
+    "0x10": "DeadlyGreatKB",
+    "0x14": "Despawn",
+    "0x18": "DespawnGreatKB",
+    "0x1c": "Died",
+    "0x20": "Dodging",
+    "0x24": "GreatKnockedBack",
+    "0x28": "Idle",
+    "0x2c": "IdleFromOOC",
+    "0x30": "IdleOOC",
+    "0x34": "IdleSneak",
+    "0x38": "IdleToOOC",
+    "0x3c": "Injured",
+    "0x40": "Interact",
+    "0x48": "KnockedBack",
+    "0x4c": "LiftDrop",
+    "0x50": "LiftIdle",
+    "0x54": "LiftMove",
+    "0x58": "Limbus",
+    "0x5c": "MenuIdle",
+    "0x60": "MenuOnSelect",
+    "0x64": "PreSpawn",
+    "0x68": "Revived",
+    "0x6c": "Reviving",
+    "0x70": "Run",
+    "0x74": "Run180",
+    "0x78": "RunSneak",
+    "0x7c": "Scared",
+    "0x80": "Spawn",
+    "0x84": "Spells",
+    "0x8c": "Stunned",
+    "0x90": "Template",
+    "0x94": "Walk",
+    "0x98": "Walk180",
+    "0x9c": "WalkSneak"
+  },
+  "template": {
+    "clip_id": 1111,
+    "path": "data/3D/characters/prince/animations/prince_template_anim.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_template_anim.bdae",
+    "bytes": 19908,
+    "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102",
+    "tracks": 81,
+    "start": 0,
+    "end": 3599,
+    "scene_nodes": 27,
+    "channel_type_counts": {
+      "5": 27,
+      "10": 27,
+      "1": 27
+    },
+    "unsupported_domain_tracks": []
+  },
+  "registration_calls": [
+    {
+      "kind": "template",
+      "set_id": 12302,
+      "clip_id": 1111,
+      "path": "data/3D/characters/prince/animations/prince_template_anim.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1063,
+      "path": "data/3D/characters/prince/animations/prince_menu_idle_knight.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1041,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1114,
+      "path": "data/3D/characters/prince/animations/prince_walk_1hand.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 968,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 956,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_01_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 964,
+      "path": "data/3D/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 970,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 959,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_02_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 965,
+      "path": "data/3D/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 972,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_03_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 962,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_03_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 966,
+      "path": "data/3D/characters/prince/animations/prince_1hand_post_combo_03_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 967,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 955,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 957,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 969,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 958,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 960,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 971,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_03.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 961,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_03.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 963,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_03_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1025,
+      "path": "data/3D/characters/prince/animations/prince_feared.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1074,
+      "path": "data/3D/characters/prince/animations/prince_pre_stunned.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1110,
+      "path": "data/3D/characters/prince/animations/prince_stunned.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1071,
+      "path": "data/3D/characters/prince/animations/prince_post_stunned.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1076,
+      "path": "data/3D/characters/prince/animations/prince_pushback.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1109,
+      "path": "data/3D/characters/prince/animations/prince_standup.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1026,
+      "path": "data/3D/characters/prince/animations/prince_great_pushback.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1029,
+      "path": "data/3D/characters/prince/animations/prince_great_pushback_standup.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1030,
+      "path": "data/3D/characters/prince/animations/prince_hurt_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1031,
+      "path": "data/3D/characters/prince/animations/prince_hurt_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1032,
+      "path": "data/3D/characters/prince/animations/prince_hurt_03.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 991,
+      "path": "data/3D/characters/prince/animations/prince_block.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 996,
+      "path": "data/3D/characters/prince/animations/prince_dodge.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1023,
+      "path": "data/3D/characters/prince/animations/prince_dying_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 992,
+      "path": "data/3D/characters/prince/animations/prince_despawn_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1026,
+      "path": "data/3D/characters/prince/animations/prince_great_pushback.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1028,
+      "path": "data/3D/characters/prince/animations/prince_great_pushback_dying.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1027,
+      "path": "data/3D/characters/prince/animations/prince_great_pushback_despawn.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1091,
+      "path": "data/3D/characters/prince/animations/prince_rogue_sneak_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1093,
+      "path": "data/3D/characters/prince/animations/prince_rogue_sneak_walk.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1043,
+      "path": "data/3D/characters/prince/animations/prince_interaction.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1043,
+      "path": "data/3D/characters/prince/animations/prince_interaction.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1043,
+      "path": "data/3D/characters/prince/animations/prince_interaction.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 994,
+      "path": "data/3D/characters/prince/animations/prince_dialog.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1044,
+      "path": "data/3D/characters/prince/animations/prince_interaction_shrine.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1096,
+      "path": "data/3D/characters/prince/animations/prince_spell_channeling.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1103,
+      "path": "data/3D/characters/prince/animations/prince_spell_pre_wetty.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1107,
+      "path": "data/3D/characters/prince/animations/prince_spell_wetty.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1104,
+      "path": "data/3D/characters/prince/animations/prince_spell_pre_windy.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1108,
+      "path": "data/3D/characters/prince/animations/prince_spell_windy.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1101,
+      "path": "data/3D/characters/prince/animations/prince_spell_pre_rocky.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1105,
+      "path": "data/3D/characters/prince/animations/prince_spell_rocky.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1100,
+      "path": "data/3D/characters/prince/animations/prince_spell_pre_hotty.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1097,
+      "path": "data/3D/characters/prince/animations/prince_spell_hotty.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1234,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1239,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_crushing_blow.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1238,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_charge.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1035,
+      "path": "data/3D/characters/prince/animations/prince_idle_2hand.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1035,
+      "path": "data/3D/characters/prince/animations/prince_idle_2hand.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1035,
+      "path": "data/3D/characters/prince/animations/prince_idle_2hand.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1035,
+      "path": "data/3D/characters/prince/animations/prince_idle_2hand.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1035,
+      "path": "data/3D/characters/prince/animations/prince_idle_2hand.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1036,
+      "path": "data/3D/characters/prince/animations/prince_idle_2hand_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 986,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_01_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 974,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_01_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 976,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_01_to_idle_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 988,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_02_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 978,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_02_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 980,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_02_to_idle_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 990,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_03_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 962,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_03_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 984,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_03_to_idle_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 985,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 973,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 975,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_01_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 987,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 977,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 979,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_02_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 989,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_03.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 981,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_03.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 983,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_03_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1093,
+      "path": "data/3D/characters/prince/animations/prince_rogue_sneak_walk.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1233,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_rogue_vicious_strike.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1037,
+      "path": "data/3D/characters/prince/animations/prince_idle_dual.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1037,
+      "path": "data/3D/characters/prince/animations/prince_idle_dual.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1037,
+      "path": "data/3D/characters/prince/animations/prince_idle_dual.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1037,
+      "path": "data/3D/characters/prince/animations/prince_idle_dual.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1037,
+      "path": "data/3D/characters/prince/animations/prince_idle_dual.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1038,
+      "path": "data/3D/characters/prince/animations/prince_idle_dual_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1016,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_01_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1000,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_01_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1011,
+      "path": "data/3D/characters/prince/animations/prince_dual_post_combo_01_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1018,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_02_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1003,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_02_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1012,
+      "path": "data/3D/characters/prince/animations/prince_dual_post_combo_02_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1020,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_03_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1006,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_03_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1013,
+      "path": "data/3D/characters/prince/animations/prince_dual_post_combo_03_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1022,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_04_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1009,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_04_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1014,
+      "path": "data/3D/characters/prince/animations/prince_dual_post_combo_04_moving.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1015,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 999,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1001,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_01_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1017,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1002,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1004,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_02_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1019,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_03.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1005,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_03.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1007,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_03_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1021,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_04.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1008,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_04.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1010,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_04_to_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1233,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_rogue_vicious_strike.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1147,
+      "path": "data/3D/characters/root_troll/animations/root_troll_pre_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1133,
+      "path": "data/3D/characters/root_troll/animations/root_troll_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1146,
+      "path": "data/3D/characters/root_troll/animations/root_troll_post_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1041,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1218,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1218,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1147,
+      "path": "data/3D/characters/root_troll/animations/root_troll_pre_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1133,
+      "path": "data/3D/characters/root_troll/animations/root_troll_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1146,
+      "path": "data/3D/characters/root_troll/animations/root_troll_post_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1147,
+      "path": "data/3D/characters/root_troll/animations/root_troll_pre_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1133,
+      "path": "data/3D/characters/root_troll/animations/root_troll_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1146,
+      "path": "data/3D/characters/root_troll/animations/root_troll_post_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1039,
+      "path": "data/3D/characters/prince/animations/prince_idle_ranged.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1039,
+      "path": "data/3D/characters/prince/animations/prince_idle_ranged.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1077,
+      "path": "data/3D/characters/prince/animations/prince_ranged_attack.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1078,
+      "path": "data/3D/characters/prince/animations/prince_ranged_attack_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1079,
+      "path": "data/3D/characters/prince/animations/prince_ranged_attack_03.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1077,
+      "path": "data/3D/characters/prince/animations/prince_ranged_attack.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1078,
+      "path": "data/3D/characters/prince/animations/prince_ranged_attack_02.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1079,
+      "path": "data/3D/characters/prince/animations/prince_ranged_attack_03.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1147,
+      "path": "data/3D/characters/root_troll/animations/root_troll_pre_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1133,
+      "path": "data/3D/characters/root_troll/animations/root_troll_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1146,
+      "path": "data/3D/characters/root_troll/animations/root_troll_post_attack_01.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1143,
+      "path": "data/3D/characters/root_troll/animations/root_troll_idle_to_dome.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1138,
+      "path": "data/3D/characters/root_troll/animations/root_troll_dome_warning.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1136,
+      "path": "data/3D/characters/root_troll/animations/root_troll_dome_idle.bdae"
+    },
+    {
+      "kind": "clip",
+      "set_id": 12302,
+      "clip_id": 1137,
+      "path": "data/3D/characters/root_troll/animations/root_troll_dome_to_idle.bdae"
+    }
+  ],
+  "registration_calls_count": 158,
+  "unique_clip_count": 116,
+  "first_unique_order": [
+    1111,
+    1063,
+    1040,
+    1041,
+    1126,
+    1114,
+    968,
+    956,
+    964,
+    970,
+    959,
+    965,
+    972,
+    962,
+    966,
+    967,
+    955,
+    957,
+    969,
+    958,
+    960,
+    971,
+    961,
+    963,
+    1025,
+    1074,
+    1110,
+    1071,
+    1076,
+    1109,
+    1026,
+    1029,
+    1030,
+    1031,
+    1032,
+    991,
+    996,
+    1023,
+    992,
+    1028,
+    1027,
+    1091,
+    1093,
+    1043,
+    994,
+    1044,
+    1096,
+    1103,
+    1107,
+    1104,
+    1108,
+    1101,
+    1105,
+    1100,
+    1097,
+    1234,
+    1239,
+    1238,
+    1035,
+    1036,
+    986,
+    974,
+    976,
+    988,
+    978,
+    980,
+    990,
+    984,
+    985,
+    973,
+    975,
+    987,
+    977,
+    979,
+    989,
+    981,
+    983,
+    1233,
+    1037,
+    1038,
+    1016,
+    1000,
+    1011,
+    1018,
+    1003,
+    1012,
+    1020,
+    1006,
+    1013,
+    1022,
+    1009,
+    1014,
+    1015,
+    999,
+    1001,
+    1017,
+    1002,
+    1004,
+    1019,
+    1005,
+    1007,
+    1021,
+    1008,
+    1010,
+    1147,
+    1133,
+    1146,
+    1218,
+    1039,
+    1077,
+    1078,
+    1079,
+    1143,
+    1138,
+    1136,
+    1137
+  ],
+  "table_calls": [
+    {
+      "template": true,
+      "sequence": 279,
+      "stance": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 352,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 262,
+      "stance": 0,
+      "flags": 2,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 280,
+      "stance": 0,
+      "flags": 16,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 271,
+      "stance": 0,
+      "flags": 32,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 248,
+      "stance": 0,
+      "flags": 64,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 467,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 468,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 469,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 243,
+      "stance": 0,
+      "flags": 128,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 470,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 471,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 472,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 277,
+      "stance": 0,
+      "flags": 256,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 278,
+      "stance": 0,
+      "flags": 512,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 276,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 270,
+      "stance": 0,
+      "flags": 1024,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 261,
+      "stance": 0,
+      "flags": 2048,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 267,
+      "stance": 0,
+      "flags": 4096,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 253,
+      "stance": 0,
+      "flags": 8192,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 254,
+      "stance": 0,
+      "flags": 16384,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 259,
+      "stance": 0,
+      "flags": 32768,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 257,
+      "stance": 0,
+      "flags": 65536,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 255,
+      "stance": 0,
+      "flags": 131072,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 256,
+      "stance": 0,
+      "flags": 262144,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 1048576,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 524288,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 4,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 526,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 527,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 258,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 268,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 348,
+      "stance": 0,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 355,
+      "stance": 0,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 356,
+      "stance": 0,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 354,
+      "stance": 0,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 351,
+      "stance": 0,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 347,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 350,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 349,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 0,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 262,
+      "stance": 1,
+      "flags": 2,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 280,
+      "stance": 1,
+      "flags": 16,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 271,
+      "stance": 1,
+      "flags": 32,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 248,
+      "stance": 1,
+      "flags": 64,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 721,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 722,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 723,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 243,
+      "stance": 1,
+      "flags": 128,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 724,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 725,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 726,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 277,
+      "stance": 1,
+      "flags": 256,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 278,
+      "stance": 1,
+      "flags": 512,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 270,
+      "stance": 1,
+      "flags": 1024,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 261,
+      "stance": 1,
+      "flags": 2048,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 267,
+      "stance": 1,
+      "flags": 4096,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 253,
+      "stance": 1,
+      "flags": 8192,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 254,
+      "stance": 1,
+      "flags": 16384,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 259,
+      "stance": 1,
+      "flags": 32768,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 257,
+      "stance": 1,
+      "flags": 65536,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 255,
+      "stance": 1,
+      "flags": 131072,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 256,
+      "stance": 1,
+      "flags": 262144,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 1048576,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 524288,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 4,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 526,
+      "stance": 1,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 527,
+      "stance": 1,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 1,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 1,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 1,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 258,
+      "stance": 1,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 268,
+      "stance": 1,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 348,
+      "stance": 1,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 355,
+      "stance": 1,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 356,
+      "stance": 1,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 354,
+      "stance": 1,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 351,
+      "stance": 1,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 347,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 350,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 349,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 1,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 262,
+      "stance": 2,
+      "flags": 2,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 280,
+      "stance": 2,
+      "flags": 16,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 271,
+      "stance": 2,
+      "flags": 32,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 248,
+      "stance": 2,
+      "flags": 64,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 167,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 168,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 169,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 170,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 243,
+      "stance": 2,
+      "flags": 128,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 171,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 172,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 173,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 174,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 277,
+      "stance": 2,
+      "flags": 256,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 278,
+      "stance": 2,
+      "flags": 512,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 270,
+      "stance": 2,
+      "flags": 1024,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 261,
+      "stance": 2,
+      "flags": 2048,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 267,
+      "stance": 2,
+      "flags": 4096,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 253,
+      "stance": 2,
+      "flags": 8192,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 254,
+      "stance": 2,
+      "flags": 16384,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 259,
+      "stance": 2,
+      "flags": 32768,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 257,
+      "stance": 2,
+      "flags": 65536,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 255,
+      "stance": 2,
+      "flags": 131072,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 256,
+      "stance": 2,
+      "flags": 262144,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 1048576,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 524288,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 4,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 526,
+      "stance": 2,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 527,
+      "stance": 2,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 2,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 2,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 2,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 258,
+      "stance": 2,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 268,
+      "stance": 2,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 348,
+      "stance": 2,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 355,
+      "stance": 2,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 356,
+      "stance": 2,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 354,
+      "stance": 2,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 351,
+      "stance": 2,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 347,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 350,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 349,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 2,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 262,
+      "stance": 3,
+      "flags": 2,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 280,
+      "stance": 3,
+      "flags": 16,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 271,
+      "stance": 3,
+      "flags": 32,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 248,
+      "stance": 3,
+      "flags": 64,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 651,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 243,
+      "stance": 3,
+      "flags": 128,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 654,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 277,
+      "stance": 3,
+      "flags": 256,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 278,
+      "stance": 3,
+      "flags": 512,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 270,
+      "stance": 3,
+      "flags": 1024,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 261,
+      "stance": 3,
+      "flags": 2048,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 267,
+      "stance": 3,
+      "flags": 4096,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 253,
+      "stance": 3,
+      "flags": 8192,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 254,
+      "stance": 3,
+      "flags": 16384,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 259,
+      "stance": 3,
+      "flags": 32768,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 257,
+      "stance": 3,
+      "flags": 65536,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 255,
+      "stance": 3,
+      "flags": 131072,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 256,
+      "stance": 3,
+      "flags": 262144,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 1048576,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 524288,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 4,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 526,
+      "stance": 3,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 527,
+      "stance": 3,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 3,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 3,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 3,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 258,
+      "stance": 3,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 268,
+      "stance": 3,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 348,
+      "stance": 3,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 355,
+      "stance": 3,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 356,
+      "stance": 3,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 354,
+      "stance": 3,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 351,
+      "stance": 3,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 347,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 350,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 349,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 3,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 262,
+      "stance": 4,
+      "flags": 2,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 280,
+      "stance": 4,
+      "flags": 16,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 271,
+      "stance": 4,
+      "flags": 32,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 248,
+      "stance": 4,
+      "flags": 64,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 94,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 95,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 96,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 243,
+      "stance": 4,
+      "flags": 128,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 94,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 95,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 96,
+      "stance": 0,
+      "flags": 0,
+      "mask": 0
+    },
+    {
+      "template": false,
+      "sequence": 277,
+      "stance": 4,
+      "flags": 256,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 278,
+      "stance": 4,
+      "flags": 512,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 270,
+      "stance": 4,
+      "flags": 1024,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 261,
+      "stance": 4,
+      "flags": 2048,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 267,
+      "stance": 4,
+      "flags": 4096,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 253,
+      "stance": 4,
+      "flags": 8192,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 254,
+      "stance": 4,
+      "flags": 16384,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 259,
+      "stance": 4,
+      "flags": 32768,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 257,
+      "stance": 4,
+      "flags": 65536,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 255,
+      "stance": 4,
+      "flags": 131072,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 256,
+      "stance": 4,
+      "flags": 262144,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 1048576,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 524288,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 4,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 8,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 526,
+      "stance": 4,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 527,
+      "stance": 4,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 0,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 16777216,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 4,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 4,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 269,
+      "stance": 4,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 258,
+      "stance": 4,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 268,
+      "stance": 4,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 8388608,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 348,
+      "stance": 4,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 355,
+      "stance": 4,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 356,
+      "stance": 4,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 354,
+      "stance": 4,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 351,
+      "stance": 4,
+      "flags": 4194304,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 347,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 350,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 349,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    },
+    {
+      "template": false,
+      "sequence": 4294967295,
+      "stance": 4,
+      "flags": 2097152,
+      "mask": 210
+    }
+  ],
+  "preload_requests": [
+    {
+      "service": "0x4967e8",
+      "id": 253
+    },
+    {
+      "service": "0x4967e8",
+      "id": 254
+    },
+    {
+      "service": "0x4967e8",
+      "id": 255
+    },
+    {
+      "service": "0x4967e8",
+      "id": 253
+    },
+    {
+      "service": "0x4967e8",
+      "id": 254
+    },
+    {
+      "service": "0x4967e8",
+      "id": 255
+    },
+    {
+      "service": "0x4967e8",
+      "id": 164
+    },
+    {
+      "service": "0x4967e8",
+      "id": 173
+    },
+    {
+      "service": "0x4967e8",
+      "id": 172
+    },
+    {
+      "service": "0x4967e8",
+      "id": 253
+    },
+    {
+      "service": "0x4967e8",
+      "id": 254
+    },
+    {
+      "service": "0x4967e8",
+      "id": 255
+    },
+    {
+      "service": "0x4967e8",
+      "id": 256
+    },
+    {
+      "service": "0x4967e8",
+      "id": 257
+    },
+    {
+      "service": "0x4967e8",
+      "id": 256
+    },
+    {
+      "service": "0x4967e8",
+      "id": 163
+    },
+    {
+      "service": "0x4967e8",
+      "id": 253
+    },
+    {
+      "service": "0x4967e8",
+      "id": 254
+    },
+    {
+      "service": "0x4967e8",
+      "id": 255
+    },
+    {
+      "service": "0x4967e8",
+      "id": 255
+    },
+    {
+      "service": "0x4967e8",
+      "id": 258
+    },
+    {
+      "service": "0x4967e8",
+      "id": 259
+    },
+    {
+      "service": "0x4967e8",
+      "id": 260
+    },
+    {
+      "service": "0x4967e8",
+      "id": 260
+    },
+    {
+      "service": "0x4967e8",
+      "id": 163
+    },
+    {
+      "service": "0x4967e8",
+      "id": 34
+    },
+    {
+      "service": "0x4967e8",
+      "id": 35
+    },
+    {
+      "service": "0x4967e8",
+      "id": 36
+    }
+  ],
+  "existing_set_registration_calls": 0,
+  "current17_projection": [
+    {
+      "clip_id": 1040,
+      "first_library_index": 2,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae"
+    },
+    {
+      "clip_id": 1041,
+      "first_library_index": 7,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield_02.bdae"
+    },
+    {
+      "clip_id": 1126,
+      "first_library_index": 8,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae"
+    },
+    {
+      "clip_id": 1114,
+      "first_library_index": 9,
+      "path": "data/3D/characters/prince/animations/prince_walk_1hand.bdae"
+    },
+    {
+      "clip_id": 956,
+      "first_library_index": 11,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_01_moving.bdae"
+    },
+    {
+      "clip_id": 959,
+      "first_library_index": 14,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_02_moving.bdae"
+    },
+    {
+      "clip_id": 962,
+      "first_library_index": 17,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_03_moving.bdae"
+    },
+    {
+      "clip_id": 967,
+      "first_library_index": 19,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01.bdae"
+    },
+    {
+      "clip_id": 955,
+      "first_library_index": 20,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_01.bdae"
+    },
+    {
+      "clip_id": 957,
+      "first_library_index": 21,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae"
+    },
+    {
+      "clip_id": 969,
+      "first_library_index": 22,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02.bdae"
+    },
+    {
+      "clip_id": 958,
+      "first_library_index": 23,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_02.bdae"
+    },
+    {
+      "clip_id": 960,
+      "first_library_index": 24,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae"
+    },
+    {
+      "clip_id": 971,
+      "first_library_index": 25,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_03.bdae"
+    },
+    {
+      "clip_id": 961,
+      "first_library_index": 26,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_03.bdae"
+    },
+    {
+      "clip_id": 963,
+      "first_library_index": 27,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_03_to_idle.bdae"
+    },
+    {
+      "clip_id": 1023,
+      "first_library_index": 41,
+      "path": "data/3D/characters/prince/animations/prince_dying_01.bdae"
+    }
+  ],
+  "current17_count": 17,
+  "resources": [
+    {
+      "clip_id": 1111,
+      "path": "data/3D/characters/prince/animations/prince_template_anim.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_template_anim.bdae",
+      "bytes": 19908,
+      "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102",
+      "tracks": 81,
+      "start": 0,
+      "end": 3599,
+      "scene_nodes": 27,
+      "channel_type_counts": {
+        "5": 27,
+        "10": 27,
+        "1": 27
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1063,
+      "path": "data/3D/characters/prince/animations/prince_menu_idle_knight.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_menu_idle_knight.bdae",
+      "bytes": 19400,
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a",
+      "tracks": 29,
+      "start": 0,
+      "end": 3000,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 25,
+        "10": 1,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1040,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92",
+      "tracks": 23,
+      "start": 0,
+      "end": 1066,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1041,
+      "path": "data/3D/characters/prince/animations/prince_idle_shield_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield_02.bdae",
+      "bytes": 14996,
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13",
+      "tracks": 24,
+      "start": 0,
+      "end": 2333,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1126,
+      "path": "data/3D/characters/prince/animations/prince_walk_slow.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "bytes": 68492,
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967",
+      "tracks": 25,
+      "start": 0,
+      "end": 1066,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1114,
+      "path": "data/3D/characters/prince/animations/prince_walk_1hand.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5",
+      "tracks": 27,
+      "start": 0,
+      "end": 800,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 968,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+      "bytes": 6984,
+      "sha256": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0",
+      "tracks": 25,
+      "start": 0,
+      "end": 200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 956,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+      "bytes": 8164,
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238",
+      "tracks": 25,
+      "start": 200,
+      "end": 533,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 964,
+      "path": "data/3D/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+      "bytes": 8924,
+      "sha256": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e",
+      "tracks": 25,
+      "start": 533,
+      "end": 1200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 970,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+      "bytes": 7012,
+      "sha256": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548",
+      "tracks": 25,
+      "start": 533,
+      "end": 800,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 959,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+      "bytes": 8056,
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01",
+      "tracks": 25,
+      "start": 800,
+      "end": 1133,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 965,
+      "path": "data/3D/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+      "bytes": 8524,
+      "sha256": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af",
+      "tracks": 25,
+      "start": 1133,
+      "end": 1733,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 972,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_03_moving.bdae",
+      "bytes": 6808,
+      "sha256": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc",
+      "tracks": 25,
+      "start": 1133,
+      "end": 1399,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 962,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03_moving.bdae",
+      "bytes": 8236,
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1",
+      "tracks": 25,
+      "start": 1399,
+      "end": 1733,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 966,
+      "path": "data/3D/characters/prince/animations/prince_1hand_post_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_03_moving.bdae",
+      "bytes": 9044,
+      "sha256": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8",
+      "tracks": 25,
+      "start": 1733,
+      "end": 2400,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 967,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32",
+      "tracks": 26,
+      "start": 0,
+      "end": 266,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 955,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa",
+      "tracks": 26,
+      "start": 266,
+      "end": 600,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 957,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624",
+      "tracks": 27,
+      "start": 600,
+      "end": 1100,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 969,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4",
+      "tracks": 26,
+      "start": 600,
+      "end": 833,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 958,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02.bdae",
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0",
+      "tracks": 26,
+      "start": 833,
+      "end": 1200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 960,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091",
+      "tracks": 27,
+      "start": 1200,
+      "end": 1833,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 971,
+      "path": "data/3D/characters/prince/animations/prince_1hand_pre_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_03.bdae",
+      "bytes": 7548,
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058",
+      "tracks": 26,
+      "start": 1200,
+      "end": 1433,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 961,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03.bdae",
+      "bytes": 8632,
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003",
+      "tracks": 26,
+      "start": 1433,
+      "end": 1799,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 963,
+      "path": "data/3D/characters/prince/animations/prince_1hand_combo_03_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03_to_idle.bdae",
+      "bytes": 9084,
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260",
+      "tracks": 26,
+      "start": 1799,
+      "end": 2333,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1025,
+      "path": "data/3D/characters/prince/animations/prince_feared.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_feared.bdae",
+      "bytes": 10232,
+      "sha256": "ad14966e8ed054fb44e356b53592740c14b920992cfdc9a9462e9ce78be07262",
+      "tracks": 25,
+      "start": 0,
+      "end": 600,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1074,
+      "path": "data/3D/characters/prince/animations/prince_pre_stunned.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_pre_stunned.bdae",
+      "bytes": 7084,
+      "sha256": "35eb3d125813c63a3a0aea5a3ce3810339e44dc7c8a13bf40ebb1a4061358532",
+      "tracks": 27,
+      "start": 0,
+      "end": 200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1110,
+      "path": "data/3D/characters/prince/animations/prince_stunned.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_stunned.bdae",
+      "bytes": 11636,
+      "sha256": "10a81195712d8a46498104c8e1647296ee7fdf0d4eb488425d1bd987cf3b0214",
+      "tracks": 25,
+      "start": 200,
+      "end": 1700,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1071,
+      "path": "data/3D/characters/prince/animations/prince_post_stunned.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_post_stunned.bdae",
+      "bytes": 9244,
+      "sha256": "0d0930697d6de8e84aca96450d02dd1576c96fef1d17bf530f100fd4d7727403",
+      "tracks": 25,
+      "start": 1700,
+      "end": 2500,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1076,
+      "path": "data/3D/characters/prince/animations/prince_pushback.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_pushback.bdae",
+      "bytes": 10784,
+      "sha256": "98b725ebc5c5d5de24a10b01cc9936a08d5505adb62919db522a14c6ecd3481e",
+      "tracks": 29,
+      "start": 0,
+      "end": 666,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 25,
+        "10": 1,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1109,
+      "path": "data/3D/characters/prince/animations/prince_standup.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_standup.bdae",
+      "bytes": 12624,
+      "sha256": "14f67e0012fcbac97db179cf9304f55d22d537fed2a78c3070c5be758725042d",
+      "tracks": 28,
+      "start": 666,
+      "end": 1833,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1026,
+      "path": "data/3D/characters/prince/animations/prince_great_pushback.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_great_pushback.bdae",
+      "bytes": 13724,
+      "sha256": "bdff3bc5dd3f3a95227a29bb042b6c837b56c45f53ff715d0aacb9c3fe8b36b0",
+      "tracks": 30,
+      "start": 0,
+      "end": 1200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 26,
+        "10": 1,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1029,
+      "path": "data/3D/characters/prince/animations/prince_great_pushback_standup.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_great_pushback_standup.bdae",
+      "bytes": 15660,
+      "sha256": "3943f7a2cf93ff0061370a95bf29434bd70f3916779d9c1a81c8bd75d751b6a7",
+      "tracks": 30,
+      "start": 1200,
+      "end": 2566,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 3,
+        "4": 2
+      },
+      "unsupported_domain_tracks": [
+        27,
+        28
+      ]
+    },
+    {
+      "clip_id": 1030,
+      "path": "data/3D/characters/prince/animations/prince_hurt_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_hurt_01.bdae",
+      "bytes": 9492,
+      "sha256": "912d6df63b3088f8670d184b3acd5df133edd0791a24568379d206dfdabe7522",
+      "tracks": 27,
+      "start": 0,
+      "end": 633,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1031,
+      "path": "data/3D/characters/prince/animations/prince_hurt_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_hurt_02.bdae",
+      "bytes": 10428,
+      "sha256": "ddff33044857266b997546d418c4d2e4599831e57c19e67fd5b6e6397673e768",
+      "tracks": 27,
+      "start": 0,
+      "end": 733,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1032,
+      "path": "data/3D/characters/prince/animations/prince_hurt_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_hurt_03.bdae",
+      "bytes": 9732,
+      "sha256": "e0770baf2c5dd3a841c5b3d47660c1c956d56cdab57122f5a7955e9e0fc58682",
+      "tracks": 27,
+      "start": 0,
+      "end": 633,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 991,
+      "path": "data/3D/characters/prince/animations/prince_block.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_block.bdae",
+      "bytes": 10280,
+      "sha256": "f87f34e28201d67f33f0245caeeaf33fd024b3b826343a613c2b924df7efd51c",
+      "tracks": 27,
+      "start": 0,
+      "end": 666,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 996,
+      "path": "data/3D/characters/prince/animations/prince_dodge.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dodge.bdae",
+      "bytes": 11664,
+      "sha256": "b196c02e2270db944ae6f41d90965d741927fbf5fa37b19878fbf49f2e544af0",
+      "tracks": 27,
+      "start": 0,
+      "end": 899,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1023,
+      "path": "data/3D/characters/prince/animations/prince_dying_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dying_01.bdae",
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a",
+      "tracks": 27,
+      "start": 0,
+      "end": 1399,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 992,
+      "path": "data/3D/characters/prince/animations/prince_despawn_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_despawn_01.bdae",
+      "bytes": 6312,
+      "sha256": "b6aa0d869acf57409e6a8bbdc755e5c24b0e16fa59adda85d87b2761d0411455",
+      "tracks": 26,
+      "start": 0,
+      "end": 2000,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1028,
+      "path": "data/3D/characters/prince/animations/prince_great_pushback_dying.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_great_pushback_dying.bdae",
+      "bytes": 10480,
+      "sha256": "7ca5c9182f00bf5859599fb6f0f18a00fdbd089f9b42836b7fb7ccb99fd01b89",
+      "tracks": 31,
+      "start": 1200,
+      "end": 1866,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 25,
+        "10": 1,
+        "1": 3,
+        "4": 2
+      },
+      "unsupported_domain_tracks": [
+        27,
+        28
+      ]
+    },
+    {
+      "clip_id": 1027,
+      "path": "data/3D/characters/prince/animations/prince_great_pushback_despawn.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_great_pushback_despawn.bdae",
+      "bytes": 6940,
+      "sha256": "df027ddc1a680b116ae0330fb7c55bc45c3dca567540a6333a3d8fa969367fb0",
+      "tracks": 28,
+      "start": 0,
+      "end": 2000,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 2,
+        "4": 2
+      },
+      "unsupported_domain_tracks": [
+        26,
+        27
+      ]
+    },
+    {
+      "clip_id": 1091,
+      "path": "data/3D/characters/prince/animations/prince_rogue_sneak_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_rogue_sneak_idle.bdae",
+      "bytes": 16788,
+      "sha256": "ba16c7ae983f3afe7c0f7e95836e5412bc7ac3399ee502de9acf5a780f003f9e",
+      "tracks": 26,
+      "start": 0,
+      "end": 2666,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1093,
+      "path": "data/3D/characters/prince/animations/prince_rogue_sneak_walk.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_rogue_sneak_walk.bdae",
+      "bytes": 11392,
+      "sha256": "64ec13a0132bf52db4c430c64f2b138ca7cc5bd76140ee3ede21b1923a8bc9c1",
+      "tracks": 26,
+      "start": 0,
+      "end": 1399,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1043,
+      "path": "data/3D/characters/prince/animations/prince_interaction.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_interaction.bdae",
+      "bytes": 11408,
+      "sha256": "988b7ad3e614e2ecc4fc29bdd6fef71d752476d94b432b8ce46b37759e9eba62",
+      "tracks": 26,
+      "start": 0,
+      "end": 1200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 994,
+      "path": "data/3D/characters/prince/animations/prince_dialog.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dialog.bdae",
+      "bytes": 27972,
+      "sha256": "276249c74adfae2cf0c69feb18348751ae8dc6b76c4bccfd559996d201a0fb3a",
+      "tracks": 26,
+      "start": 0,
+      "end": 5366,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1044,
+      "path": "data/3D/characters/prince/animations/prince_interaction_shrine.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_interaction_shrine.bdae",
+      "bytes": 6072,
+      "sha256": "cec7e98e19b3e0621e3851932c7f0a54c9e668bd42ee47feb4b14651fcb7842a",
+      "tracks": 25,
+      "start": 0,
+      "end": 1200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1096,
+      "path": "data/3D/characters/prince/animations/prince_spell_channeling.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_channeling.bdae",
+      "bytes": 8048,
+      "sha256": "1350178e7a87b8868fb6e4d34acfce79e27a77674058aa09ddd8625bb6f596ec",
+      "tracks": 14,
+      "start": 0,
+      "end": 1299,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 14
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1103,
+      "path": "data/3D/characters/prince/animations/prince_spell_pre_wetty.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_pre_wetty.bdae",
+      "bytes": 8352,
+      "sha256": "0ab0b2420d0a61797e41f7176b9690d5f56d85d0daac3005e871e7f11b2889fc",
+      "tracks": 26,
+      "start": 0,
+      "end": 400,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1107,
+      "path": "data/3D/characters/prince/animations/prince_spell_wetty.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_wetty.bdae",
+      "bytes": 9488,
+      "sha256": "e00550d886041df8af1add54e49a5a9c4047bce9b730ddf219f03d1ad4660cf0",
+      "tracks": 25,
+      "start": 400,
+      "end": 1133,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1104,
+      "path": "data/3D/characters/prince/animations/prince_spell_pre_windy.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_pre_windy.bdae",
+      "bytes": 8648,
+      "sha256": "b291fd40c0eb231aa130312d59fb5a54d9113b8f4931bda477bb3f768caba43a",
+      "tracks": 27,
+      "start": 0,
+      "end": 400,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1108,
+      "path": "data/3D/characters/prince/animations/prince_spell_windy.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_windy.bdae",
+      "bytes": 10656,
+      "sha256": "ad9c13246bb75cb3f7bbc6c8cb2aa5100fdd8c23f25185b45f35acb10d0df36f",
+      "tracks": 27,
+      "start": 400,
+      "end": 1166,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1101,
+      "path": "data/3D/characters/prince/animations/prince_spell_pre_rocky.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_pre_rocky.bdae",
+      "bytes": 9256,
+      "sha256": "df611a7a2610a9bc952ff5bcd2d09c78858a1f03aa9d3e4d0b5f8ec25b54cc7a",
+      "tracks": 26,
+      "start": 0,
+      "end": 433,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1105,
+      "path": "data/3D/characters/prince/animations/prince_spell_rocky.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_rocky.bdae",
+      "bytes": 9452,
+      "sha256": "6a98c5f8a6aacb745ae58f01e13e375bf8489e9c66864870f5d77d91d6b4183a",
+      "tracks": 25,
+      "start": 433,
+      "end": 1299,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1100,
+      "path": "data/3D/characters/prince/animations/prince_spell_pre_hotty.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_pre_hotty.bdae",
+      "bytes": 8204,
+      "sha256": "20f24c13da52eeccd65e5c1d9e1622eae02eb17c8add83893c7470dd2e5ce59d",
+      "tracks": 26,
+      "start": 0,
+      "end": 400,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1097,
+      "path": "data/3D/characters/prince/animations/prince_spell_hotty.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_hotty.bdae",
+      "bytes": 9444,
+      "sha256": "e80741db58a592071f0fe0f4683a2fb4cec3d5e6c0872a32251ef7266d742fda",
+      "tracks": 25,
+      "start": 400,
+      "end": 1133,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1234,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae",
+      "bytes": 15528,
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b",
+      "tracks": 25,
+      "start": 0,
+      "end": 1666,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1239,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_crushing_blow.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_warrior_crushing_blow.bdae",
+      "bytes": 14676,
+      "sha256": "5aa608edd801347e338505fb915f6e44033bf51ff98310170accd4dcb232dbfa",
+      "tracks": 25,
+      "start": 0,
+      "end": 1500,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1238,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_warrior_charge.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_warrior_charge.bdae",
+      "bytes": 11516,
+      "sha256": "f24d9a28854d0188e611b7ebb4bd120f3dd57957ae132c5d243f2dbb627fd373",
+      "tracks": 25,
+      "start": 0,
+      "end": 1066,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1035,
+      "path": "data/3D/characters/prince/animations/prince_idle_2hand.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_2hand.bdae",
+      "bytes": 57112,
+      "sha256": "298c9f6f5af13970050a683640790453cf2fe0932d4e59ed6507377c81e2f181",
+      "tracks": 23,
+      "start": 0,
+      "end": 1666,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1036,
+      "path": "data/3D/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "bytes": 65132,
+      "sha256": "5a9e13430fca5c3ce8eea44e695e300b444b7916245f513bc3636588b25a2ab2",
+      "tracks": 23,
+      "start": 0,
+      "end": 3233,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 986,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_01_moving.bdae",
+      "bytes": 7940,
+      "sha256": "a4ffe99f3747c1458fcab74226fd1dcc8c272c9255f4d8685f0cf4ad0b5a9ab4",
+      "tracks": 25,
+      "start": 0,
+      "end": 333,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 974,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_moving.bdae",
+      "bytes": 8816,
+      "sha256": "80da78bee82f732b326b2232dfe0dc30ef8fdc1a52df84a3ad46960dbc625d39",
+      "tracks": 25,
+      "start": 333,
+      "end": 866,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 976,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_01_to_idle_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_to_idle_moving.bdae",
+      "bytes": 10744,
+      "sha256": "fd0ee7b2f3cc16e5f09ec4b854b5bfa3bd37d5fbc559a722cefd706b46a5ba66",
+      "tracks": 25,
+      "start": 866,
+      "end": 1833,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 988,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_02_moving.bdae",
+      "bytes": 7724,
+      "sha256": "c16ecacf1d5d3ac959dc59f0e353e608a0dc6828d857566171b9960e017d59eb",
+      "tracks": 25,
+      "start": 866,
+      "end": 1200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 978,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_moving.bdae",
+      "bytes": 8960,
+      "sha256": "926d4df45a4cf6290365d12019158a6160b57d68e56e8826eea29cbcbddeb063",
+      "tracks": 25,
+      "start": 1200,
+      "end": 1733,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 980,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_02_to_idle_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_to_idle_moving.bdae",
+      "bytes": 10576,
+      "sha256": "61571532605f9ae76acb0ed2972a098aba27d8d5db59a3f04f431e9f95078785",
+      "tracks": 25,
+      "start": 1733,
+      "end": 2700,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 990,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_03_moving.bdae",
+      "bytes": 7724,
+      "sha256": "e5e6d8a6898b3cc0979672366f2f8d5c14708409a1a9a3bceb88039f00cb3517",
+      "tracks": 25,
+      "start": 1733,
+      "end": 2066,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 984,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_03_to_idle_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03_to_idle_moving.bdae",
+      "bytes": 10980,
+      "sha256": "bdd6f89b8a37493a9360631a1c3ee62301414eaab5a0d4c92ebbccb26b43f1cb",
+      "tracks": 26,
+      "start": 2599,
+      "end": 3566,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2,
+        "3": 1
+      },
+      "unsupported_domain_tracks": [
+        23
+      ]
+    },
+    {
+      "clip_id": 985,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_01.bdae",
+      "bytes": 7640,
+      "sha256": "7200dcc608afbb10af5ac3aae47042d11e94ffdf828a7a5c266fcfd561f0410d",
+      "tracks": 26,
+      "start": 0,
+      "end": 266,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 973,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01.bdae",
+      "bytes": 8144,
+      "sha256": "ef877dee487c8c91ee9fd6c4a3a1e9b72db12e9d0288a837341b9a16ba276aa2",
+      "tracks": 25,
+      "start": 266,
+      "end": 600,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 975,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_to_idle.bdae",
+      "bytes": 8808,
+      "sha256": "08271e2127bcc0baab19ba06bd15af824ad93c45c4319be63f4d0b236eda46bc",
+      "tracks": 25,
+      "start": 600,
+      "end": 1266,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 987,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_02.bdae",
+      "bytes": 7992,
+      "sha256": "cb6e4349be2a3426b346cade5da15ad5a9dda63dfeb3405e4f24b73066c02d61",
+      "tracks": 25,
+      "start": 600,
+      "end": 1000,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 977,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02.bdae",
+      "bytes": 7740,
+      "sha256": "910ea4514b097281bdc1fcab85e394687baae900838ae0b065c5f1bad28fe44f",
+      "tracks": 25,
+      "start": 1000,
+      "end": 1333,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 979,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_to_idle.bdae",
+      "bytes": 10248,
+      "sha256": "84f919b98f461f8606c68e1da4b0ef7c7e827c4ee7616ed22b22a935b16bf9ea",
+      "tracks": 25,
+      "start": 1333,
+      "end": 2166,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 989,
+      "path": "data/3D/characters/prince/animations/prince_2hand_pre_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_03.bdae",
+      "bytes": 8160,
+      "sha256": "de13c3aa34ecb9ad952ba818f823f807593fd98e0c0334b23ac7ca0e5b86d072",
+      "tracks": 25,
+      "start": 1333,
+      "end": 1733,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 981,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03.bdae",
+      "bytes": 8144,
+      "sha256": "8a8400e0f65e69c1e338008a2399fc74c05697a3853af9301733fbbf4dfcd3e9",
+      "tracks": 25,
+      "start": 1733,
+      "end": 2066,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 983,
+      "path": "data/3D/characters/prince/animations/prince_2hand_combo_03_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03_to_idle.bdae",
+      "bytes": 8872,
+      "sha256": "611c1d1ce0da71fd01fda1866d9d4d4b979ab86c4d10b8c04143c74398aff005",
+      "tracks": 25,
+      "start": 2066,
+      "end": 2733,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1233,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_rogue_vicious_strike.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_rogue_vicious_strike.bdae",
+      "bytes": 15752,
+      "sha256": "f5bdab87e02875d343840377e580afdce3dbbf0db35938baa17d5910ebbdb6b6",
+      "tracks": 24,
+      "start": 0,
+      "end": 1766,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1037,
+      "path": "data/3D/characters/prince/animations/prince_idle_dual.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_dual.bdae",
+      "bytes": 55036,
+      "sha256": "19a673316a0e9d8497ab32c7f9466094993eb78ba4e0bc099c40fa2636906d8c",
+      "tracks": 23,
+      "start": 0,
+      "end": 1066,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1038,
+      "path": "data/3D/characters/prince/animations/prince_idle_dual_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_dual_02.bdae",
+      "bytes": 65128,
+      "sha256": "58ec39b964f729c3ef18d7920bf28bde5bb05b02d5c674944e6c72368f51f77e",
+      "tracks": 23,
+      "start": 0,
+      "end": 3233,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1016,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_01_moving.bdae",
+      "bytes": 6200,
+      "sha256": "6da1b197fd7014e94d286d1d041ea8cbf88b3603c6f7fbfa5685d0cef418ec4c",
+      "tracks": 23,
+      "start": 0,
+      "end": 200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1000,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01_moving.bdae",
+      "bytes": 8064,
+      "sha256": "8b639941320b72e1a42deabeca29b29c889a11c1295d7b4029d4a8f13098983e",
+      "tracks": 25,
+      "start": 200,
+      "end": 600,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1011,
+      "path": "data/3D/characters/prince/animations/prince_dual_post_combo_01_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_01_moving.bdae",
+      "bytes": 9692,
+      "sha256": "8c4c1478be59b455b21d45c495ae90b7c96c39ead7276189150cd3ea5639a25a",
+      "tracks": 27,
+      "start": 600,
+      "end": 1233,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1018,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_02_moving.bdae",
+      "bytes": 6840,
+      "sha256": "ba34ee9edb5457dcf93a14a217831fb8b29cc02bf41b26739ec4b73b96da4356",
+      "tracks": 25,
+      "start": 600,
+      "end": 800,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1003,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02_moving.bdae",
+      "bytes": 8376,
+      "sha256": "17ceee4f1f72fba31fc632381478e5c5567fd8108d9da10bafaa018dad36d45d",
+      "tracks": 27,
+      "start": 800,
+      "end": 1133,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1012,
+      "path": "data/3D/characters/prince/animations/prince_dual_post_combo_02_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_02_moving.bdae",
+      "bytes": 9556,
+      "sha256": "556989752468582c503dadccc757bff3fcdca0ac715dd896f125fa8dbe56f9ec",
+      "tracks": 25,
+      "start": 1133,
+      "end": 1966,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1020,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_03_moving.bdae",
+      "bytes": 8228,
+      "sha256": "ace53ab8c5b3318027663a7550c818ea58166cd2eb998ba68ce8c46cc8f48271",
+      "tracks": 25,
+      "start": 1133,
+      "end": 1500,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1006,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03_moving.bdae",
+      "bytes": 8112,
+      "sha256": "600a0a395c57fe4af957dc1e56e30c51a9f918a4ac009d044289be32f92233c8",
+      "tracks": 25,
+      "start": 1500,
+      "end": 1833,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1013,
+      "path": "data/3D/characters/prince/animations/prince_dual_post_combo_03_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_03_moving.bdae",
+      "bytes": 9868,
+      "sha256": "6156454146d2ec9ea36ee2f3a372c1a97cb7c3e1e9d5624adbe91dd4b5ac895c",
+      "tracks": 25,
+      "start": 1833,
+      "end": 2599,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1022,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_04_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_04_moving.bdae",
+      "bytes": 8092,
+      "sha256": "34d4778b17a6888c0e77c8fe5e867f614eec558dc46eefb51a64c52f8366408a",
+      "tracks": 26,
+      "start": 1833,
+      "end": 2200,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2,
+        "4": 1
+      },
+      "unsupported_domain_tracks": [
+        23
+      ]
+    },
+    {
+      "clip_id": 1009,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_04_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04_moving.bdae",
+      "bytes": 8396,
+      "sha256": "776389afecd2125085d2dbe792af07b51e39b1b3098c3df7142f418ccf93ae64",
+      "tracks": 26,
+      "start": 2200,
+      "end": 2599,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2,
+        "2": 1
+      },
+      "unsupported_domain_tracks": [
+        23
+      ]
+    },
+    {
+      "clip_id": 1014,
+      "path": "data/3D/characters/prince/animations/prince_dual_post_combo_04_moving.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_04_moving.bdae",
+      "bytes": 9488,
+      "sha256": "d74637bc25d937bf15f4c5ce94af4acc3e888561d99be8e6e14f56d14c56012b",
+      "tracks": 26,
+      "start": 2599,
+      "end": 3233,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 22,
+        "10": 1,
+        "1": 2,
+        "2": 1
+      },
+      "unsupported_domain_tracks": [
+        23
+      ]
+    },
+    {
+      "clip_id": 1015,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_01.bdae",
+      "bytes": 7680,
+      "sha256": "2d4086709480be7a0b132175d95661f18f5aba723a4c67b1bf79db9641eab65f",
+      "tracks": 25,
+      "start": 0,
+      "end": 266,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 999,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01.bdae",
+      "bytes": 7292,
+      "sha256": "5b836271f1512867c798548b005f0c287c6f8616389ea42435e906113d247df2",
+      "tracks": 25,
+      "start": 266,
+      "end": 566,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1001,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_01_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01_to_idle.bdae",
+      "bytes": 9196,
+      "sha256": "ba0ce3649c5112419f83fe964421a83badda3322d5a85b19910cd26937ea98f1",
+      "tracks": 25,
+      "start": 566,
+      "end": 1266,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1017,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_02.bdae",
+      "bytes": 7096,
+      "sha256": "245e8a74e81cea44afdfc646db77481101704ec10d6cf951e8be00ac36645921",
+      "tracks": 25,
+      "start": 566,
+      "end": 833,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1002,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02.bdae",
+      "bytes": 7588,
+      "sha256": "daddcc6db2fd1d71d783039c3e2e02faae32fd7305543b48072d975df8744817",
+      "tracks": 25,
+      "start": 833,
+      "end": 1133,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1004,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_02_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02_to_idle.bdae",
+      "bytes": 10556,
+      "sha256": "cfea77fc9d5c841fb4684eb817f79f973858f05ecfb2b37ca6c0ef0aee64a8c0",
+      "tracks": 25,
+      "start": 1133,
+      "end": 2099,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1019,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_03.bdae",
+      "bytes": 7456,
+      "sha256": "c50dd20b885e10e703d8e854cb6b71270060d536c5dee3ca3062aa4222e83086",
+      "tracks": 25,
+      "start": 1133,
+      "end": 1433,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1005,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03.bdae",
+      "bytes": 8136,
+      "sha256": "44b08982c3b21d6bfe9f4c95fc5209920e010dfced75890fe7081e9f5b01e018",
+      "tracks": 25,
+      "start": 1433,
+      "end": 1799,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1007,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_03_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03_to_idle.bdae",
+      "bytes": 9224,
+      "sha256": "68964418ac71cc62246c47ef22a5c0b666d0d7291a841cb710a05e70aa68bac7",
+      "tracks": 25,
+      "start": 1799,
+      "end": 2433,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1021,
+      "path": "data/3D/characters/prince/animations/prince_dual_pre_combo_04.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_04.bdae",
+      "bytes": 7380,
+      "sha256": "a013e2d9c4df519279717b0bc4f354f03b3b021abcb2811956af5de63aff7370",
+      "tracks": 25,
+      "start": 1799,
+      "end": 2099,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1008,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_04.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04.bdae",
+      "bytes": 7324,
+      "sha256": "376639964124dad7d0ee5177e0eaced6b4f5a161a5b0069ccbba2adb25b30f98",
+      "tracks": 25,
+      "start": 2099,
+      "end": 2400,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1010,
+      "path": "data/3D/characters/prince/animations/prince_dual_combo_04_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04_to_idle.bdae",
+      "bytes": 9180,
+      "sha256": "ba92607da20e06bad4d606bf6e8170ae5030bbf26fd0cb6e1cb5d1275c555581",
+      "tracks": 25,
+      "start": 2400,
+      "end": 3099,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1147,
+      "path": "data/3D/characters/root_troll/animations/root_troll_pre_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_pre_attack_01.bdae",
+      "bytes": 12356,
+      "sha256": "dc4cfc8c853552c3d13d8bfcc598f34d3d4a2caa9b0bceb9e35083e4beab8d83",
+      "tracks": 29,
+      "start": 0,
+      "end": 1166,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 25,
+        "10": 1,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1133,
+      "path": "data/3D/characters/root_troll/animations/root_troll_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_attack_01.bdae",
+      "bytes": 40516,
+      "sha256": "4be7041221376d6c0fe7ffbddbb348255cabb5c05f84dcdd3b9edb528e15d51e",
+      "tracks": 29,
+      "start": 1166,
+      "end": 1766,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 25,
+        "10": 1,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1146,
+      "path": "data/3D/characters/root_troll/animations/root_troll_post_attack_01.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_post_attack_01.bdae",
+      "bytes": 9100,
+      "sha256": "7a4ed88775687f30b71948d079f13864f8918d581217c26ca0b17fb797ba9dd0",
+      "tracks": 27,
+      "start": 1766,
+      "end": 2333,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 3
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1218,
+      "path": "data/3D/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "bytes": 65060,
+      "sha256": "bfbdf36bcd38aec4411b71b134ec661b66e47ae649fdca09dd800cd2ad5b7762",
+      "tracks": 27,
+      "start": 0,
+      "end": 733,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 24,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1039,
+      "path": "data/3D/characters/prince/animations/prince_idle_ranged.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_ranged.bdae",
+      "bytes": 9964,
+      "sha256": "d16c517b473d039cf47559229417f9fc6d862f57a98e1f866f71989225c9a14f",
+      "tracks": 25,
+      "start": 0,
+      "end": 1066,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 23,
+        "10": 1,
+        "1": 1
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1077,
+      "path": "data/3D/characters/prince/animations/prince_ranged_attack.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack.bdae",
+      "bytes": 11752,
+      "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed",
+      "tracks": 21,
+      "start": 666,
+      "end": 1433,
+      "scene_nodes": 23,
+      "channel_type_counts": {
+        "5": 17,
+        "1": 1,
+        "9": 3
+      },
+      "unsupported_domain_tracks": [
+        4,
+        7,
+        12
+      ]
+    },
+    {
+      "clip_id": 1078,
+      "path": "data/3D/characters/prince/animations/prince_ranged_attack_02.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack_02.bdae",
+      "bytes": 12088,
+      "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6",
+      "tracks": 21,
+      "start": 666,
+      "end": 1433,
+      "scene_nodes": 23,
+      "channel_type_counts": {
+        "5": 17,
+        "1": 1,
+        "9": 3
+      },
+      "unsupported_domain_tracks": [
+        4,
+        7,
+        12
+      ]
+    },
+    {
+      "clip_id": 1079,
+      "path": "data/3D/characters/prince/animations/prince_ranged_attack_03.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack_03.bdae",
+      "bytes": 12400,
+      "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3",
+      "tracks": 21,
+      "start": 666,
+      "end": 1433,
+      "scene_nodes": 23,
+      "channel_type_counts": {
+        "5": 19,
+        "1": 1,
+        "9": 1
+      },
+      "unsupported_domain_tracks": [
+        7
+      ]
+    },
+    {
+      "clip_id": 1143,
+      "path": "data/3D/characters/root_troll/animations/root_troll_idle_to_dome.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_idle_to_dome.bdae",
+      "bytes": 11020,
+      "sha256": "47782dc8b427074d9499e250f6391f66b43c37ee039f70b63b0038418e641786",
+      "tracks": 24,
+      "start": 0,
+      "end": 1066,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1138,
+      "path": "data/3D/characters/root_troll/animations/root_troll_dome_warning.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_dome_warning.bdae",
+      "bytes": 3524,
+      "sha256": "3fa1fc7554771a54ca0471ad5e10b8b4da6535b75907f21f2e88c5bcc588b95d",
+      "tracks": 0,
+      "start": 2147483647,
+      "end": 2147483648,
+      "scene_nodes": 22,
+      "channel_type_counts": {},
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1136,
+      "path": "data/3D/characters/root_troll/animations/root_troll_dome_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_dome_idle.bdae",
+      "bytes": 11744,
+      "sha256": "8acac78bae233bc13c8b05d70799868f1904c8ee1669f42686e293d7820cba0a",
+      "tracks": 24,
+      "start": 0,
+      "end": 2000,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    },
+    {
+      "clip_id": 1137,
+      "path": "data/3D/characters/root_troll/animations/root_troll_dome_to_idle.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_dome_to_idle.bdae",
+      "bytes": 19568,
+      "sha256": "07e553ae7f389fcdc1a28919e5616ae7b11de694e447835c859ad851ed7ce1e4",
+      "tracks": 24,
+      "start": 0,
+      "end": 3166,
+      "scene_nodes": 0,
+      "channel_type_counts": {
+        "5": 21,
+        "10": 1,
+        "1": 2
+      },
+      "unsupported_domain_tracks": []
+    }
+  ],
+  "inputs": [
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarraynames.bin",
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pystructnames.bin",
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarray.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarray.bin",
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pystructnames.bin",
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarray.bin",
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pycst.bin",
+      "bytes": 1089,
+      "sha256": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_models_dictionary_pyarray.bin",
+      "bytes": 5366,
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/prince_modular.bdae",
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/skills_pyarray.bin",
+      "bytes": 11862,
+      "sha256": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_template_anim.bdae",
+      "bytes": 19908,
+      "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_menu_idle_knight.bdae",
+      "bytes": 19400,
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_shield_02.bdae",
+      "bytes": 14996,
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_slow.bdae",
+      "bytes": 68492,
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_01_moving.bdae",
+      "bytes": 6984,
+      "sha256": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_moving.bdae",
+      "bytes": 8164,
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_01_moving.bdae",
+      "bytes": 8924,
+      "sha256": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_02_moving.bdae",
+      "bytes": 7012,
+      "sha256": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02_moving.bdae",
+      "bytes": 8056,
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_02_moving.bdae",
+      "bytes": 8524,
+      "sha256": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_03_moving.bdae",
+      "bytes": 6808,
+      "sha256": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03_moving.bdae",
+      "bytes": 8236,
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_post_combo_03_moving.bdae",
+      "bytes": 9044,
+      "sha256": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_01.bdae",
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01.bdae",
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_01_to_idle.bdae",
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_02.bdae",
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02.bdae",
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_02_to_idle.bdae",
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_pre_combo_03.bdae",
+      "bytes": 7548,
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03.bdae",
+      "bytes": 8632,
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_1hand_combo_03_to_idle.bdae",
+      "bytes": 9084,
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_feared.bdae",
+      "bytes": 10232,
+      "sha256": "ad14966e8ed054fb44e356b53592740c14b920992cfdc9a9462e9ce78be07262"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_pre_stunned.bdae",
+      "bytes": 7084,
+      "sha256": "35eb3d125813c63a3a0aea5a3ce3810339e44dc7c8a13bf40ebb1a4061358532"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_stunned.bdae",
+      "bytes": 11636,
+      "sha256": "10a81195712d8a46498104c8e1647296ee7fdf0d4eb488425d1bd987cf3b0214"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_post_stunned.bdae",
+      "bytes": 9244,
+      "sha256": "0d0930697d6de8e84aca96450d02dd1576c96fef1d17bf530f100fd4d7727403"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_pushback.bdae",
+      "bytes": 10784,
+      "sha256": "98b725ebc5c5d5de24a10b01cc9936a08d5505adb62919db522a14c6ecd3481e"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_standup.bdae",
+      "bytes": 12624,
+      "sha256": "14f67e0012fcbac97db179cf9304f55d22d537fed2a78c3070c5be758725042d"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_great_pushback.bdae",
+      "bytes": 13724,
+      "sha256": "bdff3bc5dd3f3a95227a29bb042b6c837b56c45f53ff715d0aacb9c3fe8b36b0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_great_pushback_standup.bdae",
+      "bytes": 15660,
+      "sha256": "3943f7a2cf93ff0061370a95bf29434bd70f3916779d9c1a81c8bd75d751b6a7"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_hurt_01.bdae",
+      "bytes": 9492,
+      "sha256": "912d6df63b3088f8670d184b3acd5df133edd0791a24568379d206dfdabe7522"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_hurt_02.bdae",
+      "bytes": 10428,
+      "sha256": "ddff33044857266b997546d418c4d2e4599831e57c19e67fd5b6e6397673e768"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_hurt_03.bdae",
+      "bytes": 9732,
+      "sha256": "e0770baf2c5dd3a841c5b3d47660c1c956d56cdab57122f5a7955e9e0fc58682"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_block.bdae",
+      "bytes": 10280,
+      "sha256": "f87f34e28201d67f33f0245caeeaf33fd024b3b826343a613c2b924df7efd51c"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dodge.bdae",
+      "bytes": 11664,
+      "sha256": "b196c02e2270db944ae6f41d90965d741927fbf5fa37b19878fbf49f2e544af0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dying_01.bdae",
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_despawn_01.bdae",
+      "bytes": 6312,
+      "sha256": "b6aa0d869acf57409e6a8bbdc755e5c24b0e16fa59adda85d87b2761d0411455"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_great_pushback_dying.bdae",
+      "bytes": 10480,
+      "sha256": "7ca5c9182f00bf5859599fb6f0f18a00fdbd089f9b42836b7fb7ccb99fd01b89"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_great_pushback_despawn.bdae",
+      "bytes": 6940,
+      "sha256": "df027ddc1a680b116ae0330fb7c55bc45c3dca567540a6333a3d8fa969367fb0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_rogue_sneak_idle.bdae",
+      "bytes": 16788,
+      "sha256": "ba16c7ae983f3afe7c0f7e95836e5412bc7ac3399ee502de9acf5a780f003f9e"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_rogue_sneak_walk.bdae",
+      "bytes": 11392,
+      "sha256": "64ec13a0132bf52db4c430c64f2b138ca7cc5bd76140ee3ede21b1923a8bc9c1"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_interaction.bdae",
+      "bytes": 11408,
+      "sha256": "988b7ad3e614e2ecc4fc29bdd6fef71d752476d94b432b8ce46b37759e9eba62"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dialog.bdae",
+      "bytes": 27972,
+      "sha256": "276249c74adfae2cf0c69feb18348751ae8dc6b76c4bccfd559996d201a0fb3a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_interaction_shrine.bdae",
+      "bytes": 6072,
+      "sha256": "cec7e98e19b3e0621e3851932c7f0a54c9e668bd42ee47feb4b14651fcb7842a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_channeling.bdae",
+      "bytes": 8048,
+      "sha256": "1350178e7a87b8868fb6e4d34acfce79e27a77674058aa09ddd8625bb6f596ec"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_pre_wetty.bdae",
+      "bytes": 8352,
+      "sha256": "0ab0b2420d0a61797e41f7176b9690d5f56d85d0daac3005e871e7f11b2889fc"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_wetty.bdae",
+      "bytes": 9488,
+      "sha256": "e00550d886041df8af1add54e49a5a9c4047bce9b730ddf219f03d1ad4660cf0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_pre_windy.bdae",
+      "bytes": 8648,
+      "sha256": "b291fd40c0eb231aa130312d59fb5a54d9113b8f4931bda477bb3f768caba43a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_windy.bdae",
+      "bytes": 10656,
+      "sha256": "ad9c13246bb75cb3f7bbc6c8cb2aa5100fdd8c23f25185b45f35acb10d0df36f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_pre_rocky.bdae",
+      "bytes": 9256,
+      "sha256": "df611a7a2610a9bc952ff5bcd2d09c78858a1f03aa9d3e4d0b5f8ec25b54cc7a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_rocky.bdae",
+      "bytes": 9452,
+      "sha256": "6a98c5f8a6aacb745ae58f01e13e375bf8489e9c66864870f5d77d91d6b4183a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_pre_hotty.bdae",
+      "bytes": 8204,
+      "sha256": "20f24c13da52eeccd65e5c1d9e1622eae02eb17c8add83893c7470dd2e5ce59d"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_spell_hotty.bdae",
+      "bytes": 9444,
+      "sha256": "e80741db58a592071f0fe0f4683a2fb4cec3d5e6c0872a32251ef7266d742fda"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_warrior_bash_down.bdae",
+      "bytes": 15528,
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_warrior_crushing_blow.bdae",
+      "bytes": 14676,
+      "sha256": "5aa608edd801347e338505fb915f6e44033bf51ff98310170accd4dcb232dbfa"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_warrior_charge.bdae",
+      "bytes": 11516,
+      "sha256": "f24d9a28854d0188e611b7ebb4bd120f3dd57957ae132c5d243f2dbb627fd373"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_2hand.bdae",
+      "bytes": 57112,
+      "sha256": "298c9f6f5af13970050a683640790453cf2fe0932d4e59ed6507377c81e2f181"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_2hand_02.bdae",
+      "bytes": 65132,
+      "sha256": "5a9e13430fca5c3ce8eea44e695e300b444b7916245f513bc3636588b25a2ab2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_01_moving.bdae",
+      "bytes": 7940,
+      "sha256": "a4ffe99f3747c1458fcab74226fd1dcc8c272c9255f4d8685f0cf4ad0b5a9ab4"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_moving.bdae",
+      "bytes": 8816,
+      "sha256": "80da78bee82f732b326b2232dfe0dc30ef8fdc1a52df84a3ad46960dbc625d39"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_to_idle_moving.bdae",
+      "bytes": 10744,
+      "sha256": "fd0ee7b2f3cc16e5f09ec4b854b5bfa3bd37d5fbc559a722cefd706b46a5ba66"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_02_moving.bdae",
+      "bytes": 7724,
+      "sha256": "c16ecacf1d5d3ac959dc59f0e353e608a0dc6828d857566171b9960e017d59eb"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_moving.bdae",
+      "bytes": 8960,
+      "sha256": "926d4df45a4cf6290365d12019158a6160b57d68e56e8826eea29cbcbddeb063"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_to_idle_moving.bdae",
+      "bytes": 10576,
+      "sha256": "61571532605f9ae76acb0ed2972a098aba27d8d5db59a3f04f431e9f95078785"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_03_moving.bdae",
+      "bytes": 7724,
+      "sha256": "e5e6d8a6898b3cc0979672366f2f8d5c14708409a1a9a3bceb88039f00cb3517"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03_to_idle_moving.bdae",
+      "bytes": 10980,
+      "sha256": "bdd6f89b8a37493a9360631a1c3ee62301414eaab5a0d4c92ebbccb26b43f1cb"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_01.bdae",
+      "bytes": 7640,
+      "sha256": "7200dcc608afbb10af5ac3aae47042d11e94ffdf828a7a5c266fcfd561f0410d"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01.bdae",
+      "bytes": 8144,
+      "sha256": "ef877dee487c8c91ee9fd6c4a3a1e9b72db12e9d0288a837341b9a16ba276aa2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_01_to_idle.bdae",
+      "bytes": 8808,
+      "sha256": "08271e2127bcc0baab19ba06bd15af824ad93c45c4319be63f4d0b236eda46bc"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_02.bdae",
+      "bytes": 7992,
+      "sha256": "cb6e4349be2a3426b346cade5da15ad5a9dda63dfeb3405e4f24b73066c02d61"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02.bdae",
+      "bytes": 7740,
+      "sha256": "910ea4514b097281bdc1fcab85e394687baae900838ae0b065c5f1bad28fe44f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_02_to_idle.bdae",
+      "bytes": 10248,
+      "sha256": "84f919b98f461f8606c68e1da4b0ef7c7e827c4ee7616ed22b22a935b16bf9ea"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_pre_combo_03.bdae",
+      "bytes": 8160,
+      "sha256": "de13c3aa34ecb9ad952ba818f823f807593fd98e0c0334b23ac7ca0e5b86d072"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03.bdae",
+      "bytes": 8144,
+      "sha256": "8a8400e0f65e69c1e338008a2399fc74c05697a3853af9301733fbbf4dfcd3e9"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_2hand_combo_03_to_idle.bdae",
+      "bytes": 8872,
+      "sha256": "611c1d1ce0da71fd01fda1866d9d4d4b979ab86c4d10b8c04143c74398aff005"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_rogue_vicious_strike.bdae",
+      "bytes": 15752,
+      "sha256": "f5bdab87e02875d343840377e580afdce3dbbf0db35938baa17d5910ebbdb6b6"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_dual.bdae",
+      "bytes": 55036,
+      "sha256": "19a673316a0e9d8497ab32c7f9466094993eb78ba4e0bc099c40fa2636906d8c"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_dual_02.bdae",
+      "bytes": 65128,
+      "sha256": "58ec39b964f729c3ef18d7920bf28bde5bb05b02d5c674944e6c72368f51f77e"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_01_moving.bdae",
+      "bytes": 6200,
+      "sha256": "6da1b197fd7014e94d286d1d041ea8cbf88b3603c6f7fbfa5685d0cef418ec4c"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01_moving.bdae",
+      "bytes": 8064,
+      "sha256": "8b639941320b72e1a42deabeca29b29c889a11c1295d7b4029d4a8f13098983e"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_01_moving.bdae",
+      "bytes": 9692,
+      "sha256": "8c4c1478be59b455b21d45c495ae90b7c96c39ead7276189150cd3ea5639a25a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_02_moving.bdae",
+      "bytes": 6840,
+      "sha256": "ba34ee9edb5457dcf93a14a217831fb8b29cc02bf41b26739ec4b73b96da4356"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02_moving.bdae",
+      "bytes": 8376,
+      "sha256": "17ceee4f1f72fba31fc632381478e5c5567fd8108d9da10bafaa018dad36d45d"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_02_moving.bdae",
+      "bytes": 9556,
+      "sha256": "556989752468582c503dadccc757bff3fcdca0ac715dd896f125fa8dbe56f9ec"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_03_moving.bdae",
+      "bytes": 8228,
+      "sha256": "ace53ab8c5b3318027663a7550c818ea58166cd2eb998ba68ce8c46cc8f48271"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03_moving.bdae",
+      "bytes": 8112,
+      "sha256": "600a0a395c57fe4af957dc1e56e30c51a9f918a4ac009d044289be32f92233c8"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_03_moving.bdae",
+      "bytes": 9868,
+      "sha256": "6156454146d2ec9ea36ee2f3a372c1a97cb7c3e1e9d5624adbe91dd4b5ac895c"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_04_moving.bdae",
+      "bytes": 8092,
+      "sha256": "34d4778b17a6888c0e77c8fe5e867f614eec558dc46eefb51a64c52f8366408a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04_moving.bdae",
+      "bytes": 8396,
+      "sha256": "776389afecd2125085d2dbe792af07b51e39b1b3098c3df7142f418ccf93ae64"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_post_combo_04_moving.bdae",
+      "bytes": 9488,
+      "sha256": "d74637bc25d937bf15f4c5ce94af4acc3e888561d99be8e6e14f56d14c56012b"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_01.bdae",
+      "bytes": 7680,
+      "sha256": "2d4086709480be7a0b132175d95661f18f5aba723a4c67b1bf79db9641eab65f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01.bdae",
+      "bytes": 7292,
+      "sha256": "5b836271f1512867c798548b005f0c287c6f8616389ea42435e906113d247df2"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_01_to_idle.bdae",
+      "bytes": 9196,
+      "sha256": "ba0ce3649c5112419f83fe964421a83badda3322d5a85b19910cd26937ea98f1"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_02.bdae",
+      "bytes": 7096,
+      "sha256": "245e8a74e81cea44afdfc646db77481101704ec10d6cf951e8be00ac36645921"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02.bdae",
+      "bytes": 7588,
+      "sha256": "daddcc6db2fd1d71d783039c3e2e02faae32fd7305543b48072d975df8744817"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_02_to_idle.bdae",
+      "bytes": 10556,
+      "sha256": "cfea77fc9d5c841fb4684eb817f79f973858f05ecfb2b37ca6c0ef0aee64a8c0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_03.bdae",
+      "bytes": 7456,
+      "sha256": "c50dd20b885e10e703d8e854cb6b71270060d536c5dee3ca3062aa4222e83086"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03.bdae",
+      "bytes": 8136,
+      "sha256": "44b08982c3b21d6bfe9f4c95fc5209920e010dfced75890fe7081e9f5b01e018"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_03_to_idle.bdae",
+      "bytes": 9224,
+      "sha256": "68964418ac71cc62246c47ef22a5c0b666d0d7291a841cb710a05e70aa68bac7"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_pre_combo_04.bdae",
+      "bytes": 7380,
+      "sha256": "a013e2d9c4df519279717b0bc4f354f03b3b021abcb2811956af5de63aff7370"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04.bdae",
+      "bytes": 7324,
+      "sha256": "376639964124dad7d0ee5177e0eaced6b4f5a161a5b0069ccbba2adb25b30f98"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_dual_combo_04_to_idle.bdae",
+      "bytes": 9180,
+      "sha256": "ba92607da20e06bad4d606bf6e8170ae5030bbf26fd0cb6e1cb5d1275c555581"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_pre_attack_01.bdae",
+      "bytes": 12356,
+      "sha256": "dc4cfc8c853552c3d13d8bfcc598f34d3d4a2caa9b0bceb9e35083e4beab8d83"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_attack_01.bdae",
+      "bytes": 40516,
+      "sha256": "4be7041221376d6c0fe7ffbddbb348255cabb5c05f84dcdd3b9edb528e15d51e"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_post_attack_01.bdae",
+      "bytes": 9100,
+      "sha256": "7a4ed88775687f30b71948d079f13864f8918d581217c26ca0b17fb797ba9dd0"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/skill_dh2_prince_mage_wand_attack.bdae",
+      "bytes": 65060,
+      "sha256": "bfbdf36bcd38aec4411b71b134ec661b66e47ae649fdca09dd800cd2ad5b7762"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_idle_ranged.bdae",
+      "bytes": 9964,
+      "sha256": "d16c517b473d039cf47559229417f9fc6d862f57a98e1f866f71989225c9a14f"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack.bdae",
+      "bytes": 11752,
+      "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack_02.bdae",
+      "bytes": 12088,
+      "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_ranged_attack_03.bdae",
+      "bytes": 12400,
+      "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_idle_to_dome.bdae",
+      "bytes": 11020,
+      "sha256": "47782dc8b427074d9499e250f6391f66b43c37ee039f70b63b0038418e641786"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_dome_warning.bdae",
+      "bytes": 3524,
+      "sha256": "3fa1fc7554771a54ca0471ad5e10b8b4da6535b75907f21f2e88c5bcc588b95d"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_dome_idle.bdae",
+      "bytes": 11744,
+      "sha256": "8acac78bae233bc13c8b05d70799868f1904c8ee1669f42686e293d7820cba0a"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/root_troll/animations/root_troll_dome_to_idle.bdae",
+      "bytes": 19568,
+      "sha256": "07e553ae7f389fcdc1a28919e5616ae7b11de694e447835c859ad851ed7ce1e4"
+    }
+  ],
+  "scope": "Actual SetAnimationSet, recursive table registration and Character table/skill/model-ID getters execute on cache-backed structs. Character IsPlayer, constant lookup, manager/resource-loading, script/FX/audio services are fixtures. Clip registrations are call requests; load-probe separately proves duplicate append. Model property resolves ID78; GetCharModelName equipment/game-state override branches are not executed here. No live equipment/property inheritance or full cache lifecycle claim."
+}
