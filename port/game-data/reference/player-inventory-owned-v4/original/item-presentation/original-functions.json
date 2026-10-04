@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13StringManager5parseERSsPKcz",
+      "elf_address": "0x508ef4",
+      "size": 2836,
+      "sha256": "6dbb98a099a473963ec28a86543954600c12188543dcda7f7e4f5ed5a09ade91"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance11_UpdateNameEv",
+      "elf_address": "0x3fb754",
+      "size": 1284,
+      "sha256": "46bdedb98c535b3f49396548013cf467ad34065bbbddfae75312eb4ee68aa21a"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance8SetValueEi",
+      "elf_address": "0x3fbc58",
+      "size": 8,
+      "sha256": "e0857178738f7fd87b902d5d74ba0bd6662e141f7fcc92fecc29f2489fe5ee63"
+    }
+  ]
+}

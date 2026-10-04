@@ -1,0 +1,104 @@
+[
+  {
+    "path": "base\\container.cpp",
+    "before_sha256": "82e37ae6b8d56375856c9422dcccef6617dc3f15561c8d278c7764fff55a257b",
+    "after_sha256": "1c3e1197f39462e2c83b01bd0e87085146ffd7b588292b38bacccc680780b639",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "base\\container.h",
+    "before_sha256": "82f95c2c95fad85594d1d6167e26a76652026ddee3d381212f94698ff781505e",
+    "after_sha256": "b6a1bda8445842823bfc2f52d1160f732a9a08b9026b19407b685192b9178b33",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "base\\triangulate_impl.h",
+    "before_sha256": "7e6aeee0fbab6d3f010b73ec5e34c79159255345dde1bf717073844cc851abaa",
+    "after_sha256": "c2608a6ee0caed20277ba674e2a3734e61e960062d4f6c0f827d50aee759387a",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "base\\tu_math.h",
+    "before_sha256": "504e5b28344d829d29f0ad6097e34039cd9e89c543e6c068563e1454b2dc8606",
+    "after_sha256": "d586580fcbb561f3e3dc9b2233ddb3f47c1f2abe0299b52c8201c1dd1a7c55fa",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "base\\tu_timer.cpp",
+    "before_sha256": "de17f20ff81d5df9314efdf4eeb194f620df2700f372159936752aa50646bdcf",
+    "after_sha256": "35a2f641a6fcac06049055c19a3602b18049ff4531d6e771228302a13653b449",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "base\\utility.h",
+    "before_sha256": "a5041541bde9e037d75a16030dd15cc94e782f0fbca91b172e1c3d750033ee3a",
+    "after_sha256": "9fbaacfc6e7d7da6ec742ffc5c6fbdfaaf6100bf644c8f9189211992edbfedba",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "base\\vert_types.h",
+    "before_sha256": "bf503eca9159db3d64bebf17d032c50af2e1997418043a632f7c9da0aa295f7f",
+    "after_sha256": "925ce683cb86515bafd8e9f441f7e5fef9b77a97257efdd47b15e3ff520527c8",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "gameswf\\gameswf_environment.cpp",
+    "before_sha256": "29afe8dc24edc14190ab47ff49a0924609c898a3da7e5d867f2519337665ca10",
+    "after_sha256": "fa16307cdb23750edce31a526b4ef018b5283f9b9a8c17f429c7a4ca61155268",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "gameswf\\gameswf_environment.h",
+    "before_sha256": "28c7c84779fe6b010eeb0491eefaba6d389e191212b46c6f9cbe62d25d7f0d0f",
+    "after_sha256": "a40f8da1cc24deff43728e3b66859a580f92fe1d8a18b38120c904f00a10f424",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "gameswf\\gameswf_player.cpp",
+    "before_sha256": "af161402f05b553390c665a81bc52a73eb03004f637658403ae714d1c69b5348",
+    "after_sha256": "6dd855ffcceab227fdbd0fe037ab2c242c0afa195c4135649406dda86da16578",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "gameswf\\gameswf_root.cpp",
+    "before_sha256": "b104407a566369caae5fe00a8d7955565c88a6ed1123c98727428d43561ff7a5",
+    "after_sha256": "d009ae1a49afeda3a19d05d5544bd92ee5e3d1ff5c263fb2dbf1bb898ff82392",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "gameswf\\gameswf_sprite.cpp",
+    "before_sha256": "6dca2742a3283b2116eb7ebde1bf83f05dbf5692e8816fa74a9cab5f6a8d1fd9",
+    "after_sha256": "8f5fd5b128661b51cc449c7784a32b9379dbca16af3de876cb992a3910631a06",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "gameswf\\gameswf_stream.cpp",
+    "before_sha256": "47cbd4270f578d94ada21d089195911f106f7c8dad0c0906bc903382c104d9a5",
+    "after_sha256": "39953c40ce3c833ea18e7b82cb182fb8bd6a1f493bc7a30a64953aec2b0bcdff",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "gameswf\\gameswf_text.cpp",
+    "before_sha256": "11355ed834d35342ba74b44d493853f1d962d22637c254428fddd2ab6a1de129",
+    "after_sha256": "a379c22eef14441decfbbcb29250f68c1ac640c7e93bf6cd751f8dc0e0dbb1fa",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "gameswf\\gameswf_types.cpp",
+    "before_sha256": "13359a0de35b92a88dbcddb4f49ee6fe50a46ef1763d717e8d0669ab2fa14eb1",
+    "after_sha256": "f5f6b21e42eb2030837670b42137a5599d0bf2333ec7e6670c37f7ede648d302",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "net\\net_interface_tcp.cpp",
+    "before_sha256": "69a8ae0ef90e1eb02bf428da0cbcd602267a4b80252c4fd095898d81f991b30a",
+    "after_sha256": "cf3b142ec2c54fb2032a26ff33472207c08801279f04649740b8fb130d790629",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  },
+  {
+    "path": "gameswf\\extensions\\lib3ds\\gameswf_3ds_def.cpp",
+    "before_sha256": "cee2e7ae1291ca823b002aebfde100b5edc421f71aa4fce8ba9f6bf045818380",
+    "after_sha256": "9bc078f439e30d2c9bd279fd9eb59ee1380c9d956884feb300522d9d8fc68b4d",
+    "reason": "Preserve legacy utility semantics under modern math overloads; qualify global array to avoid private inherited injected classname lookup"
+  }
+]

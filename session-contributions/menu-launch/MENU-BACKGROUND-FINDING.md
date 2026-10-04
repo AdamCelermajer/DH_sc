@@ -1,0 +1,9 @@
+# Original Android main-menu background
+
+`dqmenus_droid-actions.json` and `.txt` decode only the original snapshot SWF; `main-menu-authored-actions.json` selects sprite 510. The captured SWF hash is recorded in those files. Existing decoding definitions came from `.local-inputs/swf-layout-trigger/decode_actions.py`; output was redirected to this handoff and only dqmenus_droid was selected. Historic HUD/shared outputs were not overwritten.
+
+Main onShow accesses menu_bg.TitleGraphic and menu_bg.RenderedBG as siblings. The v16 diagnostic mistakenly inspected RenderedBG.TitleGraphic. The corrected v17 diagnostic confirms that menu_bg.TitleGraphic is absent in the actual Android graph. The SWF tree agrees: sprite 36 places BrownBG (id 33) and RenderedBG (id 35), without a TitleGraphic placement. RenderedBG has a single shape 34, and BrownBG is deliberately hidden by main onShow. This does not establish where a logo is ultimately supplied by native code.
+
+Read-only source evidence in port/level-world/reference/ui-layout/NOTES.md identifies original MenuMainMenu::SetupScene at 0x42c510 loading data/3d/menu/main_menu_charactere_swamp.bdae, and Show at 0x42c62c resolving menu_bg. The original scene/camera/texture ownership remains to be connected. The current centered SWF layer alone cannot establish a complete main-menu background.
+
+`text-tests-v17-recheck/` records the corrected probes and passing main label checks at three sizes. These checks do not establish functional menu navigation. The first v17 test invocation failed because its polling helper treated the brief process-start interval as an error; the test helper now permits pidof exit 1 while waiting for the app. The preserved first receipt documents that harness failure. No emulator restart or shared emulator operation was performed.

@@ -1,0 +1,537 @@
+{
+  "validation": "PASS",
+  "comparisons": 4332,
+  "ordered_callbacks": 4789,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "4c272314a40f6297b7c128c9eee30dde17d2ff82d735aa2e4ca3ed314241663c",
+  "corpus_sha256": "741c5e74bd691ae67c53f43ef9b3a043588dcde41a3ef385c42c2d7b3b21a002",
+  "source_bindings": {
+    "port\\level-world\\character_relationships.cpp": "94c45e7344ae68f77520405aca003ddd7cc2cceacfcbbb29e7bb8442cf4cc321",
+    "port\\level-world\\character_relationships.hpp": "360426e4401b72b07512164f0321c09a80f4e4c9a5f08388cbc526ef79079cc4",
+    "port\\level-world\\character_target_providers.cpp": "24c160b8f7e1d3e95bb06ef5f43f63c794851ec430ccfc4ff6e2135fd7aba70a",
+    "port\\level-world\\character_target_providers.hpp": "1db2bc0cde5d7644b2194e333dc82209b756980c1ee7cb022774503c6e99fc36",
+    "port\\level-world\\tests\\character_relationships_differential.py": "1540b1f1b6467eaa0888d2f3d44797873cd6cdf364a8b126df29189fb1477f53",
+    "port\\level-world\\tests\\character_target_provider_handles.py": "f6b19f0087cb1c28d6595819329a0cc6f5b4969e11084d1a86ff123f1a673f8c",
+    "port\\level-world\\tests\\character_target_providers_differential.py": "875248b518e572e0718872c56b3ca98af61e0294bcae25ca3e6c62079ca39a44",
+    "port\\level-world\\reference\\character-relationships\\original-functions.json": "6253a1b6bc2d59d1ea60d5470eef0b783e856804f4081ebc90ea539a0faa17ec",
+    "port\\level-world\\reference\\character-relationships\\base-producer\\original-functions.json": "a872fae09ad9cff1f2afcaa2458132e6e4718799d904ea4f88420a2c5bc31d1c",
+    "port\\level-world\\reference\\character-relationships\\object-producer\\original-functions.json": "222093507d4f04ecef909594792fef3122ca59084e1251aaf7b28f3b8253a90d",
+    "port\\level-world\\reference\\character-relationships\\producers\\original-functions.json": "8a43ffc11fc1d2d603f54b614f56ec2745c512a88acd21e85264c2177cb7e09b"
+  },
+  "asset_bindings": {
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_factions_pyarray.bin": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarray.bin": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+  },
+  "factions": [
+    [
+      [
+        11,
+        1000
+      ],
+      [
+        7,
+        -1000
+      ],
+      [
+        6,
+        -1000
+      ],
+      [
+        8,
+        -1000
+      ]
+    ],
+    [
+      [
+        11,
+        1000
+      ],
+      [
+        4,
+        1000
+      ],
+      [
+        7,
+        -1000
+      ]
+    ],
+    [
+      [
+        11,
+        1000
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        7,
+        -1000
+      ]
+    ],
+    [
+      [
+        11,
+        1000
+      ],
+      [
+        13,
+        1000
+      ],
+      [
+        7,
+        -1000
+      ],
+      [
+        8,
+        -1000
+      ],
+      [
+        9,
+        0
+      ]
+    ],
+    [
+      [
+        11,
+        1000
+      ],
+      [
+        4,
+        1000
+      ],
+      [
+        13,
+        1000
+      ],
+      [
+        7,
+        -1000
+      ],
+      [
+        8,
+        -1000
+      ],
+      [
+        9,
+        0
+      ]
+    ],
+    [
+      [
+        11,
+        -1000
+      ],
+      [
+        7,
+        1000
+      ]
+    ],
+    [
+      [
+        11,
+        -1000
+      ],
+      [
+        4,
+        -1000
+      ],
+      [
+        7,
+        1000
+      ],
+      [
+        14,
+        1000
+      ],
+      [
+        1,
+        -1000
+      ],
+      [
+        15,
+        1000
+      ],
+      [
+        6,
+        1000
+      ]
+    ],
+    [
+      [
+        11,
+        -1000
+      ],
+      [
+        4,
+        -1000
+      ],
+      [
+        13,
+        -1000
+      ],
+      [
+        0,
+        -1000
+      ],
+      [
+        7,
+        1000
+      ],
+      [
+        14,
+        1000
+      ],
+      [
+        1,
+        -1000
+      ],
+      [
+        6,
+        1000
+      ],
+      [
+        8,
+        -1000
+      ],
+      [
+        9,
+        0
+      ]
+    ],
+    [
+      [
+        11,
+        0
+      ],
+      [
+        7,
+        -1000
+      ],
+      [
+        6,
+        -1000
+      ],
+      [
+        8,
+        -1000
+      ]
+    ],
+    [
+      [
+        11,
+        0
+      ],
+      [
+        7,
+        0
+      ],
+      [
+        6,
+        0
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        3,
+        0
+      ]
+    ],
+    [],
+    [
+      [
+        11,
+        1000
+      ],
+      [
+        13,
+        1000
+      ],
+      [
+        0,
+        -1000
+      ],
+      [
+        4,
+        1000
+      ],
+      [
+        3,
+        1000
+      ],
+      [
+        15,
+        1000
+      ],
+      [
+        7,
+        -1000
+      ],
+      [
+        6,
+        -1000
+      ],
+      [
+        5,
+        -1000
+      ],
+      [
+        8,
+        -1000
+      ],
+      [
+        9,
+        0
+      ]
+    ],
+    [
+      [
+        11,
+        1000
+      ]
+    ],
+    [
+      [
+        11,
+        1000
+      ],
+      [
+        7,
+        -1000
+      ],
+      [
+        6,
+        -1000
+      ],
+      [
+        8,
+        -1000
+      ]
+    ],
+    [
+      [
+        11,
+        1000
+      ],
+      [
+        4,
+        1000
+      ],
+      [
+        7,
+        0
+      ]
+    ],
+    [
+      [
+        11,
+        1000
+      ],
+      [
+        15,
+        1000
+      ],
+      [
+        7,
+        1000
+      ]
+    ]
+  ],
+  "types": [
+    0,
+    4,
+    4,
+    4,
+    4,
+    2,
+    4,
+    4,
+    0,
+    4,
+    4,
+    6,
+    4,
+    4,
+    4,
+    4,
+    4,
+    0,
+    4,
+    4,
+    3,
+    6,
+    4,
+    4,
+    2,
+    4,
+    6,
+    9,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    7,
+    4,
+    4,
+    4,
+    4,
+    1,
+    4,
+    4,
+    3,
+    3,
+    3,
+    2,
+    4,
+    2,
+    6,
+    4,
+    4,
+    4,
+    4,
+    4,
+    6,
+    4,
+    4,
+    4,
+    4,
+    2,
+    2,
+    4,
+    4,
+    4,
+    4,
+    6,
+    6,
+    4,
+    6,
+    4,
+    4
+  ],
+  "genuine_character_property_producers": [
+    {
+      "row": 33,
+      "name": "CryptSlime",
+      "resolved": [
+        7,
+        40,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 34,
+      "name": "CryptSlime_RE",
+      "resolved": [
+        7,
+        40,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 35,
+      "name": "Crypt_Ghost",
+      "resolved": [
+        7,
+        68,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 36,
+      "name": "Crypt_Ghost_MIDBOSS",
+      "resolved": [
+        7,
+        25,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 37,
+      "name": "Crypt_Ghost_RE",
+      "resolved": [
+        7,
+        68,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 38,
+      "name": "Crypt_Skeleton",
+      "resolved": [
+        7,
+        40,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 39,
+      "name": "Crypt_SkeletonXL",
+      "resolved": [
+        7,
+        40,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 40,
+      "name": "Crypt_Skeleton_RE",
+      "resolved": [
+        7,
+        40,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 41,
+      "name": "Crypt_Ugly_Dog",
+      "resolved": [
+        7,
+        68,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 42,
+      "name": "Crypt_Ugly_Dog_RE",
+      "resolved": [
+        7,
+        68,
+        0,
+        0
+      ]
+    },
+    {
+      "row": 263,
+      "name": "KnightPlayerBase",
+      "resolved": [
+        11,
+        44,
+        0,
+        0
+      ]
+    }
+  ],
+  "scope": "Full relationship bodies, genuine faction loader, handle resolver and Character virtuals.",
+  "probe_sha256": "2651172cfac59251a7d411d42c5c8c00ed3574f8e8a9ca0c009dc3bb285e215d"
+}

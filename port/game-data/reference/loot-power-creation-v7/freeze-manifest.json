@@ -1,0 +1,80 @@
+{
+  "validation": "PASS",
+  "production_source_sha256": {
+    "port/game-data/loot_power_resources_v7.hpp": "ba129428839360f209db56af1a51b80e3a0d749d36f339973be6b2dfddc2fb2b",
+    "port/game-data/loot_power_resources_v7.cpp": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
+    "port/game-data/loot_power_creation_v7.hpp": "577640b7ee36c61673fc88960750aeeb8a9b745c872be262ddc180d82b1b2a1d",
+    "port/game-data/loot_power_creation_v7.cpp": "6f63b3a9c1086ec6d7c80f08342306a102c5a800fefe0eef9f754fad2c757d85"
+  },
+  "source_sha256": {
+    "port/game-data/tests/loot_power_creation_v7.cpp": "9e6e44d715c12f4a0f4589974f1902ad352628a3924636eb02027fca90790f08",
+    "port/game-data/tests/loot_power_creation_v7_fixture.cpp": "c3a060bbdaec9d354a0bcd1e10b11a40b45dd8e50beb68d8700497c2b9fb91a1",
+    "port/game-data/tests/loot_power_creation_v7_differential.py": "982fbd28dc3130dc43c9dc2bb18dc66d3fb9f91e896c8c43a32eca71245b7143",
+    "port/game-data/tools/build_loot_power_v7_oracle.ps1": "da448e7ae6fdc253106bb1bb1f2e953c01ff5a8fd3f8d601318b9aae728bb70e",
+    "port/game-data/tools/audit_loot_power_v7_host.py": "17bc35c74e2f6c21c38fc6c88430ee1d26f06f82378bb857c1d3f6b8199bc7ca",
+    "port/game-data/tools/prepare_loot_power_v7_inputs.py": "79bd8891917e603f2acd1fb033895c337ad701807c1879d96228776df3ec9fd9",
+    "port/game-data/tools/freeze_loot_power_v7.py": "f79adc2b149664f834788ffa08cab9712f46b1561a0638d7a903e1b365f387fe"
+  },
+  "proof_sha256": {
+    "port/game-data/reports/loot-power-creation-v7-arm64-differential.json": "ee9c5b023556ce05fa88bbf857f74289f7a8eb34c888cad800b9975587ff67c2",
+    "port/game-data/reports/loot-power-creation-v7-host-audit.json": "6a0e6f4812d458777faaf66344a7cdcd0e65b8858900bdfee975882cbbb8cda3"
+  },
+  "reference_sha256": {
+    "port/game-data/reference/loot-power-creation-v7/cache-inputs.json": "2d12d108a61cb23a8f05b47b663de19d4ff85c211d6b4fad305d7f06b011ecf4",
+    "port/game-data/reference/loot-power-creation-v7/original-functions.json": "820851dfe3289bfc3eb5aa0e008b74a3cdb00d421704567623636ded4bb2abf2",
+    "port/game-data/reference/loot-power-creation-v7/fixtures.bin": "4e944554b9d83c227b3e35b7659c673ab21fbfc392025e1db4c267d9a356c104"
+  },
+  "borrowed_dependency_sha256": {
+    "port/game-data/reference/player-item-effects-v5/freeze-manifest.json": "f2b9b7ff021c7d95c083f95c584f98ab7b0390bf1ee6da3b885add850b063aea",
+    "port/game-data/loot_tables_v2.hpp": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/items.hpp": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f",
+    "port/game-data/items.cpp": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb",
+    "port/game-data/tests/item_power_instance_v5_differential.py": "c381d3e96c4c03fdc9a9eb1492bf7272038434eb702e32d571416b232560931c",
+    "port/game-data/tests/item_presentation_v5_original.py": "dd399b92fed11dbb07b800069448211f790618b4f3b04b76b9403465258851e8",
+    "port/game-data/tests/item_presentation_v5_differential.py": "d362fc28805c5092500e384eaf497de6bbe05fc25e393da30944efd308596db6",
+    "port/game-data/tests/items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port/game-data/tests/player_savegame_v1_original.py": "9ee8850a604f5b786cc937893745c5097ad6f839bd72a47f4072e210bdfe4c25",
+    "port/game-data/tests/fresh_inventory_owned_v4_arm64.py": "d077fc7af99bfb18433a69e7f139dd48685c56cd4a18743898d6d6b8ddd7c012",
+    "port/game-data/tests/fresh_inventory_v2_arm64.py": "8d9d1778cf6c01ad0dadaf4e3a9332875b0b6c5ac7664a742a133eed3b6d3d0d",
+    "port/level-world/tests/navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148"
+  },
+  "original_cases": 4781,
+  "original_counts": {
+    "weighted": 968,
+    "quantity": 312,
+    "value": 1322,
+    "coordinator": 2179,
+    "coordinator_services": 25605,
+    "retry_fallback_cases": 117
+  },
+  "native_host_result": {
+    "validation": "PASS",
+    "weighted_original_cases": 968,
+    "quantity_original_cases": 312,
+    "value_original_cases": 1322,
+    "coordinator_original_cases": 2179,
+    "genuine_localized_powered_items": 363,
+    "same_inventory_stored_items": 363,
+    "required_lifetime_guards": 18,
+    "actual_localization_opens": 4,
+    "genuine_debug_calls": 2200,
+    "checks": 140512,
+    "mismatches": 0,
+    "unlimited_inventory_source_field_fixture": true,
+    "required_full_notification_prefix_verified": true,
+    "full_AddLoot_caller": false
+  },
+  "scope": {
+    "actual_power_lists": 121,
+    "actual_quantity_lists": 39,
+    "pinned_same_V5_power_authority": true,
+    "ordered_conflicts_retries_fallback": true,
+    "real_V5_Power_append_and_difficulty_variants": true,
+    "real_V4_inventory_storage_and_localized_descriptions": true,
+    "full_AddLoot_random_subloot_pickup_merchant": false,
+    "live_Android_connected": false
+  },
+  "isolated_build_capture_sha256": "c2c87af1dc04e4243f1a75f966e82a8bdb93e627bd608ecd57bc97d16e5bd6f8",
+  "isolated_ARM64_sha256": "bea86e6094e5b805cc9784c497dd2ec333f85d8ae7d3b86997f54f8af5ee0660"
+}

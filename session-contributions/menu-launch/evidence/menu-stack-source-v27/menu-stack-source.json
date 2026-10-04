@@ -1,0 +1,38 @@
+{
+  "status": "SOURCE EVIDENCE; navigation not implemented",
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "main_input_flags": 132,
+  "main_input_flags_pc": "0x4325ac",
+  "main_renderer_slot": 2,
+  "renderer_slot_evidence": "LoadSWFFile stores at this+0x134+slot*4; LoadMainMenu reads 0x13c",
+  "callback_references": [
+    {
+      "label": "previous_state_callback",
+      "pc": "0x438384",
+      "literal": "0x438b70",
+      "address": "0x8cbaa0",
+      "value": "OnHide"
+    },
+    {
+      "label": "pushed_state_callback",
+      "pc": "0x43847c",
+      "literal": "0x438b74",
+      "address": "0x8cbac0",
+      "value": "OnShow"
+    },
+    {
+      "label": "pushed_state_animation",
+      "pc": "0x438604",
+      "literal": "0x438b9c",
+      "address": "0x8cbac8",
+      "value": "show"
+    },
+    {
+      "label": "postload_state_name_filter",
+      "pc": "0x42efec",
+      "literal": "0x42f2f0",
+      "address": "0x8ca1f8",
+      "value": "menu_"
+    }
+  ]
+}

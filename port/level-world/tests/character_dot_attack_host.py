@@ -1,0 +1,26 @@
+"""Original DoT gold replay in sanitizer DSO plus genuine dependency prefixes.
+
+Full service fixtures are explicitly limited to oracle replay. Real debug map,
+aggro and health/property kernels run in separate compositions; unimplemented
+HitFor continuation causes failure after actual HP writes, never fake success.
+"""
+import argparse,hashlib,json,struct,subprocess
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1];REPO=ROOT.parents[1]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def linux(p):return '/mnt/c/'+str(p.resolve()).replace('\\','/')[3:]
+def words(*xs):return struct.pack('<'+'I'*len(xs),*(x&0xffffffff for x in xs))
+def text(s):b=s.encode();return words(len(b))+b
+def trace(t):return words(len(t))+b''.join(words(op,a)+text(name)+words(threat) for op,a,name,threat in t)
+def main():
+ p=argparse.ArgumentParser();p.add_argument('--main-linked',action='store_true');p.add_argument('--output',type=Path);a=p.parse_args();scratch=REPO/'.local-inputs/character-dot-attack-discovery';gold=ROOT/'reference/character-dot-attack/dot-fixtures.json';source=json.loads(gold.read_text());encoded=bytearray(b'DOT1'+words(len(source['records']))+struct.pack('<448i',*source['defaults'],*source['types']))
+ for r in source['records']:
+  x=r['config'];encoded+=words(r['wrapper'])+struct.pack('<224i',*r['sheet'])+words(r['amount'],r['element'],x['network'],x['combo'],x['push'],x['god'],x['online'],x['party'],x['app_god'],x['aggro_return'],x.get('mutate_aggro',0),*(x['debug'][key] for key in ['NoDamages','GOD','isTracingThreatChange','isTracingChar_Attack']),len(x['players']),*x['players'],len(x['dead']),*x['dead'])+bytes.fromhex(r['calculation'])+words(*r['context'])+trace(r['calculate_trace'])+trace(r['apply_trace'])+words(*r['state'],*r['output'])+b''.join(bytes.fromhex(v) for v in r['final_sheets'])
+ hostgold=scratch/'host-fixtures.bin';hostgold.write_bytes(encoded);commands=[]
+ def run(*args):
+  r=subprocess.run(['wsl','--cd',linux(REPO),*args],capture_output=True,text=True,timeout=120);commands.append(dict(arguments=args,returncode=r.returncode,stdout=r.stdout,stderr=r.stderr));assert r.returncode==0 and not r.stderr.strip(),dict(args=args,returncode=r.returncode,stdout=r.stdout[-1500:],stderr=r.stderr[-6500:]);return r.stdout.strip()
+ flags=['-std=c++17','-O1','-g','-fno-fast-math','-ffp-contract=off','-fsanitize=address,undefined','-fno-omit-frame-pointer','-Wall','-Wextra','-Werror'];worlddir='/home/adampalace/dh2-world-build';runtimedir=worlddir+'/script-runtime';datadir=worlddir+'/game-data';world=worlddir+'/libdh2_level_world.so';runtime=runtimedir+'/libdh2_script_runtime.so';data=datadir+'/libdh2_game_data.so';before={x:run('sha256sum',x).split()[0] for x in [world,runtime,data]};links=['-L'+worlddir,'-ldh2_level_world','-L'+datadir,'-ldh2_game_data','-L'+runtimedir,'-ldh2_script_runtime','-Wl,-rpath,'+worlddir,'-Wl,-rpath,'+datadir,'-Wl,-rpath,'+runtimedir];library=linux(scratch/'libcharacter_dot_attack_audit.so');exe=linux(scratch/'host');files=[ROOT/x for x in ['character_dot_attack.hpp','character_dot_attack.cpp','tests/character_dot_attack.cpp','tests/character_dot_attack_host.py','tests/character_dot_attack_differential.py']];sources={str(x.relative_to(REPO)):sha(x) for x in files}
+ if a.main_linked:library=world;modulelinks=[]
+ else:run('g++',*flags,'-fPIC','-shared',linux(ROOT/'character_dot_attack.cpp'),*links,'-o',library);modulelinks=['-L'+linux(scratch),'-lcharacter_dot_attack_audit']
+ run('g++',*flags,linux(ROOT/'tests/character_dot_attack.cpp'),'-I'+linux(ROOT),*modulelinks,*links,'-Wl,-rpath,'+linux(scratch),'-ldl','-o',exe);env=['env','LD_LIBRARY_PATH='+worlddir+':'+datadir+':'+runtimedir+':'+linux(scratch),'ASAN_OPTIONS=detect_leaks=1:abort_on_error=1','UBSAN_OPTIONS=halt_on_error=1'];audit=json.loads(run(*env,exe,linux(hostgold),linux(scratch/'genuine-missing-DebugSwitches.savegame')));linked=run(*env,'ldd',exe);assert audit['validation']=='PASS' and audit['module_library']==library and audit['world_library']==world and audit['data_library']==data;assert all(x in linked for x in [world,runtime,data,'libasan.so','libubsan.so']);binaries={x:run('sha256sum',x).split()[0] for x in [world,runtime,data,library,exe]};assert all(binaries[x]==v for x,v in before.items());assert all(sha(REPO/x)==v for x,v in sources.items());arm=ROOT/'reports/character-dot-attack-arm64-differential.json';proof=json.loads(arm.read_text());assert proof['validation']=='PASS' and proof['gold_sha256']==sha(gold);assert all(sha(REPO/x)==v for x,v in proof['source_sha256'].items());report=dict(validation='PASS',scope=__doc__,host_audit=audit,source_sha256=sources,binary_sha256=binaries,input_sha256={str(x.relative_to(REPO)):sha(x) for x in [gold,hostgold]},original_sha256=proof['original_sha256'],arm64_report_sha256=sha(arm),sanitizers=['AddressSanitizer','UndefinedBehaviorSanitizer'],sanitizer_findings=0,main_world_library_executed=True,module_in_main_world=a.main_linked,full_HitFor_or_FX_backend=False,packaged_APK=False,commands=commands,linked_dependencies=linked);out=a.output or ROOT/('reports/character-dot-attack-main-linked-host-audit.json' if a.main_linked else 'reports/character-dot-attack-host-audit.json');out.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(dict(validation='PASS',host=audit)))
+if __name__=='__main__':main()

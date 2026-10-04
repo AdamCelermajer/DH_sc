@@ -1,0 +1,510 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "script_sha256": "51814fc31c000b109e4adaac70deecde926e6df7655ee4c9c4af7f872a8fa57e",
+  "ai_files": 73,
+  "files_with_literal_includes": 28,
+  "inventory": {
+    "flaminiteed.luac": {
+      "bytes": 63,
+      "sha256": "c0a8882339ffa89e52b723cd59d3598887a73bf518a015bbe08e0a668d58f2f8",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "FlaminiteED_settings",
+          "normalized": "FlaminiteED_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "generic_boss_core",
+          "normalized": "generic_boss_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "darkqueen2.luac": {
+      "bytes": 62,
+      "sha256": "604617ba56f749b6e664875e2f20f8493261d11692cd659b8324c4996266c071",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "DarkQueen2_settings",
+          "normalized": "DarkQueen2_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "generic_boss_core",
+          "normalized": "generic_boss_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "assassin3.luac": {
+      "bytes": 61,
+      "sha256": "adc20ccad1012dc530442b7485b83054b148874ed1d842f0add55485bc128ca8",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "Assassin3_settings",
+          "normalized": "Assassin3_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "generic_boss_core",
+          "normalized": "generic_boss_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "mothcocoon.luac": {
+      "bytes": 48,
+      "sha256": "e1afee27d71187c8059bf036c1aea58558e18b4baa10cd39dfada5988b90012a",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "monster",
+          "normalized": "monster.luac",
+          "present": true
+        },
+        {
+          "line": 2,
+          "request": "mothcocoon_core",
+          "normalized": "mothcocoon_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "soundtest/referee_sdd.luac": {
+      "bytes": 13116,
+      "sha256": "bd1b4f3da71b15c034d2b49ec74e2734feabfa71ac57d94d913b33cd2eed96af",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "soundtest/waves_sdd",
+          "normalized": "soundtest/waves_sdd.luac",
+          "present": true
+        }
+      ]
+    },
+    "balrog.luac": {
+      "bytes": 58,
+      "sha256": "0d3d433f0893ef54b16378b3ce5e7338f4a0a79185bbf68ebbd04e01139a0d30",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "Balrog_settings",
+          "normalized": "Balrog_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "generic_boss_core",
+          "normalized": "generic_boss_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "assassin2.luac": {
+      "bytes": 61,
+      "sha256": "374a24c6d6129aba6e407f09c8a67717cf9f1e9af8a63f3ad44082762cccfe44",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "Assassin2_settings",
+          "normalized": "Assassin2_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "generic_boss_core",
+          "normalized": "generic_boss_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "coward.luac": {
+      "bytes": 44,
+      "sha256": "0de5b2965b4da7c7de3c800d4ba148cb168ab31836ba5b7f991ac647abf64b36",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "monster",
+          "normalized": "monster.luac",
+          "present": true
+        },
+        {
+          "line": 2,
+          "request": "coward_core",
+          "normalized": "coward_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "mybossname.luac": {
+      "bytes": 62,
+      "sha256": "58df48e662426049ed619aebe1aa2102cb8bf9f046fee1c7d4dc0043c1475557",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "myBossName_settings",
+          "normalized": "myBossName_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "generic_boss_core",
+          "normalized": "generic_boss_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "flaminite.luac": {
+      "bytes": 58,
+      "sha256": "5c8cede61dab23f0e1093c95071f813c20b4b460931f6ca5c9d41dd247ec72a7",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "Flaminite_settings",
+          "normalized": "Flaminite_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "flaminite_core",
+          "normalized": "flaminite_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "machineroom/referee.luac": {
+      "bytes": 19298,
+      "sha256": "9f0b9b62edbe2d35b85159826df909409cc8acff632539b8e4880ee0261e3c35",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "machineroom/waves_easy",
+          "normalized": "machineroom/waves_easy.luac",
+          "present": true
+        }
+      ]
+    },
+    "machineroom/referee_vip_escort.luac": {
+      "bytes": 121,
+      "sha256": "7610c57ed02bc232632140894f98ce1ee3f314ce60eda3b7cbc997dbe49bca2c",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "machineroom/vip_core",
+          "normalized": "machineroom/vip_core.luac",
+          "present": true
+        },
+        {
+          "line": 2,
+          "request": "machineroom/referee",
+          "normalized": "machineroom/referee.luac",
+          "present": true
+        }
+      ]
+    },
+    "edwardboss.luac": {
+      "bytes": 60,
+      "sha256": "8a998528623b2fb20d875384113358ec760882838c2b1c74de491ae0ed0683ff",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "EdwardBoss_settings",
+          "normalized": "EdwardBoss_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "EdwardBoss_core",
+          "normalized": "EdwardBoss_core.luac",
+          "present": false
+        }
+      ]
+    },
+    "sandworm02.luac": {
+      "bytes": 3537,
+      "sha256": "185bcedc428af1bb2cb8dc8ad64e711bbd78f3f113be411c2e8548c1b0166359",
+      "literal_includes": [
+        {
+          "line": 9,
+          "request": "sandworm_core.lua",
+          "normalized": "sandworm_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "largeplant.luac": {
+      "bytes": 50,
+      "sha256": "73022b4fdf143733c7bdff13d56d331e63eb7a6af67f4fe4ddf8effcd2e9f91c",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "monster",
+          "normalized": "monster.luac",
+          "present": true
+        },
+        {
+          "line": 2,
+          "request": "largeplant_core",
+          "normalized": "largeplant_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "sandworm01.luac": {
+      "bytes": 3529,
+      "sha256": "ac93f71d99f7e73134022a369c8b429701448276106d8db0ed1ca951f5c8e2b1",
+      "literal_includes": [
+        {
+          "line": 9,
+          "request": "sandworm_core.lua",
+          "normalized": "sandworm_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "assassindemon.luac": {
+      "bytes": 65,
+      "sha256": "de89300743783326f0278d099b820ec75c357a193cf418c7d6ba544fe9b2b3be",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "AssassinDemon_settings",
+          "normalized": "AssassinDemon_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "generic_boss_core",
+          "normalized": "generic_boss_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "emissary.luac": {
+      "bytes": 60,
+      "sha256": "5644cf78dc75d1ff2e5894023a31caa21c2b7301ffe389ee390013cf60091a75",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "Emissary_settings",
+          "normalized": "Emissary_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "generic_boss_core",
+          "normalized": "generic_boss_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "assassin1.luac": {
+      "bytes": 61,
+      "sha256": "e353e65d4e5daecc6c22518d87068b9b96b4786a75fa9e11f5eaa964072a3fe3",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "Assassin1_settings",
+          "normalized": "Assassin1_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "generic_boss_core",
+          "normalized": "generic_boss_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "dw_statue.luac": {
+      "bytes": 61,
+      "sha256": "0d70afbce73de977b1dfc2db4ad65d3a10654c9bf913568502275a0e15ce2b29",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "DW_Statue_settings",
+          "normalized": "DW_Statue_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "generic_boss_core",
+          "normalized": "generic_boss_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "miniboss.luac": {
+      "bytes": 777,
+      "sha256": "7114798daa0d7e77ef43ff8e1b1b2abfbef94a468f5ef62eb5aa0b4448a1c78c",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "monster",
+          "normalized": "monster.luac",
+          "present": true
+        },
+        {
+          "line": 2,
+          "request": "miniboss_state",
+          "normalized": "miniboss_state.luac",
+          "present": true
+        }
+      ]
+    },
+    "winddragon.luac": {
+      "bytes": 60,
+      "sha256": "e24997a6cc9864481aa781c845a178ebf5302f23d35dd36b1292517bddeb428d",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "windDragon_settings",
+          "normalized": "windDragon_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "windDragon_core",
+          "normalized": "windDragon_core.luac",
+          "present": false
+        }
+      ]
+    },
+    "sandworm_queen.luac": {
+      "bytes": 3536,
+      "sha256": "f0109d233892ef13799f0483f00fbe1413ca2af5f7a9fe05a517763507809c6b",
+      "literal_includes": [
+        {
+          "line": 9,
+          "request": "sandworm_core.lua",
+          "normalized": "sandworm_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "madruk.luac": {
+      "bytes": 44,
+      "sha256": "cce7867a20295167065526c38193abe1fd2ed98794690757efaea52f202ca755",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "monster",
+          "normalized": "monster.luac",
+          "present": true
+        },
+        {
+          "line": 2,
+          "request": "madruk_core",
+          "normalized": "madruk_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "mothcocoon_core.luac": {
+      "bytes": 5202,
+      "sha256": "686676e994cf7509d45f4b08a4d8f73fa4948a6deff9bbab682eff866ae86ea2",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "monster",
+          "normalized": "monster.luac",
+          "present": true
+        }
+      ]
+    },
+    "madruk_torso.luac": {
+      "bytes": 50,
+      "sha256": "71273416e54af5edd338aef8cb2a44bea311c9e8b3cf29554d188f19e99e8c2e",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "monster",
+          "normalized": "monster.luac",
+          "present": true
+        },
+        {
+          "line": 2,
+          "request": "madruk_torso_core",
+          "normalized": "madruk_torso_core.luac",
+          "present": true
+        }
+      ]
+    },
+    "darkqueen1.luac": {
+      "bytes": 60,
+      "sha256": "5bf7e64f1d10926c869f51e317d617794fe3ed6e4cb380cd4b34e74c6749fb32",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "DarkQueen1_settings",
+          "normalized": "DarkQueen1_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "DarkQueen1_core",
+          "normalized": "DarkQueen1_core.luac",
+          "present": false
+        }
+      ]
+    },
+    "roottroll.luac": {
+      "bytes": 58,
+      "sha256": "ef9a6fa9781e94c13033a80fe50d596d77738071747385e81b2b4422036217bb",
+      "literal_includes": [
+        {
+          "line": 1,
+          "request": "RootTroll_settings",
+          "normalized": "RootTroll_settings.luac",
+          "present": false
+        },
+        {
+          "line": 2,
+          "request": "roottroll_core",
+          "normalized": "roottroll_core.luac",
+          "present": true
+        }
+      ]
+    }
+  },
+  "selected_crypt_textual_closures": {
+    "monster.luac": [
+      {
+        "name": "monster.luac",
+        "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+        "bytes": 7393,
+        "includes": [],
+        "source_excerpt": "local SKILLTREE_ID\t= FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"SkillTree\")));\r\nlocal SKILL_CHANCE\t= 40;\r\nlocal traces\t\t\t= false;\r\n-- -------------------------------------------------------------------------------\r\n-- When the character is created/loaded\r\nfunction monster_OnInit()\r\n\tOnInit();\r\n\t\r\n\tm_flee_flag = true;\r\n\r\n\tBUFF_ID\t\t= GetPyOID(\"ClassTable\", \"Buff_Speed\");\r\n\tbuff = nil;\r\n\t\r\n\tsaved_X, saved_Y = GetPosition();\r\n\t\r\n----------------------------------------------------------------------------------------\r\n-- Dynamic level for monster. Monster must have there LevelMax param set to use dynamic level\r\n----------------------------------------------------------------------------------------\r\n\tlocal m_lvl_max = FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"LevelMax\")));\r\n\tlocal m_lvl_min = FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"LevelMin\")));\r\n\tlocal m_lvl_offset = FromFixed(GetProp(GetPyStruct(\"CharacterProperties\", \"LevelOffset\")));\r\n\tlocal pl_lvl = GetHostPlayerLevel();\r\n\tlocal pl_diff = GetHostPlayerDifficulty();\r\n\tlocal m_lvl = pl_lvl;\r\n\tlocal m_level_min, m_level_max = GetCurrentLevelRange(pl_diff);\r\n\r\n\tif(m_lvl_max > -1 ) then\r\n\t\tif(m_level_max and m_level_max > -1 ) then\r\n\t\t\tif( m_lvl <= m_level_min ) then\r\n\t\t\t\tm_lvl = m_level_min;\r\n\t\t\telse\r\n\t\t\t\tif( m_lvl >= m_level_max ) then\r\n\t\t\t\t\tm_lvl = m_level_max;\r\n\t\t\t\tend\r\n\t\t\tend\r\n\t\telse\r\n\t\t\tif( m_lvl <= m_lvl_min ) then\r\n\t\t\t\tm_lvl = m_lvl_min;\r\n\t\t\telse\r\n\t\t\t\tif( m_lvl >= m_lvl_max ) then\r\n\t\t\t\t\tm_lvl = m_lvl_max;\r\n\t\t\t\tend\r\n\t\t\tend\r\n\t\tend\r\n\t\tm_lvl = m_lvl + m_lvl_offset;\r\n\r\n\t\tSetLevel(ToFixed(m_lvl));\r\n\tend\r\n----------------------------------------------------------------------------------------\r\n-- End Dynamic level for monster\r\n-------------------------------------------------------------"
+      }
+    ],
+    "follower.luac": [
+      {
+        "name": "follower.luac",
+        "sha256": "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d",
+        "bytes": 1901,
+        "includes": [],
+        "source_excerpt": "\r\n\r\n-- When the character spots an ally\r\nfunction follower_OnFriendSpotted(friend)\r\n\tif(not HasMaster()) then\r\n\t\t--Trace(\"Follower \"..GetName()..\" got a new master: \"..friend:GetName());\r\n\r\n\t\tSetMaster(friend);\r\n\t\tg_master = friend;\t-- Caching the master\r\n\tend\r\nend\r\nAddToVFTable(\"OnFriendSpotted\", \"follower_OnFriendSpotted\");\r\n\r\n\r\n-- ----------------------------------------------------------------------------------------------------\r\n-- ----------------------------------------------------------------------------------------------------\r\n-- ----------------------------------------------------------------------------------------------------\r\n\r\n\r\n-- When the character's master gets out of sight\r\nfunction follower_OnMasterOutOfSight()\r\n\tWarpBehind(g_master);\r\nend\r\nAddToVFTable(\"OnMasterOutOfSight\", \"follower_OnMasterOutOfSight\");\r\n\r\n\r\n-- ----------------------------------------------------------------------------------------------------\r\n\r\n\r\n-- When the character's master is out of attack range\r\nfunction follower_OnMasterOutOfRange()\r\n\tif(GetState() ~= GetPyCst(\"AIStates\", \"Move\")) then\r\n\t\t--Trace(\"\"..GetName()..\" has its master \"..g_master:GetName()..\" out of range\");\r\n\t\tMoveTo(g_master);\r\n\tend\r\n\tClearTarget();\r\nend\r\nAddToVFTable(\"OnMasterOutOfRange\", \"follower_OnMasterOutOfRange\");\r\n\r\n\r\n-- When the character's master is in range of a ranged attack\r\nfunction follower_OnMasterInRangedRange()\r\n\tStop();\r\nend\r\nAddToVFTable(\"OnMasterInRangedRange\", \"follower_OnMasterInRangedRange\");\r\n\r\n\r\n-- When the character's master is too close to be in ranged attack range\r\nfunction follower_OnMasterInCloseRange()\r\n\tStop();\r\nend\r\nAddToVFTable(\"OnMasterInCloseRange\", \"follower_OnMasterInCloseRange\");\r\n\r\n\r\n-- When the character's master is in range of a melee attack\r\nfunction follower_OnMaster"
+      }
+    ],
+    "rene.luac": [
+      {
+        "name": "rene.luac",
+        "sha256": "631e7137c6ba49fca45e6cf0b37d1e45e4f42af4ca120106274e7e28d5f56fc7",
+        "bytes": 9336,
+        "includes": [],
+        "source_excerpt": "-- ####################################################################################################\r\n--\t Rene AI\t(Base taken from Niessa (Alain Cadieux - alain.cadieux@gameloft.com))\r\n--\r\n--\t\tSpecialized AI for Rene. He is an attacking follower, with ranged attacks;\r\n--\r\n--\t\tNOTE:\r\n--\t\t\t-\tThe various distance used for our Idle wandering can be found in MoveAround().\r\n--\t\t\t-\tHis speed boost while he catches up can be found in character_classes.pyarray.\r\n--\t\t\t-\tIDLE_DELAY represents the time before he moves to a new spot while Idle.\r\n--\t\t\t-\tWhen Idle and close enough to the player, he only uses half the IDLE_DELAY.\r\n--\t\t\t-\tCATCH_DELAY represents how often he is updating his path, in case the player\r\n--\t\t\t\tkeeps moving while he is catching up.\r\n--\r\n--\t\tBUG:\r\n--\t\t\t-\tIf the player keeps running away from him, he will keep stopping and restarting to walk,\r\n--\t\t\t\tbecause he did reach our destination from the previous \"CatchingUp()\" path finding,\r\n--\t\t\t\thowever he is still flagged as \"catching up\", because he didn't get close enough.\r\n-- ####################################################################################################\r\nlocal IDLE_DELAY\t\t= 8000;\r\nlocal CATCH_DELAY\t\t= 500;\r\nlocal WARP_DELAY\t\t= 2000;\r\n\r\nlocal CST_IDLE\t\t\t= GetPyCst(\"AIStates\", \"Idle\");\r\nlocal CST_MOVE\t\t\t= GetPyCst(\"AIStates\", \"Move\");\r\nlocal OID_HASTE\t\t\t= GetPyOID(\"ClassTable\", \"Buff_Rene_Haste\");\r\n\r\nlocal g_master \t\t\t= nil;\r\nlocal g_target \t\t\t= nil;\r\n\r\nlocal g_is_far\t\t\t= false;\r\nlocal g_is_catching_up\t= false;\r\nlocal g_catch_time\t\t= 0;\r\nlocal g_catchup_timer\t= nil;\r\n\r\nlocal traces\t\t\t= false;\r\n\r\n\r\nlocal function InitVars()\r\n\tg_master \t\t\t= nil;\r\n\tg_target \t\t\t= nil;\r\n\r\n\tg_is_far\t\t\t= false;\r\n\tg_is_catching_up\t= false;\r\n\tg_catch_time\t\t= 0;\r\n\tg_catchup_timer\t\t= nil;\r\n\r\n\ttraces\t\t\t\t= false;\r\nend\r\n\r\n"
+      }
+    ]
+  },
+  "scope": "Exact supplied-cache textual dependency inventory; no execution/AI acceptance claim.",
+  "limitations": [
+    "Regex includes comments and inactive branches; computed Include names are outside this textual inventory.",
+    "Source excerpts/dependencies are not proof of execution or complete game bindings."
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "validation": "PASS",
+  "comparisons": 409,
+  "ordered_services": 4344,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "407819b383c8af8b561b7573dbec370715de5cb10dc1f6ec5ac71febf3257f77",
+  "arm64_sha256": "8a49973cfbf225ec13b0c3190af4dfb132b7e8bbfe9b2523ff18dd8cac76f929",
+  "corpus_sha256": "a3aaad19952cfd3964aeae83dee24fff2101738473afd80074ccbd1db6d86913",
+  "source_sha256": {
+    "port\\level-world\\character_enemy_spotted.hpp": "9b053078e0953c46dddbe2e52b8ab4a0a09fd216c4af684ed9e2e9cd2f4f2a44",
+    "port\\level-world\\character_enemy_spotted.cpp": "4cde740c42d5058bbd2420101f9d36dd978fe174efbd7b3f558201c4072f9372",
+    "port\\level-world\\tests\\character_enemy_spotted_differential.py": "187e2d1f4b5826746a5f633a28e2a75f18ddd334c36bb0db3024aefb3974f245"
+  },
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "design_pyarray_sha256": "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296",
+  "design_names_sha256": "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6",
+  "genuine_design_member": "EnemySpottedAggro",
+  "design_member_index": 11,
+  "original_runtime_offset": 48,
+  "design_table_consumed": 176,
+  "authored_threat_bits": 1092616192,
+  "authored_threat": 10.0,
+  "scope": "Complete original EnemySpotted prefix vs O2 ARM64, with real design input.\n\nActual DesignSettings table/row readers decode EnemySpottedAggro from cache.\nGroup, state/combat/player, aggro map and active AIS bodies remain explicit\nsynchronous services, not accepted defaults or a live world/script claim.\n"
+}

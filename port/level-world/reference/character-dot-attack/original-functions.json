@@ -1,0 +1,83 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+      "elf_address": "0x3b2638",
+      "size": 2096,
+      "sha256": "825bf38a123d73fde3febee5b40a1189b041bfad6782deb37518d628f4d59eb7"
+    },
+    {
+      "original_symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+      "elf_address": "0x3b10b4",
+      "size": 3388,
+      "sha256": "ee29784fc33effd4a01e9098593d2348dbfaf35bb9d0568a121d89c52aefd1da"
+    },
+    {
+      "original_symbol": "_Z16CF_CalcDotDamageP9CharacterS0_b",
+      "elf_address": "0x3b09c4",
+      "size": 272,
+      "sha256": "bf4618e32f9fd56c5d7abf85d30abafeb0ca8c8df38b9a97dd3d00c9d63a714b"
+    },
+    {
+      "original_symbol": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+      "elf_address": "0x3b2e68",
+      "size": 412,
+      "sha256": "0ded4194cea08229fa585499bf76158b97d41c49f2887a6965053e7c7441e7ae"
+    },
+    {
+      "original_symbol": "_ZN9Character14CancelSneakingEv",
+      "elf_address": "0x3bc6b8",
+      "size": 204,
+      "sha256": "d6373ab73d784aeec6a20fb1b71b48d3657f1e0d1dbb442d47c1d3311ef059a4"
+    },
+    {
+      "original_symbol": "_Z16CF_SetCombatantsP9CharacterS0_ibb",
+      "elf_address": "0x3b059c",
+      "size": 128,
+      "sha256": "f109dc90a61b935c8ff9fa82e13106afd3ae5ee39837d65a725354379b04d572"
+    },
+    {
+      "original_symbol": "_ZN9Character26F_ApplyScrollingCombatTextERKNS_12AttackResultEPS_S3_",
+      "elf_address": "0x3af77c",
+      "size": 1468,
+      "sha256": "b173f2cfeac3a2aab44ac6eadf2a825b2a7a7307cbe2ee40f36ff788ae803aae"
+    },
+    {
+      "original_symbol": "_Z14CF__CalcDamageP9CharacterS0_iiibb",
+      "elf_address": "0x3b1fb8",
+      "size": 1664,
+      "sha256": "ad228745d2b1e04f3f6a22495338f9940a9dadfce82bc9ddccf615ff916f638d"
+    },
+    {
+      "original_symbol": "_ZNK9Character27GetEffectiveThreatPerDamageEv",
+      "elf_address": "0x3bd394",
+      "size": 40,
+      "sha256": "0fdea6b457655923c2347fadb4eea38ed16039ba7fb5c15ad262e2ecbc759381"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+      "elf_address": "0x3d7c68",
+      "size": 308,
+      "sha256": "710b6a40b61b134ddc8b165a38ac5bd0784dd1b2915ec4fce53d2e1bb4825193"
+    },
+    {
+      "original_symbol": "_ZN9Character18F_ApplyCombatSoundERKNS_12AttackResultEPS_S3_",
+      "elf_address": "0x3afee0",
+      "size": 728,
+      "sha256": "c0ffb86f1351a968ad84842b6aedb4af863e8ce5c20b2948ca9c37e63b51ca07"
+    },
+    {
+      "original_symbol": "_ZN9Character14_F_ResetResultERNS_12AttackResultE",
+      "elf_address": "0x3af3b0",
+      "size": 72,
+      "sha256": "f03e6cb1f80f67bb024f886a68f69d4d818ce9f89e56315c5bf3873e317e8531"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_SetAggroEP9Characterf",
+      "elf_address": "0x3d79ec",
+      "size": 636,
+      "sha256": "5544900c5708b0fb85538781b6f7cd4b04f4ff808a3fdff0127e643c0f357d83"
+    }
+  ]
+}

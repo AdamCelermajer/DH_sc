@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "original_cases": 60,
+  "source_services": 3962,
+  "gold_sha256": "950fe6bfc71ceb7716f55020318aaa6560ef426517621aae33e66d0b377c4f7c",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "fe9bc78a4ed7a3765c0a12c0da605717b487ce58cc2d18a413b6e68780d6a39a",
+  "scope": "Actual starting AddLoot force-add ownership, RNG and source Debug order.\nName/stat/requirements/fullness and online player queries are explicit services.\nNo initial auto-equip, full item effects or campaign loading parity is claimed.\n",
+  "native_comparison": false
+}

@@ -1,0 +1,23 @@
+{
+  "validation": "PASS",
+  "checks": 2,
+  "failures": 0,
+  "source_sha256": {
+    "port/engine-ui/overlays/font-v1/gameswf_font.cpp": "c587ec54baf8a2b68d747ad8f5c8039334df27d6c55f764fc30a8137f2053d1d"
+  },
+  "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+  "script_sha256": "cdc2f02ca503fb54406b4544367da8f353d8c685449d703156988f0001182ec3",
+  "checks_detail": [
+    {
+      "target": "aarch64-linux-android24",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "exit_code": 0,
+      "diagnostic": ""
+    }
+  ],
+  "scope": "Exact replacement overlay TU compiles O2 for both64bit Android ABIs; syntax only, not packaged/device/instruction replay proof."
+}

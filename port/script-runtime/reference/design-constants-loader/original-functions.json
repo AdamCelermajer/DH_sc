@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN15PyDataConstants10reloadDataEP11IStreamBasePKc",
+      "elf_address": "0x4c540c",
+      "size": 660,
+      "sha256": "7d2fc5a4df67a964e3ab73946891caa4ce6548edfd1a16f889fd79d183ad9402"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader10readStringEP11IStreamBasePcy",
+      "elf_address": "0x317734",
+      "size": 244,
+      "sha256": "7a5ddf3ee51d3f11ea0aea9b3666862146edec1c8681f8e1f5587acba9e8ea52"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIjEET_P11IStreamBase",
+      "elf_address": "0x313a90",
+      "size": 184,
+      "sha256": "aa0ca3fa275c748cd04a9694d9d0f3a6112241e79cdf905fcbed0485c9930c79"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIjEEvP11IStreamBasePT_",
+      "elf_address": "0x3df1a0",
+      "size": 176,
+      "sha256": "80fbe74a694f45c71b183a970e0501cda9ffd07e1544dedbaeccd1926968aafa"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "elf_address": "0x459090",
+      "size": 176,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    },
+    {
+      "original_symbol": "_ZNSt3mapISsS_ISsiSt4lessISsESaISt4pairIKSsiEEES1_SaIS2_IS3_S6_EEEixIA256_cEERS6_RKT_",
+      "elf_address": "0x4c5274",
+      "size": 408,
+      "sha256": "c2493fc8f41dde437c9ccb9e731a96c01f4a0186f30cd2e0bfba05e189506142"
+    },
+    {
+      "original_symbol": "_ZNSt3mapISsiSt4lessISsESaISt4pairIKSsiEEEixIA256_cEERiRKT_",
+      "elf_address": "0x4c4c30",
+      "size": 320,
+      "sha256": "4878a76b7bad9e1f502d0c4e3327991291280a67112d18ff9fff2f7adfe4eabc"
+    },
+    {
+      "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+      "elf_address": "0x4c4bdc",
+      "size": 84,
+      "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsiS2_SaIS3_IS4_iEEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x4c4998",
+      "size": 368,
+      "sha256": "4dc6bc9031e320ccea0fb4937663a28774e5a7ac342a2d0195ababb73abeccc6"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x414484",
+      "size": 500,
+      "sha256": "ba6b5ff39368731cf68171614b596ea908f3e7f351dea32a63b5ad522b0b8e8a"
+    }
+  ]
+}

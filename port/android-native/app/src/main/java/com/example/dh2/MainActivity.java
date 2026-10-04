@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
@@ -30,34 +31,43 @@ public final class MainActivity extends Activity {
     private volatile boolean ready;
     private MovementControl movement;
     private Button attack;
-    private TextView vitals;
     private volatile String loadedAsset;
     private volatile String baseReport;
     private volatile boolean pendingActorCommand;
     private volatile boolean enemyAi=true;
+    private volatile boolean developerOpen;
+    private LinearLayout developerPanel;
+    private TextView loadError;
     private BroadcastReceiver debugAttackReceiver;
     @Override public void onCreate(Bundle state) {
         setTheme(android.R.style.Theme_Material_NoActionBar);super.onCreate(state);
+        developerOpen=state!=null?state.getBoolean("developerOpen",false):getIntent().getBooleanExtra("developer",false);
+        boolean inspection=getIntent().hasExtra("texture")||getIntent().hasExtra("model")||getIntent().getBooleanExtra("original_hud",false);
+        if(!inspection&&!getIntent().getBooleanExtra("developer",false))setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY|View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         enemyAi=state!=null?state.getBoolean("enemyAi",true):getIntent().getBooleanExtra("enemy_ai",true);
         LinearLayout layout=new LinearLayout(this);layout.setOrientation(LinearLayout.VERTICAL);
         layout.setBackgroundColor(Color.rgb(24,27,32));
         layout.setOnApplyWindowInsetsListener((view,insets)->{
             if(android.os.Build.VERSION.SDK_INT>=30){
-                android.graphics.Insets bars=insets.getInsets(android.view.WindowInsets.Type.systemBars());
+                android.graphics.Insets bars=insets.getInsets(android.view.WindowInsets.Type.systemBars()|android.view.WindowInsets.Type.displayCutout());
                 view.setPadding(bars.left,bars.top,bars.right,bars.bottom);
             }else view.setPadding(insets.getSystemWindowInsetLeft(),insets.getSystemWindowInsetTop(),insets.getSystemWindowInsetRight(),insets.getSystemWindowInsetBottom());
             return insets;
         });
-        TextView title=new TextView(this);title.setText("Dungeon Hunter 2 — Native 3D source");
-        title.setTextColor(Color.WHITE);title.setTextSize(18);title.setPadding(16,12,16,8);layout.addView(title);
+        developerPanel=new LinearLayout(this);developerPanel.setOrientation(LinearLayout.VERTICAL);
+        developerPanel.setPadding(12,8,12,8);developerPanel.setBackgroundColor(Color.argb(235,24,27,32));
+        TextView title=new TextView(this);title.setText("Development tools");
+        title.setTextColor(Color.WHITE);title.setTextSize(16);title.setPadding(8,8,8,4);developerPanel.addView(title);
         status=new TextView(this);status.setTextColor(Color.rgb(210,220,230));status.setPadding(16,8,16,8);
         status.setText(NativeBridge.buildInfo());
         try{
             String[] textures=getAssets().list("textures"),models=getAssets().list("models"),worlds=getAssets().list("worlds");
-            Arrays.sort(textures);Arrays.sort(models);java.util.ArrayList<String> names=new java.util.ArrayList<>();
+            Arrays.sort(textures);Arrays.sort(models);Arrays.sort(worlds);java.util.ArrayList<String> names=new java.util.ArrayList<>();
             for(String name:worlds)if(name.endsWith(".dwld"))names.add("worlds/"+name);
             for(String name:models)names.add("models/"+name);
-            for(String name:textures)names.add("textures/"+name);assets=names.toArray(new String[0]);
+            for(String name:textures)names.add("textures/"+name);
+            names.add("ui/original-health-panel");assets=names.toArray(new String[0]);
         }
         catch(Exception e){Log.e("DH2Native","Asset listing failed",e);status.setText(e.toString());}
         String requested=state!=null?state.getString("asset"):null;
@@ -65,20 +75,22 @@ public final class MainActivity extends Activity {
         if(requested==null&&getIntent().getStringExtra("model")!=null)requested="models/"+getIntent().getStringExtra("model");
         if(requested==null&&getIntent().getStringExtra("texture")!=null)requested="textures/"+getIntent().getStringExtra("texture");
         if(requested==null&&getIntent().getStringExtra("world")!=null)requested="worlds/"+getIntent().getStringExtra("world");
+        if(requested==null&&getIntent().getBooleanExtra("original_hud",false))requested="ui/original-health-panel";
+        if(requested==null)requested="worlds/crypt01.dwld";
         if(requested!=null){for(int i=0;i<assets.length;i++)if(assets[i].equals(requested))selected=i;}
         Spinner picker=new Spinner(this);
         ArrayAdapter<String> adapter=new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,assets);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);picker.setAdapter(adapter);
         picker.setSelection(selected);
-        layout.addView(picker);layout.addView(status);
-        surface=new GLSurfaceView(this);surface.setContentDescription("DH2 native texture viewport");surface.setEGLContextClientVersion(2);
+        developerPanel.addView(picker);developerPanel.addView(status);
+        surface=new GLSurfaceView(this);surface.setContentDescription("Dungeon Hunter 2 world and player HUD");surface.setEGLContextClientVersion(2);
         surface.setEGLConfigChooser(8,8,8,8,16,0);
         surface.setOnTouchListener(new View.OnTouchListener(){
             float x,y;
             @Override public boolean onTouch(View view,MotionEvent event){
                 if(event.getActionMasked()==MotionEvent.ACTION_DOWN){x=event.getX();y=event.getY();return true;}
                 if(event.getActionMasked()==MotionEvent.ACTION_MOVE){
-                    if(assets[selected].startsWith("worlds/"))return true;
+                    if(assets[selected].startsWith("worlds/")||assets[selected].startsWith("ui/"))return true;
                     float dx=(event.getX()-x)*.008f,dy=(event.getY()-y)*.008f;x=event.getX();y=event.getY();
                     surface.queueEvent(()->NativeBridge.orbit(dx,dy,1));return true;
                 }
@@ -86,18 +98,22 @@ public final class MainActivity extends Activity {
             }
         });
         surface.setRenderer(new GLSurfaceView.Renderer(){
-            long lastVitals;
             @Override public void onSurfaceCreated(GL10 gl,EGLConfig config){
-                Log.i("DH2Native",NativeBridge.initialize());loadedAsset=null;ready=true;
+                Log.i("DH2Native",NativeBridge.initialize(getAssets()));loadedAsset=null;ready=true;
                 NativeBridge.enemyAi(enemyAi);
                 if(assets.length>0)loadSelected();else show("No bundled asset fixtures");
             }
             @Override public void onSurfaceChanged(GL10 gl,int w,int h){NativeBridge.resize(w,h);}
-            @Override public void onDrawFrame(GL10 gl){NativeBridge.draw();long now=android.os.SystemClock.uptimeMillis();if(now-lastVitals>=200&&loadedAsset!=null&&loadedAsset.startsWith("worlds/")){lastVitals=now;int[] values=NativeBridge.playerVitals();runOnUiThread(()->{vitals.setText(String.format(java.util.Locale.ROOT,"HP %.1f / %.1f   MP %.1f / %.1f%s",values[0]/256f,values[1]/256f,values[2]/256f,values[3]/256f,values[4]!=0?"   Defeated":""));vitals.setTextColor(values[4]!=0||values[5]==0?Color.rgb(255,150,150):Color.WHITE);});}}
+            @Override public void onDrawFrame(GL10 gl){
+                NativeBridge.draw();
+                String error=NativeBridge.consumeOriginalUiError();
+                if(error!=null){Log.e("DH2Native","Original UI display failed: "+error);show("Original HUD failed: "+error);}
+            }
         });
         surface.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         FrameLayout viewport=new FrameLayout(this);viewport.addView(surface,new FrameLayout.LayoutParams(-1,-1));
-        vitals=new TextView(this);vitals.setContentDescription("Player health and mana");vitals.setTextSize(14);vitals.setTextColor(Color.WHITE);vitals.setPadding(12,8,12,8);vitals.setBackgroundColor(Color.argb(160,15,20,25));vitals.setVisibility(View.GONE);viewport.addView(vitals,new FrameLayout.LayoutParams(-2,-2,Gravity.TOP|Gravity.LEFT));
+        loadError=new TextView(this);loadError.setTextColor(Color.WHITE);loadError.setBackgroundColor(Color.argb(230,85,25,25));loadError.setPadding(20,12,20,12);loadError.setVisibility(View.GONE);
+        viewport.addView(loadError,new FrameLayout.LayoutParams(-2,-2,Gravity.TOP|Gravity.CENTER_HORIZONTAL));
         movement=new MovementControl();movement.setVisibility(View.GONE);
         int padSize=(int)(160*getResources().getDisplayMetrics().density);
         FrameLayout.LayoutParams padLayout=new FrameLayout.LayoutParams(padSize,padSize,Gravity.BOTTOM|Gravity.LEFT);
@@ -105,6 +121,13 @@ public final class MainActivity extends Activity {
         attack=new Button(this);attack.setText("Attack");attack.setContentDescription("Attack nearby enemy");attack.setVisibility(View.GONE);
         FrameLayout.LayoutParams attackLayout=new FrameLayout.LayoutParams((int)(112*getResources().getDisplayMetrics().density),(int)(64*getResources().getDisplayMetrics().density),Gravity.BOTTOM|Gravity.RIGHT);attackLayout.rightMargin=attackLayout.bottomMargin=(int)(24*getResources().getDisplayMetrics().density);viewport.addView(attack,attackLayout);
         attack.setOnClickListener(v->surface.queueEvent(()->{String report=NativeBridge.playerAttack(-1);Log.i("DH2Native","Player input | "+report);show(baseReport+"\n"+report);}));
+        ScrollView tools=new ScrollView(this);tools.addView(developerPanel);tools.setVisibility(developerOpen?View.VISIBLE:View.GONE);
+        int toolsWidth=(int)(340*getResources().getDisplayMetrics().density);
+        viewport.addView(tools,new FrameLayout.LayoutParams(toolsWidth,-1,Gravity.RIGHT));
+        Button toolsToggle=new Button(this);toolsToggle.setText("Dev");toolsToggle.setContentDescription("Open development tools");
+        FrameLayout.LayoutParams toolsButton=new FrameLayout.LayoutParams((int)(64*getResources().getDisplayMetrics().density),(int)(40*getResources().getDisplayMetrics().density),Gravity.TOP|Gravity.RIGHT);
+        viewport.addView(toolsToggle,toolsButton);
+        toolsToggle.setOnClickListener(v->{developerOpen=!developerOpen;tools.setVisibility(developerOpen?View.VISIBLE:View.GONE);toolsToggle.setText(developerOpen?"Close":"Dev");});
         layout.addView(viewport,new LinearLayout.LayoutParams(-1,0,1));
         picker.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override public void onItemSelected(AdapterView<?> p,View v,int position,long id){selected=position;if(ready)surface.queueEvent(MainActivity.this::loadSelected);}
@@ -133,7 +156,11 @@ public final class MainActivity extends Activity {
             else registerReceiver(debugAttackReceiver,filter,"android.permission.DUMP",null);
         }
     }
-    private void show(String text){runOnUiThread(()->status.setText(text));}
+    private void show(String text){runOnUiThread(()->{
+        status.setText(text);
+        boolean failed=text.contains("failed")||text.contains("error")||text.contains("Exception");
+        loadError.setText(failed?text:"");loadError.setVisibility(failed?View.VISIBLE:View.GONE);
+    });}
     @Override protected void onNewIntent(Intent intent){
         super.onNewIntent(intent);setIntent(intent);
         if(intent.hasExtra("enemy_ai"))enemyAi=intent.getBooleanExtra("enemy_ai",true);
@@ -156,11 +183,16 @@ public final class MainActivity extends Activity {
     private void loadSelected(){
         String name=assets[selected];
         if(name.equals(loadedAsset))return;
-        runOnUiThread(()->{movement.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);vitals.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);attack.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);});
+        runOnUiThread(()->{movement.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);attack.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);});
+        if(name.equals("ui/original-health-panel")){
+            String report=NativeBridge.loadOriginalHealthPanel(getFilesDir().getAbsolutePath());
+            if(!report.contains("failed"))loadedAsset=name;
+            baseReport=name+"\n"+report;Log.i("DH2Native",baseReport);show(baseReport);surface.requestRender();return;
+        }
         try(InputStream input=getAssets().open(name);ByteArrayOutputStream out=new ByteArrayOutputStream()){
             byte[] block=new byte[8192];int n;
             while((n=input.read(block))!=-1){if(out.size()+n>32*1024*1024)throw new java.io.IOException("Texture too large");out.write(block,0,n);}
-            String report=name.startsWith("worlds/")?NativeBridge.loadWorld(out.toByteArray(),getAssets()):name.startsWith("models/")?NativeBridge.loadModel(out.toByteArray(),getAssets()):NativeBridge.loadTexture(out.toByteArray());
+            String report=name.startsWith("worlds/")?NativeBridge.loadWorld(out.toByteArray(),getAssets(),getFilesDir().getAbsolutePath()):name.startsWith("models/")?NativeBridge.loadModel(out.toByteArray(),getAssets()):NativeBridge.loadTexture(out.toByteArray());
             if(!report.contains("failed")&&!report.contains("error"))loadedAsset=name;
             baseReport=name+"\n"+report;
             if(name.startsWith("models/")||name.startsWith("worlds/"))NativeBridge.animationTime(getIntent().getIntExtra("time_ms",-1));
@@ -204,5 +236,5 @@ public final class MainActivity extends Activity {
     @Override protected void onPause(){super.onPause();ready=false;movement.stop();surface.onPause();}
     @Override protected void onResume(){super.onResume();surface.onResume();}
     @Override protected void onDestroy(){if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);super.onDestroy();}
-    @Override protected void onSaveInstanceState(Bundle state){super.onSaveInstanceState(state);if(assets.length>0)state.putString("asset",assets[selected]);state.putBoolean("pendingPlayerAttack",pendingActorCommand&&getIntent().getBooleanExtra("player_attack",false));state.putBoolean("enemyAi",enemyAi);}
+    @Override protected void onSaveInstanceState(Bundle state){super.onSaveInstanceState(state);if(assets.length>0)state.putString("asset",assets[selected]);state.putBoolean("pendingPlayerAttack",pendingActorCommand&&getIntent().getBooleanExtra("player_attack",false));state.putBoolean("enemyAi",enemyAi);state.putBoolean("developerOpen",developerOpen);}
 }

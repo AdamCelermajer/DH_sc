@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12ItemInstanceD0Ev",
+      "elf_address": "0x3faab0",
+      "size": 28,
+      "sha256": "fff0d9132de04c3634b67ac3a80a62f85cb27b3e466e3c118916f827781c91ba"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory7AddGoldEi",
+      "elf_address": "0x3fe164",
+      "size": 68,
+      "sha256": "29a2e403fb54a9237c5cf1f3c281edf0f241b2ad5508574401dbe8be5068e3e7"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory7SetGoldEi",
+      "elf_address": "0x3fdfd8",
+      "size": 396,
+      "sha256": "634e71b637204bb34a82f2f9bae464b591ec961f5fa0bf2934822c6503e636e7"
+    }
+  ]
+}

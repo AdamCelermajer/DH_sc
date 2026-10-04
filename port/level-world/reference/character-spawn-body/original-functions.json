@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7CSSpawn8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3bfff0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN7CSSpawn7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "elf_address": "0x3c0b04",
+      "size": 76,
+      "sha256": "98cc488bdc9d54104bd87eae408d95f9a7df127f48502935aa9692546fc69e06"
+    },
+    {
+      "original_symbol": "_ZN9Character14CancelSneakingEv",
+      "elf_address": "0x3bc6b8",
+      "size": 204,
+      "sha256": "d6373ab73d784aeec6a20fb1b71b48d3657f1e0d1dbb442d47c1d3311ef059a4"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject11StartFadeInEf",
+      "elf_address": "0x470ce4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1"
+    },
+    {
+      "original_symbol": "_ZN7CSSpawn6OnBlurEiP9CharacterP16CharStateMachinei",
+      "elf_address": "0x3c2f7c",
+      "size": 164,
+      "sha256": "2241aa4f3100d2c4f902d9466004f060bd54fe0d2b6ac86bd64e4b7a8a37eb9a"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+    },
+    {
+      "original_symbol": "_ZN7CSSpawn7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "0x3c35ec",
+      "size": 424,
+      "sha256": "28e75a41daa974cdc84cfd7d4960533b6402863dfdddd6ad0be0eae815b30876"
+    }
+  ]
+}

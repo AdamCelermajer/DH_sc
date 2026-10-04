@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance26execute_frame_tags_reverseEi",
+      "elf_address": "0x77f390",
+      "size": 140,
+      "sha256": "03442c58237ccf5c64d3a68a86418bd1802a819364a1ad9a8997679ebeba3c9f"
+    },
+    {
+      "original_symbol": "_ZN7gameswf9character19notify_need_advanceEv",
+      "elf_address": "0x7750e8",
+      "size": 108,
+      "sha256": "89489cab035e4fd11b2a1531fc42b0b336e762b953d6877699caa15aa6334de2"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance14set_play_stateENS_9character10play_stateE",
+      "elf_address": "0x77fe10",
+      "size": 80,
+      "sha256": "902369f346415773faea4e0ea1f8d5547d45be1e0f7ac48d018000156206e09a"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance10goto_frameEi",
+      "elf_address": "0x781a3c",
+      "size": 744,
+      "sha256": "f37192ce994e7221a0ed7cefded32b2b71cb02c9435b69f315f03abbff74595e"
+    },
+    {
+      "original_symbol": "_ZN7gameswf5arrayIPNS_13action_bufferEE7reserveEi",
+      "elf_address": "0x77e7f8",
+      "size": 124,
+      "sha256": "9791b8109ac58e16c1fc525ccb92aa6ad1134d537c428bdd0e2fb534a49b3138"
+    },
+    {
+      "original_symbol": "_ZN7gameswf17get_sound_handlerEv",
+      "elf_address": "0x77cba0",
+      "size": 68,
+      "sha256": "4760c9e74928a660e00196c521e49ca5704217207e7b0835d76e6544ae4fff99"
+    }
+  ]
+}

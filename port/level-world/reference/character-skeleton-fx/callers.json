@@ -1,0 +1,70 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "b8fd5e97b2dfe45400697f0a867a3c4b39fe42cc3b95320567999de3c6982206",
+  "direct_bl_callers": [
+    {
+      "call": "0x3b47cc",
+      "target": "0x4967e8",
+      "caller": "_ZN9Character24RegisterCharacterFXTableEv",
+      "caller_address": "0x3b4738",
+      "caller_size": 252
+    },
+    {
+      "call": "0x3b47e4",
+      "target": "0x4967e8",
+      "caller": "_ZN9Character24RegisterCharacterFXTableEv",
+      "caller_address": "0x3b4738",
+      "caller_size": 252
+    },
+    {
+      "call": "0x3b47fc",
+      "target": "0x4967e8",
+      "caller": "_ZN9Character24RegisterCharacterFXTableEv",
+      "caller_address": "0x3b4738",
+      "caller_size": 252
+    },
+    {
+      "call": "0x3c9ed8",
+      "target": "0x4967e8",
+      "caller": "_ZN12CharAnimator13_AddAnimTableEiijjj",
+      "caller_address": "0x3c9d80",
+      "caller_size": 460
+    },
+    {
+      "call": "0x3e7408",
+      "target": "0x4967e8",
+      "caller": "_ZN17ProjectileManager8PreCacheEv",
+      "caller_address": "0x3e71cc",
+      "caller_size": 716
+    },
+    {
+      "call": "0x3f7400",
+      "target": "0x496bd8",
+      "caller": "_ZN5Level12_LoadProcessEv",
+      "caller_address": "0x3f6990",
+      "caller_size": 6472
+    },
+    {
+      "call": "0x3f7c28",
+      "target": "0x495a88",
+      "caller": "_ZN5Level12_LoadProcessEv",
+      "caller_address": "0x3f6990",
+      "caller_size": 6472
+    },
+    {
+      "call": "0x4968fc",
+      "target": "0x4967e8",
+      "caller": "_ZN15VisualFXManager19RegisterFXSetToLoadEi",
+      "caller_address": "0x4967e8",
+      "caller_size": 364
+    },
+    {
+      "call": "0x496b70",
+      "target": "0x4967e8",
+      "caller": "_ZN15VisualFXManager16_BuildAnimFXSetsEv",
+      "caller_address": "0x496954",
+      "caller_size": 592
+    }
+  ],
+  "scope": "Record direct ARM BL callers and locally decoded source instruction windows.\nThis inventory does not infer indirect calls or order different loader cases.\n"
+}

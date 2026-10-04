@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10ObjectBase9GetHandleEv",
+      "elf_address": "0x33dd2c",
+      "size": 68,
+      "sha256": "d5c62cf46e3cf4763fd953611ce5210db2ddd75fa566e3d1d878e760412eb4d3"
+    },
+    {
+      "original_symbol": "_ZNSt4priv20_Deque_iterator_baseIN14ObjectSearcher10TargetInfoEE10_M_advanceEi",
+      "elf_address": "0x38d684",
+      "size": 172,
+      "sha256": "0222c6a87fff117f3ed56d098700579b92dca8f91880ee75b863ffc64d12d11c"
+    },
+    {
+      "original_symbol": "_ZN12ObjectHandlecvP9CharacterEv",
+      "elf_address": "0x33ff54",
+      "size": 56,
+      "sha256": "f71383751930720e0ba25bd80d40eb0d301b73ecbbd33969d672b0ccf09675ea"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList12SetRefObjectEP10GameObject",
+      "elf_address": "0x4a191c",
+      "size": 52,
+      "sha256": "352e90a1c50195ce1c9d5527196cfe14bf209e6dc80bf1c422b30d56820b569c"
+    }
+  ]
+}

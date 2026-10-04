@@ -28,6 +28,15 @@ int main(int argc,char** argv){
   check(get(vm,"rounding").number==16777216.f);check(get(vm,"decimal").number==16777216.f);
   check(get(vm,"modulo").number==1.f);check(get(vm,"power").number==8.f);
   check(std::signbit(get(vm,"signed_zero").number));
+  check(load(vm,"function weakCount(mode) local t=setmetatable({}, {__mode=mode}); do local k={} local v={} t[k]=v end; collectgarbage('collect'); collectgarbage('collect'); local n=0; for _ in pairs(t) do n=n+1 end; return n end; weakStrong=weakCount(''); weakKey=weakCount('k'); weakValue=weakCount('v'); weakBoth=weakCount('kv'); weakNul=weakCount('\\000kv'); weakTrailing=weakCount('v\\000k')")==0);
+  check(get(vm,"weakStrong").number==1.f);
+  check(get(vm,"weakKey").number==0.f);
+  check(get(vm,"weakValue").number==0.f);
+  check(get(vm,"weakBoth").number==0.f);
+  check(get(vm,"weakNul").number==1.f);
+  check(get(vm,"weakTrailing").number==0.f);
+  check(load(vm,"minimumIntegerTable={[-2147483648]=7}; minimumIntegerValue=minimumIntegerTable[-2147483648]")==0);
+  check(get(vm,"minimumIntegerValue").number==7.f);
   std::string source="value=16777217; function child(x) local s='a\\000b'; return x+value,s end";
   size_t written=0;check(dh2_script_vm_compile(vm,source.data(),source.size(),"@roundtrip",nullptr,0,&written)==-3);
   std::vector<unsigned char> binary(written);size_t actual=0;

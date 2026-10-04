@@ -1,0 +1,27 @@
+[
+  {
+    "instruction": "0x7c6138",
+    "target": "0x90b108",
+    "text": ".fnt"
+  },
+  {
+    "instruction": "0x7c6278",
+    "target": "0x90b100",
+    "text": "I"
+  },
+  {
+    "instruction": "0x7c628c",
+    "target": "0x8f3e38",
+    "text": "B"
+  },
+  {
+    "instruction": "0x7c62c0",
+    "target": "0x90b110",
+    "text": ".FNT"
+  },
+  {
+    "instruction": "0x7d9180",
+    "target": "0x90c044",
+    "text": ""
+  }
+]

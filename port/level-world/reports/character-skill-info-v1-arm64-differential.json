@@ -1,0 +1,16 @@
+{
+  "validation": "PASS",
+  "cases": 640,
+  "ordered_services": 1325,
+  "mismatches": 0,
+  "original_instructions_executed": true,
+  "optimized_arm64_instructions_executed": true,
+  "source_sha256": {
+    "port/level-world/character_skill_info_v1.hpp": "06b24f92cec2231c6e23a2f709d7952742bf8352c15caffdfa45c6117fc70a5a",
+    "port/level-world/character_skill_info_v1.cpp": "4ec68f2174e0949818f5e8dfdcb684f695f6c6820ee89ac6e68e65e4f374d065",
+    "port/level-world/tests/character_skill_info_v1_differential.py": "2a3c2a9f4a7038378ae52b17194627df5774f362dbf90a43a7680882e69547c8"
+  },
+  "library_sha256": "457956bdcb725882578b54ed8c746948b73688dabb1f3a30d3d5a46819e5b535",
+  "gold_sha256": "139808d31d96e98233ba670942f82396fcde2e3e2da05e438c8f7ccc2af4e9a2",
+  "scope": "Original complete AI_SkillInfo/GetInfo versus O2 ARM64 coordinator.\nLua Call/result vectors, active-owner projections and timer lookup are explicit\nservices; actual source branch/arithmetic/reload order executes unchanged.\n"
+}

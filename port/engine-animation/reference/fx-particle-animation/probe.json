@@ -1,0 +1,196 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "62da4b40589bbf9c9a7b39cf714e4c996c7285c7cd464c1c04fe66b45b3920dd",
+  "resource_sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e",
+  "factory_initialized_singleton_fixture": true,
+  "factory_calls": [
+    {
+      "uri": "gl_pcloud_debris-emitter",
+      "type": 28,
+      "instance": "0x9f8350",
+      "vtable": "0x98b2d8"
+    },
+    {
+      "uri": "gl_pcloud_dust-emitter",
+      "type": 28,
+      "instance": "0x9f8350",
+      "vtable": "0x98b2d8"
+    }
+  ],
+  "source_key": "BirthRate",
+  "birthrate_hash": "0x7d66d025",
+  "original_hash_and_stl_map_executed": true,
+  "missing_parameter_inserts_null_pointer": true,
+  "registered_parameter_returned_without_insertion": true,
+  "binding_traces": [
+    {
+      "uri": "gl_pcloud_debris-emitter",
+      "mode": "found",
+      "trace": [
+        [
+          "particle_getName",
+          "gl_pcloud_debris-emitter"
+        ],
+        [
+          "hashString",
+          "BirthRate"
+        ],
+        [
+          "setTarget",
+          0,
+          true,
+          false,
+          0
+        ]
+      ]
+    },
+    {
+      "uri": "gl_pcloud_debris-emitter",
+      "mode": "missing_parameter",
+      "trace": [
+        [
+          "particle_getName",
+          "gl_pcloud_debris-emitter"
+        ],
+        [
+          "hashString",
+          "BirthRate"
+        ],
+        [
+          "setTarget",
+          0,
+          false,
+          true,
+          0
+        ]
+      ]
+    },
+    {
+      "uri": "gl_pcloud_debris-emitter",
+      "mode": "missing_particle",
+      "trace": [
+        [
+          "setTarget",
+          0,
+          false,
+          true,
+          0
+        ]
+      ]
+    },
+    {
+      "uri": "gl_pcloud_dust-emitter",
+      "mode": "found",
+      "trace": [
+        [
+          "particle_getName",
+          "gl_pcloud_dust-emitter"
+        ],
+        [
+          "hashString",
+          "BirthRate"
+        ],
+        [
+          "setTarget",
+          0,
+          true,
+          false,
+          0
+        ]
+      ]
+    },
+    {
+      "uri": "gl_pcloud_dust-emitter",
+      "mode": "missing_parameter",
+      "trace": [
+        [
+          "particle_getName",
+          "gl_pcloud_dust-emitter"
+        ],
+        [
+          "hashString",
+          "BirthRate"
+        ],
+        [
+          "setTarget",
+          0,
+          false,
+          true,
+          0
+        ]
+      ]
+    },
+    {
+      "uri": "gl_pcloud_dust-emitter",
+      "mode": "missing_particle",
+      "trace": [
+        [
+          "setTarget",
+          0,
+          false,
+          true,
+          0
+        ]
+      ]
+    }
+  ],
+  "actual_forceBind_and_particle_lookup_executed": true,
+  "binding_services": [
+    "animator channel count/URI/channel getters and setTarget",
+    "particle name virtual getter"
+  ],
+  "attach_trace": [
+    [
+      "findNode",
+      "Anchor"
+    ],
+    [
+      "getType",
+      0
+    ],
+    [
+      "getType",
+      1
+    ],
+    [
+      "attach",
+      1
+    ],
+    [
+      "findNode",
+      "Missing"
+    ]
+  ],
+  "attachment_vector_actual_zero_fill": true,
+  "attachment_next_reloaded_after_callback": true,
+  "attachment_services": [
+    "root-node name lookup5985e4",
+    "child type vBC and attach vF4"
+  ],
+  "destructor_trace": [
+    [
+      "destroyParticleSystem",
+      true
+    ],
+    [
+      "baseDestructor",
+      true
+    ]
+  ],
+  "destructor_services": [
+    "owned particle-system deleting v8",
+    "base destructor6678b8"
+  ],
+  "scope": "Selected CFloatEx and source binding/map/attachment orchestration. No real particle-system factory, emitter virtual implementation, simulation/baker/GPU or complete scene owner claimed.",
+  "source_sha256": {
+    "probe.py": "496b00f1d9ebb7fd793e5f190ae449fe146e75d52668af1df6d184ac1f06c842"
+  },
+  "generation_model_original_ctor_executed": true,
+  "generation_model_birthrate_owned_offset": 4,
+  "generation_model_birthrate_initial_bits": "0x3f800000",
+  "original_setParameter_writes_registered_storage": true,
+  "original_CFloat_apply_writes_only_owned_birthrate": true,
+  "constructor_layout_fixture": "VTT primary/secondary address points and virtual-base displacement; original constructor/hash/STL insertion execute.",
+  "libc_strcasecmp_contract": "ASCII lower-case byte comparison for authored ASCII URI names"
+}

@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN16CharStateMachine15SM_SetIdleStateEb",
+      "elf_address": "0x3c1a00",
+      "size": 20,
+      "sha256": "2f34c20abaa650c14e84f08555b56141402f1b71e7be7db45e2b6c94c32fc091"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15SM_SetDeadStateEbPvb",
+      "elf_address": "0x3c58c8",
+      "size": 488,
+      "sha256": "b6a218cf121594c43a4f38edf0817db2ca9e8e43c413173ba33721938da0c74e"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine17SM_SetAttackStateEPvb",
+      "elf_address": "0x3c6488",
+      "size": 36,
+      "sha256": "09372f684e5f1769c4a778b6cc1a1f6e03b192acf30e6282388f7865c74d8cf1"
+    }
+  ]
+}

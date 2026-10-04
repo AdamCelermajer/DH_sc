@@ -1,0 +1,155 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "checks": 241943,
+    "original_cases": 1800,
+    "ordered_requests": 10055,
+    "synchronous_reentries": 15,
+    "failure_prefixes": 29,
+    "atomic_guards": 6,
+    "linked_FSM_State_IsPlayer_compositions": 12,
+    "module_library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/libcharacter_idle_update_audit.so",
+    "world_library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_level_world.so",
+    "provider_library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_level_world.so"
+  },
+  "scope": "Original-derived Idle gold plus genuine frozen world FSM/State/IsPlayer DSO composition.",
+  "source_sha256": {
+    "port/level-world/character_idle_update.hpp": "97b98336bf2dbd82736fc4963f5be3beb3616f7dd37fbb2307171cf1b330fd88",
+    "port/level-world/character_idle_update.cpp": "db5d8a06ec37208d78fcaa5e7282873f6a06ef94f169fce7243d728a94b89dc0",
+    "port/level-world/tests/character_idle_update.cpp": "f9e5eb36c5a0c9ed7438c4ac0acccb9937030f33c5cfbc1fef02266bd9a2cf5d",
+    "port/level-world/tests/character_idle_update_host.py": "64df748ce6fd616db0277cfd288deaa37b7366954aa0de88400a0cdaff9f14b0",
+    "port/level-world/tests/character_idle_update_differential.py": "af6baa190149da623c3a0f1a4a2384c3c84c2e836462fc92202ada721bc1a722",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/level-world/character_state.cpp": "73d08ae28e2fea576bfc03d5377c5d096be5fc07f1d33ae228227d06495d10c6",
+    "port/level-world/character_native_fsm.hpp": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b",
+    "port/level-world/character_native_fsm.cpp": "58f7544dc7c4d693f5e6b97a2165c1d645e161e46ab349de48627886ac56ebac",
+    "port/level-world/character_target_providers.hpp": "1db2bc0cde5d7644b2194e333dc82209b756980c1ee7cb022774503c6e99fc36",
+    "port/level-world/character_target_providers.cpp": "24c160b8f7e1d3e95bb06ef5f43f63c794851ec430ccfc4ff6e2135fd7aba70a"
+  },
+  "binary_sha256": {
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_engine_animation.so": "05e35956a29b774459206298e54efb5c02afc3bdda0c1ed1a12ccd95877ae856",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_game_data.so": "ac2e2f7c4b568db0d4bfee2ae6101aa38fef376fd6f8105739b2db76b65b056d",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_level_world.so": "a519e8cd20de2c0cf41c6791a1d48ab63c6d1afc2a09c7266387110481440870",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_scene_materials.so": "92af10e1621174e64890d1d295d97cb9ba1c3947b712636997c42e1f4392ed07",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_script_runtime.so": "3f1886b22c2230e6ddda5c75fae248d0a710b75034eac3144489f9992b7f9945",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/libcharacter_idle_update_audit.so": "e75c852c422330aeb5dc6ccf0aa66837204b98f8a8c77ac09689fb7de3754a49",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/host": "5bfa40611569dc29f78d5802336e7c442c7ce21cdd1dc17473a24d49f4e46a16"
+  },
+  "binary_gold_sha256": "0190df0ad15567a7ed6432a642f20d360744ad9217713774d08758877b6bbef9",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_report_sha256": "7ec30dec868dba35d269ce003a6cacd9ba8cd1922eb15798183ea2d0d80b3af4",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "actual_frozen_world_library_executed": true,
+  "module_in_main_world": false,
+  "packaged_APK": false,
+  "required_player_manager_online_constant_controller_event_providers_complete": false,
+  "commands": [
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "-fPIC",
+        "-shared",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_idle_update.cpp",
+        "-Wl,--no-undefined",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/libcharacter_idle_update_audit.so"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-Wno-misleading-indentation",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_idle_update.cpp",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery",
+        "-lcharacter_idle_update_audit",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_script_runtime",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies",
+        "-ldl",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/host"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies:/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/host",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-idle-update/idle-fixtures.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":241943,\"original_cases\":1800,\"ordered_requests\":10055,\"synchronous_reentries\":15,\"failure_prefixes\":29,\"atomic_guards\":6,\"linked_FSM_State_IsPlayer_compositions\":12,\"module_library\":\"/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/libcharacter_idle_update_audit.so\",\"world_library\":\"/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_level_world.so\",\"provider_library\":\"/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_level_world.so\"}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies:/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "ldd",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/host"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x0000779c2bbd3000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000779c2b400000)\n\tlibcharacter_idle_update_audit.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/libcharacter_idle_update_audit.so (0x0000779c2bb3a000)\n\tlibdh2_level_world.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_level_world.so (0x0000779c29826000)\n\tlibdh2_game_data.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_game_data.so (0x0000779c2907a000)\n\tlibdh2_script_runtime.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_script_runtime.so (0x0000779c28c0d000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000779c28800000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000779c28ae7000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000779c28000000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000779c28ab9000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000779c27c00000)\n\tlibdh2_engine_skinning.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_engine_skinning.so (0x0000779c28736000)\n\tlibdh2_engine_animation.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_engine_animation.so (0x0000779c278cf000)\n\tlibdh2_scene_materials.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_scene_materials.so (0x0000779c27e6b000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000779c2bbd5000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/libcharacter_idle_update_audit.so"
+      ],
+      "returncode": 0,
+      "stdout": "e75c852c422330aeb5dc6ccf0aa66837204b98f8a8c77ac09689fb7de3754a49  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/libcharacter_idle_update_audit.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/host"
+      ],
+      "returncode": 0,
+      "stdout": "5bfa40611569dc29f78d5802336e7c442c7ce21cdd1dc17473a24d49f4e46a16  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/host\n",
+      "stderr": ""
+    }
+  ],
+  "linked_dependencies": "linux-vdso.so.1 (0x0000779c2bbd3000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000779c2b400000)\n\tlibcharacter_idle_update_audit.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/libcharacter_idle_update_audit.so (0x0000779c2bb3a000)\n\tlibdh2_level_world.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_level_world.so (0x0000779c29826000)\n\tlibdh2_game_data.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_game_data.so (0x0000779c2907a000)\n\tlibdh2_script_runtime.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_script_runtime.so (0x0000779c28c0d000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000779c28800000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000779c28ae7000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000779c28000000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000779c28ab9000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000779c27c00000)\n\tlibdh2_engine_skinning.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_engine_skinning.so (0x0000779c28736000)\n\tlibdh2_engine_animation.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_engine_animation.so (0x0000779c278cf000)\n\tlibdh2_scene_materials.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-idle-update-discovery/dependencies/libdh2_scene_materials.so (0x0000779c27e6b000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000779c2bbd5000)"
+}

@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "cases": 768,
+  "ordered_services": 1536,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_arm64_sha256": "150261551f4a4b66c010fe7ec3a95f12805a67f6a932176449170add304d61af",
+  "gold_sha256": "b85eb73a6806a66a541a96e38ad416b532e88f72729772c77880df6f77673301",
+  "source_sha256": {
+    "port/level-world/character_faery_element_v3.hpp": "5a024a1e474d4244e5f0696d1fa8c7e57decdbd8dbfac7124316c7e55ec2b802",
+    "port/level-world/character_faery_element_v3.cpp": "12e09ce76e0a8071189e481c459cf28de099a59250e346b6849045acbe6f29ef",
+    "port/level-world/tests/character_faery_queries_v3_differential.py": "550635bc5bd5463c5e6146800d67ad7ed75f95a280012c21ffe3b079af8841cc"
+  },
+  "scope": "Original equipped-faery scalar wrappers versus O2 ARM64.\n\nSaved selection, actual Faery-row resolution and saved-level helpers are\ndeclared ordered services here; complete owned cache/VM composition is separate.\nThe original element wrapper actually loads row+8, not an inferred type ID.\n"
+}

@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character29_GetCurrentEquippedFaeryLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6df8",
+      "size": 56,
+      "sha256": "a7c11f8aaa70f316da48d6702d888efb0deac878d727a9372481f6edeb6393a8"
+    }
+  ]
+}

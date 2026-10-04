@@ -1,0 +1,44 @@
+{
+  "validation": "PASS",
+  "version": 3,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/game-data/player_equipment_v3.hpp": "0a9dfa53dbc7ed85005856dafb43c638ede082c870115fcea1824afd8cabf2d4",
+    "port/game-data/player_equipment_v3.cpp": "f75ff7a3541420aa4ed546cdda2d2e5b65b2a721255a582c458008b3ea00b2a7"
+  },
+  "proof_sha256": {
+    "port/game-data/reports/player-equipment-v3-arm64-differential.json": "5b1b08039dbc0132bebe933d2fc925735144545c4b13a351b2ec76cb3dd45b0c",
+    "port/game-data/reports/player-equipment-v3-actual-starters-differential.json": "331b0fdbc7c2bc89a4115eca1b89d0c384bfb12db3df7e6cf2e3255733a3d5ea",
+    "port/game-data/reports/player-equipment-v3-host-audit.json": "6c68ddc38bf2fa9fe1425e8297f588eeeb018410f4f340b84981e75a034d2426"
+  },
+  "source_evidence_sha256": {
+    "port/game-data/reference/player-equipment-v3/original/autoequip/original-functions.json": "2252aa9484007bc6f0e4c602ec6148a98c022ef881c85fca1aef5ebf67aba220",
+    "port/game-data/reference/player-equipment-v3/original/dependencies/original-functions.json": "1cfaaa8c6bb38f224137d2d091f58e7a14cb78d2de3a9a8ef5b26f1d0fff9557",
+    "port/game-data/reference/player-equipment-v3/original/equipment-choice/original-functions.json": "3a3bde9cf234107986679793feb5077bd4523a3f17ae7e7944e72e650ccf72ec",
+    "port/game-data/reference/player-equipment-v3/original/equipment-effects/original-functions.json": "bf4f27efe8bd589641e0c38eea90d840826728940b568dc8d81dbd3c15ee5df4",
+    "port/game-data/reference/player-equipment-v3/original/autoequip/reference/original-functions.asm": "a1868f524bd8f838a7b4c02ff745b8f12f035d83847acfb3d27075ca5a3aec34",
+    "port/game-data/reference/player-equipment-v3/original/dependencies/reference/original-functions.asm": "b836d432fb9fc538b0244377b61b75569a8f107ce88a05db0c2a7419697b1f04",
+    "port/game-data/reference/player-equipment-v3/original/equipment-choice/reference/original-functions.asm": "8912ac20fb47f5d96a71c791732a36f85ea1aa55d2e74a73ef77d325c082dce1",
+    "port/game-data/reference/player-equipment-v3/original/equipment-effects/reference/original-functions.asm": "005ab1c73fa7c3846e2f2aa331c0627f20125b03336e0e25f81987ed52da2a49",
+    "port/game-data/reference/player-equipment-v3/NOTES.md": "2fb3ee363d4777a421eaca366f13c346b05bdcf7a42897f31739f7b433c29504"
+  },
+  "test_tool_sha256": {
+    "port/game-data/tests/player_equipment_v3.cpp": "1946207ce1df5bd698a9f4d9ba660a6c276b3de9b628d3400032cb7c64562593",
+    "port/game-data/tests/player_equipment_v3_original.py": "c931d5c79a26d8233110823dd91e225b20d20574d2cf6c779a8ef08be68b2916",
+    "port/game-data/tests/player_equipment_v3_starters.py": "af9b0159989b736e0a88987c2bda3e37b44cf55739cf548c7cac9f1f5d777239",
+    "port/game-data/tools/run_player_equipment_v3_host.py": "923bad4524804ce4fb14909c2e63434cd91fec42b0087579284cdf39b9ad9468",
+    "port/game-data/tools/freeze_player_equipment_v3.py": "a51d76348d061449124abfd5f22e5cf5d5c2b34c83853191cfbd311248ba88e8"
+  },
+  "gold_sha256": {
+    "port/game-data/reference/player-equipment-v3/fixtures.bin": "8e7b4cf1e7b9ef96e0ab11f9d98555795843a5a4a5899b7406e8533118b6fb37"
+  },
+  "library_sha256": {
+    ".local-inputs/player-equipment-v3/libplayer_equipment_v3_arm64.so": "fc6825a1a191be3f4c5ba40572b928593d164246bb024189fe4889be3be6418a",
+    ".local-inputs/player-equipment-v3/host-audit": "5432ca10e43323e8c0c992314f2e2a78c4190f44e22ca9bd92604cc544c062e1"
+  },
+  "cache_sha256": {
+    ".local-inputs/items-discovery/loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"
+  },
+  "sanitizer_findings": 0,
+  "scope": "Source equipment caller and borrowed live-slot algorithms. Actual cached starters tested with explicit effect/capability providers. Genuine owned split/merge/delete and property/visual providers remain required; no live/campaign readiness."
+}

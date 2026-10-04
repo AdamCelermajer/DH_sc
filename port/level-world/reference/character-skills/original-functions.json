@@ -1,0 +1,95 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRN3sfc6script3lua12ReturnValuesE",
+      "elf_address": "0x37c494",
+      "size": 128,
+      "sha256": "f26b03d05e3f9886a18f7d3de525a2cc05d067335ab5d74aad39800fda057538"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsERNS4_12ReturnValuesE",
+      "elf_address": "0x37c390",
+      "size": 140,
+      "sha256": "ab961745cf32b5f2b83a51978a8feb7580351248a57f24f262ed49da6959df8c"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValuesC1Ev",
+      "elf_address": "0x31b434",
+      "size": 60,
+      "sha256": "91d8e18b350f18166bf4a88d144be55a04dbaa02981e7ca30dd221d3dbdb9651"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SkillCleanUpEv",
+      "elf_address": "0x3d8ae0",
+      "size": 72,
+      "sha256": "48496c272608ec923072a79d7bc3d31e383592b9f64010437647596b90bc415c"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SpellCleanUpEv",
+      "elf_address": "0x3d8a98",
+      "size": 72,
+      "sha256": "221946bb28d69c3a38b1c8facd237368549c342a8282399bda287b871377d5aa"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScriptD0Ev",
+      "elf_address": "0x3cc448",
+      "size": 60,
+      "sha256": "4f58eb598adf40b04eac727d1a3a44cfed00f8d8067fdaaf293e07b2a0099762"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValuesD1Ev",
+      "elf_address": "0x31b398",
+      "size": 64,
+      "sha256": "e0448d33d2bc7d0bc12b783df3642de3db32bd76d95386172f4938883208168d"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharSkillListIdEv",
+      "elf_address": "0x3bc5c0",
+      "size": 60,
+      "sha256": "ae0ccd8e8da06e96819b3c7d77bba945702d41a97bf35ff5530b54a83a72bc20"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharFaeryListIdEv",
+      "elf_address": "0x3ae5a0",
+      "size": 60,
+      "sha256": "c37053de3efe1748d58adb715bef2f581d9ca2b157b24fcbab4ab5ce47f6daca"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript13OnSkillUpdateEv",
+      "elf_address": "0x3dabd0",
+      "size": 212,
+      "sha256": "3e2a6acf63219164a028600245e8c709fddef3ab25a1ed9c36f6584a1ab9d7b7"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+      "elf_address": "0x3cde2c",
+      "size": 336,
+      "sha256": "e755548faab63d7cf4f2cb9b89529661532ef7752e67019871d075623daa2959"
+    },
+    {
+      "original_symbol": "_ZN6CharAI15UpdateAllSkillsEv",
+      "elf_address": "0x3d8894",
+      "size": 180,
+      "sha256": "7c3efb393b1c872b2992c91f04214cbf333d09330a5fd26d84e14c1b0fef58c3"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript14OnSkillCleanUpEv",
+      "elf_address": "0x3daafc",
+      "size": 212,
+      "sha256": "0efeaf8f00d568bebdf907a13085f0d1384a6769cb072b341d573c30591d05d0"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EE8_M_eraseEPS3_S6_RKSt12__false_type",
+      "elf_address": "0x31c3cc",
+      "size": 160,
+      "sha256": "8cbfc980ff6b0cc8c584d2f5723cb1ace0a2d8bfa1e69818eabdfa3fd84c6e19"
+    },
+    {
+      "original_symbol": "_ZN6CharAI18SetSkillsAndSpellsEv",
+      "elf_address": "0x3ce044",
+      "size": 1916,
+      "sha256": "ca650d7059d273436362d2d10ba973fbbc0fe1dfd632b86857e982470593ded2"
+    }
+  ]
+}

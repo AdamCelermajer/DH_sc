@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI11AI_IsFriendEPK10GameObject",
+      "elf_address": "0x3d511c",
+      "size": 720,
+      "sha256": "5b7cc3cd157969e3301a40fbec86806e68de7ed8cc453fff3fab3f3f7500f81c"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject13IsInteractiveEPS_",
+      "elf_address": "0x3883b0",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject15IsInteractiveExEPS_",
+      "elf_address": "0x38ad30",
+      "size": 68,
+      "sha256": "dba813670ae950dfe5da62f1142c148b428cb2a7c9046d9972bd11c072bccc9a"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject20GetInteractionRadiusEv",
+      "elf_address": "0x38ad7c",
+      "size": 76,
+      "sha256": "95128bf5f12dcc52eac2c91c9c0622d102b4fc03c2d71169c8f3fdd6e888b5b0"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject9IsZonableEv",
+      "elf_address": "0x3883b8",
+      "size": 12,
+      "sha256": "c1ea3cdab7e1e4b584ae537ea660581c63b4ab0be160e504a17c703406c8b983"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsDeadEv",
+      "elf_address": "0x3a2ed4",
+      "size": 12,
+      "sha256": "80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject18GetInteractionTypeEPS_",
+      "elf_address": "0x38ad74",
+      "size": 8,
+      "sha256": "6143299c415a779d14d46483b05772d81c6b595bc189b4499503e30275041932"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase11IsCharacterEv",
+      "elf_address": "0x33dcd0",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    }
+  ]
+}

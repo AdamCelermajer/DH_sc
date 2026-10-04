@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase14constructSceneEPNS_5video12IVideoDriverEb",
+      "elf_address": "0x61babc",
+      "size": 100,
+      "sha256": "916109941ece31d7f7913853c03bee018adcb29e6ac7228df5c81f2b8f371386"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15CColladaFactory11createSceneERKNS0_16CColladaDatabaseE",
+      "elf_address": "0x631628",
+      "size": 40,
+      "sha256": "e543897b72bd9ad8e653b20cd58e09bbbfa2f340662179209a7bfe00d8577cd3"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase20constructModularSkinEPNS0_20SInstanceModularSkinEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x60e6f0",
+      "size": 108,
+      "sha256": "bba4a2973ad8f8946483fb05eb7edc4bee2cd371944b5a6311af8f583c369785"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene13CSceneManager23notifyVisibilityChangedEv",
+      "elf_address": "0x5890a8",
+      "size": 12,
+      "sha256": "00477c1f1e331d5f74bcaa51dffd084a4cd8fed139af417be84e932de91c4f66"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase19constructControllerEPNS_5video12IVideoDriverEPNS0_19SInstanceControllerEPNS0_14CRootSceneNodeEb",
+      "elf_address": "0x61ace8",
+      "size": 464,
+      "sha256": "49aca2080d1e3d6804f15624b2a323d7ba90f34e7215f7d194fb00a570d62953"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15CColladaFactory10createNodeERKNS0_16CColladaDatabaseEPNS0_5SNodeE",
+      "elf_address": "0x631800",
+      "size": 48,
+      "sha256": "5c24e32d0b0100d3ead6fffa3a8a3f8d1975fc1fd7c5739c267f20d3137d2948"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada19CModularSkinnedMesh14setModuleCountEjb",
+      "elf_address": "0x648e18",
+      "size": 284,
+      "sha256": "eac193610ba818282d979c21355d94faafaa5a2b83a7340bec1415990deb6978"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "validation": "PASS",
+  "cases": 84,
+  "comparisons": 1720,
+  "source_effect_requests": 10828,
+  "actual_metadata_cases": 56,
+  "synthetic_stackable_equipment_cases": 28,
+  "synchronous_mutation_cases": 4,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "74b8bd789aabb7d7301b811c20261b98d5ec6c9e10f233c2a94d080e9b2d250d",
+  "library_sha256": "98ae16465993403b214bc2a7e6dec51ca68bf4bdaa70c4e44012ba3d997d83b2",
+  "source_sha256": {
+    "port/game-data/fresh_inventory_owned_v4.hpp": "4ed2a867b1c02d9994ce78f018c1d6f36f918840ff761889f8ba6e55de9a9f86",
+    "port/game-data/fresh_inventory_owned_v4.cpp": "25fdaf86072992f801b673a6c033fdef5d5a3973b59ca9f85dd64054b7daa0a2",
+    "port/game-data/loot_tables_v2.hpp": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/item_inventory_v1.hpp": "e5f67b4cf43a9c726c79eb1a0dc5455738a7fc1b1a0f6ce0a4b7aa987186a847",
+    "port/game-data/item_inventory_v1.cpp": "8659c2db2da2e361e6ab4353f85a3cd9859f452890426b8bf5fa07f8d98ecdd6",
+    "port/game-data/player_savegame_v1.hpp": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+    "port/game-data/player_savegame_v1.cpp": "5affc8e4c046ab84156fb2a9b12dac3fffca5af827f1431367c2aa73dea78e92",
+    "port/game-data/skill_tables.hpp": "fe01ceadd86c43a2a6f92bcf8edd76466643c521db01b7176bab25fad311abab",
+    "port/game-data/skill_tables.cpp": "85695e3a274dae96bb92abcfdd12bdfb24b4d9f910f0026a777a39ce6c5534dd",
+    "port/game-data/items.hpp": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f",
+    "port/game-data/items.cpp": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb",
+    "port/game-data/tests/fresh_inventory_owned_v4.cpp": "88e00015b51568696a71074e50824f83510d66ce02aff63d44e59f0e1d07e0aa",
+    "port/game-data/tests/fresh_inventory_owned_v4_arm64_fixture.cpp": "b21f9c238a3032494d096499e3e16a228ab3e373a042af23f200d6cbb6d56fc6"
+  },
+  "script_sha256": "d077fc7af99bfb18433a69e7f139dd48685c56cd4a18743898d6d6b8ddd7c012",
+  "storage_allocations": 419096,
+  "storage_frees": 419096,
+  "import_calls": {
+    "malloc": 419096,
+    "memcpy": 314616,
+    "memmove": 781668,
+    "free": 419096,
+    "strlen": 7544,
+    "memcmp": 11296,
+    "memset": 84
+  },
+  "mismatches": 0,
+  "scope": "O2 ARM64 executes the authoritative owned graph against original snapshots.\nlibc/STL allocation boundaries are modeled; metadata and logical storage bodies\nexecute natively. Required item and Character effects remain explicit fixtures.\n"
+}

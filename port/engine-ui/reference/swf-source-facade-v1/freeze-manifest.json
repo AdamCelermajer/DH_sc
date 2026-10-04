@@ -1,0 +1,49 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/engine-ui/swf_source_startup_v1.hpp": "890645150dc538ab5615282dec0007e82f4d860e3143ffac65ef62beaea31922",
+    "port/engine-ui/swf_source_startup_v1.cpp": "9481bc83dc05e4c1350c7ff2715870879011b8b49d45f6e56495eec55293885f",
+    "port/engine-ui/gameswf_source_facade_v1.cmake": "e7608376d2f022c333580ee93edc531c583cc5cd4483979a44d0e550962c3946",
+    "port/engine-ui/tools/swf_source_facade_host_v1.py": "db9708ae97441a900fcb293af7654ae8c06a4339fda74644f90eb13b1e8f10d5",
+    "port/engine-ui/tools/swf_source_facade_android_compile.py": "3e69b3a7c7fd6805b1a2dda7ed7c65308bb9e42599a20517528fb7cce1a4e3e5",
+    "port/engine-ui/reference/swf-source-facade-v1/NOTES.md": "422aefc8c63c8360a2063aeff72ddcfe001f1df8b6d71453b3d5f70a029c1af2",
+    "port/engine-ui/tests/overlays/source-facade-v1/swf_viewport_connection.cpp": "ab510b8d5335326e8fd89339d3b0170acd59c4b29065fef58e5df8f4485c5ef9",
+    "port/engine-ui/overlays/source-facade-v1/swf_input_session_v1.cpp": "1c648d46f2ab11b20c686017ad35c52adab78af0596820923747c3775f18dddf",
+    "port/engine-ui/overlays/source-facade-v1/swf_input_session_v2.cpp": "123b37177fc9c5921dc836ad29f11f14dc60c931ebcddcd8d9626ba195ffe0cc",
+    "port/engine-ui/overlays/source-facade-v1/swf_movie.cpp": "25b9ac7ff55bbd7db1fa8fb812eb8ff4c05e283fc8394141427d0fc353f13a0e",
+    "port/engine-ui/overlays/source-facade-v1/swf_source_movie.cpp": "de9da88533e0d8f8289161c8b64a54ef5bcc753d0ad4ad3b6cccad920cc65460"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/swf-source-facade-v1-host-audit.json": "5d9732a928709c66f9ea31f837f1ac37c6eed379aedfb3e84503cf4d33948273",
+    "port/engine-ui/reports/swf-source-facade-v1-android-compile.json": "e2f23e917cb6b9b58a597e7f115ae9373a1a545ffb2ffb80d21fc781b2898cfe",
+    "port/engine-ui/reference/swf-source-facade-v1/normalization.json": "9a48a488b57f8eb067cd3bb44b7383117879a6838f5da3940b26e954c32d35eb",
+    "port/engine-ui/reference/swf-source-facade-v1/selection-receipt.json": "0f904bcbc916f46b545bfa3bddfda59f5dc06350913aeb99cde52bd5b3a9334c"
+  },
+  "prior_freezes": [
+    {
+      "path": "port/engine-ui/reference/swf-source-session-v2/freeze-manifest.json",
+      "sha256": "2b09f57028fdc466a10bda8777bd792a4a120d02e679c1262432012d74f99712",
+      "source_and_proof_unchanged": true
+    },
+    {
+      "path": "port/engine-ui/reference/swf-input-session-v1/freeze-manifest.json",
+      "sha256": "1c26539e5c9c5d66fce6ef634b4bfc00f1be6dc7a0df1389012b9d612807d52f",
+      "source_and_proof_unchanged": true
+    },
+    {
+      "path": "port/engine-ui/reference/swf-native-input-frame-v1/freeze-manifest.json",
+      "sha256": "5bc8544505a2ea255b83eb0179dd6dcec501bd5905aa26127178eede2477ca0c",
+      "source_and_proof_unchanged": true
+    }
+  ],
+  "actual_host_ui_library_sha256": "983acd5cff296103a01688f6a3883175e049aced76652190468c6773e9d00031",
+  "legacy_suites": 34,
+  "session_suites": 2,
+  "sanitizer_findings": 0,
+  "frozen_tests_edited": false,
+  "public_facade_ABI_unchanged": true,
+  "versioned_direct_core_fixture_required": true,
+  "Android_compiled_objects": 10,
+  "whole_original_application_parity": false,
+  "central_or_APK_integrated": false
+}

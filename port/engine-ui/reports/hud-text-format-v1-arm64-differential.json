@@ -1,0 +1,19 @@
+{
+  "validation": "PASS",
+  "comparisons": 1087,
+  "original_instructions_executed": true,
+  "optimized_arm64_instructions_executed": true,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "b539d217ed155b7ad0c31adad274d63984ef64f973595b2f825c1ff7d7cd14c4",
+  "gold_sha256": "da7c8fb877577034a142fc24831c3711ce73b75a43df094d3416d87a30220296",
+  "source_sha256": {
+    "port/engine-ui/hud_text_format_v1.hpp": "79870b445ca0d172fd4c851eacf17325d68f3b2f820d2c7de9c6215fb38b7190",
+    "port/engine-ui/hud_text_format_v1.cpp": "3cce5aba708b6b9f90abb835ad3aafd7c092397d2498f38dba4c57008deaf76d",
+    "port/engine-ui/tests/hud_text_format_v1.cpp": "247ae1e11305a4d442f0177b76505d22a232ff144337ee884de988b10fd8f132",
+    "port/engine-ui/tests/hud_text_format_v1_differential.py": "24d8c102ca1e5ce0fbbab0878db8977dd305e23af40350497ebf9119817e0f0d",
+    "port/engine-ui/tests/hud_formatting_v1_original.py": "dbaa6b2df85f7ae39b636422f83be8b511f0ce054aaddf3436a9c72ea5429901"
+  },
+  "scope": "Complete original parseEx/UTF instructions versus compiled O2 ARM64 source.\nLocalized defaults, application version/title and libc/AEABI are declared services.\n",
+  "elapsed_seconds": 9.547000000020489
+}

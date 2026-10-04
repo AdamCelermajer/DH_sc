@@ -1,0 +1,59 @@
+{
+  "validation": "PASS",
+  "scope": "isolated platform and component coordinator handoff; candidate freeze",
+  "source_sha256": {
+    "port/engine-ui/swf_text_font_platform_v1.hpp": "fdd8434c7f39a457759fc4a10aee7aba2c56245d4a454b4b77e9cf6ff84796d8",
+    "port/engine-ui/swf_text_font_platform_v1.cpp": "3a96b861fa2f5a3d7fc17e7c56c8ec8f8d61121f7a88de5356f7ad9fe1c12204",
+    "port/engine-ui/swf_edit_text_connection_v1.hpp": "4485532c3acf54ae7a83d9fbb0926daea9b4d91c5c169c6733c1eaa65da0bfe2",
+    "port/engine-ui/swf_edit_text_connection_v1.cpp": "9563ab8cd552116b3cfc1575108e248a9de4867157db56126605ef7dcb0e4eb9",
+    "port/engine-ui/edit_text_display_v1.hpp": "c656f902ded5254391b940e8c3459400531558c20ee3a4ec48923b8abe47ec4f",
+    "port/engine-ui/edit_text_display_v1.cpp": "54910b78bc37334ba18c1c27f236c1b2d5653ba9bd31bbd055199c3a4c994f70",
+    "port/engine-ui/edit_text_field_v1.hpp": "3710ff2a5baa5cff0b55193a023154b5239b38cfb6015b649d47b1a73228c498",
+    "port/engine-ui/edit_text_field_v1.cpp": "9cc385100bf673491aade151e2b35e99e428022d824c37be8c7f34403d831f9a",
+    "port/engine-ui/edit_text_format_v1.cpp": "3b2e39400da8abfabe7219e4b0967e288f478350e82cda8a02e8933e4b94752f",
+    "port/engine-ui/text_filter_v1.cpp": "6ffb1fb2a75abe79b75c6b9d5ca252b2568819a5be2323e6f3c829861154a332",
+    "port/engine-ui/swf_text_filter_attachment_v1.cpp": "543808ba55bf11219f1e407100c8a56f51beb628cbbb416b1a57502d34d82d68",
+    "port/engine-ui/overlays/edit-text-v1/gameswf_text.cpp": "5c0c14bfaf8504e36284316294f53d2badf444a30d804fbc13951620f2fc55f0",
+    "port/engine-ui/overlays/edit-text-v1/gameswf_impl.cpp": "5c1e95229a4c3025c090f0fcf8ce4e76df3ba95c220a99069f9902f7d13e3e48",
+    "port/engine-ui/overlays/edit-text-v1/gameswf_dlist.cpp": "77be78637f6ba88e4284812fa51e171ceaedc915dd6532743035bb5d119ce0af",
+    "port/engine-ui/tests/swf_text_font_platform_v1.cpp": "7c5c91598d37f37823fa400911141524eb2255eab97cba9db8b303ecf264405d"
+  },
+  "fresh_platform_sanitizers": {
+    "lifetime_guards": 4,
+    "unified_real_glyphs": 4,
+    "UBSAN": true,
+    "actual_face_metrics": 2,
+    "authored_HUD": true,
+    "ASAN": true
+  },
+  "rerun_existing_differential_binaries": {
+    "ordered_trig_calls": 256,
+    "get_format_cases": 384,
+    "outer_display_cases": 2048,
+    "field_cases": 416,
+    "outer_guards": 3,
+    "mismatches": 0,
+    "event_cases": 3228,
+    "filter_cases": 640
+  },
+  "limits": {
+    "Android_GPU_execution": false,
+    "GFNT_bitmapcache_provider_required": true,
+    "central_selection": false,
+    "entire_edit_text_class_original_coordinator_oracle": false,
+    "fixture_texture_sink": true
+  },
+  "integration_order": [
+    "versioned overlay include BEFORE stock headers; source-facade remains selected",
+    "SwfTextFontPlatformV1 retained once per movie/player; caller installs actual font, bitmap_face, image, draw and graph-start providers before load",
+    "select definition,event,display,field,format,filter,filter-attachment,font-platform,edit-text-connection units together",
+    "preserve constructor source initialize and placement virtual initialize",
+    "native renderer_feature/cache_validate/preload own any reached cache or buffering feature; never use invented bitmapcache"
+  ],
+  "menu_implications": [
+    "dqcharmenu real authored SWF rendering is enabled by this platform, but this does not implement its native actions or state queries",
+    "bind NativeInv* to V4 inventory and effects V5; skill queries/actions to V3 authority and save/property owner",
+    "recover original argument order, returned AS structures, callback mutation order for NativeGetPlayerStats, NativeGetSkillDetails, NativeEquipSkill, NativeSkillsTrainSkill, NativeStatsAssignPoint",
+    "main menu and character selection remain other-chat ownership"
+  ]
+}

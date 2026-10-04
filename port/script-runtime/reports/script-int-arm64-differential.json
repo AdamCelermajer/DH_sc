@@ -1,0 +1,50 @@
+{
+  "validation": "PASS",
+  "comparisons": 3163,
+  "comparisons_by_operation": [
+    409,
+    409,
+    818,
+    126,
+    135,
+    429,
+    429,
+    8,
+    400
+  ],
+  "complete_private_map_state_comparisons": 6326,
+  "ordered_services": 367,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "091db38cc41e5ee97508fcb4eb7c0c74159963460b3de471dbe4c1fe6453e33b",
+  "original_teardown_manifest_sha256": "5edca52e4e5a262144c0433f127fcdba044adafa89d87b4cde484f3fa26dc9e6",
+  "actual_original_clear_entry": "0x37c0bc",
+  "actual_original_clear_stop": "0x37c0ec",
+  "actual_original_erased_nodes": 199,
+  "gold": {
+    "path": "port/script-runtime/reference/int-bindings/int-original-gold.json",
+    "sha256": "cf5f965c2de02b20eef6725ac2a3b1bb508585e9965c837e1da67c418624998f"
+  },
+  "library": {
+    "path": ".local-inputs/lua514-source/ints/oracle.so",
+    "sha256": "d270e24e0cf5bf50b61988c85c3cbd5589a7979d12cd6b8633d0b2131c252e75"
+  },
+  "source_sha256": {
+    "port/script-runtime/script_int_bindings.hpp": "4cf66271fe2a909759e03f62d5016b960cc374273eabec8a38279d15716e4d9a",
+    "port/script-runtime/script_int_bindings.cpp": "04b216621891f067b423230fd2b7aa8b47330bb08174bcaef394cca8e22edc7a",
+    "port/script-runtime/tests/script_int_differential.py": "8223f8de35401bc58de606ffd06eea6144ec040c9c50ca34cfba4adc85206b77"
+  },
+  "explicit_services": [
+    "Original native STL tree insertion/allocation/balance, original std::string storage, lazy hash guard; original recursive erase instructions execute with sized deallocation service.",
+    "Undefined AEABI/floorf/printf dependencies; printf fractional fixture uses GNU-style %f including signed nan.",
+    "Fresh Lua numeric-string parsing primitive; genuine host parser audited separately.",
+    "Source32 identity mapped explicitly from native64 identity.",
+    "Native libc++ string assignment, allocation/deallocation primitives; actual native map RB instructions execute."
+  ],
+  "actual_original_instructions": true,
+  "optimized_native_ARM64": true,
+  "native_RB_tree_instructions": true,
+  "whole_VM_differential": false,
+  "shipping_Android_printf_parity": false,
+  "packaged_APK": false
+}

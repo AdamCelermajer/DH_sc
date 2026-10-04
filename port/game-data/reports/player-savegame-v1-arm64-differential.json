@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "88e0df66ce8710cdd35f510d439669e1b1f9a548ec6dc12e1d613ff252c0ea0f",
+  "gold_sha256": "b59991c83ab64c3f2987ffeda12797339085211a4f044278f3edccee5098a92a",
+  "source_sha256": {
+    "port/game-data/player_savegame_v1.hpp": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+    "port/game-data/player_savegame_v1.cpp": "5affc8e4c046ab84156fb2a9b12dac3fffca5af827f1431367c2aa73dea78e92"
+  },
+  "script_sha256": "4eb9d3f8cbeca976ac35078559ca4d90bcad46474e95c7a13bbae21ecd064d15",
+  "reader_cases": 512,
+  "level_write_cases": 320,
+  "actual_original_scalar_cases": 2574,
+  "comparisons": 3406,
+  "mismatches": 0,
+  "scope": "Optimized ARM64 instruction replay of original-derived saved-skill reader\nand low16 fields, plus actual source potion/equipment scalar functions.\nOwned STL initialization/assignment/native lifetime are proved separately by\nthe whole-owner sanitizer replay; caller storage/name services are explicit.\n"
+}

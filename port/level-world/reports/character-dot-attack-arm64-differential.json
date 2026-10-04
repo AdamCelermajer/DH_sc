@@ -1,0 +1,61 @@
+{
+  "validation": "PASS",
+  "scope": "Actual self/self DoT calculation and offline ApplyResult control flow.\n\nProfile/debug/virtual/aggro/HitFor/regen/sneak/text/sound are explicit fixture\nservices. CalculateResult, SetCombatants, direct damage and cached getters run\noriginal instructions. No F_ApplyResult blocks are skipped in supported cases.\nUnsupported branch probes compare only the reached original prefix.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "814a5dacde974738da1996cf8844f8145a9cab62e530763a2a5f86ad2634de91",
+  "source_sha256": {
+    "port/game-data/combat_result.hpp": "5c47ea89402de6b1fd5405ba751763edda8ee8b741c78e8ac3dd4c355ee68120",
+    "port/game-data/combat_result.cpp": "e7a90976e2cc02d6a55dc6cd4d446b8f1f20bd62353f82d29cd85f7ef518e6b8",
+    "port/game-data/combat.cpp": "cd7adcea012ce9a7f4e8fba10a3bd16f515cea8bd66848c374bc6f5d42db1312",
+    "port/game-data/properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "port/game-data/properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+    "port/level-world/character_dot_attack.hpp": "0ac60776bf112edf56a7576dbb239f8fdac06c74e31e5a14bad64c306d179681",
+    "port/level-world/character_dot_attack.cpp": "021e95bda79e4d9e961724b632dd0c1af5bca70ab59fb482a97e702d23a5dfa1",
+    "port/game-data/combat.hpp": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958",
+    "port\\level-world\\tests\\character_dot_attack_differential.py": "745574a4834c5821f692180e5fa160475c869b102e1d6b55ea0a264058b29de7"
+  },
+  "comparisons": 1800,
+  "calculation_wrapper_comparisons": 900,
+  "calculate_result_comparisons": 900,
+  "ordered_requests": 34228,
+  "service_counts": {
+    "0": 5918,
+    "1": 5918,
+    "2": 1800,
+    "3": 1800,
+    "4": 1800,
+    "5": 762,
+    "6": 462,
+    "7": 4726,
+    "8": 439,
+    "9": 264,
+    "10": 2096,
+    "11": 1657,
+    "12": 1657,
+    "13": 1643,
+    "14": 1643,
+    "15": 1643
+  },
+  "unsupported_original_prefixes": 175,
+  "atomic_guards": 8,
+  "mismatches": 0,
+  "gold_sha256": "364a8daa31bb5080eac3b9401fac7842b0d4b7025b8086148a09550a453c9c68",
+  "original_kernel_entry_counts": {
+    "0x3b2e68": 900,
+    "0x3b2638": 1800,
+    "0x3af3b0": 1800,
+    "0x3b059c": 1800,
+    "0x3dedb4": 4039,
+    "0x3b1fb8": 1800,
+    "0x3bd394": 439
+  },
+  "original_import_calls": {
+    "__aeabi_i2f": 878,
+    "__aeabi_fmul": 1317,
+    "__aeabi_fcmpgt": 439
+  },
+  "native_import_calls": {},
+  "full_HitFor_or_FX_backend": false,
+  "packaged_APK": false,
+  "elapsed_seconds": 5.73
+}

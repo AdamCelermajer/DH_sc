@@ -1,0 +1,98 @@
+{
+  "validation": "FROZEN",
+  "production_sha256": {
+    "port/engine-ui/hud_manager.hpp": "d2025a9173cb3d177af6a9f88b556826b25abcd72276b8ecf9c62adc452076e8",
+    "port/engine-ui/hud_manager_backends.hpp": "91c5c107b7ab73a0783326d3a2bfab33119ef553ba6ba2fc95507f2197b160d6",
+    "port/engine-ui/hud_manager_core.hpp": "7d9e31df0c693649cdebb464d90bffdf0935435926547ec558b44b2afbda5be6",
+    "port/engine-ui/hud_manager.cpp": "bdc185d96622870d6debaffdb2f33ed34aa2935e3a7cc93e21c76a9fa20df8fb",
+    "port/engine-ui/hud_manager_backends.cpp": "66c440d5d1cb0f2c36df735b0014950fb12c3a4729d062edc2401a6b96222fd5",
+    "port/engine-ui/hud_manager_core.cpp": "733b5676e6ec49e879414f49d38e812c780692099af8c5032307604d9c47090e"
+  },
+  "files_sha256": {
+    "port/engine-ui/hud_manager.hpp": "d2025a9173cb3d177af6a9f88b556826b25abcd72276b8ecf9c62adc452076e8",
+    "port/engine-ui/hud_manager_backends.hpp": "91c5c107b7ab73a0783326d3a2bfab33119ef553ba6ba2fc95507f2197b160d6",
+    "port/engine-ui/hud_manager_core.hpp": "7d9e31df0c693649cdebb464d90bffdf0935435926547ec558b44b2afbda5be6",
+    "port/engine-ui/hud_manager.cpp": "bdc185d96622870d6debaffdb2f33ed34aa2935e3a7cc93e21c76a9fa20df8fb",
+    "port/engine-ui/hud_manager_backends.cpp": "66c440d5d1cb0f2c36df735b0014950fb12c3a4729d062edc2401a6b96222fd5",
+    "port/engine-ui/hud_manager_core.cpp": "733b5676e6ec49e879414f49d38e812c780692099af8c5032307604d9c47090e",
+    "port/engine-ui/tests/hud_manager.cpp": "166c45a37218a0f9f588e903e03997ad6733e0350f6b3bb160369abd53df66fb",
+    "port/engine-ui/tests/hud_manager_backends.cpp": "e9ccf232c7ca6be38ea1d8313423d0a0a52e539d4b7763a832ce581bdb1550a5",
+    "port/engine-ui/tests/hud_manager_core.cpp": "0f061869903bc085aa8ee7bd6dff1071843dacb96468327b8e030506bfcf3214",
+    "port/engine-ui/tests/hud_manager_reentry.cpp": "1e94dac5557b191c9aa072cd9e9f8d38a7b85fc01fe66c786d4ce243609ee256",
+    "port/engine-ui/tests/hud_manager_backends_differential.py": "eecd2dfe544e8c66b3fbbbf31ee52453563eb015c870f67aa299aa7e23c72920",
+    "port/engine-ui/tests/hud_manager_differential.py": "c9a03ddf4ce864b7ced1bb6ce20fd9d78fa33c1ac46837321417b2658f3e5d93",
+    "port/engine-ui/tests/hud_manager_gold.py": "fe8871edf069746c3f772dc9a354d5a0e6e76ac03ae7b5113f418166e6e4b48f",
+    "port/engine-ui/tests/hud_manager_host.py": "b2a17907e4602a51605c18a8c8f62aa3455e4528e29ff5e5c5c23921f3dffa07",
+    "port/engine-ui/tests/hud_manager_reentry_differential.py": "5bb82190bd873daefc7ea99ff73fc71c79b7deb07f85fe03456711321d7ce0e4",
+    "port/engine-ui/tools/build_hud_manager_oracle.ps1": "c86355f7d0be3c089610f8d8b03b982a690bbc04de4a2384b0a18fa917854893",
+    "port/engine-ui/reference/hud-manager/NOTES.md": "0405ff46ee9e8427241406a4c8f59c191eb3548f2587950363cf77ccf8656bf5",
+    "port/engine-ui/reference/hud-manager/backends-gold.bin": "690a9dfb3ca9e53f09f3f0c41a37983833cecb2c153da316b0d82aa2b1af0771",
+    "port/engine-ui/reference/hud-manager/manager-gold.bin": "81c50a358ef328d826b4be31d223fc62b8c327ac6ce543aaf165cb4995b4a6f1",
+    "port/engine-ui/reference/hud-manager/reentry-gold.bin": "7ac377a965627cdf342a82bff53201173b25f96395da568a86a86ae95083741f",
+    "port/engine-ui/reports/hud-manager-arm64-differential.json": "7c86f8528d388bd69857fd8e62559feffcf4040bfcbcfacbada3683be2ef09c9",
+    "port/engine-ui/reports/hud-manager-backends-arm64-differential.json": "f0cf03e8903ec93cee8cd337d849f3a532e4e228abcc77b9aa69d691e2b58b7a",
+    "port/engine-ui/reports/hud-manager-batch-arm64-differential.json": "ed21c97bc442688b432f37bf72a025a0f22815863bb613f7f243ff4e17a83659",
+    "port/engine-ui/reports/hud-manager-host-audit.json": "b6f144fc90a3434a172157ae30edbdabfb9afaad68f16548c59b394f04178ac8",
+    "port/engine-ui/reports/hud-manager-reentry-arm64-differential.json": "bd3d9402f5f06791a97f0cfac33dc8b89ab4e1bb93742250bd244dc209f71220",
+    "port/engine-ui/reference/hud-manager/backend-dependencies/original-functions.json": "34d9b2715037db187bc4ecfb0af5c624166c769eec1336f1c76e5cef3e0c0ad5",
+    "port/engine-ui/reference/hud-manager/backends/original-functions.json": "0de487b32e9816c3ae48a27e25d9812b23c05150f13a219bdf3ef5f0baf7fa1f",
+    "port/engine-ui/reference/hud-manager/cache/original-functions.json": "e704b20622c55caadc70e8a9458aca1d055caf33b52703ac45043b1e6c37ed1e",
+    "port/engine-ui/reference/hud-manager/constructors/original-functions.json": "e3e0017f3a7f2ecc76ab946b5ca0819850adbf3c0288b379c6c4650fe88e7c13",
+    "port/engine-ui/reference/hud-manager/label/original-functions.json": "c0f599afcfb853284923c8956083f5974f0cc4abd0138ebeb08a6d33c2da3fa8",
+    "port/engine-ui/reference/hud-manager/renderfx/original-functions.json": "ac30004b46f54bb801dd96d6de33724ee1370b2e9cc15e54d70341310d02b4cb",
+    "port/engine-ui/reference/hud-manager/backend-dependencies/reference/original-functions.asm": "af312b97765590dcca1366e1735b7d96519035a48ac26bda065096360d8fe231",
+    "port/engine-ui/reference/hud-manager/backends/reference/original-functions.asm": "d63fb18491440f35690de47404d7360d3f499f6b8dbfe916d347533bf29451c5",
+    "port/engine-ui/reference/hud-manager/cache/reference/original-functions.asm": "c8c662b2f3a10a4c01e77bf1a16167ed0e08736d3d86a20c5c3a32bf9820bacf",
+    "port/engine-ui/reference/hud-manager/constructors/reference/original-functions.asm": "06e41f18f653a4c3f1e2cdd1a545009db2a8ae4f530f7506cf80936f8e949063",
+    "port/engine-ui/reference/hud-manager/label/reference/original-functions.asm": "bae5aa7a927bd6de587fb5f25b1f453c7eb1ec3cab68d53fee45dbe746438ce6",
+    "port/engine-ui/reference/hud-manager/renderfx/reference/original-functions.asm": "c1a1c2c7707b71c17777f42c61691c157638d753497d684ad007f3c0fa756572"
+  },
+  "original_cases": 2106,
+  "original_ordered_services": 27287,
+  "host_results": {
+    "manager": {
+      "validation": "PASS",
+      "cases": 650,
+      "ordered_services": 22584,
+      "failure_guards": 3494
+    },
+    "backends": {
+      "validation": "PASS",
+      "comparisons": 1408,
+      "ordered_services": 808,
+      "required_failure_prefixes": 808,
+      "atomic_guards": 7
+    },
+    "reentry": {
+      "validation": "PASS",
+      "cases": 48,
+      "nested_same_manager_calls": 48,
+      "ordered_services": 3895
+    },
+    "core": {
+      "validation": "PASS",
+      "whole_manager_updates": 38,
+      "authored_hud_styles": 2,
+      "ordered_services": 1874,
+      "weak_cache_gets": 437,
+      "source_frame_calls": 203,
+      "visibility_calls": 53,
+      "plain_text_calls": 41,
+      "notify_deliveries": 377,
+      "enemy_labels": 2,
+      "allies_callbacks": 4,
+      "position_provider_fixtures": 2,
+      "ownership_failure_guards": 7,
+      "startup_settings_fixture": 1,
+      "startup_multiplayer_fixture": 1
+    }
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "isolated_arm64_sha256": "867c6a9d8964fdfb435b0613d2289a1fb9a4f4eb0a3e1d023a5d2a086ea74941",
+  "limits": {
+    "whole_original_application": false,
+    "skill_script_VCB_is_required_service": true,
+    "manager_AS_cache_world_camera_services_are_explicit": true
+  },
+  "dependency_scope": "Shared facade/core/text files are exact dependency snapshots in host report; they are not owned or frozen by this receipt."
+}

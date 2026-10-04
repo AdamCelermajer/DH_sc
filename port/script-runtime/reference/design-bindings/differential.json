@@ -1,0 +1,20 @@
+{
+  "validation": "PASS",
+  "scope": "Execute original design wrappers against optimized ARM64 callbacks.\n\nApplication design lookup and ReturnValues allocation are explicit services.\nThis proves wrapper guards, shared Struct/OID dispatch and signed integer\nprojection; it does not claim the full design-table manager is reconstructed.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "4a955abbd9613dcb390b9509c8b27b08ea464ba3956f49cba4b5089051310c9f",
+  "comparisons": 1200,
+  "mismatches": 0,
+  "ordered_lookup_calls": 60,
+  "source_sha256": {
+    "script_design_bindings.h": "0f7377a43a4efdfc05817901ad4dcc5344b9a1e30fbcb5de57e50f393173efd9",
+    "script_design_bindings.c": "d3fa2b17d974aec16a130ab9f6ffd547e89f5cc24b26f18e98f970ad8b931e0a",
+    "tests/script_design_differential.py": "5462ac3c90ebbab421beb666b005cd74677d29a686033107c5351c5607311df9"
+  },
+  "original_manifest_sha256": "3f42843ba581bf2a539ec7b2910fc5f853d1978c49cc4b3c48082db7f5708fad",
+  "gold_sha256": "4452a49ba54a15b21cafb8659e54f533b14722e7c144dc0e0c2129c1f362f34c",
+  "original_wrapper_instructions_executed": true,
+  "compiled_arm64_callbacks_executed": true,
+  "manager_lookup_proved": false,
+  "actual_vm_executed": false
+}

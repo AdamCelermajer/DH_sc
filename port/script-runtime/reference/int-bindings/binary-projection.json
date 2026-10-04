@@ -1,0 +1,7 @@
+{
+  "source_sha256": "cf5f965c2de02b20eef6725ac2a3b1bb508585e9965c837e1da67c418624998f",
+  "binary_sha256": "1b62ea9e1083e860490c800a75ce16aaff51126596d729910d23abbcf45583c8",
+  "script_sha256": "6753f9e247cfaaa2b798a4bac5da1810ab3406ba418b97b6b4597a95d3ee62a6",
+  "cases": 3163,
+  "numeric_parser_services": "Actual host Lua parsing is tested; no host primitive hook is inserted."
+}

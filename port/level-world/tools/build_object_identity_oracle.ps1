@@ -1,0 +1,3 @@
+param([string]$Output='.local-inputs/object-identity-lifecycle/libobject_identity.so')
+$ErrorActionPreference='Stop';$repo=Resolve-Path "$PSScriptRoot/../../..";Push-Location $repo
+try {New-Item -ItemType Directory -Force (Split-Path $Output)|Out-Null;& "$env:LOCALAPPDATA/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe" --target=aarch64-linux-android24 -shared -fPIC -O2 -std=c++17 -Wall -Wextra -Werror port/level-world/object_identity.cpp -o $Output;if($LASTEXITCODE){throw 'Object identity build failed'};Get-FileHash $Output -Algorithm SHA256}finally{Pop-Location}

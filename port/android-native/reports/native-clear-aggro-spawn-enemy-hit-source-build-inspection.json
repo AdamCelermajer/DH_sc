@@ -1,0 +1,1230 @@
+{
+  "validation": "PASS",
+  "scope": "Inspect captured native character initialization builds, without live claims.",
+  "build_validation": "PASS",
+  "live_validation": "NOT_RUN",
+  "capture": {
+    "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\native-clear-aggro-spawn-enemy-hit-source-build-capture.zip",
+    "sha256": "d9819e904cd273d442dac9e71e601ae7a0677368d818a0e31b07bdb367b562ae"
+  },
+  "host": {
+    "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reports\\character-clear-aggro-spawn-enemy-hit-main-linked-host-audit.json",
+    "sha256": "d1aaaaafd7a2e956a7bfe73b5c416df3a94f999b28200ec1ce3ff99904fdd726"
+  },
+  "host_compiler_source_matches": {
+    "port/level-world/CMakeLists.txt": "36c553afbbd446400e780720cddf21f5408c038f6d79734bc383913ec13c1554",
+    "port/script-runtime/CMakeLists.txt": "e4e655a3f75fea457bc722576e808f37e0a141a2b6fc3f562b47b27e8ae2a845",
+    "port/level-world/character_script_session.hpp": "8a461a5af720c89d72f5b2bf226b3c627b5121488519773613430d1ca8b8f432",
+    "port/level-world/character_script_session.cpp": "be56f41fc7d5ace42a09507d3eba0b094732ce675aed06454660a88a659d6ebc",
+    "port/level-world/character_design_services.hpp": "e2997bdd47e1ebe442797a55f7802ecde8d3105a80b5eb1e6b11f7b269a33064",
+    "port/level-world/character_design_services.cpp": "bf12eb613228d963cdb78e3ff44d1cb23da87a186e0bae73b01029379808b62d",
+    "port/level-world/character_game_design.hpp": "3e2a36aae3aaca6dac7eb48dd92206bf72f8fbd694ecd90e4777552f817e92a8",
+    "port/level-world/character_game_design.cpp": "1569afd14b63603b9862b7dde82b306e440c1d94ec3bc4874cf606061e899275",
+    "port/level-world/character_host_context.hpp": "cd51145421b37194bd79deec6603696a1d26e9d20f3030cb20372012430ac80e",
+    "port/level-world/character_host_context.cpp": "ecf88d6974033f84868bfb95a1b01ee6a15b32f6397ba119510c432e636a6384",
+    "port/level-world/character_spatial_bindings.hpp": "72bc0754adb341676c03b220c03cad59804231e2403cb2e5d5be23ec3f821f6b",
+    "port/level-world/character_spatial_bindings.cpp": "b347cf19c1888f9ac1046891bd3b3b1f4b3879f32882e1557bf46f6ae94c681f",
+    "port/level-world/character_target_bindings.hpp": "bead66304f3c4454813d2fcea8e679f0eb45d1625a4ee621f4ec96bfb6886e75",
+    "port/level-world/character_target_bindings.cpp": "b24ad01d74fbe5de98ce9416be022c6652fa8a90ed2c820a0455b293dc405665",
+    "port/level-world/gameobject_lua_representation.hpp": "ea430c5a511f34dd820913f4334ffb46e67f94c1d08973fcb29e356f9d711421",
+    "port/level-world/gameobject_lua_representation.cpp": "9855469c0259c284f6955b794f38e10b5526bf2b69d97c958e41568b755b14e0",
+    "port/level-world/character_script_owner.hpp": "968c7d23eadb1fd44eda62cffc78d81d1493b38e524d49a252eaabc316bf7a42",
+    "port/level-world/character_script_owner.cpp": "7d1ab03cffc21df3e9ffc6077de39b940abc3ceaed97ace37df11398edd75203",
+    "port/level-world/reference/character-game-design/registered_names.inc": "b0405c5c439a864cbf6a6f5291517922fb9d36ba58a0bd79cb7ef909ea41348b",
+    "port/script-runtime/script_runtime.c": "545e30a61598127ad35fe6d2e19d64f0c9aa797be89c94962058d8e8635559e2",
+    "port/script-runtime/script_runtime.h": "6da3b8ae002da1eb75cd64d03120d37668ebec198ce3d3b5827096c43d08de14",
+    "port/script-runtime/script_object_bridge.c": "e8bd39d180c86dfa7e6fa0396351010475ac330284372e4607cd2d3e595cf74c",
+    "port/script-runtime/script_object_bridge.h": "63c357b3879fb74e882f8ec5a4d3fb6f6a3ad9360ca1bbabcbc38f1c142a15d9",
+    "port/script-runtime/script_object_bridge_internal.h": "f05dfc2c09b2c61868bc73b47b31aaa21a103b228858d2e47d0f65f976f5e071",
+    "port/script-runtime/lua/lgc.c": "c095b53992c084bf80a9a2f0f0b885eda474646806c8a8c9ab55c4fb5643ad32",
+    "port/script-runtime/lua/ltable.c": "b5d3a42b7068c0c822845563c9974fa00b41a190fd4352910f5e29f0eef94dfb",
+    "port/level-world/character_timer_effects.hpp": "d0d1dcfa0ebb530a8c7fd302a6801357e6a36df9b16d0305c17d67201a0c684a",
+    "port/level-world/character_timer_effects.cpp": "b6937578a786cbbb2cc1a516611598941e76d32bac5441d57a4a88b5772bd0f5",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/level-world/character_state.cpp": "73d08ae28e2fea576bfc03d5377c5d096be5fc07f1d33ae228227d06495d10c6",
+    "port/level-world/object_identity.hpp": "ecffe87157463e169126f859d9a144b50ecb09b902b99787918f4262a44231bf",
+    "port/level-world/object_identity.cpp": "4d41ec703f8653cd9e4183727fd1e3e52d8e180087357e1983c31b82e0709499",
+    "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+    "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+    "port/level-world/character_buffs.hpp": "2d3b4b7753868bb797c00888c5efb6e40e86f1bda4df5e812cfc6da6a07d7e06",
+    "port/level-world/character_buffs.cpp": "84523e93217166a154952d677c1b04f1ed3ee16e322312db8ba134ceeb3e59db",
+    "port/level-world/character_state_owner_data.inc": "d9cae0c70b8a59db8d66afb3559c5aceeb8241b67528fcc3b4eade57940da634",
+    "port/level-world/character_state_owner_behavior.hpp": "5c3d2e6c58960a2eb6cc16bef179cbd72efcd98ab5b3285f2ccb4583859879b1",
+    "port/level-world/character_state_owner_behavior.cpp": "36da18ca632a39ea032e1ff4fd70e152ba37cace03557a1a22045808cfc78ce6",
+    "port/level-world/character_state_owner_frame.hpp": "1c3e6b69e9e8e853ed7aba6bdb0466e99a9262a91bc0ec561320026c2d7fac51",
+    "port/level-world/character_state_owner_frame.cpp": "d506ba5eac38e2e9991957e586365eccfbe9eeff439b07ed8f4b015fe9eca851",
+    "port/level-world/character_script_commands.hpp": "51f22d25809578af83f6da1f07b4cacbe2be6dbd2e1d5e35eec7b0477089e3c9",
+    "port/level-world/character_script_commands.cpp": "2d352d1f464a59a1591503f93a788c7321f95be503a440f1615eaf8318f43770",
+    "port/level-world/character_target_update.hpp": "9de6394fe589e5d9329427e8018a1e6a4782e67f1bbda546cbc4d828ba5aa179",
+    "port/level-world/character_target_update.cpp": "364d22574f816442b579aed892342afd395370d0f8d9a777bc35417cd9ca8998",
+    "port/level-world/character_target_events.hpp": "36ecab0282c65c34b782a09aececdf0249f0374afbdda34c5125a651a1df30cc",
+    "port/level-world/character_target_events.cpp": "ce3d46cae0cd40e5de2cbd1312a4cb9d3ecadbefedff30fd3fabeeb7ebec07a5",
+    "port/level-world/character_controller_commands.hpp": "ad23b308d6219c6a98c4588fc6915026edcb862a8afdd71a61674f2dbefd39c5",
+    "port/level-world/character_controller_commands.cpp": "68cb770d894bb2504947678701a03173a6a6cb693ac47df080b18723c96bb342",
+    "port/level-world/character_path_commands.hpp": "780c25895e0f633769c78b4d6311d8f3a08d44c964fcb2ff84f00589c8cb98f7",
+    "port/level-world/character_path_commands.cpp": "0c9f22f1f8ba398e5549c2ab6329d47d32ac09c35da99c38df25d9895f1b243c",
+    "port/level-world/character_ai_events.hpp": "e78a1542dd1316047414419bcea7d8ad9fee32a410959d2f80db4af47ef357c3",
+    "port/level-world/character_ai_events.cpp": "fa459fb66755400887d4e042d1038013001ec2ebd3746962a7d2f29830baa5b0",
+    "port/level-world/character_dot_attack.hpp": "0ac60776bf112edf56a7576dbb239f8fdac06c74e31e5a14bad64c306d179681",
+    "port/level-world/character_dot_attack.cpp": "021e95bda79e4d9e961724b632dd0c1af5bca70ab59fb482a97e702d23a5dfa1",
+    "port/level-world/character_script_objects.hpp": "b96add92d7d08a97bf167018e9368a75da38729f2be1f38377729d443d7c992e",
+    "port/level-world/character_script_objects.cpp": "b03894fc7f621795022913638d67388df570565e3ee429668864340267fbae01",
+    "port/level-world/character_state_empty.hpp": "4d0791ec65ca99b68c233dc6f459562e35032dbd59638a463bfe1de591d0e64a",
+    "port/level-world/character_state_empty.cpp": "72ee801d1ea83f0dca1499fa03c9623f5c096e3a47191596a46c1a00ab38a62e",
+    "port/level-world/reference/character-state-methods/native-methods.inc": "508dc208f661105d0e3d9c1b7826383207b96638ad9a897c2ff927f3a6970ce1",
+    "port/level-world/character_enemy_spotted.hpp": "9b053078e0953c46dddbe2e52b8ab4a0a09fd216c4af684ed9e2e9cd2f4f2a44",
+    "port/level-world/character_enemy_spotted.cpp": "4cde740c42d5058bbd2420101f9d36dd978fe174efbd7b3f558201c4072f9372",
+    "port/level-world/character_pre_spawn.hpp": "dfb4631f7c9dfa1f9b875389fd094192f1632748740306899f4e0ed823c19c7b",
+    "port/level-world/character_pre_spawn.cpp": "3922755aa29ace4fca820269697068682b955c438a0f2c1037f33048554b3694",
+    "port/level-world/character_hit.hpp": "9035d572267994ce2dfcdbda05d6e12c6cc92711f526b31720757fe8a9c65311",
+    "port/level-world/character_hit.cpp": "6c723420bfc012306e9a79b4b8acb06b773a16e9e951c794fa88f095f9f591ac",
+    "port/level-world/character_target_providers.hpp": "1db2bc0cde5d7644b2194e333dc82209b756980c1ee7cb022774503c6e99fc36",
+    "port/level-world/character_target_providers.cpp": "24c160b8f7e1d3e95bb06ef5f43f63c794851ec430ccfc4ff6e2135fd7aba70a",
+    "port/game-data/properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+    "port/game-data/properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "port/level-world/character_state_owner_extensions.hpp": "86384b6d2b9ea8c4f71f2355d16ff5b5c7eba43cab7be76191b02f93cf8a3e90",
+    "port/level-world/character_state_owner_extensions.cpp": "bf0ef776260ea12c7eac7e41dbcc9474ddf0b4c94e4f423e27ad869971588058",
+    "port/level-world/character_clear_aggro.hpp": "878fdd198713793aa2e24917b019e0518a876eea0208ccf25dd377af328d576f",
+    "port/level-world/character_clear_aggro.cpp": "3f365bef641bfb522c2c8ec3255b506ff527d9199868e97aed28aeefe150c33d",
+    "port/game-data/aggro.hpp": "a4624693ae19a5ab6f058f4137d535a9b3ad41a5129faa5c0eb1a82850a1f703",
+    "port/game-data/aggro.cpp": "ae05055695fb38680e41b8a11c79ce8f31b3865c14d44864e6da52def34c89fe",
+    "port/game-data/level_tables.cpp": "43e3e130983b6ec3fd9dc9b1c5db1894012143851b21a4ef92993e9392e24ca4",
+    "port/game-data/level_tables.hpp": "ba2961fde528980f9d9d69d05a9d1bbc58ae29f34d3825af8e02465ca5c3a4d9",
+    "port/game-data/game_design_tables.cpp": "a7c5a884708d27c379e80187aecf40873e40b0881202809fde8fa3e1bd181dba",
+    "port/game-data/game_design_tables.hpp": "52bdb1135fdaa4fd03866797d0ccb5dd200ecd622963b8afeeb4470a2b58049e"
+  },
+  "asset_sha256": {
+    "assets/actor-provenance.json": "311703e439347808c5b37373bdb793a390d1d05d17feb8d750cc62e5f91d4117",
+    "assets/actor-state-provenance.json": "aa4f4b053e8536bf2a19181490a6e903ce952566e982b20d4bf7495c7e6d35f1",
+    "assets/ai-provenance.json": "df4f7ee668495c48dc7c913614945b6c2ec9ddb71a2d627b526bd9b3af841159",
+    "assets/animation-provenance.json": "e76052e803f4b4326415e1fd0d47811beade71a89ac8b5ec54b1e3f54a2e9f8b",
+    "assets/character-combat-provenance.json": "6831fb50d47b54711bfc219c33530eb459cc31cc2de537585afcc0ec916e223d",
+    "assets/class-provenance.json": "dbd16c0372d611a5ed6806da326415204e934081d0446a8ba12e88e0349af9ec",
+    "assets/player-combat-provenance.json": "c7ed749721614b39fd5da30446ba286b3908b7b21cf9f456b65ac57d06be4860",
+    "assets/player-defender-provenance.json": "78de8298a548404cde57f7d72a5da8b625792a008661aaf6ddd78aeb5c162b1e",
+    "assets/player-locomotion-provenance.json": "d70c80bed9f4a49c40d4b5dedfef4c4b46d7ff186ac9fc1dc5cb3956bce292d0",
+    "assets/texture-provenance.json": "fa58aabe2acfc31f07bcc386cdc442948deb217ca75c9b88de97c32c8625b190",
+    "assets/actors/crypt_candle1.bdae": "d4ccf2aa24f9d6102ed0f7fad1a387a391536193dc422eec60ce4bcb0687e51d",
+    "assets/actors/crypt_candle1_small.bdae": "72455d1133489b8fb4c3c3f0365f02d3dee9c19df7f7ba231ef8a05099ead00e",
+    "assets/actors/crypt_candle2.bdae": "3cb10850b6acbafae8c296daa4bf466dcd95debd878cb0cf324a180eb8a9e502",
+    "assets/actors/crypt_candles.bdae": "0b0b0a5b001bc2fa5991207cf11eb3b03a84a73a6bbc1aa6e1b2e972b1bbb409",
+    "assets/actors/crypt_candles2_small.bdae": "7e79edbbdde7b36d71876bc7f1250928096cffb90ed24bee3cced946b0c30fe4",
+    "assets/actors/crypt_candlestand.bdae": "104c43a624272a223132b97808dc6c405d61ca94f97563fdefe33218d8af6bcf",
+    "assets/actors/crypt_candlestand_big.bdae": "89a313c943fb74445666ef373fea5bc091184ba849373daa84751b0ee1a44967",
+    "assets/actors/crypt_candle_big.bdae": "eca0dc98fbdf0f77c4ce00877546c5c153cf93c78745778cbfbfe0b02666e190",
+    "assets/actors/ghost.bdae": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183",
+    "assets/actors/ghost_attack_01.bdae": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a",
+    "assets/actors/ghost_dying_01.bdae": "10d0454f550b1aa90de4f22a2ffba2af585feb84b23d90fd62040c292e917327",
+    "assets/actors/ghost_idle_01.bdae": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895",
+    "assets/actors/ghost_post_attack_01.bdae": "7c0639fcfa028b2fc2595da67c2dfaaeecbbcbb3993ec3916d3586010f59c994",
+    "assets/actors/ghost_pre_attack_01.bdae": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0",
+    "assets/actors/ghost_walk_01.bdae": "bd381b8bdcd2e948620fcd90ca8bf5f4e54c156285584e4e130cd369933c3ddc",
+    "assets/actors/skeleton.bdae": "2cf63468a00c934f9b3d7b15b1c846ce575b9c62fc3aff83c7cd2bfbefacfb36",
+    "assets/actors/skeleton_attack_01.bdae": "65162e55af222d0231fb25027f5406e47d4a1b9e4b89864680cbca3ed738461a",
+    "assets/actors/skeleton_attack_01_to_idle.bdae": "8df25c9d89c7e3c343329fa6694661fa1968645f6176919312b5b64824a7ac17",
+    "assets/actors/skeleton_attack_02.bdae": "83276482fa53b376495a791792fb381eaa6f7cf9ce493cf7d5f39095ac222cb2",
+    "assets/actors/skeleton_attack_02_to_idle.bdae": "53bf12257a1df6411cd6e95c492cf6c0fbb50f557a17407f0a28176e3148b082",
+    "assets/actors/skeleton_dying.bdae": "4a66caf03f98ee89c008fda99372f8c8bdbd76f932f38ec79032031d0bc8af90",
+    "assets/actors/skeleton_idle_01.bdae": "bea7b628675e9bebf64a4da6e90b9cc8ca9f7411e053d6ce354eff7c38f0982d",
+    "assets/actors/skeleton_idle_02.bdae": "b468b9db81c8534e7b43691dcad66d6f57b3dd94feee4c684aa1885a14429349",
+    "assets/actors/skeleton_pre_attack_01.bdae": "3c9c0f3f72c8ade5bca121ba172036f33b32bdc181a57ccc41cbff7012ca1d1e",
+    "assets/actors/skeleton_pre_attack_02.bdae": "97220c3139e1eee33616b4aee973d0272c156970a1c235ef41c608fe29608f0f",
+    "assets/actors/skeleton_walk.bdae": "0fcb603c72a725dbae62d4bc061ebf98ba9b0a504e40645f9ba09fe4fcc589b0",
+    "assets/actors/slime_attack_01.bdae": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0",
+    "assets/actors/slime_attack_01_to_idle.bdae": "19194ac919bcce58739a8df48b9448c251a09d0b598f7b597ee828361693843f",
+    "assets/actors/slime_attack_02.bdae": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1",
+    "assets/actors/slime_attack_02_to_idle.bdae": "86f01551aa577f5c86beac627914c288f5c3cacb05a08ef7d03dd3511c6f5238",
+    "assets/actors/slime_dying.bdae": "60057288188a3c56f4690e66529c7663ca67f7f05e9ff15d7d26bb6fa43321fc",
+    "assets/actors/slime_green_v2.bdae": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1",
+    "assets/actors/slime_idle.bdae": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472",
+    "assets/actors/slime_idle_02.bdae": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf",
+    "assets/actors/slime_pre_attack_01.bdae": "eb07914aadac438e79cd901a05f0f90b2b7e08a6822494b08be68047dc8293ae",
+    "assets/actors/slime_pre_attack_02.bdae": "315a2f52e8cbcabc3899dd8763d1bfa36696ca23911f36a26c40ca4a52480a19",
+    "assets/actors/slime_walk.bdae": "966d248d406756d06f028570f79208ac3f047d0bb0c537103405b60694b80f05",
+    "assets/actors/swamp_caveentrance_effect.bdae": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1",
+    "assets/animations/prince_1hand_combo_01.bdae": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa",
+    "assets/animations/prince_1hand_combo_01_moving.bdae": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238",
+    "assets/animations/prince_1hand_combo_01_to_idle.bdae": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624",
+    "assets/animations/prince_1hand_combo_02.bdae": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0",
+    "assets/animations/prince_1hand_combo_02_moving.bdae": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01",
+    "assets/animations/prince_1hand_combo_02_to_idle.bdae": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091",
+    "assets/animations/prince_1hand_combo_03.bdae": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003",
+    "assets/animations/prince_1hand_combo_03_moving.bdae": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1",
+    "assets/animations/prince_1hand_combo_03_to_idle.bdae": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260",
+    "assets/animations/prince_1hand_post_combo_01_moving.bdae": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e",
+    "assets/animations/prince_1hand_post_combo_02_moving.bdae": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af",
+    "assets/animations/prince_1hand_post_combo_03_moving.bdae": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8",
+    "assets/animations/prince_1hand_pre_combo_01.bdae": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32",
+    "assets/animations/prince_1hand_pre_combo_01_moving.bdae": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0",
+    "assets/animations/prince_1hand_pre_combo_02.bdae": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4",
+    "assets/animations/prince_1hand_pre_combo_02_moving.bdae": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548",
+    "assets/animations/prince_1hand_pre_combo_03.bdae": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058",
+    "assets/animations/prince_1hand_pre_combo_03_moving.bdae": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc",
+    "assets/animations/prince_2hand_combo_01.bdae": "ef877dee487c8c91ee9fd6c4a3a1e9b72db12e9d0288a837341b9a16ba276aa2",
+    "assets/animations/prince_2hand_combo_01_moving.bdae": "80da78bee82f732b326b2232dfe0dc30ef8fdc1a52df84a3ad46960dbc625d39",
+    "assets/animations/prince_2hand_combo_01_to_idle.bdae": "08271e2127bcc0baab19ba06bd15af824ad93c45c4319be63f4d0b236eda46bc",
+    "assets/animations/prince_2hand_combo_01_to_idle_moving.bdae": "fd0ee7b2f3cc16e5f09ec4b854b5bfa3bd37d5fbc559a722cefd706b46a5ba66",
+    "assets/animations/prince_2hand_combo_02.bdae": "910ea4514b097281bdc1fcab85e394687baae900838ae0b065c5f1bad28fe44f",
+    "assets/animations/prince_2hand_combo_02_moving.bdae": "926d4df45a4cf6290365d12019158a6160b57d68e56e8826eea29cbcbddeb063",
+    "assets/animations/prince_2hand_combo_02_to_idle.bdae": "84f919b98f461f8606c68e1da4b0ef7c7e827c4ee7616ed22b22a935b16bf9ea",
+    "assets/animations/prince_2hand_combo_02_to_idle_moving.bdae": "61571532605f9ae76acb0ed2972a098aba27d8d5db59a3f04f431e9f95078785",
+    "assets/animations/prince_2hand_combo_03.bdae": "8a8400e0f65e69c1e338008a2399fc74c05697a3853af9301733fbbf4dfcd3e9",
+    "assets/animations/prince_2hand_combo_03_to_idle.bdae": "611c1d1ce0da71fd01fda1866d9d4d4b979ab86c4d10b8c04143c74398aff005",
+    "assets/animations/prince_2hand_combo_03_to_idle_moving.bdae": "bdd6f89b8a37493a9360631a1c3ee62301414eaab5a0d4c92ebbccb26b43f1cb",
+    "assets/animations/prince_2hand_pre_combo_01.bdae": "7200dcc608afbb10af5ac3aae47042d11e94ffdf828a7a5c266fcfd561f0410d",
+    "assets/animations/prince_2hand_pre_combo_01_moving.bdae": "a4ffe99f3747c1458fcab74226fd1dcc8c272c9255f4d8685f0cf4ad0b5a9ab4",
+    "assets/animations/prince_2hand_pre_combo_02.bdae": "cb6e4349be2a3426b346cade5da15ad5a9dda63dfeb3405e4f24b73066c02d61",
+    "assets/animations/prince_2hand_pre_combo_02_moving.bdae": "c16ecacf1d5d3ac959dc59f0e353e608a0dc6828d857566171b9960e017d59eb",
+    "assets/animations/prince_2hand_pre_combo_03.bdae": "de13c3aa34ecb9ad952ba818f823f807593fd98e0c0334b23ac7ca0e5b86d072",
+    "assets/animations/prince_2hand_pre_combo_03_moving.bdae": "e5e6d8a6898b3cc0979672366f2f8d5c14708409a1a9a3bceb88039f00cb3517",
+    "assets/animations/prince_block.bdae": "f87f34e28201d67f33f0245caeeaf33fd024b3b826343a613c2b924df7efd51c",
+    "assets/animations/prince_despawn_01.bdae": "b6aa0d869acf57409e6a8bbdc755e5c24b0e16fa59adda85d87b2761d0411455",
+    "assets/animations/prince_dialog.bdae": "276249c74adfae2cf0c69feb18348751ae8dc6b76c4bccfd559996d201a0fb3a",
+    "assets/animations/prince_dodge.bdae": "b196c02e2270db944ae6f41d90965d741927fbf5fa37b19878fbf49f2e544af0",
+    "assets/animations/prince_dual_combo_01.bdae": "5b836271f1512867c798548b005f0c287c6f8616389ea42435e906113d247df2",
+    "assets/animations/prince_dual_combo_01_moving.bdae": "8b639941320b72e1a42deabeca29b29c889a11c1295d7b4029d4a8f13098983e",
+    "assets/animations/prince_dual_combo_01_to_idle.bdae": "ba0ce3649c5112419f83fe964421a83badda3322d5a85b19910cd26937ea98f1",
+    "assets/animations/prince_dual_combo_02.bdae": "daddcc6db2fd1d71d783039c3e2e02faae32fd7305543b48072d975df8744817",
+    "assets/animations/prince_dual_combo_02_moving.bdae": "17ceee4f1f72fba31fc632381478e5c5567fd8108d9da10bafaa018dad36d45d",
+    "assets/animations/prince_dual_combo_02_to_idle.bdae": "cfea77fc9d5c841fb4684eb817f79f973858f05ecfb2b37ca6c0ef0aee64a8c0",
+    "assets/animations/prince_dual_combo_03.bdae": "44b08982c3b21d6bfe9f4c95fc5209920e010dfced75890fe7081e9f5b01e018",
+    "assets/animations/prince_dual_combo_03_moving.bdae": "600a0a395c57fe4af957dc1e56e30c51a9f918a4ac009d044289be32f92233c8",
+    "assets/animations/prince_dual_combo_03_to_idle.bdae": "68964418ac71cc62246c47ef22a5c0b666d0d7291a841cb710a05e70aa68bac7",
+    "assets/animations/prince_dual_combo_04.bdae": "376639964124dad7d0ee5177e0eaced6b4f5a161a5b0069ccbba2adb25b30f98",
+    "assets/animations/prince_dual_combo_04_moving.bdae": "776389afecd2125085d2dbe792af07b51e39b1b3098c3df7142f418ccf93ae64",
+    "assets/animations/prince_dual_combo_04_to_idle.bdae": "ba92607da20e06bad4d606bf6e8170ae5030bbf26fd0cb6e1cb5d1275c555581",
+    "assets/animations/prince_dual_post_combo_01_moving.bdae": "8c4c1478be59b455b21d45c495ae90b7c96c39ead7276189150cd3ea5639a25a",
+    "assets/animations/prince_dual_post_combo_02_moving.bdae": "556989752468582c503dadccc757bff3fcdca0ac715dd896f125fa8dbe56f9ec",
+    "assets/animations/prince_dual_post_combo_03_moving.bdae": "6156454146d2ec9ea36ee2f3a372c1a97cb7c3e1e9d5624adbe91dd4b5ac895c",
+    "assets/animations/prince_dual_post_combo_04_moving.bdae": "d74637bc25d937bf15f4c5ce94af4acc3e888561d99be8e6e14f56d14c56012b",
+    "assets/animations/prince_dual_pre_combo_01.bdae": "2d4086709480be7a0b132175d95661f18f5aba723a4c67b1bf79db9641eab65f",
+    "assets/animations/prince_dual_pre_combo_01_moving.bdae": "6da1b197fd7014e94d286d1d041ea8cbf88b3603c6f7fbfa5685d0cef418ec4c",
+    "assets/animations/prince_dual_pre_combo_02.bdae": "245e8a74e81cea44afdfc646db77481101704ec10d6cf951e8be00ac36645921",
+    "assets/animations/prince_dual_pre_combo_02_moving.bdae": "ba34ee9edb5457dcf93a14a217831fb8b29cc02bf41b26739ec4b73b96da4356",
+    "assets/animations/prince_dual_pre_combo_03.bdae": "c50dd20b885e10e703d8e854cb6b71270060d536c5dee3ca3062aa4222e83086",
+    "assets/animations/prince_dual_pre_combo_03_moving.bdae": "ace53ab8c5b3318027663a7550c818ea58166cd2eb998ba68ce8c46cc8f48271",
+    "assets/animations/prince_dual_pre_combo_04.bdae": "a013e2d9c4df519279717b0bc4f354f03b3b021abcb2811956af5de63aff7370",
+    "assets/animations/prince_dual_pre_combo_04_moving.bdae": "34d4778b17a6888c0e77c8fe5e867f614eec558dc46eefb51a64c52f8366408a",
+    "assets/animations/prince_dying_01.bdae": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a",
+    "assets/animations/prince_feared.bdae": "ad14966e8ed054fb44e356b53592740c14b920992cfdc9a9462e9ce78be07262",
+    "assets/animations/prince_great_pushback.bdae": "bdff3bc5dd3f3a95227a29bb042b6c837b56c45f53ff715d0aacb9c3fe8b36b0",
+    "assets/animations/prince_great_pushback_despawn.bdae": "df027ddc1a680b116ae0330fb7c55bc45c3dca567540a6333a3d8fa969367fb0",
+    "assets/animations/prince_great_pushback_dying.bdae": "7ca5c9182f00bf5859599fb6f0f18a00fdbd089f9b42836b7fb7ccb99fd01b89",
+    "assets/animations/prince_great_pushback_standup.bdae": "3943f7a2cf93ff0061370a95bf29434bd70f3916779d9c1a81c8bd75d751b6a7",
+    "assets/animations/prince_hurt_01.bdae": "912d6df63b3088f8670d184b3acd5df133edd0791a24568379d206dfdabe7522",
+    "assets/animations/prince_hurt_02.bdae": "ddff33044857266b997546d418c4d2e4599831e57c19e67fd5b6e6397673e768",
+    "assets/animations/prince_hurt_03.bdae": "e0770baf2c5dd3a841c5b3d47660c1c956d56cdab57122f5a7955e9e0fc58682",
+    "assets/animations/prince_idle_2hand.bdae": "298c9f6f5af13970050a683640790453cf2fe0932d4e59ed6507377c81e2f181",
+    "assets/animations/prince_idle_2hand_02.bdae": "5a9e13430fca5c3ce8eea44e695e300b444b7916245f513bc3636588b25a2ab2",
+    "assets/animations/prince_idle_dual.bdae": "19a673316a0e9d8497ab32c7f9466094993eb78ba4e0bc099c40fa2636906d8c",
+    "assets/animations/prince_idle_dual_02.bdae": "58ec39b964f729c3ef18d7920bf28bde5bb05b02d5c674944e6c72368f51f77e",
+    "assets/animations/prince_idle_ranged.bdae": "d16c517b473d039cf47559229417f9fc6d862f57a98e1f866f71989225c9a14f",
+    "assets/animations/prince_idle_shield.bdae": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92",
+    "assets/animations/prince_idle_shield_02.bdae": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13",
+    "assets/animations/prince_interaction.bdae": "988b7ad3e614e2ecc4fc29bdd6fef71d752476d94b432b8ce46b37759e9eba62",
+    "assets/animations/prince_interaction_shrine.bdae": "cec7e98e19b3e0621e3851932c7f0a54c9e668bd42ee47feb4b14651fcb7842a",
+    "assets/animations/prince_menu_idle_knight.bdae": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a",
+    "assets/animations/prince_post_stunned.bdae": "0d0930697d6de8e84aca96450d02dd1576c96fef1d17bf530f100fd4d7727403",
+    "assets/animations/prince_pre_stunned.bdae": "35eb3d125813c63a3a0aea5a3ce3810339e44dc7c8a13bf40ebb1a4061358532",
+    "assets/animations/prince_pushback.bdae": "98b725ebc5c5d5de24a10b01cc9936a08d5505adb62919db522a14c6ecd3481e",
+    "assets/animations/prince_ranged_attack.bdae": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed",
+    "assets/animations/prince_ranged_attack_02.bdae": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6",
+    "assets/animations/prince_ranged_attack_03.bdae": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3",
+    "assets/animations/prince_rogue_sneak_idle.bdae": "ba16c7ae983f3afe7c0f7e95836e5412bc7ac3399ee502de9acf5a780f003f9e",
+    "assets/animations/prince_rogue_sneak_walk.bdae": "64ec13a0132bf52db4c430c64f2b138ca7cc5bd76140ee3ede21b1923a8bc9c1",
+    "assets/animations/prince_spell_channeling.bdae": "1350178e7a87b8868fb6e4d34acfce79e27a77674058aa09ddd8625bb6f596ec",
+    "assets/animations/prince_spell_hotty.bdae": "e80741db58a592071f0fe0f4683a2fb4cec3d5e6c0872a32251ef7266d742fda",
+    "assets/animations/prince_spell_pre_hotty.bdae": "20f24c13da52eeccd65e5c1d9e1622eae02eb17c8add83893c7470dd2e5ce59d",
+    "assets/animations/prince_spell_pre_rocky.bdae": "df611a7a2610a9bc952ff5bcd2d09c78858a1f03aa9d3e4d0b5f8ec25b54cc7a",
+    "assets/animations/prince_spell_pre_wetty.bdae": "0ab0b2420d0a61797e41f7176b9690d5f56d85d0daac3005e871e7f11b2889fc",
+    "assets/animations/prince_spell_pre_windy.bdae": "b291fd40c0eb231aa130312d59fb5a54d9113b8f4931bda477bb3f768caba43a",
+    "assets/animations/prince_spell_rocky.bdae": "6a98c5f8a6aacb745ae58f01e13e375bf8489e9c66864870f5d77d91d6b4183a",
+    "assets/animations/prince_spell_wetty.bdae": "e00550d886041df8af1add54e49a5a9c4047bce9b730ddf219f03d1ad4660cf0",
+    "assets/animations/prince_spell_windy.bdae": "ad9c13246bb75cb3f7bbc6c8cb2aa5100fdd8c23f25185b45f35acb10d0df36f",
+    "assets/animations/prince_standup.bdae": "14f67e0012fcbac97db179cf9304f55d22d537fed2a78c3070c5be758725042d",
+    "assets/animations/prince_stunned.bdae": "10a81195712d8a46498104c8e1647296ee7fdf0d4eb488425d1bd987cf3b0214",
+    "assets/animations/prince_template_anim.bdae": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102",
+    "assets/animations/prince_walk_1hand.bdae": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5",
+    "assets/animations/prince_walk_slow.bdae": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967",
+    "assets/animations/root_troll_attack_01.bdae": "4be7041221376d6c0fe7ffbddbb348255cabb5c05f84dcdd3b9edb528e15d51e",
+    "assets/animations/root_troll_dome_idle.bdae": "8acac78bae233bc13c8b05d70799868f1904c8ee1669f42686e293d7820cba0a",
+    "assets/animations/root_troll_dome_to_idle.bdae": "07e553ae7f389fcdc1a28919e5616ae7b11de694e447835c859ad851ed7ce1e4",
+    "assets/animations/root_troll_dome_warning.bdae": "3fa1fc7554771a54ca0471ad5e10b8b4da6535b75907f21f2e88c5bcc588b95d",
+    "assets/animations/root_troll_idle_to_dome.bdae": "47782dc8b427074d9499e250f6391f66b43c37ee039f70b63b0038418e641786",
+    "assets/animations/root_troll_post_attack_01.bdae": "7a4ed88775687f30b71948d079f13864f8918d581217c26ca0b17fb797ba9dd0",
+    "assets/animations/root_troll_pre_attack_01.bdae": "dc4cfc8c853552c3d13d8bfcc598f34d3d4a2caa9b0bceb9e35083e4beab8d83",
+    "assets/animations/skill_dh2_prince_mage_wand_attack.bdae": "bfbdf36bcd38aec4411b71b134ec661b66e47ae649fdca09dd800cd2ad5b7762",
+    "assets/animations/skill_dh2_prince_rogue_vicious_strike.bdae": "f5bdab87e02875d343840377e580afdce3dbbf0db35938baa17d5910ebbdb6b6",
+    "assets/animations/skill_dh2_prince_warrior_bash_down.bdae": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b",
+    "assets/animations/skill_dh2_prince_warrior_charge.bdae": "f24d9a28854d0188e611b7ebb4bd120f3dd57957ae132c5d243f2dbb627fd373",
+    "assets/animations/skill_dh2_prince_warrior_crushing_blow.bdae": "5aa608edd801347e338505fb915f6e44033bf51ff98310170accd4dcb232dbfa",
+    "assets/data/ai_factions_pyarray.bin": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d",
+    "assets/data/ai_factions_pyarraynames.bin": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211",
+    "assets/data/ai_factions_pystructnames.bin": "8ebbc7927e58b9dd93d03f1f76b366ecd88f3d9b3abcaee31196dd21a05bda15",
+    "assets/data/ai_pyarray.bin": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+    "assets/data/ai_pyarraynames.bin": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+    "assets/data/ai_pycst.bin": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e",
+    "assets/data/ai_pystructnames.bin": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82",
+    "assets/data/animations_dictionary_pyarray.bin": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+    "assets/data/animations_dictionary_pyarraynames.bin": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+    "assets/data/animations_pyarray.bin": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+    "assets/data/animations_pyarraynames.bin": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+    "assets/data/animations_pycst.bin": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f",
+    "assets/data/animations_pystructnames.bin": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134",
+    "assets/data/character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "assets/data/character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "assets/data/character_classes_pycst.bin": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84",
+    "assets/data/character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "assets/data/character_models_dictionary_pyarray.bin": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51",
+    "assets/data/character_models_dictionary_pyarraynames.bin": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9",
+    "assets/data/character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "assets/data/character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "assets/data/character_properties_pycst.bin": "48024ac14ed9994cfb899cb83d161b461bf78f0b7c10ff6efee0860277f14f52",
+    "assets/data/character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "assets/data/common_text_pycst.bin": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5",
+    "assets/data/design_pycst.bin": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+    "assets/data/dialogs_pycst.bin": "9625936dfb9f0fc86da76f36ae66c435e5b56f89c896918bd752243b1387ea06",
+    "assets/data/effects_pycst.bin": "f821c078e34e22df340cac5d6b4e88ae02a0698ad9d9df7e4cbc6bede6a7a625",
+    "assets/data/engine_core_pycst.bin": "2b61a269d8feefbcf1419e213c887d00fe9bcc8febf63b43340d37391e27376c",
+    "assets/data/faeries_pycst.bin": "559a9e44bfa3d1c6cbb9b234523a893d241f6021f464e86b6589da7c0d4930d5",
+    "assets/data/fonts_pycst.bin": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa",
+    "assets/data/game_objects_pycst.bin": "055dadeb6982ebfa47220574b10999a4f9eb78375dfd3f33f69a475313ee4597",
+    "assets/data/item_powers_pycst.bin": "0bc21dbcee7dfe61394968f758d2eca5c08bd68af04b8ed1d251878b38c4c981",
+    "assets/data/levels_pyarray.bin": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+    "assets/data/levels_pyarraynames.bin": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+    "assets/data/levels_pycst.bin": "a620d7813bdd92b63b0863cf95f840389d9f358b56d823d8e31313f80ff87c10",
+    "assets/data/levels_pystructnames.bin": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705",
+    "assets/data/loot_audiovisual_pycst.bin": "ff1b4a1a5faee0ee2d8cac9bf5113db0eff1a991632b120c4335e8b1b7dc1b34",
+    "assets/data/loot_table_pycst.bin": "bf60c406ba80b49d337bc82dda35f2f6bc2848d1d6983a37cfb0f881d24cb6fe",
+    "assets/data/multiplayer_pycst.bin": "5026e0c6aedf643403685deee33defdf2a3f3b56be4a3b6cd1d443e9fe4a5466",
+    "assets/data/prince-animation-bank.bin": "c0cf8bfbb804256050e0d1ac326b8388b472c9b3034c8366c992f2056f477b0b",
+    "assets/data/prince-animation-bank.json": "76633bb4f0ab5f645f4516e407e1f926df61641ea66faa805f68da57f043eb81",
+    "assets/data/projectiles_pycst.bin": "6be57b10285fdf43c112e00130b00654054597b28b38d34de7ca7cc0142f8595",
+    "assets/data/scripts_pycst.bin": "8a48588048c3eb7dbe559aae89804a947b391eab67894aaa73f588437a497fd1",
+    "assets/data/skills_pycst.bin": "302879d1b1bb035380f7be9e87c385ceadbc2e58a94e8f1b9285747a307801f1",
+    "assets/data/specs_pycst.bin": "a1a29eb6918860afc8d9c264c4d1856da9a3dae157536de40b3e2c3e9d5930f5",
+    "assets/data/trophies_pycst.bin": "30813ee63573f83bf39e5766eb024e086c702c3ef7fec42f49f4488c6c32fd14",
+    "assets/data/v2conditions_pycst.bin": "6a5bef06a0eff222c6cae50312bf5c42dfef421f3fed85e3d3122ede2d6550e7",
+    "assets/data/v2eventmanager_pycst.bin": "13e1ace862c6a8c0857a42fd0476e2ddf7a002389e004a055fb3363ace60e8c8",
+    "assets/data/v2quests_pycst.bin": "35feff579bdb6b36fef849afea06044830af9dd6180953727179ecc12926ac6a",
+    "assets/data/worldmap_pycst.bin": "0d4151ee2f104b13e0f1607d7927d238121041e9fbb37084ddfe1ecc17a0c0e6",
+    "assets/models/candle_flame.bdae": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6",
+    "assets/models/main_menu_charactere_swamp.bdae": "8a3462863a3d6ca2255d96989d53a21cddfba821e42c8a13e676f10e51d1300b",
+    "assets/models/prince_modular.bdae": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+    "assets/textures/atlas_dh2_game_objects_001.tga": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+    "assets/textures/atlas_dh2_game_objects_001_alpha.tga": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+    "assets/textures/atlas_dh2_game_objects_001_specular.tga": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+    "assets/textures/atlas_fx_particles_001.tga": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b",
+    "assets/textures/atlas_fx_particles_002.tga": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18",
+    "assets/textures/atlas_modular_warrior.tga": "b78abd158902679a467f4c86794c90554deca06a97bf3b4bdf8beba88ef10a5a",
+    "assets/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+    "assets/textures/env_crypt.tga": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad",
+    "assets/textures/env_crypt_alpha.tga": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99",
+    "assets/textures/env_crypt_spec.tga": "d74002ba771e1ba50fc421cf1066d1b0f977d5377dbd4971d92643f007f1b737",
+    "assets/textures/env_darkwoods_alpha.tga": "e904c2fc1534b5708689903a650693e1f52acbe8b59483553fe002eef5551832",
+    "assets/textures/env_selectorcharactere_solide.tga": "afced3f99c4d32d04a173066cbd10ce4cabe9c1d9a896fededa6d23b6d05f7ec",
+    "assets/textures/fx_magic_lenz_flares_008.tga": "3b3153829a922c4328099b031c57d09d823daad52775cc2901fe5f7c105e90cc",
+    "assets/textures/fx_smoke_03.tga": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0",
+    "assets/textures/fx_spark_01.tga": "bf4eccee918a7d440760b93b1f18666b5e3de62c147784bec7dbb3bca7a7d720",
+    "assets/textures/godparticle_face.tga": "8e15108e74b443ee6c11bc2cfb05af23c046a53e0dac37df24973e848b6117ea",
+    "assets/textures/menugraphics03.tga": "0f0ec6784f20c469fc05becf9e82251fee19b4856ed15b14e3e01a695b92ca7b",
+    "assets/textures/pvr2_env_crypt_alpha.tga": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99",
+    "assets/textures/pvr2_env_darktemple_alpha.tga": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714",
+    "assets/textures/pvr2_env_darkwoods_alpha_alpha.tga": "087d110133be72b9a5f9e4339fbd6707ea3e6e834d1e6d8a97bbde4cc4ac1413",
+    "assets/textures/skybox_selector.tga": "d41ace06bf91f57b2bea7658414b4d6dfb04d0856f0575c8f2d250a8a6831594",
+    "assets/textures/skybox_wind.tga": "7e89b7ac4e2e8daea82e2f0f8397259af24b44c33e6cc88ef799eec15fa7074f",
+    "assets/worlds/007_crypt_01.rule.xml": "2970183f1be3b6a01470d45f0db124afb3bf6582e4ed166780e431ccdaff8b07",
+    "assets/worlds/crypt.bdae": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b",
+    "assets/worlds/crypt01-provenance.json": "a38bbcfbde007bd328de9152ea1e5499a97903f472b36c9ccbac37f36de94126",
+    "assets/worlds/crypt01.dact": "be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca",
+    "assets/worlds/crypt01.dwld": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da",
+    "assets/worlds/crypt2_straight_ns_01.mvp": "ee4cea2740331782278fd56f4bf7c064ca778a78d8c426696a0ce6bbabbe0007",
+    "assets/worlds/crypt_cemetery_entrance_01.mgp": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9",
+    "assets/worlds/crypt_cemetery_entrance_01.mvp": "3d85527d704c1b74869bfbb2f39be1585a905e66575a4cf251adac0cdeb80de7",
+    "assets/worlds/crypt_corner_ne_01.mvp": "2500af6ebb2d01126f739ae1ced635c6e46365cf3f13ed34cc1ae8e7fa885e78",
+    "assets/worlds/crypt_corner_ne_02.mgp": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa",
+    "assets/worlds/crypt_corner_nw_02.mgp": "5652c6b5d64cf75e9b8c043cc61f6308ea6ca67784b2342c836b22469aa03179",
+    "assets/worlds/crypt_corner_nw_02.mvp": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134",
+    "assets/worlds/crypt_corner_sw_01.mvp": "7ccc9938cdf0e6ae58bb61d6c74e1908c6087874a161a4ac8b55fabc862873db",
+    "assets/worlds/crypt_corner_sw_02.mgp": "ff4defedde868b53eeb5d5c9ac39dc41fc6b85d55cd27891e3009d3ad3e04168",
+    "assets/worlds/crypt_deadend_e_01.mgp": "41604cc014bfeeef32b93432f49d2dc7643915f8112a123f1d0de9c3e6e47c8b",
+    "assets/worlds/crypt_deadend_e_01.mvp": "d3f69fe0ffba96b35414d8db0399e7e6acbda0fb658ec2ec3fb8abfb1dc72440",
+    "assets/worlds/crypt_straight_c_ns_01.mgp": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2",
+    "assets/worlds/crypt_straight_c_ns_01.mvp": "bd06bd5a12043c40f028f5faeb059d531f6ea628770c05166ade227cfbc778b8",
+    "assets/worlds/crypt_straight_ns_01.mgp": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25",
+    "assets/worlds/crypt_t_sew_01.mgp": "a34d860d4b94cbcb936ecc9ab1ad2d8ee8450c15067a44298ac88d0a5c3c8189",
+    "assets/worlds/crypt_t_sew_01.mvp": "5bdb426a45eef5d9edb2abc4cc5e9281a35ad4df27076e16ca0c252e55a9345f",
+    "assets/worlds/x07_crypt_backup.mlx": "706b1e23ea7ca9c3c1695d6cf8679c177bdfb70e71d202e351a2b0c8564023c7",
+    "assets/data/scripts/ai/monster.luac": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+    "assets/data/scripts/ai/_commons.luac": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c"
+  },
+  "projects": {
+    "packaged": {
+      "apk": {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+        "sha256": "1581c8a405e96e62c2b65f83c4a5b1f52eee69687a012480a0722f9b1e833c83",
+        "bytes": 26212515
+      },
+      "native_libraries": {
+        "lib/arm64-v8a/libdh2_engine_textures.so": {
+          "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+          "bytes": 16432,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 13728,
+              "virtual_address": 30112,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 4390912
+        },
+        "lib/arm64-v8a/libdh2_engine_skinning.so": {
+          "sha256": "fa261fb376a49796c19529ceb38833f5d344ba118662a597bdd71c4c382eb9a0",
+          "bytes": 112352,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 108384,
+              "virtual_address": 124768,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 109880,
+              "virtual_address": 142648,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 7028736
+        },
+        "lib/arm64-v8a/libdh2_scene_materials.so": {
+          "sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+          "bytes": 465304,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 443584,
+              "virtual_address": 459968,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 462624,
+              "virtual_address": 495392,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 13484032
+        },
+        "lib/arm64-v8a/libdh2_engine_animation.so": {
+          "sha256": "ab5481fedb86d0af77c5a4be2b831db341b1282c3b2811358c18aed4253b99a0",
+          "bytes": 317912,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 312496,
+              "virtual_address": 328880,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 315424,
+              "virtual_address": 348192,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 8847360
+        },
+        "lib/x86_64/libdh2_engine_animation.so": {
+          "sha256": "e284eb17b140a2e47b0a40d31b3a295eee3c435a8753268f7db3c3a48bc07cf2",
+          "bytes": 298648,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 293264,
+              "virtual_address": 309648,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 296160,
+              "virtual_address": 328928,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 12828672
+        },
+        "lib/x86_64/libdh2_engine_skinning.so": {
+          "sha256": "636fd01174bb912a242c6c204929cd87110b215ce66bbc377483b736f484356b",
+          "bytes": 106448,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 102512,
+              "virtual_address": 118896,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 103976,
+              "virtual_address": 136744,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 10764288
+        },
+        "lib/x86_64/libdh2_engine_textures.so": {
+          "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+          "bytes": 15344,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 12624,
+              "virtual_address": 29008,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 4145152
+        },
+        "lib/x86_64/libdh2_scene_materials.so": {
+          "sha256": "bb23bf3bc26522103e4b1b29e6e865a9b79cd99ed942c2023da4f2924d975233",
+          "bytes": 451440,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 429968,
+              "virtual_address": 446352,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 448832,
+              "virtual_address": 481600,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 20086784
+        },
+        "lib/arm64-v8a/libdh2_game_data.so": {
+          "sha256": "89c1cd1a1779b0e56d91ea1207ea3fe90dab563a2c6957eaa409ad7c8691b2c4",
+          "bytes": 816488,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 792208,
+              "virtual_address": 808592,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 813736,
+              "virtual_address": 846504,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 14974976
+        },
+        "lib/x86_64/libdh2_game_data.so": {
+          "sha256": "e55e24d8b6f397ec9c46dd6611a83e0d6a5c191c322ca705134f8c9a57592f3f",
+          "bytes": 781616,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 757440,
+              "virtual_address": 773824,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 778864,
+              "virtual_address": 811632,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 18874368
+        },
+        "lib/arm64-v8a/libdh2_native.so": {
+          "sha256": "1e56ff41a30857fce09a81d98fcd3ab2397701ccf4c94b53775ffe077517c2b0",
+          "bytes": 905312,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 893824,
+              "virtual_address": 910208,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 902552,
+              "virtual_address": 935320,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 17498112
+        },
+        "lib/arm64-v8a/libdh2_script_runtime.so": {
+          "sha256": "d73e93e0fa0d0f38979cdf1730c208b7d67af03f617f616d55caa256ecd40b19",
+          "bytes": 681392,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 656688,
+              "virtual_address": 673072,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 678648,
+              "virtual_address": 711416,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 20545536
+        },
+        "lib/x86_64/libdh2_native.so": {
+          "sha256": "916bea4f69d1178b823dda5f128a65c42e498c2d5385227fc221d72692822602",
+          "bytes": 859784,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 848336,
+              "virtual_address": 864720,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 857024,
+              "virtual_address": 889792,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 22855680
+        },
+        "lib/x86_64/libdh2_script_runtime.so": {
+          "sha256": "2921e587307cd6539ccfb22e695fe7d8e66ca472afb9f4b5f5396cfe91f5aa7e",
+          "bytes": 646632,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 622128,
+              "virtual_address": 638512,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 643952,
+              "virtual_address": 676720,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 23724032
+        },
+        "lib/arm64-v8a/libdh2_level_world.so": {
+          "sha256": "c5651633a7c1fd97f2b96ea6867afd45dfdedfb9c149e374a1be2b8c44399071",
+          "bytes": 1721648,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 1690896,
+              "virtual_address": 1707280,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 1718640,
+              "virtual_address": 1751408,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 24379392
+        },
+        "lib/x86_64/libdh2_level_world.so": {
+          "sha256": "6317d837c439603d817e4ab892e8f424ffc64f08df97804c0b78fdefa00f7cfb",
+          "bytes": 1625504,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 1594768,
+              "virtual_address": 1611152,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 1622496,
+              "virtual_address": 1655264,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 15794176
+        }
+      },
+      "assets": 263,
+      "required_exports_present": true
+    },
+    "studio": {
+      "apk": {
+        "path": "C:\\Users\\adamc\\AndroidStudioProjects\\dh2\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+        "sha256": "727bc1ba48f0c5da0e2616ac3e7221c8334b4988d9920ec86f5276c3160c7cbb",
+        "bytes": 25279331
+      },
+      "native_libraries": {
+        "lib/arm64-v8a/libdh2_engine_textures.so": {
+          "sha256": "66a1bb803aab9eb4c4cdf21cff24d9473fff1eb540a1ff774b8cbca2cc3ad80d",
+          "bytes": 16432,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 13728,
+              "virtual_address": 30112,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 4390912
+        },
+        "lib/arm64-v8a/libdh2_engine_skinning.so": {
+          "sha256": "b470a5fcba59d14e121ba7d5a96f1c07aa93815f894080b4ff0e2a9255033a0f",
+          "bytes": 112352,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 108384,
+              "virtual_address": 124768,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 109880,
+              "virtual_address": 142648,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 6799360
+        },
+        "lib/arm64-v8a/libdh2_scene_materials.so": {
+          "sha256": "a1930fd7b9ea40fbb876cf5746d8d790bf2d1a0e0ef361eff4d61bb84a7138c0",
+          "bytes": 465304,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 443584,
+              "virtual_address": 459968,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 462624,
+              "virtual_address": 495392,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 13434880
+        },
+        "lib/arm64-v8a/libdh2_engine_animation.so": {
+          "sha256": "71b6508981ccf2accf9d74e128a0202221c677cb5c5fb5d656aac1960100f501",
+          "bytes": 317912,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 312496,
+              "virtual_address": 328880,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 315424,
+              "virtual_address": 348192,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 7192576
+        },
+        "lib/x86_64/libdh2_engine_animation.so": {
+          "sha256": "bba845528670864d689f42bf2e182335375bf9d7299adb0b6784f54bc4b21bec",
+          "bytes": 298648,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 293264,
+              "virtual_address": 309648,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 296160,
+              "virtual_address": 328928,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 10649600
+        },
+        "lib/x86_64/libdh2_engine_skinning.so": {
+          "sha256": "32986ebb079aa63cf3a06551d4575cc69a6ebd76d4f349a157f0eb83aebbcfb3",
+          "bytes": 106448,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 102512,
+              "virtual_address": 118896,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 103976,
+              "virtual_address": 136744,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 12779520
+        },
+        "lib/x86_64/libdh2_engine_textures.so": {
+          "sha256": "979f60074b0d9c81b025c41460cb33ece473793e9c87867a62ed4cef2735f7f9",
+          "bytes": 15344,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 12624,
+              "virtual_address": 29008,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 4145152
+        },
+        "lib/x86_64/libdh2_scene_materials.so": {
+          "sha256": "905d44fe23aca4580d2b4637fc06b6dc2b92c168c517ab53d2ea6ea05b075114",
+          "bytes": 451440,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 429968,
+              "virtual_address": 446352,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 448832,
+              "virtual_address": 481600,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 12894208
+        },
+        "lib/arm64-v8a/libdh2_game_data.so": {
+          "sha256": "c84b47761544e5fea946f8ee7c1353425e722d6872fd04c1a67ee45e5d0021c3",
+          "bytes": 816488,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 792208,
+              "virtual_address": 808592,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 813736,
+              "virtual_address": 846504,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 14925824
+        },
+        "lib/x86_64/libdh2_game_data.so": {
+          "sha256": "e004a097fa1e27a61db16eb252a45dc7411a13bb45cf7109c22a586c8385d470",
+          "bytes": 781616,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 757440,
+              "virtual_address": 773824,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 778864,
+              "virtual_address": 811632,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 18825216
+        },
+        "lib/arm64-v8a/libdh2_native.so": {
+          "sha256": "7fd593fc5e0914e71d96fc849020455de4b3bbf12fb5af187f406c09588449e8",
+          "bytes": 905312,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 893824,
+              "virtual_address": 910208,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 902552,
+              "virtual_address": 935320,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 17448960
+        },
+        "lib/arm64-v8a/libdh2_script_runtime.so": {
+          "sha256": "410ed5b974ac4588022f65e42dfc12106ad11619f47e6c71ca29337baf159ade",
+          "bytes": 681392,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 656688,
+              "virtual_address": 673072,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 678648,
+              "virtual_address": 711416,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 19611648
+        },
+        "lib/x86_64/libdh2_native.so": {
+          "sha256": "051abd7fc637c37ce8cb452e3318100f004cf22aa0332daf690066ca3ac50c0a",
+          "bytes": 859784,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 848336,
+              "virtual_address": 864720,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 857024,
+              "virtual_address": 889792,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 21921792
+        },
+        "lib/x86_64/libdh2_script_runtime.so": {
+          "sha256": "2ddf3b2eb820f7b395efd79fc9dc7f82b65da9aabdfefce789c841376d87b0ea",
+          "bytes": 646632,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 622128,
+              "virtual_address": 638512,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 643952,
+              "virtual_address": 676720,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 22790144
+        },
+        "lib/arm64-v8a/libdh2_level_world.so": {
+          "sha256": "10f145d17aa8cef27d3469c3217faea13138ac0f29538b96c5ac967ca4293400",
+          "bytes": 1722352,
+          "machine": 183,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 1691600,
+              "virtual_address": 1707984,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 1719344,
+              "virtual_address": 1752112,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 23445504
+        },
+        "lib/x86_64/libdh2_level_world.so": {
+          "sha256": "4f986ff51d7b8b7e98c520a13ac322228f1d357498f0019934f259303e436912",
+          "bytes": 1626192,
+          "machine": 62,
+          "elf_class": 64,
+          "load_segments": [
+            {
+              "file_offset": 0,
+              "virtual_address": 0,
+              "alignment": 16384,
+              "flags": 5
+            },
+            {
+              "file_offset": 1595456,
+              "virtual_address": 1611840,
+              "alignment": 16384,
+              "flags": 6
+            },
+            {
+              "file_offset": 1623184,
+              "virtual_address": 1655952,
+              "alignment": 16384,
+              "flags": 6
+            }
+          ],
+          "apk_data_offset": 15745024
+        }
+      },
+      "assets": 263,
+      "required_exports_present": true
+    }
+  },
+  "original_ARM32_library_bundled": false,
+  "physical_arm64_verified": false,
+  "full_enemy_AI": false,
+  "full_game_verified": false,
+  "all_game_assets_bundled": false
+}

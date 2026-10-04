@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "comparisons": 520,
+  "ordered_services": 13905,
+  "explicit_zero_runtime_cases": 184,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "05152b85e97deef6a186365c3c1998a0d6f40c55ae3fb47b074901169f567421",
+  "gold_sha256": "6038db6112028dc8083845fae77c573525decfb35599eb656305a9a48e2d2024",
+  "source_sha256": {
+    "hud_player_infos.hpp": "9aa23cfc0a9745b3ec2c7377cc896a9e3bbdb6f67a42c4121d869f38cec6a6c9",
+    "hud_player_infos.cpp": "a2f14a871255e5bfa1b7ef889cbdec6a4b3daad9dbebbfca2d06f928f5da132c"
+  },
+  "scope": "Complete original NativeGetPlayerHUDInfos caller vs O2 native producer.\nAS object cast/coercion/member/string maintenance and skill/potion/property/\nconstant/player/saved-option endpoints are explicit delivered fixtures; source\nslot prefix, actor guards, percent arithmetic and all ordered writes execute.\n"
+}

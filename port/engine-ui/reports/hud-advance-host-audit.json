@@ -1,0 +1,21 @@
+{
+  "validation": "PASS",
+  "comparisons": 450,
+  "deletion_callbacks": 72,
+  "failure_guards": 4,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-ui/hud_advance.hpp": "e43c9414e4e485909a9f8689b94a7a8874e55b1cc7957d969b8b5732754d9e9e",
+    "port/engine-ui/hud_advance.cpp": "9ba4113c3fa6c9b5164170c502ddfea45af3bf7bb6db425ab33d7ebe2c3d1216",
+    "port/engine-ui/tests/hud_advance.cpp": "47f71f3c5649aae7204d916909f2f71e35d0c7fc4415cd140ecc001402128f7c"
+  },
+  "gold_sha256": "6e938f3a90acd9843b5b55e55e398db1ec2dd5112eb013adcf06e183614e3da6",
+  "executable_sha256": "3e5682bde8ceccf3d62e7d3b70abb5b09b6a16faeee8e96a666c49785f582e2d",
+  "sanitizer_findings": 0,
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "scope": "Full original notify_need_advance gold. Borrowed coherent parent/weak storage and weak-control deletion provider; source reloaded/captured clear order preserved."
+}

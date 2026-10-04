@@ -46,9 +46,19 @@ for ctor in (0x31b268,0x31b2a8):
  assert state and c.uc.mem_read(obj+8,1)==b'\x01'
  assert c.invoke('lua_gettop',[state])==0
  row={'constructor':hex(ctor),'state':hex(state),'library_steps':[]}
+ row['absent_before_open']=[]
+ for name in ('_G','math','table','string'):
+  address=c.data+0x1a000;c.uc.mem_write(address,name.encode()+b'\0')
+  c.invoke('lua_getfield',[state,-10002,address]);assert c.invoke('lua_type',[state,-1])==0
+  c.invoke('lua_settop',[state,0]);row['absent_before_open'].append(name)
  for fn,expected in ((0x31b010,2),(0x31b000,3),(0x31aff8,4),(0x31b008,5)):
   returned=c.invoke(fn,[obj]);top=c.invoke('lua_gettop',[state]);assert top==expected
   row['library_steps'].append(dict(function=hex(fn),returned=returned,top=top))
+ if ctor==0x31b268:
+  row['repeat_library_steps']=[]
+  for fn,expected in ((0x31b010,7),(0x31b000,8),(0x31aff8,9),(0x31b008,10)):
+   returned=c.invoke(fn,[obj]);top=c.invoke('lua_gettop',[state]);assert top==expected
+   row['repeat_library_steps'].append(dict(function=hex(fn),returned=returned,top=top))
  c.invoke(0x31b180,[obj]);rows.append(row)
 obj=c.data+0x4000;c.uc.mem_write(obj,bytes(0x1000));c.invoke(0x3d8fb0,[obj,1]);state=w(obj+8)
 assert c.invoke('lua_gettop',[state])==0 and not bindings

@@ -1,0 +1,26 @@
+{
+  "validation": "PASS",
+  "scope": "Bind additive native FSM proofs to current source and original capture; no build or historical-report mutation.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "module_source_sha256": {
+    "port\\level-world\\character_native_fsm.hpp": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b",
+    "port\\level-world\\character_native_fsm.cpp": "58f7544dc7c4d693f5e6b97a2165c1d645e161e46ab349de48627886ac56ebac",
+    "port\\level-world\\tests\\character_native_fsm.cpp": "68fbebbe7710e8771b98fd3a135dd631d211d1ebbce25e289bfa95b3b3511a72",
+    "port\\level-world\\tests\\character_native_fsm_differential.py": "924e6a137c97e0cbebf3c441baf3187cc603b91cb9fea3c06bd83500911faaa3",
+    "port\\level-world\\tests\\character_native_fsm_host.py": "0c9f987806b2c4d9642e49e391fb50be4557a1b70b620374ef56946ece1dcc6d",
+    "port\\level-world\\tools\\build_character_native_fsm_oracle.ps1": "31e101156c8e6dd8091dcfff424f598ef636e8ea62fb56ad6c3e5e1d96eb21e9"
+  },
+  "proof_sha256": {
+    "port\\level-world\\reports\\character-native-fsm-arm64-differential.json": "1cbca325d5f867cf1a60bb0d4650eb04add26c0526037b4af3f50812d471fb1b",
+    "port\\level-world\\reports\\character-native-fsm-host-audit.json": "74fb0e399712b3bf1c8ae4931e713c9418ba7f474312574c1fbf3c13625bfbd9",
+    "port\\level-world\\reference\\character-native-fsm\\native-fsm-probe.json": "e7a4d9db1e2e975643b6297cf8bcb792cdd2e8667aeb974cce80d8dce7dd47d0",
+    "port\\level-world\\reference\\character-native-fsm\\native-update-fixtures.bin": "d858922977f299cab0944d62433acd1f00b573d7ac148054cdbf408a1cc31664",
+    "port\\level-world\\reference\\character-native-fsm\\IMPLEMENTATION.md": "33951f2bcb6fde68f17802ede5b8ac5242f98c753adf37bbb82fa89d8a86cafb",
+    "port\\level-world\\reference\\character-native-fsm\\validate_native.py": "61093444c1a2bc123c29482fe2e81368d82a25426780f9b0543eeb88dd67f578"
+  },
+  "optimized_arm64_comparisons": 1662,
+  "ordered_original_requests": 7128,
+  "sanitized_host_checks": 77771,
+  "full_native_FSM": false,
+  "packaged_APK": false
+}

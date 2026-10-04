@@ -1,0 +1,70 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf6player11action_initEv",
+      "elf_address": "0x76e104",
+      "size": 3672,
+      "sha256": "11ba93ae71f2586aef08e5186c3e2463a808cf33f40d6eface399245369ac694",
+      "calls": {
+        "0x7b794c": "_ZN7gameswf8tu_timer9get_ticksEv",
+        "0x76a2f8": "_ZN7gameswf4hashINS_10tu_stringiENS_8as_valueENS_20stringi_hash_functorIS1_EEE16set_raw_capacityEi",
+        "0x413a7c": "_ZN7gameswf9tu_stringC1EPKc",
+        "0x7972a0": "_ZN7gameswf8as_value17set_as_c_functionEPFvRKNS_7fn_callEE",
+        "0x768b54": "_ZN7gameswf9as_object14builtin_memberERKNS_10tu_stringiERKNS_8as_valueE",
+        "0x797124": "_ZN7gameswf8as_value9drop_refsEv",
+        "0x798e44": "_ZN7gameswf10array_initEPNS_6playerE",
+        "0x759c64": "_ZNK7gameswf11ref_counted7add_refEv",
+        "0x7a4c00": "_ZN7gameswf14selection_initEPNS_6playerE",
+        "0x7a0690": "_ZN7gameswf9math_initEPNS_6playerE",
+        "0x79f3c4": "_ZN7gameswf8key_initEPNS_6playerE",
+        "0x79b8e4": "_ZN7gameswf16broadcaster_initEPNS_6playerE",
+        "0x79e380": "_ZN7gameswf10flash_initEPNS_6playerE",
+        "0x75c2cc": "_ZN7gameswf22permanent_string_cache3getERKNS_9tu_stringE",
+        "0x7972d8": "_ZN7gameswf8as_value13set_tu_stringERKNS_9tu_stringE",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf23new_standard_method_mapENS_14builtin_objectE",
+      "elf_address": "0x76cb04",
+      "size": 64,
+      "sha256": "47d61899a7d845b27cea8f3ee55d1454637dc0bc6569b8addb3b5e2613576276",
+      "calls": {
+        "0x752ba8": "_ZnwjN3swf7MemHintE"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf11get_builtinENS_14builtin_objectERKNS_10tu_stringiEPNS_8as_valueE",
+      "elf_address": "0x76ce08",
+      "size": 32,
+      "sha256": "9d1013411036f73edcd7f5c6b8b66fb326fca6ac163b2a7e686f13118be2ca85",
+      "calls": {
+        "0x769048": "_ZNK7gameswf4hashINS_10tu_stringiENS_8as_valueENS_20stringi_hash_functorIS1_EEE3getERKS1_PS2_"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf14set_textformatERKNS_7fn_callE",
+      "elf_address": "0x78f9f0",
+      "size": 176,
+      "sha256": "82ba2426847bfce53bc662da054b9008b937a46d90887c6456ecaf1015d8c128",
+      "calls": {
+        "0x78f288": "_ZN7gameswf19edit_text_character12reset_formatEPNS_13as_textformatE"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf24as_global_textfield_ctorERKNS_7fn_callE",
+      "elf_address": "0x79181c",
+      "size": 328,
+      "sha256": "ee9b128f05d0efd417fbd24d759db5a8ac309754e46793d8504ef49e1e14e6bf",
+      "calls": {
+        "0x76d5b4": "_ZN7gameswf6player8get_rootEv",
+        "0x752ba8": "_ZnwjN3swf7MemHintE",
+        "0x78d970": "_ZN7gameswf23edit_text_character_defC1EPNS_6playerEii",
+        "0x7916bc": "_ZN7gameswf19edit_text_characterC1EPNS_6playerEPNS_9characterEPNS_23edit_text_character_defEi",
+        "0x797250": "_ZN7gameswf8as_value13set_as_objectEPNS_9as_objectE",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj"
+      }
+    }
+  ]
+}

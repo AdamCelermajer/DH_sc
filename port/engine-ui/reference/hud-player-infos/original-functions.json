@@ -1,0 +1,83 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z23NativeGetPlayerHUDInfosRKN7gameswf7fn_callE",
+      "elf_address": "0x44e5cc",
+      "size": 3248,
+      "sha256": "69b6445174fe31555f5972f89483777293a8b57d21855fd5bf85a3dd783970e4"
+    },
+    {
+      "original_symbol": "_ZNK9Character16SG_GetSkillLevelEj",
+      "elf_address": "0x3bbed0",
+      "size": 28,
+      "sha256": "088e8015a0ac9101edf9d9792cfdfd19a86fd3aa2c63533259106928ed3837bc"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI16AI_IsSkillUsableEj",
+      "elf_address": "0x3d8358",
+      "size": 284,
+      "sha256": "26c060734fdea9266a673b4a585a9ef49a17b51e552002edf6b4bc853743873e"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI16AI_IsSpellUsableEv",
+      "elf_address": "0x3d80b4",
+      "size": 268,
+      "sha256": "cad28c83a55093e64a22daea9298eb4e98c2c1d540c4591a9a1e6379a3bc5084"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_SkillInfoEjjRf",
+      "elf_address": "0x3d7e88",
+      "size": 216,
+      "sha256": "9bde47dcc7073218e29b54f0ecbec3f1d2fb0a0baed0eeee25675f39fe0280e1"
+    },
+    {
+      "original_symbol": "_ZN11Application14GetSavedOptionEPKc",
+      "elf_address": "0x320e44",
+      "size": 48,
+      "sha256": "8331be7f3725447f70f125af44c323ea99e75cf792de5db166837e9d1cc3010c"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12PROPS_GetIntEib",
+      "elf_address": "0x3df6e0",
+      "size": 56,
+      "sha256": "f0b419601b44bb6aa3bea1f6df7d7323364dc572daa7a7d5e660201ec9868342"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript11GetCooldownEv",
+      "elf_address": "0x3da3d0",
+      "size": 108,
+      "sha256": "ce93c2131435534d0ec7ed5ad2765134145afc28e881cca89ce9cb7573768b1f"
+    },
+    {
+      "original_symbol": "_Z19NativeGetPlayerCharib",
+      "elf_address": "0x43c388",
+      "size": 124,
+      "sha256": "4d5cf455d3821b750fb164f707334fb002e13e845b426b207618f11720385197"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_SpellInfoERf",
+      "elf_address": "0x3d7da8",
+      "size": 224,
+      "sha256": "efee3bef33f6a21dc6786321f73916f4adfff744e71d8a3afae8127583049506"
+    },
+    {
+      "original_symbol": "_ZN7gameswf7cast_toINS_9as_objectEEEPT_PNS_19as_object_interfaceE",
+      "elf_address": "0x439cb4",
+      "size": 52,
+      "sha256": "2817f3fc34ec0ffb0220ca8f96903f86d212ec9019971261d71f46f44092caf4"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory13GetNumPotionsEv",
+      "elf_address": "0x3fc690",
+      "size": 16,
+      "sha256": "20d3f617d112f999ec656bc0718c4827316ef920b41eea08bb60694d3a716e3f"
+    },
+    {
+      "original_symbol": "_ZN9Character17SG_GetSkillInSlotEi",
+      "elf_address": "0x3bbe68",
+      "size": 28,
+      "sha256": "cfb7b8533b195ae323a3383a6ae9d876f95657c365d825c1cc30e002fb321b5d"
+    }
+  ]
+}

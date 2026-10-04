@@ -1,0 +1,73 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/game-data/data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+    "port/game-data/item_inventory_v1.cpp": "8659c2db2da2e361e6ab4353f85a3cd9859f452890426b8bf5fa07f8d98ecdd6",
+    "port/game-data/item_inventory_v1.hpp": "e5f67b4cf43a9c726c79eb1a0dc5455738a7fc1b1a0f6ce0a4b7aa987186a847",
+    "port/game-data/items.cpp": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb",
+    "port/game-data/items.hpp": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f",
+    "port/game-data/player_profile_index_v1.cpp": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a",
+    "port/game-data/player_profile_index_v1.hpp": "b6f461352da1bbfc898f50636a77930b44ab98f358e813d3d599267aa8f7f4ca",
+    "port/game-data/player_savegame_v1.cpp": "5affc8e4c046ab84156fb2a9b12dac3fffca5af827f1431367c2aa73dea78e92",
+    "port/game-data/player_savegame_v1.hpp": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+    "port/game-data/skill_tables.cpp": "85695e3a274dae96bb92abcfdd12bdfb24b4d9f910f0026a777a39ce6c5534dd",
+    "port/game-data/skill_tables.hpp": "fe01ceadd86c43a2a6f92bcf8edd76466643c521db01b7176bab25fad311abab"
+  },
+  "compiler": "NDK29 clang++ --target={aarch64,x86_64}-linux-android28 -std=c++17 -O2 -shared -fPIC -fno-fast-math -ffp-contract=off -Wl,-z,max-page-size=16384",
+  "libraries": [
+    {
+      "abi": "arm64",
+      "path": ".local-inputs/player-inventory-v1/libplayer_inventory_v1_arm64.so",
+      "sha256": "88e0df66ce8710cdd35f510d439669e1b1f9a548ec6dc12e1d613ff252c0ea0f",
+      "class": 64,
+      "machine": "EM_AARCH64",
+      "load_segments": [
+        {
+          "offset": 0,
+          "vaddr": 0,
+          "align": 16384
+        },
+        {
+          "offset": 96432,
+          "vaddr": 112816,
+          "align": 16384
+        },
+        {
+          "offset": 98504,
+          "vaddr": 131272,
+          "align": 16384
+        }
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "path": ".local-inputs/player-inventory-v1/libplayer_inventory_v1_x86_64.so",
+      "sha256": "7a66bc419f275c8dfa1bb77f196a5862162e5808669de9ae461733608b8c9cec",
+      "class": 64,
+      "machine": "EM_X86_64",
+      "load_segments": [
+        {
+          "offset": 0,
+          "vaddr": 0,
+          "align": 16384
+        },
+        {
+          "offset": 95056,
+          "vaddr": 111440,
+          "align": 16384
+        },
+        {
+          "offset": 97040,
+          "vaddr": 129808,
+          "align": 16384
+        }
+      ]
+    }
+  ],
+  "arm64_proof": {
+    "saved_reader_fields_scalars": 3406,
+    "campaign_index": 96,
+    "mismatches": 0
+  },
+  "scope": "Standalone source libraries. Whole owned STL classes execute in host sanitizer proof; optimized ARM64 executes the exported parser/field kernels with explicit storage services. No package/device claim."
+}

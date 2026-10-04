@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript19_GetHostPlayerLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37cc00",
+      "size": 60,
+      "sha256": "0e8d9eb81a822929624f7f3a95ec99fff4a4d744d7a0ae6d462e80e30e7d3220"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript24_GetHostPlayerDifficultyERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37cb8c",
+      "size": 76,
+      "sha256": "b0b7426eca797f16e33effebdf019e1fb3bf1cd81e79f9b65f5c30cf9f665300"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript21_GetCurrentLevelRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f1f0",
+      "size": 356,
+      "sha256": "9af8bee09940520ff80f69ed4f456adb93e278b88f2dd6d0080dd8ad4cb6a411"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "validation": "PASS",
+  "comparisons": 4752,
+  "ordered_services": 13833,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/level-world/character_can_update.hpp": "d78387cf87b2ca01a2b82ed6a79aab5e37b8cac45c9c39010df331a745f83ae2",
+    "port/level-world/character_can_update.cpp": "22565a3e5fdf23503b8ea0634459803b0aa031fecdedf7db54dfa85b7207f991",
+    "port/level-world/tests/character_can_update_differential.py": "090b37ca8b75948ec9b28c4838689c364708cfacdcaf06f5a76a096e8135b4de",
+    "port/level-world/tools/build_character_can_update_oracle.ps1": "7a7cad84b35c01cee9553d33a4546c66196a4ed86329b4f1523e952c6f495bbe"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "16ac250ca04fe7e8d24751123880b5072dcf051b59c3408124c365af44964c03",
+  "corpus_sha256": "23f4fc2361631e4c5b9c41b63324df0d32f665338537c4cf67aebed2049a3683",
+  "manifest_sha256": "74c7f1411f97a38a1145741635482cf75e2132e1ef8fa2333835d11349e14bb4",
+  "scope": "Complete CanUpdate instructions vs O2 ARM64, with explicit synchronous providers.",
+  "upstream_visibility_or_world_producers": false
+}

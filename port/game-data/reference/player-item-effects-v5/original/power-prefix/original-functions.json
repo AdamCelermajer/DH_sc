@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7Structs18ItemPowerEntryList4readEP11IStreamBase",
+      "elf_address": "0x4dc8fc",
+      "size": 364,
+      "sha256": "d44eb2c59671b5d639ddbc244239ee1726aee7e0c0df6f78070b7006f92078d3"
+    },
+    {
+      "original_symbol": "_ZN6Arrays13ItemPowerList4readEP11IStreamBase",
+      "elf_address": "0x4bacc8",
+      "size": 332,
+      "sha256": "11d7a8e7819817da911bd17f85a9501b873dc18e65d7393669e94acbe5317092"
+    },
+    {
+      "original_symbol": "_ZN7Structs14ItemPowerEntry4readEP11IStreamBase",
+      "elf_address": "0x4ed200",
+      "size": 128,
+      "sha256": "48a3da37036461f80d84357a77e5e187ab65a6773b411aa4af932439d1595a8c"
+    }
+  ]
+}

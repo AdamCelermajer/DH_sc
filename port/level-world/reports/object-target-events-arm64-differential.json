@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "3107ca6f39ef7307c7c5c8712f21ae66c10ca046f806e4169573a19269066518",
+  "script_sha256": "c217bee1e09c97ef336ba099af65c376dc9f742716c9633dc23d93987ed32d4f",
+  "scope": "Original AISExternal target callback gates and argument identity choreography.\n\nThe script-call service and borrowed Arguments storage are explicit boundaries;\nthe original Value/table producer has its separate frozen instruction/VM proof.\n Native callback receiver/name/count/Value7 identity compared; source Arguments allocation/destruction ABI remains explicit storage boundary.",
+  "comparisons": 465,
+  "arm64_sha256": "38983aac0251e1648d49cb836e8d154e64f06aa9f006c1b7660c5b3f75a428ca",
+  "source_sha256": {
+    "object_identity.hpp": "ecffe87157463e169126f859d9a144b50ecb09b902b99787918f4262a44231bf",
+    "object_identity.cpp": "4d41ec703f8653cd9e4183727fd1e3e52d8e180087357e1983c31b82e0709499"
+  },
+  "mismatches": 0,
+  "corpus_sha256": "9e4461625a7762b8a4f8e325f7497cfcd366ec66c22b157a34f8a321e6859225"
+}

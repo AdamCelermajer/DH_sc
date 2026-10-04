@@ -1,0 +1,36 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/engine-ui/freetype_bitmap_alpha.hpp": "ebbd595524064c795d7ae87326dbcafbc32a88322f75eb5087ee8a5fc001ab06",
+    "port/engine-ui/freetype_bitmap_alpha.cpp": "d5a20f44edc326f646b10d9ae4134c2384bb5c04b674d5256507101131b4037e",
+    "port/engine-ui/hud_freetype_font.hpp": "137741dc606aa65d2532d8443cd7165a6b71e7b25208aa92894275780465b2a6",
+    "port/engine-ui/hud_freetype_font.cpp": "9a3df0edace00b7c1c997ce08c7a0876e2827b6037777f606036a329f0c55a3b",
+    "port/engine-ui/swf_hud_freetype_provider.hpp": "7ec3731910d505dedb883a656f058c4036d5aa5729930229016df37b8ec575e1",
+    "port/engine-ui/swf_hud_freetype_provider.cpp": "4e3313cf555e4c50abee13c5dc032097476408a0fb51b3bb529a12bf7920eb7f"
+  },
+  "test_source_sha256": {
+    "port/engine-ui/tests/hud_freetype_font.cpp": "8c4c05c937c93b9c9e62b1519ae7b3deba7f799dcd1d437d5b1682a9e0313678",
+    "port/engine-ui/tests/hud_freetype_provider.cpp": "eb6e7e5b5743a5e8f4c675e800d018261d1994619f98fd499082ae3626dcb6a3",
+    "port/engine-ui/tests/freetype_bitmap_alpha_differential.py": "d66e116bd93fb442c976a5d80e594d890647f6939ca34988a0f69c1a4c8921f8"
+  },
+  "proof_sha256": {
+    "port/engine-ui/reports/freetype-bitmap-alpha-arm64-differential.json": "d0b1cc6529dd9cef56a4465c3c26ff6ee98d98de259ce0b31f45d8c3843edcb1",
+    "port/engine-ui/reports/hud-freetype-font-host-audit.json": "66db25a0af9db7e9c2fdd5a7e15f0369e4b666ad3f49003e2dd0532a49da4e04",
+    "port/engine-ui/reports/swf-hud-freetype-provider-host-audit.json": "e57930f9f6af16c15c3286ed823f47e642f7690ee6aa67a939e42b483531a5d7",
+    "port/engine-ui/reports/hud-freetype-android-syntax.json": "b0e134d8f5c39d45346c824627aa7d2c4f37eff5dd1dc281cca7c8ef1e4e0f80",
+    "port/engine-ui/reference/hud-freetype-font/NOTES.md": "ec2866b3048d7f88a4532402eb8f3d705a90bca30b59c206db4baba44aaf8075"
+  },
+  "script_sha256": "e6511f1ad20c431dce062a3ec28a357bfeac599775931afe411e505adaf337bc",
+  "prior_frozen_sources_unchanged": true,
+  "prior_vendor_unchanged": true,
+  "prior_fontin_freeze_sha256": "995efeb7b69c27e05ddd53b8787307fe0e0cf83caa7df6247478ca09e7feb42f",
+  "hud_vendor_manifest_sha256": "f1313f1e35df20cde190bc330387943c37bf44cb101d18beacfec801f1eff917",
+  "safe_native_arm64_cases": 18432,
+  "actual_font_raster_cases": 5415,
+  "unchanged_gray_cases": 570,
+  "localized_hud_packed_uploads": 7,
+  "android_syntax_checks": 6,
+  "physical_arm64_verified": false,
+  "full_game_verified": false,
+  "scope": "Additive safe packed raster/provider. Standalone optimized native conversion and actual sanitized CPU/font/HUD proofs; separate from historical main93 and original unsafe packed-copy behavior."
+}

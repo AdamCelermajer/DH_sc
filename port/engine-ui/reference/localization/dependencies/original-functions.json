@@ -1,0 +1,107 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13StringManager5parseERSsPKcz",
+      "elf_address": "0x508ef4",
+      "size": 2836,
+      "sha256": "6dbb98a099a473963ec28a86543954600c12188543dcda7f7e4f5ed5a09ade91"
+    },
+    {
+      "original_symbol": "_ZNK9Character16SG_GetPlayerNameEv",
+      "elf_address": "0x3bb7e8",
+      "size": 20,
+      "sha256": "a353386031e56275e90026b97c72218a6a681a183e6b96de417ebacc1cf909d8"
+    },
+    {
+      "original_symbol": "_ZNK13StringManager9getStringEij",
+      "elf_address": "0x508e1c",
+      "size": 192,
+      "sha256": "ff806894876700515c47f157b98fcbcb0824dd8b1871b400eb85cd1ffe23bd8f"
+    },
+    {
+      "original_symbol": "_ZN13StringManager11parseColorsERSsPKc",
+      "elf_address": "0x507ea4",
+      "size": 1656,
+      "sha256": "b0150bcc2ec02d6d404e99bc683b7684388f4b9e712424479337e82ddea066fe"
+    },
+    {
+      "original_symbol": "_ZN7Structs13LangSheetList4readEP11IStreamBase",
+      "elf_address": "0x4dc2ac",
+      "size": 376,
+      "sha256": "d81df7167e7f572e0011fba05b37c9f4f60d50f12c4050a557c4f6105b131226"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15format_utf_textEPKcPcib",
+      "elf_address": "0x752a18",
+      "size": 276,
+      "sha256": "ab7e780083def1cdb361e4af80adc5760a33f7ea21968830f5675238a0f78934"
+    },
+    {
+      "original_symbol": "_ZN13StringManager8addSpaceEv",
+      "elf_address": "0x50750c",
+      "size": 40,
+      "sha256": "586742d65269aed08e791859762a3be9dd745bb0b7a8522531155b09ac91e006"
+    },
+    {
+      "original_symbol": "_Z15ParsePlayerNameRKSs",
+      "elf_address": "0x433d00",
+      "size": 216,
+      "sha256": "ff3e8abd4f7480c83bc60c95f6b67896651a34fa8b3abaf1ceac5adbe7186e9f"
+    },
+    {
+      "original_symbol": "_ZN13StringManagerC1Ev",
+      "elf_address": "0x507d10",
+      "size": 92,
+      "sha256": "3bdf690694b24a9a593112e8c08c4ce8066cfb106c0c8851509a382b8cf5fc1b"
+    },
+    {
+      "original_symbol": "_ZNK13StringManager9getStringEi",
+      "elf_address": "0x508edc",
+      "size": 24,
+      "sha256": "852a7c2040fe8179d6323f535a4cf80f6a15e8121d7c8049caf34f6906dc0d88"
+    },
+    {
+      "original_symbol": "_ZNK13StringManager12getStringIdxEiij",
+      "elf_address": "0x5088c4",
+      "size": 936,
+      "sha256": "aebe363a74b96ebcf4d602102f76ae7dd657c931fda2f70ccebb2cf4726c0c8e"
+    },
+    {
+      "original_symbol": "_ZNK13StringManager13getSymbolPackEv",
+      "elf_address": "0x5075b0",
+      "size": 8,
+      "sha256": "3fc49adc7394262080e1e06db1aa4d983864b2d9b150c07306faf456deb4732e"
+    },
+    {
+      "original_symbol": "_ZN6Arrays15StrID_Languages4readEP11IStreamBase",
+      "elf_address": "0x4b53f8",
+      "size": 332,
+      "sha256": "fb88eaad6e964bf644942cb535db2fcfebf737cdd17656a8bbeada1eed9c6b12"
+    },
+    {
+      "original_symbol": "_ZNK13StringManager12getSheetNameEj",
+      "elf_address": "0x507568",
+      "size": 72,
+      "sha256": "3e67a8a72c978801133801b5bed0f1674529fbf996c84f51e1ca5a7b38b900eb"
+    },
+    {
+      "original_symbol": "_ZNK13StringManager18getNumberOfStringsEii",
+      "elf_address": "0x507550",
+      "size": 24,
+      "sha256": "06457b566e4c03ca908826c319e9fd2d50279c523fc11b55e071295f5f783811"
+    },
+    {
+      "original_symbol": "_ZN13StringManager10switchPackEjb",
+      "elf_address": "0x507a94",
+      "size": 76,
+      "sha256": "5c4612563c10b53f2fadbd03df29cbf01be1bce7e1c166da1ccd16fb9a82bc94"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager14GetLocalPlayerEib",
+      "elf_address": "0x36e478",
+      "size": 32,
+      "sha256": "ece0c2718ccffb60b13f3a3f5a798eebbbb3e2c601bfb70738efac1cae4f9495"
+    }
+  ]
+}

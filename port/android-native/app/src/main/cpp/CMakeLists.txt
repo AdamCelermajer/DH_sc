@@ -8,8 +8,12 @@ add_subdirectory("${DH2_SOURCE_DIR}/port/scene-materials" "${CMAKE_CURRENT_BINAR
 add_subdirectory("${DH2_SOURCE_DIR}/port/engine-animation" "${CMAKE_CURRENT_BINARY_DIR}/engine-animation")
 add_subdirectory("${DH2_SOURCE_DIR}/port/engine-skinning" "${CMAKE_CURRENT_BINARY_DIR}/engine-skinning")
 add_subdirectory("${DH2_SOURCE_DIR}/port/level-world" "${CMAKE_CURRENT_BINARY_DIR}/level-world")
-add_library(dh2_native SHARED native_app.cpp model_renderer.cpp)
+add_library(dh2_native SHARED native_app.cpp model_renderer.cpp authored_shader_program.cpp
+  swf_gpu.cpp original_ui_assets.cpp original_ui_session.cpp original_cache_assets_v1.cpp
+  "${DH2_SOURCE_DIR}/port/asset-payloads/zip_asset_pack_v1.cpp")
 target_compile_features(dh2_native PRIVATE cxx_std_17)
-target_compile_options(dh2_native PRIVATE -Wall -Wextra -Werror)
+target_compile_options(dh2_native PRIVATE -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)
+target_include_directories(dh2_native PRIVATE "${DH2_SOURCE_DIR}/port/engine-ui"
+  "${DH2_SOURCE_DIR}/port/scene-materials")
 target_link_options(dh2_native PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined)
-target_link_libraries(dh2_native PRIVATE dh2_engine_textures dh2_level_world android log GLESv2)
+target_link_libraries(dh2_native PRIVATE dh2_engine_textures dh2_scene_materials dh2_level_world dh2_script_runtime dh2_engine_ui android log GLESv2 z)

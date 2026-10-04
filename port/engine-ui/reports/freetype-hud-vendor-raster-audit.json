@@ -1,0 +1,34 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "checks": 2284,
+    "rasters": 570,
+    "atomic_guards": 5,
+    "alpha_uploads": 0,
+    "nonempty_alpha_uploads": 0,
+    "bitmap_quads": 0,
+    "font_reads": 0,
+    "font_misses": 0,
+    "core_diagnostics": 0
+  },
+  "unchanged_fontin_corpus_sha256": "79d0065db2af27b638fb6e0d39de2c61292b877ff02d37593789849beef02b12",
+  "executable_sha256": "33c279c213f75d8b836479c0eae5537071466606aedb905d1d8af9f669ee714d",
+  "freetype_library_sha256": "c66367710ebd7ca25cf0d9090117ab82f7b4152be148b054182cbbdfa3a8236d",
+  "hud_vendor_manifest_sha256": "f1313f1e35df20cde190bc330387943c37bf44cb101d18beacfec801f1eff917",
+  "source_sha256": {
+    "port/engine-ui/tests/freetype_font.cpp": "d2356a03014305ccfc43032d1f539235eb38bc9712eb7c0755c28ea862cf40ac",
+    "port/engine-ui/freetype_font.hpp": "b3e08aebf2e756af1c61e72e5759526aef9be1ee3cdae810b9343c238e9713aa",
+    "port/engine-ui/freetype_font.cpp": "efbf41c933e87bc915b0ea5f73d7b261d6ca2273b5f3bdbf568d93618c844aeb",
+    "port/engine-ui/freetype_glyph_kernel.hpp": "64c3283bb58c325295370b00f2d796c3d970766ee4868b1cad04d0d46ffe6aee",
+    "port/engine-ui/freetype_glyph_kernel.cpp": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+    "port/engine-ui/freetype237-hud.cmake": "ac8afc6d3cd246d9159e0ab67b5b2340f3b4c4afc84aed7497078a4c707d5804"
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "findings": 0
+  },
+  "scope": "New HUD FT vendor retains exact prior570 original-bound Fontin corpus; source-built backend actual raster replay and atomic guards. Original full FT raster instruction parity unclaimed."
+}

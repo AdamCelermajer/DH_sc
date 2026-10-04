@@ -1,0 +1,57 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/engine-ui/text_layout_v1.hpp": "73e9cbb6892cfd99b8d5cd9a03955ef6e6c41f251c5aa5bb02eab9f57ed4c6da",
+    "port/engine-ui/text_layout_v1.cpp": "5f4aaeb895f6529a7681ccebe7a0df86ef05e9d9e18527ac3d347c48e72b8316"
+  },
+  "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+  "objects": [
+    {
+      "abi": "arm64",
+      "target": "aarch64-linux-android24",
+      "path": "port/engine-ui/reference/text-layout-v1/android-objects/text_layout_v1-arm64-final.o",
+      "sha256": "47102a27dc8be68e28d8c3dc5d91247be1fc2869d0a07a71e3fefced0fd5c38a",
+      "ELF_class": 64,
+      "ELF_type": "REL",
+      "machine": 183,
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=aarch64-linux-android24",
+        "-std=c++17",
+        "-O2",
+        "-fPIC",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-c",
+        "port/engine-ui/text_layout_v1.cpp",
+        "-o",
+        "port/engine-ui/reference/text-layout-v1/android-objects/text_layout_v1-arm64-final.o"
+      ]
+    },
+    {
+      "abi": "x86_64",
+      "target": "x86_64-linux-android24",
+      "path": "port/engine-ui/reference/text-layout-v1/android-objects/text_layout_v1-x86_64-final.o",
+      "sha256": "af46cec356d2917c20b5b32252de338a521639d651167e5b9933fc71ea80aade",
+      "ELF_class": 64,
+      "ELF_type": "REL",
+      "machine": 62,
+      "command": [
+        "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe",
+        "--target=x86_64-linux-android24",
+        "-std=c++17",
+        "-O2",
+        "-fPIC",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-c",
+        "port/engine-ui/text_layout_v1.cpp",
+        "-o",
+        "port/engine-ui/reference/text-layout-v1/android-objects/text_layout_v1-x86_64-final.o"
+      ]
+    }
+  ],
+  "linked_library": false,
+  "APK": false,
+  "device_execution": false
+}

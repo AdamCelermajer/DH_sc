@@ -1,0 +1,26 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "original_cases": 6912,
+    "ordered_services": 15768,
+    "failure_prefixes": 5,
+    "atomic_guards": 6,
+    "nested_calls": 1
+  },
+  "source_sha256": {
+    "port/engine-ui/swf_glyph_lookup.hpp": "bbcc3afbddd3ae55f9b0dd44f6237856093ef49a12bc28ec6411386e640d6032",
+    "port/engine-ui/swf_glyph_lookup.cpp": "555b5ac3c78c70d3f33c4ed92fc09558fb38ecbd7f8891d008e77993a8868987",
+    "port/engine-ui/tests/swf_glyph_lookup.cpp": "92eaede5dcf4e232de19832b3ae305eb6e0248e2a7c709f61d71410d60183fdc",
+    "port/engine-ui/tests/swf_glyph_lookup_differential.py": "a4d38aaadbffd668f086c8f6b18d85d9503d7762a489b2418465da4003d9c152"
+  },
+  "executable_sha256": "bc1834a884b3a1de13552744a9b010ae9828fef130eab2320bfcef58111c7de3",
+  "corpus_sha256": "ab8d890648aa64009b23f17adc3f3518dc4c4fc3ed712e432926824526611b99",
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "findings": 0
+  },
+  "scope": "Actual original-derived glyph projection corpus with required provider/code-map service boundaries; synchronous reentry,malformed atomic guards and delivered failure prefixes. Native STL/weak-player/bitmap allocation and source fullFT raster remain explicit dependencies."
+}

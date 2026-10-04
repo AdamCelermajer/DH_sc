@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN5Level12_LoadProcessEv",
+      "elf_address": "0x3f6990",
+      "size": 6472,
+      "sha256": "f20aedc8022ad8ba5311bf4a7e2b993a155a625d3fa77f77323bea320fe17d17"
+    },
+    {
+      "original_symbol": "_ZN5Level15_LoadCharStatesEv",
+      "elf_address": "0x3eff98",
+      "size": 128,
+      "sha256": "81c5d94fc88d610cefd462d248923217433ba719c13a97d4459449eb0ea16dc3"
+    },
+    {
+      "original_symbol": "_ZN9Character8InitPostEv",
+      "elf_address": "0x3b4d60",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17InitScriptProcessEb",
+      "elf_address": "0x3ce7c0",
+      "size": 80,
+      "sha256": "2c61c145a786157363337b77b877321f1c0c8804d5dcc606963d355f2dab5c5f"
+    }
+  ]
+}

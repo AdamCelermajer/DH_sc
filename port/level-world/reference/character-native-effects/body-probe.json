@@ -1,0 +1,9983 @@
+{
+  "validation": "PASS",
+  "scope": "Original stun/scare OnUpdate and OnBlur bodies; logging, state-transition, animator, heading and body effects explicit.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "probe_sha256": "397df63cadb491b89040ba65364199e94a9fda86ced31c0064be11341563b278",
+  "manifest_sha256": "fc836ace40ce51e9b8d05dbfb3e46043529193f5a4e954d9420ce74ad6c3647a",
+  "original_instructions_executed": true,
+  "body_cases": 576,
+  "rows": [
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "force_state",
+          "state": 3,
+          "event": 4294967295,
+          "payload": 0,
+          "idle_suppressed": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 0,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "stop_loop",
+          "animator": true,
+          "mode": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 0,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 0,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 2,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 4,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 0,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 0,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 0,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 1
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 1,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 1,
+      "final_idle": 255,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 0,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 0,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 1,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 1,
+      "final_body": false
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 0,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        },
+        {
+          "service": "pin",
+          "body": true,
+          "controller_locked": 255
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": true
+    },
+    {
+      "kind": 1,
+      "operation": 1,
+      "mask": 6,
+      "present": 1,
+      "locked": 255,
+      "idle": 255,
+      "mutate": 1,
+      "trace": [
+        {
+          "service": "heading_object",
+          "controller": true,
+          "payload": 0
+        }
+      ],
+      "final_locked": 255,
+      "final_idle": 255,
+      "final_body": false
+    }
+  ]
+}

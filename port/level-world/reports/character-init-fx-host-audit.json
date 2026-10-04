@@ -1,0 +1,61 @@
+{
+  "validation": "PASS",
+  "scope": "Isolated NEW InitFX source/test linked to actual shared host Debug/preload services. No full InitPost, packaged ARM64 or live evidence.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_audit": {
+    "validation": "PASS",
+    "gold_cases": 480,
+    "ordered_services": 4592,
+    "atomic_guards": 8,
+    "failed_prefix_checks": 2,
+    "unsupported_factory_checks": 1,
+    "host_reentry_checks": 1,
+    "genuine_Debug_missing_file_fixture_compositions": 2,
+    "checks": 24881,
+    "mismatches": 0
+  },
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "diagnostics": 0,
+    "halt_on_undefined_error": true,
+    "leak_detection": true
+  },
+  "source_sha256": {
+    "port/level-world/character_init_fx.hpp": "1abe881b0070eadaabd41eaae92ab2923082decef62b0c3c7d11b06be3c0b7e4",
+    "port/level-world/character_init_fx.cpp": "02723ee6fb0bd663a8b374a29d9953c938e38c85de819c2ade1af3be2dd42e59",
+    "port/level-world/tests/character_init_fx.cpp": "c6ed50b9ca7b6a4078dbae6065e3409c703bfebb1fb7b7a49717aab04483c873",
+    "port/level-world/visual_fx_preload.hpp": "b0be9221f5b49ee7bf189744ee08391553267c521adf78b1b3e55294c2f02d6b",
+    "port/level-world/visual_fx_preload.cpp": "ab8c2d4bb1f40663859fb6bc443f0ed50e4160f42426ec8c99dee2766231b667",
+    "port/level-world/character_design_services.hpp": "e2997bdd47e1ebe442797a55f7802ecde8d3105a80b5eb1e6b11f7b269a33064",
+    "port/level-world/character_design_services.cpp": "bf12eb613228d963cdb78e3ff44d1cb23da87a186e0bae73b01029379808b62d",
+    "port/game-data/effects_tables.hpp": "8e0b1eb1ce1f7f581ed59283a65fbceee9ebea0515daab220605903a5ab69fac"
+  },
+  "executable_sha256": "b3504fd45aa785eb2191d7eb5d0496b5e10758fa1e85a225b596d399b6bed845",
+  "reference_sha256": "c5136915868a58af47f2c183774df22f720270ea35f6c9ea76241c4fa2840b7d",
+  "arm64_report_sha256": "17fc378356bfa3e8e89cbcd4bb5122bfd87075d5bc0dc33b1c5446644cc520a0",
+  "compiler": {
+    "path": "/usr/bin/g++",
+    "sha256": "e6718f7e0c7d057c3ff77b550c603da9bc4030e3ede3c053705acce1293dbe4d",
+    "flags": [
+      "-std=c++17",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Wno-misleading-indentation",
+      "-fsanitize=address,undefined",
+      "-fno-fast-math",
+      "-ffp-contract=off"
+    ]
+  },
+  "shared_dependency_sha256": {
+    "world": "abbef3e81892799960fff7a6f0e2eb4f87004873a8e2d44ca10250518a2a9b93",
+    "data": "5f1a506662d6a45e0d79f1ea2b09269eb15e1a7f7c05cf74cfafc72533c7dbe5",
+    "runtime": "3f1886b22c2230e6ddda5c75fae248d0a710b75034eac3144489f9992b7f9945",
+    "skinning": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "animation": "05e35956a29b774459206298e54efb5c02afc3bdda0c1ed1a12ccd95877ae856",
+    "scene": "08b26f5c9f913919fd76e054e1f2aa2dc5ff4d0ac073cd7171ef08f96c975411"
+  },
+  "shared_binary_scope": "Already-built central dependencies; only NEW character_init_fx.cpp/test directly compiled here. Current imported service source hashes are context and independently frozen helper proof, not a fresh full central compilation claim."
+}

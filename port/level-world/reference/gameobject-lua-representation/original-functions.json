@@ -1,0 +1,125 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10GameObject14createBindingsERN3sfc6script3lua6BinderE",
+      "elf_address": "0x38d7ec",
+      "size": 2648,
+      "sha256": "6e6e9a59b26f95443502e28d0ae7e4b98d033019ede8c0cd59e47187571c7d8d"
+    },
+    {
+      "original_symbol": "_ZN10GameObject6_GetIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x38ebe4",
+      "size": 12,
+      "sha256": "48f4f015aabc18a6bb3fc4178014a75ab6ea2f35cf85baeb2a6681e5aaa24ba5"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9Arguments12pushUserDataEPNS1_8UserDataE",
+      "elf_address": "0x386f28",
+      "size": 104,
+      "sha256": "71516d569a42a179a9a40dfcd571b25566983ec9ef0b00f812888c946dde0b3f"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua8UserData13getUDTypeNameEv",
+      "elf_address": "0x33dcb4",
+      "size": 16,
+      "sha256": "bf2efdac469b10d0972943d7817da76b227c1af631e5bb7652bfd5e86b227b3d"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder17__smethodCallbackEP9lua_State",
+      "elf_address": "0x319fd0",
+      "size": 640,
+      "sha256": "7feeb8add71dccaa2d107f19114882676d1b1f3ada248fdb0e7c342ae809b35b"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5ValueC1EPNS1_8UserDataE",
+      "elf_address": "0x37c978",
+      "size": 128,
+      "sha256": "697eea4b688c6417a86670379358b2ce23a83187b826da55eda43faa97324be4"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder12bindFunctionEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvESA_",
+      "elf_address": "0x31a4d4",
+      "size": 344,
+      "sha256": "90942f487523fa49e311d580d9de5db063f6173fc04f98d2426cefc165c79417"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5Value11setUserDataEPNS1_8UserDataE",
+      "elf_address": "0x31b608",
+      "size": 16,
+      "sha256": "9317ee4588f87c3dfa9f046bc1fbfd9cd3e80425425747472681589a29fe56e6"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues12pushUserDataEPNS1_8UserDataE",
+      "elf_address": "0x37c9f8",
+      "size": 104,
+      "sha256": "de77594ecffa7fce14ab89109357f166024b364062e8957b92ca612c25d7bd3f"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject13getUDTypeNameEv",
+      "elf_address": "0x340124",
+      "size": 16,
+      "sha256": "7cce1ccce36116219d9a9cf2731f4ef967688a51003602244eab73abf76a6374"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder18__functionCallbackEP9lua_State",
+      "elf_address": "0x31a250",
+      "size": 452,
+      "sha256": "61f51278041010097fd66aba6aeb484aa978fba202c49e666110415fff2a0b8e"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues9_doReturnEP9lua_State",
+      "elf_address": "0x31b308",
+      "size": 144,
+      "sha256": "1b00c16bbc86ead7637728fccfdeb2e2186cf2090af72858482406463ddea50c"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder11_bindMethodEPKcPvS5_",
+      "elf_address": "0x319c44",
+      "size": 100,
+      "sha256": "49f90cc2b7fe9ad33a57859e03470494c5e82a6858c09809628a2c915831aca5"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder16__methodCallbackEP9lua_State",
+      "elf_address": "0x319ca8",
+      "size": 808,
+      "sha256": "bed6366491bb62d39a32898247e377b236b602030866c49149f78e573a6d6166"
+    },
+    {
+      "original_symbol": "_ZNK9Character13getUDTypeNameEv",
+      "elf_address": "0x3a2f08",
+      "size": 16,
+      "sha256": "0c1f36d4fc4b32120c3a3b51bb0eeca19533bd4d41f59a97d846bfedaa54a0dc"
+    },
+    {
+      "original_symbol": "_ZN9Character10_GetTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6c7c",
+      "size": 12,
+      "sha256": "2a2f0cc9fb9542312b9dc8cd5e5f7e73d500876818412873305a197cce19f86a"
+    },
+    {
+      "original_symbol": "_ZN9Character14createBindingsERN3sfc6script3lua6BinderE",
+      "elf_address": "0x3b56bc",
+      "size": 5332,
+      "sha256": "1a6cca69e950949461ad1499982fbd7929a82d9411fa2aa7c4755a3c8e3d4ca8"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushPointerEPv",
+      "elf_address": "0x38eb00",
+      "size": 104,
+      "sha256": "8e5310bdd6555999e924de6e2fa9e275fe69d0276bd999bf240ca695111f9ac3"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value12_pushOnStackEP9lua_State",
+      "elf_address": "0x31cac4",
+      "size": 572,
+      "sha256": "16be1625ff8bfcf58b5377529abd924bce58d1f06bf47ee48fa384ffa785cb3a"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder10bindMethodEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvE",
+      "elf_address": "0x319af4",
+      "size": 336,
+      "sha256": "b2924944c3bcaad99116186a30f064d7f8a8f7956fdd78d0b1e1d58238c269fe"
+    }
+  ]
+}

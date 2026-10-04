@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "original_gold_cases": 860,
+  "stored_pack_members": 34,
+  "atomic_guards": 13,
+  "owned_body_and_pack": true,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/scene-materials/shader_sources.cpp": "f05874e30bba3a3b1c8cec643e5fda6bcba4f31e9b935eae8e94c9872b41cde1",
+    "port/scene-materials/shader_sources.hpp": "8115f47857aca50468885e55fb549d902e4ac0ef5220f6b88ae7ce0da8092afb",
+    "port/scene-materials/tests/shader_sources.cpp": "f3b096a9f42247b2d9185a6c93b808496f3fce9dc516d105ff3d481c68d71802",
+    "port/scene-materials/tests/shader_sources_host.py": "b00a4637528a60a5568941da800f46413033d35fbef52cecf2fddd6fc8a9dbde"
+  },
+  "library_sha256": "b988644b22c9be0a05783deac8a9b21fa308c4ef81540ef19da7bdaaeddd3255",
+  "executable_sha256": "73808827b6927d31ea73a07eef0b5dba884ebefd63d4888c200a29d8c9a6419b",
+  "reference_sha256": "ee2c1f3891fc1e4cccb847c90f951a5082664daa9cdb3fd7a2a470e30e699b9d",
+  "original_instruction_report_sha256": "b3c4e79cef8c755a747c9228a64397842ff45cd01890e693d8a696573b8a40af",
+  "isolated_shader_sources_library_executed": true,
+  "main_scene_library_executed": false,
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "compiler": "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0\nCopyright (C) 2025 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "flags": [
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation"
+  ],
+  "scope": "Original source/name/config gold, exact actual stored-ZIP input ownership and malformed container/text contracts. No GPU draw or original archive-reader parity."
+}

@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "comparisons": 570,
+  "mismatches": 0,
+  "ordered_service_requests": 5700,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "corpus_sha256": "79d0065db2af27b638fb6e0d39de2c61292b877ff02d37593789849beef02b12",
+  "library_sha256": "124ac8d876578b768c5199433a54c82501e9eac56b8af773ab56b0b3a8addf8a",
+  "source_sha256": {
+    "port/engine-ui/freetype_glyph_kernel.hpp": "64c3283bb58c325295370b00f2d796c3d970766ee4868b1cad04d0d46ffe6aee",
+    "port/engine-ui/freetype_glyph_kernel.cpp": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+    "port/engine-ui/tests/freetype_glyph_differential.py": "c859f91c52ea2d518cdf9922d5cb09d36f6db7617b747a04c749beb633beddd5"
+  },
+  "scope": "Actual original get_char_image no-cache and draw_bitmap instructions, including pixel-height, ordered FT/render boundaries, exact normalized float32 bounds/advance and alpha padding, vs O2 ARM64 layout. Original face lookup/cache/FT glyph producer/allocation/upload are explicit services. Corpus metrics/alpha were produced by genuine source-built FreeType2.3.7 and exact Fontin bytes; original FreeType raster leaves and full GPU parity are not claimed."
+}

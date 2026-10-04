@@ -1,0 +1,143 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRN3sfc6script3lua12ReturnValuesE",
+      "elf_address": "0x37c494",
+      "size": 128,
+      "sha256": "f26b03d05e3f9886a18f7d3de525a2cc05d067335ab5d74aad39800fda057538"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches4loadEv",
+      "elf_address": "0x337888",
+      "size": 512,
+      "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine9_SetStateEiiPv",
+      "elf_address": "0x3c1938",
+      "size": 200,
+      "sha256": "4441e973629e1e245b5b6f452e586ee1e367303fd5f93db42ac91b715cd362bb"
+    },
+    {
+      "original_symbol": "_ZNSsD1Ev",
+      "elf_address": "0x318254",
+      "size": 68,
+      "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15RaiseStateEventEiPv",
+      "elf_address": "0x3c5684",
+      "size": 508,
+      "sha256": "5508184fa6236ab106322e2ac88495dd991dcba5b1c8f3a2d9ca89eb2d633477"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKc",
+      "elf_address": "0x37c514",
+      "size": 112,
+      "sha256": "bd5f9d01fa32fcf2e4e458d913958481ded2d873a49c0165c4069484374f29fc"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle6OnBlurEiP9CharacterP16CharStateMachinei",
+      "elf_address": "0x3c2d3c",
+      "size": 148,
+      "sha256": "157cea1321208cf3a37241bd8dcc9b0197fdb87c5e26759948e88968402981ea"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnEndOfAnimEv",
+      "elf_address": "0x3dbeec",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "elf_address": "0x3c0004",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI18_OnAnimSequenceEndEv",
+      "elf_address": "0x3d3d30",
+      "size": 28,
+      "sha256": "f9d0ac4aad85d9aec6813fd7a46680447e2fefbbbb9ae4308b2fb81c25f9b225"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14OnStateChangedEii",
+      "elf_address": "0x3d0bec",
+      "size": 36,
+      "sha256": "6b77a2b9a1797ffad40e31858b3ad939c8e8f12347408a908ac79ee44eeae330"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14_OnAnimStepEndEv",
+      "elf_address": "0x3d3ff8",
+      "size": 76,
+      "sha256": "3075b4fd11e5796d45af02b6cb721bc2ba7a2ebe719d81c59a67b1a5b4d41d7b"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault14OnStateChangedEii",
+      "elf_address": "0x3dbe8c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+      "elf_address": "0x337a88",
+      "size": 196,
+      "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal11OnEndOfAnimEv",
+      "elf_address": "0x3dccd0",
+      "size": 36,
+      "sha256": "35f25adde6f0a2e252ff71ddece3b95ff7fc879d80cecd609c72b65f512e4d33"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16_OnAnimStepBeginEv",
+      "elf_address": "0x3d4204",
+      "size": 100,
+      "sha256": "6fe456527d1ea70d56139cd47385895f7b49620b99305056d47f14501cd81479"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11OnEndOfAnimEv",
+      "elf_address": "0x3d0ce8",
+      "size": 36,
+      "sha256": "7ce0618563c3b8418ecc9451ee09255e1591f92dabc2e089a41021675deef30d"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+    },
+    {
+      "original_symbol": "_ZN6CharAI20_OnAnimSequenceBeginEv",
+      "elf_address": "0x3d3d4c",
+      "size": 28,
+      "sha256": "5e0369edff44c3d2b26435f6c846afd70b5bb1b75369f3ab0c642d1133bb095f"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "0x3c3020",
+      "size": 288,
+      "sha256": "7b2eb11c30874fdf3d469f7db853ed9b9f0baf4c76c316c7b539fa42597dae5b"
+    },
+    {
+      "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+      "elf_address": "0x3140ec",
+      "size": 52,
+      "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a"
+    }
+  ]
+}

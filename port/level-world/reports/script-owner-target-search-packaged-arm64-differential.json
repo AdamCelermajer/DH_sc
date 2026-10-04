@@ -1,0 +1,118 @@
+{
+  "validation": "PASS",
+  "scope": "Read-only target-search comparison using the ARM64 DSO from a frozen APK.\n\nOriginal traversal, filters and heap run against the actual packaged native\ninstructions. Character/provider callbacks and libm imports remain caller\nfixtures. This does not prove live gameplay, Bionic libm or GPU/device parity.\nThe existing original gold and earlier reports are never rewritten.\n",
+  "comparisons": 412,
+  "ordered_callbacks": 26580,
+  "accepted_records": 1480,
+  "synchronous_same_list_reentry_cases": 9,
+  "mismatches": 0,
+  "build_capture_sha256": "5a708b9a2cc11fbac0ef4429d2d632ca5f50fcc37f4662cab1de65b28cc01fc8",
+  "apk_sha256": "0df1de6db8ba3bac58f2e5ecb47011676b5f8bdf48d3fe2b71a6f315d06f9d13",
+  "apk_bytes": 22497590,
+  "apk_library_member": "lib/arm64-v8a/libdh2_level_world.so",
+  "arm64_library_sha256": "e14a3343bf97c91717372fffd9e91060a72f73fc8ea161df801c414794623472",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "corpus_sha256": "f48d4de780870ec72570ae37d36831c87e1b7c5351bb8e5f0b29c72889ccd9f9",
+  "source_and_proof_bindings": {
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\libDungeonHunter2.so": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reference\\character-target-search\\original-functions.json": "3a14e52171d0830f5ba38d6f14e88ec8d1209381afb4f9c58bf8799d1890cdf0",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\reference\\character-target-search\\search-fixtures.bin": "f48d4de780870ec72570ae37d36831c87e1b7c5351bb8e5f0b29c72889ccd9f9",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_target_search.cpp": "12f4d36eb7826b1d6d36de6908ed42a1f4b9179a422022b43fac8b114dc9f0a6",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_target_search.hpp": "38ce6f1b5742642abe5e79e222330264d2a67933dddfa38bb81569b40b2e9c8a",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\character_target_search_discovery.py": "e391c5f144114eb1a40926cf0019fcb699ef12acc5f8b25397b877f185344694",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\character_target_search_differential.py": "8e880ad290a4b10c873654c1a30b323790cfd983f87d1d7136bb92ca9fe628c8",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\tests\\character_target_search_packaged.py": "ffa7a8c87285676087e7ddda0660c7089abee394ae7a3e2c125c1d7928013a9b",
+    "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\.local-inputs\\script-owner-native-build-capture.zip": "5a708b9a2cc11fbac0ef4429d2d632ca5f50fcc37f4662cab1de65b28cc01fc8"
+  },
+  "packaged_libraries": {
+    "lib/arm64-v8a/libdh2_engine_textures.so": {
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    "lib/arm64-v8a/libdh2_engine_skinning.so": {
+      "sha256": "fa261fb376a49796c19529ceb38833f5d344ba118662a597bdd71c4c382eb9a0",
+      "minimum_load_alignment": 16384
+    },
+    "lib/arm64-v8a/libdh2_scene_materials.so": {
+      "sha256": "042238dbb9e9f1039f9bf67156b4d3d60356977c003493726d066e3f715e4131",
+      "minimum_load_alignment": 16384
+    },
+    "lib/arm64-v8a/libdh2_engine_animation.so": {
+      "sha256": "ab5481fedb86d0af77c5a4be2b831db341b1282c3b2811358c18aed4253b99a0",
+      "minimum_load_alignment": 16384
+    },
+    "lib/arm64-v8a/libdh2_game_data.so": {
+      "sha256": "66f9f991c6b098554293b700c313d84f3f8e6045c5206c62487996248c7dbcad",
+      "minimum_load_alignment": 16384
+    },
+    "lib/arm64-v8a/libdh2_native.so": {
+      "sha256": "f26a2c13671d42d07e9241fa4b5f7bc68f5e9859237003fed92a61d67d04f99c",
+      "minimum_load_alignment": 16384
+    },
+    "lib/x86_64/libdh2_engine_animation.so": {
+      "sha256": "e284eb17b140a2e47b0a40d31b3a295eee3c435a8753268f7db3c3a48bc07cf2",
+      "minimum_load_alignment": 16384
+    },
+    "lib/x86_64/libdh2_engine_skinning.so": {
+      "sha256": "636fd01174bb912a242c6c204929cd87110b215ce66bbc377483b736f484356b",
+      "minimum_load_alignment": 16384
+    },
+    "lib/x86_64/libdh2_engine_textures.so": {
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    "lib/x86_64/libdh2_game_data.so": {
+      "sha256": "37831c0314037ba13cd3825f32d27ef0dc0f7d355edf2cf88a714998839d46e7",
+      "minimum_load_alignment": 16384
+    },
+    "lib/x86_64/libdh2_scene_materials.so": {
+      "sha256": "bb23bf3bc26522103e4b1b29e6e865a9b79cd99ed942c2023da4f2924d975233",
+      "minimum_load_alignment": 16384
+    },
+    "lib/arm64-v8a/libdh2_script_runtime.so": {
+      "sha256": "663e85d0a7674c5308b43ea7048925c51efef254d6e7e7e4ffc4d4ace469192b",
+      "minimum_load_alignment": 16384
+    },
+    "lib/x86_64/libdh2_script_runtime.so": {
+      "sha256": "f2d15bca67b7b74c700ff2b300975e4d70f69b742a54a255ba3d858b432ca698",
+      "minimum_load_alignment": 16384
+    },
+    "lib/arm64-v8a/libdh2_level_world.so": {
+      "sha256": "e14a3343bf97c91717372fffd9e91060a72f73fc8ea161df801c414794623472",
+      "minimum_load_alignment": 16384
+    },
+    "lib/x86_64/libdh2_level_world.so": {
+      "sha256": "a96676ecd0d879227a6e7fbf84cd28d5601b1245124d4b7f64e7b723abd15f4f",
+      "minimum_load_alignment": 16384
+    },
+    "lib/x86_64/libdh2_native.so": {
+      "sha256": "889dc43276ff2f1ab95a9e29eb5433bbf9c1fa9de1f7e1c9f3e88848bb720a61",
+      "minimum_load_alignment": 16384
+    }
+  },
+  "actual_packaged_instructions_executed": true,
+  "existing_gold_preserved": true,
+  "libm_caller_fixture_records": 37,
+  "original_import_calls": {
+    "sinf": 421,
+    "cosf": 421,
+    "__aeabi_fcmpge": 842,
+    "__aeabi_fsub": 17435,
+    "__aeabi_fmul": 36071,
+    "__aeabi_fadd": 22340,
+    "sqrtf": 8609,
+    "__aeabi_fcmpgt": 6861,
+    "__aeabi_fdiv": 2561,
+    "acosf": 2561,
+    "__aeabi_fcmplt": 3842
+  },
+  "native_import_calls": {
+    "sinf": 421,
+    "cosf": 421,
+    "acosf": 2561,
+    "__memcpy_chk": 5122
+  },
+  "arithmetic_nan_comparison": "unordered class; finite and non-arithmetic words exact",
+  "full_game_verified": false,
+  "physical_arm64_verified": false
+}

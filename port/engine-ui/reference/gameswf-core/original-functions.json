@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf6matrix4readEPNS_6streamE",
+      "elf_address": "0x7965d4",
+      "size": 632,
+      "sha256": "d6de325457e15bf7685b1f6562d067a3f274c6dfc78526c5f99a79647da1b287"
+    },
+    {
+      "original_symbol": "_ZN7gameswf27substitute_bitmap_characterERNS_9tu_stringEPNS_20bitmap_character_defEPNS_20movie_definition_subE",
+      "elf_address": "0x759cfc",
+      "size": 160,
+      "sha256": "8ffd1e33e3bc473e7fd973c5a8bd2e8c5fb6a1e4a8323b5503235784df0ab1e2"
+    }
+  ]
+}

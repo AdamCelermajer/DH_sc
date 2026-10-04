@@ -1,0 +1,51 @@
+{
+  "scope": "Original cinematic/video/audio fit and lifecycle only",
+  "apk_sha256": "7f4a0deb968fc9fe227876a128fc395418b170628068b973b8ee1f5cef56853a",
+  "serial": "emulator-5580",
+  "adb_server_port": "5038",
+  "full_menu_functionality": false,
+  "scenarios": [
+    {
+      "size": "1080x1920",
+      "video_fit": [
+        "1920",
+        "1080",
+        "1920.0",
+        "1080.0"
+      ],
+      "frames_change": true,
+      "skip_to_main": true,
+      "title_intro_then_loop": true
+    },
+    {
+      "size": "1080x2400",
+      "video_fit": [
+        "2400",
+        "1080",
+        "1920.0",
+        "1080.0"
+      ],
+      "frames_change": true,
+      "skip_to_main": true,
+      "title_intro_then_loop": true
+    },
+    {
+      "size": "1968x2184",
+      "video_fit": [
+        "2184",
+        "1968",
+        "2184.0",
+        "1228.5"
+      ],
+      "frames_change": true,
+      "skip_to_main": true,
+      "title_intro_then_loop": true
+    },
+    {
+      "lifecycle_pause_position": 2282,
+      "lifecycle_resume_position": 2380,
+      "natural_completion_to_main": true
+    }
+  ],
+  "validation": "PASS"
+}

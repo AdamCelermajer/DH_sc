@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX10InitializeERNS_24InitializationParametersE",
+      "elf_address": "0x7a9814",
+      "size": 228,
+      "sha256": "3ccba898aeb32e14d881f9fb201b5daa8b23c0bf020f4793abde8cc3cc931020"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX13CreateContextERNS_24InitializationParametersE",
+      "elf_address": "0x7a9708",
+      "size": 164,
+      "sha256": "b246e353d247300b1ead6b99866fb4474dc65a1e1a02c4b7efd33f473ba16ed3"
+    },
+    {
+      "original_symbol": "_ZN8RenderFXC1Ev",
+      "elf_address": "0x7a850c",
+      "size": 236,
+      "sha256": "93115f6a6509def42df3dd5eb163af70878821e8934fd8d34c9b5080ffe79ef7"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root20set_background_alphaEf",
+      "elf_address": "0x7741f4",
+      "size": 80,
+      "sha256": "263f776c9f6662d4e800b3fd47a2e9ba93bbdec6723e3eb6120cf48e3148b428"
+    },
+    {
+      "original_symbol": "_ZN6MenuFXC1Ev",
+      "elf_address": "0x7a86e4",
+      "size": 108,
+      "sha256": "e367d7729f47412fa908fbf11e7098922a581eea069157a31029fefb102ca7f9"
+    },
+    {
+      "original_symbol": "_ZN17MenuFlash2DCameraC1EP6MenuFX",
+      "elf_address": "0x42ccd0",
+      "size": 128,
+      "sha256": "9510464779dcce3c4374f88ea67b57c4e1a0996d9fbe859b569f848c0993b15c"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX4LoadEPKcPN7gameswf14player_contextE",
+      "elf_address": "0x7ab784",
+      "size": 416,
+      "sha256": "eb349f87de001b9623319b9e6faf6a276e9de207c8f03c7775527580c65f64f8"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX9PreRenderEv",
+      "elf_address": "0x7a9c1c",
+      "size": 100,
+      "sha256": "7eda551d939904a672d59be7ca36da0b7956ea7e5902d0dc0cc676e838f41733"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX10InitializeEPN6glitch5video12IVideoDriverE",
+      "elf_address": "0x7a98f8",
+      "size": 92,
+      "sha256": "05d259f8f6544e6f4280bc9d09d72bbb67d752374f2049167ca4a90239db80b0"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX14SetOrientationEN7gameswf16orientation_modeE",
+      "elf_address": "0x7a7eb4",
+      "size": 52,
+      "sha256": "144087e0369c009df4dd24a5faa6c18977657198ee4d9eef08b5e62604d0b872"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root20set_background_colorERKNS_4rgbaE",
+      "elf_address": "0x7741e0",
+      "size": 20,
+      "sha256": "85b840d3c795de8ae49ab7de8d8944cdb416b3af1d671192b8f89531c95b116b"
+    }
+  ]
+}

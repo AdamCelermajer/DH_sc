@@ -1,0 +1,12 @@
+{
+  "worktree": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\DH_sc",
+  "application_id": "local.dh2.loader",
+  "avd": "C:\\Users\\adamc\\.android\\avd\\DH2_Loader_API37.avd",
+  "planned_emulator_serial": "emulator-5590",
+  "port": 5590,
+  "existing_emulators_untouched": [
+    "emulator-5580"
+  ],
+  "emulator_started": false,
+  "baseline_manifest": "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\baseline-snapshot.json"
+}

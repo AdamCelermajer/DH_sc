@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX23RegisterDisplayCallbackEPN7gameswf9characterEPFvRNS0_12render_stateEPvES5_",
+      "elf_address": "0x7a7e80",
+      "size": 52,
+      "sha256": "ca3a2ab6d8e6a0c76158a4c4e2ecc84db66f414624e74bace7e1f6d6be9c1de2"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX14SetOrientationEN7gameswf16orientation_modeE",
+      "elf_address": "0x7a7eb4",
+      "size": 52,
+      "sha256": "144087e0369c009df4dd24a5faa6c18977657198ee4d9eef08b5e62604d0b872"
+    },
+    {
+      "original_symbol": "_Z23NativeUpdateOrientationRKN7gameswf7fn_callE",
+      "elf_address": "0x43a8b0",
+      "size": 64,
+      "sha256": "da2b195a00c4473992c64109b66af46ac6e6e76afa6032ab8f68edf48d3051d8"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX23RegisterDisplayCallbackEPKcPFvRN7gameswf12render_stateEPvES5_",
+      "elf_address": "0x7a91d8",
+      "size": 44,
+      "sha256": "e9b3a7d1a007ddcbf6d10df3a659e18d1aeae8250d79fb01f8343a5776cc64f4"
+    }
+  ]
+}

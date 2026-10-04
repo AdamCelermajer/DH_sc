@@ -1,0 +1,86 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x401afc",
+      "symbol": "_ZN6Random9GetRandomEib.clone.1",
+      "size": 148,
+      "code_sha256": "c9a2f24f7c691def06040a7dab766218420d67fe8ce514386961e4a9e33d0c86"
+    },
+    {
+      "address": "0x401b90",
+      "symbol": "_ZN13ItemInventory16_GetProbQuantityEii",
+      "size": 556,
+      "code_sha256": "4df72c96d7e6e014e39739dbd3cc58e036147d61d44ed454782259c53ecdfa93"
+    },
+    {
+      "address": "0x401f38",
+      "symbol": "_ZN13ItemInventory24_GetRandomItemPowerEntryERKN7Structs18ItemPowerEntryListE",
+      "size": 380,
+      "code_sha256": "c9d166f9ae4b095728ea8de8712194c776b0a375e22e4df106f96f8d99b1fba3"
+    },
+    {
+      "address": "0x4020b4",
+      "symbol": "_ZN13ItemInventory17CalcLootItemValueEP12ItemInstancei",
+      "size": 208,
+      "code_sha256": "1872493a3e6656c694382e663d82a7d84b36a7c64eeb771f6abd13e2e24412d9"
+    },
+    {
+      "address": "0x403310",
+      "symbol": "_ZN13ItemInventory18_AddLootItemPowersEPKN7Structs9LootEntryEP12ItemInstanceiii",
+      "size": 1680,
+      "code_sha256": "1839fe0e454f14f98ae9e60a7d8bcf0295a7d393df5a2204c362191bd75b419e"
+    },
+    {
+      "address": "0x4bacc8",
+      "symbol": "_ZN6Arrays13ItemPowerList4readEP11IStreamBase",
+      "size": 332,
+      "code_sha256": "11d7a8e7819817da911bd17f85a9501b873dc18e65d7393669e94acbe5317092"
+    },
+    {
+      "address": "0x4baa30",
+      "symbol": "_ZN6Arrays21ItemBonusAttrMonopoly4readEP11IStreamBase",
+      "size": 332,
+      "code_sha256": "ee81c221b503cb7cbedb622ca48ad57b6f10cdd9fe5384c9ee09884eb7ff3f1d"
+    },
+    {
+      "address": "0x4b9bf4",
+      "symbol": "_ZN6Arrays12NumProbArray4readEP11IStreamBase",
+      "size": 332,
+      "code_sha256": "7ae64ca16a71fda1bd96b363c7499a4f6e08962897d80ef532e5cac17d3378df"
+    }
+  ],
+  "float_imports": [
+    {
+      "plt": "0x30e964",
+      "got": "0x994e98",
+      "name": "__aeabi_i2f",
+      "code": "06c68fe286ca8ce22cf5bce5"
+    },
+    {
+      "plt": "0x30eba4",
+      "got": "0x994f58",
+      "name": "__aeabi_fadd",
+      "code": "06c68fe286ca8ce2acf3bce5"
+    },
+    {
+      "plt": "0x30ec94",
+      "got": "0x994fa8",
+      "name": "__aeabi_fdiv",
+      "code": "06c68fe286ca8ce20cf3bce5"
+    },
+    {
+      "plt": "0x30ed6c",
+      "got": "0x994ff0",
+      "name": "__aeabi_fmul",
+      "code": "06c68fe286ca8ce27cf2bce5"
+    },
+    {
+      "plt": "0x30e4cc",
+      "got": "0x994d10",
+      "name": "__aeabi_f2iz",
+      "code": "06c68fe286ca8ce23cf8bce5"
+    }
+  ],
+  "debug_switch": "isTracingItemInventory_Loot"
+}

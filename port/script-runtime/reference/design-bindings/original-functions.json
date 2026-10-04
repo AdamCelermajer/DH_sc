@@ -1,0 +1,89 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript9_GetPyCstERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f354",
+      "size": 340,
+      "sha256": "100919724144bb32cb1ca199cb4210084f5e034e412bd60e8461e2c001c66ab4"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript12_GetPyStructERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f4a8",
+      "size": 340,
+      "sha256": "f6a56f53075ea0138f07ff78563c9f3cddb695c12769a47e51a2222b4204da9c"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript9_GetPyOIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f5fc",
+      "size": 340,
+      "sha256": "d5fc58b98cdfe223976a63443d44ce8e23f9916098083323ff1ec121429da773"
+    },
+    {
+      "original_symbol": "_ZN12PyDataArrays6GetOIDEPKcS1_",
+      "elf_address": "0x4bd640",
+      "size": 72,
+      "sha256": "131022f01a40214f11496f8b9caa5ef181ef675dd8705756eb0c8c82f044646f"
+    },
+    {
+      "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+      "elf_address": "0x4c4bdc",
+      "size": 84,
+      "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsPFiPKcEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIS6_EEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x4bd4d0",
+      "size": 368,
+      "sha256": "2b3464bb040f9a9afb47b1b416f8c98c75f8bf29320a5139c8012564cf2015de"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsSt3mapISsiS2_SaIS3_IS4_iEEEENS_10_Select1stIS9_EENS_11_MapTraitsTIS9_EESaIS9_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x4c4998",
+      "size": 368,
+      "sha256": "4dc6bc9031e320ccea0fb4937663a28774e5a7ac342a2d0195ababb73abeccc6"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsiENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x414484",
+      "size": 500,
+      "sha256": "ba6b5ff39368731cf68171614b596ea908f3e7f351dea32a63b5ad522b0b8e8a"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getStringEv",
+      "elf_address": "0x31c49c",
+      "size": 408,
+      "sha256": "1694b4aa2cc23e43614f9f21be5f092e1cd326e45665fb2970c27854c0927599"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua9ArgumentsixEj",
+      "elf_address": "0x37baf8",
+      "size": 88,
+      "sha256": "528e2585a4eea034eba7e0120a35cd1c132335414df62c491cd35c0691e92463"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+      "elf_address": "0x37cb24",
+      "size": 104,
+      "sha256": "f82c34ddaa9becff30d931e6ec79c8a9c3a73c1da5f7bf1980a70c750825eb68"
+    },
+    {
+      "original_symbol": "_ZN7Structs19GetMemberIDByStringINS_19CharacterPropertiesEEEiPKc",
+      "elf_address": "0x4af110",
+      "size": 92,
+      "sha256": "5714e1f84c72bb4ceb3addb1d1524e128f6db9f5c660bebf31fd264e26b9bfb5"
+    },
+    {
+      "original_symbol": "_ZN12PyDataArrays19registerClassByNameEPKcPFiS1_E",
+      "elf_address": "0x4bdccc",
+      "size": 164,
+      "sha256": "738dbd9fe4b1bbb3580118ef0e1fb4c5cdd3e48142465487616e0a485528520d"
+    },
+    {
+      "original_symbol": "_ZN12PyDataArraysC1EP19DataReloaderManager",
+      "elf_address": "0x4be550",
+      "size": 10380,
+      "sha256": "7306b440f43bca3a70558607a0c87255eeca442ffcc0d2742de09edc75e4567e"
+    }
+  ]
+}

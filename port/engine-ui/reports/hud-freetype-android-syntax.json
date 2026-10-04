@@ -1,0 +1,52 @@
+{
+  "validation": "PASS",
+  "checks": 6,
+  "failures": 0,
+  "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+  "script_sha256": "ea9e434ff4e2200f8f2269a46abc4cb7d7d547ca58bcb847c27bb3a64427de13",
+  "checks_detail": [
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/freetype_bitmap_alpha.cpp",
+      "sha256": "d5a20f44edc326f646b10d9ae4134c2384bb5c04b674d5256507101131b4037e",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/hud_freetype_font.cpp",
+      "sha256": "9a3df0edace00b7c1c997ce08c7a0876e2827b6037777f606036a329f0c55a3b",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "aarch64-linux-android24",
+      "source": "port/engine-ui/swf_hud_freetype_provider.cpp",
+      "sha256": "4e3313cf555e4c50abee13c5dc032097476408a0fb51b3bb529a12bf7920eb7f",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/freetype_bitmap_alpha.cpp",
+      "sha256": "d5a20f44edc326f646b10d9ae4134c2384bb5c04b674d5256507101131b4037e",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/hud_freetype_font.cpp",
+      "sha256": "9a3df0edace00b7c1c997ce08c7a0876e2827b6037777f606036a329f0c55a3b",
+      "exit_code": 0,
+      "diagnostic": ""
+    },
+    {
+      "target": "x86_64-linux-android24",
+      "source": "port/engine-ui/swf_hud_freetype_provider.cpp",
+      "sha256": "4e3313cf555e4c50abee13c5dc032097476408a0fb51b3bb529a12bf7920eb7f",
+      "exit_code": 0,
+      "diagnostic": ""
+    }
+  ],
+  "scope": "Additive packed-font modules compile at O2 for both64bit Android targets; syntax proof only, not linked/runtime/device parity."
+}

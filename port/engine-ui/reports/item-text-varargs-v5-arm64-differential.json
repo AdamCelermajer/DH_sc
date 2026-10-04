@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "comparisons": 355,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "5a5b40075b4f52f2dc2e91b67b25ea2187a8062c2e3a61640618e5b0bb5e8a30",
+  "gold_sha256": "8580c32ec186550202ee77b3e075d26f225fc32ca296c4460af12eb24965258b",
+  "source_sha256": {
+    "port/engine-ui/item_text_varargs_v5.hpp": "b895cb56d41a1e2450a745d097ce8a0dc07189cce58f99c5f737411ab6ac5901",
+    "port/engine-ui/item_text_varargs_v5.cpp": "e9f6b9c3d53be87597918e49704ec890f3cc234fb9609de3c42689e547b09e40",
+    "port/engine-ui/tests/item_text_varargs_v5_fixture.cpp": "95cb88ed36db767a828cb979c45939b0568f744b0379fe30299e4d4e750a25cc",
+    "port/engine-ui/tests/item_text_varargs_v5_differential.py": "5818cdf7356270de0d06510582d5093cc7a343ea159d954e0ea48676dce515e4"
+  },
+  "scope": "Exact original integer/string va_list formatter domain vs typed O2 ARM64.\nLocalized numeric defaults/current pack/libc are explicit services. Floating\nand dollar directives are not claimed; they reject in native production.\n"
+}

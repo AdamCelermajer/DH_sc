@@ -1,0 +1,32 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "e6b8509e9bf994ec2d46e3aec7c0161bba1f0a615b9dd4af8e88e24682bdf847",
+  "source_sha256": {
+    "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+    "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+    "port/level-world/character_state_owner_data.inc": "d9cae0c70b8a59db8d66afb3559c5aceeb8241b67528fcc3b4eade57940da634",
+    "port/level-world/tests/character_state_owner_differential.py": "b8399acbb1e6d909d7f6ad9ca390950fb4b887d4dbbdeea3bb60cb1c6ac5db88",
+    "port/level-world/tests/character_state_owner_initialization_alias.py": "472f9022f050d402150b991985768c2c968a2cf68c856299ef8b601b5f796580"
+  },
+  "reference_sha256": "b6afc6c1e2c1622c58a21c39e029a8878b8881df7b22d1eded24dfab1a3d3f9e",
+  "binary_reference_sha256": "8aa0751d6ea9a35e723aa9b97d8f7962d08407b7de7665240114241c010478bd",
+  "registration_plan_sha256": "9da95b34ff38af98629a136bb6c306f34eeedd5b1c8a539c2a1b2500203d0f4f",
+  "comparisons": 7680,
+  "ordered_callbacks": 21504,
+  "on_init_registrations_compared": 109,
+  "original_instructions_executed": true,
+  "optimized_arm64_instructions_executed": true,
+  "mismatches": 0,
+  "scope": "Focused original Level/Idle/PreSpawn versus frozen O2 owner selection.\nActual embedded machine+3c and Character+538 are proven identical addresses.\nBehavior methods remain explicit dispatch fixtures; no production edits.\n",
+  "embedded_machine_offset": 1276,
+  "machine_idle_offset": 60,
+  "character_idle_offset": 1336,
+  "identical_source_addresses": true,
+  "original_idle_byte_writes": 5120,
+  "all256_initial_byte_values": true,
+  "production_correction_required": false,
+  "allocation_boundary": "Supplied stable StateInfo/std::map node storage, original map walks execute; original factories/OnInit separately execute in plan_probe.py; original singleton vtable initialized from actual ELF vtable metadata.",
+  "behavior_bodies_reconstructed": false,
+  "full_AI": false
+}

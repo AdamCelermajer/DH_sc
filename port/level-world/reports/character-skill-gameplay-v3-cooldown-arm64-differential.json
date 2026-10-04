@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "cases": 1024,
+  "live_list_requests": 334,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_arm64_sha256": "150261551f4a4b66c010fe7ec3a95f12805a67f6a932176449170add304d61af",
+  "gold_sha256": "96ab88f6da4657f4ffbb7804a3eabd4ea0f44cc1c2ea71b8e63e93d10641f6aa",
+  "original_instructions_executed": true,
+  "optimized_arm64_instructions_executed": true,
+  "scope": "Actual cooldown Lua wrapper instructions versus O2 ARM64 callback bodies.\n\nValue.getNumber, live list lookup and owned instance access/write are declared\nservices. Original tag guards, repeated conversion, IEEE unsigned/signed\nconversions and nullable writes execute; actual retained owners/VM/timer expiry\nare covered by the separate complete-cache player sanitizer composition.\n"
+}

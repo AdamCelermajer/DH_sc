@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN15SavegameManager13__loadOptionsEP11IStreamBasePv",
+      "elf_address": "0x46d8f4",
+      "size": 196,
+      "sha256": "9aa33fc46d13c5fdd1c32b1e239be3608ee1686fa47cb8d7bbd073a6d759643f"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager28__loadLanguageAndOrientationEP11IStreamBasePv",
+      "elf_address": "0x46c7b8",
+      "size": 528,
+      "sha256": "1cb58d913767ef0448b8ad2210ec24be7053465f56933154caad7ec4cc95347b"
+    },
+    {
+      "original_symbol": "_ZNK15SavegameManager9hasOptionEPKc",
+      "elf_address": "0x46d4a8",
+      "size": 48,
+      "sha256": "7c65d3095b378f2170591c06f1ec33abc34d96677c5c3b4e0ca6fc67f40add31"
+    },
+    {
+      "original_symbol": "_ZNK15SavegameManager9getOptionEPKc",
+      "elf_address": "0x46d474",
+      "size": 52,
+      "sha256": "3fcab59a9826462cc9e0219b962a0313718d2a02e9f2e76d909ad333adf27d7c"
+    },
+    {
+      "original_symbol": "_ZN8SavegameC1EPKcb",
+      "elf_address": "0x315ed8",
+      "size": 112,
+      "sha256": "1af81c3bb801adb7d0de1020425e76b08c69caa4ec9f57fe92f73383067e57c1"
+    },
+    {
+      "original_symbol": "_ZN11Application16ResetOrientationEi",
+      "elf_address": "0x31f748",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_Z19NativeGetPlayerCharib",
+      "elf_address": "0x43c388",
+      "size": 124,
+      "sha256": "4d5cf455d3821b750fb164f707334fb002e13e845b426b207618f11720385197"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager13_initSettingsEb",
+      "elf_address": "0x46e47c",
+      "size": 264,
+      "sha256": "05ea9afd9230ff8b25a31e709eda4d16de018b024cc5b19e67c088a3ea55e7b4"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager15__loadTutorialsEP11IStreamBasePv",
+      "elf_address": "0x46c778",
+      "size": 32,
+      "sha256": "7b004aa0752a061ba4a0a6e44d93e31ae570ad8ca7919f9e785249bfba69af41"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory13GetNumPotionsEv",
+      "elf_address": "0x3fc690",
+      "size": 16,
+      "sha256": "20d3f617d112f999ec656bc0718c4827316ef920b41eea08bb60694d3a716e3f"
+    }
+  ]
+}

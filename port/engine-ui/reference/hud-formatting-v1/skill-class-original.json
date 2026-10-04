@@ -1,0 +1,305 @@
+{
+  "validation": "PASS",
+  "original_instructions_executed": true,
+  "cases": 42,
+  "words_compared": 9408,
+  "SnS_Level_property": 172,
+  "gold_sha256": "eb9204c79156a7086a6e9762e91aee61e09b037c89c426c32dc5f4e88c775924",
+  "observations": [
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 0,
+      "temporary_sha256": "26813f8da703215afb91c7f7e5ee86d2410a9e8e619777fa62284360a1586230"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 1,
+      "temporary_sha256": "1530cc720823fca8e239e62f2e68da50cbb7499607b1907f51084debffd3c1a1"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 2,
+      "temporary_sha256": "905946842f178a9951b907a73f098e5adcea95cd11040f4a1ec61ffac2ae4a27"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 3,
+      "temporary_sha256": "d0215f83618b10703c92aa805b098ccd0cbc37cef02b6cc130f69508059c35cf"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 4,
+      "temporary_sha256": "f7b5173e0555d01f191e48fbd930c7fc3324ce7d145e463009a3cf2fe0223fe2"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 5,
+      "temporary_sha256": "8cfbd0e22b327f36736086de5403bac5d68113a072dcc55ce84aa1f15f77de50"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 6,
+      "temporary_sha256": "e704a9ca369c0f04d75598fd30663fa27d8461b2a145c5de45757f092e231464"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 7,
+      "temporary_sha256": "be2e00eb782832a07947ed8bae01fd271561ad0f91347dbfea774403eab9cb11"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 8,
+      "temporary_sha256": "918d0ace5054a718e5064ab254ddfbf66bbe81dbb39b743f8dade9326cc47d0f"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 9,
+      "temporary_sha256": "437a7ccbaec72983b8d7f1acee284e485f6b66661e8448e3c223c677a3bfa88c"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 10,
+      "temporary_sha256": "88a65a1c697828c76de16df290ead3cda5f0dfe6f30a7c55ddebc689563353bb"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 11,
+      "temporary_sha256": "d554c3d22097dc13f0c919c1804998c2db87854f0d9c91cbfbab05e2f1a1c6ca"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 12,
+      "temporary_sha256": "2ede3a338835d6d0c3602ab0d9399910f0338084fee1014a2f3333961c7b3094"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 13,
+      "temporary_sha256": "9e858ff9e331a5a7685da568a5c07218e8f342ed46572ab43bff4d6f0b9068a8"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 14,
+      "temporary_sha256": "b0fb6621a3468caacf6b67d2e34555ab4e5509a507fbc0fe19ede0bff0bdcd32"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 15,
+      "temporary_sha256": "9a9ea31684640b69a35025f89bdccefabc57658cdc9e0b5628464c61bad91571"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 16,
+      "temporary_sha256": "f4e7839e2bad921abd9aee8107b64e011b7d63c9f1dd6bc4c2281ec2568bd8f1"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 17,
+      "temporary_sha256": "3d793dac8dfa97c10384860515f2bb68d28f17047683c5bb4f9ab4e6520e4232"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 18,
+      "temporary_sha256": "f1ae559872fb81af9fed1fe1abb6f54a4a02bf242d408d8715f0eb4bf5721de9"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 19,
+      "temporary_sha256": "2d22712ff39f74510a89872502b56f1c326949fa7f11662b3d167df93994b805"
+    },
+    {
+      "script": "prince_mage_staffmaster",
+      "actor": "MagePlayerBase",
+      "class_id": 180,
+      "level": 20,
+      "temporary_sha256": "0c4ac914066da3329979848fd58e19af34c52898b7826939b5a8f83ffd90c3c3"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 0,
+      "temporary_sha256": "908449cb4960c826541b597de94c6942909e3b536f0f82c391d279791e1960dd"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 1,
+      "temporary_sha256": "1725c30350f82b46e9fd436493e0561c095eb812284a99afb7e83b793d7c8f19"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 2,
+      "temporary_sha256": "58e89f9c2db15a7e79abe5bc82a860f0bbe62b4bb5b332599172242a9cf51876"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 3,
+      "temporary_sha256": "933f94f4dd199fd9c67652702f1951a718f68ac20dbfb74f727e85bb42e56678"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 4,
+      "temporary_sha256": "bb643cb404b888e4eaddfe078b3c13aa91436b646819ca9941c0e0372762d811"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 5,
+      "temporary_sha256": "4241bb6ffb9daf2195bcf5290696a3791bcad7da87b51fce054211caae45b282"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 6,
+      "temporary_sha256": "29a0dee7f201a8359e5b42a728b773d7dc56dfcaef2a39fa94b1142876a222ed"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 7,
+      "temporary_sha256": "3ea86ef73fc5bc4a83f2af97aecd45aa3757facc37971f37525c9930f61832f4"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 8,
+      "temporary_sha256": "39987ddf12b75408ca7c5607c36ee2e82bf6bf90dc91e6939827a852333d05f8"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 9,
+      "temporary_sha256": "6789fdc10e859ccc73521fcd8478bf1c6d7ac5a5a4c1aa5b1d3a9e66cfd5c519"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 10,
+      "temporary_sha256": "5f487b15f0c36fd33bf14f659bbce26b57b2fd9c99af696105bb3fd89d06a3b7"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 11,
+      "temporary_sha256": "634afe445f5f7b8f544a8b2a13810bac1d062993e45e123b8ae3b5e1f1b8e78c"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 12,
+      "temporary_sha256": "8daf96df9614b3431f673a686ccd615ca4ecc2a5b871afc9d8a2448b3a3c266a"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 13,
+      "temporary_sha256": "1c244955bc214eab2a190b4fbe95b1bd0464c6a702b747ad317debb97d9b2469"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 14,
+      "temporary_sha256": "2a295156b5936974b2712fb6974b048dfd7dabd2c1a2fcabf56eb342237041e7"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 15,
+      "temporary_sha256": "961c917a080dd560722fcdb4192e2ecd6f60ed5632be81d83b85e6e8c8e9da55"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 16,
+      "temporary_sha256": "640366ef5176bfd3ed2f120b25c53ffc8f701295da1e06100ee49b433bd8b9d5"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 17,
+      "temporary_sha256": "c9a822751ad37f4dc97d3e480f2ffb3a2817cfee1e78e00375b8c5dabe709e19"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 18,
+      "temporary_sha256": "538e6912da074c86f9677bf94ff6db673618c6718114dbebbc838afa00c155f6"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 19,
+      "temporary_sha256": "0b6928250c321be9b2fe73b6f325f9ad066848609fa0ba1f5397f32d48bca55a"
+    },
+    {
+      "script": "prince_warrior_hardiness",
+      "actor": "KnightPlayerBase",
+      "class_id": 221,
+      "level": 20,
+      "temporary_sha256": "8a86006b5a673505e77c4eded6ac203721a150d428025c8896e7babee9f83b72"
+    }
+  ],
+  "scope": "Actual ResetProperties/_LoadClass/primitive getters/setters on cache rows.\n\nThe full original class instruction traversal executes. Owner resolved is the\nsupplied real character row with the script-produced SnS_Level word. Global\ntemporary/default identities and class-array ownership are explicit fixtures.\nNo class formula/getter/setter/recursive-group routine is replaced.\n"
+}

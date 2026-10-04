@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10GameObject16_GetDistanceFromERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x393444",
+      "size": 408,
+      "sha256": "f9015ea69d9a6ef45644ed92b69791f9e972d07e9b2253d81ece4b2e6c816d36"
+    },
+    {
+      "original_symbol": "_ZN10GameObject19_GetDistanceBetweenERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x391438",
+      "size": 568,
+      "sha256": "b2c82d6b14e2a2c5895978f3e85632722953a570f216036b3ecbab3506c02b2d"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value11getUserDataEv",
+      "elf_address": "0x31b5a0",
+      "size": 32,
+      "sha256": "d4a7df181f8af768787ede9a55eb13588a1bd0ed23f69d4964cf67c8655802fe"
+    },
+    {
+      "original_symbol": "_ZN10GameObject12_GetPositionERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x38e700",
+      "size": 52,
+      "sha256": "3f54b1fd0948bf4c7c6df1f907cdc0cf7f5aaaa466e770ca90684537844417a6"
+    }
+  ]
+}

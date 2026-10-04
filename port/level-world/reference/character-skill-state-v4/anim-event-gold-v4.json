@@ -1,0 +1,5889 @@
+[
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2413275968,
+    "count": 342560156,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2073297831,
+    "count": 1818326522,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 4027234411,
+    "count": 1424133892,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 732424724,
+    "count": 313097733,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 2734111217,
+    "count": 1882512826,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1617763081,
+    "count": 595526175,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 274098764,
+    "count": 2996573860,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 34862746,
+    "count": 3988642706,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2997129088,
+    "count": 3079499131,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 359384947,
+    "count": 822002908,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2760726755,
+    "count": 3822635534,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2673354899,
+    "count": 1434225337,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 4231012112,
+    "count": 2944995976,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 3783139277,
+    "count": 1823308593,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1556088487,
+    "count": 2777367431,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1586372084,
+    "count": 1813370221,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1756331244,
+    "count": 2263274964,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3250591981,
+    "count": 2298971462,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 3692619653,
+    "count": 3432583609,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3744705902,
+    "count": 3531398744,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2883112393,
+    "count": 1691763009,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3914355645,
+    "count": 1567698592,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3589581652,
+    "count": 3690574487,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1192382427,
+    "count": 1883763950,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1418652772,
+    "count": 455763979,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3048096504,
+    "count": 2745654427,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 38926720,
+    "count": 3423442358,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 2163066366,
+    "count": 1044024734,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 635005716,
+    "count": 1701680840,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 415122132,
+    "count": 3621123406,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 619283406,
+    "count": 353297729,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 4024506957,
+    "count": 3946780926,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3512418508,
+    "count": 2158824803,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2505141468,
+    "count": 519336394,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3089854202,
+    "count": 3858449346,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 843956033,
+    "count": 430440387,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2682147114,
+    "count": 1509529190,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 881052272,
+    "count": 239816138,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2002194682,
+    "count": 340414013,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 637771943,
+    "count": 2969913079,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3070825500,
+    "count": 2368293677,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3051007089,
+    "count": 3042303192,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3136799812,
+    "count": 523242566,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 768784814,
+    "count": 3208895485,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3456559232,
+    "count": 734471360,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 2789653977,
+    "count": 127225797,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2435300072,
+    "count": 418596264,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 582138282,
+    "count": 3189747713,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 667857567,
+    "count": 3071965699,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 812508570,
+    "count": 1593575187,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 1504619404,
+    "count": 1441990192,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 645426805,
+    "count": 947928718,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 2022399177,
+    "count": 2639356859,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2476654525,
+    "count": 249776944,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 779197993,
+    "count": 2856149088,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 4283440663,
+    "count": 514060113,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 3076219242,
+    "count": 2833913120,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 1150029414,
+    "count": 452060696,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1714371430,
+    "count": 3338089703,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3670250321,
+    "count": 992562376,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 67074658,
+    "count": 4036360212,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 4092612720,
+    "count": 4137248387,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3499212111,
+    "count": 3782826060,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 260461927,
+    "count": 969705273,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 2023400261,
+    "count": 444413676,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1063267563,
+    "count": 3967667785,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2870486485,
+    "count": 2452763243,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 477518928,
+    "count": 1800747552,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1488100790,
+    "count": 3781652663,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 866845729,
+    "count": 2910135018,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3801033897,
+    "count": 916102555,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 1695942042,
+    "count": 720988041,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 821085746,
+    "count": 3717597745,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 497025544,
+    "count": 4017762718,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3045602966,
+    "count": 857574957,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1307805799,
+    "count": 3912234112,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2381945690,
+    "count": 462354419,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 1870995406,
+    "count": 2644646667,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 3492213455,
+    "count": 827084462,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1790369735,
+    "count": 3001062838,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3017967488,
+    "count": 556038278,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 1430668754,
+    "count": 991991719,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 4152091732,
+    "count": 431974747,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2753803133,
+    "count": 2931232915,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 652140881,
+    "count": 2030745893,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 2425190231,
+    "count": 161972584,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2364543256,
+    "count": 2846879868,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 830802599,
+    "count": 2443279173,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2945431265,
+    "count": 45004240,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3569173548,
+    "count": 729504963,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3740967976,
+    "count": 1087153839,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2517110439,
+    "count": 3652275212,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 4167429149,
+    "count": 3337132162,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2334226733,
+    "count": 2042159891,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 4007974229,
+    "count": 197536157,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 150198437,
+    "count": 3513534853,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 24192751,
+    "count": 1443641164,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 4077514350,
+    "count": 2092284790,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1256061700,
+    "count": 3360337464,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1121336208,
+    "count": 40773181,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3408954690,
+    "count": 208272793,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 4037241168,
+    "count": 1681440032,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 406088601,
+    "count": 1600154525,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2557743535,
+    "count": 2711772982,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 308824226,
+    "count": 2255308333,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 459998942,
+    "count": 4233898939,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1101550299,
+    "count": 1448942946,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 231711458,
+    "count": 3649681015,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 4035657431,
+    "count": 4030250891,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1912455567,
+    "count": 1131639518,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 741550634,
+    "count": 1733632514,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 880793856,
+    "count": 1670170739,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 1543913407,
+    "count": 968983955,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 296977033,
+    "count": 3707231155,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3103250674,
+    "count": 324601974,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 474560219,
+    "count": 704243958,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1407546703,
+    "count": 2034978266,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 2285281564,
+    "count": 2391511259,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1160526464,
+    "count": 374793879,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 774181978,
+    "count": 366921044,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 587317130,
+    "count": 717554124,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 206369554,
+    "count": 3544080419,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3744704195,
+    "count": 2533454380,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 3737155781,
+    "count": 2272568448,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 784585519,
+    "count": 1777511519,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 2418436276,
+    "count": 2896405571,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2566066870,
+    "count": 1903373864,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 47959176,
+    "count": 2580246580,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 3299435074,
+    "count": 2259117915,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2063275488,
+    "count": 3080739,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 830536236,
+    "count": 318934216,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2344670322,
+    "count": 3142477355,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 56193972,
+    "count": 2157616423,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 189632110,
+    "count": 1213323664,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1735526118,
+    "count": 2844755415,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 4027877708,
+    "count": 2755221282,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1266364945,
+    "count": 2139946003,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 1795388414,
+    "count": 4066490969,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1543070820,
+    "count": 343130138,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2515894094,
+    "count": 1059404342,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 1716111067,
+    "count": 3130485902,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 1794944577,
+    "count": 149600472,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 1865370786,
+    "count": 445331217,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1887826719,
+    "count": 1533926082,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 524029046,
+    "count": 2370636896,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3336536217,
+    "count": 1717694034,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1488557087,
+    "count": 1801790693,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 278137174,
+    "count": 1369952043,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1427027892,
+    "count": 3934816335,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3992682875,
+    "count": 137768633,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2198588286,
+    "count": 3494855468,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 508722402,
+    "count": 2988318784,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3955655329,
+    "count": 1619662313,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 3176768504,
+    "count": 526993645,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1586184894,
+    "count": 113406826,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 4225092317,
+    "count": 4239045205,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 3149715476,
+    "count": 1885407015,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3305401724,
+    "count": 2138716319,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2712705696,
+    "count": 3834530687,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 4192761328,
+    "count": 278703829,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2168591555,
+    "count": 1680955395,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 1731137490,
+    "count": 2664997293,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 2164592815,
+    "count": 671470632,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 997777071,
+    "count": 4034605502,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 2637237846,
+    "count": 14986111,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 2864110657,
+    "count": 4161475864,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 393843055,
+    "count": 3730501458,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 2086460248,
+    "count": 448674306,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2613150607,
+    "count": 261996918,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1085542316,
+    "count": 2534643053,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3320720213,
+    "count": 3158039860,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2410592377,
+    "count": 978802180,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 1004570938,
+    "count": 3225494115,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2088124965,
+    "count": 2902789843,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3245860189,
+    "count": 2280613273,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3083381361,
+    "count": 775444578,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2106028065,
+    "count": 2784369574,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 1310569212,
+    "count": 3969773348,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1741875507,
+    "count": 3928686373,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 749775902,
+    "count": 866730476,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2210108029,
+    "count": 3865452786,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 4081600537,
+    "count": 3682160574,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 2506554909,
+    "count": 2868953614,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1683144844,
+    "count": 3875329723,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1765593222,
+    "count": 1550822529,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3859022792,
+    "count": 3784212117,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 348546417,
+    "count": 222782481,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3676887850,
+    "count": 2169572852,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2810235877,
+    "count": 888647451,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2836075800,
+    "count": 923147351,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 111116687,
+    "count": 45276658,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2803261786,
+    "count": 2782494227,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 601093722,
+    "count": 2068187660,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 125990922,
+    "count": 2491420942,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1745481979,
+    "count": 1520605067,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 559579413,
+    "count": 954599817,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 4154143546,
+    "count": 770995583,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3491350647,
+    "count": 3800569781,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 3737478537,
+    "count": 2469008335,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3141416992,
+    "count": 3116604402,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 513778927,
+    "count": 186575454,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3833343049,
+    "count": 967960029,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 384521801,
+    "count": 3817784021,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2418009436,
+    "count": 3837030530,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3311898050,
+    "count": 4197249275,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3044903781,
+    "count": 1404453359,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 954789769,
+    "count": 1187019183,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 1254222184,
+    "count": 2979231858,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2397547851,
+    "count": 1184042130,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 97314266,
+    "count": 313308205,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3454772180,
+    "count": 3515431368,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 338320794,
+    "count": 1718848032,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 497403116,
+    "count": 3553563857,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 3874263649,
+    "count": 1455077209,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 528804689,
+    "count": 121048549,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 2920225885,
+    "count": 1890271473,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 4269784160,
+    "count": 1519860299,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 2079280982,
+    "count": 3310762498,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1963292921,
+    "count": 510364498,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3838855181,
+    "count": 1916764468,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 827219771,
+    "count": 1472208712,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2085312633,
+    "count": 3565004402,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 1725712974,
+    "count": 3463254105,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1693370344,
+    "count": 2064614022,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3960294990,
+    "count": 1167813687,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 907531967,
+    "count": 3225389821,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 197250353,
+    "count": 1311334988,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 29586022,
+    "count": 2392900237,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 4233560096,
+    "count": 2278061508,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1960203259,
+    "count": 4035696037,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3421839480,
+    "count": 264026708,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3867840751,
+    "count": 467280026,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 2774837878,
+    "count": 3970527469,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1596470106,
+    "count": 1833422509,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1536231884,
+    "count": 1334396562,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1467370398,
+    "count": 3647920766,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2405860179,
+    "count": 214464286,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 2985890172,
+    "count": 368402573,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 4100028314,
+    "count": 326059662,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2057249275,
+    "count": 653618529,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2386265291,
+    "count": 4178599094,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 6954403,
+    "count": 2179899676,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3926384905,
+    "count": 3457249238,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 4132294383,
+    "count": 3353238526,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 90644222,
+    "count": 580524577,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 449134736,
+    "count": 2585725429,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 856580631,
+    "count": 1404534437,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 566622985,
+    "count": 3599596623,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2217803419,
+    "count": 2813886230,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1367145971,
+    "count": 728440155,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 732043228,
+    "count": 618664161,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3714463673,
+    "count": 3676870596,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 32108814,
+    "count": 1031018136,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1733136790,
+    "count": 2178869067,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 675814432,
+    "count": 930643526,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 2172755579,
+    "count": 1897071998,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1916655095,
+    "count": 53321440,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 671832797,
+    "count": 3352284150,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 308857378,
+    "count": 4069047162,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1105852314,
+    "count": 222302851,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3758545814,
+    "count": 3463857050,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 1897005739,
+    "count": 3429687547,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3622374771,
+    "count": 2149468915,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2689018148,
+    "count": 4151449783,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1173433415,
+    "count": 2868369717,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 2855587535,
+    "count": 3273053505,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 574056335,
+    "count": 162485178,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 137008376,
+    "count": 2613838956,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 18723356,
+    "count": 4056907823,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 687757103,
+    "count": 3023090599,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3256986459,
+    "count": 3001810314,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 878732877,
+    "count": 1730433907,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 902288270,
+    "count": 2944830554,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1849195557,
+    "count": 3698743825,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 2478103357,
+    "count": 416485525,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 4038173329,
+    "count": 1496721815,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1344344205,
+    "count": 2640004883,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3431117996,
+    "count": 4021284599,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 380077368,
+    "count": 142952660,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1129185640,
+    "count": 646773987,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 873107711,
+    "count": 2269414234,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3475511147,
+    "count": 1675461419,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 2551203034,
+    "count": 3463938627,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 778398689,
+    "count": 2386164904,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1463568412,
+    "count": 3949678464,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 4249520649,
+    "count": 3148757293,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 3548597469,
+    "count": 1942582899,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3954505291,
+    "count": 4194281575,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 527689541,
+    "count": 1363467054,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1718777258,
+    "count": 934197192,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 1923582719,
+    "count": 2945585863,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 1541847870,
+    "count": 57364053,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 665985646,
+    "count": 3030577293,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1936861838,
+    "count": 445439,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 2884586113,
+    "count": 92435456,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1089920336,
+    "count": 1416846385,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1679737151,
+    "count": 394074913,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3043533792,
+    "count": 1394622398,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1378599631,
+    "count": 3708145658,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2031808733,
+    "count": 1499372208,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 805351528,
+    "count": 2960352137,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 101519914,
+    "count": 4036970553,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 1345903966,
+    "count": 4198354756,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2057109877,
+    "count": 3463092216,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1163716881,
+    "count": 1237268105,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 180277962,
+    "count": 4026458022,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1523567663,
+    "count": 957945134,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 549414158,
+    "count": 952433886,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 3527885507,
+    "count": 2623823222,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3607735602,
+    "count": 3664692202,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2446092688,
+    "count": 1795059691,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2509695512,
+    "count": 1571392584,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 1685806737,
+    "count": 304191759,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 3792099259,
+    "count": 3585947930,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 868263031,
+    "count": 1899684902,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 2214701935,
+    "count": 1200508671,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2060044703,
+    "count": 1811074023,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 1093548493,
+    "count": 810903211,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1798891903,
+    "count": 3985204183,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2742391009,
+    "count": 1897206123,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 1740447989,
+    "count": 3252421371,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 825631978,
+    "count": 1192657566,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3866845652,
+    "count": 200033785,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 3973998731,
+    "count": 1022790301,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3667405424,
+    "count": 1231109505,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 208741421,
+    "count": 758599818,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1043224274,
+    "count": 1165265516,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 85821901,
+    "count": 3895096345,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 82136679,
+    "count": 1153447904,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 659436034,
+    "count": 3559644788,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3787358222,
+    "count": 95204631,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3191029880,
+    "count": 2341230852,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 580367703,
+    "count": 3863094301,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1076345093,
+    "count": 806481265,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1728899343,
+    "count": 185421671,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3179894192,
+    "count": 947409028,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 3135110940,
+    "count": 3965207429,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3170899388,
+    "count": 2216357313,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1016114287,
+    "count": 3219620392,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2609830169,
+    "count": 2817170115,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3705259513,
+    "count": 1130912881,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3481922323,
+    "count": 2678273518,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 1388261400,
+    "count": 3516691066,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1880595859,
+    "count": 4240225127,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 309833419,
+    "count": 1721737575,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3622114670,
+    "count": 2370496844,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 946077897,
+    "count": 2773655725,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 2287363004,
+    "count": 4166310490,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2295227910,
+    "count": 864806153,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1457343166,
+    "count": 2038531316,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3635534622,
+    "count": 218333969,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2165890413,
+    "count": 3650262409,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3232825226,
+    "count": 1384319679,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 953222695,
+    "count": 3336470478,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1190794761,
+    "count": 2471974017,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 2481354440,
+    "count": 3215391137,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 3186826559,
+    "count": 2170117191,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 1754860150,
+    "count": 3890295814,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 407818334,
+    "count": 2708830079,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 4056661315,
+    "count": 3544866480,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 1686309322,
+    "count": 65619714,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3217180490,
+    "count": 2696619459,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 1213679874,
+    "count": 3383715259,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 348517934,
+    "count": 2585231876,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3483780302,
+    "count": 30985458,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1919741080,
+    "count": 239312951,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2609796824,
+    "count": 102374571,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 881260392,
+    "count": 2682089426,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1505967845,
+    "count": 3487363854,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 576899312,
+    "count": 2508416046,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 537761100,
+    "count": 1567955067,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 1208699270,
+    "count": 2284344508,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 2776216983,
+    "count": 447030086,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 84399168,
+    "count": 2788980333,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1275658949,
+    "count": 3484414606,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 4024499261,
+    "count": 2354986479,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 410830866,
+    "count": 1201892740,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 1487816994,
+    "count": 824922680,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 4211597306,
+    "count": 1964208297,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 218545846,
+    "count": 4172312675,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2623553143,
+    "count": 4119521916,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 756670658,
+    "count": 4103210490,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3584571681,
+    "count": 2030931381,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 4103908766,
+    "count": 1512761822,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3258482525,
+    "count": 2427983307,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 252927070,
+    "count": 2452916872,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2429005622,
+    "count": 44571397,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 1504467339,
+    "count": 241903960,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 782770563,
+    "count": 4223524556,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 305995172,
+    "count": 1265406452,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3780620647,
+    "count": 120175731,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2294082100,
+    "count": 1006143443,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 2590918089,
+    "count": 76213585,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 393201132,
+    "count": 2179130505,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 2409344702,
+    "count": 3532578936,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 635344893,
+    "count": 2771112750,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 2828821699,
+    "count": 3677790735,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 2513276636,
+    "count": 936547708,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 3914565573,
+    "count": 1114554986,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3279282637,
+    "count": 2654536955,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 754815626,
+    "count": 37601569,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2882482853,
+    "count": 3604216166,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 2067771390,
+    "count": 1147470333,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 4109629286,
+    "count": 1932769233,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 918563855,
+    "count": 2379394888,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1334861461,
+    "count": 2102702056,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1120043427,
+    "count": 2744514491,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 2772991114,
+    "count": 3651935425,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2028301310,
+    "count": 3303860553,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 381845305,
+    "count": 4281229290,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 1639071751,
+    "count": 3490124576,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 535696990,
+    "count": 1987388630,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 40568736,
+    "count": 987174546,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 640409338,
+    "count": 1446378031,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 2790767659,
+    "count": 2773175714,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1436225367,
+    "count": 454223240,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 107359753,
+    "count": 1530813782,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 4134910633,
+    "count": 1673317809,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 750171889,
+    "count": 524981878,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3113286206,
+    "count": 942098607,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 4077135659,
+    "count": 1591229734,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2939338219,
+    "count": 2929689830,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 2343145646,
+    "count": 198923721,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 3594213886,
+    "count": 3862449586,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 492105520,
+    "count": 63837628,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 277257613,
+    "count": 1346792560,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 3827359638,
+    "count": 2006314802,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3662277539,
+    "count": 660569099,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 4164358049,
+    "count": 3643886754,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2682783827,
+    "count": 2510447145,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3082164414,
+    "count": 3503100885,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3210350009,
+    "count": 500727778,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 996899800,
+    "count": 3899906656,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2830950718,
+    "count": 1363824966,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 2582254409,
+    "count": 231122021,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3197733651,
+    "count": 1640868278,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1676487720,
+    "count": 3756890640,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 6109890,
+    "count": 2568061015,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2579650778,
+    "count": 200003156,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1402740938,
+    "count": 1734521141,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 828169686,
+    "count": 3232196748,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 683003178,
+    "count": 1327249087,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 4152134210,
+    "count": 1022258987,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 1757232228,
+    "count": 3101532718,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 1750306984,
+    "count": 2023406284,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3761246816,
+    "count": 3890792213,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1209185619,
+    "count": 545939075,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3330913160,
+    "count": 2144320465,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1833995841,
+    "count": 2319479828,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3017241606,
+    "count": 206393205,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3087474904,
+    "count": 1260616868,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 1777144195,
+    "count": 3708411556,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 184284147,
+    "count": 782603180,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 2665096247,
+    "count": 3948531364,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 851547138,
+    "count": 1881910189,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1236014952,
+    "count": 345029958,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 3623050737,
+    "count": 1392955657,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3166971932,
+    "count": 2257105893,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2351040982,
+    "count": 1945716240,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2717682185,
+    "count": 86917920,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2199382282,
+    "count": 1569685441,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 1626392361,
+    "count": 1740948762,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 4083745646,
+    "count": 3190493368,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 3304745280,
+    "count": 3187444325,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3107138929,
+    "count": 1635311595,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3489042178,
+    "count": 2556954162,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 67506931,
+    "count": 3013346217,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 377254041,
+    "count": 527984596,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 3819404715,
+    "count": 3865274615,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 1921231112,
+    "count": 2225974855,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 2709747807,
+    "count": 2626725752,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 3119598203,
+    "count": 2928948776,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3635641600,
+    "count": 4267689123,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 3444719355,
+    "count": 1324316655,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 3267997726,
+    "count": 710030934,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1134765724,
+    "count": 2450946774,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1035885724,
+    "count": 4219493056,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 2957741271,
+    "count": 2122939348,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1307138005,
+    "count": 102998636,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2787657842,
+    "count": 1662240640,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3301493015,
+    "count": 409560730,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 2379529028,
+    "count": 1761556029,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 1211443049,
+    "count": 392424697,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 3625901889,
+    "count": 363703109,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 654947101,
+    "count": 296107377,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 3678495590,
+    "count": 1559098427,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 706035858,
+    "count": 3325833926,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 614388602,
+    "count": 4240907295,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 2737779018,
+    "count": 3557657586,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 3522114827,
+    "count": 1137926675,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 392647330,
+    "count": 2728028342,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 1698395510,
+    "count": 3759539383,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 3245210762,
+    "count": 3679286472,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 907978616,
+    "count": 4234156757,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 2688662249,
+    "count": 287388233,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 769066281,
+    "count": 1354479624,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 1182527084,
+    "count": 9223678,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 530002691,
+    "count": 4149512047,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1293685835,
+    "count": 126701705,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 2268701778,
+    "count": 565249632,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 3115137054,
+    "count": 3581437146,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 445289570,
+    "count": 760211822,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 3,
+    "step": 1015284068,
+    "count": 2094461656,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 6,
+    "step": 864640319,
+    "count": 316837396,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 3,
+    "step": 2360890608,
+    "count": 3953112713,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 6,
+    "step": 1022465414,
+    "count": 383998623,
+    "trace": [
+      21,
+      22,
+      23,
+      1,
+      2,
+      3,
+      4,
+      24
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 3,
+    "step": 4122225670,
+    "count": 112140468,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill_suffix",
+    "current": 6,
+    "step": 3089466656,
+    "count": 3974169614,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "",
+    "current": 3,
+    "step": 1311701201,
+    "count": 3640421069,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "is_stoppable",
+    "current": 6,
+    "step": 960005729,
+    "count": 4286382446,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "do_skill",
+    "current": 3,
+    "step": 1152199266,
+    "count": 3602091188,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  },
+  {
+    "text": "Do_skill",
+    "current": 6,
+    "step": 98771889,
+    "count": 2159811610,
+    "trace": [
+      21,
+      22,
+      23
+    ]
+  }
+]

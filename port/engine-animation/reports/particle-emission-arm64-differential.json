@@ -1,0 +1,40 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "7d30fd06f21992cb9f24c68ddc560975e44a173ff3007606df1c680fb315e476",
+  "arm64_library_sha256": "96dd38e92e10c4968d7f2e4eb8680ddcb19c76b09ebf754703ac9c39a4e5c35e",
+  "reference_sha256": "dc899640d5d8f7fab5b5f44ece48da3445a02bdf1cf57624ed1eec7da5ab8125",
+  "resource_sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e",
+  "source_sha256": {
+    "port/engine-animation/particle_emission.hpp": "068c6b40fffb2f48761eef6d07f72077631704ea5652120abd3292e1b96cae46",
+    "port/engine-animation/particle_emission.cpp": "01904fe5acf7d6beeca21088fb021131a511a18ccdd9505f90a301224cade035",
+    "port/engine-animation/tests/particle_emission.cpp": "df62e2997e768aa4bbd69939dceb421cc082b28f8e0c2c49357298315f1ae0c0",
+    "port/engine-animation/tests/particle_emission_differential.py": "e0a34c969ecf912a13347644a364b42e98433b4bce593d191749b07f39cbba7e",
+    "port/asset-payloads/payloads.cpp": "ebc397d54978acd7da07f6f1c30a5fa7f232be34018af885527a734627a86c6d",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/engine-animation/particle_factory.cpp": "7b7afcbfb8d52e123a296cfad31e6e6d5d3b3e3265899f845df8e7247abf9bce",
+    "port/engine-animation/particle_parameter.cpp": "6ce02670d379a7103936049226972314ec9edbad0e4581cc50b4ccc174219e38"
+  },
+  "comparisons": 1496,
+  "operations": {
+    "0": 500,
+    "2": 120,
+    "1": 876
+  },
+  "actual_fx_cached_samples": 656,
+  "source_vector_sequence_steps": 1440,
+  "original_source_calls": {
+    "0x65317c": 1940,
+    "0x65311c": 831,
+    "0x64fc50": 120,
+    "0x66a1a8": 876,
+    "0x6e2c40": 876,
+    "0x6e32cc": 840,
+    "0x6e3374": 36
+  },
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "mismatches": 0,
+  "scope": "Original SParticle100 generation vector resize, delta/remainder/cap arithmetic and explicit untouched-template seed; actual FX77 type28 cached scalar accessor sampling. Finite bounded conversion domain. No simulation/model initialization/material/render or raw AnimationDatabase ownership claim. Allocator/libc/imported IEEE services are explicit.",
+  "elapsed_seconds": 4.33
+}

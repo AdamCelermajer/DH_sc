@@ -1,0 +1,25 @@
+{
+  "validation": "PASS",
+  "source_frozen": true,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "sha256": {
+    "port/scene-materials/shader_sources.hpp": "8115f47857aca50468885e55fb549d902e4ac0ef5220f6b88ae7ce0da8092afb",
+    "port/scene-materials/shader_sources.cpp": "f05874e30bba3a3b1c8cec643e5fda6bcba4f31e9b935eae8e94c9872b41cde1",
+    "port/scene-materials/tests/shader_sources.cpp": "f3b096a9f42247b2d9185a6c93b808496f3fce9dc516d105ff3d481c68d71802",
+    "port/scene-materials/tests/shader_sources_differential.py": "6fbd66057f3cbe1ed8a47527f19faa4cd224c5f6ba118692df284dabf620acc9",
+    "port/scene-materials/tests/shader_sources_host.py": "b00a4637528a60a5568941da800f46413033d35fbef52cecf2fddd6fc8a9dbde",
+    "port/scene-materials/tests/shader_material_probe.py": "c6bde6be405ad7bbb22a05fbd1b099eedf4142b054c9d5263b2aecb1cd875017",
+    "port/scene-materials/tools/build_shader_sources_oracle.ps1": "d90221690fe8d975d4a7d0d1f0b74394d3baaef8b2b1995f00785125f2f0be87",
+    "port/scene-materials/reference/shader-sources/original-functions.json": "12cef18fc1c36747c3cc85c83549492ba245291308189e9e2abf9eabdc206176",
+    "port/scene-materials/reference/shader-sources/reference/original-functions.asm": "acc54cbab90b3cda71ec27047f7f66e3dc74a7e25ccb6003de7b9760779745c4",
+    "port/scene-materials/reference/shader-sources/shader-source-fixtures.bin": "ee2c1f3891fc1e4cccb847c90f951a5082664daa9cdb3fd7a2a470e30e699b9d",
+    "port/scene-materials/reference/shader-sources/gameswf_effects.bdae": "8e9f5a3d59c2bac3d713f856a326e5556412f0bca1f2646feaa4be3a502895d9",
+    "port/scene-materials/reference/shader-sources/shaders.pak": "365a4d3c432454c44208ebb484c7a472a3a4534a0c5c9e77a7a90f3b87b1b5c0",
+    "port/scene-materials/reference/shader-sources/gameswf-material-probe.json": "189a2a5b7a944b43d293ff5adb86ebb034aac53046a15db33121f0e3ad4db2e3",
+    "port/scene-materials/reference/shader-sources/shader-pack-inventory.json": "10d89c4113344818e35e7f2ddf9d82c4c9988b39195f5f5524fcc76826764b32",
+    "port/scene-materials/reference/shader-sources/NOTES.md": "d8e43de3d7f2511d657baf6c5892dc74933ae8685d307dcd4c4fb8edebbbc347",
+    "port/scene-materials/reports/shader-sources-arm64-differential.json": "b3c4e79cef8c755a747c9228a64397842ff45cd01890e693d8a696573b8a40af",
+    "port/scene-materials/reports/shader-sources-host-audit.json": "1941f300da96918f6b65e3e7d5b18263fb6ea8a0e1fda1a1a78feed6283bf732"
+  },
+  "scope": "Exact original name/config/eight shader strings/type projection and original actual GameSWF four-pass selection evidence. Stored ZIP is bounded native container, not source archive parity. No GPU draw/material pipeline/full UI claim."
+}

@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI14OnStateChangedEii",
+      "elf_address": "0x3d0bec",
+      "size": 36,
+      "sha256": "6b77a2b9a1797ffad40e31858b3ad939c8e8f12347408a908ac79ee44eeae330"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine9_GetEventEii",
+      "elf_address": "0x3c1694",
+      "size": 440,
+      "sha256": "84a7b54fe1aa5dbed638f49e98cd69a4f556e4a5fbfa84ec5a1de24c799490a1"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine9_HasEventEii",
+      "elf_address": "0x3c00e0",
+      "size": 204,
+      "sha256": "4cfa05fd751673c1d6aa1a741057a931097b3ad9d53909e962cb7b68cdc31bb0"
+    }
+  ]
+}

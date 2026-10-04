@@ -1,0 +1,89 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8Savegame4loadEPKcPFvP11IStreamBasePvES6_S4_",
+      "elf_address": "0x315848",
+      "size": 188,
+      "sha256": "080dc9da9c195bff4d1b120e0716ef712c013941163bd7c62d91cae3d80801b5"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharSkillListEv",
+      "elf_address": "0x3bc5fc",
+      "size": 48,
+      "sha256": "7711762aa425c1b5e34dd0b9ce1f2e0d9316ef3d7c0c7ad43a51b30e0dcd9210"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance11_UpdateNameEv",
+      "elf_address": "0x3fb754",
+      "size": 1284,
+      "sha256": "46bdedb98c535b3f49396548013cf467ad34065bbbddfae75312eb4ee68aa21a"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17__LoadPlayerClassEP11IStreamBasePv",
+      "elf_address": "0x469d88",
+      "size": 228,
+      "sha256": "2b3d660fdaa3699a8ef76fd2f5ea899bc2cd97a3abaf55e98bf200871b70be0e"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory7SetGoldEi",
+      "elf_address": "0x3fdfd8",
+      "size": 396,
+      "sha256": "634e71b637204bb34a82f2f9bae464b591ec961f5fa0bf2934822c6503e636e7"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstanceC1Eij",
+      "elf_address": "0x3fc26c",
+      "size": 372,
+      "sha256": "ec2a17d01d6d6619865d181c05c5374c3dd83aebaeac635ae1013bc236f63f52"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance12_UpdateStatsEv",
+      "elf_address": "0x3fb290",
+      "size": 528,
+      "sha256": "e263ef49d748a23b9c71852c089e4adf0f526cca27ba61f350fe23a09eb25c7d"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory16SwapEquipmentSetEv",
+      "elf_address": "0x3fc6c8",
+      "size": 32,
+      "sha256": "3ef99483c7788fed3e7604a26fd0e95526a9c5b72fa9246eb8461238b3844539"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac"
+    },
+    {
+      "original_symbol": "_ZN8Savegame10_cacheFileEP12StreamBuffer",
+      "elf_address": "0x315ad0",
+      "size": 1032,
+      "sha256": "39a53e263f5393d735860207cd93d503e962d6a697e09c535cf83499ab47c677"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance11_UpdateReqsEv",
+      "elf_address": "0x3facdc",
+      "size": 1460,
+      "sha256": "c7394e2df3710fc43eb75a60ef6e1ab0e8b0c6ef9b11a1e4984d5c558379cc33"
+    },
+    {
+      "original_symbol": "_ZN9Character24InitializePlayerSavegameEv",
+      "elf_address": "0x3b36b0",
+      "size": 52,
+      "sha256": "30123d9f8a72d9e531e14bc9cff5d363580d7c3069730d1713bbcfa08bf6c821"
+    },
+    {
+      "original_symbol": "_ZN9Character10SG_SetSlotEj",
+      "elf_address": "0x3bb740",
+      "size": 20,
+      "sha256": "b0d1eee50d67c19dba6eac998176c3f494f203c9c18d3093c94eba205ead90f4"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory15RemoveOnePotionEv",
+      "elf_address": "0x3fe878",
+      "size": 40,
+      "sha256": "b6fe5e63248f92d44cd3307c85d9e14b5e87962eefc9e06ece988bde8a48fb91"
+    }
+  ]
+}

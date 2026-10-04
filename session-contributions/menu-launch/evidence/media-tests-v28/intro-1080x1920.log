@@ -1,0 +1,54 @@
+--------- beginning of main
+I/libprocessgroup( 5879): Created cgroup /sys/fs/cgroup/apps/uid_10235/pid_5879
+I/Zygote  ( 5879): Process 5879 created for com.example.dh2
+I/com.example.dh2( 5879): Late-enabling -Xcheck:jni
+I/com.example.dh2( 5879): Using generational CollectorTypeCMC GC.
+W/com.example.dh2( 5879): Unexpected CPU variant for x86: x86_64.
+W/com.example.dh2( 5879): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, pantherlake, default
+D/nativeloader( 5879): Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+D/CompatChangeReporter( 5879): Compat change id reported: 333566037; UID 10235; state: ENABLED
+D/nativeloader( 5879): Configuring clns-9 for other apk /data/app/~~P5G4BVXMHsFpbSI__lUO0w==/com.example.dh2-hWmwTO0d8BTwrStsv1B1wA==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~P5G4BVXMHsFpbSI__lUO0w==/com.example.dh2-hWmwTO0d8BTwrStsv1B1wA==/lib/x86_64:/data/app/~~P5G4BVXMHsFpbSI__lUO0w==/com.example.dh2-hWmwTO0d8BTwrStsv1B1wA==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.example.dh2
+V/GraphicsEnvironment( 5879): Currently set values for:
+V/GraphicsEnvironment( 5879):   angle_gl_driver_selection_pkgs=[]
+V/GraphicsEnvironment( 5879):   angle_gl_driver_selection_values=[]
+V/GraphicsEnvironment( 5879): com.example.dh2 is not listed in per-application setting
+V/GraphicsEnvironment( 5879): No special selections for ANGLE, returning default driver choice
+V/GraphicsEnvironment( 5879): Neither updatable production driver nor prerelease driver is supported.
+D/CompatChangeReporter( 5879): Compat change id reported: 407952621; UID 10235; state: ENABLED
+D/CompatChangeReporter( 5879): Compat change id reported: 419020719; UID 10235; state: ENABLED
+D/CompatChangeReporter( 5879): Compat change id reported: 458413887; UID 10235; state: ENABLED
+--------- beginning of system
+I/DisplayManager( 5879): Choreographer implicitly registered for the refresh rate.
+D/DesktopExperienceFlags( 5879): Toggle override initialized to: false
+I/GFXSTREAM( 5879): [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+I/GFXSTREAM( 5879): [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+W/libc    ( 5879): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+W/HWUI    ( 5879): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+D/CompatChangeReporter( 5879): Compat change id reported: 418924588; UID 10235; state: ENABLED
+W/HWUI    ( 5879): Unknown dataspace 0
+W/libc    ( 5879): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+D/InsetsController( 5879): Setting requestedVisibleTypes to 496 (was 503)
+D/WindowOnBackDispatcher( 5879): setTopOnBackInvokedCallback (unwrapped): android.app.Activity$$ExternalSyntheticLambda0@a50cb91
+D/WindowOnBackDispatcher( 5879): setTopOnBackInvokedCallback (unwrapped): com.example.dh2.CinematicActivity$$ExternalSyntheticLambda0@d36cef7
+D/VRI[CinematicActivity]( 5879): WindowInsets changed: 1920x1080 statusBars:[0,63,0,0] navigationBars:[0,0,0,63] mandatorySystemGestures:[0,63,0,84] 
+I/HWUI    ( 5879): Using FreeType backend (prop=Auto)
+I/Surface ( 5879): Creating surface for consumer unnamed-5879-0 with slotExpansion=1 for 64 slots
+I/Surface ( 5879): Creating surface for consumer VRI[CinematicActivity]#0(BLAST Consumer)0 with slotExpansion=1 for 64 slots
+D/VRI[CinematicActivity]( 5879): WindowInsets changed: statusBars:null navigationBars:null 
+I/Surface ( 5879): Creating surface for consumer unnamed-5879-1 with slotExpansion=1 for 64 slots
+I/Surface ( 5879): Creating surface for consumer SurfaceTexture-0-5879-0 with slotExpansion=0 for 64 slots
+D/AudioSystem( 5879): onNewServiceWithAdapter: media.audio_flinger service obtained 0x703e43837c20
+D/AudioSystem( 5879): getService: IAudioFlingerService retrieved: 0x703eb3826320  IAudioFlinger cached: 0x703e43837c20
+I/Surface ( 5879): Creating surface for consumer SurfaceTexture-0-5879-0 with slotExpansion=0 for 64 slots
+I/DH2Front( 5879): Intro fit | surface=1920x1080 | video=1280x720 | fitted=1920.0x1080.0
+I/DH2Front( 5879): Intro prepared | duration_ms=50292 | original H264/AAC asset | position=0
+D/InsetsController( 5879): hide(ime())
+I/ImeTracker( 5879): com.example.dh2:550ff8cb: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+W/InteractionJankMonitor( 5879): Initializing without READ_DEVICE_CONFIG permission. enabled=false, interval=1, missedFrameThreshold=3, frameTimeThreshold=64, package=com.example.dh2
+D/AudioSystem( 5879): onNewService: media.audio_policy service obtained 0x703eb389fd60
+D/AudioSystem( 5879): getService: IAudioPolicyService retrieved: 0x703eb389fd60  cached: 0x703eb389fd60
+W/MediaPlayerNative( 5879): info/warning (3, 0)
+I/DH2Front( 5879): Intro fit | surface=1920x1080 | video=1280x720 | fitted=1920.0x1080.0
+I/DH2Front( 5879): Intro first video frame | position_ms=189
+I/com.example.dh2( 5879): Compiler allocated 5239KB to compile void android.view.ViewRootImpl.performTraversals(long)
+D/ProfileInstaller( 5879): Installing profile for com.example.dh2

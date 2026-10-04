@@ -1,0 +1,829 @@
+{
+  "validation": "PASS",
+  "scope": "Actual Android libraries including original localization formatting, owned skill text, temporary skill properties and single-call Lua return observation.",
+  "source_sha256": {
+    "port/engine-ui/text_layout_v1.cpp": "5f4aaeb895f6529a7681ccebe7a0df86ef05e9d9e18527ac3d347c48e72b8316",
+    "port/engine-ui/text_layout_v1.hpp": "73e9cbb6892cfd99b8d5cd9a03955ef6e6c41f251c5aa5bb02eab9f57ed4c6da",
+    "port/game-data/player_savegame_v1.cpp": "5affc8e4c046ab84156fb2a9b12dac3fffca5af827f1431367c2aa73dea78e92",
+    "port/game-data/player_savegame_v1.hpp": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+    "port/game-data/item_inventory_v1.cpp": "8659c2db2da2e361e6ab4353f85a3cd9859f452890426b8bf5fa07f8d98ecdd6",
+    "port/game-data/item_inventory_v1.hpp": "e5f67b4cf43a9c726c79eb1a0dc5455738a7fc1b1a0f6ce0a4b7aa987186a847",
+    "port/game-data/player_profile_index_v1.cpp": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a",
+    "port/game-data/player_profile_index_v1.hpp": "b6f461352da1bbfc898f50636a77930b44ab98f358e813d3d599267aa8f7f4ca",
+    "port/engine-ui/hud_initialization_v1.cpp": "7dc9b8f94fe0b86dba991ffea98e668b7c95f4e0750dccecdc04c7812551301c",
+    "port/engine-ui/hud_initialization_v1.hpp": "6191714964d44e28177bd97d44a29597dc1b0af636516232bc0f9670447afe9f",
+    "port/engine-ui/hud_initialization_core_v1.cpp": "6e3836313aa1cf613a3d466060094f5bdd4fc5637c1e008055843a4cee2e4728",
+    "port/engine-ui/hud_initialization_core_v1.hpp": "1f0bdf5d3d17572520f765ad56e86c75b055de7ab5d8b8ea8abac48f575ff011",
+    "port/engine-ui/hud_initialization_owned_v1.cpp": "cba1bda75858e479b732bea3b6929decdf2dae1a29bbffd816c3c5633f4e74d7",
+    "port/engine-ui/hud_initialization_owned_v1.hpp": "35fc3a0c6af2006ffcec33ddb2a5de6147a38c84a5dc9319267a550ded917429",
+    "port/engine-ui/hud_manager_core_v2.cpp": "53332d6064d2d289da879e2ba76517cb7b11ec5eeb4eafdd80945b6a9fdf8951",
+    "port/engine-ui/hud_manager_core_v2.hpp": "aef2771ed73f75dc30154dd370024bf698e9d2945de8b237ddb28d0a64627fc1",
+    "port/engine-ui/text_display_v2.cpp": "6b2d1c5693d3985b4724b2ca4f67d8e420262dd925be44482c0774b4214ebaa1",
+    "port/engine-ui/text_display_v2.hpp": "9f9f4137856b5826eeb27c3735ae8ae0fd940f9184bfcc65a32ba5338133d20f",
+    "port/engine-ui/text_render_owner_v2.cpp": "9912b4c218bbfe01bd2430ced3bb92c35abe2e84d371e905513d39b226106a29",
+    "port/engine-ui/text_render_owner_v2.hpp": "9b8b8da4c412c9ac87d735203ef3ac5a4c28cc5f3f4c307712a99b6c33915b5f",
+    "port/engine-ui/hud_freetype_font_v2.cpp": "d16accfab2c1b96ca5fbf8f3cb04dfff5737937dec02f21d05463a729f64fd3d",
+    "port/engine-ui/hud_freetype_font_v2.hpp": "5d09057407c723ba72fd93392fbdc13b8fbca52dae96e3187898e3de46b34651",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/loot_tables_v2.hpp": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931",
+    "port/game-data/fresh_inventory_v2.cpp": "769466d0f3aeb33d0a2d7cb6bc4f5b539f45cf5fc4117ae1620ff697c3581a49",
+    "port/game-data/fresh_inventory_v2.hpp": "7c292dcbdf51f00f0cb80c6ad1ae188c24c663c240b3683c6964e7f771266748",
+    "port/level-world/player_initial_grants_v2.cpp": "fe57a885c2a6fed340caec32f6d22015f1ed1eadac5159c992c5928fecd6f9d0",
+    "port/level-world/player_initial_grants_v2.hpp": "bf6395009a9c11c59dae623313191dc203bfea7bd74f0c1619ee1c491a34e87d",
+    "port/engine-ui/hud_text_format_v1.cpp": "3cce5aba708b6b9f90abb835ad3aafd7c092397d2498f38dba4c57008deaf76d",
+    "port/engine-ui/hud_text_format_v1.hpp": "79870b445ca0d172fd4c851eacf17325d68f3b2f820d2c7de9c6215fb38b7190",
+    "port/engine-ui/hud_text_v1.cpp": "662cbdaee68271aa44c3d0d1bd240807b8f333f1f4c77e0d842aa58e4b2b7a12",
+    "port/engine-ui/hud_text_v1.hpp": "ce909a50f83425bee18541fbb9f327f7bded8c1a7a0edd2f82174eee71478425",
+    "port/level-world/character_skill_info_v1.cpp": "4ec68f2174e0949818f5e8dfdcb684f695f6c6820ee89ac6e68e65e4f374d065",
+    "port/level-world/character_skill_info_v1.hpp": "06b24f92cec2231c6e23a2f709d7952742bf8352c15caffdfa45c6117fc70a5a",
+    "port/level-world/character_skill_info_session_v1.cpp": "0796032c12fddecb68bb1b9561066aff2177b731da651c59f1e20f30ba540803",
+    "port/level-world/character_skill_info_session_v1.hpp": "524d3013f28e61e5dd3a8cd93652e16a8de77b2ce5befdf42eef0a31ced2be89",
+    "port/level-world/character_skill_properties_v1.cpp": "446d96ecc51c85e8c9a0834864e6c7788f46cf19d77f128205fdd2032e88b3ce",
+    "port/level-world/character_skill_properties_v1.hpp": "d04404c5f2ba7d446255c19146b444b4fe3a012805ffc1bf9a98a74c3979b07a",
+    "port/level-world/character_hud_skill_text_v1.cpp": "f86624b6c756ce37a5330b813025d277ad71a14b6bab1234d393bbac21691508",
+    "port/level-world/character_hud_skill_text_v1.hpp": "ff4103464efda6f3791211244abe948ac1b254b2e5e14f3b0348f1a8aa505c0a",
+    "port/script-runtime/script_runtime.c": "c4a72df8e7d2e7293fc058b09fa1a34129805692cefa47015d814330e5ac39fa",
+    "port/script-runtime/script_runtime_return_v1.c": "ec7454cbab2ac29b4dc89e6bb759bb92dc7735f7341597322bfcdeb6416bb75f",
+    "port/script-runtime/script_return_observer_v1.h": "a8a6e580833a589a173248b415207f7c2c54c321451b46423ab4c531147dd636",
+    "port/script-runtime/CMakeLists.txt": "592e8a9e11fb02721970bd41ed0bd7e3a26b4551e05777f8f7576851d26b1766",
+    "port/engine-ui/CMakeLists.txt": "004a2af7ed0116fc7efaf05e3c9e9abf4e1b5739a627030440faa545fd700175",
+    "port/game-data/CMakeLists.txt": "9dc7763df883bf1bc938c95fba20ac5d1087e0a77f71f98adf4d26277eae9f67",
+    "port/level-world/CMakeLists.txt": "0bd2b94f0c78c0c7508ddbdeaa229a71f0bb87d01e9bf034ad5651bf8e0eae0e"
+  },
+  "freeze_sha256": {
+    "port/engine-ui/reference/text-layout-v1/freeze-manifest.json": "d5cd935e9397754335f984949fe52953204c6d531048703bb57cd67cb99ea2c9",
+    "port/game-data/reference/player-inventory-v1/freeze-manifest.json": "7e8a83a886c052bf2c500d5ab039e68d179e8d4af2e817211ba9a74c05555f84",
+    "port/engine-ui/reference/hud-initialization-v1/freeze-manifest.json": "a423e9ca0825dd17d2270b485717d831eb3c3efa1cf78d83fb97f498bb1663be",
+    "port/engine-ui/reference/text-display-v2/freeze-manifest.json": "55d71a3340508c0edf4febe65a932dea2745a6b63c24b850d5d344fc69979fde",
+    "port/game-data/reference/player-creation-v2/freeze-manifest.json": "f85e80b19701722fffbd237810b863ad1658853ce23a2ef07242cae398b24b56",
+    "port/engine-ui/reference/hud-formatting-v1/freeze-manifest.json": "98789f88d09021e5dae7c7da14a0207e642cdf6b54d4d167b6bd8704f9753d2c"
+  },
+  "main_host_report_sha256": "4745c4d242d68c6e52d9fbdd27782fbb2ebcec99d0ac792210c5a0cb13a96c4c",
+  "main_host_suites": 129,
+  "sanitizer_findings": 0,
+  "android_abis": {
+    "arm64-v8a": {
+      "libraries": {
+        "libdh2_engine_ui.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/arm64-v8a/libdh2_engine_ui.so",
+          "sha256": "01cdbf8c51e00c492fe89d4d976ea22734da152d01dd288792645d19f9121b56",
+          "bytes": 19262280,
+          "ELF64": true,
+          "machine": "EM_AARCH64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 3875712,
+              "address": 3892096,
+              "alignment": 16384
+            },
+            {
+              "offset": 3971232,
+              "address": 4004000,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "text_v1": [
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh22ui7text_v14FontEEEE7destroyB8ne210000IS5_TnNS_9enable_ifIXsr13__has_destroyIS6_PT_EE5valueEiE4typeELi0EEEvRS6_SB_",
+              "_ZNSt6__ndk16vectorIN3dh22ui7text_v15GlyphENS_9allocatorIS4_EEE18__construct_at_endIPS4_S9_EEvT_T0_m",
+              "_ZN3dh22ui7text_v15GlyphaSERKS2_",
+              "_ZN3dh22ui17TextRenderOwnerV24Impl11bitmap_faceERKNSt6__ndk110shared_ptrINS0_7text_v14FontEEERNS0_16TextBitmapFaceV2ERNS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEE",
+              "_ZTSNSt6__ndk110__function6__baseIFbRKN3dh22ui7text_v15GlyphERNS3_15text_display_v212GlyphBindingERNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEE",
+              "_ZN3dh22ui7text_v110AttributesC2ERKS2_",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh22ui7text_v110AttributesEEEE9constructB8ne210000IS5_JRKS5_ETnNS_9enable_ifIXsr15__has_constructIS6_PT_DpT0_EE5valueEiE4typeELi0EEEvRS6_SD_DpOSE_",
+              "_ZNSt6__ndk19allocatorIN3dh22ui7text_v14FontEE9constructB8ne210000IS4_JRS4_EEEvPT_DpOT0_"
+            ],
+            "format_text": [
+              "_ZN3dh22ui7text_v111format_textERNS1_5StateEbRKNS1_8ServicesERNSt6__ndk112basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEE",
+              "_ZN7gameswf19edit_text_character11format_textEv"
+            ],
+            "append_image": [
+              "_ZN3dh22ui7text_v112append_imageERNS1_5StateERKNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEEiiRKNS1_8ServicesERSA_"
+            ],
+            "parse_html": [
+              "_ZN3dh22ui7text_v110parse_htmlERNS1_5StateERKNS1_8ServicesERNSt6__ndk112basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEE"
+            ],
+            "dh2_ui_hud_initialization_v1": [
+              "dh2_ui_hud_initialization_v1"
+            ],
+            "HudManagerCoreV2": [
+              "_ZN3dh22ui16HudManagerCoreV2C2Ev",
+              "_ZN3dh22ui16HudManagerCoreV28dispatchERKNS0_17HudManagerRequestERNS0_18HudManagerResponseERNSt6__ndk112basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEE",
+              "_ZN3dh22ui16HudManagerCoreV24Impl5CacheC2Ev",
+              "_ZN3dh22ui16HudManagerCoreV2C1Ev",
+              "_ZNSt6__ndk15arrayIN3dh22ui16HudManagerCoreV24Impl5CacheELm29EED2Ev",
+              "_ZN3dh22ui16HudManagerCoreV24ImplD2Ev",
+              "_ZN3dh22ui16HudManagerCoreV219required_operationsEPvPFiS2_RKNS0_17HudManagerRequestERNS0_18HudManagerResponseERNSt6__ndk112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEEE",
+              "_ZN3dh22ui16HudManagerCoreV2D2Ev"
+            ],
+            "text_display_v2": [
+              "_ZTSNSt6__ndk110__function6__baseIFbRKN3dh22ui7text_v15GlyphERNS3_15text_display_v212GlyphBindingERNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEE",
+              "_ZNK3dh22ui17TextRenderOwnerV216display_servicesENS0_15text_display_v28ServicesE",
+              "_ZN3dh22ui15text_display_v28ServicesC2EOS2_",
+              "_ZN3dh22ui15text_display_v26BitmapaSEOS2_",
+              "_ZTINSt6__ndk110__function6__baseIFbRKNS_5arrayIfLm6EEERKN3dh22ui15text_display_v26BitmapERKNS2_IfLm4EEESE_jRNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEE",
+              "_ZTSNSt6__ndk110__function6__baseIFbRKNS_5arrayIfLm6EEERKN3dh22ui15text_display_v26BitmapERKNS2_IfLm4EEESE_jRNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEE",
+              "_ZN3dh22ui15text_display_v212GlyphBindingC2Ev",
+              "_ZTVNSt6__ndk110__function6__baseIFbRKN3dh22ui7text_v15GlyphERNS3_15text_display_v212GlyphBindingERNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEE"
+            ],
+            "TextRenderOwnerV2": [
+              "_ZNSt6__ndk16__treeINS_12__value_typeINS_8weak_ptrIvEENS2_IN3dh22ui17TextRenderOwnerV24Impl5ImageEEEEENS_19__map_value_compareIS3_SA_NS_10owner_lessIS3_EELb1EEENS_9allocatorISA_EEE12__find_equalIS3_EERPNS_16__tree_node_baseIPvEERPNS_15__tree_end_nodeISM_EERKT_",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh22ui17TextRenderOwnerV24ImplEEEE7destroyB8ne210000IS5_TnNS_9enable_ifIXsr13__has_destroyIS6_PT_EE5valueEiE4typeELi0EEEvRS6_SB_",
+              "_ZN3dh22ui17TextRenderOwnerV24Impl11bitmap_faceERKNSt6__ndk110shared_ptrINS0_7text_v14FontEEERNS0_16TextBitmapFaceV2ERNS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEE",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorINS_11__tree_nodeINS_12__value_typeIjN3dh22ui17TextRenderOwnerV24Impl4Face5GlyphEEEPvEEEEE7destroyB8ne210000INS_4pairIKjS9_EEvTnNS_9enable_ifIXntsr13__has_destroyISD_PT_EE5valueEiE4typeELi0EEEvRSD_SL_",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorINS_11__tree_nodeINS_12__value_typeINS_5tupleIJNS_12basic_stringIcNS_11char_traitsIcEENS1_IcEEEEbbEEENS_10shared_ptrIN3dh22ui17TextRenderOwnerV24Impl4FaceEEEEEPvEEEEE7destroyB8ne210000INS_4pairIKSA_SH_EEvTnNS_9enable_ifIXntsr13__has_destroyISL_PT_EE5valueEiE4typeELi0EEEvRSL_ST_",
+              "_ZNSt6__ndk13mapINS_5tupleIJNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEbbEEENS_10shared_ptrIN3dh22ui17TextRenderOwnerV24Impl4FaceEEENS_4lessIS8_EENS5_INS_4pairIKS8_SF_EEEEE7emplaceB8ne210000IJRSJ_SF_EEENSI_INS_14__map_iteratorINS_15__tree_iteratorINS_12__value_typeIS8_SF_EEPNS_11__tree_nodeISS_PvEElEEEEbEEDpOT_",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorINS_11__tree_nodeINS_12__value_typeINS_8weak_ptrIvEENS4_IN3dh22ui17TextRenderOwnerV24Impl5ImageEEEEEPvEEEEE8max_sizeB8ne210000ISF_TnNS_9enable_ifIXsr14__has_max_sizeIKT_EE5valueEiE4typeELi0EEEmRKSF_",
+              "_ZNSt6__ndk16__treeINS_12__value_typeIjN3dh22ui17TextRenderOwnerV24Impl4Face5GlyphEEENS_19__map_value_compareIjS8_NS_4lessIjEELb1EEENS_9allocatorIS8_EEE4findIjEENS_15__tree_iteratorIS8_PNS_11__tree_nodeIS8_PvEElEERKT_"
+            ],
+            "HudFreetypeFontV2": [
+              "_ZN3dh22ui17HudFreetypeFontV26rasterERNS0_13FreetypeGlyphEjifRNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEEPNS0_15HudBitmapInfo32E",
+              "_ZN3dh22ui17HudFreetypeFontV24ImplC2Ev",
+              "_ZN3dh22ui17HudFreetypeFontV2D1Ev",
+              "_ZN3dh22ui17HudFreetypeFontV2C2Ev",
+              "_ZNSt6__ndk110unique_ptrIN3dh22ui17HudFreetypeFontV24ImplENS_14default_deleteIS4_EEEC2B8ne210000ILb1EvEEv",
+              "_ZN3dh22ui17HudFreetypeFontV2C1Ev",
+              "_ZN3dh22ui17HudFreetypeFontV24ImplD2Ev",
+              "_ZNSt6__ndk110unique_ptrIN3dh22ui17HudFreetypeFontV24ImplENS_14default_deleteIS4_EEEC2B8ne210000ILb1EvEEPS4_"
+            ],
+            "hud_text_parse_ex_v1": [
+              "_ZN3dh22ui20hud_text_parse_ex_v1EPKcPKNS0_16HudTextVariantV1EmRKNS0_17HudTextServicesV1ERNSt6__ndk112basic_stringIcNS9_11char_traitsIcEENS9_9allocatorIcEEEERbSG_"
+            ],
+            "HudTextV1": [
+              "_ZN3dh22ui9HudTextV1D2Ev",
+              "_ZNK3dh22ui9HudTextV114sheet_filenameEjj",
+              "_ZNSt6__ndk15arrayINS0_IN3dh22ui9HudTextV15SheetELm37EEELm9EED2Ev",
+              "_ZNK3dh22ui9HudTextV110sheet_nameEjj",
+              "_ZN3dh22ui9HudTextV15SheetD2Ev",
+              "_ZN3dh22ui9HudTextV112preload_implEjjbRKNS0_20LocalizationServicesERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZN3dh22ui9HudTextV12idEjRKNS0_20LocalizationServicesERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEESC_",
+              "_ZN3dh22ui9HudTextV111switch_packEibRNSt6__ndk112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE"
+            ]
+          }
+        },
+        "libdh2_game_data.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/arm64-v8a/libdh2_game_data.so",
+          "sha256": "c834dedf556b0d0b1d00e237bfe381b52f3d8acb4e85404f01362c5eab9d44a5",
+          "bytes": 7794688,
+          "ELF64": true,
+          "machine": "EM_AARCH64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 1181536,
+              "address": 1197920,
+              "alignment": 16384
+            },
+            {
+              "offset": 1207272,
+              "address": 1240040,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "PlayerSavegameV1": [
+              "_ZNK3dh24data16PlayerSavegameV111faery_levelEjj",
+              "_ZN3dh24data16PlayerSavegameV115load_difficultyENS0_5BytesEPvPFbS3_iRNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEEERmSB_",
+              "_ZNK3dh24data16PlayerSavegameV113skill_in_slotEi",
+              "_ZNK3dh24data16PlayerSavegameV111skill_levelEj",
+              "_ZN3dh24data16PlayerSavegameV117set_skill_in_slotEijRKNS0_26SavedSkillUpdateServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZN3dh24data16PlayerSavegameV118load_current_faeryENS0_5BytesERmRNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEE",
+              "_ZNK3dh24data16PlayerSavegameV18skill_idEj",
+              "_ZN3dh24data16PlayerSavegameV117initialize_skillsERKNSt6__ndk16vectorIiNS2_9allocatorIiEEEERNS2_12basic_stringIcNS2_11char_traitsIcEENS4_IcEEEE"
+            ],
+            "ItemInventoryV1": [
+              "_ZN3dh24data15ItemInventoryV119set_potion_quantityEiRKNS0_19InventoryServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZN3dh24data15ItemInventoryV17deliverERKNS0_19InventoryServicesV1ENS0_20InventoryOperationV1EPNS0_14ItemInstanceV1EijjRNS0_19InventoryResponseV1ERNSt6__ndk112basic_stringIcNSA_11char_traitsIcEENSA_9allocatorIcEEEE",
+              "_ZN3dh24data15ItemInventoryV112load_sectionENS0_5BytesERKNSt6__ndk16vectorINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEENS8_ISA_EEEERKNS0_19InventoryServicesV1ERNS0_22InventoryLoadReceiptV1ERSA_",
+              "_ZNK3dh24data15ItemInventoryV111num_potionsEv",
+              "_ZN3dh24data15ItemInventoryV126record_delivered_equipmentEjjjRNSt6__ndk112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE",
+              "_ZNK3dh24data15ItemInventoryV117current_equipmentEi",
+              "_ZN3dh24data15ItemInventoryV1C1ERKNS0_9ItemTableE",
+              "_ZN3dh24data15ItemInventoryV114swap_equipmentEv"
+            ],
+            "PlayerProfileIndexV1": [
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh24data20PlayerProfileIndexV18SnapshotEEEE9constructB8ne210000IS5_JETnNS_9enable_ifIXsr15__has_constructIS6_PT_DpT0_EE5valueEiE4typeELi0EEEvRS6_SB_DpOSC_",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS_9allocatorIS4_EEE21__on_zero_shared_implB8ne210000IS6_TnNS_9enable_ifIXntsr7is_sameINT_10value_typeENS_19__for_overwrite_tagEEE5valueEiE4typeELi0EEEvv",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh24data20PlayerProfileIndexV18SnapshotEEEE7destroyB8ne210000IS5_TnNS_9enable_ifIXsr13__has_destroyIS6_PT_EE5valueEiE4typeELi0EEEvRS6_SB_",
+              "_ZNSt6__ndk19allocatorINS_20__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS0_IS5_EEEEEC2B8ne210000IS5_EERKNS0_IT_EE",
+              "_ZNK3dh24data20PlayerProfileIndexV16Borrow5bytesEv",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorINS_20__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS1_IS6_EEEEEEE8max_sizeB8ne210000IS9_TnNS_9enable_ifIXsr14__has_max_sizeIKT_EE5valueEiE4typeELi0EEEmRKS9_",
+              "_ZTINSt6__ndk120__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS_9allocatorIS4_EEEE",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS_9allocatorIS4_EEEC2B8ne210000IJES6_TnNS_9enable_ifIXntsr7is_sameINT0_10value_typeENS_19__for_overwrite_tagEEE5valueEiE4typeELi0EEES6_DpOT_"
+            ],
+            "LootTablesV2": [
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh24data12LootTablesV28SnapshotEEEE7destroyB8ne210000IS5_TnNS_9enable_ifIXsr13__has_destroyIS6_PT_EE5valueEiE4typeELi0EEEvRS6_SB_",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data12LootTablesV28SnapshotENS_9allocatorIS4_EEEC2B8ne210000IJES6_TnNS_9enable_ifIXntsr7is_sameINT0_10value_typeENS_19__for_overwrite_tagEEE5valueEiE4typeELi0EEES6_DpOT_",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data12LootTablesV28SnapshotENS_9allocatorIS4_EEED2Ev",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh24data12LootTablesV28SnapshotEEEE9constructB8ne210000IS5_JETnNS_9enable_ifIXsr15__has_constructIS6_PT_DpT0_EE5valueEiE4typeELi0EEEvRS6_SB_DpOSC_",
+              "_ZN3dh24data12LootTablesV26BorrowC2EOS2_",
+              "_ZNSt6__ndk110shared_ptrIN3dh24data12LootTablesV28SnapshotEE27__create_with_control_blockB8ne210000IS4_NS_20__shared_ptr_emplaceIS4_NS_9allocatorIS4_EEEEEES5_PT_PT0_",
+              "_ZN3dh24data12LootTablesV28SnapshotC2Ev",
+              "_ZTSNSt6__ndk120__shared_ptr_emplaceIN3dh24data12LootTablesV28SnapshotENS_9allocatorIS4_EEEE"
+            ],
+            "FreshInventoryV2": [
+              "_ZN3dh24data16FreshInventoryV27deliverERKNS0_24FreshInventoryServicesV2ENS0_25FreshInventoryOperationV2EjPNS0_14ItemInstanceV1EPKcijRNS0_24FreshInventoryResponseV2ERNSt6__ndk112basic_stringIcNSC_11char_traitsIcEENSC_9allocatorIcEEEE",
+              "_ZN3dh24data16FreshInventoryV214add_fixed_lootEiRKNS0_24FreshInventoryServicesV2ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZN3dh24data16FreshInventoryV2C2EmNS0_12LootTablesV26BorrowERNS0_13LootRandom8V2Ea",
+              "_ZNK3dh24data16FreshInventoryV211num_potionsEv",
+              "_ZN3dh24data16FreshInventoryV226record_delivered_equipmentEjjjRNSt6__ndk112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE",
+              "_ZN3dh24data16FreshInventoryV25debugERKNS0_24FreshInventoryServicesV2EjPKcRiRNSt6__ndk112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEE",
+              "_ZN3dh24data16FreshInventoryV2C1EmNS0_12LootTablesV26BorrowERNS0_13LootRandom8V2Ea"
+            ]
+          }
+        },
+        "libdh2_level_world.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/arm64-v8a/libdh2_level_world.so",
+          "sha256": "3d8be294179a572c9302e368a6ace8bf6be041a309c0e2575fa7955ec9531cc9",
+          "bytes": 13509328,
+          "ELF64": true,
+          "machine": "EM_AARCH64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 2121360,
+              "address": 2137744,
+              "alignment": 16384
+            },
+            {
+              "offset": 2152824,
+              "address": 2185592,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "dh2_ui_hud_skill_query": [
+              "dh2_ui_hud_skill_query"
+            ],
+            "hud_initialization_owned_v1_query": [
+              "_ZN3dh22ui33hud_initialization_owned_v1_queryERKNS0_25HudInitPlayerProjectionV1ERKNS0_16HudInitRequest64ERNS0_17HudInitResponse32ERNSt6__ndk112basic_stringIcNS9_11char_traitsIcEENS9_9allocatorIcEEEE"
+            ],
+            "dh2_player_initial_equipment_v2": [
+              "dh2_player_initial_equipment_v2"
+            ],
+            "dh2_player_initial_skill_slots_v2": [
+              "dh2_player_initial_skill_slots_v2"
+            ],
+            "dh2_player_increment_skill_v2": [
+              "dh2_player_increment_skill_v2"
+            ],
+            "character_skill_info_v1": [
+              "dh2_character_skill_info_v1",
+              "_ZN3dh29character6skills23character_skill_info_v1EPNS1_7State40EjjPfPKNS1_19SkillInfoServicesV1E"
+            ],
+            "skill_info_session_invoke_v1": [
+              "_ZN3dh29character6skills28skill_info_session_invoke_v1EPvPKNS1_18SkillInfoRequestV1EPNS1_19SkillInfoResponseV1E"
+            ],
+            "skill_property_bind_v1": [
+              "_ZN3dh29character6skills22skill_property_bind_v1EP13dh2_script_vmPNS1_23SkillPropertyBindingsV1E"
+            ],
+            "CharacterHudSkillTextV1": [
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorINS_10unique_ptrIN3dh29character23CharacterHudSkillTextV19ArgumentsENS_14default_deleteIS6_EEEEEEE9constructB8ne210000IS9_JS9_ETnNS_9enable_ifIXsr15__has_constructISA_PT_DpT0_EE5valueEiE4typeELi0EEEvRSA_SF_DpOSG_",
+              "_ZN3dh29character23CharacterHudSkillTextV1C1ERNS_2ui9HudTextV1ERKNS2_20HudTextEnvironmentV1EPvPFbS8_mRPNS0_6skills7State40ERPKNS9_19SkillInfoServicesV1ERNS0_15PropertySheet16EE",
+              "_ZN3dh29character23CharacterHudSkillTextV19ArgumentsD2Ev",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorINS_10unique_ptrIN3dh29character23CharacterHudSkillTextV19ArgumentsENS_14default_deleteIS6_EEEEEEE7destroyB8ne210000IS9_TnNS_9enable_ifIXsr13__has_destroyISA_PT_EE5valueEiE4typeELi0EEEvRSA_SF_",
+              "_ZNSt6__ndk110unique_ptrIN3dh29character23CharacterHudSkillTextV19ArgumentsENS_14default_deleteIS4_EEEC2B8ne210000ILb1EvEEPS4_",
+              "_ZN3dh29character23CharacterHudSkillTextV15queryERKNS_2ui16HudInitRequest64ERNS2_17HudInitResponse32ERNSt6__ndk112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEE",
+              "_ZNSt6__ndk19allocatorINS_10unique_ptrIN3dh29character23CharacterHudSkillTextV19ArgumentsENS_14default_deleteIS5_EEEEE9constructB8ne210000IS8_JS8_EEEvPT_DpOT0_",
+              "_ZN3dh29character23CharacterHudSkillTextV1C2ERNS_2ui9HudTextV1ERKNS2_20HudTextEnvironmentV1EPvPFbS8_mRPNS0_6skills7State40ERPKNS9_19SkillInfoServicesV1ERNS0_15PropertySheet16EE"
+            ]
+          }
+        },
+        "libdh2_script_runtime.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/arm64-v8a/libdh2_script_runtime.so",
+          "sha256": "9a8ffe4b0098e9071346e31768c4c58d031573876ef88abbb76ae098d659f931",
+          "bytes": 3689080,
+          "ELF64": true,
+          "machine": "EM_AARCH64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 660880,
+              "address": 677264,
+              "alignment": 16384
+            },
+            {
+              "offset": 682840,
+              "address": 715608,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "dh2_script_vm_call_first_source_v1": [
+              "dh2_script_vm_call_first_source_v1"
+            ]
+          }
+        }
+      },
+      "compiler_records": [
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\C_\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_owned_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_owned_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_owned_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\player_initial_grants_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\player_initial_grants_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\player_initial_grants_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_skill_info_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_skill_info_session_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_session_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_session_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_skill_properties_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_properties_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_properties_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_hud_skill_text_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_hud_skill_text_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_hud_skill_text_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_script_runtime_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/lua -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -fno-fast-math -ffp-contract=off -o level-world\\script-runtime\\CMakeFiles\\dh2_script_runtime.dir\\script_runtime_return_v1.c.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\script_runtime_return_v1.c",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\script_runtime_return_v1.c"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_savegame_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_savegame_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_savegame_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\item_inventory_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\item_inventory_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\item_inventory_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_profile_index_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\loot_tables_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\loot_tables_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\loot_tables_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\fresh_inventory_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\fresh_inventory_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\fresh_inventory_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\text_layout_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_layout_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_layout_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_initialization_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_initialization_core_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_core_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_core_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_manager_core_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_core_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_core_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\text_display_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_display_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_display_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\text_render_owner_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_render_owner_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_render_owner_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_freetype_font_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_freetype_font_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_freetype_font_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_text_format_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_format_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_format_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_text_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_v1.cpp"
+        }
+      ],
+      "compile_commands_sha256": "44963da05aff689c56feee4418033d402dfd00d949aea9148945a5e837d24836"
+    },
+    "x86_64": {
+      "libraries": {
+        "libdh2_engine_ui.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/x86_64/libdh2_engine_ui.so",
+          "sha256": "7b9a5ef53bea0d8d4811ddff5df009dca13f49be6286d7cf1f08d280e756f805",
+          "bytes": 18560600,
+          "ELF64": true,
+          "machine": "EM_X86_64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 3709648,
+              "address": 3726032,
+              "alignment": 16384
+            },
+            {
+              "offset": 3805136,
+              "address": 3837904,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "text_v1": [
+              "_ZTVNSt6__ndk120__shared_ptr_emplaceIN3dh22ui7text_v14FontENS_9allocatorIS4_EEEE",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh22ui7text_v15GlyphEEEE9constructB8ne210000IS5_JS5_ETnNS_9enable_ifIXsr15__has_constructIS6_PT_DpT0_EE5valueEiE4typeELi0EEEvRS6_SB_DpOSC_",
+              "_ZN3dh22ui7text_v14FontC2ERKS2_",
+              "_ZN3dh22ui7text_v15GlyphC2Ev",
+              "_ZNK3dh22ui17TextRenderOwnerV24Impl6clonedERKNS0_7text_v14FontE",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh22ui7text_v14FontENS_9allocatorIS4_EEED2Ev",
+              "_ZNSt6__ndk16vectorIN3dh22ui7text_v15GlyphENS_9allocatorIS4_EEE24__emplace_back_slow_pathIJRKS4_EEEPS4_DpOT_",
+              "_ZTVNSt6__ndk110__function6__baseIFbRKNS_10shared_ptrIN3dh22ui7text_v14FontEEERS7_RNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEE"
+            ],
+            "format_text": [
+              "_ZN7gameswf19edit_text_character11format_textEv",
+              "_ZN3dh22ui7text_v111format_textERNS1_5StateEbRKNS1_8ServicesERNSt6__ndk112basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEE"
+            ],
+            "append_image": [
+              "_ZN3dh22ui7text_v112append_imageERNS1_5StateERKNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEEiiRKNS1_8ServicesERSA_"
+            ],
+            "parse_html": [
+              "_ZN3dh22ui7text_v110parse_htmlERNS1_5StateERKNS1_8ServicesERNSt6__ndk112basic_stringIcNS7_11char_traitsIcEENS7_9allocatorIcEEEE"
+            ],
+            "dh2_ui_hud_initialization_v1": [
+              "dh2_ui_hud_initialization_v1"
+            ],
+            "HudManagerCoreV2": [
+              "_ZNSt6__ndk110unique_ptrIN3dh22ui16HudManagerCoreV24ImplENS_14default_deleteIS4_EEEC2B8ne210000ILb1EvEEPS4_",
+              "_ZN3dh22ui16HudManagerCoreV24Impl5CacheC2Ev",
+              "_ZNSt6__ndk15arrayIN3dh22ui16HudManagerCoreV24Impl5CacheELm29EEC2Ev",
+              "_ZN3dh22ui16HudManagerCoreV2D1Ev",
+              "_ZN3dh22ui16HudManagerCoreV2C2Ev",
+              "_ZN3dh22ui16HudManagerCoreV24bindEPN7gameswf9characterEPKcRKNS0_21HudSpriteCoreServicesERNSt6__ndk112basic_stringIcNSA_11char_traitsIcEENSA_9allocatorIcEEEE",
+              "_ZN3dh22ui16HudManagerCoreV24ImplD2Ev",
+              "_ZN3dh22ui16HudManagerCoreV24Impl5CacheD2Ev"
+            ],
+            "text_display_v2": [
+              "_ZN3dh22ui15text_display_v26BitmapC2Ev",
+              "_ZN3dh22ui15text_display_v26BitmapaSEOS2_",
+              "_ZTVNSt6__ndk110__function6__baseIFbRKN3dh22ui7text_v15GlyphERNS3_15text_display_v212GlyphBindingERNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEE",
+              "_ZTSNSt6__ndk110__function6__baseIFbRKNS_5arrayIfLm6EEERKN3dh22ui15text_display_v26BitmapERKNS2_IfLm4EEESE_jRNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEE",
+              "_ZN3dh22ui15text_display_v212GlyphBindingD2Ev",
+              "_ZTVNSt6__ndk110__function6__baseIFbRKNS_5arrayIfLm6EEERKN3dh22ui15text_display_v26BitmapERKNS2_IfLm4EEESE_jRNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEE",
+              "_ZN3dh22ui15text_display_v26BitmapD2Ev",
+              "_ZTSNSt6__ndk110__function6__baseIFbRKN3dh22ui7text_v15GlyphERNS3_15text_display_v212GlyphBindingERNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEEEE"
+            ],
+            "TextRenderOwnerV2": [
+              "_ZNSt6__ndk16__treeINS_12__value_typeINS_5tupleIJNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEbbEEENS_10shared_ptrIN3dh22ui17TextRenderOwnerV24Impl4FaceEEEEENS_19__map_value_compareIS9_SH_NS_4lessIS9_EELb1EEENS6_ISH_EEE16__emplace_uniqueB8ne210000IRKS9_DnTnNS_9enable_ifIXsr21__can_extract_map_keyIT_S9_NS_4pairISP_SG_EEEE5valueEiE4typeELi0EEENST_INS_15__tree_iteratorISH_PNS_11__tree_nodeISH_PvEElEEbEEOSS_OT0_",
+              "_ZNSt6__ndk110shared_ptrIN3dh22ui17TextRenderOwnerV24Impl4FaceEE27__create_with_control_blockB8ne210000IS5_NS_20__shared_ptr_emplaceIS5_NS_9allocatorIS5_EEEEEES6_PT_PT0_",
+              "_ZNK3dh22ui17TextRenderOwnerV24Impl6clonedERKNS0_7text_v14FontE",
+              "_ZNSt6__ndk16__treeINS_12__value_typeINS_5tupleIJNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEbbEEENS_10shared_ptrIN3dh22ui17TextRenderOwnerV24Impl4FaceEEEEENS_19__map_value_compareIS9_SH_NS_4lessIS9_EELb1EEENS6_ISH_EEE25__emplace_unique_key_argsIS9_JRKS9_DnEEENS_4pairINS_15__tree_iteratorISH_PNS_11__tree_nodeISH_PvEElEEbEERKT_DpOT0_",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh22ui17TextRenderOwnerV24ImplENS_9allocatorIS4_EEEC2B8ne210000IJRNS2_15SwfFontServicesENS2_11SwfServicesENS_10shared_ptrIvEENS2_18TextFontBackendsV2ERfES6_TnNS_9enable_ifIXntsr7is_sameINT0_10value_typeENS_19__for_overwrite_tagEEE5valueEiE4typeELi0EEES6_DpOT_",
+              "_ZNSt6__ndk16__treeINS_12__value_typeINS_5tupleIJNS_12basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEEbbEEENS_10shared_ptrIN3dh22ui17TextRenderOwnerV24Impl4FaceEEEEENS_19__map_value_compareIS9_SH_NS_4lessIS9_EELb1EEENS6_ISH_EEE13__lower_boundIS9_EENS_15__tree_iteratorISH_PNS_11__tree_nodeISH_PvEElEERKT_ST_PNS_15__tree_end_nodeIPNS_16__tree_node_baseISR_EEEE",
+              "_ZNSt6__ndk14pairIKjN3dh22ui17TextRenderOwnerV24Impl4Face5GlyphEEC2B8ne210000IRS1_S7_TnNS_9enable_ifIXclsr10_CheckArgsE23__is_pair_constructibleIT_T0_EEEiE4typeELi0EEEOSC_OSD_",
+              "_ZN3dh22ui17TextRenderOwnerV25cloneERKNSt6__ndk110shared_ptrINS0_7text_v14FontEEERS6_RNS2_12basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE"
+            ],
+            "HudFreetypeFontV2": [
+              "_ZN3dh22ui17HudFreetypeFontV2D2Ev",
+              "_ZN3dh22ui17HudFreetypeFontV24ImplC2Ev",
+              "_ZN3dh22ui17HudFreetypeFontV24loadEPKhmRNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEE",
+              "_ZNSt6__ndk110unique_ptrIN3dh22ui17HudFreetypeFontV24ImplENS_14default_deleteIS4_EEEC2B8ne210000ILb1EvEEv",
+              "_ZNSt6__ndk110unique_ptrIN3dh22ui17HudFreetypeFontV24ImplENS_14default_deleteIS4_EEEC2B8ne210000ILb1EvEEPS4_",
+              "_ZN3dh22ui17HudFreetypeFontV2D1Ev",
+              "_ZN3dh22ui17HudFreetypeFontV2C2Ev",
+              "_ZN3dh22ui17HudFreetypeFontV26rasterERNS0_13FreetypeGlyphEjifRNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEEPNS0_15HudBitmapInfo32E"
+            ],
+            "hud_text_parse_ex_v1": [
+              "_ZN3dh22ui20hud_text_parse_ex_v1EPKcPKNS0_16HudTextVariantV1EmRKNS0_17HudTextServicesV1ERNSt6__ndk112basic_stringIcNS9_11char_traitsIcEENS9_9allocatorIcEEEERbSG_"
+            ],
+            "HudTextV1": [
+              "_ZNSt6__ndk15arrayINS0_IN3dh22ui9HudTextV15SheetELm37EEELm9EED2Ev",
+              "_ZNK3dh22ui9HudTextV110sheet_nameEjj",
+              "_ZN3dh22ui9HudTextV15SheetaSEOS2_",
+              "_ZN3dh22ui9HudTextV113native_stringERKNSt6__ndk112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEERKNS0_20LocalizationServicesERNS0_18LocalizationResultERS8_",
+              "_ZN3dh22ui9HudTextV12idEjRKNS0_20LocalizationServicesERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEESC_",
+              "_ZN3dh22ui9HudTextV18defaultsERKNS0_20LocalizationServicesERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZN3dh22ui9HudTextV14loadENS0_17LocalizationBytesES2_S2_RNSt6__ndk112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEE",
+              "_ZN3dh22ui9HudTextV111switch_packEibRNSt6__ndk112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE"
+            ]
+          }
+        },
+        "libdh2_game_data.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/x86_64/libdh2_game_data.so",
+          "sha256": "5d24546a1441fe2c7c41ae29969e03661ca8c78ecd072d796f693f2e59c6eb2d",
+          "bytes": 7466312,
+          "ELF64": true,
+          "machine": "EM_X86_64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 1121760,
+              "address": 1138144,
+              "alignment": 16384
+            },
+            {
+              "offset": 1147392,
+              "address": 1180160,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "PlayerSavegameV1": [
+              "_ZN3dh24data16PlayerSavegameV118initialize_faeriesEv",
+              "_ZNK3dh24data16PlayerSavegameV111skill_levelEj",
+              "_ZN3dh24data16PlayerSavegameV117set_skill_in_slotEijRKNS0_26SavedSkillUpdateServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZNK3dh24data16PlayerSavegameV18skill_idEj",
+              "_ZN3dh24data16PlayerSavegameV115set_skill_levelEjiRNSt6__ndk112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE",
+              "_ZN3dh24data16PlayerSavegameV111load_skillsENS0_5BytesENS0_11SkillTables6BorrowERmRNSt6__ndk112basic_stringIcNS6_11char_traitsIcEENS6_9allocatorIcEEEE",
+              "_ZNK3dh24data16PlayerSavegameV113skill_in_slotEi",
+              "_ZN3dh24data16PlayerSavegameV19load_nameENS0_5BytesERmRNSt6__ndk112basic_stringIcNS4_11char_traitsIcEENS4_9allocatorIcEEEE"
+            ],
+            "ItemInventoryV1": [
+              "_ZN3dh24data15ItemInventoryV117remove_one_potionERKNS0_19InventoryServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZNK3dh24data15ItemInventoryV117current_equipmentEi",
+              "_ZN3dh24data15ItemInventoryV1C1ERKNS0_9ItemTableE",
+              "_ZN3dh24data15ItemInventoryV1C2ERKNS0_9ItemTableE",
+              "_ZN3dh24data15ItemInventoryV119set_potion_quantityEiRKNS0_19InventoryServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZN3dh24data15ItemInventoryV114swap_equipmentEv",
+              "_ZN3dh24data15ItemInventoryV17deliverERKNS0_19InventoryServicesV1ENS0_20InventoryOperationV1EPNS0_14ItemInstanceV1EijjRNS0_19InventoryResponseV1ERNSt6__ndk112basic_stringIcNSA_11char_traitsIcEENSA_9allocatorIcEEEE",
+              "_ZN3dh24data15ItemInventoryV112load_sectionENS0_5BytesERKNSt6__ndk16vectorINS3_12basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEENS8_ISA_EEEERKNS0_19InventoryServicesV1ERNS0_22InventoryLoadReceiptV1ERSA_"
+            ],
+            "PlayerProfileIndexV1": [
+              "_ZNK3dh24data20PlayerProfileIndexV16Borrow5bytesEv",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorINS_20__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS1_IS6_EEEEEEE8max_sizeB8ne210000IS9_TnNS_9enable_ifIXsr14__has_max_sizeIKT_EE5valueEiE4typeELi0EEEmRKS9_",
+              "_ZNSt6__ndk19allocatorINS_20__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS0_IS5_EEEEEC2B8ne210000IS5_EERKNS0_IT_EE",
+              "_ZNSt6__ndk110shared_ptrIN3dh24data20PlayerProfileIndexV18SnapshotEE27__create_with_control_blockB8ne210000IS4_NS_20__shared_ptr_emplaceIS4_NS_9allocatorIS4_EEEEEES5_PT_PT0_",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS_9allocatorIS4_EEED0Ev",
+              "_ZNK3dh24data20PlayerProfileIndexV16Borrow15source_sectionsEv",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorIN3dh24data20PlayerProfileIndexV18SnapshotEEEE9constructB8ne210000IS5_JETnNS_9enable_ifIXsr15__has_constructIS6_PT_DpT0_EE5valueEiE4typeELi0EEEvRS6_SB_DpOSC_",
+              "_ZTVNSt6__ndk120__shared_ptr_emplaceIN3dh24data20PlayerProfileIndexV18SnapshotENS_9allocatorIS4_EEEE"
+            ],
+            "LootTablesV2": [
+              "_ZN3dh24data16FreshInventoryV2C1EmNS0_12LootTablesV26BorrowERNS0_13LootRandom8V2Ea",
+              "_ZNSt6__ndk19allocatorINS_20__shared_ptr_emplaceIN3dh24data12LootTablesV28SnapshotENS0_IS5_EEEEEC2B8ne210000IS5_EERKNS0_IT_EE",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data12LootTablesV28SnapshotENS_9allocatorIS4_EEED0Ev",
+              "_ZN3dh24data12LootTablesV26BorrowD2Ev",
+              "_ZNSt6__ndk118__allocation_guardINS_9allocatorINS_20__shared_ptr_emplaceIN3dh24data12LootTablesV28SnapshotENS1_IS6_EEEEEEEC2B8ne210000IS7_EET_m",
+              "_ZN3dh24data16FreshInventoryV2C2EmNS0_12LootTablesV26BorrowERNS0_13LootRandom8V2Ea",
+              "_ZTVNSt6__ndk120__shared_ptr_emplaceIN3dh24data12LootTablesV28SnapshotENS_9allocatorIS4_EEEE",
+              "_ZNSt6__ndk120__shared_ptr_emplaceIN3dh24data12LootTablesV28SnapshotENS_9allocatorIS4_EEEC2B8ne210000IJES6_TnNS_9enable_ifIXntsr7is_sameINT0_10value_typeENS_19__for_overwrite_tagEEE5valueEiE4typeELi0EEES6_DpOT_"
+            ],
+            "FreshInventoryV2": [
+              "_ZN3dh24data16FreshInventoryV2C1EmNS0_12LootTablesV26BorrowERNS0_13LootRandom8V2Ea",
+              "_ZN3dh24data16FreshInventoryV214add_fixed_lootEiRKNS0_24FreshInventoryServicesV2ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+              "_ZN3dh24data16FreshInventoryV2C2EmNS0_12LootTablesV26BorrowERNS0_13LootRandom8V2Ea",
+              "_ZNK3dh24data16FreshInventoryV211num_potionsEv",
+              "_ZN3dh24data16FreshInventoryV226record_delivered_equipmentEjjjRNSt6__ndk112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEE",
+              "_ZN3dh24data16FreshInventoryV25debugERKNS0_24FreshInventoryServicesV2EjPKcRiRNSt6__ndk112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEE",
+              "_ZN3dh24data16FreshInventoryV27deliverERKNS0_24FreshInventoryServicesV2ENS0_25FreshInventoryOperationV2EjPNS0_14ItemInstanceV1EPKcijRNS0_24FreshInventoryResponseV2ERNSt6__ndk112basic_stringIcNSC_11char_traitsIcEENSC_9allocatorIcEEEE"
+            ]
+          }
+        },
+        "libdh2_level_world.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/x86_64/libdh2_level_world.so",
+          "sha256": "0d6685401ca6d1dbf7f1bafbb0c507ad2c59f1c8a109858bec7d74ae02d24cdf",
+          "bytes": 13038304,
+          "ELF64": true,
+          "machine": "EM_X86_64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 1998720,
+              "address": 2015104,
+              "alignment": 16384
+            },
+            {
+              "offset": 2030176,
+              "address": 2062944,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "dh2_ui_hud_skill_query": [
+              "dh2_ui_hud_skill_query"
+            ],
+            "hud_initialization_owned_v1_query": [
+              "_ZN3dh22ui33hud_initialization_owned_v1_queryERKNS0_25HudInitPlayerProjectionV1ERKNS0_16HudInitRequest64ERNS0_17HudInitResponse32ERNSt6__ndk112basic_stringIcNS9_11char_traitsIcEENS9_9allocatorIcEEEE"
+            ],
+            "dh2_player_initial_equipment_v2": [
+              "dh2_player_initial_equipment_v2"
+            ],
+            "dh2_player_initial_skill_slots_v2": [
+              "dh2_player_initial_skill_slots_v2"
+            ],
+            "dh2_player_increment_skill_v2": [
+              "dh2_player_increment_skill_v2"
+            ],
+            "character_skill_info_v1": [
+              "dh2_character_skill_info_v1",
+              "_ZN3dh29character6skills23character_skill_info_v1EPNS1_7State40EjjPfPKNS1_19SkillInfoServicesV1E"
+            ],
+            "skill_info_session_invoke_v1": [
+              "_ZN3dh29character6skills28skill_info_session_invoke_v1EPvPKNS1_18SkillInfoRequestV1EPNS1_19SkillInfoResponseV1E"
+            ],
+            "skill_property_bind_v1": [
+              "_ZN3dh29character6skills22skill_property_bind_v1EP13dh2_script_vmPNS1_23SkillPropertyBindingsV1E"
+            ],
+            "CharacterHudSkillTextV1": [
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorINS_10unique_ptrIN3dh29character23CharacterHudSkillTextV19ArgumentsENS_14default_deleteIS6_EEEEEEE9constructB8ne210000IS9_JS9_ETnNS_9enable_ifIXsr15__has_constructISA_PT_DpT0_EE5valueEiE4typeELi0EEEvRSA_SF_DpOSG_",
+              "_ZN3dh29character23CharacterHudSkillTextV1C1ERNS_2ui9HudTextV1ERKNS2_20HudTextEnvironmentV1EPvPFbS8_mRPNS0_6skills7State40ERPKNS9_19SkillInfoServicesV1ERNS0_15PropertySheet16EE",
+              "_ZN3dh29character23CharacterHudSkillTextV19ArgumentsD2Ev",
+              "_ZNSt6__ndk116allocator_traitsINS_9allocatorINS_10unique_ptrIN3dh29character23CharacterHudSkillTextV19ArgumentsENS_14default_deleteIS6_EEEEEEE7destroyB8ne210000IS9_TnNS_9enable_ifIXsr13__has_destroyISA_PT_EE5valueEiE4typeELi0EEEvRSA_SF_",
+              "_ZNSt6__ndk110unique_ptrIN3dh29character23CharacterHudSkillTextV19ArgumentsENS_14default_deleteIS4_EEEC2B8ne210000ILb1EvEEPS4_",
+              "_ZN3dh29character23CharacterHudSkillTextV15queryERKNS_2ui16HudInitRequest64ERNS2_17HudInitResponse32ERNSt6__ndk112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEE",
+              "_ZNSt6__ndk19allocatorINS_10unique_ptrIN3dh29character23CharacterHudSkillTextV19ArgumentsENS_14default_deleteIS5_EEEEE9constructB8ne210000IS8_JS8_EEEvPT_DpOT0_",
+              "_ZN3dh29character23CharacterHudSkillTextV1C2ERNS_2ui9HudTextV1ERKNS2_20HudTextEnvironmentV1EPvPFbS8_mRPNS0_6skills7State40ERPKNS9_19SkillInfoServicesV1ERNS0_15PropertySheet16EE"
+            ]
+          }
+        },
+        "libdh2_script_runtime.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/x86_64/libdh2_script_runtime.so",
+          "sha256": "5546d2e6486cbff31d54073536a3eac9109a1802b1b4bf7c43395cf129f6d5bc",
+          "bytes": 3488808,
+          "ELF64": true,
+          "machine": "EM_X86_64",
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 626512,
+              "address": 642896,
+              "alignment": 16384
+            },
+            {
+              "offset": 648336,
+              "address": 681104,
+              "alignment": 16384
+            }
+          ],
+          "defined_exports": {
+            "dh2_script_vm_call_first_source_v1": [
+              "dh2_script_vm_call_first_source_v1"
+            ]
+          }
+        }
+      },
+      "compiler_records": [
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\C_\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_owned_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_owned_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_owned_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\player_initial_grants_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\player_initial_grants_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\player_initial_grants_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_skill_info_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_skill_info_session_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_session_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_info_session_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_skill_properties_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_properties_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_skill_properties_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_hud_skill_text_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_hud_skill_text_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\level-world\\character_hud_skill_text_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_script_runtime_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime/lua -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -fno-limit-debug-info  -fPIC -fno-fast-math -ffp-contract=off -o level-world\\script-runtime\\CMakeFiles\\dh2_script_runtime.dir\\script_runtime_return_v1.c.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\script_runtime_return_v1.c",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\script-runtime\\script_runtime_return_v1.c"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_savegame_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_savegame_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_savegame_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\item_inventory_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\item_inventory_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\item_inventory_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_profile_index_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\loot_tables_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\loot_tables_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\loot_tables_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\fresh_inventory_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\fresh_inventory_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\game-data\\fresh_inventory_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\text_layout_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_layout_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_layout_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_initialization_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_initialization_core_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_core_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_initialization_core_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_manager_core_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_core_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_core_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\text_display_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_display_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_display_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\text_render_owner_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_render_owner_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\text_render_owner_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_freetype_font_v2.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_freetype_font_v2.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_freetype_font_v2.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_text_format_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_format_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_format_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_text_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_text_v1.cpp"
+        }
+      ],
+      "compile_commands_sha256": "578bea5be7b2e7753b67555ffbf46d82f718d2f4a19e28f9dbf6a618aab13e6c"
+    }
+  },
+  "NDK_version": "29.0.14206865",
+  "linker_page_alignment": 16384,
+  "packaged_APK": false,
+  "live_complete_HUD": false,
+  "physical_arm64_verified": false
+}

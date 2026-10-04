@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_Z25NativeGetStringFromSymbolRKN7gameswf7fn_callE",
+      "address": 4476604,
+      "size": 432,
+      "sha256": "800e76bb1e9006dffb61b38c9b8f9435aaaf3b2f68d8595df1c48a609ed407ca"
+    },
+    {
+      "symbol": "_ZNK13StringManager19getStringFromSymbolEPKc",
+      "address": 5278836,
+      "size": 424,
+      "sha256": "769e809ad583c72997c4d9954d29e205a2bc8c7f28b8cdabf24ea329929c35c7"
+    },
+    {
+      "symbol": "_ZN13StringManager16preloadPackSheetEjjb",
+      "address": 5276956,
+      "size": 936,
+      "sha256": "5161cace649975240f2dfd514159374fc6e85f4c42a7de971723197c40851652"
+    },
+    {
+      "symbol": "_ZNK13StringManager16getSheetFilenameEjjPci",
+      "address": 5274556,
+      "size": 80,
+      "sha256": "57eb7eb0a8108ffdbf14ee6e9b7c5b37a5b8aa283731cf277c9f59ac0b7e9297"
+    }
+  ]
+}

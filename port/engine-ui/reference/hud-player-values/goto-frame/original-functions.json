@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RenderFX9GotoFrameEPN7gameswf9characterEib",
+      "elf_address": "0x7a7d34",
+      "size": 92,
+      "sha256": "9bc961a29bad8d9a8648f762898a792a8a57423e5acc318306d71e85cf814eb6"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance14set_play_stateENS_9character10play_stateE",
+      "elf_address": "0x77fe10",
+      "size": 80,
+      "sha256": "902369f346415773faea4e0ea1f8d5547d45be1e0f7ac48d018000156206e09a"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance10goto_frameEi",
+      "elf_address": "0x781a3c",
+      "size": 744,
+      "sha256": "f37192ce994e7221a0ed7cefded32b2b71cb02c9435b69f315f03abbff74595e"
+    },
+    {
+      "original_symbol": "_ZN20DebugCachedCharacter7GetCharEv",
+      "elf_address": "0x427d50",
+      "size": 648,
+      "sha256": "f59a0b138df9cc46106460074774048edb6432f62afa51c60eacfe49c7912dd9"
+    }
+  ]
+}

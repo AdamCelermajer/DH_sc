@@ -1,0 +1,83 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI16AI_IsSkillUsableEj",
+      "elf_address": "0x3d8358",
+      "size": 284,
+      "sha256": "26c060734fdea9266a673b4a585a9ef49a17b51e552002edf6b4bc853743873e"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13AI_BeginSkillEj",
+      "elf_address": "0x3d86bc",
+      "size": 428,
+      "sha256": "07f9880765e3246c9b29f75f02dbb681ffcd0f2cfb9e2ada082c3286fc6eb258"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript10OnPreSkillEv",
+      "elf_address": "0x3da8b8",
+      "size": 292,
+      "sha256": "3972de55702fb6ccf8952ea66409b1080471254f0f746ee11906b9530e4dac28"
+    },
+    {
+      "original_symbol": "_ZN9Character11_RemoveBuffERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b842c",
+      "size": 320,
+      "sha256": "540f6abf54cce7a687ace8b335e47d98f3646da5ed8ad5e2ba293d9ee5c24c31"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript19OnSkillCheck_ActiveEv",
+      "elf_address": "0x3db16c",
+      "size": 284,
+      "sha256": "4c031fb529fe75640f145f3d93c80a0bc46faf5b41bbd71ca30660f5fdb84e6e"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_UseSkillEj",
+      "elf_address": "0x3d8868",
+      "size": 44,
+      "sha256": "f4cda95a87dfc8f5944afe6dc8d94e0aa74a7baa924a89ea9a12b284193b2d02"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript19OnSkillCheck_UsableEv",
+      "elf_address": "0x3da9dc",
+      "size": 288,
+      "sha256": "134ce235298bc205644729576fece573f1d76114959849c35a12c7d839805f78"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript11OnPostSkillEv",
+      "elf_address": "0x3da6c0",
+      "size": 212,
+      "sha256": "2eba26203a2db2e46ae26e712b6f94fe0828204c6dc43b20624970b989d544b7"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_EndSkillEj",
+      "elf_address": "0x3d8474",
+      "size": 108,
+      "sha256": "311acd353c02d9db01124eefbf8b15cfe15f05e3dd38041fcce0efeac3f54ca9"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI16AI_IsSkillActiveEj",
+      "elf_address": "0x3d85d4",
+      "size": 232,
+      "sha256": "557d8c92cd19e97c037a8eadf91fe61db45a43a64d0e3abe22be88041f55b854"
+    },
+    {
+      "original_symbol": "_ZN9Character8_UseManaERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b7864",
+      "size": 136,
+      "sha256": "5e517fdbf64178e06e099a623d62a96592e6b44eac73fb08b65f7375f2e93c5f"
+    },
+    {
+      "original_symbol": "_ZN9Character11_CreateBuffERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b86a8",
+      "size": 1328,
+      "sha256": "d27d95457954bcc92550921df30a3e52d076bd6040aa10b0f3a6c213bfd68570"
+    },
+    {
+      "original_symbol": "_ZN9Character8_HasManaERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b78ec",
+      "size": 136,
+      "sha256": "08359029bd9fb9ca19b23ce3faaf66a1786b09f5826f6873b3dc509fe3e7c0bd"
+    }
+  ]
+}

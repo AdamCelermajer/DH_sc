@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIhEET_P11IStreamBase",
+      "elf_address": "0x3365a4",
+      "size": 184,
+      "sha256": "3319d06774aaf85f768a7364b3f935cc0b61aecef70e8b615361b45c4f21549e"
+    },
+    {
+      "original_symbol": "_ZN6CharAI6OnInitEv",
+      "elf_address": "0x3d12b0",
+      "size": 296,
+      "sha256": "468d99d8aed4ce204358e71067614af963caf89b818e68c6638d29ff153ebefd"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches4saveEv",
+      "elf_address": "0x337d54",
+      "size": 136,
+      "sha256": "bb52db94b17bd5240c3398df62ba12a9da4d67dc4b75dcf436c8994e2ba4b829"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches13_saveSwitchesEP11IFileStream",
+      "elf_address": "0x337b4c",
+      "size": 520,
+      "sha256": "0da7ccbd9117dd3ee21f29d9acacedfa552a2f10485c1aa19bc49cc417c386f4"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader10readStringEP11IStreamBasePcy",
+      "elf_address": "0x317734",
+      "size": 244,
+      "sha256": "7a5ddf3ee51d3f11ea0aea9b3666862146edec1c8681f8e1f5587acba9e8ea52"
+    },
+    {
+      "original_symbol": "_ZNSt3mapISsbSt4lessISsESaISt4pairIKSsbEEEixISsEERbRKT_",
+      "elf_address": "0x337288",
+      "size": 380,
+      "sha256": "90ea65a18596ed16728959a59d0ef3b45ebbe440ed6640fae505dd1c89d7fe16"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x3369a8",
+      "size": 212,
+      "sha256": "bc2278330e25b4404cf75f5815f0c209d76cf311d92d052da287278dacb2a843"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEET_P11IStreamBase",
+      "elf_address": "0x3364ec",
+      "size": 184,
+      "sha256": "461597c8f50bde14e013316c8820011152d5a9dc2b785302426839031690cc5b"
+    }
+  ]
+}

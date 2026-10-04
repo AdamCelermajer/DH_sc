@@ -1,0 +1,215 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch5video6detail19IMaterialParametersINS0_9CMaterialENS_24ISharedMemoryBlockHeaderIS3_EEE15setParameterCvtINS0_6SColorEEEN5boost9enable_ifINS1_36SIsValidSetMaterialParamaterOverloadIT_EEbE4typeEtjRKSC_",
+      "elf_address": "0x5cad38",
+      "size": 472,
+      "sha256": "17c62a6906f872d43deac5d7748b449678121518a98f8269f6e4f3d4855e6f01"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada14CMeshSceneNode16getMaterialCountEv",
+      "elf_address": "0x6461cc",
+      "size": 28,
+      "sha256": "e046d34818a8d5551932c84e840f9ab858a4fa52bb5d545afded41448763d8de"
+    },
+    {
+      "original_symbol": "__aeabi_f2uiz",
+      "elf_address": "0x8be2a0",
+      "size": 84,
+      "sha256": "1bfbab489e0e7b2166376f736f04f891a50f7bf04191cfb8731e5294b752d66f"
+    },
+    {
+      "original_symbol": "__fixunssfsi",
+      "elf_address": "0x8be2a0",
+      "size": 84,
+      "sha256": "1bfbab489e0e7b2166376f736f04f891a50f7bf04191cfb8731e5294b752d66f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi3EhEEhLi4ENS1_17SUseDefaultValuesILi3EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiPv",
+      "elf_address": "0x61a3fc",
+      "size": 120,
+      "sha256": "5fc06ff4e693535d04824b6c0fd4db17aa2ab7876b4d741d7f3527c54031e473"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video24CMaterialRendererManager22createMaterialInstanceENS0_15E_MATERIAL_TYPEE",
+      "elf_address": "0x5d9af0",
+      "size": 232,
+      "sha256": "4610f1c611004e74eb71d0a9145138de70135caae22b7344ea835035e2fc0492"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada14CRootSceneNode11hasMaterialEPKc",
+      "elf_address": "0x65b538",
+      "size": 120,
+      "sha256": "d5c2b5626943bf27faf6769a0ae1aa4745707176bd444b84be3199d019b258bf"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE11getInstanceEv",
+      "elf_address": "0x611924",
+      "size": 148,
+      "sha256": "f8e5b818e045a7a81e8ff64a8c0d79bf330c6a585b24306346bec067286c4325"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE17applyBlendedValueEPvPfiSF_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x625a28",
+      "size": 320,
+      "sha256": "3fa8ca1ba84652471710e6869681a99bf8f93f7af3bd8eaca2abf7cbae4c9a31"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE10applyValueEPvSF_PNS1_15CApplicatorInfoE",
+      "elf_address": "0x6229d0",
+      "size": 72,
+      "sha256": "42fad795a7f3086d665e8e510aa5a84ac0de95e82fa68d4b9f3d213af736a55d"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi3EhEEhLi4ENS1_17SUseDefaultValuesILi3EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiifPv",
+      "elf_address": "0x61a484",
+      "size": 212,
+      "sha256": "7865fab8de89270429770e7f4bb16d7566d38f4721d38c3614fd972763c2d10d"
+    },
+    {
+      "original_symbol": "_Z24SetNodeToSelfIlluminatedPN6glitch5scene10ISceneNodeE",
+      "elf_address": "0x50e398",
+      "size": 64,
+      "sha256": "fed7073cada576bf9eaa04deedc9ca33a30aec1cf987041acef1241d5e6e7e8c"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE18applyKeyBasedValueERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoE",
+      "elf_address": "0x622a18",
+      "size": 92,
+      "sha256": "ec81c6e66d1e9cac0c47c2e8cf4a563e05fd0e021030fc08ac5b5cd64a525a1d"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21CSceneNodeAnimatorSet20applyAnimationValuesEj",
+      "elf_address": "0x65f418",
+      "size": 452,
+      "sha256": "1388b8745eb8a004e7200c5cfdb6e4528a19c3dd80413fd2dc8567998906c66d"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada16CColladaDatabase19getAnimationTrackExEPKNS0_10SAnimationE",
+      "elf_address": "0x611ae0",
+      "size": 1608,
+      "sha256": "bb7590a23775d34fa5821fac78f1e6330a691b0c929b23cf1a3eedb733f37f72"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15CColladaFactory14createMaterialERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverEPNS0_9SMaterialEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x6323d0",
+      "size": 244,
+      "sha256": "dc3090658f74e4ff70633a92030aab1b739e3b836e2ed704418ca6af4aed0b51"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getOutputEi",
+      "elf_address": "0x669e24",
+      "size": 32,
+      "sha256": "ebbae3803b8841315855c8aeb748d80121405fb42b1082a214e3feffb0dc5fe7"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track23CMaterialApplicatorInfo5cloneEv",
+      "elf_address": "0x667ed0",
+      "size": 72,
+      "sha256": "1381947d059205238b868b0a2f6c82c8f7bcfacce5355f9284d539f7edf44d1b"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS3_NS_5video6SColorEEEEELi3EhEEE20applyKeyBasedValueExERKNS0_18SAnimationAccessorEiifPvPNS1_15CApplicatorInfoE",
+      "elf_address": "0x622a74",
+      "size": 84,
+      "sha256": "01ed6729b968842ce434c3c3195dc3151fc5c6a92637bd33cec4350bb32cc186"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene10ISceneNodeC1EiRKNS_4core8vector3dIfEERKNS2_10quaternionES6_",
+      "elf_address": "0x599268",
+      "size": 476,
+      "sha256": "c9cf6b826b831cf21fc90102eb389ccb19bc3403feb983bde8c59a76f029c499"
+    },
+    {
+      "original_symbol": "_ZN14ColladaFactory14createMaterialERKN6glitch7collada16CColladaDatabaseEPNS0_5video12IVideoDriverEPNS1_9SMaterialEPNS1_14CRootSceneNodeE",
+      "elf_address": "0x3506e0",
+      "size": 44,
+      "sha256": "30ae3cfe51fecf755b2aa02c4d640bf2b37e13c9e6edad62ce6d8c5abe90912f"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada14CRootSceneNode11getMaterialEPKcPNS_5video12IVideoDriverE",
+      "elf_address": "0x65ca30",
+      "size": 204,
+      "sha256": "a8bdd70fdb994d9a0c3ba76215f0873036b9dfbbc996cfdfa1d4c1bae6db1054"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track12CInterpreterINS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIA4_hNS_5video6SColorEEEEELi3EhEEhLi4ENS1_17SUseDefaultValuesILi3EhEEE18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "elf_address": "0x619978",
+      "size": 236,
+      "sha256": "88e337a3f2ef88496e2ad98ea20caf774c1e3683323e552c1d6f3dee659efc52"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor15getDefaultValueEv",
+      "elf_address": "0x669e68",
+      "size": 16,
+      "sha256": "78eebd674d99c6aecafef75963c29be3fe2eb4a282e3e02a2a3ea98a16efbfac"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada18ISceneNodeAnimator9forceBindEv",
+      "elf_address": "0x667f18",
+      "size": 5664,
+      "sha256": "fbda4533e3c9b612740e7fe97579c2ada6e0f2c2c8155fb31a3673d07bb9ffff"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5video17CMaterialRenderer14getParameterIDEPKct",
+      "elf_address": "0x5d308c",
+      "size": 152,
+      "sha256": "68118d45a3416abc2810be16957d1ebfebec15888f11e248d3ea983170d954cb"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE12getValueSizeEv",
+      "elf_address": "0x60edec",
+      "size": 8,
+      "sha256": "ad1df9f579a087aa956d75d5a8ddce90092c2704e14b5c58ec4779f5bbc9103c"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExIA4_hNS1_6CMixinIhLi4ENS1_17SMaterialSetParamINS1_15SAnimationTypesIS4_NS_5video6SColorEEEEELi3EhEEEEE15getBlendedValueEPvPfiSF_",
+      "elf_address": "0x626124",
+      "size": 276,
+      "sha256": "47515e8b0b4497c25f41d7b6132ba3a6fecd56682adf9dddb309690af7731721"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada21CSceneNodeAnimatorSet11animateNodeEPNS_5scene10ISceneNodeEj",
+      "elf_address": "0x65f270",
+      "size": 24,
+      "sha256": "c2a9ddce47351fffdafaaed33bb2e92f451777a12993fcc3733fbc7e54ecd098"
+    },
+    {
+      "original_symbol": "_ZN14AnimControllerC1EP13RootSceneNodeb",
+      "elf_address": "0x474d30",
+      "size": 276,
+      "sha256": "e06e9efb50d28fa87d38809c3f48deb7ea81207890a1d8fda9208687303b7529"
+    },
+    {
+      "original_symbol": "_ZN14AnimController12SetCallbacksEPN6glitch7collada18ISceneNodeAnimatorEPFvPNS0_5scene19ITimelineControllerEPvES7_PFvRKNS1_15STriggeredEventES7_ES7_",
+      "elf_address": "0x474c78",
+      "size": 52,
+      "sha256": "6f063e0e9c1a37d25effc3cb7ec47f1bc97e54f03489198a3f488f40f52d4463"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor15hasDefaultValueEv",
+      "elf_address": "0x669e54",
+      "size": 20,
+      "sha256": "2fe191dca60a4c07938f8796b51e56b7254b2aeabc0e4f899971db00a561ba61"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor10applyValueEiPvPNS0_15animation_track15CApplicatorInfoERib",
+      "elf_address": "0x66a0c0",
+      "size": 76,
+      "sha256": "b45712298205c1d45f3ca1b8bc57c1c96779779952c9ee5cb4cfae84e645bbd1"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode16getMaterialCountEv",
+      "elf_address": "0x5970b0",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada14createMaterialERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS4_17CMaterialRendererEEERNS0_9SMaterialEPNS0_14CRootSceneNodeE",
+      "elf_address": "0x631ce8",
+      "size": 1768,
+      "sha256": "85623a86cab3a537b4b865cd201292198524a9033ce9a266fed7713c3c138e4b"
+    }
+  ]
+}

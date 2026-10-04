@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character6UpdateEv",
+      "elf_address": "0x3abe98",
+      "size": 3776,
+      "sha256": "b74b4f3405a8456ce440b642e97f1b0c028c29e9e74abaa1be0aaf1534e1f8c2"
+    },
+    {
+      "original_symbol": "_ZNK11Application15GetCurrentLevelEv",
+      "elf_address": "0x31f594",
+      "size": 32,
+      "sha256": "f3e5c31f7fb016c77dceb919b0c36b176f1599a562552770adbd2506651391c1"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory12SetPotionQtyEi",
+      "elf_address": "0x3ffc40",
+      "size": 220,
+      "sha256": "ac8909ec668d90805eafd0dd66b807693703213d53daadc6fe15ede2f6f3a105"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsMonsterEv",
+      "elf_address": "0x3a3064",
+      "size": 24,
+      "sha256": "7a90ee5513b9d9e9dd9a9c68da50030bd562d38e10153554b9fd4f4ed3471e98"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsBossEv",
+      "elf_address": "0x3a3158",
+      "size": 20,
+      "sha256": "02e178fdcedb17debeafd7894aa32f915c55b8c8d8feb2c786ac6d2936356a0f"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsMiniBossEv",
+      "elf_address": "0x3a3144",
+      "size": 20,
+      "sha256": "887f3c9a46ed9d58834953160dbb85182b6da61c83a6a010ef607ae3f6f45138"
+    },
+    {
+      "original_symbol": "_ZN9Character19UnLoadScriptProcessENSt4priv17_Rb_tree_iteratorISt4pairIKiPS_ENS0_11_MapTraitsTIS5_EEEEb",
+      "elf_address": "0x3a7b24",
+      "size": 280,
+      "sha256": "016d378fc1722c5c90fa2e4a9fa9abac4ad2a45914a65a033b795da7eff47b43"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller8Cmd_KillEP10GameObjectb",
+      "elf_address": "0x40570c",
+      "size": 28,
+      "sha256": "0a2c77862173fe1e153fc8803367a7ef0de280e3ec56f1102133d9b273fb9f28"
+    },
+    {
+      "original_symbol": "_ZN9Character9CanUpdateEv",
+      "elf_address": "0x3a52a4",
+      "size": 316,
+      "sha256": "8ab1ce0602bf7ecb8f54e165b150844dfe3931539ac1f2e708dd8369af879d35"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager9GetPlayerEib",
+      "elf_address": "0x36e744",
+      "size": 32,
+      "sha256": "5d19ac5cd09da90a3037728eecc8623b843e040bab522a6abe6a2eaedb2a82a6"
+    },
+    {
+      "original_symbol": "_ZN6glitch2os5Timer11getRealTimeEv",
+      "elf_address": "0x60b0cc",
+      "size": 64,
+      "sha256": "bb23d7abff133f833a6cb4418e5f80871485f5f2c556a4d58b0e18798e553b6d"
+    }
+  ]
+}

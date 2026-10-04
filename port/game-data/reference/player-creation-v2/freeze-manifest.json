@@ -1,0 +1,86 @@
+{
+  "validation": "PASS",
+  "version": 2,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/game-data/loot_tables_v2.hpp": "b7618dda29339019e738362265bde13702326f4352f0c53ca64857e7a31ef931",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/fresh_inventory_v2.hpp": "7c292dcbdf51f00f0cb80c6ad1ae188c24c663c240b3683c6964e7f771266748",
+    "port/game-data/fresh_inventory_v2.cpp": "769466d0f3aeb33d0a2d7cb6bc4f5b539f45cf5fc4117ae1620ff697c3581a49",
+    "port/level-world/player_initial_grants_v2.hpp": "bf6395009a9c11c59dae623313191dc203bfea7bd74f0c1619ee1c491a34e87d",
+    "port/level-world/player_initial_grants_v2.cpp": "fe57a885c2a6fed340caec32f6d22015f1ed1eadac5159c992c5928fecd6f9d0"
+  },
+  "proof_sha256": {
+    "port/game-data/reports/player-creation-v2-loot-arm64-differential.json": "c57bab755b75dbdcd6bb3d3867693201d1cb585e16fa08905779eb06c3ea7fcd",
+    "port/game-data/reports/player-creation-v2-fresh-arm64-differential.json": "247d0b334f94d0eb0c6db41bb6664058ddf25d0c539c50370580e6fdb74cfdc9",
+    "port/level-world/reports/player-initial-grants-v2-arm64-differential.json": "ee3810a19ab075158dabfa47a5f61b0975b846345f3d51737928edf96656332e",
+    "port/level-world/reports/player-skill-increment-v2-arm64-differential.json": "2de94a44c0411dfb612caafc1d1464c720601635c339d00290aa70290bd0c98e",
+    "port/game-data/reports/player-creation-v2-host-audit.json": "337b0de3c5f58028062b84572edc322225423f89a25414e0fbae337245aebd2a"
+  },
+  "gold_sha256": {
+    "port/game-data/reference/player-creation-v2/fixtures.bin": "97b3004304b478ebd51f4d3c65593318f48a9e5bf4e0064ccb62cfb11145d0f6",
+    "port/game-data/reference/player-creation-v2/fresh-fixtures.bin": "950fe6bfc71ceb7716f55020318aaa6560ef426517621aae33e66d0b377c4f7c",
+    "port/level-world/reference/player-initial-grants-v2/fixtures.bin": "864ced7690b5e9784f79c12df02db6afa81b93a78568e53966faecd58a438a1a",
+    "port/level-world/reference/player-initial-grants-v2/skill-fixtures.bin": "7839953e897498b10efd3ae831e613870e8094a55dffb65a8ebb716052973c64",
+    "port/game-data/reference/player-creation-v2/fresh-original-gold.json": "25c2fb0ad03b2ce684c938685c21e464dab8278e9d194e2d918cb0a38df8385c"
+  },
+  "test_and_tool_sha256": {
+    "port/game-data/tests/loot_tables_v2.cpp": "ef6bce7067c0a6345a62aaab4b77d39e35a34448f90797cd3a27e500a6771568",
+    "port/game-data/tests/loot_tables_v2_original.py": "70aa91787af036e7c9bd8e03dc4d5332d3696725da19d933f286d67d687f5793",
+    "port/game-data/tests/fresh_inventory_v2.cpp": "09cd66fb9e2a0ac3a0080b8d17bf5949e8dc6d36b03f9ed6b283bb3e3b8e38ae",
+    "port/game-data/tests/fresh_inventory_v2_original.py": "fe9bc78a4ed7a3765c0a12c0da605717b487ce58cc2d18a413b6e68780d6a39a",
+    "port/game-data/tests/fresh_inventory_v2_arm64_fixture.cpp": "ead959d4c87ac8fea31e2dd0913b4fd0a768339e67d427992d30b2c013c9a050",
+    "port/game-data/tests/fresh_inventory_v2_arm64.py": "8d9d1778cf6c01ad0dadaf4e3a9332875b0b6c5ac7664a742a133eed3b6d3d0d",
+    "port/level-world/tests/player_initial_grants_v2.cpp": "36000c270faebc2cfb32e9b918884b31afeeeb29c50aff12170ec4feadcc1ba7",
+    "port/level-world/tests/player_initial_grants_v2_original.py": "6c9935e2d27467a3904b7e72cf0fe5d2c0d09b265e9ec61804f2f4a43b03ff48",
+    "port/level-world/tests/player_skill_increment_v2_original.py": "c8db0299227c1cbef93343132c44e28f1dfaabc090253d02e3bf387fc6b64394",
+    "port/game-data/tools/run_player_creation_v2_host.py": "0556fe79a09f4e6879749cc48493a259fd141d09376d88e6344f066a51230bc0",
+    "port/game-data/tools/freeze_player_creation_v2.py": "eef68449a47c4ae5e3393f42a87537a0656297a671c4bbfe1e4fe1187cb5e0d3",
+    ".local-inputs/player-creation-v2/fresh_class_producers.py": "8f4ce5dc225fe8fbfc11b12270d13f40df15c8d82cb9da3d563cb7578d15aa60"
+  },
+  "source_evidence_sha256": {
+    "port/game-data/reference/player-creation-v2/original/autoequip/original-functions.json": "2252aa9484007bc6f0e4c602ec6148a98c022ef881c85fca1aef5ebf67aba220",
+    "port/game-data/reference/player-creation-v2/original/entrypoints/original-functions.json": "6f1df5933ea077092086b731899c58372a5164996ef5cb638d152eaba80c9189",
+    "port/game-data/reference/player-creation-v2/original/equipment-choice/original-functions.json": "3a3bde9cf234107986679793feb5077bd4523a3f17ae7e7944e72e650ccf72ec",
+    "port/game-data/reference/player-creation-v2/original/equipment-effects/original-functions.json": "bf4f27efe8bd589641e0c38eea90d840826728940b568dc8d81dbd3c15ee5df4",
+    "port/game-data/reference/player-creation-v2/original/fresh-item-services/original-functions.json": "8a799cc373c86eec9a8861c3e6bd8931700cdee8ecc0afb0b0bdd9afbfda8f22",
+    "port/game-data/reference/player-creation-v2/original/initial-grants/original-functions.json": "c31af706745ec1f7a36ffee685ac9987e86191b3b181f101a0fb9e3ab7d416cd",
+    "port/game-data/reference/player-creation-v2/original/integer-properties/original-functions.json": "0ac98f14f7a3d18a8f6e4afc507869a4f6067d2dc1a62f76fdfb401f85253c01",
+    "port/game-data/reference/player-creation-v2/original/loot/original-functions.json": "ffc707a1de4ecc11c9ff523a0362eed6b1e520b885736e985b9e265cc9bb01f3",
+    "port/game-data/reference/player-creation-v2/original/autoequip/reference/original-functions.asm": "a1868f524bd8f838a7b4c02ff745b8f12f035d83847acfb3d27075ca5a3aec34",
+    "port/game-data/reference/player-creation-v2/original/entrypoints/reference/original-functions.asm": "ed6d8dfbc62f217d748fe2b18177c108fed56de012e4937b75784d9ab2258598",
+    "port/game-data/reference/player-creation-v2/original/equipment-choice/reference/original-functions.asm": "8912ac20fb47f5d96a71c791732a36f85ea1aa55d2e74a73ef77d325c082dce1",
+    "port/game-data/reference/player-creation-v2/original/equipment-effects/reference/original-functions.asm": "005ab1c73fa7c3846e2f2aa331c0627f20125b03336e0e25f81987ed52da2a49",
+    "port/game-data/reference/player-creation-v2/original/fresh-item-services/reference/original-functions.asm": "9d04e442b967bf35946c31560c7c16ce86643bffdb0eb4605bd9fce29b544539",
+    "port/game-data/reference/player-creation-v2/original/initial-grants/reference/original-functions.asm": "f2a1dc6766867a4f63310cce0c10e6a4d4fd553f37f52deff1189a15f88afd60",
+    "port/game-data/reference/player-creation-v2/original/integer-properties/reference/original-functions.asm": "1b8f3f37cca6de196f8903cbc19ce6a0cd4c4d119a4db506b5bfdee698bdbacf",
+    "port/game-data/reference/player-creation-v2/original/loot/reference/original-functions.asm": "5bfe37d2cbb9cc84283d515b9175098922e56da9c1bd167386364ad6b66c0ef6",
+    "port/game-data/reference/player-creation-v2/NOTES.md": "b0b0b54165f70124153e7cbbbb9383f0fd01b99b406925af5d96029b923ceb99",
+    "port/game-data/reference/player-creation-v2/original-class-producers.json": "d91e4680ab380f1ec1eb1a8a1b1f4474e2b9c36e3eeb0a2578e3676814df4f62"
+  },
+  "library_sha256": {
+    ".local-inputs/player-creation-v2/libloot_tables_v2_arm64.so": "e87c6d159713f4d56f264ccd16e90e5434fd736148ccc6427a1bc78e39ee2d15",
+    ".local-inputs/player-creation-v2/libfresh_inventory_v2_arm64.so": "d7d789cd69cf7378cee28ce917828851f3f19a886cafcd656087b60cc036bad5",
+    ".local-inputs/player-creation-v2/libplayer_initial_grants_v2_arm64.so": "b8c93c3e8bf02e36fb180462677fe098efa1ca79f394be85a37afac71a8605b9",
+    ".local-inputs/player-creation-v2/loot-host-audit": "6d05b6c06286bff8a9ca7806159b0f5d643095fcbbee2b365ed0c316fa4eff80",
+    ".local-inputs/player-creation-v2/fresh-host-audit": "1e5de679e4bc056a4dc640f57bf06a5bddb6c36064ebe9aae0e14d714b70ff29",
+    ".local-inputs/player-creation-v2/grants-host-audit": "1f7a786eec515fce9ed5dbaa82e82c13c5b023bbca2827c38d96565b3fe30b37"
+  },
+  "cache_input_sha256": {
+    ".local-inputs/items-discovery/loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    ".local-inputs/items-discovery/loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    ".local-inputs/items-discovery/loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+    ".local-inputs/skill-tables/skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    ".local-inputs/skill-tables/skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    ".local-inputs/skill-tables/skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9"
+  },
+  "sanitizer_findings": 0,
+  "comparisons": {
+    "loot_reader_rng": 979,
+    "owned_starting_inventory": 60,
+    "initial_grants": 768,
+    "skill_increment": 768,
+    "class_cache_producers": 9
+  },
+  "scope": "Original source caller/owned fixed-loot proof with explicit native effect providers. Campaign/profile creation, complete auto-equip/item effects and live skill VM grants remain required. No packaged/live player readiness claim."
+}

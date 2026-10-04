@@ -1,0 +1,62 @@
+{
+  "validation": "PASS",
+  "actual_ui_library_executed": true,
+  "library": {
+    "path": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/swf-source-facade-v1-host/build/libdh2_engine_ui.so",
+    "sha256": "983acd5cff296103a01688f6a3883175e049aced76652190468c6773e9d00031"
+  },
+  "executable_sha256": "f58fdef6b67fa0735f3fa0d5de2e828f1aa54feb15e990484b03c141cb7f8c17",
+  "source_sha256": {
+    "port/engine-ui/tests/swf_cursor_input_gold.cpp": "eeff1ecced345a8dea6fb203f4bec7bf11e56538dcc6bab31056f775a289444f",
+    "port/engine-ui/tests/swf_cursor_gold_libm_v1.cpp": "ae6b09407c95518d441c3def912b5b721da708a7f1df7b444e2c13d0d4538357",
+    "port/engine-ui/tools/swf_cursor_dso_gold_v1.py": "38b7c486ea1ac4c68ab710c8eaf9c59f78eb77f8cfe71583c92b82a46026815d"
+  },
+  "original_gold_sha256": "6e760ed7a29a6a404d0391e8b514ec82d00ea96828428166fd84ace3825b1542",
+  "original_evidence": {
+    "path": "port/engine-ui/reference/swf-native-input-frame-v1/freeze-manifest.json",
+    "sha256": "5bc8544505a2ea255b83eb0179dd6dcec501bd5905aa26127178eede2477ca0c"
+  },
+  "original_instructions_executed_this_run": false,
+  "libm_source_fixture": true,
+  "native_libm_parity": false,
+  "compile_command": [
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fno-sanitize=vptr",
+    "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/swf_cursor_input_gold.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/tests/swf_cursor_gold_libm_v1.cpp",
+    "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/swf-source-facade-v1-host/build",
+    "-Wl,--no-as-needed",
+    "-ldh2_engine_ui",
+    "-Wl,--export-dynamic-symbol=sinf",
+    "-Wl,--export-dynamic-symbol=cosf",
+    "-Wl,--export-dynamic-symbol=sincosf",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/swf-cursor-dso-gold-v1/cursor_dso_gold_v1"
+  ],
+  "ldd": "\tlinux-vdso.so.1 (0x00007edf11450000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x00007edf10c00000)\n\tlibdh2_engine_ui.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/swf-source-facade-v1-host/build/libdh2_engine_ui.so (0x00007edf0ca02000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x00007edf0c600000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x00007edf0c8dc000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x00007edf0be00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007edf11392000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007edf0ba00000)\n\tlibz.so.1 => /usr/lib/x86_64-linux-gnu/libz.so.1 (0x00007edf11374000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007edf11452000)\n",
+  "actual_trig_bindings": [
+    "468:\tbinding file /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/swf-source-facade-v1-host/build/libdh2_engine_ui.so [0] to /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/swf-cursor-dso-gold-v1/cursor_dso_gold_v1 [0]: normal symbol `sincosf'"
+  ],
+  "binding_log_sha256": "b1c2ba9dcc94c476089d189bd1436150753dd66d4a5fb72ab3f51c5b08654ad4",
+  "host_audit": {
+    "validation": "PASS",
+    "original_gold_comparisons": 6000,
+    "ordered_services": 24774,
+    "libm_fixture_from_original_graphic_output": true,
+    "mismatches": 0
+  },
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer"
+  ],
+  "sanitizer_findings": 0
+}

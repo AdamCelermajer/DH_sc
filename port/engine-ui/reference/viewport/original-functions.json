@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN17MenuFlash2DCamera12SetLimitClipEPN7gameswf9characterE",
+      "elf_address": "0x42cf30",
+      "size": 56,
+      "sha256": "330f33abfeb32485c2045530b4da7d1135efb55fd736ad0b73d6b7596537905b"
+    },
+    {
+      "original_symbol": "_ZN17MenuFlash2DCamera6UpdateEv",
+      "elf_address": "0x42cd84",
+      "size": 428,
+      "sha256": "095c3f1559a85e380fda5032a964a89939d4f08deeca1c76a3e39c86fd4b65e2"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root20set_display_viewportEiiii",
+      "elf_address": "0x775d38",
+      "size": 104,
+      "sha256": "6eb06d3fa825c2b501a33c4d1a6bb9b4d931a0f5737db623cea0481e1dbeaa82"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root17screen_to_logicalERNS_5pointE",
+      "elf_address": "0x773dc0",
+      "size": 400,
+      "sha256": "26615e3cd4d984189184e98ebdf5b7d6ae8bf54b2e545699111f979cb8dad796"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX9SetBoundsEiiiiN7gameswf10scale_modeE",
+      "elf_address": "0x7a9b30",
+      "size": 124,
+      "sha256": "cdbc87a2a29ad17500d70a866832539754e982547e2608bafd9b420066e88e27"
+    },
+    {
+      "original_symbol": "_ZN17MenuFlash2DCameraC1EP6MenuFX",
+      "elf_address": "0x42ccd0",
+      "size": 128,
+      "sha256": "9510464779dcce3c4374f88ea67b57c4e1a0996d9fbe859b569f848c0993b15c"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root18set_display_boundsEiiiiNS_10scale_modeE",
+      "elf_address": "0x7755f4",
+      "size": 1860,
+      "sha256": "1a36eaf7f5780cb87bc8ad6fac18f843f16760364426ef44f3bfaeb7cbf427e8"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root17logical_to_screenERNS_5pointE",
+      "elf_address": "0x773f50",
+      "size": 472,
+      "sha256": "e51a5f6ab939be4d087146e6aaa5ec54eb9532ac4c15fbcab8d8e1bd13d82a7f"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX11SetViewportEiiii",
+      "elf_address": "0x7a9bac",
+      "size": 112,
+      "sha256": "51134e4d5e60856473162fde86730446454e22f02723718713d86a10201e55ee"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root13begin_displayEv",
+      "elf_address": "0x7751bc",
+      "size": 328,
+      "sha256": "7b78574343d1d5f5dbb255460d6ba4c3cf541dce4bcf1d765d3b65c6778a27b5"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "comparisons": 2400,
+  "source_delayed_set_drag_callbacks": 600,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "82fce67d7e14e8ea2aac6298d37a9d402a84d6577c603a4d69ff321c1fcca069",
+  "gold_sha256": "2c7fe99fb55e02b02497c3eb651e7bb900f4ac168beb1ad3a27a69653d06be14",
+  "scope": "Source full 2D do_mouse_drag instruction arithmetic against optimized native.\n\nRoot drag/mouse/world/set-state/set-matrix virtuals use explicit fixtures;\nsource weak parent and both source inverse routines execute. This proves field\noutput, bounds/IEEE selection and delayed initialization, not a 3D scene mouse.\n",
+  "source_sha256": {
+    "port/engine-ui/swf_drag_values.hpp": "8018a4ce7ceae5cb8caa4b4b5f3af1ffaaa57b827fb746507074d2447687cd1c",
+    "port/engine-ui/swf_drag_values.cpp": "076ccf5cf4739202ce660fee37fbeeaa428dd4be36b3376fc071f8f7657bb624",
+    "port/engine-ui/tests/swf_drag_values_differential.py": "3a1f8fd846783aff806157d533e8d0de00b5d521a026f2110be4f9e06850ecee"
+  }
+}

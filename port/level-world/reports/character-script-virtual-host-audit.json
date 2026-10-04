@@ -1,0 +1,159 @@
+{
+  "validation": "PASS",
+  "scope": "Actual Lua/alias DSO proof for original-derived external initial methods and VCB flags.",
+  "host_audit": {
+    "validation": "PASS",
+    "checks": 49244,
+    "original_vcb_cases": 4100,
+    "initial_virtual_cases": 24,
+    "actual_lua_calls": 5,
+    "actual_return_table_projections": 4,
+    "source_empty_initial_methods": 20,
+    "missing_aliased_global_protected_error": true,
+    "flags_from_alias_membership_without_global": true,
+    "library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/libcharacter_script_virtual_audit.so",
+    "runtime_library": "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so",
+    "alias_library": "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+  },
+  "source_sha256": {
+    "port\\level-world\\character_script_virtual.hpp": "d8648e61d063878823b09d12ac6f3ab52281c207bb078ed31357493f75ee538b",
+    "port\\level-world\\character_script_virtual.cpp": "08c8dc9c57258227392a0afa1f44ab0551d5fa716533d1b5c743c2f7945608a3",
+    "port\\level-world\\tests\\character_script_virtual.cpp": "3f3d0bac0a03978e609a8617d5bff74a9505211be2867b2cad67cef45a8d216d",
+    "port\\level-world\\tests\\character_script_virtual_host.py": "f44b577d726cfbc0e916d9372394756e9b1e89c3de4b9b5ccc40ab650978889b",
+    "port\\script-runtime\\script_runtime.h": "c29d28d5e5cd255adb582f98c2451e69379aa8532cb865d941f67b70c15d5b66",
+    "port\\script-runtime\\script_runtime.c": "7fe0f695f42d522318a27e236b1752b2dc4ce8efde95a5786d44a2fa4b174189",
+    "port\\script-runtime\\script_function_alias.h": "18437e9ee37bc55cfc91cb162000cd237946b73a3940e0eb4fa9248ab47d170e",
+    "port\\script-runtime\\script_function_alias.cpp": "28117cd5fbfe1c15ed14dc2ef5fbf8ec6a23379b5f9450d15e194f67ba2a0fec"
+  },
+  "binary_sha256": {
+    "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so": "e79d51594a2346fc37d0ef53809f6fa0ed528766489da8cfdb0d00bb182f5b6e",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/libcharacter_script_virtual_audit.so": "e7883d9c758cb14ef840f7a6edf8a03ad4ccfb800b0c162e8a9ad29f4d101f64",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/virtual_host": "02487bc25e7b557461a34a44c805e45affd88d429f31f045f5e83e8072b5cce5"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_evidence_sha256": "93f471391ba5c61e38e75f6fb618953f2a527dba5502da3ef12daa5e9f439f8b",
+  "arm64_report_sha256": "81758305e57384bf0486614ff3c12f705d17c58d8fa1ad2d3f4551a93a8c04b0",
+  "gold_sha256": "89e232ca0c97cf744debfde1024068c99bee8914f2088299c4319b86c3dda1e1",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "actual_runtime_alias_library_executed": true,
+  "full_additional_kind_ownership_executed": false,
+  "commands": [
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "e79d51594a2346fc37d0ef53809f6fa0ed528766489da8cfdb0d00bb182f5b6e  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-shared",
+        "-fPIC",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_script_virtual.cpp",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-ldh2_script_runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/script-runtime",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/libcharacter_script_virtual_audit.so"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_script_virtual.cpp",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-L/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery",
+        "-lcharacter_script_virtual_audit",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-ldh2_script_runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/script-runtime",
+        "-Wl,-rpath,/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery",
+        "-ldl",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/virtual_host"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/virtual_host"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x000074a2016f3000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x000074a200e00000)\n\tlibcharacter_script_virtual_audit.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/libcharacter_script_virtual_audit.so (0x000074a2016c1000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x000074a200a00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x000074a200600000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x000074a20159b000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x000074a1ffe00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000074a20156b000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x000074a1ffa00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000074a2016f5000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:abort_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/virtual_host",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-script-kinds/virtual-fixtures.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":49244,\"original_vcb_cases\":4100,\"initial_virtual_cases\":24,\"actual_lua_calls\":5,\"actual_return_table_projections\":4,\"source_empty_initial_methods\":20,\"missing_aliased_global_protected_error\":true,\"flags_from_alias_membership_without_global\":true,\"library\":\"/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/libcharacter_script_virtual_audit.so\",\"runtime_library\":\"/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\",\"alias_library\":\"/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\"}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "e79d51594a2346fc37d0ef53809f6fa0ed528766489da8cfdb0d00bb182f5b6e  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/libcharacter_script_virtual_audit.so"
+      ],
+      "returncode": 0,
+      "stdout": "e7883d9c758cb14ef840f7a6edf8a03ad4ccfb800b0c162e8a9ad29f4d101f64  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/libcharacter_script_virtual_audit.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/virtual_host"
+      ],
+      "returncode": 0,
+      "stdout": "02487bc25e7b557461a34a44c805e45affd88d429f31f045f5e83e8072b5cce5  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/virtual_host\n",
+      "stderr": ""
+    }
+  ],
+  "linked_dependencies": "linux-vdso.so.1 (0x000074a2016f3000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x000074a200e00000)\n\tlibcharacter_script_virtual_audit.so => /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-script-kinds-discovery/libcharacter_script_virtual_audit.so (0x000074a2016c1000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x000074a200a00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x000074a200600000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x000074a20159b000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x000074a1ffe00000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000074a20156b000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x000074a1ffa00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000074a2016f5000)"
+}

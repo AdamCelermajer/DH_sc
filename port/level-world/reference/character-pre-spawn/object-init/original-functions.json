@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13ObjectManager8InitPostEv",
+      "elf_address": "0x34552c",
+      "size": 936,
+      "sha256": "4100b540ee7537f60070334b0a6621f88df1a3164f5bae979fe98b751973a1eb"
+    }
+  ]
+}

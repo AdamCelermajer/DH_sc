@@ -1,0 +1,16 @@
+{
+  "validation": "PASS",
+  "comparisons": 1946,
+  "ordered_services": 8736,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "11a152bd7ae6b03c50b4fa2fc9139751c68befc3095391cd657dfdac55056874",
+  "original_corpus_sha256": "cbf254084f767a22df8fbe17241d049a5488cfa44ea77741217fa99048a1f8db",
+  "gold_sha256": "5036f0b4adb953a2c590b15a2b0c7a93c8ffc0085f4b4fbfadc9b2766f8ea03d",
+  "source_sha256": {
+    "port/engine-ui/hud_startup_callbacks.hpp": "6300fe64f2b505079634f19b6aa41bb92720323873092924e6f48097d5b25e9f",
+    "port/engine-ui/hud_startup_callbacks.cpp": "05dc59ce3c36d5a4c7b99074ba5c08cbf5b5ce8eb234407ecfa4a535660259e5"
+  },
+  "script_sha256": "987a76327b6b92abb6a364325296ad70a7ac97f450a652afde79e2b2e9f162a2",
+  "scope": "Actual original NativeLoadSettings/NativeIsMultiplayerEnabled and Device.IsProgrammablePipeline instructions; actual set_bool/drop_refs for fresh result. Required Savegame/UpdateSavedValues/options/Audio/language are explicit services, signed32-to-float32 compiler helper modeled; device virtual capabilities fixture. Full Savegame/audio/device ownership not reconstructed. Native full64 callback/context/receiver identities; ARM64 optimized kernel executes source projection. No complete Savegame/profile/audio or AS callback integration claim."
+}

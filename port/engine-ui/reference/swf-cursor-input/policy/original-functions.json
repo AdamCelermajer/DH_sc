@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance22can_handle_mouse_eventEv",
+      "elf_address": "0x77f188",
+      "size": 64,
+      "sha256": "b39a350c81224d0858c5b21d377a3ccb149d14168e01939c6b75e660a5f0d420"
+    },
+    {
+      "original_symbol": "_Z38sprite_can_handle_mouse_event_callbackPN7gameswf9characterE",
+      "elf_address": "0x7a8cd8",
+      "size": 4,
+      "sha256": "ba23c0a6b93306d9c9677c689b82757431663787312e1bb0fd28a9460d2419b6"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf14movie_def_impl16has_init_actionsEv",
+      "elf_address": "0x7636b4",
+      "size": 8,
+      "sha256": "30a76f72e1a19807254e4ed824851df7f669d14fb032016a9380892ab65fae19"
+    },
+    {
+      "original_symbol": "_ZN7gameswf5arrayINS_9smart_ptrINS_9characterEEEE9push_backIPS2_EEvRKT_",
+      "elf_address": "0x75581c",
+      "size": 80,
+      "sha256": "06fd848c1a1da040931c3234ca15513878ed977cac4a9f322ddf1ecb006d68ea"
+    },
+    {
+      "original_symbol": "_ZN7gameswf5arrayINS_9smart_ptrINS_9characterEEEE6resizeEi",
+      "elf_address": "0x75586c",
+      "size": 156,
+      "sha256": "848ec492c8edb8afac38dc8c262b7408752141383e89a800260709ca72ccd672"
+    },
+    {
+      "original_symbol": "_ZN7gameswf17sprite_definition16has_init_actionsEv",
+      "elf_address": "0x783268",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    }
+  ]
+}

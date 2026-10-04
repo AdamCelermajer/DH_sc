@@ -1,0 +1,754 @@
+{
+  "validation": "PASS",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "source_sha256": "ce3b9526ef3559b358c5a99d1a70b2706ea4173cd8b471bc352728cf9a050c40",
+  "input_sha256": {
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarray.bin": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarraynames.bin": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_pystructnames.bin": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82",
+    "port\\level-world\\reports\\object-input-provenance.json": "311703e439347808c5b37373bdb793a390d1d05d17feb8d750cc62e5f91d4117",
+    "port\\android-native\\app\\src\\main\\assets\\worlds\\crypt01-provenance.json": "a38bbcfbde007bd328de9152ea1e5499a97903f472b36c9ccbac37f36de94126"
+  },
+  "AI_property_index": 1,
+  "ai_rows": [
+    {
+      "row": 0,
+      "name": "AAA_DONT_DELETE",
+      "script_bytes": 0,
+      "script": "",
+      "delayed": 1,
+      "type": 0
+    },
+    {
+      "row": 1,
+      "name": "Assassin1",
+      "script_bytes": 9,
+      "script": "Assassin1",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 2,
+      "name": "Assassin2",
+      "script_bytes": 9,
+      "script": "Assassin2",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 3,
+      "name": "Assassin3",
+      "script_bytes": 9,
+      "script": "Assassin3",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 4,
+      "name": "AssassinDemon",
+      "script_bytes": 13,
+      "script": "AssassinDemon",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 5,
+      "name": "AttackingFollower",
+      "script_bytes": 18,
+      "script": "attacking_follower",
+      "delayed": 1,
+      "type": 2
+    },
+    {
+      "row": 6,
+      "name": "Balrog",
+      "script_bytes": 6,
+      "script": "Balrog",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 7,
+      "name": "Bandit",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 8,
+      "name": "Basic",
+      "script_bytes": 0,
+      "script": "",
+      "delayed": 1,
+      "type": 0
+    },
+    {
+      "row": 9,
+      "name": "BigMonster",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 10,
+      "name": "CastleDefender",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 11,
+      "name": "Celest",
+      "script_bytes": 7,
+      "script": "__npc__",
+      "delayed": 1,
+      "type": 6
+    },
+    {
+      "row": 12,
+      "name": "Coward_Dog",
+      "script_bytes": 6,
+      "script": "coward",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 13,
+      "name": "Cultists_Ranged",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 14,
+      "name": "DW_Statue",
+      "script_bytes": 9,
+      "script": "DW_Statue",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 15,
+      "name": "DarkQueen1",
+      "script_bytes": 10,
+      "script": "DarkQueen1",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 16,
+      "name": "DarkQueen2",
+      "script_bytes": 10,
+      "script": "DarkQueen2",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 17,
+      "name": "Dummy",
+      "script_bytes": 5,
+      "script": "Dummy",
+      "delayed": 1,
+      "type": 0
+    },
+    {
+      "row": 18,
+      "name": "EdwardBoss",
+      "script_bytes": 10,
+      "script": "EdwardBoss",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 19,
+      "name": "Emissary",
+      "script_bytes": 8,
+      "script": "Emissary",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 20,
+      "name": "Faery",
+      "script_bytes": 8,
+      "script": "follower",
+      "delayed": 1,
+      "type": 3
+    },
+    {
+      "row": 21,
+      "name": "FauxReferee",
+      "script_bytes": 7,
+      "script": "__npc__",
+      "delayed": 1,
+      "type": 6
+    },
+    {
+      "row": 22,
+      "name": "Flaminite",
+      "script_bytes": 9,
+      "script": "Flaminite",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 23,
+      "name": "Flaminite_ED",
+      "script_bytes": 11,
+      "script": "FlaminiteED",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 24,
+      "name": "Follower",
+      "script_bytes": 18,
+      "script": "attacking_follower",
+      "delayed": 1,
+      "type": 2
+    },
+    {
+      "row": 25,
+      "name": "GenericBoss",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 26,
+      "name": "Hotty",
+      "script_bytes": 7,
+      "script": "__npc__",
+      "delayed": 1,
+      "type": 6
+    },
+    {
+      "row": 27,
+      "name": "InvisibleMan",
+      "script_bytes": 7,
+      "script": "__npc__",
+      "delayed": 1,
+      "type": 9
+    },
+    {
+      "row": 28,
+      "name": "LargePlant",
+      "script_bytes": 10,
+      "script": "largeplant",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 29,
+      "name": "LizadManLarge",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 30,
+      "name": "LizardMan",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 31,
+      "name": "LizardManMultiPlayer",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 32,
+      "name": "MachineRoomMonster",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 33,
+      "name": "MachineRoom_Monster",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 34,
+      "name": "Madruk",
+      "script_bytes": 6,
+      "script": "madruk",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 35,
+      "name": "MadrukBufferMinion",
+      "script_bytes": 13,
+      "script": "madruk_buffer",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 36,
+      "name": "MadrukEnergySpawner",
+      "script_bytes": 13,
+      "script": "energyspawner",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 37,
+      "name": "MadrukHealerMinion",
+      "script_bytes": 13,
+      "script": "madruk_healer",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 38,
+      "name": "MadrukTorso",
+      "script_bytes": 12,
+      "script": "madruk_torso",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 39,
+      "name": "Merchant",
+      "script_bytes": 7,
+      "script": "__npc__",
+      "delayed": 1,
+      "type": 7
+    },
+    {
+      "row": 40,
+      "name": "Monster",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 41,
+      "name": "Moth",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 42,
+      "name": "MothCocoon",
+      "script_bytes": 10,
+      "script": "mothcocoon",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 43,
+      "name": "MothKing",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 44,
+      "name": "Player",
+      "script_bytes": 10,
+      "script": "__player__",
+      "delayed": 1,
+      "type": 1
+    },
+    {
+      "row": 45,
+      "name": "QueenCocoon",
+      "script_bytes": 10,
+      "script": "mothcocoon",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 46,
+      "name": "QueenSlime",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 47,
+      "name": "Referee",
+      "script_bytes": 30,
+      "script": "machineroom/referee_vip_escort",
+      "delayed": 0,
+      "type": 3
+    },
+    {
+      "row": 48,
+      "name": "RefereeSoundTest",
+      "script_bytes": 21,
+      "script": "soundtest/referee_sdd",
+      "delayed": 0,
+      "type": 3
+    },
+    {
+      "row": 49,
+      "name": "Referee_Big",
+      "script_bytes": 34,
+      "script": "machineroom/referee_vip_escort_big",
+      "delayed": 0,
+      "type": 3
+    },
+    {
+      "row": 50,
+      "name": "Rene",
+      "script_bytes": 4,
+      "script": "rene",
+      "delayed": 0,
+      "type": 2
+    },
+    {
+      "row": 51,
+      "name": "ResurrectingGod",
+      "script_bytes": 15,
+      "script": "resurrectinggod",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 52,
+      "name": "RisenZombies",
+      "script_bytes": 18,
+      "script": "attacking_follower",
+      "delayed": 0,
+      "type": 2
+    },
+    {
+      "row": 53,
+      "name": "Rocky",
+      "script_bytes": 7,
+      "script": "__npc__",
+      "delayed": 1,
+      "type": 6
+    },
+    {
+      "row": 54,
+      "name": "RootTroll",
+      "script_bytes": 9,
+      "script": "RootTroll",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 55,
+      "name": "SandWorm01",
+      "script_bytes": 10,
+      "script": "sandworm01",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 56,
+      "name": "SandWorm02",
+      "script_bytes": 10,
+      "script": "sandworm02",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 57,
+      "name": "SandWormQueen",
+      "script_bytes": 14,
+      "script": "sandworm_queen",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 58,
+      "name": "SandWormSmall",
+      "script_bytes": 10,
+      "script": "sandworm01",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 59,
+      "name": "SittingVillager",
+      "script_bytes": 7,
+      "script": "__npc__",
+      "delayed": 1,
+      "type": 6
+    },
+    {
+      "row": 60,
+      "name": "Skeleton",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 61,
+      "name": "Slime",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 62,
+      "name": "Spider",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 63,
+      "name": "SwampKing",
+      "script_bytes": 14,
+      "script": "swampking_core",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 64,
+      "name": "SwordGuardian",
+      "script_bytes": 18,
+      "script": "attacking_follower",
+      "delayed": 1,
+      "type": 2
+    },
+    {
+      "row": 65,
+      "name": "Trap",
+      "script_bytes": 18,
+      "script": "attacking_follower",
+      "delayed": 1,
+      "type": 2
+    },
+    {
+      "row": 66,
+      "name": "TreeThingMiniBoss",
+      "script_bytes": 13,
+      "script": "AssassinDemon",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 67,
+      "name": "Troll",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 68,
+      "name": "Ugly_Dog",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 69,
+      "name": "Ugly_Dog_Big",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    },
+    {
+      "row": 70,
+      "name": "Villager",
+      "script_bytes": 7,
+      "script": "__npc__",
+      "delayed": 1,
+      "type": 6
+    },
+    {
+      "row": 71,
+      "name": "Wetty",
+      "script_bytes": 7,
+      "script": "__npc__",
+      "delayed": 1,
+      "type": 6
+    },
+    {
+      "row": 72,
+      "name": "WindDragon",
+      "script_bytes": 10,
+      "script": "windDragon",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 73,
+      "name": "Windy",
+      "script_bytes": 7,
+      "script": "__npc__",
+      "delayed": 1,
+      "type": 6
+    },
+    {
+      "row": 74,
+      "name": "Witch",
+      "script_bytes": 5,
+      "script": "witch",
+      "delayed": 0,
+      "type": 4
+    },
+    {
+      "row": 75,
+      "name": "Zombie",
+      "script_bytes": 7,
+      "script": "monster",
+      "delayed": 1,
+      "type": 4
+    }
+  ],
+  "crypt_characters": [
+    {
+      "character": "CryptSlime",
+      "character_row": 33,
+      "authored_AI_index": 40,
+      "ai": {
+        "row": 40,
+        "name": "Monster",
+        "script_bytes": 7,
+        "script": "monster",
+        "delayed": 1,
+        "type": 4
+      }
+    },
+    {
+      "character": "CryptSlime_RE",
+      "character_row": 34,
+      "authored_AI_index": 40,
+      "ai": {
+        "row": 40,
+        "name": "Monster",
+        "script_bytes": 7,
+        "script": "monster",
+        "delayed": 1,
+        "type": 4
+      }
+    },
+    {
+      "character": "Crypt_Ghost",
+      "character_row": 35,
+      "authored_AI_index": 68,
+      "ai": {
+        "row": 68,
+        "name": "Ugly_Dog",
+        "script_bytes": 7,
+        "script": "monster",
+        "delayed": 1,
+        "type": 4
+      }
+    },
+    {
+      "character": "Crypt_Skeleton",
+      "character_row": 38,
+      "authored_AI_index": 40,
+      "ai": {
+        "row": 40,
+        "name": "Monster",
+        "script_bytes": 7,
+        "script": "monster",
+        "delayed": 1,
+        "type": 4
+      }
+    },
+    {
+      "character": "Crypt_SkeletonXL",
+      "character_row": 39,
+      "authored_AI_index": 40,
+      "ai": {
+        "row": 40,
+        "name": "Monster",
+        "script_bytes": 7,
+        "script": "monster",
+        "delayed": 1,
+        "type": 4
+      }
+    },
+    {
+      "character": "DefaultFairy",
+      "character_row": 97,
+      "authored_AI_index": 20,
+      "ai": {
+        "row": 20,
+        "name": "Faery",
+        "script_bytes": 8,
+        "script": "follower",
+        "delayed": 1,
+        "type": 3
+      }
+    },
+    {
+      "character": "WanderingPriest",
+      "character_row": 419,
+      "authored_AI_index": 50,
+      "ai": {
+        "row": 50,
+        "name": "Rene",
+        "script_bytes": 4,
+        "script": "rene",
+        "delayed": 0,
+        "type": 2
+      }
+    }
+  ],
+  "required_cache_resources": [
+    {
+      "requested": "_commons",
+      "resolved_path": "data/scripts/ai/_commons.luac",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/_commons.luac",
+      "size": 13535,
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+      "header": "0d0a0d0a6c6f63616c20416e"
+    },
+    {
+      "requested": "monster",
+      "resolved_path": "data/scripts/ai/monster.luac",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/monster.luac",
+      "size": 7393,
+      "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+      "header": "6c6f63616c20534b494c4c54"
+    },
+    {
+      "requested": "follower",
+      "resolved_path": "data/scripts/ai/follower.luac",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/follower.luac",
+      "size": 1901,
+      "sha256": "2d281c3bc784bbc12356e37cff9e7bdcd44a13e1d45da1fcb21069b4fef48d9d",
+      "header": "0d0a0d0a2d2d205768656e20"
+    },
+    {
+      "requested": "rene",
+      "resolved_path": "data/scripts/ai/rene.luac",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/rene.luac",
+      "size": 9336,
+      "sha256": "631e7137c6ba49fca45e6cf0b37d1e45e4f42af4ca120106274e7e28d5f56fc7",
+      "header": "2d2d20232323232323232323"
+    }
+  ],
+  "scope": "Exact authored property table AI indices and cache rows; dynamic class/property changes and spawning decisions remain runtime producers."
+}

@@ -1,0 +1,84 @@
+{
+  "validation": "PASS",
+  "recorded_at_utc": "2026-10-04T01:58:27.746979+00:00",
+  "scope": "Bind the five emulator suites to one frozen native monster-Init APK.",
+  "apk": {
+    "path": "port/android-native/build/checkpoints/dh2-native-monster-init-f19abb6a.apk",
+    "sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d"
+  },
+  "apk_bytes": 23598227,
+  "source_build_capture": {
+    "path": ".local-inputs/native-monster-init-f19abb6a-build-capture.zip",
+    "sha256": "6cbf526bacbb03df8afb363eed8b1c67775c0899ea800d20fb287140838c2a9d",
+    "compiled_input_count": 375
+  },
+  "build_inspection": {
+    "path": "port/android-native/reports/native-monster-init-f19abb6a-final-build-inspection.json",
+    "sha256": "172d511072d8fd93a282e02cca211801d91e4d414c76bbce9efca50851aad9cb"
+  },
+  "main_linked_host_audit": {
+    "path": "port/level-world/reports/character-initialization-final-main-linked-host-audit.json",
+    "sha256": "b9f846ed6f350adb146d8078c01fbc5bb51a4a87e7312be9ee86cf15c3eeaf17"
+  },
+  "emulator": {
+    "serial": "emulator-5554",
+    "api": 37,
+    "abi": "x86_64"
+  },
+  "suites": [
+    {
+      "path": ".local-inputs/monster-init-render-live-f19abb6a/monster-init-smoke.json",
+      "sha256": "a2b6ee07995905887edb9913fba53bdc2df278e2a525841a5ab080e360561726",
+      "validation": "PASS",
+      "apk_sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d",
+      "installed_apk_sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d"
+    },
+    {
+      "path": ".local-inputs/monster-init-live-movement-f19abb6a/live-actor-smoke.json",
+      "sha256": "1cc9ae5a954d7047c72f997b762eececb527203325cfd9c61c7594585701b952",
+      "validation": "PASS",
+      "apk_sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d",
+      "installed_apk_sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d"
+    },
+    {
+      "path": ".local-inputs/monster-init-live-lifecycle-f19abb6a/live-actor-lifecycle-smoke.json",
+      "sha256": "f38898a6158c67db7c005a5403f2419af71f3f14c6e5c125a45c02001c2c7569",
+      "validation": "PASS",
+      "apk_sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d",
+      "installed_apk_sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d"
+    },
+    {
+      "path": ".local-inputs/monster-init-live-bank-f19abb6a/prince-bank-smoke.json",
+      "sha256": "3a18f801db7cd12bc932481234fa9b777345bb241022fcd39ed7e19302f7440d",
+      "validation": "PASS",
+      "apk_sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d",
+      "installed_apk_sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d"
+    },
+    {
+      "path": ".local-inputs/monster-init-live-combat-f19abb6a/character-combat-smoke.json",
+      "sha256": "83a59df9808088413af93b30605e3bf1c7d9931734fd31c6f2fdeb0a3a37d350",
+      "validation": "PASS",
+      "apk_sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d",
+      "installed_apk_sha256": "f19abb6af431c3b61c64380fb9501f5bfdf92fc2d90c83e19ee16fc0f1cb223d"
+    }
+  ],
+  "original_monster_Init_sessions": 11,
+  "sessions_retained_after_rotation": 11,
+  "visual_inspection": [
+    {
+      "path": ".local-inputs/monster-init-render-live-f19abb6a/portrait.png",
+      "sha256": "28db3f76dcd059fb8a5cc445de413371464b862dda23bf2c9d92298a7e33b7c5",
+      "observed": "Textured Crypt and player rendered; prototype controls"
+    },
+    {
+      "path": ".local-inputs/monster-init-render-live-f19abb6a/landscape.png",
+      "sha256": "aebce0f171e4708b95e96afdaa3656badf3f2086a3683f5cff56caf55869ac68",
+      "observed": "Textured Crypt and player rendered; prototype controls"
+    }
+  ],
+  "physical_arm64_verified": false,
+  "full_game_verified": false,
+  "full_enemy_ai_verified": false,
+  "all_game_assets_bundled": false,
+  "source_Application_session_selection": false
+}

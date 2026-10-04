@@ -1,0 +1,44 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "12cef18fc1c36747c3cc85c83549492ba245291308189e9e2abf9eabdc206176",
+  "arm64_library_sha256": "beb40bd7c5596bddc2e1db3e128a03d6b4363933f77f18ddb2c67a6df3c5ccdc",
+  "reference_sha256": "ee2c1f3891fc1e4cccb847c90f951a5082664daa9cdb3fd7a2a470e30e699b9d",
+  "source_sha256": {
+    "port/scene-materials/shader_sources.hpp": "8115f47857aca50468885e55fb549d902e4ac0ef5220f6b88ae7ce0da8092afb",
+    "port/scene-materials/shader_sources.cpp": "f05874e30bba3a3b1c8cec643e5fda6bcba4f31e9b935eae8e94c9872b41cde1",
+    "port/scene-materials/tests/shader_sources.cpp": "f3b096a9f42247b2d9185a6c93b808496f3fce9dc516d105ff3d481c68d71802",
+    "port/scene-materials/tests/shader_sources_differential.py": "6fbd66057f3cbe1ed8a47527f19faa4cd224c5f6ba118692df284dabf620acc9"
+  },
+  "comparisons": 860,
+  "operation_counts": {
+    "0": 400,
+    "1": 300,
+    "2": 160
+  },
+  "original_source_calls": {
+    "0x6dfe68": 400,
+    "0x6e0c10": 700,
+    "0x6e0b64": 700,
+    "0x6df738": 400,
+    "0x6df3c0": 400,
+    "0x6e0a3c": 160
+  },
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "mismatches": 0,
+  "shader_pack_sha256": "365a4d3c432454c44208ebb484c7a472a3a4534a0c5c9e77a7a90f3b87b1b5c0",
+  "services": [
+    "initialized original process-buffer arena1MiB",
+    "modeled libc strcpy",
+    "cache miss projection",
+    "borrowed IReadFile exact length/read",
+    "base shader name/refcount owner",
+    "borrowed reference releases",
+    "glCreateShader token77",
+    "glShaderSource observation",
+    "glCompileShader success/no info log"
+  ],
+  "scope": "Original name concatenate/config caret rewrite/eight compile-source strings and stage projection. GPU compilation/rendering, complete shader resource manager, material selection/binding and archive parser parity are outside this proof.",
+  "elapsed_seconds": 5.3
+}

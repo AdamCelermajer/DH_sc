@@ -1,0 +1,2303 @@
+{
+  "scope": "Static ARM direct BL sites in new complete captures, including literal-pool disassembly; indirect services are separate slot evidence",
+  "calls": [
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abec8",
+      "target": "0x3136b4",
+      "target_symbol": "_Z20PushProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abed8",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abeec",
+      "target": "0x3140ec",
+      "target_symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abef8",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abf04",
+      "target": "0x318254",
+      "target_symbol": "_ZNSsD1Ev"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abf1c",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abf30",
+      "target": "0x3140ec",
+      "target_symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abf3c",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abf48",
+      "target": "0x318254",
+      "target_symbol": "_ZNSsD1Ev"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abf7c",
+      "target": "0x3136b4",
+      "target_symbol": "_Z20PushProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abf84",
+      "target": "0x3c01ac",
+      "target_symbol": "_ZNK16CharStateMachine11SM_GetStateEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abfa8",
+      "target": "0x3136b8",
+      "target_symbol": "_Z19PopProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abfdc",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abff0",
+      "target": "0x3140ec",
+      "target_symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3abffc",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac008",
+      "target": "0x318254",
+      "target_symbol": "_ZNSsD1Ev"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac024",
+      "target": "0x317ae4",
+      "target_symbol": "_ZN9TimerUtil6UpdateEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac02c",
+      "target": "0x3db640",
+      "target_symbol": "_ZN10CharTimers6UpdateEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac034",
+      "target": "0x3cfbf4",
+      "target_symbol": "_ZN6CharAI6UpdateEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac03c",
+      "target": "0x3c628c",
+      "target_symbol": "_ZN16CharStateMachine6UpdateEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac048",
+      "target": "0x3caf3c",
+      "target_symbol": "_ZN12CharAnimator6UpdateEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac054",
+      "target": "0x38cbe8",
+      "target_symbol": "_ZN10GameObject6UpdateEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac064",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac0b4",
+      "target": "0x3abb9c",
+      "target_symbol": "_ZN9Character22UpdateObjectOfInterestEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac0bc",
+      "target": "0x3a469c",
+      "target_symbol": "_ZN9Character16UpdateSpotTargetEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac108",
+      "target": "0x492ef0",
+      "target_symbol": "_ZN10AnimatedFX10SetVisibleEb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac120",
+      "target": "0x492ef0",
+      "target_symbol": "_ZN10AnimatedFX10SetVisibleEb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac124",
+      "target": "0x3a42f4",
+      "target_symbol": "_Z17IsMultiplayerGamev"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac144",
+      "target": "0x492ef0",
+      "target_symbol": "_ZN10AnimatedFX10SetVisibleEb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac150",
+      "target": "0x455c54",
+      "target_symbol": "_ZNK13ScriptManager17IsCutSceneRunningEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac170",
+      "target": "0x3aef68",
+      "target_symbol": "_ZN9Character30F_ApplyScrollingCombatTextGoldEPS_i"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac198",
+      "target": "0x36effc",
+      "target_symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac1a4",
+      "target": "0x413e90",
+      "target_symbol": "_ZN16FlashAnimManager11GetInstanceEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac1b4",
+      "target": "0x414678",
+      "target_symbol": "_ZNK16FlashAnimManager18GetStyleIdFromNameEPKc"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac1d0",
+      "target": "0x4c4bdc",
+      "target_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac1e8",
+      "target": "0x3af0c8",
+      "target_symbol": "_ZN9Character28F_ApplyScrollingCombatTextXPEPS_iii"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac1fc",
+      "target": "0x3136b8",
+      "target_symbol": "_Z19PopProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac20c",
+      "target": "0x3136b8",
+      "target_symbol": "_Z19PopProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac230",
+      "target": "0x3a3094",
+      "target_symbol": "_ZNK9Character8IsFaerieEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac280",
+      "target": "0x3a30c4",
+      "target_symbol": "_ZNK9Character10IsMerchantEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac29c",
+      "target": "0x7fd794",
+      "target_symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac2f8",
+      "target": "0x3ffc40",
+      "target_symbol": "_ZN13ItemInventory12SetPotionQtyEi"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac314",
+      "target": "0x36e744",
+      "target_symbol": "_ZN13PlayerManager9GetPlayerEib"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac340",
+      "target": "0x3e07a0",
+      "target_symbol": "_ZN14CharProperties9PROPS_SetEii"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac34c",
+      "target": "0x3c01ac",
+      "target_symbol": "_ZNK16CharStateMachine11SM_GetStateEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac35c",
+      "target": "0x3c01ac",
+      "target_symbol": "_ZNK16CharStateMachine11SM_GetStateEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac38c",
+      "target": "0x31f594",
+      "target_symbol": "_ZNK11Application15GetCurrentLevelEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac3dc",
+      "target": "0x40570c",
+      "target_symbol": "_ZN12v2Controller8Cmd_KillEP10GameObjectb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac3f0",
+      "target": "0x3a7b24",
+      "target_symbol": "_ZN9Character19UnLoadScriptProcessENSt4priv17_Rb_tree_iteratorISt4pairIKiPS_ENS0_11_MapTraitsTIS5_EEEEb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac404",
+      "target": "0x3cf3a4",
+      "target_symbol": "_ZN6CharAI22LoadNInitScriptProcessEb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac414",
+      "target": "0x3a3064",
+      "target_symbol": "_ZNK9Character9IsMonsterEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac424",
+      "target": "0x3a3144",
+      "target_symbol": "_ZNK9Character10IsMiniBossEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac434",
+      "target": "0x3a3158",
+      "target_symbol": "_ZNK9Character6IsBossEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac440",
+      "target": "0x7fd794",
+      "target_symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac45c",
+      "target": "0x60b0cc",
+      "target_symbol": "_ZN6glitch2os5Timer11getRealTimeEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac564",
+      "target": "0x3aa77c",
+      "target_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_.clone.2"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac5ac",
+      "target": "0x495430",
+      "target_symbol": "_ZN15VisualFXManager10GrabAnimFXEiP10GameObject"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac5bc",
+      "target": "0x49267c",
+      "target_symbol": "_ZN10AnimatedFX11GetAnimatorEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac600",
+      "target": "0x494978",
+      "target_symbol": "_ZN15VisualFXManager14DropAnimatedFXERP10AnimatedFX"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac618",
+      "target": "0x7fd794",
+      "target_symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac64c",
+      "target": "0x36eea8",
+      "target_symbol": "_ZN13PlayerManager20GetPlayerByCharacterEPK9Characterb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac668",
+      "target": "0x36eea8",
+      "target_symbol": "_ZN13PlayerManager20GetPlayerByCharacterEPK9Characterb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac684",
+      "target": "0x36e744",
+      "target_symbol": "_ZN13PlayerManager9GetPlayerEib"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac6b8",
+      "target": "0x3bd110",
+      "target_symbol": "_ZNK9Character5GetHPEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac704",
+      "target": "0x3a4118",
+      "target_symbol": "_ZNK7Point3DIfE8distanceERKS0_"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac710",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac738",
+      "target": "0x4053d0",
+      "target_symbol": "_ZN12v2Controller15Cmd_HeadTowardsEP10GameObject"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac74c",
+      "target": "0x36effc",
+      "target_symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac790",
+      "target": "0x492ef0",
+      "target_symbol": "_ZN10AnimatedFX10SetVisibleEb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac7d4",
+      "target": "0x492aa0",
+      "target_symbol": "_ZN10AnimatedFX11SyncIrrDataEb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac804",
+      "target": "0x492ef0",
+      "target_symbol": "_ZN10AnimatedFX10SetVisibleEb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac814",
+      "target": "0x492ef0",
+      "target_symbol": "_ZN10AnimatedFX10SetVisibleEb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac870",
+      "target": "0x320e74",
+      "target_symbol": "_ZN11Application11IsUsingDPadEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac88c",
+      "target": "0x3a4470",
+      "target_symbol": "_ZN9Character13UpdateStateFXEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac898",
+      "target": "0x31f66c",
+      "target_symbol": "_ZN11Application5GetDtEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac89c",
+      "target": "0x30e2e0",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac8a8",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac8e4",
+      "target": "0x492ef0",
+      "target_symbol": "_ZN10AnimatedFX10SetVisibleEb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac900",
+      "target": "0x7fd794",
+      "target_symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac938",
+      "target": "0x3ec048",
+      "target_symbol": "_ZN10ItemObject17OnCollisionBeginsEP9Character"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac94c",
+      "target": "0x3e07a0",
+      "target_symbol": "_ZN14CharProperties9PROPS_SetEii"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac970",
+      "target": "0x40570c",
+      "target_symbol": "_ZN12v2Controller8Cmd_KillEP10GameObjectb"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac99c",
+      "target": "0x3a4118",
+      "target_symbol": "_ZNK7Point3DIfE8distanceERKS0_"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac9a8",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac9c0",
+      "target": "0x4053d0",
+      "target_symbol": "_ZN12v2Controller15Cmd_HeadTowardsEP10GameObject"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac9d8",
+      "target": "0x3fe330",
+      "target_symbol": "_ZNK13ItemInventory15IsInventoryFullEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3ac9f4",
+      "target": "0x3a4118",
+      "target_symbol": "_ZNK7Point3DIfE8distanceERKS0_"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3aca00",
+      "target": "0x30e70c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3aca1c",
+      "target": "0x3a5990",
+      "target_symbol": "_ZNK9Character9HasPotionEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3aca38",
+      "target": "0x4056b0",
+      "target_symbol": "_ZN12v2Controller13Cmd_UsePotionEv"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3aca68",
+      "target": "0x4057fc",
+      "target_symbol": "_ZN12v2Controller10Cmd_UseOOIEP10GameObject"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3aca78",
+      "target": "0x4053d0",
+      "target_symbol": "_ZN12v2Controller15Cmd_HeadTowardsEP10GameObject"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3aca98",
+      "target": "0x30e310",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3acad0",
+      "target": "0x3aa8b4",
+      "target_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_.clone.7"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3acb64",
+      "target": "0x3aa77c",
+      "target_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_.clone.2"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3acc08",
+      "target": "0x3aa77c",
+      "target_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_.clone.2"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3acc28",
+      "target": "0x3aa77c",
+      "target_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_.clone.2"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3acc3c",
+      "target": "0x3aa8b4",
+      "target_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_.clone.7"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3acc70",
+      "target": "0x3aa77c",
+      "target_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_.clone.2"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3acca8",
+      "target": "0x3aa8b4",
+      "target_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_.clone.7"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3accc4",
+      "target": "0x3aa8b4",
+      "target_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE13insert_uniqueERKS7_.clone.7"
+    },
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "callsite": "0x3accec",
+      "target": "0x3aa77c",
+      "target_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiP9CharacterENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS7_SF_SF_.clone.2"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3caf68",
+      "target": "0x3136b4",
+      "target_symbol": "_Z20PushProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3caf98",
+      "target": "0x3136b8",
+      "target_symbol": "_Z19PopProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb014",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb07c",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb090",
+      "target": "0x3140ec",
+      "target_symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb09c",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb0a4",
+      "target": "0x3139ac",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb0b4",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb100",
+      "target": "0x3cacb0",
+      "target_symbol": "_ZN12CharAnimator8ANIM_SetEi"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb114",
+      "target": "0x3136b8",
+      "target_symbol": "_Z19PopProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb120",
+      "target": "0x3c9168",
+      "target_symbol": "_ZN12CharAnimator15IncAnimSetUsersEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb12c",
+      "target": "0x3c91c8",
+      "target_symbol": "_ZN12CharAnimator15DecAnimSetUsersEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb150",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb19c",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb1b0",
+      "target": "0x3140ec",
+      "target_symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb1bc",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb1c4",
+      "target": "0x3139ac",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb1dc",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb1f4",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb208",
+      "target": "0x3140ec",
+      "target_symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb214",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb21c",
+      "target": "0x3139ac",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb22c",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb244",
+      "target": "0x3ca79c",
+      "target_symbol": "_ZN12CharAnimator12_SetAnimStepEj"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb250",
+      "target": "0x3caf3c",
+      "target_symbol": "_ZN12CharAnimator6UpdateEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb268",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb27c",
+      "target": "0x3140ec",
+      "target_symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb288",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb290",
+      "target": "0x3139ac",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb2a4",
+      "target": "0x3caf3c",
+      "target_symbol": "_ZN12CharAnimator6UpdateEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb2b8",
+      "target": "0x3cab38",
+      "target_symbol": "_ZN12CharAnimator8_SetAnimEij"
+    },
+    {
+      "caller": "_ZN12CharAnimator6UpdateEv",
+      "callsite": "0x3cb2c0",
+      "target": "0x30e310",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN16CharStateMachine6UpdateEv",
+      "callsite": "0x3c62a4",
+      "target": "0x3136b4",
+      "target_symbol": "_Z20PushProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN16CharStateMachine6UpdateEv",
+      "callsite": "0x3c62b8",
+      "target": "0x31f66c",
+      "target_symbol": "_ZN11Application5GetDtEv"
+    },
+    {
+      "caller": "_ZN16CharStateMachine6UpdateEv",
+      "callsite": "0x3c631c",
+      "target": "0x3c0378",
+      "target_symbol": "_ZNK16CharStateMachine12SM_IsStunnedEb"
+    },
+    {
+      "caller": "_ZN16CharStateMachine6UpdateEv",
+      "callsite": "0x3c6340",
+      "target": "0x3c5ffc",
+      "target_symbol": "_ZN16CharStateMachine15SM_SetStunStateEjbPvb"
+    },
+    {
+      "caller": "_ZN16CharStateMachine6UpdateEv",
+      "callsite": "0x3c6358",
+      "target": "0x3c034c",
+      "target_symbol": "_ZNK16CharStateMachine11SM_IsScaredEb"
+    },
+    {
+      "caller": "_ZN16CharStateMachine6UpdateEv",
+      "callsite": "0x3c637c",
+      "target": "0x3c6144",
+      "target_symbol": "_ZN16CharStateMachine16SM_SetScareStateEjbPvb"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38cc18",
+      "target": "0x3136b4",
+      "target_symbol": "_Z20PushProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38cc28",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38cc3c",
+      "target": "0x3140ec",
+      "target_symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38cc48",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38cc50",
+      "target": "0x318254",
+      "target_symbol": "_ZNSsD1Ev"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38ccc4",
+      "target": "0x3940c0",
+      "target_symbol": "_ZN10GameObject10UpdatePathEv"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38cccc",
+      "target": "0x393710",
+      "target_symbol": "_ZN10GameObject14UpdateRotationEv"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38ccd4",
+      "target": "0x3943cc",
+      "target_symbol": "_ZN10GameObject16UpdateSubObjectsEv"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38ccdc",
+      "target": "0x393d74",
+      "target_symbol": "_ZN10GameObject20UpdateTargetPositionEv"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38cce4",
+      "target": "0x38b8b8",
+      "target_symbol": "_ZN10GameObject19RequireOnlineUpdateEv"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38ccfc",
+      "target": "0x38ae2c",
+      "target_symbol": "_ZN10GameObject15UpdateIdleSoundEv"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38cd08",
+      "target": "0x3136b8",
+      "target_symbol": "_Z19PopProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN10GameObject6UpdateEv",
+      "callsite": "0x38cd28",
+      "target": "0x30e310",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0bc4",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0bcc",
+      "target": "0x7fd794",
+      "target_symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0bfc",
+      "target": "0x4c4bdc",
+      "target_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0c18",
+      "target": "0x36d7a8",
+      "target_symbol": "_ZN13PlayerManager13GetNumPlayersEv"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0c6c",
+      "target": "0x36e744",
+      "target_symbol": "_ZN13PlayerManager9GetPlayerEib"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0c88",
+      "target": "0x3c01ac",
+      "target_symbol": "_ZNK16CharStateMachine11SM_GetStateEv"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0cb4",
+      "target": "0x4c4bdc",
+      "target_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0cb8",
+      "target": "0x30e964",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0cc8",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0cd8",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0ce8",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0cf8",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d08",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d14",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d24",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d30",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d40",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d48",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d5c",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d6c",
+      "target": "0x30e124",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d7c",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d84",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d8c",
+      "target": "0x30ec94",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0d98",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0da8",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0db8",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0dc8",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0ddc",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0df0",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0e10",
+      "target": "0x4054e4",
+      "target_symbol": "_ZN12v2Controller10Cmd_MoveToERK7Point3DIfE"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0e1c",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0e30",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0e40",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CSIdle16IdleCommonUpdateEiP9CharacterP16CharStateMachine",
+      "callsite": "0x3c0e60",
+      "target": "0x4054e4",
+      "target_symbol": "_ZN12v2Controller10Cmd_MoveToERK7Point3DIfE"
+    },
+    {
+      "caller": "_ZN13PhysicalWorld6updateEv",
+      "callsite": "0x34bd20",
+      "target": "0x3136b4",
+      "target_symbol": "_Z20PushProfilingContextPKc"
+    },
+    {
+      "caller": "_ZN13PhysicalWorld6updateEv",
+      "callsite": "0x34bd30",
+      "target": "0x31f66c",
+      "target_symbol": "_ZN11Application5GetDtEv"
+    },
+    {
+      "caller": "_ZN13PhysicalWorld6updateEv",
+      "callsite": "0x34bd34",
+      "target": "0x30e2e0",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN13PhysicalWorld6updateEv",
+      "callsite": "0x34bd40",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN13PhysicalWorld6updateEv",
+      "callsite": "0x34bd54",
+      "target": "0x7e8b1c",
+      "target_symbol": "_ZN7b2World4StepEfi"
+    },
+    {
+      "caller": "_ZN12CharAnimator15IncAnimSetUsersEv",
+      "callsite": "0x3c91bc",
+      "target": "0x31d584",
+      "target_symbol": "_ZNK6glitch17IReferenceCounted4dropEv"
+    },
+    {
+      "caller": "_ZN12CharAnimator15DecAnimSetUsersEv",
+      "callsite": "0x3c921c",
+      "target": "0x31d584",
+      "target_symbol": "_ZNK6glitch17IReferenceCounted4dropEv"
+    },
+    {
+      "caller": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x38c140",
+      "target": "0x33f310",
+      "target_symbol": "_ZN10ObjectBaseC2ENS_6GO_IDSE"
+    },
+    {
+      "caller": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x38c21c",
+      "target": "0x524644",
+      "target_symbol": "_ZN8PFObjectC1Ev"
+    },
+    {
+      "caller": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x38c248",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x38c268",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x38c288",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x38c2a8",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x38c314",
+      "target": "0x4a2730",
+      "target_symbol": "_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii"
+    },
+    {
+      "caller": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x38c32c",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x38c374",
+      "target": "0x38aac8",
+      "target_symbol": "_ZN10GameObject18UpdateAbsoluteAABBEv"
+    },
+    {
+      "caller": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x38c380",
+      "target": "0x4a191c",
+      "target_symbol": "_ZN14ObjectSearcher10TargetList12SetRefObjectEP10GameObject"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa1c8",
+      "target": "0x38c398",
+      "target_symbol": "_ZN10GameObjectC2EN10ObjectBase6GO_IDSE"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa1dc",
+      "target": "0x404db8",
+      "target_symbol": "_ZN14v2ControllableC2Ev"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa1ec",
+      "target": "0x3ff330",
+      "target_symbol": "_ZN13ItemInventoryC2Ev"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa208",
+      "target": "0x3dbb0c",
+      "target_symbol": "_ZN10CharTimersC2Ev"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa210",
+      "target": "0x3cebf0",
+      "target_symbol": "_ZN6CharAIC2Ev"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa218",
+      "target": "0x3c8ff4",
+      "target_symbol": "_ZN12CharAnimatorC2Ev"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa22c",
+      "target": "0x3c1b58",
+      "target_symbol": "_ZN16CharStateMachineC2Ev"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa234",
+      "target": "0x3df084",
+      "target_symbol": "_ZN14CharPropertiesC2Ev"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa310",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa334",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa370",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa3a0",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa3c8",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa3f0",
+      "target": "0x31167c",
+      "target_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa5d0",
+      "target": "0x3a6a24",
+      "target_symbol": "_ZN9Character18NetStructCharacterC1Ev"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa5d8",
+      "target": "0x3a6a24",
+      "target_symbol": "_ZN9Character18NetStructCharacterC1Ev"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa5e8",
+      "target": "0x4a191c",
+      "target_symbol": "_ZN14ObjectSearcher10TargetList12SetRefObjectEP10GameObject"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa5fc",
+      "target": "0x310570",
+      "target_symbol": "_Znwj15MemoryHintState"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa638",
+      "target": "0x404e10",
+      "target_symbol": "_ZN14v2Controllable13SetControllerEP12v2Controller"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa64c",
+      "target": "0x3db480",
+      "target_symbol": "_ZN10CharTimers12SetCharacterEP9Character"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa658",
+      "target": "0x3cb7c0",
+      "target_symbol": "_ZN6CharAI12SetCharacterEP9Character"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa664",
+      "target": "0x3c9890",
+      "target_symbol": "_ZN12CharAnimator12SetCharacterEP9Character"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa670",
+      "target": "0x3c1600",
+      "target_symbol": "_ZN16CharStateMachine12SetCharacterEP9Character"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa67c",
+      "target": "0x3dec0c",
+      "target_symbol": "_ZN14CharProperties12SetCharacterEP9Character"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa694",
+      "target": "0x3c7318",
+      "target_symbol": "_ZN16CharStateMachine13RegisterStateEi"
+    },
+    {
+      "caller": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "callsite": "0x3aa730",
+      "target": "0x30e004",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38ae6c",
+      "target": "0x31f594",
+      "target_symbol": "_ZNK11Application15GetCurrentLevelEv"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38ae84",
+      "target": "0x36e478",
+      "target_symbol": "_ZN13PlayerManager14GetLocalPlayerEib"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38ae98",
+      "target": "0x31f594",
+      "target_symbol": "_ZNK11Application15GetCurrentLevelEv"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38aed4",
+      "target": "0x369fec",
+      "target_symbol": "_ZN15VoxSoundManager4StopEii"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38aef0",
+      "target": "0x4c4bdc",
+      "target_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38aef4",
+      "target": "0x30e964",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38af28",
+      "target": "0x36e478",
+      "target_symbol": "_ZN13PlayerManager14GetLocalPlayerEib"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38af44",
+      "target": "0x36e478",
+      "target_symbol": "_ZN13PlayerManager14GetLocalPlayerEib"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38af68",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38af78",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38af88",
+      "target": "0x30e3ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38af98",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38afa8",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38afb4",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38afc4",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38afd0",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38afd4",
+      "target": "0x30e8a4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38afd8",
+      "target": "0x30e1c0",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38afdc",
+      "target": "0x30e6a0",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38aff8",
+      "target": "0x30e9ac",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38b00c",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38b03c",
+      "target": "0x36a218",
+      "target_symbol": "_ZN15VoxSoundManager6Stop3DEiiP7Point3DIfEf"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38b054",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38b068",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject15UpdateIdleSoundEv",
+      "callsite": "0x38b0c0",
+      "target": "0x36b5d8",
+      "target_symbol": "_ZN15VoxSoundManager6Play3DEiRKN6glitch4core8vector3dIfEEbiff"
+    },
+    {
+      "caller": "_ZN11AISExternal8OnUpdateEv",
+      "callsite": "0x3dce6c",
+      "target": "0x3dc798",
+      "target_symbol": "_ZN10AISDefault8OnUpdateEv"
+    },
+    {
+      "caller": "_ZN11AISExternal8OnUpdateEv",
+      "callsite": "0x3dce88",
+      "target": "0x37c514",
+      "target_symbol": "_ZN9LuaScript4CallEPKc"
+    },
+    {
+      "caller": "_ZN11AISExternal8OnUpdateEv",
+      "callsite": "0x3dce90",
+      "target": "0x3d8eb4",
+      "target_symbol": "_ZN12CharAIScript15CallStateUpdateEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf46c",
+      "target": "0x3a310c",
+      "target_symbol": "_ZNK9Character5IsNPCEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf47c",
+      "target": "0x3a3064",
+      "target_symbol": "_ZNK9Character9IsMonsterEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf4b8",
+      "target": "0x3d4a18",
+      "target_symbol": "_ZNK6CharAI18AI_GetHighestAggroEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf4d0",
+      "target": "0x33dd2c",
+      "target_symbol": "_ZN10ObjectBase9GetHandleEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf4d8",
+      "target": "0x33ff54",
+      "target_symbol": "_ZN12ObjectHandlecvP9CharacterEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf500",
+      "target": "0x3d4ac8",
+      "target_symbol": "_ZNK6CharAI11AI_GetAggroEP9Character"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf514",
+      "target": "0x3d4ac8",
+      "target_symbol": "_ZNK6CharAI11AI_GetAggroEP9Character"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf530",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf53c",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf558",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf56c",
+      "target": "0x3140ec",
+      "target_symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf578",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf580",
+      "target": "0x318254",
+      "target_symbol": "_ZNSsD1Ev"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf594",
+      "target": "0x3d6890",
+      "target_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf5a0",
+      "target": "0x3a3094",
+      "target_symbol": "_ZNK9Character8IsFaerieEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf5cc",
+      "target": "0x3a2fec",
+      "target_symbol": "_ZNK9Character11GetCharAIIdEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf5e8",
+      "target": "0x3c0230",
+      "target_symbol": "_ZNK16CharStateMachine20SM_IsAwaitingToSpawnEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf5f8",
+      "target": "0x3d49f0",
+      "target_symbol": "_ZNK6CharAI11AI_HasAggroEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf624",
+      "target": "0x4a2730",
+      "target_symbol": "_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf66c",
+      "target": "0x4a3428",
+      "target_symbol": "_ZN14ObjectSearcher10TargetList6SearchEffRNS_11IObjectListE"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf6c0",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf6cc",
+      "target": "0x38fb18",
+      "target_symbol": "_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE3popEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf714",
+      "target": "0x3d574c",
+      "target_symbol": "_ZNK6CharAI10AI_IsEnemyEPK10GameObject"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf72c",
+      "target": "0x3d511c",
+      "target_symbol": "_ZNK6CharAI11AI_IsFriendEPK10GameObject"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf744",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf750",
+      "target": "0x3a3094",
+      "target_symbol": "_ZNK9Character8IsFaerieEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf760",
+      "target": "0x3cc484",
+      "target_symbol": "_ZN6CharAI8IsMyTurnEPKS_"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf784",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf798",
+      "target": "0x3140ec",
+      "target_symbol": "_ZNSsC1EPKcRKSaIcE"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf7a4",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf7c8",
+      "target": "0x31bb44",
+      "target_symbol": "_ZNSt12__node_alloc10deallocateEPvj"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf7e8",
+      "target": "0x31f66c",
+      "target_symbol": "_ZN11Application5GetDtEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf8a0",
+      "target": "0x31f66c",
+      "target_symbol": "_ZN11Application5GetDtEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf8b4",
+      "target": "0x31f66c",
+      "target_symbol": "_ZN11Application5GetDtEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf8d8",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf8f8",
+      "target": "0x3d5a98",
+      "target_symbol": "_ZNK6CharAI12AI_IsNeutralEPK10GameObject"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf910",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf940",
+      "target": "0x38d18c",
+      "target_symbol": "_ZN14ObjectSearcher10TargetListD1Ev"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf968",
+      "target": "0x30e004",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf988",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf99c",
+      "target": "0x3d574c",
+      "target_symbol": "_ZNK6CharAI10AI_IsEnemyEPK10GameObject"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cf9c4",
+      "target": "0x4a2730",
+      "target_symbol": "_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfa08",
+      "target": "0x3a2fec",
+      "target_symbol": "_ZNK9Character11GetCharAIIdEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfa28",
+      "target": "0x4a3428",
+      "target_symbol": "_ZN14ObjectSearcher10TargetList6SearchEffRNS_11IObjectListE"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfa48",
+      "target": "0x36e478",
+      "target_symbol": "_ZN13PlayerManager14GetLocalPlayerEib"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfac0",
+      "target": "0x38fb18",
+      "target_symbol": "_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE3popEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfb00",
+      "target": "0x38d18c",
+      "target_symbol": "_ZN14ObjectSearcher10TargetListD1Ev"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfb18",
+      "target": "0x3d6d68",
+      "target_symbol": "_ZN6CharAI13AI_ClearAggroEP9Character"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfb28",
+      "target": "0x3d6890",
+      "target_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfb30",
+      "target": "0x3d49c4",
+      "target_symbol": "_ZN6CharAI17AI_SyncLastTargetEv"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfb54",
+      "target": "0x3d574c",
+      "target_symbol": "_ZNK6CharAI10AI_IsEnemyEPK10GameObject"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfb7c",
+      "target": "0x3d7c68",
+      "target_symbol": "_ZN6CharAI11AI_AddAggroEP9Characterf"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfb84",
+      "target": "0x30e310",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfb90",
+      "target": "0x3d6d68",
+      "target_symbol": "_ZN6CharAI13AI_ClearAggroEP9Character"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfba0",
+      "target": "0x3d6890",
+      "target_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb"
+    },
+    {
+      "caller": "_ZN6CharAI12_UpdateAggroEv",
+      "callsite": "0x3cfba8",
+      "target": "0x3d49c4",
+      "target_symbol": "_ZN6CharAI17AI_SyncLastTargetEv"
+    },
+    {
+      "caller": "_ZN9TimerUtil6UpdateEv",
+      "callsite": "0x317b0c",
+      "target": "0x31f66c",
+      "target_symbol": "_ZN11Application5GetDtEv"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db6a4",
+      "target": "0x31f66c",
+      "target_symbol": "_ZN11Application5GetDtEv"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db798",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db7ac",
+      "target": "0x3db5f0",
+      "target_symbol": "_ZNSs19_M_range_initializeEPKcS0_.clone.3"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db7b8",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db7e0",
+      "target": "0x708f00",
+      "target_symbol": "___ZNSt12__node_alloc13_M_deallocateEPvj_veneer"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db7f0",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db808",
+      "target": "0x337888",
+      "target_symbol": "_ZN13DebugSwitches4loadEv"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db81c",
+      "target": "0x3db5f0",
+      "target_symbol": "_ZNSs19_M_range_initializeEPKcS0_.clone.3"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db828",
+      "target": "0x337a88",
+      "target_symbol": "_ZN13DebugSwitches9GetSwitchERKSs"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db850",
+      "target": "0x708f00",
+      "target_symbol": "___ZNSt12__node_alloc13_M_deallocateEPvj_veneer"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db860",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db86c",
+      "target": "0x310440",
+      "target_symbol": "_Z10CustomFreePv"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db874",
+      "target": "0x310440",
+      "target_symbol": "_Z10CustomFreePv"
+    },
+    {
+      "caller": "_ZN10CharTimers6UpdateEv",
+      "callsite": "0x3db884",
+      "target": "0x30e310",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10GameObject19RequireOnlineUpdateEv",
+      "callsite": "0x38b8c0",
+      "target": "0x7fd794",
+      "target_symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "_ZN10GameObject19RequireOnlineUpdateEv",
+      "callsite": "0x38b8dc",
+      "target": "0x7fd794",
+      "target_symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "_ZN10GameObject19RequireOnlineUpdateEv",
+      "callsite": "0x38b8e0",
+      "target": "0x7fd5b4",
+      "target_symbol": "_ZN7COnline8IsServerEv"
+    },
+    {
+      "caller": "_ZN6CharAI13_UpdateMasterEv",
+      "callsite": "0x3cc5bc",
+      "target": "0x3a2fec",
+      "target_symbol": "_ZNK9Character11GetCharAIIdEv"
+    },
+    {
+      "caller": "_ZN6CharAI13_UpdateMasterEv",
+      "callsite": "0x3cc604",
+      "target": "0x3d4ed8",
+      "target_symbol": "_ZNK6CharAI12AI_IsInSightEPK10GameObject"
+    },
+    {
+      "caller": "_ZN6CharAI13_UpdateMasterEv",
+      "callsite": "0x3cc65c",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN6CharAI13_UpdateMasterEv",
+      "callsite": "0x3cc678",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN6CharAI13_UpdateMasterEv",
+      "callsite": "0x3cc684",
+      "target": "0x3cc484",
+      "target_symbol": "_ZN6CharAI8IsMyTurnEPKS_"
+    },
+    {
+      "caller": "_ZN6CharAI13_UpdateMasterEv",
+      "callsite": "0x3cc6b4",
+      "target": "0x3d63d8",
+      "target_symbol": "_ZNK6CharAI17AI_IsInCloseRangeEPK10GameObject"
+    },
+    {
+      "caller": "_ZN6CharAI13_UpdateMasterEv",
+      "callsite": "0x3cc6c8",
+      "target": "0x3d6604",
+      "target_symbol": "_ZNK6CharAI12AI_IsInRangeEPK10GameObject"
+    },
+    {
+      "caller": "_ZN6CharAI13_UpdateMasterEv",
+      "callsite": "0x3cc6f4",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN6CharAI13_UpdateMasterEv",
+      "callsite": "0x3cc708",
+      "target": "0x3a4d5c",
+      "target_symbol": "_ZN9Character10RaiseEventEiPv"
+    },
+    {
+      "caller": "_ZN6CharAI13_UpdateMasterEv",
+      "callsite": "0x3cc718",
+      "target": "0x3d6188",
+      "target_symbol": "_ZNK6CharAI17AI_IsInMeleeRangeEPK10GameObject"
+    },
+    {
+      "caller": "_ZN9Character9CanUpdateEv",
+      "callsite": "0x3a52c8",
+      "target": "0x7fd794",
+      "target_symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "_ZN9Character9CanUpdateEv",
+      "callsite": "0x3a52f8",
+      "target": "0x36e478",
+      "target_symbol": "_ZN13PlayerManager14GetLocalPlayerEib"
+    },
+    {
+      "caller": "_ZN9Character9CanUpdateEv",
+      "callsite": "0x3a5330",
+      "target": "0x33de90",
+      "target_symbol": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE"
+    },
+    {
+      "caller": "_ZN9Character9CanUpdateEv",
+      "callsite": "0x3a53c8",
+      "target": "0x3a5248",
+      "target_symbol": "_ZNK9Character10CanRespawnEv"
+    },
+    {
+      "caller": "_ZNK9Character10IsMerchantEv",
+      "callsite": "0x3a30c8",
+      "target": "0x3a3054",
+      "target_symbol": "_ZNK9Character11GetCharTypeEv"
+    },
+    {
+      "caller": "_ZNK13ScriptManager17IsCutSceneRunningEv",
+      "callsite": "0x455ca0",
+      "target": "0x455bec",
+      "target_symbol": "_ZNK13ScriptManager15IsScriptRunningEi"
+    },
+    {
+      "caller": "_ZNK9Character10CanRespawnEv",
+      "callsite": "0x3a5278",
+      "target": "0x3dedb4",
+      "target_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33dea0",
+      "target": "0x7fd794",
+      "target_symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33df18",
+      "target": "0x31f594",
+      "target_symbol": "_ZNK11Application15GetCurrentLevelEv"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33df58",
+      "target": "0x30e4b4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33df74",
+      "target": "0x30e4b4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33df90",
+      "target": "0x30e4b4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33dfa8",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33dfb8",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33dfc4",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33dfd4",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33dfe0",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33dfe8",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "callsite": "0x33dff0",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a44e8",
+      "target": "0x494978",
+      "target_symbol": "_ZN15VisualFXManager14DropAnimatedFXERP10AnimatedFX"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a44f8",
+      "target": "0x495430",
+      "target_symbol": "_ZN15VisualFXManager10GrabAnimFXEiP10GameObject"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a4514",
+      "target": "0x492aa0",
+      "target_symbol": "_ZN10AnimatedFX11SyncIrrDataEb"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a4544",
+      "target": "0x492aa0",
+      "target_symbol": "_ZN10AnimatedFX11SyncIrrDataEb"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a4550",
+      "target": "0x492ef0",
+      "target_symbol": "_ZN10AnimatedFX10SetVisibleEb"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a4558",
+      "target": "0x49267c",
+      "target_symbol": "_ZN10AnimatedFX11GetAnimatorEv"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a4568",
+      "target": "0x49267c",
+      "target_symbol": "_ZN10AnimatedFX11GetAnimatorEv"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a4584",
+      "target": "0x49267c",
+      "target_symbol": "_ZN10AnimatedFX11GetAnimatorEv"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a45bc",
+      "target": "0x3c0378",
+      "target_symbol": "_ZNK16CharStateMachine12SM_IsStunnedEb"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a45e4",
+      "target": "0x3c034c",
+      "target_symbol": "_ZNK16CharStateMachine11SM_IsScaredEb"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a4628",
+      "target": "0x3de6c4",
+      "target_symbol": "_ZNK14CharProperties18PROPS_GetWalkSpeedEv"
+    },
+    {
+      "caller": "_ZN9Character13UpdateStateFXEv",
+      "callsite": "0x3a4630",
+      "target": "0x30e70c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_Z17IsMultiplayerGamev",
+      "callsite": "0x3a42f8",
+      "target": "0x7fd794",
+      "target_symbol": "_Z9GetOnlinev"
+    },
+    {
+      "caller": "_Z17IsMultiplayerGamev",
+      "callsite": "0x3a4328",
+      "target": "0x36ead0",
+      "target_symbol": "_ZN13PlayerManager18GetNumLocalPlayersEb"
+    },
+    {
+      "caller": "_ZN10GameObject20UpdateTargetPositionEv",
+      "callsite": "0x393d90",
+      "target": "0x597180",
+      "target_symbol": "_ZNK6glitch5scene10ISceneNode19getAbsolutePositionEv"
+    },
+    {
+      "caller": "_ZNK16CharStateMachine11SM_IsScaredEb",
+      "callsite": "0x3c0364",
+      "target": "0x3c01ac",
+      "target_symbol": "_ZNK16CharStateMachine11SM_GetStateEv"
+    },
+    {
+      "caller": "_ZNK16CharStateMachine12SM_IsStunnedEb",
+      "callsite": "0x3c0390",
+      "target": "0x3c01ac",
+      "target_symbol": "_ZNK16CharStateMachine11SM_GetStateEv"
+    },
+    {
+      "caller": "_ZNK14CharProperties18PROPS_GetWalkSpeedEv",
+      "callsite": "0x3de6cc",
+      "target": "0x30e964",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZNK14CharProperties18PROPS_GetWalkSpeedEv",
+      "callsite": "0x3de6d4",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZNK14CharProperties18PROPS_GetWalkSpeedEv",
+      "callsite": "0x3de6e0",
+      "target": "0x30ed6c",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZNK14CharProperties18PROPS_GetWalkSpeedEv",
+      "callsite": "0x3de6e8",
+      "target": "0x30eba4",
+      "target_symbol": "import_or_unresolved"
+    },
+    {
+      "caller": "_ZNK14CharProperties18PROPS_GetWalkSpeedEv",
+      "callsite": "0x3de6f4",
+      "target": "0x30e2f8",
+      "target_symbol": "import_or_unresolved"
+    }
+  ]
+}

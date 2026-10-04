@@ -1,0 +1,255 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "arm64_library_sha256": "3edf2d48f8623efd04a25a3888e58eb1c8b87d656b596c9f913ed6f4cb10f61d",
+  "reference_sha256": "39074fb2e7379cf0eb2a987739e4cb4414c71e2b2fb98043b8ba56aaa0bc4f4a",
+  "source_sha256": {
+    "port/scene-materials/swf_texture.hpp": "6013cd34295b1986d1af8327279051a242bfd20eb3f5add8e8580c46000402f7",
+    "port/scene-materials/swf_texture.cpp": "5e5fb0a1c31c7a79d212db678a4df71be84f40bdb1e3ecde192a009599801b85",
+    "port/scene-materials/tests/swf_texture.cpp": "3efbf778e5aaa5743e3d79712524357453bacafffc201b8efa8caa3fd7d67189",
+    "port/scene-materials/tests/swf_texture_differential.py": "63be8dfa2801e91ee1ce20593b1ced41e6cc60bf9260faac60dcf25a7c32ec9a"
+  },
+  "comparisons": 2879,
+  "operation_counts": {
+    "0": 300,
+    "1": 700,
+    "2": 260,
+    "3": 5,
+    "4": 6,
+    "5": 504,
+    "6": 224,
+    "7": 240,
+    "8": 320,
+    "9": 320
+  },
+  "mismatches": 0,
+  "actual_material_passes": [
+    {
+      "technique": "default",
+      "state32_hex": "5400ff1807000100000000000000803f0000803f000000000000803f0000803f",
+      "blend_calls": [
+        [
+          "enable",
+          3042
+        ],
+        [
+          "equation",
+          32774
+        ],
+        [
+          "factors",
+          770,
+          771
+        ]
+      ]
+    },
+    {
+      "technique": "multiply",
+      "state32_hex": "5600ff1807000100000000000000803f0000803f000000000000803f0000803f",
+      "blend_calls": [
+        [
+          "enable",
+          3042
+        ],
+        [
+          "equation",
+          32774
+        ],
+        [
+          "factors",
+          774,
+          771
+        ]
+      ]
+    },
+    {
+      "technique": "screen",
+      "state32_hex": "3100ff1807000100000000000000803f0000803f000000000000803f0000803f",
+      "blend_calls": [
+        [
+          "enable",
+          3042
+        ],
+        [
+          "equation",
+          32774
+        ],
+        [
+          "factors",
+          1,
+          769
+        ]
+      ]
+    },
+    {
+      "technique": "overlay",
+      "state32_hex": "1600ff1807000100000000000000803f0000803f000000000000803f0000803f",
+      "blend_calls": [
+        [
+          "enable",
+          3042
+        ],
+        [
+          "equation",
+          32774
+        ],
+        [
+          "factors",
+          774,
+          1
+        ]
+      ]
+    }
+  ],
+  "filename_examples": [
+    {
+      "cwd": "part",
+      "request": "data/menus/map_top.tga",
+      "resolved": "ata/3d/textures/map_top.tga"
+    },
+    {
+      "cwd": "",
+      "request": "menus/MenusGraphics_droid.tga",
+      "resolved": "mata/3d/textures/menusgraphics_droid.tga"
+    },
+    {
+      "cwd": "",
+      "request": "x",
+      "resolved": "x"
+    },
+    {
+      "cwd": "/cache",
+      "request": "/cache/x",
+      "resolved": "/cache/x"
+    },
+    {
+      "cwd": "DATA",
+      "request": "DATA/data/menus/map_bottom.tga",
+      "resolved": "DATA/ata/3d/textures/map_bottom.tga"
+    },
+    {
+      "cwd": "DATA",
+      "request": "data/a.tga.bdae",
+      "resolved": "ata/3d/textures/a.tga.bdae"
+    },
+    {
+      "cwd": "DATA",
+      "request": "DATA//a.tga",
+      "resolved": "DATA/ata/3d/textures/a.tga"
+    },
+    {
+      "cwd": "part",
+      "request": "part/data\\menus\\x.tga",
+      "resolved": "part/ata/3d/textures/x.tga"
+    },
+    {
+      "cwd": "",
+      "request": "data/a.tga.bdae",
+      "resolved": "data/3d/textures/a.tga.bdae"
+    },
+    {
+      "cwd": "DATA",
+      "request": "data/menus/MenusGraphics_droid.tga",
+      "resolved": "ata/3d/textures/menusgraphics_droid.tga"
+    },
+    {
+      "cwd": "part",
+      "request": "x",
+      "resolved": "x"
+    },
+    {
+      "cwd": "/cache",
+      "request": "data/menus/map_top.tga",
+      "resolved": "ata/3d/textures/map_top.tga"
+    },
+    {
+      "cwd": "part",
+      "request": "x",
+      "resolved": "x"
+    },
+    {
+      "cwd": "/cache",
+      "request": "/cache/x",
+      "resolved": "/cache/x"
+    },
+    {
+      "cwd": "/cache",
+      "request": "/a.tga",
+      "resolved": "ata/3d/textures/a.tga"
+    },
+    {
+      "cwd": "/cache",
+      "request": "/cache/data/menus/map_bottom.tga",
+      "resolved": "/cache/ata/3d/textures/map_bottom.tga"
+    },
+    {
+      "cwd": "",
+      "request": "data/menus/MenusGraphics_droid.tga",
+      "resolved": "data/3d/textures/menusgraphics_droid.tga"
+    },
+    {
+      "cwd": "/cache",
+      "request": "/cache/data/menus/map_top.tga",
+      "resolved": "/cache/ata/3d/textures/map_top.tga"
+    },
+    {
+      "cwd": "",
+      "request": "/a.tga",
+      "resolved": "/ata/3d/textures/a.tga"
+    },
+    {
+      "cwd": "part",
+      "request": "part//a.tga",
+      "resolved": "part/ata/3d/textures/a.tga"
+    },
+    {
+      "cwd": "",
+      "request": "menus/MenusGraphics_droid.tga",
+      "resolved": "mata/3d/textures/menusgraphics_droid.tga"
+    },
+    {
+      "cwd": "DATA",
+      "request": "DATA/data/menus/MenusGraphics_droid.tga",
+      "resolved": "DATA/ata/3d/textures/menusgraphics_droid.tga"
+    },
+    {
+      "cwd": "",
+      "request": "data/menus/map_bottom.tga",
+      "resolved": "data/3d/textures/map_bottom.tga"
+    },
+    {
+      "cwd": "part",
+      "request": "x",
+      "resolved": "x"
+    },
+    {
+      "cwd": "part",
+      "request": "part/data/a.tga.bdae",
+      "resolved": "part/ata/3d/textures/a.tga.bdae"
+    },
+    {
+      "cwd": "",
+      "request": "data/menus/map_top.tga",
+      "resolved": "data/3d/textures/map_top.tga"
+    },
+    {
+      "cwd": "part",
+      "request": "part/x",
+      "resolved": "part/x"
+    }
+  ],
+  "services": [
+    "original allocator singleton",
+    "modeled libc strstr",
+    "original cwd/global getter snapshot",
+    "actual original basename/lower routines",
+    "archive prepared-key observer; search result missing",
+    "required buffer flush/upload/material bind/submit observers",
+    "texture bind service can mutate current texture, original reread executes",
+    "original GL parameter/blend request observers"
+  ],
+  "scope": "Exact source filename/archive query preparation/wrap/Format2 vector/renderpass conversion/GL enum requests. Actual archive registration/disk/cache owner, GL upload/rendering, full SWF geometry/cxform/masking/texture-loader lifetimes remain integration providers.",
+  "elapsed_seconds": 3.81
+}

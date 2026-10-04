@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12StreamBufferC1EP11IStreamBase",
+      "elf_address": "0x3172d8",
+      "size": 288,
+      "sha256": "a61c002c289c72dec53cdb22ba4943f6b2b55bbf8d42c2e32492fc94698ca090"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance12_chunkReaderEP9lua_StatePvPj",
+      "elf_address": "0x31b018",
+      "size": 360,
+      "sha256": "4a195fd4f4c7f54e2c79342789f3edd154e81db97a0a6c57656f1ace2d46ebe3"
+    }
+  ]
+}

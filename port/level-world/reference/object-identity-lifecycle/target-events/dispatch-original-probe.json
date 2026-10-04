@@ -1,0 +1,4363 @@
+{
+  "validation": "PASS",
+  "original_only_cases": 465,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "3107ca6f39ef7307c7c5c8712f21ae66c10ca046f806e4169573a19269066518",
+  "script_sha256": "c217bee1e09c97ef336ba099af65c376dc9f742716c9633dc23d93987ed32d4f",
+  "scope": "Original AISExternal target callback gates and argument identity choreography.\n\nThe script-call service and borrowed Arguments storage are explicit boundaries;\nthe original Value/table producer has its separate frozen instruction/VM proof.\n",
+  "cases": [
+    {
+      "address": "0x3dce24",
+      "mask": 0,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 1,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 2,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 3,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 4,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 5,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 6,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 7,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 8,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 9,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 10,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 11,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 12,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 13,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 14,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 15,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 16,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 17,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 18,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 19,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 20,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 21,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 22,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 23,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 24,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 25,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 26,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 27,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 28,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 29,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 30,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 31,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 32,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 33,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 34,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 35,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 36,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 37,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 38,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 39,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 40,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 41,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 42,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 43,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 44,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 45,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 46,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 47,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 48,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 49,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 50,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 51,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 52,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 53,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 54,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 55,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 56,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 57,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 58,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 59,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 60,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 61,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 62,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 63,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 2147483648,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce24",
+      "mask": 4294967295,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetDied"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 0,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 1,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 2,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 3,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 4,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 5,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 6,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 7,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 8,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 9,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 10,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 11,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 12,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 13,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 14,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 15,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 16,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 17,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 18,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 19,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 20,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 21,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 22,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 23,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 24,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 25,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 26,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 27,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 28,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 29,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 30,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 31,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 32,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 33,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 34,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 35,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 36,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 37,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 38,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 39,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 40,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 41,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 42,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 43,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 44,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 45,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 46,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 47,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 48,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 49,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 50,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 51,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 52,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 53,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 54,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 55,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 56,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 57,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 58,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 59,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 60,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 61,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 62,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 63,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 2147483648,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce14",
+      "mask": 4294967295,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 0,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 1,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 2,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 3,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 4,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 5,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 6,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 7,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 8,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 9,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 10,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 11,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 12,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 13,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 14,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 15,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 16,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 17,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 18,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 19,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 20,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 21,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 22,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 23,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 24,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 25,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 26,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 27,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 28,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 29,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 30,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 31,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 32,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 33,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 34,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 35,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 36,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 37,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 38,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 39,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 40,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 41,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 42,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 43,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 44,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 45,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 46,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 47,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 48,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 49,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 50,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 51,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 52,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 53,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 54,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 55,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 56,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 57,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 58,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 59,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 60,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 61,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 62,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 63,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 2147483648,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dce04",
+      "mask": 4294967295,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInSight"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 0,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 1,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 2,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 3,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 4,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 5,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 6,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 7,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 8,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 9,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 10,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 11,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 12,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 13,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 14,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 15,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 16,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 17,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 18,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 19,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 20,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 21,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 22,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 23,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 24,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 25,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 26,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 27,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 28,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 29,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 30,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 31,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 32,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 33,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 34,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 35,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 36,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 37,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 38,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 39,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 40,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 41,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 42,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 43,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 44,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 45,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 46,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 47,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 48,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 49,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 50,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 51,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 52,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 53,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 54,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 55,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 56,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 57,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 58,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 59,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 60,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 61,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 62,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 63,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 2147483648,
+      "trace": []
+    },
+    {
+      "address": "0x3dcde8",
+      "mask": 4294967295,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetOutOfRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 0,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 1,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 2,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 3,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 4,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 5,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 6,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 7,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 8,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 9,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 10,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 11,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 12,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 13,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 14,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 15,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 16,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 17,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 18,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 19,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 20,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 21,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 22,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 23,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 24,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 25,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 26,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 27,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 28,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 29,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 30,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 31,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 32,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 33,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 34,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 35,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 36,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 37,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 38,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 39,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 40,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 41,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 42,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 43,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 44,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 45,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 46,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 47,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 48,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 49,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 50,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 51,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 52,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 53,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 54,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 55,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 56,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 57,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 58,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 59,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 60,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 61,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 62,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 63,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 2147483648,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdcc",
+      "mask": 4294967295,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInRangedRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 0,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 1,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 2,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 3,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 4,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 5,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 6,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 7,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 8,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 9,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 10,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 11,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 12,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 13,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 14,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 15,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 16,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 17,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 18,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 19,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 20,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 21,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 22,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 23,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 24,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 25,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 26,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 27,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 28,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 29,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 30,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 31,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 32,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 33,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 34,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 35,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 36,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 37,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 38,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 39,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 40,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 41,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 42,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 43,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 44,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 45,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 46,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 47,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 48,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 49,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 50,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 51,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 52,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 53,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 54,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 55,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 56,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 57,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 58,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 59,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 60,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 61,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 62,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 63,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 2147483648,
+      "trace": []
+    },
+    {
+      "address": "0x3dcdb0",
+      "mask": 4294967295,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInCloseRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 0,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 1,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 2,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 3,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 4,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 5,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 6,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 7,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 8,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 9,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 10,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 11,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 12,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 13,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 14,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 15,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 16,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 17,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 18,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 19,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 20,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 21,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 22,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 23,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 24,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 25,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 26,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 27,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 28,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 29,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 30,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 31,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 32,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 33,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 34,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 35,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 36,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 37,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 38,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 39,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 40,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 41,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 42,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 43,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 44,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 45,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 46,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 47,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 48,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 49,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 50,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 51,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 52,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 53,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 54,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 55,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 56,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 57,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 58,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 59,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 60,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 61,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 62,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 63,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 2147483648,
+      "trace": []
+    },
+    {
+      "address": "0x3dcd94",
+      "mask": 4294967295,
+      "trace": [
+        [
+          "call0",
+          33574912,
+          "OnTargetInMeleeRange"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dd2f4",
+      "enemy": 0,
+      "trace": [
+        [
+          "arguments"
+        ],
+        [
+          "append_object_value",
+          0
+        ],
+        [
+          "call1",
+          33574912,
+          "OnEnemySpotted"
+        ],
+        [
+          "destroy_arguments"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dd2f4",
+      "enemy": 33574912,
+      "trace": [
+        [
+          "arguments"
+        ],
+        [
+          "append_object_value",
+          33574912
+        ],
+        [
+          "call1",
+          33574912,
+          "OnEnemySpotted"
+        ],
+        [
+          "destroy_arguments"
+        ]
+      ]
+    },
+    {
+      "address": "0x3dd2f4",
+      "enemy": 33579008,
+      "trace": [
+        [
+          "arguments"
+        ],
+        [
+          "append_object_value",
+          33579008
+        ],
+        [
+          "call1",
+          33574912,
+          "OnEnemySpotted"
+        ],
+        [
+          "destroy_arguments"
+        ]
+      ]
+    }
+  ]
+}

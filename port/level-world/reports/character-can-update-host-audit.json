@@ -1,0 +1,65 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "comparisons": 4752,
+    "ordered_services": 13833,
+    "malformed_and_delivery_checks": 23,
+    "mismatches": 0
+  },
+  "source_and_input_sha256": {
+    "port/level-world/character_can_update.hpp": "d78387cf87b2ca01a2b82ed6a79aab5e37b8cac45c9c39010df331a745f83ae2",
+    "port/level-world/character_can_update.cpp": "22565a3e5fdf23503b8ea0634459803b0aa031fecdedf7db54dfa85b7207f991",
+    "port/level-world/tests/character_can_update.cpp": "7b7448948f912af3303406668768db57d2d49edcafa37af6f6e70c29d30ec137",
+    "port/level-world/tests/character_can_update_host.py": "03217aa219ca813b94677068ebd88d7fe15b331204fe31808ed121ede9ee024e",
+    "port/level-world/tests/character_can_update_differential.py": "090b37ca8b75948ec9b28c4838689c364708cfacdcaf06f5a76a096e8135b4de",
+    "port/level-world/tools/build_character_can_update_oracle.ps1": "7a7cad84b35c01cee9553d33a4546c66196a4ed86329b4f1523e952c6f495bbe",
+    "port/level-world/reference/character-can-update/original-functions.json": "74c7f1411f97a38a1145741635482cf75e2132e1ef8fa2333835d11349e14bb4",
+    "port/level-world/reference/character-can-update/reference/original-functions.asm": "d77561f12463342bb84cf4c7d258538b605a8676ed17b2aa96d5ccd4ff254382",
+    "port/level-world/reference/character-can-update/can-update-fixtures.bin": "23f4fc2361631e4c5b9c41b63324df0d32f665338537c4cf67aebed2049a3683",
+    "port/level-world/reports/character-can-update-arm64-differential.json": "fe7534b7a3bba0a268cd751e2a11fae9be39c4f67f6843bbeb2012ad8bc25c29"
+  },
+  "executable_sha256": "2623f499d736e1c701241fffcc97f0404c1dc650743d8a427eb07b0ebc832b7a",
+  "commands": [
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_can_update.cpp",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_can_update.cpp",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-can-update/can_update_host"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-can-update/can_update_host",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-can-update/can-update-fixtures.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"comparisons\":4752,\"ordered_services\":13833,\"malformed_and_delivery_checks\":23,\"mismatches\":0}\n",
+      "stderr": ""
+    }
+  ],
+  "sanitizer_findings": 0,
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer"
+  ],
+  "central_DSO_rebuilt": false,
+  "scope": "Isolated sanitized replay of complete CanUpdate original gold; no central rebuild."
+}

@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI21IsScriptProcessLoadedEv",
+      "elf_address": "0x3cb458",
+      "size": 20,
+      "sha256": "3237ba645c298932386a0f77afcdead3df1eea763288bc7468c4b2f1b4c02e94"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript7GetInfoEjPf",
+      "elf_address": "0x3daca8",
+      "size": 468,
+      "sha256": "de95ee1823f7f9a24479ecc9b7e73d03e4395a94f1221ca717fc0328aa1538eb"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsCastingEv",
+      "elf_address": "0x3c0334",
+      "size": 24,
+      "sha256": "4e1a1e64084c9860162ee9fefbd88e638681c392d047e812c1b397e15a0ea558"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript19OnSkillCheck_UsableEv",
+      "elf_address": "0x3da9dc",
+      "size": 288,
+      "sha256": "134ce235298bc205644729576fece573f1d76114959849c35a12c7d839805f78"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory18GetCurrentSkillSetEi",
+      "elf_address": "0x3fc6a0",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+      "elf_address": "0x3c02e8",
+      "size": 24,
+      "sha256": "774242e45789a641452a8aaeefe052685fb066dd31ffcdbfcc718b5562e97619"
+    }
+  ]
+}

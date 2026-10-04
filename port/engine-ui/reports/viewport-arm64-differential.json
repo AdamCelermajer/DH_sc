@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "comparisons": 5200,
+  "operations": [
+    2060,
+    676,
+    596,
+    596,
+    676,
+    596
+  ],
+  "ordered_services": 12683,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "d188cb61f0b617ff35a5f493f949a51bd5f069e91e6be41d2a17786448ab3bae",
+  "gold_sha256": "ba12fd0e90048d62c1dad24c5a011210538c0d39d7cc6126c70eedc9e4742e29",
+  "source_sha256": {
+    "viewport.hpp": "372e0a5aa123edf40c2a7ec6a0d9ae2f97a8af891f05f5dbd9996aaabb51ffd5",
+    "viewport.cpp": "ba2ccdba830d992463f1f61bc02501fb5d7fff65b2c4b246ca5df490e3758ba9"
+  },
+  "scope": "Original coupled root/camera instructions vs optimized native ARM64.\n\nRenderer/driver projections and player-global Viewport publication are explicit\nservices. Actual original arithmetic/conversion/state branches execute; only\npost-conversion AS rectangle construction/publication is observed as an endpoint.\n"
+}

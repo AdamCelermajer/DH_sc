@@ -1,0 +1,67 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "432f37de5ef8602e9358f2d3349803552a7152fc9326df83fb613056ff7966e5",
+  "original_instructions_executed": true,
+  "global_working_directory": "CFileSystem.WorkingDirectory99b138 initiallyBSSempty; actual getter56c214",
+  "literal_prefix": "ata/3d/textures/",
+  "resolved_requests": [
+    {
+      "working_directory": "",
+      "request": "data/menus/MenusGraphics_droid.tga",
+      "resolved": "data/3d/textures/menusgraphics_droid.tga"
+    },
+    {
+      "working_directory": "",
+      "request": "data/menus/map_top.tga",
+      "resolved": "data/3d/textures/map_top.tga"
+    },
+    {
+      "working_directory": "",
+      "request": "data/menus/map_bottom.tga",
+      "resolved": "data/3d/textures/map_bottom.tga"
+    },
+    {
+      "working_directory": "",
+      "request": "data/3d/textures/atlas001.tga",
+      "resolved": "data/3d/textures/atlas001.tga"
+    },
+    {
+      "working_directory": "",
+      "request": "data/menus/Foo.TGA",
+      "resolved": "data/menus/foo.tga"
+    },
+    {
+      "working_directory": "",
+      "request": "menus/MenusGraphics_droid.tga",
+      "resolved": "mata/3d/textures/menusgraphics_droid.tga"
+    },
+    {
+      "working_directory": "",
+      "request": "data/menus/x.tga.bdae",
+      "resolved": "data/3d/textures/x.tga.bdae"
+    },
+    {
+      "working_directory": "",
+      "request": "data/menus/x.bdae",
+      "resolved": "data/menus/x.bdae"
+    },
+    {
+      "working_directory": "/cache",
+      "request": "/cache/data/menus/MenusGraphics_droid.tga",
+      "resolved": "/cache/ata/3d/textures/menusgraphics_droid.tga"
+    },
+    {
+      "working_directory": "/cache",
+      "request": "data/menus/MenusGraphics_droid.tga",
+      "resolved": "ata/3d/textures/menusgraphics_droid.tga"
+    }
+  ],
+  "source_services": [
+    "initialized original allocator singleton",
+    "explicit source global working directory bytes",
+    "original working-directory getter",
+    "original basename and ASCII lower routines"
+  ],
+  "scope": "Source filename rewrite only; true archive/disk open/cache/GPU texture/working-directory mutation callsite ownership separate."
+}

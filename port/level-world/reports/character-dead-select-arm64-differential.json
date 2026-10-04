@@ -1,0 +1,26 @@
+{
+  "validation": "PASS",
+  "scope": "Actual SM_SetDeadState/getter/revive-gate instructions vs optimized ARM64.\nConstants/stance and downstream registered-state dispatch are explicit services.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "e45ef07f740ff048f6d693f9481cafd3b10a4428a9d7f0453523c4f9ecb19b24",
+  "optimized_arm64_library_sha256": "c7f64a7833a134b9bf8d2c1cca530b2c735137df7008fb755a3685281167bc65",
+  "source_sha256": {
+    "port/level-world/character_state_owner_data.inc": "d9cae0c70b8a59db8d66afb3559c5aceeb8241b67528fcc3b4eade57940da634",
+    "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+    "port/level-world/character_dead_select.hpp": "3416efcae7c459c737fc6ff68a4e1d904ab8d92225f623fa3dcc6e098b8cc074",
+    "port/level-world/character_dead_select.cpp": "5b06d5d0907615249badf9d8edc011e7bfb2e25d40dc914c48f033a9df3fb4ea",
+    "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+    "port\\level-world\\tests\\character_dead_select_differential.py": "211444c44965e7861bc9deabae671309d231af8d42232ff28026c53b51ba9f36"
+  },
+  "comparisons": 2400,
+  "ordered_requests": 7365,
+  "synchronous_reentry_cases": 40,
+  "native_atomic_guards": 8,
+  "mismatches": 0,
+  "gold_sha256": "046a88492e6966111091d280893721322de44fabc0f7a2178cb36e20a95d3dfc",
+  "binary_gold_sha256": "fb1c7871a6f2fc39a075030b88c6185d35f0d8b2ea9084819242827ca8ee1371",
+  "actual_getter_and_revive_gate_executed": true,
+  "registered_dispatch_boundary_explicit": true,
+  "packaged_APK": false,
+  "elapsed_seconds": 4.06
+}

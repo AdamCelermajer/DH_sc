@@ -1,0 +1,254 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "comparisons": 870,
+    "compared_sheet_words": 779520,
+    "ordered_provider_callbacks": 1748,
+    "actual_monster_sessions": 10,
+    "vm_checks": 160,
+    "guards": 20,
+    "checks": 2145945,
+    "mismatches": 0,
+    "level_library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/game_design_tables_host",
+    "property_library": "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+    "runtime_library": "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so",
+    "data_library": "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so",
+    "registered_lookup_cases": 1110,
+    "design_table_library": "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/game_design_tables_host",
+    "real_constant_loads": 2,
+    "real_constant_assignments": 210,
+    "skipped_non100_cases": 266,
+    "constants_library": "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so",
+    "GetHostPlayerLevel_receiver_is_borrowed": true,
+    "host_level_word_uses_genuine_native_GetLevel": true,
+    "design_constants_use_genuine_native_loader": true,
+    "debug_and_world_services_are_explicit": true,
+    "GetPyStruct_GetPyOID_use_native_registry": true
+  },
+  "source_bindings": {
+    "port\\game-data\\game_design_tables.cpp": "a7c5a884708d27c379e80187aecf40873e40b0881202809fde8fa3e1bd181dba",
+    "port\\game-data\\game_design_tables.hpp": "52bdb1135fdaa4fd03866797d0ccb5dd200ecd622963b8afeeb4470a2b58049e",
+    "port\\game-data\\reference\\game-design-tables\\table-fixtures.bin": "9d30139f4e441179c49ab31e0fbef16f61ebadd644a77af0520986517d8b3f2a",
+    "port\\game-data\\reference\\game-design-tables\\original-functions.json": "48eaa345259542643c1c209a33be1e8c7dc4cd7e82dec336e770efa488e7f864",
+    "port\\game-data\\reports\\game-design-tables-arm64-differential.json": "e8dcd208a20ea5c77f349ef68a30d027f0b2172ee57a6c7dd3b01f5830236fc2",
+    "port\\game-data\\tests\\game_design_tables_differential.py": "f52af3b6da502fae59a9d9f70596d8fa9f8282e6528ddea5676cbc3a8b2357ef",
+    "port\\level-world\\character_level.cpp": "4ada416b90dce277de03b0c07967842781ac320fa682cb6b0e0b7b81099ee5ad",
+    "port\\level-world\\character_level.hpp": "c4cb773dd1468a41d9c630eb1f46d6a732ee64b0cd7062722f5e3cc7a90aaf76",
+    "port\\game-data\\tests\\game_design_tables.cpp": "f46b12b00d69083d7d0e36d403b8a72ef21d7ecfef41ab0df40573196a2e3208",
+    "port\\game-data\\tests\\game_design_tables_host.py": "ed6e9adcc6d0b31e0e9208bee4ae51190c71196844b3c4c2b2e35be9175a37a5",
+    "port\\level-world\\tests\\character_level_differential.py": "766ae55a6b98bb911dc784765cb93c36e8c2cadff3ea6ce929ea46c74c0727c7",
+    "port\\level-world\\reports\\character-level-arm64-differential.json": "5acdc398cb61daa7339b2af0bac9c0e0946563ea925d850385cfafd6b1848a4d",
+    "port\\level-world\\reference\\character-level\\level-fixtures.bin": "684c4ff4d79dca17074a98a322e39e8ea14cdf8f3828951de09ed44521202536",
+    "port\\level-world\\character_property_bindings.hpp": "eb38bfc456cb80f567156477e12863671c969a247557f28a0fafd462cf6ba215",
+    "port\\game-data\\properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "port\\game-data\\properties.hpp": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+    "port\\game-data\\class_tables.cpp": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+    "port\\game-data\\class_tables.hpp": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7",
+    "port\\script-runtime\\script_runtime.h": "6609f8b0a1ad716104824e5ed1653cc9b2be68396ae5b5766b38166af3561303",
+    "port\\script-runtime\\script_runtime.c": "cfb4aaa0585188731c76d3ed86e346bd2d48d6a2024c1f453c4bd038e8e835d1",
+    "port\\script-runtime\\script_design_bindings.h": "0f7377a43a4efdfc05817901ad4dcc5344b9a1e30fbcb5de57e50f393173efd9",
+    "port\\script-runtime\\script_scalar_bindings.c": "de37788729dabcd53afa6ca9bf5f918229979b8624ae20e11dd1499b267ead61",
+    "port\\script-runtime\\script_function_alias.cpp": "28117cd5fbfe1c15ed14dc2ef5fbf8ec6a23379b5f9450d15e194f67ba2a0fec",
+    "port\\script-runtime\\script_constants.hpp": "5771039bca9fce55aed7ca742ede02fad3da304d62411d4c9531c32c0e823a01",
+    "port\\script-runtime\\script_constants.cpp": "44d2ade00fca5f991fe5cae1c5f869dc68cb71e57344b0ed9ce240b38b3d476d",
+    "port\\game-data\\ai.hpp": "e74238d1609df42c9086c0bdbad0b0e3a863d8081dba7260cc33fa67e512bf70",
+    "port\\game-data\\data.hpp": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901"
+  },
+  "binary_bindings": {
+    "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so": "55feeec0e85cd336b716aee555636ec12cc299a01e624f907bb51f8d3851756c",
+    "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so": "43f49a4c4c1771ceb088c4d4fe5974640b4ae8af207e0a3bf7acaca02c37f519",
+    "/home/adampalace/dh2-world-build/libdh2_level_world.so": "9b3d2343bce8348b6a8ff22c9a49aed56f2655eada9b512480bc9833c9e62ae2",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/game_design_tables_host": "7459ec99c56d22754705a0ba12ec33abf2b61222d701192052cdff9c74c97bfd"
+  },
+  "asset_bindings": {
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "port\\android-native\\app\\src\\main\\assets\\data\\character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarray.bin": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_pyarraynames.bin": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_pystructnames.bin": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_factions_pyarray.bin": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_factions_pyarraynames.bin": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211",
+    "port\\android-native\\app\\src\\main\\assets\\data\\ai_factions_pystructnames.bin": "8ebbc7927e58b9dd93d03f1f76b366ecd88f3d9b3abcaee31196dd21a05bda15"
+  },
+  "level_gold_sha256": "684c4ff4d79dca17074a98a322e39e8ea14cdf8f3828951de09ed44521202536",
+  "table_gold_sha256": "9d30139f4e441179c49ab31e0fbef16f61ebadd644a77af0520986517d8b3f2a",
+  "script_bindings": {
+    "monster.luac": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+    "_commons.luac": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c"
+  },
+  "constant_bytes": {
+    "ai_pycst.bin": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e",
+    "design_pycst.bin": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931"
+  },
+  "constant_loader_gold_sha256": "a0da51c378a8e651f7f0dcca9b3c9a5e09651c978ed662b3015a8cb609b3529f",
+  "original_load_matches": [
+    {
+      "original_load": 0,
+      "name": "ai_pycst.bin",
+      "status": 0,
+      "state": [
+        1042,
+        58,
+        7,
+        0
+      ],
+      "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e",
+      "original_queries": 67
+    },
+    {
+      "original_load": 5,
+      "name": "design_pycst.bin",
+      "status": 0,
+      "state": [
+        3999,
+        152,
+        13,
+        0
+      ],
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+      "original_queries": 161
+    }
+  ],
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "commands": [
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "55feeec0e85cd336b716aee555636ec12cc299a01e624f907bb51f8d3851756c  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so"
+      ],
+      "returncode": 0,
+      "stdout": "43f49a4c4c1771ceb088c4d4fe5974640b4ae8af207e0a3bf7acaca02c37f519  /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+      ],
+      "returncode": 0,
+      "stdout": "9b3d2343bce8348b6a8ff22c9a49aed56f2655eada9b512480bc9833c9e62ae2  /home/adampalace/dh2-world-build/libdh2_level_world.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_level.cpp",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/game-data/game_design_tables.cpp",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/game-data/tests/game_design_tables.cpp",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-L/home/adampalace/dh2-world-build",
+        "-ldh2_level_world",
+        "-L/home/adampalace/dh2-world-build/script-runtime",
+        "-ldh2_script_runtime",
+        "-L/home/adampalace/dh2-world-build/game-data",
+        "-ldh2_game_data",
+        "-ldl",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/script-runtime",
+        "-Wl,-rpath,/home/adampalace/dh2-world-build/game-data",
+        "-o",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/game_design_tables_host"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "ldd",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/game_design_tables_host"
+      ],
+      "returncode": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x0000745e6851b000)\n\tlibasan.so.8 => /usr/lib/x86_64-linux-gnu/libasan.so.8 (0x0000745e67c00000)\n\tlibdh2_level_world.so => /home/adampalace/dh2-world-build/libdh2_level_world.so (0x0000745e66800000)\n\tlibdh2_script_runtime.so => /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so (0x0000745e66200000)\n\tlibdh2_game_data.so => /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so (0x0000745e65c00000)\n\tlibstdc++.so.6 => /usr/lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000745e65800000)\n\tlibm.so.6 => /usr/lib/x86_64-linux-gnu/libm.so.6 (0x0000745e666da000)\n\tlibubsan.so.1 => /usr/lib/x86_64-linux-gnu/libubsan.so.1 (0x0000745e65000000)\n\tlibgcc_s.so.1 => /usr/lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000745e68312000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x0000745e64c00000)\n\tlibdh2_engine_skinning.so => /home/adampalace/dh2-world-build/engine-skinning/libdh2_engine_skinning.so (0x0000745e65b36000)\n\tlibdh2_engine_animation.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/libdh2_engine_animation.so (0x0000745e64800000)\n\tlibdh2_scene_materials.so => /home/adampalace/dh2-world-build/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so (0x0000745e6566b000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000745e6851d000)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "env",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/game_design_tables_host",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/reference/character-level/level-fixtures.bin",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/_commons.luac",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/monster.luac",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/src/main/assets/data",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/ai_pycst.bin",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/design_pycst.bin",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/game-data/reference/game-design-tables/table-fixtures.bin"
+      ],
+      "returncode": 0,
+      "stdout": "{\"validation\":\"PASS\",\"comparisons\":870,\"compared_sheet_words\":779520,\"ordered_provider_callbacks\":1748,\"actual_monster_sessions\":10,\"vm_checks\":160,\"guards\":20,\"checks\":2145945,\"mismatches\":0,\"level_library\":\"/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/game_design_tables_host\",\"property_library\":\"/home/adampalace/dh2-world-build/libdh2_level_world.so\",\"runtime_library\":\"/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\",\"data_library\":\"/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so\",\"registered_lookup_cases\":1110,\"design_table_library\":\"/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/game_design_tables_host\",\"real_constant_loads\":2,\"real_constant_assignments\":210,\"skipped_non100_cases\":266,\"constants_library\":\"/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\",\"GetHostPlayerLevel_receiver_is_borrowed\":true,\"host_level_word_uses_genuine_native_GetLevel\":true,\"design_constants_use_genuine_native_loader\":true,\"debug_and_world_services_are_explicit\":true,\"GetPyStruct_GetPyOID_use_native_registry\":true}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so"
+      ],
+      "returncode": 0,
+      "stdout": "55feeec0e85cd336b716aee555636ec12cc299a01e624f907bb51f8d3851756c  /home/adampalace/dh2-world-build/script-runtime/libdh2_script_runtime.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/game-data/libdh2_game_data.so"
+      ],
+      "returncode": 0,
+      "stdout": "43f49a4c4c1771ceb088c4d4fe5974640b4ae8af207e0a3bf7acaca02c37f519  /home/adampalace/dh2-world-build/game-data/libdh2_game_data.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/home/adampalace/dh2-world-build/libdh2_level_world.so"
+      ],
+      "returncode": 0,
+      "stdout": "9b3d2343bce8348b6a8ff22c9a49aed56f2655eada9b512480bc9833c9e62ae2  /home/adampalace/dh2-world-build/libdh2_level_world.so\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "sha256sum",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/game_design_tables_host"
+      ],
+      "returncode": 0,
+      "stdout": "7459ec99c56d22754705a0ba12ec33abf2b61222d701192052cdff9c74c97bfd  /mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/game-design-tables-discovery/game_design_tables_host\n",
+      "stderr": ""
+    }
+  ],
+  "sanitizer_findings": 0,
+  "owned_level_compiler_provenance_claim": true,
+  "owned_design_compiler_provenance_claim": true,
+  "dependency_compiler_provenance_claim": false,
+  "scope": "Original registered table getters/maps plus actual monster Init using native constants/GetProp/Level/metadata.",
+  "constant_loader_backend": "actual main runtime native table loader/getConstant; no supplied cap callback",
+  "debug_backend": "explicit caller services",
+  "world_input_and_host_receiver_ownership": "explicit borrowed test session, no original network/level ownership proof",
+  "packaged_APK": false
+}

@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN17MenuFlash2DCamera12SetLimitClipEPN7gameswf9characterE",
+      "elf_address": "0x42cf30",
+      "size": 56,
+      "sha256": "330f33abfeb32485c2045530b4da7d1135efb55fd736ad0b73d6b7596537905b"
+    },
+    {
+      "original_symbol": "_ZN17MenuFlash2DCamera6UpdateEv",
+      "elf_address": "0x42cd84",
+      "size": 428,
+      "sha256": "095c3f1559a85e380fda5032a964a89939d4f08deeca1c76a3e39c86fd4b65e2"
+    },
+    {
+      "original_symbol": "_ZN17MenuFlash2DCameraC1EP6MenuFX",
+      "elf_address": "0x42ccd0",
+      "size": 128,
+      "sha256": "9510464779dcce3c4374f88ea67b57c4e1a0996d9fbe859b569f848c0993b15c"
+    },
+    {
+      "original_symbol": "_ZN7gameswf4root17logical_to_screenERNS_5pointE",
+      "elf_address": "0x773f50",
+      "size": 472,
+      "sha256": "e51a5f6ab939be4d087146e6aaa5ec54eb9532ac4c15fbcab8d8e1bd13d82a7f"
+    }
+  ]
+}

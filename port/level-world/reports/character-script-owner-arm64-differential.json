@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "scope": "Original-executed constructor fields/registration calls vs O2 native descriptors; ownership class host proof separate.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_instruction_evidence_sha256": "710f6a5639324e049aba1b12ca759a1317d2c71cf84af4ee961f6e7a02c12f92",
+  "original_method_null_gate_executed": true,
+  "optimized_arm64_library_sha256": "a99867a9a5fb8ad77a511877df51f7b7392c65f9b2199d1077ef78ed6c189232",
+  "comparisons": 303,
+  "registration_descriptors": 300,
+  "source_method_calls_skipped_by_null_target": 130,
+  "native_atomic_rejections": 6,
+  "mismatches": 0,
+  "gold_sha256": "d915ddba84c15b936748537fe3f77b3a64a43155f7a1a157810174dffe028b12",
+  "source_sha256": {
+    "port\\level-world\\character_script_owner.hpp": "01d3cdb833f71265e6f85d8a7d8139e875f52921c1b4f7f02b8ad8b0aac334af",
+    "port\\level-world\\character_script_owner.cpp": "20f5ed32a36593b0a85f5a02ef580202a52e63f4105db52fb05817476e9f18dc",
+    "port\\level-world\\character_script_owner_bindings.inc": "0a428c0126d314d664a4af687619e0ce22de1ed6c9d1a56b1fb056fc0f814f14",
+    "port\\level-world\\tests\\character_script_owner_differential.py": "ec67cd716f657654e9aab6403f60fdbe86d72415bedff3a92320206cc08edaba",
+    "port\\level-world\\tools\\build_character_script_owner_oracle.ps1": "763abf18f657271ba09b43162f71e2caf398bbf30c3cd2a5794d8c5271ba541d"
+  },
+  "full_native_ownership_class_executed_in_this_arm64_probe": false
+}

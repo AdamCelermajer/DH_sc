@@ -2,10 +2,12 @@ package com.example.dh2;
 final class NativeBridge {
     static { System.loadLibrary("dh2_native"); }
     static native String buildInfo();
-    static native String initialize();
+    static native String initialize(android.content.res.AssetManager assets);
     static native String loadTexture(byte[] encoded);
     static native String loadModel(byte[] encoded,android.content.res.AssetManager assets);
-    static native String loadWorld(byte[] encoded,android.content.res.AssetManager assets);
+    static native String loadWorld(byte[] encoded,android.content.res.AssetManager assets,String filesDirectory);
+    static native String loadOriginalHealthPanel(String filesDirectory);
+    static native String consumeOriginalUiError();
     static native void moveAxis(float x,float y);
     static native void focusObject(int index);
     static native String objectState(int index,String state);

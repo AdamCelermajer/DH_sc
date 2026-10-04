@@ -1,0 +1,519 @@
+{
+  "validation": "PASS",
+  "original_instructions_executed": true,
+  "comparisons": 32,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "manifest_sha256": "d656e9bef29867fd2941f7ebdfea63bfc7597a83acd62b40876b110bfef6dd89",
+  "script_sha256": "65894318819138f8930b92cfda898d89993da51d2ebd74c20219f918fe60b8ac",
+  "scope": "Original complete InvokeASCallback gates; object virtuals/AS execution explicit services.",
+  "records": [
+    {
+      "present": 0,
+      "sprite": 0,
+      "parent_present": 0,
+      "parent_sprite": 0,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": false
+    },
+    {
+      "present": 0,
+      "sprite": 0,
+      "parent_present": 0,
+      "parent_sprite": 0,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": false
+    },
+    {
+      "present": 0,
+      "sprite": 0,
+      "parent_present": 0,
+      "parent_sprite": 1,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": false
+    },
+    {
+      "present": 0,
+      "sprite": 0,
+      "parent_present": 0,
+      "parent_sprite": 1,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": false
+    },
+    {
+      "present": 0,
+      "sprite": 0,
+      "parent_present": 1,
+      "parent_sprite": 0,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": true
+    },
+    {
+      "present": 0,
+      "sprite": 0,
+      "parent_present": 1,
+      "parent_sprite": 0,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": true
+    },
+    {
+      "present": 0,
+      "sprite": 0,
+      "parent_present": 1,
+      "parent_sprite": 1,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": true
+    },
+    {
+      "present": 0,
+      "sprite": 0,
+      "parent_present": 1,
+      "parent_sprite": 1,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": true
+    },
+    {
+      "present": 0,
+      "sprite": 1,
+      "parent_present": 0,
+      "parent_sprite": 0,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": false
+    },
+    {
+      "present": 0,
+      "sprite": 1,
+      "parent_present": 0,
+      "parent_sprite": 0,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": false
+    },
+    {
+      "present": 0,
+      "sprite": 1,
+      "parent_present": 0,
+      "parent_sprite": 1,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": false
+    },
+    {
+      "present": 0,
+      "sprite": 1,
+      "parent_present": 0,
+      "parent_sprite": 1,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": false
+    },
+    {
+      "present": 0,
+      "sprite": 1,
+      "parent_present": 1,
+      "parent_sprite": 0,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": true
+    },
+    {
+      "present": 0,
+      "sprite": 1,
+      "parent_present": 1,
+      "parent_sprite": 0,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": true
+    },
+    {
+      "present": 0,
+      "sprite": 1,
+      "parent_present": 1,
+      "parent_sprite": 1,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": true
+    },
+    {
+      "present": 0,
+      "sprite": 1,
+      "parent_present": 1,
+      "parent_sprite": 1,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [],
+      "weak_parent_after": true
+    },
+    {
+      "present": 1,
+      "sprite": 0,
+      "parent_present": 0,
+      "parent_sprite": 0,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        }
+      ],
+      "weak_parent_after": false
+    },
+    {
+      "present": 1,
+      "sprite": 0,
+      "parent_present": 0,
+      "parent_sprite": 0,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        }
+      ],
+      "weak_parent_after": false
+    },
+    {
+      "present": 1,
+      "sprite": 0,
+      "parent_present": 0,
+      "parent_sprite": 1,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        }
+      ],
+      "weak_parent_after": false
+    },
+    {
+      "present": 1,
+      "sprite": 0,
+      "parent_present": 0,
+      "parent_sprite": 1,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        }
+      ],
+      "weak_parent_after": false
+    },
+    {
+      "present": 1,
+      "sprite": 0,
+      "parent_present": 1,
+      "parent_sprite": 0,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        }
+      ],
+      "weak_parent_after": false
+    },
+    {
+      "present": 1,
+      "sprite": 0,
+      "parent_present": 1,
+      "parent_sprite": 0,
+      "parent_alive": 1,
+      "source_invoked": 0,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        },
+        {
+          "service": "is_sprite",
+          "receiver": "parent"
+        }
+      ],
+      "weak_parent_after": true
+    },
+    {
+      "present": 1,
+      "sprite": 0,
+      "parent_present": 1,
+      "parent_sprite": 1,
+      "parent_alive": 0,
+      "source_invoked": 0,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        }
+      ],
+      "weak_parent_after": false
+    },
+    {
+      "present": 1,
+      "sprite": 0,
+      "parent_present": 1,
+      "parent_sprite": 1,
+      "parent_alive": 1,
+      "source_invoked": 1,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        },
+        {
+          "service": "is_sprite",
+          "receiver": "parent"
+        },
+        {
+          "service": "environment",
+          "receiver": "parent"
+        },
+        {
+          "service": "actual_method_boundary",
+          "this": "input",
+          "environment": "parent",
+          "name": "onRelease",
+          "arguments": 0
+        }
+      ],
+      "weak_parent_after": true
+    },
+    {
+      "present": 1,
+      "sprite": 1,
+      "parent_present": 0,
+      "parent_sprite": 0,
+      "parent_alive": 0,
+      "source_invoked": 1,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        },
+        {
+          "service": "environment",
+          "receiver": "input"
+        },
+        {
+          "service": "actual_method_boundary",
+          "this": "input",
+          "environment": "input",
+          "name": "onRelease",
+          "arguments": 0
+        }
+      ],
+      "weak_parent_after": false
+    },
+    {
+      "present": 1,
+      "sprite": 1,
+      "parent_present": 0,
+      "parent_sprite": 0,
+      "parent_alive": 1,
+      "source_invoked": 1,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        },
+        {
+          "service": "environment",
+          "receiver": "input"
+        },
+        {
+          "service": "actual_method_boundary",
+          "this": "input",
+          "environment": "input",
+          "name": "onRelease",
+          "arguments": 0
+        }
+      ],
+      "weak_parent_after": false
+    },
+    {
+      "present": 1,
+      "sprite": 1,
+      "parent_present": 0,
+      "parent_sprite": 1,
+      "parent_alive": 0,
+      "source_invoked": 1,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        },
+        {
+          "service": "environment",
+          "receiver": "input"
+        },
+        {
+          "service": "actual_method_boundary",
+          "this": "input",
+          "environment": "input",
+          "name": "onRelease",
+          "arguments": 0
+        }
+      ],
+      "weak_parent_after": false
+    },
+    {
+      "present": 1,
+      "sprite": 1,
+      "parent_present": 0,
+      "parent_sprite": 1,
+      "parent_alive": 1,
+      "source_invoked": 1,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        },
+        {
+          "service": "environment",
+          "receiver": "input"
+        },
+        {
+          "service": "actual_method_boundary",
+          "this": "input",
+          "environment": "input",
+          "name": "onRelease",
+          "arguments": 0
+        }
+      ],
+      "weak_parent_after": false
+    },
+    {
+      "present": 1,
+      "sprite": 1,
+      "parent_present": 1,
+      "parent_sprite": 0,
+      "parent_alive": 0,
+      "source_invoked": 1,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        },
+        {
+          "service": "environment",
+          "receiver": "input"
+        },
+        {
+          "service": "actual_method_boundary",
+          "this": "input",
+          "environment": "input",
+          "name": "onRelease",
+          "arguments": 0
+        }
+      ],
+      "weak_parent_after": true
+    },
+    {
+      "present": 1,
+      "sprite": 1,
+      "parent_present": 1,
+      "parent_sprite": 0,
+      "parent_alive": 1,
+      "source_invoked": 1,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        },
+        {
+          "service": "environment",
+          "receiver": "input"
+        },
+        {
+          "service": "actual_method_boundary",
+          "this": "input",
+          "environment": "input",
+          "name": "onRelease",
+          "arguments": 0
+        }
+      ],
+      "weak_parent_after": true
+    },
+    {
+      "present": 1,
+      "sprite": 1,
+      "parent_present": 1,
+      "parent_sprite": 1,
+      "parent_alive": 0,
+      "source_invoked": 1,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        },
+        {
+          "service": "environment",
+          "receiver": "input"
+        },
+        {
+          "service": "actual_method_boundary",
+          "this": "input",
+          "environment": "input",
+          "name": "onRelease",
+          "arguments": 0
+        }
+      ],
+      "weak_parent_after": true
+    },
+    {
+      "present": 1,
+      "sprite": 1,
+      "parent_present": 1,
+      "parent_sprite": 1,
+      "parent_alive": 1,
+      "source_invoked": 1,
+      "services": [
+        {
+          "service": "is_sprite",
+          "receiver": "input"
+        },
+        {
+          "service": "environment",
+          "receiver": "input"
+        },
+        {
+          "service": "actual_method_boundary",
+          "this": "input",
+          "environment": "input",
+          "name": "onRelease",
+          "arguments": 0
+        }
+      ],
+      "weak_parent_after": true
+    }
+  ],
+  "whole_method_or_frame_parity": false
+}

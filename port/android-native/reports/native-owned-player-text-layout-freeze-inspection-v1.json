@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "scope": "Independent frozen source, evidence, proof and existing binary hash inspection; current Android builds recorded separately.",
+  "manifests": {
+    "port/game-data/reference/player-inventory-v1/freeze-manifest.json": {
+      "sha256": "7e8a83a886c052bf2c500d5ab039e68d179e8d4af2e817211ba9a74c05555f84",
+      "verified_hashes": {
+        "source_sha256": 6,
+        "source_and_evidence_sha256": 63,
+        "proof_sha256": 4,
+        "binary_sha256": 8
+      }
+    },
+    "port/engine-ui/reference/text-layout-v1/freeze-manifest.json": {
+      "sha256": "d5cd935e9397754335f984949fe52953204c6d531048703bb57cd67cb99ea2c9",
+      "verified_hashes": {
+        "source_sha256": 2,
+        "source_and_evidence_sha256": 16
+      }
+    }
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "PLAYLIST_P_probes": [
+      {
+        "size": 8,
+        "mode": 2,
+        "width": 4,
+        "rows": 5,
+        "pitch": 4,
+        "num_grays": 256
+      },
+      {
+        "size": 12,
+        "mode": 1,
+        "width": 5,
+        "rows": 8,
+        "pitch": 1,
+        "num_grays": 256
+      },
+      {
+        "size": 16,
+        "mode": 1,
+        "width": 7,
+        "rows": 11,
+        "pitch": 1,
+        "num_grays": 256
+      },
+      {
+        "size": 24,
+        "mode": 2,
+        "width": 12,
+        "rows": 17,
+        "pitch": 12,
+        "num_grays": 256
+      },
+      {
+        "size": 32,
+        "mode": 2,
+        "width": 15,
+        "rows": 22,
+        "pitch": 15,
+        "num_grays": 256
+      }
+    ],
+    "validation": "PASS",
+    "gray_regression_cases": 570,
+    "actual_wqy_glyphs": 5415,
+    "packed_wqy_glyphs": 380,
+    "mode1_glyphs": 380,
+    "mode2_glyphs": 5035,
+    "atomic_guards": 5
+  },
+  "source_sha256": {
+    "port/engine-ui/freetype_bitmap_alpha.hpp": "ebbd595524064c795d7ae87326dbcafbc32a88322f75eb5087ee8a5fc001ab06",
+    "port/engine-ui/freetype_bitmap_alpha.cpp": "d5a20f44edc326f646b10d9ae4134c2384bb5c04b674d5256507101131b4037e",
+    "port/engine-ui/hud_freetype_font.hpp": "137741dc606aa65d2532d8443cd7165a6b71e7b25208aa92894275780465b2a6",
+    "port/engine-ui/hud_freetype_font.cpp": "9a3df0edace00b7c1c997ce08c7a0876e2827b6037777f606036a329f0c55a3b",
+    "port/engine-ui/swf_hud_freetype_provider.hpp": "7ec3731910d505dedb883a656f058c4036d5aa5729930229016df37b8ec575e1",
+    "port/engine-ui/swf_hud_freetype_provider.cpp": "4e3313cf555e4c50abee13c5dc032097476408a0fb51b3bb529a12bf7920eb7f",
+    "port/engine-ui/tests/hud_freetype_font.cpp": "8c4c05c937c93b9c9e62b1519ae7b3deba7f799dcd1d437d5b1682a9e0313678"
+  },
+  "dependency_source_sha256": {
+    "port/engine-ui/freetype_font.hpp": "b3e08aebf2e756af1c61e72e5759526aef9be1ee3cdae810b9343c238e9713aa",
+    "port/engine-ui/freetype_font.cpp": "efbf41c933e87bc915b0ea5f73d7b261d6ca2273b5f3bdbf568d93618c844aeb",
+    "port/engine-ui/freetype_glyph_kernel.hpp": "64c3283bb58c325295370b00f2d796c3d970766ee4868b1cad04d0d46ffe6aee",
+    "port/engine-ui/freetype_glyph_kernel.cpp": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+    "port/engine-ui/freetype237-hud.cmake": "ac8afc6d3cd246d9159e0ab67b5b2340f3b4c4afc84aed7497078a4c707d5804"
+  },
+  "executable_sha256": "4b54b626d9ba8a4ff4cedc1f2a768caf2ddefc851f18487454c458eb0139ef88",
+  "freetype_library_sha256": "c66367710ebd7ca25cf0d9090117ab82f7b4152be148b054182cbbdfa3a8236d",
+  "reference_conversion_object_sha256": "426c87033b5cd6642af6f0dec0751c5bac06f1a2b2104ee9c52d40187c89362d",
+  "reference_conversion_source_sha256": "0870c8b82c59529e3d1a69cf28f31b05c8cf1f61ed322e416a9072ddaca9f2d5",
+  "hud_vendor_manifest_sha256": "f1313f1e35df20cde190bc330387943c37bf44cb101d18beacfec801f1eff917",
+  "actual_resource_sha256": {
+    ".local-inputs/font-text-discovery/Fontin SmallCaps.ttf": "e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4",
+    ".local-inputs/font-text-discovery/wqy-zenhei.ttf": "734b412c7aea22930d740a8edd9162f36f99aa343ca9271411ab501279fc7dd3"
+  },
+  "unchanged_gray_corpus_sha256": "79d0065db2af27b638fb6e0d39de2c61292b877ff02d37593789849beef02b12",
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "findings": 0
+  },
+  "scope": "Modern bounded packed pixel correction against real official FT_Bitmap_Convert plus exact prior Fontin GRAY regression. No original packed-copy parity, GPU/package/device or complete FreeType-fork parity."
+}

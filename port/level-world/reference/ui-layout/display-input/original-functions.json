@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf19shape_character_def16point_test_localEff",
+      "elf_address": "0x77a570",
+      "size": 184,
+      "sha256": "b4bbf9445cfae71a4dd80088be06250902583b8012aa928c8465434333a05afb"
+    },
+    {
+      "original_symbol": "_ZN7gameswf14place_object_24readEPNS_6playerEPNS_6streamEiiPNS_20movie_definition_subE",
+      "elf_address": "0x75cb6c",
+      "size": 3376,
+      "sha256": "b982d2d14b88096c90f24a0bf80c68d30e70dc26ed6e9d7b8f8b3666246a2177"
+    },
+    {
+      "original_symbol": "_ZN7gameswf25button_character_instance24get_topmost_mouse_entityEff",
+      "elf_address": "0x7c6e50",
+      "size": 240,
+      "sha256": "9a8ac8da0eef79e2ec39e06726c818f5f3e57596de97ddf39f105b0413016ea4"
+    },
+    {
+      "original_symbol": "_ZN7gameswf9character16get_world_matrixEv",
+      "elf_address": "0x753f74",
+      "size": 40,
+      "sha256": "306f98cf649090ff8e511c5b06c03279fdacbc12c41b4a0d03963e9a7369c826"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance24get_topmost_mouse_entityEff",
+      "elf_address": "0x77f00c",
+      "size": 380,
+      "sha256": "22a7ac8c20ed38314e2bb2dac0a093538bba2517102e281282b0e5dd22feae2a"
+    },
+    {
+      "original_symbol": "_ZN7gameswf12display_list7displayEv",
+      "elf_address": "0x7552ac",
+      "size": 512,
+      "sha256": "87eac065b2bcd7c57e506dec549498ab869536ddba5a426fe8d381bef75a1ca0"
+    }
+  ]
+}

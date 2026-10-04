@@ -1,0 +1,17 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z19NativeUseIpodPlayerRKN7gameswf7fn_callE",
+      "elf_address": "0x43a974",
+      "size": 52,
+      "sha256": "3f3924739048664fd007b72ffd67bb680ab831d5ef15258c1429d07f9d6594a3"
+    },
+    {
+      "original_symbol": "_Z25NativeGetOptionParametersRKN7gameswf7fn_callE",
+      "elf_address": "0x44a298",
+      "size": 812,
+      "sha256": "a005ec7a01edb80520e550f133f8d533b94cf5a106d0b1afcebd7f79d90090f4"
+    }
+  ]
+}

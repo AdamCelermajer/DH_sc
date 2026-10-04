@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "comparisons": 18432,
+  "mismatches": 0,
+  "oracle_sha256": "a599f69141d4f338bed5157cb30c71e2725890da36ca7936a3c48f6209af534e",
+  "source_sha256": {
+    "port/engine-ui/freetype_bitmap_alpha.hpp": "ebbd595524064c795d7ae87326dbcafbc32a88322f75eb5087ee8a5fc001ab06",
+    "port/engine-ui/freetype_bitmap_alpha.cpp": "d5a20f44edc326f646b10d9ae4134c2384bb5c04b674d5256507101131b4037e",
+    "port/engine-ui/tests/freetype_bitmap_alpha_differential.py": "d66e116bd93fb442c976a5d80e594d890647f6939ca34988a0f69c1a4c8921f8"
+  },
+  "scope": "Optimized native ARM64 safe bitmap conversion vs independent MSB-first FT pixel semantics,all256bytevalues,MONO/GRAY/GRAY2/GRAY4,partialbytewidths,stride padding and bottom-up spans. Modern safe correction to original unsafe packed row copy; no original packed-font instruction parity."
+}

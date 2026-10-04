@@ -1,0 +1,18 @@
+{
+  "validation": "PASS",
+  "scope": "Prior original root viewport gold plus newly executed actual original camera and both actual root setters; AS publication observed endpoint",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "prior_gold_sha256": "ba12fd0e90048d62c1dad24c5a011210538c0d39d7cc6126c70eedc9e4742e29",
+  "gold_sha256": "9cbc259abd09d27420215bc69c70c31743abf1b65f151e77c7a9bfc4a8a6f637",
+  "records": 4684,
+  "operation_counts": {
+    "0": 2060,
+    "1": 676,
+    "2": 596,
+    "3": 596,
+    "5": 596,
+    "4": 160
+  },
+  "ordered_services": 12655,
+  "new_original_composed_camera_cases": 160
+}

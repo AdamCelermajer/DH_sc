@@ -1,0 +1,34 @@
+{
+  "validation": "PASS",
+  "scope": "Original host globals versus O2 ARM64; manager/session ownership and signed ReturnValues push services explicit.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "f0ba746ee2511bd1e26324347a60c090b1e7e3a5a34516c64e16a87abb912eab",
+  "optimized_arm64_library_sha256": "af91117f8db231c99dc90d5dffce325eb334facb6763b8fff42017bef175b813",
+  "gold_sha256": "a45ce66329bb92aa1dc46e1d61abc1c246b552b58c4cf988612c8905258d74ef",
+  "comparisons": 1233,
+  "ordered_services": 4041,
+  "actual_decoded_row_tier_cases": 153,
+  "Level_original_capture_sha256": "4e9d0763116c9a09e5f6be978c5338df1a66e0f674cd50219347a8765d253cd1",
+  "Level_original_gold_sha256": "dd8414bb525280da4b9ab51c8e080c8c24a54d677881ba25a3fd1d93659568cc",
+  "native_atomic_rejections": 5,
+  "missing_range_level_failure": true,
+  "mismatches": 0,
+  "source_sha256": {
+    "port\\level-world\\character_host_context.hpp": "cd51145421b37194bd79deec6603696a1d26e9d20f3030cb20372012430ac80e",
+    "port\\level-world\\character_host_context.cpp": "ecf88d6974033f84868bfb95a1b01ee6a15b32f6397ba119510c432e636a6384",
+    "port\\level-world\\tests\\character_host_context_differential.py": "58fd80be781d0f546e87a620422447d9eef0bf6ef1afd8ae20fe4b7f72c457e6",
+    "port\\level-world\\tools\\build_character_host_context_oracle.ps1": "3124695753b1b6ad75c601e3cd3472ce9f577e18751ddfd4e60b09ba72c9d881"
+  },
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "soft_float_imports": {
+    "__aeabi_f2iz": 369
+  },
+  "services": [
+    "PlayerManager GetHostingPlayer selected receiver",
+    "Application current Level pointer executes",
+    "Level range table pointer/count fixture",
+    "signed ReturnValues.pushInteger service; first-push table replacement"
+  ],
+  "packaged_APK": false
+}

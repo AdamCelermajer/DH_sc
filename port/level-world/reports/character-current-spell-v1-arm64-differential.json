@@ -1,0 +1,19 @@
+{
+  "validation": "PASS",
+  "cases": 512,
+  "ordered_source_services": 2048,
+  "mismatches": 0,
+  "original_instructions_executed": true,
+  "optimized_arm64_instructions_executed": true,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "ccd4efd690fc99959d7a26daa01d100077550dc30604d308aa4a987b6f22e985",
+  "gold_sha256": "95c5e042275b65d90b199d5d794e905f1299c00e8bab31409ed1fe34a60e6a6e",
+  "source_capture_sha256": "5e4bc2319ab4e98625ee8cdcaa3979b9b95b55fbc091f793b5d9e5cabd94fd31",
+  "source_sha256": {
+    "port/level-world/character_current_spell_v1.hpp": "f277ba46149c52e41909edc0b7d8cce335988c34b20958ece91b144d3df0d967",
+    "port/level-world/character_current_spell_v1.cpp": "620f32de3989ba8d1afc3557dbafe7af8a42dc3bd48cca4242d1bd80aac88da4",
+    "port/level-world/tests/character_current_spell_v1_oracle.cpp": "39387814ba41109173e51b912eefcf1a3cb3e428728dbc1a1b92f79870798245",
+    "port/level-world/tests/character_current_spell_v1_differential.py": "a7e387950ad22724a97c7d01c2d7f3e403bed8b545d81d38262029fc24bdfd94"
+  },
+  "scope": "Original GetCurrentSpellInfo choreography vs optimized native ARM64.\n\nSG_GetCurrentFaerieId, GetCharFaery validation, SG_GetFaerieLevel and\nReturnValues.pushInteger are declared synchronous services. No full original\nsavegame/table helper execution or real Lua VM is inferred from this oracle.\n"
+}

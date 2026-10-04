@@ -1,0 +1,125 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "original_supported_cases": 3456,
+    "arithmetic_nan_class_cases": 128,
+    "provider_hits": 864,
+    "embedded_fallbacks": 1728,
+    "actual_embedded_fallback_checks": 2,
+    "provider_mutation_cases": 1,
+    "nested_provider_cases": 1,
+    "cache_identity_checks": 8,
+    "actual_PLAYLIST_advance": 4266.6665,
+    "provider_PLAYLIST_advance": 4266.6665,
+    "authored_advance_overrides": 0,
+    "actual_embedded_code": 46,
+    "actual_embedded_advance": 6826.66699,
+    "provider_embedded_advance": 6826.66699,
+    "authored_embedded_advance": 4100,
+    "provider_outline_inputs": 0,
+    "alpha_uploads": 247,
+    "bitmap_quads": 1056
+  },
+  "stock_baseline": {
+    "validation": "PASS",
+    "original_supported_cases": 0,
+    "arithmetic_nan_class_cases": 0,
+    "provider_hits": 0,
+    "embedded_fallbacks": 0,
+    "actual_embedded_fallback_checks": 0,
+    "provider_mutation_cases": 0,
+    "nested_provider_cases": 0,
+    "cache_identity_checks": 8,
+    "actual_PLAYLIST_advance": 4266.6665,
+    "provider_PLAYLIST_advance": 4266.6665,
+    "authored_advance_overrides": 0,
+    "actual_embedded_code": 46,
+    "actual_embedded_advance": 4100,
+    "provider_embedded_advance": 6826.66699,
+    "authored_embedded_advance": 4100,
+    "provider_outline_inputs": 1,
+    "alpha_uploads": 247,
+    "bitmap_quads": 1056
+  },
+  "source_sha256": {
+    "port/engine-ui/overlays/font-v1/gameswf_font.cpp": "c587ec54baf8a2b68d747ad8f5c8039334df27d6c55f764fc30a8137f2053d1d",
+    "port/engine-ui/gameswf_font_overlay_v1.cmake": "08734d539f4cdb082a6b6d98b425d61aeef6ad3177352354679d23c359b0266c",
+    "port/engine-ui/tests/gameswf_font_overlay.cpp": "512b62d7009c2009879e9d0e9caf8fa72800f523e772e4107f4bd35cddbb5d5f"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_function": {
+    "address": "0x7d01bc",
+    "size": 640
+  },
+  "gold_sha256": "ab8d890648aa64009b23f17adc3f3518dc4c4fc3ed712e432926824526611b99",
+  "original_projection_report_sha256": "b004f12dcd813612c7adb5a2079bea3ef4151df6885016c40d1fec403c229ef1",
+  "original_projection_freeze_sha256": "704758ac42e55218f1787cf3159505f02dc12c0e6fbede322f96bd0537f63b29",
+  "current_provider_freeze_sha256": "feb2860485ad0b4dfb90e6c01a384c496942b8d05c9f4b0aee448983089ccabb",
+  "executables_sha256": {
+    "stock": "8f614ae220a5fd4fdab6564719c47134951314bf31d2537f0358afeb641f83f9",
+    "overlay": "fc822600f535766a6b79a8cfe41675b6255da8b3f8b9f60a8ae7cdf6ad0bb861"
+  },
+  "library_sha256": {
+    ".local-inputs/font-text-discovery/font-overlay-v1/libgameswf-core-stock.a": "fc77104d980bbbf93221e63a81775af042741b88874cb315daad233ff7638a6e",
+    ".local-inputs/font-text-discovery/font-overlay-v1/libgameswf-core-overlay.a": "4d79e5787086b5f8e7bc0cca96d38ae24a381bd5c1633cdc7ba5899553f44844",
+    ".local-inputs/font-text-discovery/font-overlay-v1/libfreetype237.a": "8ec5697b4fb880c0378d291d6d38c1497bdb2a90c8daae4ca211284981fe8c8b",
+    ".local-inputs/font-text-discovery/main93-snapshot/libdh2_script_runtime.so": "73188ef1da1e2a35002d3a563ee1b967f424c5401481aaff559e4333d7b3731a"
+  },
+  "overlay_object_sha256": "24afbe2134eb2f87cf4cd9e641b6c58406d50f4e63a505c4729cf53f793ed8df",
+  "captured_dependency_sources": {
+    "capture_sha256": "18ddbe441ecbbb4df714c4b63b426d321601c749331db521806639daf4989aa1",
+    "captured_source_sha256": {
+      "port/engine-ui/swf_movie.hpp": "6de117225b6e512c5f65d1a43f5d8335a6b8d039f50fb946cd5d04891b246961",
+      "port/engine-ui/swf_movie.cpp": "38c5bfcf44cb4e2a0c6ff64ea3688502560afc6c2629105890c9c527c2b564ad"
+    },
+    "copied_source_sha256": {
+      "port/engine-ui/hud_freetype_font.hpp": "137741dc606aa65d2532d8443cd7165a6b71e7b25208aa92894275780465b2a6",
+      "port/engine-ui/hud_freetype_font.cpp": "9a3df0edace00b7c1c997ce08c7a0876e2827b6037777f606036a329f0c55a3b",
+      "port/engine-ui/freetype_bitmap_alpha.hpp": "ebbd595524064c795d7ae87326dbcafbc32a88322f75eb5087ee8a5fc001ab06",
+      "port/engine-ui/freetype_bitmap_alpha.cpp": "d5a20f44edc326f646b10d9ae4134c2384bb5c04b674d5256507101131b4037e",
+      "port/engine-ui/swf_hud_freetype_provider.hpp": "7ec3731910d505dedb883a656f058c4036d5aa5729930229016df37b8ec575e1",
+      "port/engine-ui/swf_hud_freetype_provider.cpp": "4e3313cf555e4c50abee13c5dc032097476408a0fb51b3bb529a12bf7920eb7f",
+      "port/engine-ui/freetype_glyph_kernel.hpp": "64c3283bb58c325295370b00f2d796c3d970766ee4868b1cad04d0d46ffe6aee",
+      "port/engine-ui/freetype_glyph_kernel.cpp": "e4453c580e13a1a3cd0e977dcc77dd5dd68357239442f45821c6ba6aab4de3ec",
+      "port/engine-ui/swf_font_resolver.hpp": "c40655869b4dfe3b05fa226ed148b77ee984a45fbd70b70ba38ae3160b8a0462",
+      "port/engine-ui/swf_font_resolver.cpp": "1876dfb38e04eb4f31243d59d64a746ff5a3d3d62a8b1f0d44a72174d720e96a",
+      "port/engine-ui/localization.hpp": "48433e35464d7fc14118de3d60a5323766a22c8116761e61eb605809187bbc8c",
+      "port/engine-ui/localization.cpp": "b519ab31e8553ccc808822fc1c9f846ebdff5f9e608eb31cd2fe3245d2860611",
+      "port/engine-ui/freetype_font.hpp": "b3e08aebf2e756af1c61e72e5759526aef9be1ee3cdae810b9343c238e9713aa",
+      "port/engine-ui/freetype_font.cpp": "efbf41c933e87bc915b0ea5f73d7b261d6ca2273b5f3bdbf568d93618c844aeb",
+      "port/engine-ui/swf_freetype_provider.hpp": "418e98f0d78c72885622173c3994da2a117c38d2769cc7f82de1c0b39ebeca5a",
+      "port/engine-ui/swf_freetype_provider.cpp": "afbc4d3c761e3ca972310ffe00c6f72828cc79e0274b852c6a89e45146a01999",
+      "port/engine-ui/tests/hud_freetype_provider.cpp": "eb6e7e5b5743a5e8f4c675e800d018261d1994619f98fd499082ae3626dcb6a3",
+      "port/engine-ui/tests/gameswf_font_overlay.cpp": "512b62d7009c2009879e9d0e9caf8fa72800f523e772e4107f4bd35cddbb5d5f",
+      "port/script-runtime/script_constants.hpp": "5771039bca9fce55aed7ca742ede02fad3da304d62411d4c9531c32c0e823a01"
+    }
+  },
+  "actual_resource_sha256": {
+    ".local-inputs/ui-layout-discovery/dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    ".local-inputs/ui-layout-discovery/dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+    ".local-inputs/font-text-discovery/Fontin SmallCaps.ttf": "e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4",
+    ".local-inputs/font-text-discovery/wqy-zenhei.ttf": "734b412c7aea22930d740a8edd9162f36f99aa343ca9271411ab501279fc7dd3",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pyarray.bin": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pyarraynames.bin": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pystructnames.bin": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad",
+    "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pycst.bin": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5",
+    "port/android-native/app/src/main/assets/data/fonts_pycst.bin": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa"
+  },
+  "core_archive_comparison_sha256": "8cee59ab09ba3e228527ab8879680569e066aa60727ab130dc77835b1a6a2a16",
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "vptr": false,
+    "findings": 0
+  },
+  "borrowed_fixture_projections": [
+    "valid native movie/player/decoded font backing",
+    "shape-independent real native FT provider",
+    "original source face/image services represented by native face/cache ownership",
+    "Debug/language0/no-player/cache rewrite/texture/stencil deliveries",
+    "test-only private field injection for original supported subset"
+  ],
+  "scope": "Actual O2 replacement core host replay against3456 original bitmap-provider-disabled glyph cases plus realFontin embedded advance, fallback, provider mutation/reentry and cache/lifetime composition. Original full6912/O2 projection remains separately frozen. No fullTU ARM64 execution, original weak-player/bitmap-font fork or GPU/package/device proof."
+}

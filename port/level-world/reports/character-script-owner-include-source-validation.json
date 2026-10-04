@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "scope": "Source-only exact root/Include private-owner integration; original manager/lifecycle service evidence and actual native DSO VM behavior compose without a whole original frame parity claim.",
+  "source_sha256": {
+    "port\\level-world\\character_script_owner.cpp": "d63c031dfc521bc98ff4cd50358cfb0c1bbfb7de307c69d087e6a8f220e10e82",
+    "port\\level-world\\character_script_owner.hpp": "84eb02a90c945b9c0845bcddd7dcb52d75e62b6c8f210c088deb285dfeb06050",
+    "port\\level-world\\character_script_owner_bindings.inc": "0a428c0126d314d664a4af687619e0ce22de1ed6c9d1a56b1fb056fc0f814f14",
+    "port\\level-world\\tests\\character_script_owner.cpp": "acc1f751efce734724a8542ada99962fbd0a25837463985a2dde907c7e36bcce",
+    "port\\level-world\\tests\\character_script_owner_external.cpp": "b330d15388448457437b8b3d65f9c24c9c206ea5f6c885ed180ac38fcb0c97ba",
+    "port\\level-world\\tests\\character_script_owner_include.cpp": "a8c57e14303ef196d5e873971376d26a748bc638d78a2e4f3e590b6291761853",
+    "port\\level-world\\tests\\character_script_owner_include_host.py": "3812e8962d2ff60e40efc7e7ab402d1c3ff08f98b0dbe28d63d9400fe11783cb",
+    "port\\script-runtime\\script_runtime.h": "35b57c2e5bf9625eebd6fd0c4e35d1e8880856ac9e2caaa5c1e437ad539ffa71",
+    "port\\script-runtime\\script_runtime.c": "d01b55dbebaf3cca978b61a498ff9c4b07e6ca186cc4216231e26b5bd6281ed9"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_include_manager_cases": 188,
+  "optimized_arm64_helper_comparisons": 304,
+  "optimized_arm64_atomic_rejections": 4,
+  "full_owner_arm64_executed": false,
+  "host_checks": {
+    "include": 2005,
+    "external": 2863,
+    "legacy": 6283
+  },
+  "sanitizer_findings": 0,
+  "source_root_loader": true,
+  "persistent_provider_required": true,
+  "full_manager_cache_implemented": false,
+  "full_gameplay_namespace_bound": false,
+  "packaged_APK": false,
+  "proof_sha256": {
+    "port\\level-world\\reports\\character-script-owner-include-host-audit.json": "4bb76fdb5fdcca3365770c0b187412127544da4f4822f25596d797f007b16137",
+    "port\\level-world\\reports\\character-script-owner-include-arm64-helper-regression.json": "f21e291a3e54d07f53f01bc3516d1edcf78cafbdd1f79b44ecb6517b28c6108c",
+    "port\\script-runtime\\reference\\base-bindings\\include-original-probe.json": "1357fa9039650778547f2069d0960db1b6800c6de579cf6356847f42d31da38a"
+  },
+  "notes_sha256": "12028d6f7fbe57b1f257621dfb7433f71eb0c7b3797460e48adcab527165e646",
+  "freeze_script_sha256": "1a523dcf98019ceac2ed8051d16e5599d3ef2adde31ec7193ad4aa539b9592b9"
+}

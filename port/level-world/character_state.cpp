@@ -69,11 +69,42 @@ int transition(State& s,const Facts& f,int next,int event,std::uint64_t payload,
  focus(s,f,prior,payload,c);call(s,c,raise_event,0x1d,prior,0,0,std::uint64_t(std::int64_t(prior)));
  (void)event;return 1;
 }
+void event_body(State& s,const Facts& f,std::uint32_t event,const Services& c){
+ if(s.current==5&&event==0x1c&&f.is_player){
+  const bool moving_heading=s.heading_active!=0;
+  const int moving=selected(f,f.attack_moving,0x40),stationary=selected(f,f.attack_static,0x80);
+  call(s,c,swap_animation,moving_heading?moving:stationary,moving_heading?stationary:moving);
+  if(s.body_present)call(s,c,moving_heading?unpin:pin);
+ }else if(s.current==5&&event==0x1a){
+  if(f.target)call(s,c,look_at,2,0,0,0,f.target);
+  else if(f.has_ranged_weapon&&s.heading_active){
+   std::int32_t words[3];std::memcpy(words,f.heading,sizeof words);
+   call(s,c,set_heading,words[0],words[1],words[2],1.0f);
+  }
+ }else if(s.current==12&&event==0x22){
+  call(s,c,remove_body);s.body_present=0;
+  if(!f.is_player){call(s,c,start_timer,std::int32_t(f.despawn_delay),0,0x2e);s.flags=0x40;}
+ }
+}
 }
 extern "C" int dh2_character_state_transition(dh2::character::State* s,const dh2::character::Facts* f,
  std::int32_t next,std::int32_t event,std::uint64_t payload,const dh2::character::Services* c){
  if(!valid(s,f,c)||next==-1||!id(next))return -1;
  return transition(*s,*f,next,event,payload,*c);
+}
+extern "C" int dh2_character_state_focus_body(State* s,const Facts* f,std::int32_t previous,
+ std::uint64_t payload,const Services* c){
+ if(!valid(s,f,c)||s->current==-1)return -1;
+ focus(*s,*f,previous,payload,*c);return 1;
+}
+extern "C" int dh2_character_state_blur_body(State* s,const Facts* f,const Services* c){
+ if(!valid(s,f,c)||s->current==-1)return -1;
+ blur(*s,*f,*c);return 1;
+}
+extern "C" int dh2_character_state_event_body(State* s,const Facts* f,std::uint32_t event,
+ const Services* c){
+ if(!valid(s,f,c)||s->current==-1)return -1;
+ event_body(*s,*f,event,*c);return 1;
 }
 extern "C" int dh2_character_state_event(dh2::character::State* s,const dh2::character::Facts* f,
  std::uint32_t event,std::uint64_t payload,const dh2::character::Services* c){
@@ -82,22 +113,7 @@ extern "C" int dh2_character_state_event(dh2::character::State* s,const dh2::cha
  // transitions. AI routing/expired callbacks precede this entry point.
  if(event>=0x2a&&event<=0x2c)s->attack_gate&=~(1u<<(event-0x2a));
  // Source OnEvent executes before registered transition predicates.
- if(s->current==5&&event==0x1c&&f->is_player){
-  const bool moving_heading=s->heading_active!=0;
-  const int moving=selected(*f,f->attack_moving,0x40),stationary=selected(*f,f->attack_static,0x80);
-  call(*s,*c,swap_animation,moving_heading?moving:stationary,moving_heading?stationary:moving);
-  if(s->body_present)call(*s,*c,moving_heading?unpin:pin);
- }else if(s->current==5&&event==0x1a){
-  if(f->target)call(*s,*c,look_at,2,0,0,0,f->target);
-  else if(f->has_ranged_weapon&&s->heading_active){
-   std::int32_t words[3];std::memcpy(words,f->heading,sizeof words);
-   call(*s,*c,set_heading,words[0],words[1],words[2],1.0f);
-  }
- }
- else if(s->current==12&&event==0x22){
-  call(*s,*c,remove_body);s->body_present=0;
-  if(!f->is_player){call(*s,*c,start_timer,std::int32_t(f->despawn_delay),0,0x2e);s->flags=0x40;}
- }
+ event_body(*s,*f,event,*c);
  int next=-1;
  if(event==0xc358&&(s->current==3||s->current==4||s->current==5))next=12;
  else if(event==0xc354&&(s->current==3||s->current==4)&&!(s->attack_gate&1))next=5;

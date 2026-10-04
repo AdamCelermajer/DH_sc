@@ -1,0 +1,195 @@
+--------- beginning of main
+I/libprocessgroup( 6575): Created cgroup /sys/fs/cgroup/apps/uid_10235/pid_6575
+I/Zygote  ( 6575): Process 6575 created for com.example.dh2
+I/com.example.dh2( 6575): Late-enabling -Xcheck:jni
+I/com.example.dh2( 6575): Using generational CollectorTypeCMC GC.
+W/com.example.dh2( 6575): Unexpected CPU variant for x86: x86_64.
+W/com.example.dh2( 6575): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, pantherlake, default
+D/nativeloader( 6575): Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+D/CompatChangeReporter( 6575): Compat change id reported: 333566037; UID 10235; state: ENABLED
+D/nativeloader( 6575): Configuring clns-9 for other apk /data/app/~~P5G4BVXMHsFpbSI__lUO0w==/com.example.dh2-hWmwTO0d8BTwrStsv1B1wA==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~P5G4BVXMHsFpbSI__lUO0w==/com.example.dh2-hWmwTO0d8BTwrStsv1B1wA==/lib/x86_64:/data/app/~~P5G4BVXMHsFpbSI__lUO0w==/com.example.dh2-hWmwTO0d8BTwrStsv1B1wA==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.example.dh2
+V/GraphicsEnvironment( 6575): Currently set values for:
+V/GraphicsEnvironment( 6575):   angle_gl_driver_selection_pkgs=[]
+V/GraphicsEnvironment( 6575):   angle_gl_driver_selection_values=[]
+V/GraphicsEnvironment( 6575): com.example.dh2 is not listed in per-application setting
+V/GraphicsEnvironment( 6575): No special selections for ANGLE, returning default driver choice
+V/GraphicsEnvironment( 6575): Neither updatable production driver nor prerelease driver is supported.
+D/CompatChangeReporter( 6575): Compat change id reported: 407952621; UID 10235; state: ENABLED
+D/CompatChangeReporter( 6575): Compat change id reported: 419020719; UID 10235; state: ENABLED
+D/CompatChangeReporter( 6575): Compat change id reported: 458413887; UID 10235; state: ENABLED
+--------- beginning of system
+I/DisplayManager( 6575): Choreographer implicitly registered for the refresh rate.
+D/DesktopExperienceFlags( 6575): Toggle override initialized to: false
+I/GFXSTREAM( 6575): [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+I/GFXSTREAM( 6575): [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+W/libc    ( 6575): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+W/HWUI    ( 6575): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+D/CompatChangeReporter( 6575): Compat change id reported: 418924588; UID 10235; state: ENABLED
+W/HWUI    ( 6575): Unknown dataspace 0
+D/InsetsController( 6575): Setting requestedVisibleTypes to 496 (was 503)
+W/libc    ( 6575): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+D/WindowOnBackDispatcher( 6575): setTopOnBackInvokedCallback (unwrapped): android.app.Activity$$ExternalSyntheticLambda0@a50cb91
+D/WindowOnBackDispatcher( 6575): setTopOnBackInvokedCallback (unwrapped): com.example.dh2.CinematicActivity$$ExternalSyntheticLambda0@d36cef7
+D/VRI[CinematicActivity]( 6575): WindowInsets changed: 2184x1968 statusBars:[0,63,0,0] navigationBars:[0,0,0,84] mandatorySystemGestures:[0,63,0,84] 
+I/HWUI    ( 6575): Using FreeType backend (prop=Auto)
+I/Surface ( 6575): Creating surface for consumer unnamed-6575-0 with slotExpansion=1 for 64 slots
+I/Surface ( 6575): Creating surface for consumer VRI[CinematicActivity]#0(BLAST Consumer)0 with slotExpansion=1 for 64 slots
+D/VRI[CinematicActivity]( 6575): WindowInsets changed: statusBars:null navigationBars:null 
+I/Surface ( 6575): Creating surface for consumer unnamed-6575-1 with slotExpansion=1 for 64 slots
+I/Surface ( 6575): Creating surface for consumer SurfaceTexture-0-6575-0 with slotExpansion=0 for 64 slots
+D/AudioSystem( 6575): onNewServiceWithAdapter: media.audio_flinger service obtained 0x703e43838040
+D/AudioSystem( 6575): getService: IAudioFlingerService retrieved: 0x703eb38a5620  IAudioFlinger cached: 0x703e43838040
+I/Surface ( 6575): Creating surface for consumer SurfaceTexture-0-6575-0 with slotExpansion=0 for 64 slots
+I/DH2Front( 6575): Intro fit | surface=2184x1968 | video=1280x720 | fitted=2184.0x1228.5
+I/DH2Front( 6575): Intro prepared | duration_ms=50292 | original H264/AAC asset | position=0
+D/InsetsController( 6575): hide(ime())
+I/ImeTracker( 6575): com.example.dh2:82abd472: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+D/AudioSystem( 6575): onNewService: media.audio_policy service obtained 0x703eb389f680
+D/AudioSystem( 6575): getService: IAudioPolicyService retrieved: 0x703eb389f680  cached: 0x703eb389f680
+W/MediaPlayerNative( 6575): info/warning (3, 0)
+I/DH2Front( 6575): Intro fit | surface=2184x1968 | video=1280x720 | fitted=2184.0x1228.5
+I/DH2Front( 6575): Intro first video frame | position_ms=102
+W/InteractionJankMonitor( 6575): Initializing without READ_DEVICE_CONFIG permission. enabled=false, interval=1, missedFrameThreshold=3, frameTimeThreshold=64, package=com.example.dh2
+I/com.example.dh2( 6575): Compiler allocated 5239KB to compile void android.view.ViewRootImpl.performTraversals(long)
+I/DH2Front( 6575): Intro paused | position_ms=2282
+D/VRI[CinematicActivity]( 6575): visibilityChanged oldVisibility=true newVisibility=false
+D/ViewRootImpl( 6575): Skipping stats log for color mode
+I/DH2Front( 6575): Intro resumed | position_ms=2380
+I/Surface ( 6575): Creating surface for consumer unnamed-6575-2 with slotExpansion=1 for 64 slots
+I/Surface ( 6575): Creating surface for consumer VRI[CinematicActivity]#1(BLAST Consumer)1 with slotExpansion=1 for 64 slots
+D/InsetsController( 6575): hide(ime())
+I/ImeTracker( 6575): com.example.dh2:576c7a39: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+D/ProfileInstaller( 6575): Installing profile for com.example.dh2
+I/HWUI    ( 6575): Davey! duration=845ms; Flags=0, FrameTimelineVsyncId=900855, IntendedVsync=12245128687458, Vsync=12245128687458, InputEventId=0, HandleInputStart=12245129177375, AnimationStart=12245129177828, PerformTraversalsStart=12245129178218, DrawStart=12245129211198, FrameDeadline=12245145354124, FrameStartTime=12245129174911, FrameInterval=16666666, WorkloadTarget=16666666, AnimationTime=12245128687458, SyncQueued=12245129251939, SyncStart=12245129857400, IssueDrawCommandsStart=12245129871697, SwapBuffers=12245130188696, FrameCompleted=12245975067462, DequeueBufferDuration=2665, QueueBufferDuration=258086, GpuCompleted=12245975067462, SwapBuffersCompleted=12245138248489, DisplayPresentTime=0, CommandSubmissionCompleted=12245130188696, 
+I/DH2Front( 6575): Intro completed
+I/DH2Front( 6575): Intro paused | position_ms=0
+D/nativeloader( 6575): Load /data/app/~~P5G4BVXMHsFpbSI__lUO0w==/com.example.dh2-hWmwTO0d8BTwrStsv1B1wA==/base.apk!/lib/x86_64/libdh2_native.so using class loader ns clns-9 (caller=/data/app/~~P5G4BVXMHsFpbSI__lUO0w==/com.example.dh2-hWmwTO0d8BTwrStsv1B1wA==/base.apk!classes3.dex): ok
+D/InsetsController( 6575): Setting requestedVisibleTypes to 496 (was 503)
+D/WindowOnBackDispatcher( 6575): setTopOnBackInvokedCallback (unwrapped): android.app.Activity$$ExternalSyntheticLambda0@366a008
+D/VRI[MainActivity]( 6575): WindowInsets changed: 2184x1968 mandatorySystemGestures:[0,63,0,84] 
+I/Surface ( 6575): Creating surface for consumer unnamed-6575-3 with slotExpansion=1 for 64 slots
+I/Surface ( 6575): Creating surface for consumer VRI[MainActivity]#2(BLAST Consumer)2 with slotExpansion=1 for 64 slots
+I/Surface ( 6575): Creating surface for consumer unnamed-6575-4 with slotExpansion=1 for 64 slots
+I/Surface ( 6575): Creating surface for consumer a4889c6 SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#3(BLAST Consumer)3 with slotExpansion=1 for 64 slots
+W/libc    ( 6575): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+I/DH2Native( 6575): Authored UI shader GPU contract PASS | programs 2 | cases 8 | max byte error 1
+I/DH2Native( 6575): Renderer: Android Emulator OpenGL ES Translator (Google SwiftShader)
+I/DH2Native( 6575): GLES: OpenGL ES 3.0 (OpenGL ES 3.0 SwiftShader 4.0.0.1)
+I/DH2Native( 6575): Enemy AI configured | automatic melee 1
+I/DH2Native( 6575): ui/original-main-menu
+I/DH2Native( 6575): Original front screen selected: main | loading on first surface frame; campaign callbacks not yet connected
+I/DH2Native( 6575): Surface resized to 2184 x 1968
+I/DH2Native( 6575): Original source frame/history bound before shared/root construction
+I/DH2Front( 6575): Title music intro started | duration_ms=5832 | loop_ms=113214
+I/DH2Native( 6575): Original UI export delivered | name menus/iPhone_Table_DH2.tga | uri data/3d/textures/iphone_table_dh2.tga | texture 256 256
+I/DH2Native( 6575): Original UI export delivered | name menus/MenusGraphics_droid.tga | uri data/3d/textures/menusgraphics_droid.tga | texture 1024 1024
+I/DH2Native( 6575): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+W/DH2Native( 6575): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 6575): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 6575): Original SWF core diagnostic: error in call_function: 'NativeIsMultiplayerEnabled' is not a function
+I/DH2Native( 6575): Original SWF core diagnostic: IS false
+W/DH2Native( 6575): Original SWF core diagnostic: error in call_function: 'NativeLoadSettings' is not a function
+I/DH2Native( 6575): Original SWF core diagnostic: Shared namespace: global com=yes, root com=no
+I/DH2Native( 6575): Original SWF core diagnostic: Shared package com: object gameloft
+I/DH2Native( 6575): Original SWF core diagnostic: Shared package gameloft: object components StaticFunctions
+I/DH2Native( 6575): Original SWF core diagnostic: Shared package components: object elements ui Events ComponentBase
+I/DH2Native( 6575): Original SWF core diagnostic: Shared package ui: object Slider Button ButtonLabeled HSlider SimpleButton
+I/DH2Native( 6575): Original UI export delivered | name menus/splash_final_droid.tga | uri data/3d/textures/splash_final_droid.tga | texture 2048 1024
+I/DH2Native( 6575): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+E/SurfaceSyncGroup( 6575): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[MainActivity]#9) as ready
+E/SurfaceSyncGroup( 6575): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[MainActivity]#10) as ready
+E/SurfaceSyncGroup( 6575): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#8) as ready
+W/DH2Native( 6575): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 6575): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 6575): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+D/InsetsController( 6575): hide(ime())
+I/ImeTracker( 6575): com.example.dh2:5d8d1821: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+I/DH2Native( 6575): Original SWF core diagnostic: Idle
+I/DH2Native( 6575): Original SWF core diagnostic: Idle
+W/DH2Native( 6575): Original SWF core diagnostic: error in call_function: 'NativeIsMultiplayerEnabled' is not a function
+I/DH2Native( 6575): Original SWF core diagnostic: IS false
+I/DH2Native( 6575): Original UI string delivered | symbol MENU_TOUCH_TO_CONTINUE | found 1 | text Touch  the  screen  to  continue
+I/DH2Native( 6575): Original UI string delivered | symbol GLOBAL_ASK_FOR_EXIT | found 1 | text Are you sure you want to exit?
+I/DH2Native( 6575): Original UI string delivered | symbol GAMEPLAYMENUS_ERASE | found 1 | text Are you sure you want to erase this game?
+W/DH2Native( 6575): Original SWF core diagnostic: error: can't find this[0x0x703fe3944830, _name='menu_MainMenu'].onHide
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_Debug | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_bg | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_EnterName | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_MultiplayerConnectivity | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_Multiplayer_Game_Type | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_Multiplayer_AfterChoice | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_MultiLogin | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_Multiplayer | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_Multiplayer2 | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_FriendInvitation | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_GameCenter | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_VerificationLoading | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_MultiplayerJoin | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_MultiplayerLobby | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_StringLoading | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_SelectClass | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_info | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_StartGame | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_splash | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_language | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_bidonMain | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_DummyState | visible 0
+I/DH2Native( 6575): Original menu state visibility initialized | name menu_MainMenu | visible 0
+I/DH2Native( 6575): Original front screen loaded | screen main | uri data/menus/dqmenus_droid.swf | clip _root.menu_MainMenu | id 510 | frames 31
+I/DH2Native( 6575): Original UI string delivered | symbol GLOBAL_OK | found 1 | text OK
+I/DH2Native( 6575): Original SWF core diagnostic: IN SHOW
+I/DH2Native( 6575): Original SWF core diagnostic: IN GET SLOT
+W/DH2Native( 6575): Original SWF core diagnostic: error in call_function: 'NativeGetSaveSlotDetails' is not a function
+I/DH2Native( 6575): Original UI string delivered | symbol GAMEPLAYMENUS_EMPTY | found 1 | text Empty
+I/DH2Native( 6575): Original UI string delivered | symbol MENU_DIFFICULTY | found 1 | text Difficulty
+W/DH2Native( 6575): Original SWF core diagnostic: error in call_function: 'NativeSetSaveSlotIDToMainMenu' is not a function
+I/DH2Native( 6575): Original UI string delivered | symbol MENU_INFO | found 1 | text Info
+I/DH2Native( 6575): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+I/DH2Native( 6575): Original SWF core diagnostic: Original FT face metrics | name Fontin SmallCaps | bold 0 | italic 0 | units 2048 | height 2341 | scale 1.000000
+I/DH2Native( 6575): Original SWF core diagnostic: Original text layout connected | html 1 | records 1 | glyphs 4 | rgba ffffffff | display Info | source Info
+I/DH2Native( 6575): Original UI string delivered | symbol MENU_MORE_GAMES | found 1 | text <b><font color="#9CFF9A">MORE GAMES!</font></b>
+I/DH2Native( 6575): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+I/DH2Native( 6575): Original SWF core diagnostic: Original FT face metrics | name Fontin SmallCaps | bold 1 | italic 0 | units 2048 | height 2341 | scale 1.000000
+I/DH2Native( 6575): Original SWF core diagnostic: Original text layout connected | html 1 | records 1 | glyphs 11 | rgba ff9aff9c | display MORE GAMES! | source <b><font color="#9CFF9A">MORE GAMES!</font></b>
+I/DH2Native( 6575): Original UI string delivered | symbol MENU_START | found 1 | text Start game
+I/DH2Native( 6575): Original SWF core diagnostic: Original text layout connected | html 1 | records 1 | glyphs 10 | rgba ffffffff | display Start game | source Start game
+I/DH2Native( 6575): Original UI string delivered | symbol MENU_OPTIONS | found 1 | text Options
+I/DH2Native( 6575): Original SWF core diagnostic: Original text layout connected | html 1 | records 1 | glyphs 7 | rgba ffffffff | display Options | source Options
+I/DH2Native( 6575): Original UI string delivered | symbol GAMEPLAYMENUS_ERASE | found 1 | text Are you sure you want to erase this game?
+I/DH2Native( 6575): Original UI string delivered | symbol GAMEPLAYMENUS_ACCEPT | found 1 | text Yes
+I/DH2Native( 6575): Original UI string delivered | symbol GAMEPLAYMENUS_REFUSE | found 1 | text No
+I/DH2Native( 6575): Original UI string delivered | symbol GLOBAL_ASK_FOR_EXIT | found 1 | text Are you sure you want to exit?
+I/DH2Native( 6575): Original UI string delivered | symbol GAMEPLAYMENUS_ACCEPT | found 1 | text Yes
+I/DH2Native( 6575): Original UI string delivered | symbol GAMEPLAYMENUS_REFUSE | found 1 | text No
+W/DH2Native( 6575): Original SWF core diagnostic: error in call_function: 'NativeHasPushNotification' is not a function
+I/DH2Native( 6575): Original source input connected | direct main event stage | MenuManager/HUDControls forwarding pending
+D/VRI[CinematicActivity]( 6575): visibilityChanged oldVisibility=true newVisibility=false
+V/MediaPlayer( 6575): resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+V/MediaPlayer( 6575): cleanDrmObj: mDrmObj=null mDrmSessionId=null
+D/WindowOnBackDispatcher( 6575): setTopOnBackInvokedCallback (unwrapped): null
+D/ViewRootImpl( 6575): Skipping stats log for color mode
+I/DH2Native( 6575): Original background property | path menu_bg | member _visible | found 1 | value 1.000
+I/DH2Native( 6575): Original background property | path menu_bg | member _alpha | found 1 | value 100.000
+I/DH2Native( 6575): Original background property | path menu_bg | member _currentframe | found 1 | value 1.000
+I/DH2Native( 6575): Original background property | path menu_bg.BrownBG | member _visible | found 1 | value 0.000
+I/DH2Native( 6575): Original background property | path menu_bg.BrownBG | member _alpha | found 1 | value 100.000
+I/DH2Native( 6575): Original background property | path menu_bg.BrownBG | member _currentframe | found 1 | value 1.000
+I/DH2Native( 6575): Original background property | path menu_bg.RenderedBG | member _visible | found 1 | value 1.000
+I/DH2Native( 6575): Original background property | path menu_bg.RenderedBG | member _alpha | found 1 | value 100.000
+I/DH2Native( 6575): Original background property | path menu_bg.RenderedBG | member _currentframe | found 1 | value 1.000
+W/DH2Native( 6575): Original SWF core diagnostic: can't find target TitleGraphic
+I/DH2Native( 6575): Original background clip absent | path menu_bg.TitleGraphic
+I/DH2Native( 6575): Original front/HUD screen submitted | screen main
+I/DH2Native( 6575): Original health panel submitted | viewport 2184 1968 | strips 167 | lines 0 | masks 13 | font uploads 260 | bitmaps 8 | strings 16 | core diagnostics 13 | authored initial state | game updates/input unconnected
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 6575): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined

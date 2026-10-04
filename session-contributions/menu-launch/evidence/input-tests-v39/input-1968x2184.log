@@ -1,0 +1,999 @@
+--------- beginning of main
+I/libprocessgroup( 4889): Created cgroup /sys/fs/cgroup/apps/uid_10235/pid_4889
+I/Zygote  ( 4889): Process 4889 created for com.example.dh2
+I/com.example.dh2( 4889): Late-enabling -Xcheck:jni
+I/com.example.dh2( 4889): Using generational CollectorTypeCMC GC.
+W/com.example.dh2( 4889): Unexpected CPU variant for x86: x86_64.
+W/com.example.dh2( 4889): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, pantherlake, default
+D/nativeloader( 4889): Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+D/CompatChangeReporter( 4889): Compat change id reported: 333566037; UID 10235; state: ENABLED
+D/nativeloader( 4889): Configuring clns-9 for other apk /data/app/~~Aw8Ms3ls7DHur6tN_GMY_Q==/com.example.dh2-rgWRmHMtBfqAQd71zCzoZQ==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~Aw8Ms3ls7DHur6tN_GMY_Q==/com.example.dh2-rgWRmHMtBfqAQd71zCzoZQ==/lib/x86_64:/data/app/~~Aw8Ms3ls7DHur6tN_GMY_Q==/com.example.dh2-rgWRmHMtBfqAQd71zCzoZQ==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.example.dh2
+V/GraphicsEnvironment( 4889): Currently set values for:
+V/GraphicsEnvironment( 4889):   angle_gl_driver_selection_pkgs=[]
+V/GraphicsEnvironment( 4889):   angle_gl_driver_selection_values=[]
+V/GraphicsEnvironment( 4889): com.example.dh2 is not listed in per-application setting
+V/GraphicsEnvironment( 4889): No special selections for ANGLE, returning default driver choice
+V/GraphicsEnvironment( 4889): Neither updatable production driver nor prerelease driver is supported.
+D/CompatChangeReporter( 4889): Compat change id reported: 407952621; UID 10235; state: ENABLED
+D/CompatChangeReporter( 4889): Compat change id reported: 419020719; UID 10235; state: ENABLED
+D/CompatChangeReporter( 4889): Compat change id reported: 458413887; UID 10235; state: ENABLED
+--------- beginning of system
+I/DisplayManager( 4889): Choreographer implicitly registered for the refresh rate.
+D/DesktopExperienceFlags( 4889): Toggle override initialized to: false
+I/GFXSTREAM( 4889): [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+I/GFXSTREAM( 4889): [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+W/libc    ( 4889): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+W/HWUI    ( 4889): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+D/nativeloader( 4889): Load /data/app/~~Aw8Ms3ls7DHur6tN_GMY_Q==/com.example.dh2-rgWRmHMtBfqAQd71zCzoZQ==/base.apk!/lib/x86_64/libdh2_native.so using class loader ns clns-9 (caller=/data/app/~~Aw8Ms3ls7DHur6tN_GMY_Q==/com.example.dh2-rgWRmHMtBfqAQd71zCzoZQ==/base.apk!classes3.dex): ok
+D/CompatChangeReporter( 4889): Compat change id reported: 418924588; UID 10235; state: ENABLED
+W/HWUI    ( 4889): Unknown dataspace 0
+D/InsetsController( 4889): Setting requestedVisibleTypes to 496 (was 503)
+W/libc    ( 4889): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+D/WindowOnBackDispatcher( 4889): setTopOnBackInvokedCallback (unwrapped): android.app.Activity$$ExternalSyntheticLambda0@29097bd
+D/VRI[MainActivity]( 4889): WindowInsets changed: 2184x1968 statusBars:[0,63,0,0] navigationBars:[0,0,0,84] mandatorySystemGestures:[0,63,0,84] 
+I/HWUI    ( 4889): Using FreeType backend (prop=Auto)
+I/Surface ( 4889): Creating surface for consumer unnamed-4889-0 with slotExpansion=1 for 64 slots
+I/Surface ( 4889): Creating surface for consumer VRI[MainActivity]#0(BLAST Consumer)0 with slotExpansion=1 for 64 slots
+D/VRI[MainActivity]( 4889): WindowInsets changed: statusBars:null navigationBars:null 
+I/Surface ( 4889): Creating surface for consumer unnamed-4889-1 with slotExpansion=1 for 64 slots
+I/Surface ( 4889): Creating surface for consumer c0c0503 SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#1(BLAST Consumer)1 with slotExpansion=1 for 64 slots
+W/libc    ( 4889): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+I/DH2Native( 4889): Authored UI shader GPU contract PASS | programs 2 | cases 8 | max byte error 1
+D/InsetsController( 4889): hide(ime())
+I/ImeTracker( 4889): com.example.dh2:fe26bd37: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+I/DH2Native( 4889): Renderer: Android Emulator OpenGL ES Translator (Google SwiftShader)
+I/DH2Native( 4889): GLES: OpenGL ES 3.0 (OpenGL ES 3.0 SwiftShader 4.0.0.1)
+I/DH2Native( 4889): Enemy AI configured | automatic melee 1
+I/DH2Native( 4889): ui/original-main-menu
+I/DH2Native( 4889): Original front screen selected: main | loading on first surface frame; campaign callbacks not yet connected
+I/DH2Native( 4889): Surface resized to 2184 x 1968
+D/AudioSystem( 4889): onNewServiceWithAdapter: media.audio_flinger service obtained 0x71d11ee390d0
+D/AudioSystem( 4889): getService: IAudioFlingerService retrieved: 0x71d27eea1630  IAudioFlinger cached: 0x71d11ee390d0
+I/DH2Native( 4889): Original shared renderer frame/history bound before root construction
+I/DH2Native( 4889): Original UI export delivered | name menus/iPhone_Table_DH2.tga | uri data/3d/textures/iphone_table_dh2.tga | texture 256 256
+W/InteractionJankMonitor( 4889): Initializing without READ_DEVICE_CONFIG permission. enabled=false, interval=1, missedFrameThreshold=3, frameTimeThreshold=64, package=com.example.dh2
+I/DH2Front( 4889): Title music intro started | duration_ms=5832 | loop_ms=113214
+D/AudioSystem( 4889): onNewService: media.audio_policy service obtained 0x71d27ee42ae0
+D/AudioSystem( 4889): getService: IAudioPolicyService retrieved: 0x71d27ee42ae0  cached: 0x71d27ee42ae0
+E/SurfaceSyncGroup( 4889): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[MainActivity]#1) as ready
+E/SurfaceSyncGroup( 4889): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[MainActivity]#2) as ready
+E/SurfaceSyncGroup( 4889): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#0) as ready
+I/DH2Native( 4889): Original UI export delivered | name menus/MenusGraphics_droid.tga | uri data/3d/textures/menusgraphics_droid.tga | texture 1024 1024
+I/DH2Native( 4889): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+W/DH2Native( 4889): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 4889): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 4889): Original SWF core diagnostic: error in call_function: 'NativeIsMultiplayerEnabled' is not a function
+I/DH2Native( 4889): Original SWF core diagnostic: IS false
+W/DH2Native( 4889): Original SWF core diagnostic: error in call_function: 'NativeLoadSettings' is not a function
+I/DH2Native( 4889): Original shared menu renderer loaded | independent player | states 9 | Options id 121 | frames 23 | inactive | native stack pending
+I/DH2Native( 4889): Original source frame/history bound before shared/root construction
+W/DH2Native( 4889): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 4889): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 4889): Original SWF core diagnostic: error in call_function: 'NativeIsMultiplayerEnabled' is not a function
+I/DH2Native( 4889): Original SWF core diagnostic: IS false
+W/DH2Native( 4889): Original SWF core diagnostic: error in call_function: 'NativeLoadSettings' is not a function
+I/DH2Native( 4889): Original SWF core diagnostic: Shared namespace: global com=yes, root com=no
+I/DH2Native( 4889): Original SWF core diagnostic: Shared package com: object gameloft
+I/DH2Native( 4889): Original SWF core diagnostic: Shared package gameloft: object components StaticFunctions
+I/DH2Native( 4889): Original SWF core diagnostic: Shared package components: object elements ui Events ComponentBase
+I/DH2Native( 4889): Original SWF core diagnostic: Shared package ui: object Slider Button ButtonLabeled HSlider SimpleButton
+I/com.example.dh2( 4889): Compiler allocated 5239KB to compile void android.view.ViewRootImpl.performTraversals(long)
+I/DH2Native( 4889): Original UI export delivered | name menus/splash_final_droid.tga | uri data/3d/textures/splash_final_droid.tga | texture 2048 1024
+I/DH2Native( 4889): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+I/DH2Native( 4889): Original menu renderer player identities | main 71d24ee3fd40 | shared 71d24ee26960 | distinct 1
+W/DH2Native( 4889): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 4889): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 4889): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Idle
+I/DH2Native( 4889): Original SWF core diagnostic: Idle
+W/DH2Native( 4889): Original SWF core diagnostic: error in call_function: 'NativeIsMultiplayerEnabled' is not a function
+I/DH2Native( 4889): Original SWF core diagnostic: IS false
+I/DH2Native( 4889): Original UI string delivered | symbol MENU_TOUCH_TO_CONTINUE | found 1 | text Touch  the  screen  to  continue
+I/DH2Native( 4889): Original UI string delivered | symbol GLOBAL_ASK_FOR_EXIT | found 1 | text Are you sure you want to exit?
+I/DH2Native( 4889): Original UI string delivered | symbol GAMEPLAYMENUS_ERASE | found 1 | text Are you sure you want to erase this game?
+W/DH2Native( 4889): Original SWF core diagnostic: error: can't find this[0x0x71d1def69d10, _name='menu_MainMenu'].onHide
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_Debug | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_bg | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_EnterName | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_MultiplayerConnectivity | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_Multiplayer_Game_Type | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_Multiplayer_AfterChoice | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_MultiLogin | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_Multiplayer | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_Multiplayer2 | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_FriendInvitation | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_GameCenter | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_VerificationLoading | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_MultiplayerJoin | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_MultiplayerLobby | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_StringLoading | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_SelectClass | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_info | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_StartGame | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_splash | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_language | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_bidonMain | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_DummyState | visible 0
+I/DH2Native( 4889): Original menu state visibility initialized | name menu_MainMenu | visible 0
+I/DH2Native( 4889): Original front screen loaded | screen main | uri data/menus/dqmenus_droid.swf | clip _root.menu_MainMenu | id 510 | frames 31
+I/DH2Native( 4889): Original UI string delivered | symbol GLOBAL_OK | found 1 | text OK
+I/DH2Native( 4889): Original SWF core diagnostic: IN SHOW
+I/DH2Native( 4889): Original SWF core diagnostic: IN GET SLOT
+W/DH2Native( 4889): Original SWF core diagnostic: error in call_function: 'NativeGetSaveSlotDetails' is not a function
+I/DH2Native( 4889): Original UI string delivered | symbol GAMEPLAYMENUS_EMPTY | found 1 | text Empty
+I/DH2Native( 4889): Original UI string delivered | symbol MENU_DIFFICULTY | found 1 | text Difficulty
+W/DH2Native( 4889): Original SWF core diagnostic: error in call_function: 'NativeSetSaveSlotIDToMainMenu' is not a function
+I/DH2Native( 4889): Original UI string delivered | symbol MENU_INFO | found 1 | text Info
+I/DH2Native( 4889): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+I/DH2Native( 4889): Original SWF core diagnostic: Original FT face metrics | name Fontin SmallCaps | bold 0 | italic 0 | units 2048 | height 2341 | scale 1.000000
+I/DH2Native( 4889): Original SWF core diagnostic: Original text layout connected | html 1 | records 1 | glyphs 4 | rgba ffffffff | display Info | source Info
+I/DH2Native( 4889): Original UI string delivered | symbol MENU_MORE_GAMES | found 1 | text <b><font color="#9CFF9A">MORE GAMES!</font></b>
+I/DH2Native( 4889): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+I/DH2Native( 4889): Original SWF core diagnostic: Original FT face metrics | name Fontin SmallCaps | bold 1 | italic 0 | units 2048 | height 2341 | scale 1.000000
+I/DH2Native( 4889): Original SWF core diagnostic: Original text layout connected | html 1 | records 1 | glyphs 11 | rgba ff9aff9c | display MORE GAMES! | source <b><font color="#9CFF9A">MORE GAMES!</font></b>
+I/DH2Native( 4889): Original UI string delivered | symbol MENU_START | found 1 | text Start game
+I/DH2Native( 4889): Original SWF core diagnostic: Original text layout connected | html 1 | records 1 | glyphs 10 | rgba ffffffff | display Start game | source Start game
+I/DH2Native( 4889): Original UI string delivered | symbol MENU_OPTIONS | found 1 | text Options
+I/DH2Native( 4889): Original SWF core diagnostic: Original text layout connected | html 1 | records 1 | glyphs 7 | rgba ffffffff | display Options | source Options
+I/DH2Native( 4889): Original UI string delivered | symbol GAMEPLAYMENUS_ERASE | found 1 | text Are you sure you want to erase this game?
+I/DH2Native( 4889): Original UI string delivered | symbol GAMEPLAYMENUS_ACCEPT | found 1 | text Yes
+I/DH2Native( 4889): Original UI string delivered | symbol GAMEPLAYMENUS_REFUSE | found 1 | text No
+I/DH2Native( 4889): Original UI string delivered | symbol GLOBAL_ASK_FOR_EXIT | found 1 | text Are you sure you want to exit?
+I/DH2Native( 4889): Original UI string delivered | symbol GAMEPLAYMENUS_ACCEPT | found 1 | text Yes
+I/DH2Native( 4889): Original UI string delivered | symbol GAMEPLAYMENUS_REFUSE | found 1 | text No
+W/DH2Native( 4889): Original SWF core diagnostic: error in call_function: 'NativeHasPushNotification' is not a function
+I/DH2Native( 4889): Original source input connected | direct main event stage | MenuManager/HUDControls forwarding pending
+I/DH2Native( 4889): 3D upload OK | 4 draws | 2146 triangles | 5 textures
+I/DH2Native( 4889): 0 animation tracks | 0 skipped | Preview lighting. Drag to orbit. | nodes 6 | skipped nongeometry instances 1 | skin draws 0 | segments 0
+I/DH2Native( 4889): Original menu swamp connected | original camera values | existing material renderer | avatar pending
+I/DH2Native( 4889): Original background property | path menu_bg | member _visible | found 1 | value 1.000
+I/DH2Native( 4889): Original background property | path menu_bg | member _alpha | found 1 | value 100.000
+I/DH2Native( 4889): Original background property | path menu_bg | member _currentframe | found 1 | value 1.000
+I/DH2Native( 4889): Original background property | path menu_bg.BrownBG | member _visible | found 1 | value 0.000
+I/DH2Native( 4889): Original background property | path menu_bg.BrownBG | member _alpha | found 1 | value 100.000
+I/DH2Native( 4889): Original background property | path menu_bg.BrownBG | member _currentframe | found 1 | value 1.000
+I/DH2Native( 4889): Original background property | path menu_bg.RenderedBG | member _visible | found 1 | value 1.000
+I/DH2Native( 4889): Original background property | path menu_bg.RenderedBG | member _alpha | found 1 | value 100.000
+I/DH2Native( 4889): Original background property | path menu_bg.RenderedBG | member _currentframe | found 1 | value 1.000
+W/DH2Native( 4889): Original SWF core diagnostic: can't find target TitleGraphic
+I/DH2Native( 4889): Original background clip absent | path menu_bg.TitleGraphic
+I/DH2Native( 4889): Original front/HUD screen submitted | screen main
+I/DH2Native( 4889): Original health panel submitted | viewport 2184 1968 | strips 167 | lines 0 | masks 13 | font uploads 260 | bitmaps 10 | strings 16 | core diagnostics 17 | authored initial state | game updates/input unconnected
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+D/ProfileInstaller( 4889): Installing profile for com.example.dh2
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+W/MediaPlayerNative( 4889): info/warning (2, 0)
+I/DH2Front( 4889): Title music loop entered | duration_ms=113214
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu input trace | action=0 | device=-1 | source=4098 | event_ms=313250 | x=1865.0 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=1 | device=-1 | source=4098 | event_ms=313250 | x=1865.0 | y=984.0
+I/DH2Native( 4889): Original main native event stage | kind 0 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 8 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 10 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 4 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 6 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original menu sound requested | name MenuConfirm | id 94 | file sfx_menu_confirm.wav
+W/DH2Native( 4889): Original SWF core diagnostic: error in call_function: 'NativePushMenu' is not a function
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu effect started | file=sfx_menu_confirm.wav | duration_ms=1938
+I/DH2Native( 4889): Original main native event stage | kind 2 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu effect completed | file=sfx_menu_confirm.wav
+V/MediaPlayer( 4889): resetDrmState:  mDrmInfo=null mDrmProvisioningThread=null mPrepareDrmInProgress=false mActiveDrmScheme=false
+V/MediaPlayer( 4889): cleanDrmObj: mDrmObj=null mDrmSessionId=null
+W/MediaPlayer( 4889): mediaplayer went away with unhandled events
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu input trace | action=0 | device=-1 | source=4098 | event_ms=317026 | x=10.0 | y=9.999023
+I/DH2Front( 4889): Menu input trace | action=1 | device=-1 | source=4098 | event_ms=317026 | x=10.0 | y=9.999023
+I/DH2Native( 4889): Original main native event stage | kind 1 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 0 | name btnPrevent | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 9 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 8 | name btnPrevent | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 10 | name btnPrevent | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 4 | name btnPrevent | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 6 | name btnPrevent | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 2 | name btnPrevent | delivered 1 | consumed 0
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu input trace | action=0 | device=-1 | source=4098 | event_ms=317604 | x=1865.0 | y=984.0
+I/DH2Native( 4889): Original main native event stage | kind 1 | name btnPrevent | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 0 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 9 | name btnPrevent | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 8 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 10 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 4 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317616 | x=1834.0791 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317631 | x=1794.1416 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317646 | x=1756.7803 | y=984.0
+I/DH2Native( 4889): Original main native event stage | kind 5 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 5 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 5 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317663 | x=1712.9766 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317683 | x=1661.4434 | y=984.0
+I/DH2Native( 4889): Original main native event stage | kind 5 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 5 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317705 | x=1604.7568 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317730 | x=1540.3398 | y=984.0
+I/DH2Native( 4889): Original main native event stage | kind 5 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 5 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317742 | x=1509.4209 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317768 | x=1442.4277 | y=984.0
+I/DH2Native( 4889): Original main native event stage | kind 5 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 5 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317796 | x=1370.2793 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317815 | x=1321.3232 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317831 | x=1280.0967 | y=984.0
+I/DH2Native( 4889): Original main native event stage | kind 1 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 0 | name  | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 9 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317847 | x=1238.8691 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317864 | x=1195.0654 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317876 | x=1164.1475 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=317897 | x=1110.0371 | y=984.0
+I/DH2Front( 4889): Menu input trace | action=1 | device=-1 | source=4098 | event_ms=317905 | x=1092.0 | y=984.0
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu input trace | action=0 | device=-1 | source=4098 | event_ms=320612 | x=1865.0 | y=984.0
+I/DH2Native( 4889): Original main native event stage | kind 0 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 8 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 10 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 4 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu input trace | action=2 | device=-1 | source=4098 | event_ms=320663 | x=1865.0 | y=1575.0
+I/DH2Native( 4889): Original main native event stage | kind 1 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 0 | name btn_MENU_INFO | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 9 | name btn_MENU_OPTIONS | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 8 | name btn_MENU_INFO | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 10 | name btn_MENU_INFO | delivered 1 | consumed 0
+I/DH2Native( 4889): Original main native event stage | kind 5 | name btn_MENU_INFO | delivered 1 | consumed 0
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu input trace | action=1 | device=-1 | source=4098 | event_ms=320842 | x=1865.0 | y=1575.0
+I/DH2Native( 4889): Original main native event stage | kind 6 | name btn_MENU_INFO | delivered 1 | consumed 0
+I/DH2Native( 4889): Original menu sound requested | name MenuConfirm | id 94 | file sfx_menu_confirm.wav
+W/DH2Native( 4889): Original SWF core diagnostic: error in call_function: 'NativePushMenu' is not a function
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Front( 4889): Menu effect started | file=sfx_menu_confirm.wav | duration_ms=1938
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original main native event stage | kind 2 | name btn_MENU_INFO | delivered 1 | consumed 0
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Stats" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Equipment" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Skills" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Faeries" in textfield undefined
+I/DH2Native( 4889): Original SWF core diagnostic: Note To Self--> Hard-coded text --> "Quests" in textfield undefined

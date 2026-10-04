@@ -1,0 +1,24 @@
+{
+  "validation": "PASS",
+  "scope": "Frozen bounded source buff ownership and original-derived native proof; required FX/class backend services explicit",
+  "source_sha256": {
+    "port/level-world/character_buffs.hpp": "2d3b4b7753868bb797c00888c5efb6e40e86f1bda4df5e812cfc6da6a07d7e06",
+    "port/level-world/character_buffs.cpp": "84523e93217166a154952d677c1b04f1ed3ee16e322312db8ba134ceeb3e59db",
+    "port/level-world/tests/character_buffs.cpp": "436775f57352a01eb34f1f9bd391cbde568906775b85ff4f66c6e8810441326c",
+    "port/level-world/tests/character_buffs_host.py": "9b15941af349a05ffc515059dc0c564e33509a3a6ff3416c8a91753b6600a7b8",
+    "port/level-world/tests/character_buffs_differential.py": "40c1899ac0807a3fcacb19bb3f1e329251f6cb11b2fc676b6758f267d170fda1",
+    "port/level-world/tests/character_buffs_oracle.cpp": "1ee4d2a9dc0b1a16fd82b332178b357d5a66c8a74d97373a9aeadf0b4347182d",
+    "port/level-world/tools/build_character_buffs_oracle.ps1": "365c338c1ad6bde3fe0a2159631262132df7347a88a91395a83bb163ce28c8fe",
+    "port/level-world/reference/character-buffs/original-functions.json": "99d13ca0ecbd9e84325a44438262f3d7928c1cc5bd2431df25bd920dfd74355c",
+    "port/level-world/reference/character-buffs/reference/original-functions.asm": "dfe34d6edd8b55e9ab8cbfa43f5e9892db764e8713b8cebe4467e4da7319ccb2",
+    "port/level-world/reference/character-buffs/buff-fixtures.json": "9111b79af4d47c88df7e809557ed659215424d2af39850ad1a86ddf32635a1ed",
+    "port/level-world/reference/character-buffs/NOTES.md": "9c94e6fe918b879b169e654a2ac022e2d709eb6d442d3a512e32456be31d03d1"
+  },
+  "reports": {
+    "port/level-world/reports/character-buffs-arm64-differential.json": "498b5997d95c46c2aa763da5dc7c18594711afb5277f5442ec553b14ace98403",
+    "port/level-world/reports/character-buffs-host-audit.json": "7c633ac2794c78e383ab8332ab853a750c6f540e2740b3fe219faa79cdce414c"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "production_api_stable": true,
+  "packaged_APK": false
+}

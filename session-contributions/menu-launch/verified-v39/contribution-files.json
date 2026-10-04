@@ -1,0 +1,344 @@
+{
+  "status": "WORK IN PROGRESS; media verified, menus incomplete",
+  "files": [
+    {
+      "path": "port/android-native/app/build.gradle.kts",
+      "kind": "modified",
+      "sha256": "e1b5f9543456635d09bacc8141c4cbe16dd54f4d847c17a78ded120e2a8d1172"
+    },
+    {
+      "path": "port/android-native/app/src/main/AndroidManifest.xml",
+      "kind": "modified",
+      "sha256": "27a33e5289f8622f6c05bd99aba134545a94c951a5c09b20063bba483b8f8af6"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/CMakeLists.txt",
+      "kind": "modified",
+      "sha256": "a7be9c92dad91ae0affb99d696a871628f53c981a8166b09ba5e2a6682468905"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/menu_frame_clock.hpp",
+      "kind": "new",
+      "sha256": "324e0c43f760c0488cf947b6f63efe107a75eaabff37588787076e8cc3cd8035"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "kind": "modified",
+      "sha256": "f03c04e73985d56bd609b50d7a1d84b114a5dfef08fedec0596732dbdd597e95"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.hpp",
+      "kind": "modified",
+      "sha256": "9450988215c05d6cfd5f7cd57389873fdc8151dd9fb16bb24b41dd6d0acbe3e2"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "kind": "modified",
+      "sha256": "a7232728c2b329464c77e5077f5585605b955d9092a9cb174056b768ade75b82"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_menu_sound_data.hpp",
+      "kind": "new",
+      "sha256": "031b47ddadfd2553f561f256bfa51c8d35d0c671e5e9441424b92aac9aef772f"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_session.cpp",
+      "kind": "modified",
+      "sha256": "5c359530eef576ef4e8ecc7956010ef3878b951e4e8239435854bb7bed077528"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/original_ui_session.hpp",
+      "kind": "modified",
+      "sha256": "ce67df63873ce21076c9cad902b36a9e4271439010a91cf9c24585ee235492d7"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/CinematicActivity.java",
+      "kind": "new",
+      "sha256": "60964f1101c3da30afdea48dfe79f3359db70dc2702c5cb924e5dcbd48d1b508"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/FrontAudio.java",
+      "kind": "new",
+      "sha256": "09307dd7d66af0d7348b18697fc06f076c4aa22ece2c0a686df0daff5248767a"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java",
+      "kind": "modified",
+      "sha256": "dc995dd80b8ca34e553e4cec48e198f2ef665d9e1dd49a956bcb2ff4a38bc2e3"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java",
+      "kind": "modified",
+      "sha256": "151db1c3a83ebf4df8fbcb14421b917d439b4a717150af310bf6fa752f813d26"
+    },
+    {
+      "path": "port/android-native/tools/audit_loading_bitmap.py",
+      "kind": "new",
+      "sha256": "2f71b2f9ad263e0878dfe600da8df8769bd880ba356375583953a5781799ae77"
+    },
+    {
+      "path": "port/android-native/tools/audit_menu_stack.py",
+      "kind": "new",
+      "sha256": "41a885fbdd36f76a5f5df5f9fc4fb71d3574873cebcec7a919c55095ae77c6b0"
+    },
+    {
+      "path": "port/android-native/tools/decode_title_music.py",
+      "kind": "new",
+      "sha256": "843c7ca6576189bf1d627d9927ebfb8d614b37a2b41385c9f3a7c38d09df2fcb"
+    },
+    {
+      "path": "port/android-native/tools/front_input_smoke.py",
+      "kind": "new",
+      "sha256": "d48ff27e484329dbf77c1eaff24012824e135ef44949e28a955f869e36c26b55"
+    },
+    {
+      "path": "port/android-native/tools/front_loading_smoke.py",
+      "kind": "new",
+      "sha256": "0c58cef7ea58df59f95c16d03af8af02686092f4812ef9d8214ba73c23d9d142"
+    },
+    {
+      "path": "port/android-native/tools/front_media_smoke.py",
+      "kind": "new",
+      "sha256": "550b0df20a87cd26ba8d91fa5d6527d1de969e4f06a5ba2f18b6b3c4bb259d5e"
+    },
+    {
+      "path": "port/android-native/tools/front_sound_smoke.py",
+      "kind": "new",
+      "sha256": "11ac1da9b391ce800fa264cf7d557b47f1f10031023a1517110b8749d65595cf"
+    },
+    {
+      "path": "port/android-native/tools/front_text_smoke.py",
+      "kind": "new",
+      "sha256": "ff0fe3111a43823858cd2f4504e65583680b37ac6e2d12d8f84a6b4c8e33d18d"
+    },
+    {
+      "path": "port/android-native/tools/inspect_front_swf.py",
+      "kind": "new",
+      "sha256": "d59de38de74d498d9b99b8a9ca8d47493f4182006939692f9aa36ef69d88fd7b"
+    },
+    {
+      "path": "port/android-native/tools/menu_frame_clock_audit.cpp",
+      "kind": "new",
+      "sha256": "43a4a2cef03be69483738e8b68c1f96cf7738dc96eaf20ad6d48e758ca5fbab7"
+    },
+    {
+      "path": "port/android-native/tools/menu_manager_push_differential.py",
+      "kind": "new",
+      "sha256": "fb1566bd4467b80cce612b451d73c885aa101d3361ff5505cb256d4be146e9e2"
+    },
+    {
+      "path": "port/android-native/tools/menu_options_audit.cpp",
+      "kind": "new",
+      "sha256": "2d7ba4809258e372c1d22ba7d23be845c5cadf413d4fa185a583ac40917fa027"
+    },
+    {
+      "path": "port/android-native/tools/menu_renderer_scope_audit.cpp",
+      "kind": "new",
+      "sha256": "4c17e2ba16db27ff446c0338fb4ca640f1f555a8fb26563fb1cd66942d17bc4c"
+    },
+    {
+      "path": "port/android-native/tools/package_front_handoff.py",
+      "kind": "new",
+      "sha256": "c9aded659ce1379e8ecd006f49e598ae05bf6e67f54223ccf0882ee96db1f60e"
+    },
+    {
+      "path": "port/android-native/tools/recover_menu_sounds.py",
+      "kind": "new",
+      "sha256": "e3be5f7a04328ba351f3cfc7f908ee177f0a21091f43f0be965168c5f1db2c00"
+    },
+    {
+      "path": "port/android-native/tools/run_menu_options_audit.py",
+      "kind": "new",
+      "sha256": "07d7ed67fd07cf468f82946bb0dfec1e7f6d5228f1ed880a0985319d0486240c"
+    },
+    {
+      "path": "port/android-native/tools/run_menu_renderer_scope_audit.py",
+      "kind": "new",
+      "sha256": "56b75f833dbdf9c05fa7a49bcf030c34811bfba902272870b87ab7cbda9a7032"
+    },
+    {
+      "path": "port/engine-ui/CMakeLists.txt",
+      "kind": "modified",
+      "sha256": "d04df41420a21fa558c9b40d92b19a5c4f9502f07da2d13514efa99bc02742fb"
+    },
+    {
+      "path": "port/engine-ui/gameswf_text_property_overlay_v1.cmake",
+      "kind": "new",
+      "sha256": "9285a8f3acf5c96599ed9bcef2b5d4e1f08779f21e3d44e43f6f4e5a7436cc8b"
+    },
+    {
+      "path": "port/engine-ui/hud_freetype_font.cpp",
+      "kind": "modified",
+      "sha256": "12f04ad0933c8933406e38c6ef1162748a39c63695ca9cacdfc72f5cdd7dc99c"
+    },
+    {
+      "path": "port/engine-ui/hud_freetype_font.hpp",
+      "kind": "modified",
+      "sha256": "4c34db3ea0f705375d95f02815e16203acecb02a6f67d591bab469dee65a4209"
+    },
+    {
+      "path": "port/engine-ui/menu_manager_push_v1.cpp",
+      "kind": "new",
+      "sha256": "4f9c05c1514517af8cda25b07d7be3d6f95fd30dc5548241b2afb895282db47d"
+    },
+    {
+      "path": "port/engine-ui/menu_manager_push_v1.hpp",
+      "kind": "new",
+      "sha256": "21bd79c69e38311a67044fcd88926fb5fdb7df13915d9987d9f09efa429b6e0a"
+    },
+    {
+      "path": "port/engine-ui/menu_native_event_v1.cpp",
+      "kind": "new",
+      "sha256": "2900d542a907b626163b074e309b6e3df9d4a76c7a95d6456a7f8ad816deae0e"
+    },
+    {
+      "path": "port/engine-ui/menu_native_event_v1.hpp",
+      "kind": "new",
+      "sha256": "b76202f4bdca8107c3b76ade6ab70c87325bbb417ef9aade1f928132cd73d981"
+    },
+    {
+      "path": "port/engine-ui/overlays/text-property-v1/gameswf_text.cpp",
+      "kind": "new",
+      "sha256": "c4a47f07c6f2a288315ca3fc6c799725c50aa703e5020a1df6020003da87e710"
+    },
+    {
+      "path": "port/engine-ui/owned_hud_settings_v1.cpp",
+      "kind": "modified",
+      "sha256": "061a20a35f2f283a656d328ef182f309e3659c49b6ab2cb84f008d2e7ed904e0"
+    },
+    {
+      "path": "port/engine-ui/owned_hud_settings_v1.hpp",
+      "kind": "modified",
+      "sha256": "e42b2c36dcf8445e90e4509ec38e97e58154e91d3a0ab03c2ac1793481995818"
+    },
+    {
+      "path": "port/engine-ui/swf_hud_freetype_provider.cpp",
+      "kind": "modified",
+      "sha256": "a1e770550a87f97de5c50518e3337b1f1bf4720e5a6374b44f12ff972e50dd02"
+    },
+    {
+      "path": "port/engine-ui/swf_hud_freetype_provider.hpp",
+      "kind": "modified",
+      "sha256": "0fcf8e569d87f0b5a4d0b9937b8270e141bcd31f23fb3d38963a8a718bb74559"
+    },
+    {
+      "path": "port/engine-ui/swf_input_connection.cpp",
+      "kind": "modified",
+      "sha256": "bb82ae008234cb19105dce04032dda9a6c49f3906141c21b3a6b43ba353477e2"
+    },
+    {
+      "path": "port/engine-ui/swf_input_connection.hpp",
+      "kind": "modified",
+      "sha256": "487b1fad6ac6ce018837db9c3508e3b6c2102614210600a976fa2e6a00d6a11d"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_navigation.cpp",
+      "kind": "new",
+      "sha256": "4baf3e87be9e0241b015ad9d649c57dbef0b0bf6d41200185f50d5b5a8571afc"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_navigation.hpp",
+      "kind": "new",
+      "sha256": "70d01e43f9ecea08dfe24447953ed9bff286491990e7047e588003241e18d7b2"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_options.cpp",
+      "kind": "new",
+      "sha256": "a391d55988ad84c34b21de959ec34e70f9ba23af37da890da9f09692f178400a"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_options.hpp",
+      "kind": "new",
+      "sha256": "0903e6cefb92f6ffa6fd50dacb4621ab76270c462d7b603d17c7a5d66c557ac8"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_sound.cpp",
+      "kind": "new",
+      "sha256": "d7023f2b04149ac775af45d20fb441c5ee2454e769a46d5ed79f91dc8efed223"
+    },
+    {
+      "path": "port/engine-ui/swf_menu_sound.hpp",
+      "kind": "new",
+      "sha256": "2931a6a5dafb79fdf40778c0484d9df378a7e909054205d1e242510aae119753"
+    },
+    {
+      "path": "port/engine-ui/swf_movie.cpp",
+      "kind": "modified",
+      "sha256": "ac3899290a1a33cb9415269697df0219a9f59f091c26f373373d69b912c162d9"
+    },
+    {
+      "path": "port/engine-ui/swf_movie.hpp",
+      "kind": "modified",
+      "sha256": "deeab3b2d3382de55e4acaf7720029f75ef6e0811a937ea2719681a0a3832605"
+    },
+    {
+      "path": "port/engine-ui/swf_text_layout_connection.cpp",
+      "kind": "new",
+      "sha256": "7ae466fdc7dd09af7844c9ed62fe0feeb0beb6b4df20c5f305f93e215c0121db"
+    },
+    {
+      "path": "port/engine-ui/swf_text_layout_connection.hpp",
+      "kind": "new",
+      "sha256": "79f7d21feba2bf1c5477eea8e7ca673274f673322668bc456467562849c0f0b9"
+    },
+    {
+      "path": "port/engine-ui/tools/build_text_property_overlay.py",
+      "kind": "new",
+      "sha256": "a3090291d9a1e7562b83cde84aa70c38be6d952ec492fbe5f41e4fba20f226d4"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/intro.mp4",
+      "kind": "media_asset",
+      "bytes": 20248857,
+      "sha256": "859f2dde32401f996a5faeaf8c914965b5410d0200315c0bfb90d8c71aa59b22"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/m_title.vxn",
+      "kind": "media_asset",
+      "bytes": 3837292,
+      "sha256": "6dcd53d955ab1c923ea0bb951ce9c5d21dbf086d64d43314002ebfe2c2cd6f4f"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/sfx_menu_back.wav",
+      "kind": "media_asset",
+      "bytes": 254588,
+      "sha256": "5de393048fc8c60f0d687d430bb4aa7bf49a317a3f2fe3cbf351e51b2ddc82e5"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/sfx_menu_confirm.wav",
+      "kind": "media_asset",
+      "bytes": 248108,
+      "sha256": "b8bd71d85b23c9a6f24b4650d98fc533b5a6e11034bbfb6277294fc1c9705ae5"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/sfx_menu_select.wav",
+      "kind": "media_asset",
+      "bytes": 10784,
+      "sha256": "8afb7665dec542af18f914295adb0ea7ecfb498ba5973d573d755ae485e6799d"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/sfx_menu_spending.wav",
+      "kind": "media_asset",
+      "bytes": 36426,
+      "sha256": "8535ff7019e1b23cfe356c215457d5ff126db3fe67e4af3cd6376444028b2c7b"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/sfx_menu_tab.wav",
+      "kind": "media_asset",
+      "bytes": 59534,
+      "sha256": "07aadc9a76daf36ea170f537a5f7875fc878f543e65bc54b5cbe50ceeaa08449"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/title_intro.wav",
+      "kind": "media_asset",
+      "bytes": 746622,
+      "sha256": "424e61941a95020cf499dd933fd064b1357bc459702d984ced84af2be752e2f2"
+    },
+    {
+      "path": "port/android-native/app/src/main/assets/original-media/title_loop.wav",
+      "kind": "media_asset",
+      "bytes": 14491470,
+      "sha256": "2ad9ec9422c4a0f1c45c66abcaadde32d968d7bec60f02168c57767b9592dc4d"
+    }
+  ]
+}

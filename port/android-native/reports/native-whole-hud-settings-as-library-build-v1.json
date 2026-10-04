@@ -1,0 +1,296 @@
+{
+  "validation": "PASS",
+  "scope": "Actual Android CMake native libraries after whole HUD/settings/typed-AS source integration; no APK packaging or device execution in this batch.",
+  "source_sha256": {
+    "port/engine-ui/swf_movie.cpp": "499afc979e376f76582a439ec7f5df6cd1f35350784e61d78575eeffcba30301",
+    "port/engine-ui/swf_movie.hpp": "e609bcf6218b3eec91a78de35546a9e649fbc6ab31feb0f58e5015b8fa996bd9",
+    "port/engine-ui/player_status_hud.cpp": "dbc6a4dabe0777eaef3fb62b25bab74e8cde0abd9938d5cc06b40720f9b94b53",
+    "port/engine-ui/player_status_hud.hpp": "02edb6107d1d38e17a5c40dfb10988d77752c22978adf90688679edd610c33fc",
+    "port/engine-ui/swf_actionscript_connection.cpp": "4c0d0183641f5652d6f47937df9871fb7c29ad7112f9378e0ffdf36e07d0580f",
+    "port/engine-ui/swf_actionscript_connection.hpp": "3bab4140bdac7b6d797c953178fd4bc2ba63eb06e7303d58f822d0801065e915",
+    "port/engine-ui/renderfx_text_connection.cpp": "d59f9d9a4b644483ab1152c868815be353fb246c70d03aeab264e56279d2e126",
+    "port/engine-ui/renderfx_text_connection.hpp": "e791bd4384f6040fb629732f442c5403ae7983a7fd7789fef7847dbc19dedd5b",
+    "port/engine-ui/hud_startup_callbacks.cpp": "05dc59ce3c36d5a4c7b99074ba5c08cbf5b5ce8eb234407ecfa4a535660259e5",
+    "port/engine-ui/hud_startup_callbacks.hpp": "6300fe64f2b505079634f19b6aa41bb92720323873092924e6f48097d5b25e9f",
+    "port/engine-ui/game_option_table_v1.cpp": "8ffd204eba23339675b635c415deb9cfa9f397d45fe264cbfc3142fc31f7debf",
+    "port/engine-ui/game_option_table_v1.hpp": "5dd3edbc9a5f1e4fd568f7513b90e6f37964023b3aecd6e421d1be494e8ada93",
+    "port/engine-ui/owned_hud_settings_v1.cpp": "9cc1cf9ba79272159ccea80f12649c752b0744c74b2bf0a8c1685382759e7269",
+    "port/engine-ui/owned_hud_settings_v1.hpp": "22d32d0e81c70a4966f986b6da1e8def5499859c77063d92eeea71afc27c3155",
+    "port/engine-ui/settings_native_files_v1.cpp": "65730369ba3d42944abc7785f2c216db07c92d2f27a7aa4b918f6534925691a3",
+    "port/engine-ui/settings_native_files_v1.hpp": "be40fa0f68685ead0ab31c93cf95116dd3014bc95a7eee1dd0273de1f01413d3",
+    "port/engine-ui/settings_language_scene_v1.cpp": "d94d0b06cc58e2df0094dc46603e7c6aa0ce11b60cc7d465cd79b8873d6d5fea",
+    "port/engine-ui/settings_language_scene_v1.hpp": "29d560ffd3c50eb87eb948f097f9a69822486b0480d249d2d38c84499a5d62a5",
+    "port/engine-ui/hud_manager.cpp": "bdc185d96622870d6debaffdb2f33ed34aa2935e3a7cc93e21c76a9fa20df8fb",
+    "port/engine-ui/hud_manager.hpp": "d2025a9173cb3d177af6a9f88b556826b25abcd72276b8ecf9c62adc452076e8",
+    "port/engine-ui/hud_manager_core.cpp": "733b5676e6ec49e879414f49d38e812c780692099af8c5032307604d9c47090e",
+    "port/engine-ui/hud_manager_core.hpp": "7d9e31df0c693649cdebb464d90bffdf0935435926547ec558b44b2afbda5be6",
+    "port/engine-ui/hud_manager_backends.cpp": "66c440d5d1cb0f2c36df735b0014950fb12c3a4729d062edc2401a6b96222fd5",
+    "port/engine-ui/hud_manager_backends.hpp": "91c5c107b7ab73a0783326d3a2bfab33119ef553ba6ba2fc95507f2197b160d6",
+    "port/engine-ui/CMakeLists.txt": "3e6306e3406935a810d43b2ccb8c6e27fffd77550af278521eadc85bed5d7d47",
+    "port/level-world/CMakeLists.txt": "fe40e584c99cb7c3e8e90a9e9023dab657bed1181e7e7f59a8414a0524b38504"
+  },
+  "main_host_report_sha256": "ab7255f4412940f604cb0a399ce1cdf1fb5596cba0c33ca1a440073d57e045e3",
+  "main_host_suites": 110,
+  "sanitizer_findings": 0,
+  "android_abis": {
+    "arm64-v8a": {
+      "libraries": {
+        "libdh2_engine_ui.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/arm64-v8a/libdh2_engine_ui.so",
+          "sha256": "d9e991d1b9c21fe42896612de5db91b881b4b797c881e93ff522e276f02f0abf",
+          "bytes": 16516280,
+          "ELF64": true,
+          "machine": 183,
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 3473440,
+              "address": 3489824,
+              "alignment": 16384
+            },
+            {
+              "offset": 3564192,
+              "address": 3596960,
+              "alignment": 16384
+            }
+          ],
+          "required_defined_exports": [
+            "dh2_hud_is_multiplayer_enabled",
+            "dh2_hud_load_settings",
+            "dh2_ui_hud_manager_v1"
+          ]
+        },
+        "libdh2_level_world.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/arm64-v8a/libdh2_level_world.so",
+          "sha256": "ffd925695aa43e7d6855daf500b391b5beb7a9b72583daeb3bcaf60320bc89ee",
+          "bytes": 12870816,
+          "ELF64": true,
+          "machine": 183,
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 2068272,
+              "address": 2084656,
+              "alignment": 16384
+            },
+            {
+              "offset": 2099336,
+              "address": 2132104,
+              "alignment": 16384
+            }
+          ],
+          "required_defined_exports": [
+            "dh2_ui_hud_cooldown",
+            "dh2_ui_hud_num_potions",
+            "dh2_ui_hud_skill_level",
+            "dh2_ui_hud_skill_query",
+            "dh2_ui_hud_skill_slot"
+          ]
+        }
+      },
+      "compiler_records": [
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\C_\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_backends.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_backends.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_backends.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\swf_movie.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_movie.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_movie.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\player_status_hud.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\player_status_hud.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\player_status_hud.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\swf_actionscript_connection.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_actionscript_connection.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_actionscript_connection.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\renderfx_text_connection.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\renderfx_text_connection.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\renderfx_text_connection.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_startup_callbacks.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_startup_callbacks.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_startup_callbacks.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\game_option_table_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\game_option_table_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\game_option_table_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\owned_hud_settings_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\owned_hud_settings_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\owned_hud_settings_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\settings_native_files_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\settings_native_files_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\settings_native_files_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\settings_language_scene_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\settings_language_scene_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\settings_language_scene_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_manager.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/arm64-v8a",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_manager_core.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_core.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_core.cpp"
+        }
+      ],
+      "compile_commands_sha256": "0e41d8811a74d2dbc5cf0f1713239ecfa4552000f38e14724afd1d2bcc88ba47"
+    },
+    "x86_64": {
+      "libraries": {
+        "libdh2_engine_ui.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/x86_64/libdh2_engine_ui.so",
+          "sha256": "66648d6ecaf100d1366ddb9e402b6486ace1c52a27002ec4eea45ff511d9164a",
+          "bytes": 15901200,
+          "ELF64": true,
+          "machine": 62,
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 3325616,
+              "address": 3342000,
+              "alignment": 16384
+            },
+            {
+              "offset": 3416336,
+              "address": 3449104,
+              "alignment": 16384
+            }
+          ],
+          "required_defined_exports": [
+            "dh2_hud_is_multiplayer_enabled",
+            "dh2_hud_load_settings",
+            "dh2_ui_hud_manager_v1"
+          ]
+        },
+        "libdh2_level_world.so": {
+          "path": "port/android-native/app/build/intermediates/cxx/Debug/5a1n3w3m/obj/x86_64/libdh2_level_world.so",
+          "sha256": "4cae814ca77d263be9450a9812e7db8d84279eea033514c518c0d676768a1d71",
+          "bytes": 12412016,
+          "ELF64": true,
+          "machine": 62,
+          "load_segments": [
+            {
+              "offset": 0,
+              "address": 0,
+              "alignment": 16384
+            },
+            {
+              "offset": 1948944,
+              "address": 1965328,
+              "alignment": 16384
+            },
+            {
+              "offset": 1980000,
+              "address": 2012768,
+              "alignment": 16384
+            }
+          ],
+          "required_defined_exports": [
+            "dh2_ui_hud_cooldown",
+            "dh2_ui_hud_num_potions",
+            "dh2_ui_hud_skill_level",
+            "dh2_ui_hud_skill_query",
+            "dh2_ui_hud_skill_slot"
+          ]
+        }
+      },
+      "compiler_records": [
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/level-world -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation -IC:/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials -IC:/Users/adamc/Desktop/workspace/DH_sc/port/game-data -IC:/Users/adamc/Desktop/workspace/DH_sc/port/script-runtime -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\C_\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_backends.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_backends.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_backends.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\swf_movie.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_movie.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_movie.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\player_status_hud.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\player_status_hud.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\player_status_hud.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\swf_actionscript_connection.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_actionscript_connection.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\swf_actionscript_connection.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\renderfx_text_connection.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\renderfx_text_connection.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\renderfx_text_connection.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_startup_callbacks.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_startup_callbacks.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_startup_callbacks.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\game_option_table_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\game_option_table_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\game_option_table_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\owned_hud_settings_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\owned_hud_settings_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\owned_hud_settings_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\settings_native_files_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\settings_native_files_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\settings_native_files_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\settings_language_scene_v1.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\settings_language_scene_v1.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\settings_language_scene_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_manager.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager.cpp"
+        },
+        {
+          "directory": "C:/Users/adamc/Desktop/workspace/DH_sc/port/android-native/app/.cxx/Debug/5a1n3w3m/x86_64",
+          "command": "C:\\Users\\adamc\\AppData\\Local\\Android\\Sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/adamc/AppData/Local/Android/Sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -DTU_CONFIG_LINK_TO_FREETYPE=0 -DTU_CONFIG_LINK_TO_JPEGLIB=0 -DTU_CONFIG_LINK_TO_LIBPNG=0 -DTU_CONFIG_LINK_TO_THREAD=0 -Ddh2_engine_ui_EXPORTS -IC:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714 -isystem C:/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/freetype-2.3.7-hud/include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\engine-ui\\CMakeFiles\\dh2_engine_ui.dir\\hud_manager_core.cpp.o -c C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_core.cpp",
+          "file": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\engine-ui\\hud_manager_core.cpp"
+        }
+      ],
+      "compile_commands_sha256": "4f3a77564dc4b6f8fe9465408789009ddaa19b68a2e9d19d7979b9c26e50fb56"
+    }
+  },
+  "NDK_version": "29.0.14206865",
+  "linker_page_alignment": 16384,
+  "packaged_APK": false,
+  "live_complete_HUD": false,
+  "physical_arm64_verified": false
+}

@@ -1,0 +1,281 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "136e924a7f9f9d73bca38d6c55f05778b0b8df42e7b0bb5821f13a0f1c8be70f",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "370295293fc462300d2e14a0939c6fec3c456b7047c5ee79bfaded2eec75e74b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "fa261fb376a49796c19529ceb38833f5d344ba118662a597bdd71c4c382eb9a0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "d59803e3a4739c7faf1ca47d46fbc4479cd2c9c585250c82704134bb83dbec11",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "1e1ccb2783a4ed1691416d978036dc7de85841f82fb08b738cafe0a51831f603",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "41ac012b447f161d4185fd7314162a2567d34c79fa3304052239613a442bf2b4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "636fd01174bb912a242c6c204929cd87110b215ce66bbc377483b736f484356b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "3211c21c723b12c96dd5df034d45c7505a6c4029886df81b253dd653bbe26e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "beb22a596b2c16c9cce9773f4f51f1556ce8c25149598d2dbbca9b2178a01d39",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+      "sha256": "d5ce015efbe062e7a6e6555e94a00a7757bfd0abdb76711a111892e5bf2b94c1",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "b1be2bc2f9fae6cb7e147c7a6f775985e37d418c7b2e0e4a13106a443f64226e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "fd0598f82673f5d6040cadb6482765788431e8c8972000559b21a92a2f58539d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "7a970e8a41e9c9c3bd56f198d1a57d0d131f3d676ea6bdf384c3a931539f88cc",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_ui.so",
+      "sha256": "443592a1218ad95af867e5ade67273667dbd52f6b23d97d8f9c9f6e74675c988",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "24a5c431b93fd8ba524a577e430a8f1023d71c9ee078ce63ebc2109712d08691",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "3855eb4b6a768c492ece7230e79623fc0857100191073373b23db58cb1576d3f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "8d75fabd7b0ff938a5ab703185b4e1c90d65ddfc2d1e941fa60a6cbfc7943d35",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "scope": "Connected world/status HUD: real touch, scripted authored damage and resume.\n\nEnemy attack selection is an explicit debug scenario using the existing native\nauthored-animation/combat pipeline. It does not establish full enemy AI, potion\nactions, skills, portraits, campaign or physical ARM64 behavior.\n",
+  "physical_arm64_verified": false,
+  "cases": {
+    "default_scene": {
+      "hud": {
+        "viewport": [
+          2400,
+          1080
+        ],
+        "character": "0x7ce8e35741a8",
+        "hp": [
+          42265,
+          42265
+        ],
+        "mp": [
+          6976,
+          6976
+        ],
+        "xp": [
+          0,
+          25600
+        ],
+        "frames": [
+          99,
+          99,
+          0,
+          99,
+          99
+        ],
+        "dirty_nodes": 11,
+        "movie": "0x7ce9b3383cd0"
+      },
+      "screenshot": {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-source-player-ui-136e924a-live-v1\\default-scene.png",
+        "sha256": "4db333caa19658f5187be6c52c0bff1833aa5d2823457ca76fb7747a8ffe7f15",
+        "size": [
+          2400,
+          1080
+        ],
+        "red_bar_pixels": 8763,
+        "blue_bar_pixels": 9224
+      },
+      "developer_drawer_closed": true
+    },
+    "touch_movement": {
+      "real_touch": true,
+      "retained_character": "0x7ce8e35741a8",
+      "screenshot": {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-source-player-ui-136e924a-live-v1\\touch-movement.png",
+        "sha256": "cf1a9c08ce834a40c05c29467e185e31f7ea01fe04f23426489946b3f29d5409",
+        "size": [
+          2400,
+          1080
+        ],
+        "red_bar_pixels": 8767,
+        "blue_bar_pixels": 9225
+      }
+    },
+    "authored_damage": {
+      "hud": {
+        "viewport": [
+          2400,
+          1080
+        ],
+        "character": "0x7ce8e35741a8",
+        "hp": [
+          32118,
+          42265
+        ],
+        "mp": [
+          6976,
+          6976
+        ],
+        "xp": [
+          0,
+          25600
+        ],
+        "frames": [
+          74,
+          99,
+          0,
+          74,
+          74
+        ],
+        "dirty_nodes": 11,
+        "movie": "0x7ce9b3383cd0"
+      },
+      "authored_hits": [
+        [
+          "_prim_tmp_cultist07",
+          "42265",
+          "32118"
+        ]
+      ],
+      "expected_source_frame": 74,
+      "scenario": "Explicit scripted actor selection; full automatic AI not claimed",
+      "screenshot": {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-source-player-ui-136e924a-live-v1\\authored-damage.png",
+        "sha256": "d47eee49759f325474bc005c1f15c35f2c7cf59185b2223829501eaaf0721732",
+        "size": [
+          2400,
+          1080
+        ],
+        "red_bar_pixels": 6419,
+        "blue_bar_pixels": 9649
+      }
+    },
+    "context_resume": {
+      "hud": {
+        "viewport": [
+          2400,
+          1080
+        ],
+        "character": "0x7ce8e35741a8",
+        "hp": [
+          32118,
+          42265
+        ],
+        "mp": [
+          6976,
+          6976
+        ],
+        "xp": [
+          0,
+          25600
+        ],
+        "frames": [
+          74,
+          99,
+          0,
+          74,
+          74
+        ],
+        "dirty_nodes": 11,
+        "movie": "0x7ce9b3383cd0"
+      },
+      "world_and_hud_owner_retained": true,
+      "screenshot": {
+        "path": "C:\\Users\\adamc\\Desktop\\workspace\\DH_sc\\port\\android-native\\reports\\native-source-player-ui-136e924a-live-v1\\context-resume.png",
+        "sha256": "2380bbfda4ceb391f56cce1dea8d1ba8d01cafc6bfa3e6ae95d09a000df5e36a",
+        "size": [
+          2400,
+          1080
+        ],
+        "red_bar_pixels": 6419,
+        "blue_bar_pixels": 9649
+      }
+    },
+    "developer_drawer": {
+      "open_close_verified": true
+    }
+  },
+  "installed_apk_sha256": "136e924a7f9f9d73bca38d6c55f05778b0b8df42e7b0bb5821f13a0f1c8be70f",
+  "full_cache_native_probes": [
+    {
+      "uri": "data/scripts/skills/prince_mage_staffmaster.luac",
+      "bytes": 1429,
+      "sha256": "b61c7b5a0d7039d0384f0b84aef66a7f460721fd7736882a7b1a9607eca0f84b"
+    },
+    {
+      "uri": "data/sounds/sfx_menu_select.wav",
+      "bytes": 10784,
+      "sha256": "8afb7665dec542af18f914295adb0ea7ecfb498ba5973d573d755ae485e6799d"
+    },
+    {
+      "uri": "data/3d/completelevels/dh2_testing/dh2_testing_floormap.bdae",
+      "bytes": 4400,
+      "sha256": "a46d743c562e9ee082912971a04b028972f80f9e702338fadf49657ec64a82df"
+    },
+    {
+      "uri": "data/pydata/loot_table_pyarray.bin",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"
+    },
+    {
+      "uri": "data/menus/loadanims_i9000.swf",
+      "bytes": 1456,
+      "sha256": "1089ccb7f77e4da014d47326a9cbe0bb6150b1439ebb04693154d997d678d2a3"
+    },
+    {
+      "uri": ".nomedia",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

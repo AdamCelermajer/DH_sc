@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Random9GetRandomEib.clone.1",
+      "elf_address": "0x3c26a0",
+      "size": 148,
+      "sha256": "a70d4d5315415572bdece050332868fe0f529f98d648aa1c10fc141f4d9344d3"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15SM_SetIdleStateEb",
+      "elf_address": "0x3c1a00",
+      "size": 20,
+      "sha256": "2f34c20abaa650c14e84f08555b56141402f1b71e7be7db45e2b6c94c32fc091"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator13ANIM_StopLoopEb",
+      "elf_address": "0x3c948c",
+      "size": 44,
+      "sha256": "59dfca1f42f2a4bfd1f56b47a71fcfa90c010facd6f2356860e17171fd0792bf"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator8ANIM_SetEi",
+      "elf_address": "0x3cacb0",
+      "size": 28,
+      "sha256": "5340f7f91e1f08522e13b2504cca0238bd7351a7557b8c1e5d3b735a6ac39c13"
+    },
+    {
+      "original_symbol": "_ZNK9Character9GetCharAIEv",
+      "elf_address": "0x3a3024",
+      "size": 48,
+      "sha256": "11131ec819b3f9f48184bf209234614f953af1a625f6cf1973fdb63d7c11b7f9"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller15Cmd_HeadTowardsERK7Point3DIfE",
+      "elf_address": "0x405374",
+      "size": 92,
+      "sha256": "3b11280df689e2095fa63e42db79ba5c11d5173b2c8b5cb71d221f96c73da156"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine16SM_RegisterEventEiiiM9CharacterFbiPviRiE",
+      "elf_address": "0x3c7b18",
+      "size": 424,
+      "sha256": "1d6c2c71fb0d4a747fb2217f6e0463e407d2b787635645faef7b859849857dec"
+    },
+    {
+      "original_symbol": "_ZN12v2Controller15Cmd_HeadTowardsEP10GameObject",
+      "elf_address": "0x4053d0",
+      "size": 92,
+      "sha256": "aa81519dcaeb751626022113025a81fa15b79932380da068cb1070a39c6bdc7e"
+    }
+  ]
+}

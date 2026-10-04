@@ -1,0 +1,39 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_and_evidence_sha256": {
+    "port/engine-animation/particle_parameter.hpp": "0a09d7a4264e07ab25991fa458e68f29b1473a313ae4716c689fd3c50843b0c6",
+    "port/engine-animation/particle_parameter.cpp": "6ce02670d379a7103936049226972314ec9edbad0e4581cc50b4ccc174219e38",
+    "port/engine-animation/tests/particle_parameter.cpp": "9f5e6e80b8345e3eef2353f77ffbd7dd10ed16d84ea251a689e0f4ed2b09ac86",
+    "port/engine-animation/tests/particle_parameter_differential.py": "a26516fd161e64d83a0bb3bdd542ced8b2ac5a01a2f3214a157d7a207c7a8ded",
+    "port/engine-animation/tests/particle_parameter_host.py": "936ee1adee67df234343d80487dd18c722188e6667e6be68aecc2f19461e92bc",
+    "port/engine-animation/tools/build_particle_parameter_oracle.ps1": "ecb1dd980defe759d2f4b7881370dbb5958fde4a63b45623f71a64ba0d8b8339",
+    "port/engine-animation/reference/fx-particle-animation/original-functions.json": "62da4b40589bbf9c9a7b39cf714e4c996c7285c7cd464c1c04fe66b45b3920dd",
+    "port/engine-animation/reference/fx-particle-animation/reference/original-functions.asm": "b43eaf218f28a1a602e87787a41397ba255b71aa4d2d6a244d073723983b5b38",
+    "port/engine-animation/reference/fx-particle-animation/probe.py": "496b00f1d9ebb7fd793e5f190ae449fe146e75d52668af1df6d184ac1f06c842",
+    "port/engine-animation/reference/fx-particle-animation/probe.json": "69a1882dcfceb99462da0a9a900610c5030d6342b7abc2f3ed52112cc0280519",
+    "port/engine-animation/reference/fx-particle-animation/NOTES.md": "503177be0720d3b507cb6062b8fa1e0a38281f6fcf4a47d2f636d678b78ce6f5",
+    "port/engine-animation/reference/fx-particle-animation/particle-parameter-fixtures.bin": "d58dbcc6b055ab1b33060a164ab957c8504d67b45fa625b38036367b8e90ce86",
+    "port/engine-animation/reports/particle-parameter-arm64-differential.json": "2bd02e71a4637adb22e36e99d6a76defedd17968038a190c4127e5f7929b8ef6",
+    "port/engine-animation/reports/particle-parameter-host-audit.json": "8dbfb00bce4ca6a036578c022deb1c26d53566e646ea5da8adf61b083588d4f8",
+    "port/engine-animation/reference/fx-particle-animation/freeze.py": "b22dd5e572dfc7d7a3bb244eabdd530de1cc896ac9fc1b29733b7ca777d8854b"
+  },
+  "executed_binaries_sha256": {
+    ".local-inputs/fx-particle-animation-discovery/particle_parameter64.so": "b2dddd65bffa74975a6c09bc6445ca9eacaf62becff1d4a0e0060b7a35fbefce",
+    ".local-inputs/fx-particle-animation-discovery/host/libdh2_particle_parameter_audit.so": "27499574e4dfa6a90ef36986dbde02b39cf4e9d8eede2c9997a42002aca84bfa",
+    ".local-inputs/fx-particle-animation-discovery/host/particle_parameter_audit": "80d6760178627be28f57dae13c5a1a6d59f7359b12853be20fa9bb5be1fab288"
+  },
+  "oracle_services_source_sha256": {
+    "port/engine-animation/tests/compiled_transforms_differential.py": "a06f353a638183af8f15e1869d6c1fad7f1b84e2e06864c05bcf4ebec23776f9",
+    "port/engine-animation/tests/animation_blend_differential.py": "d989bde7ea51d0f1e2e105bfe794e45066cf97c94a2efaf927d9558959aec42d",
+    "port/engine-resources/tests/cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a"
+  },
+  "compiler_sha256": "3da8eb6f49b741ab885854665f10d3793822232f133f8c0233a8a4cb32c97dc0",
+  "frozen_material_color_unchanged": {
+    "port/engine-animation/material_color.hpp": "c8c0f1572a0706c448a28e0112ca50d4497562e7e21ced2da33c0c1b2da59083",
+    "port/engine-animation/material_color.cpp": "240bab4957913bbd41082d7b8ab5d13d804e09c8bbaa0e98a7bd7c511e92ef51"
+  },
+  "shared_sources_modified": false,
+  "android_artifacts_modified": false,
+  "scope": "Isolated CFloatEx float parameter kernels and original binding/attachment/constructor probes; complete particle factory/emission/rendering are explicit future work."
+}

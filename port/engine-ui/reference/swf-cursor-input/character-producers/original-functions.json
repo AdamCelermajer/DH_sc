@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instance10set_memberERKNS_10tu_stringiERKNS_8as_valueE",
+      "elf_address": "0x780968",
+      "size": 584,
+      "sha256": "89141999c3a7bbea31747461a637ed899112c3bf186b90c8a0ac07a2e21a7980"
+    },
+    {
+      "original_symbol": "_ZN7gameswf15sprite_instanceC1EPNS_6playerEPNS_20movie_definition_subEPNS_4rootEPNS_9characterEi",
+      "elf_address": "0x780718",
+      "size": 592,
+      "sha256": "b7a787bf876d22ec420501b936ddaacc83b7f6af65d973559eaff40b28f52294"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf9character10is_enabledEv",
+      "elf_address": "0x752dd4",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf15sprite_instance10is_enabledEv",
+      "elf_address": "0x782de4",
+      "size": 124,
+      "sha256": "0189c4a30318cde5cf9b141987eb99ef27202bdbc2ea0c94fa41aabc02e25b02"
+    },
+    {
+      "original_symbol": "_ZN7gameswf9characterC1EPNS_6playerEPS0_ii",
+      "elf_address": "0x754a1c",
+      "size": 268,
+      "sha256": "dcace7bd73dde304435c32dca0e412c505c46819839511cefc033eabbe356e7f"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6glitch7collada28CModularSkinnedMeshSceneNode13getCategoryIdEPKc",
+      "elf_address": "0x6494e0",
+      "size": 8,
+      "sha256": "56f458077eb66cceca0bcb9bd1c006024e1235122aef9223383ab79ade27c2fe"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada28CModularSkinnedMeshSceneNode17setCategoryModuleEii",
+      "elf_address": "0x649430",
+      "size": 12,
+      "sha256": "e1751711772ddddfbac6cee9cc437351aa7443608844687e4446f9368bd80784"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada28CModularSkinnedMeshSceneNode11getModuleIdEPKc",
+      "elf_address": "0x649464",
+      "size": 8,
+      "sha256": "ad9d4b06527bf3154078caf03660678ca4b41cf844d3c5d8c3f3636d58fb1609"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "validation": "PASS",
+  "comparisons": 1166,
+  "handle_cases": 270,
+  "flag_cases": 576,
+  "deletion_list_cases": 320,
+  "source_list_allocations": 217,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "38983aac0251e1648d49cb836e8d154e64f06aa9f006c1b7660c5b3f75a428ca",
+  "manifest_sha256": "4b8ef52ae1ea1fd2ef7878d0b6c17ed0d53f08a29a3c9b34ae44b663fd6165df",
+  "corpus_sha256": "867d4ef2ae994a595f34a363ad2bb96ff72ac246a570a734122a64160fb9540f",
+  "source_sha256": {
+    "port\\level-world\\object_identity.hpp": "ecffe87157463e169126f859d9a144b50ecb09b902b99787918f4262a44231bf",
+    "port\\level-world\\object_identity.cpp": "4d41ec703f8653cd9e4183727fd1e3e52d8e180087357e1983c31b82e0709499",
+    "port\\level-world\\tests\\object_identity_differential.py": "981a8787fd41f8a58b7755ad58fd2853f5f8409879482ddce3c8d40bc3788518"
+  },
+  "scope": "Actual pointer-handle/GetHandle/deletion-list instructions vs optimized ARM64.\n\nAllocation and memcpy are explicit storage services; no object manager Add,\nRemove, whole Lua VM or borrowed pointer lifetime parity is claimed.\n"
+}

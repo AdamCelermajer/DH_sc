@@ -1,0 +1,21 @@
+{
+  "validation": "PASS",
+  "scope": "Original-executed VCB/initial virtual evidence versus O2 ARM64; alias/VM service implementation separately audited.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_evidence_sha256": "93f471391ba5c61e38e75f6fb618953f2a527dba5502da3ef12daa5e9f439f8b",
+  "optimized_arm64_library_sha256": "ec31556e92a208274f8f1faef43fd3198883aff05ff38681c7cdf99ca680934a",
+  "source_sha256": {
+    "port\\level-world\\character_script_virtual.hpp": "d8648e61d063878823b09d12ac6f3ab52281c207bb078ed31357493f75ee538b",
+    "port\\level-world\\character_script_virtual.cpp": "08c8dc9c57258227392a0afa1f44ab0551d5fa716533d1b5c743c2f7945608a3",
+    "port\\level-world\\tests\\character_script_virtual_differential.py": "fec3cc97a2d12a9d4a09d3312c41fd9a75ebfbb2237b2b5fc016ac9b74275005",
+    "port\\level-world\\tools\\build_character_script_virtual_oracle.ps1": "14042e1d1d6ac3617feb19743126a7345b83e66a74253535cdcb8e1990043422"
+  },
+  "vcb_comparisons": 4100,
+  "initial_virtual_comparisons": 24,
+  "comparisons": 4124,
+  "native_atomic_rejections": 6,
+  "mismatches": 0,
+  "gold_sha256": "89e232ca0c97cf744debfde1024068c99bee8914f2088299c4319b86c3dda1e1",
+  "queries_are_alias_membership": true,
+  "full_additional_kind_ownership_executed": false
+}

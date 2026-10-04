@@ -1,0 +1,62 @@
+{
+  "scope": "Touch hit/events and authored sound; navigation incomplete",
+  "apk_sha256": "0be99519546c883e3ff02ae76ed3d1a84ca17a804b3f007353604827298ff980",
+  "scenarios": [
+    {
+      "size": "1080x1920",
+      "actual_surface": [
+        1920,
+        1080
+      ],
+      "point": [
+        1533,
+        540
+      ],
+      "independent_shared_player_and_inactive_options": true,
+      "press_release_clicked": true,
+      "authored_confirm": true,
+      "margin_no_activation": true,
+      "release_outside_no_activation": true,
+      "held_drag_changes_focus_and_releases_info": true
+    },
+    {
+      "size": "1080x2400",
+      "actual_surface": [
+        2400,
+        1080
+      ],
+      "point": [
+        1773,
+        540
+      ],
+      "independent_shared_player_and_inactive_options": true,
+      "press_release_clicked": true,
+      "authored_confirm": true,
+      "margin_no_activation": true,
+      "release_outside_no_activation": true,
+      "held_drag_changes_focus_and_releases_info": true
+    },
+    {
+      "size": "1968x2184",
+      "actual_surface": [
+        2184,
+        1968
+      ],
+      "point": [
+        1865,
+        984
+      ],
+      "independent_shared_player_and_inactive_options": true,
+      "press_release_clicked": true,
+      "authored_confirm": true,
+      "margin_no_activation": true,
+      "release_outside_no_activation": true,
+      "held_drag_changes_focus_and_releases_info": true
+    }
+  ],
+  "complete_menu": false,
+  "live_resize_retains_process_and_hit": true,
+  "pause_cancels_held_touch_without_release": true,
+  "post_resume_tap_works": true,
+  "status": "PASS"
+}

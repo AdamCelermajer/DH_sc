@@ -1,0 +1,366 @@
+{
+  "validation": "PASS",
+  "adapter_transition_original_cases": 937,
+  "adapter_event_original_cases": 975,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "eba0edd5e41263248112e33db6e7ef69f8bcfaa60eadf48b2968cd60352dc136",
+  "reference_sha256": "9e11a899a29f9682959c00e988ad4fc04ee4a3f610de9044e933d47997d27a57",
+  "kernel_source_sha256": "73d08ae28e2fea576bfc03d5377c5d096be5fc07f1d33ae228227d06495d10c6",
+  "comparisons": 3910,
+  "state_cases": 2818,
+  "attack_speed_cases": 1010,
+  "idle_predicate_cases": 82,
+  "mismatches": 0,
+  "original_event_registrations": {
+    "3": {
+      "0x23": [
+        3,
+        0,
+        0
+      ],
+      "0x22": [
+        3,
+        0,
+        0
+      ],
+      "0xc358": [
+        12,
+        0,
+        0
+      ],
+      "0xc35a": [
+        11,
+        3854908,
+        0
+      ],
+      "0xc35b": [
+        10,
+        3854916,
+        0
+      ],
+      "0xc35c": [
+        9,
+        3854916,
+        0
+      ],
+      "0xc35d": [
+        8,
+        3854916,
+        0
+      ],
+      "0xc356": [
+        7,
+        0,
+        0
+      ],
+      "0xc355": [
+        6,
+        0,
+        0
+      ],
+      "0xc354": [
+        5,
+        3854892,
+        0
+      ],
+      "0xc351": [
+        4,
+        0,
+        0
+      ],
+      "0xc352": [
+        3,
+        0,
+        0
+      ],
+      "0xc353": [
+        13,
+        0,
+        0
+      ],
+      "0xc357": [
+        15,
+        0,
+        0
+      ]
+    },
+    "4": {
+      "0x3f": [
+        3,
+        0,
+        0
+      ],
+      "0xc358": [
+        12,
+        0,
+        0
+      ],
+      "0xc35a": [
+        11,
+        3854908,
+        0
+      ],
+      "0xc35b": [
+        10,
+        3854916,
+        0
+      ],
+      "0xc35c": [
+        9,
+        3854916,
+        0
+      ],
+      "0xc35d": [
+        8,
+        3854916,
+        0
+      ],
+      "0xc356": [
+        7,
+        0,
+        0
+      ],
+      "0xc355": [
+        6,
+        0,
+        0
+      ],
+      "0xc354": [
+        5,
+        3854892,
+        0
+      ],
+      "0xc353": [
+        13,
+        0,
+        0
+      ],
+      "0xc357": [
+        15,
+        0,
+        0
+      ]
+    },
+    "5": {
+      "0x22": [
+        3,
+        0,
+        0
+      ],
+      "0xc358": [
+        12,
+        0,
+        0
+      ],
+      "0xc355": [
+        6,
+        0,
+        0
+      ],
+      "0xc356": [
+        7,
+        0,
+        0
+      ],
+      "0xc35a": [
+        11,
+        3854908,
+        0
+      ],
+      "0xc35b": [
+        10,
+        3854916,
+        0
+      ],
+      "0xc35c": [
+        9,
+        3854916,
+        0
+      ],
+      "0xc35d": [
+        8,
+        3854916,
+        0
+      ],
+      "0xc351": [
+        4,
+        3854976,
+        0
+      ],
+      "0xc357": [
+        15,
+        0,
+        0
+      ]
+    },
+    "12": {
+      "0x2e": [
+        2,
+        0,
+        0
+      ],
+      "0xc359": [
+        16,
+        0,
+        0
+      ]
+    }
+  },
+  "original_import_calls": {
+    "__aeabi_fmul": 2856,
+    "__aeabi_fadd": 1428,
+    "__aeabi_fcmplt": 541,
+    "__aeabi_fsub": 370,
+    "__aeabi_fcmpgt": 1048,
+    "__aeabi_i2f": 1010
+  },
+  "scope": "Original bounded state routines versus ARM64 source, with explicit ordered services.\n\nOriginal state focus/blur/update/event dispatch/predicates and animation override\nexecute. Tables, controller/body/animation/AI/FX/timer services are caller fixtures.\nThe event maps are extracted by executing original OnInit registrations.\n NEW entry composes StateOwner registry and body-only behavior adapter; remaining profiling/RaiseEvent are explicit fixture deliveries; getters/updates remain regression kernels.",
+  "imported_ieee_single_precision_arithmetic_and_comparisons_modeled": true,
+  "full_service_backends_executed": false,
+  "callback_context_and_target_identity_above_4gib": true,
+  "coverage": {
+    "_ZNK16CharStateMachine9SM_IsIdleEb": {
+      "instructions": 15,
+      "seen": 15
+    },
+    "_ZN9Character10CSM_AttackEiPviRi": {
+      "instructions": 4,
+      "seen": 4
+    },
+    "_ZN6CSDead8OnUpdateEiP9CharacterP16CharStateMachine": {
+      "instructions": 1,
+      "seen": 1
+    },
+    "_ZN6CSDead6OnInitEiP9CharacterP16CharStateMachine": {
+      "instructions": 25,
+      "seen": 25
+    },
+    "_ZN16CharStateMachine9_SetStateEiiPv": {
+      "instructions": 50,
+      "seen": 50
+    },
+    "_ZN8CSAttack7OnFocusEiP9CharacterP16CharStateMachineiiPv": {
+      "instructions": 192,
+      "seen": 175
+    },
+    "_ZNK14CharProperties20PROPS_GetAttackSpeedEv": {
+      "instructions": 17,
+      "seen": 17
+    },
+    "_ZN16CharStateMachine15RaiseStateEventEiPv": {
+      "instructions": 127,
+      "seen": 93
+    },
+    "_ZN6CSIdle6OnBlurEiP9CharacterP16CharStateMachinei": {
+      "instructions": 37,
+      "seen": 32
+    },
+    "_ZN6CSIdle8OnUpdateEiP9CharacterP16CharStateMachine": {
+      "instructions": 4,
+      "seen": 4
+    },
+    "_ZN6CSIdle7OnEventEiP9CharacterP16CharStateMachineiPv": {
+      "instructions": 1,
+      "seen": 1
+    },
+    "_ZN14PhysicalObject9setFilterEsttb": {
+      "instructions": 31,
+      "seen": 9
+    },
+    "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine": {
+      "instructions": 109,
+      "seen": 105
+    },
+    "_ZN6CSMove10UpdateTypeEP9CharacterP16CharStateMachine": {
+      "instructions": 155,
+      "seen": 145
+    },
+    "_ZN16CharStateMachine10SM_SetAnimEi": {
+      "instructions": 10,
+      "seen": 10
+    },
+    "_ZN8CSAttack7OnEventEiP9CharacterP16CharStateMachineiPv": {
+      "instructions": 156,
+      "seen": 145
+    },
+    "_ZN6CSMove8OnUpdateEiP9CharacterP16CharStateMachine": {
+      "instructions": 65,
+      "seen": 65
+    },
+    "_ZN16CharStateMachine6UpdateEv": {
+      "instructions": 66,
+      "seen": 49
+    },
+    "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine": {
+      "instructions": 147,
+      "seen": 143
+    },
+    "_ZN14PhysicalObject11resetFilterEv": {
+      "instructions": 31,
+      "seen": 5
+    },
+    "_ZNK16CharStateMachine11SM_GetStateEv": {
+      "instructions": 5,
+      "seen": 5
+    },
+    "_ZN9Character20CSM_StoppedAttackingEiPviRi": {
+      "instructions": 4,
+      "seen": 4
+    },
+    "_ZN6CSDead7OnEventEiP9CharacterP16CharStateMachineiPv": {
+      "instructions": 69,
+      "seen": 61
+    },
+    "_ZN6CSDead7OnFocusEiP9CharacterP16CharStateMachineiiPv": {
+      "instructions": 143,
+      "seen": 134
+    },
+    "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine": {
+      "instructions": 118,
+      "seen": 114
+    },
+    "_ZN6CSMove6OnBlurEiP9CharacterP16CharStateMachinei": {
+      "instructions": 42,
+      "seen": 37
+    },
+    "_ZN6CSDead6OnBlurEiP9CharacterP16CharStateMachinei": {
+      "instructions": 43,
+      "seen": 38
+    },
+    "_ZN6CSIdle7OnFocusEiP9CharacterP16CharStateMachineiiPv": {
+      "instructions": 72,
+      "seen": 63
+    },
+    "_ZN6CSMove7OnEventEiP9CharacterP16CharStateMachineiPv": {
+      "instructions": 1,
+      "seen": 1
+    },
+    "_ZN6CSMove7OnFocusEiP9CharacterP16CharStateMachineiiPv": {
+      "instructions": 50,
+      "seen": 45
+    },
+    "_ZN8CSAttack6OnBlurEiP9CharacterP16CharStateMachinei": {
+      "instructions": 54,
+      "seen": 49
+    },
+    "_ZN8CSAttack8OnUpdateEiP9CharacterP16CharStateMachine": {
+      "instructions": 24,
+      "seen": 24
+    }
+  },
+  "elapsed_seconds": 3.8,
+  "source_sha256": {
+    "port/level-world/character_state.cpp": "73d08ae28e2fea576bfc03d5377c5d096be5fc07f1d33ae228227d06495d10c6",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+    "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+    "port/level-world/character_state_owner_data.inc": "d9cae0c70b8a59db8d66afb3559c5aceeb8241b67528fcc3b4eade57940da634",
+    "port/level-world/character_state_owner_behavior.cpp": "36da18ca632a39ea032e1ff4fd70e152ba37cace03557a1a22045808cfc78ce6",
+    "port/level-world/character_state_owner_behavior.hpp": "5c3d2e6c58960a2eb6cc16bef179cbd72efcd98ab5b3285f2ccb4583859879b1",
+    "port/level-world/tests/character_state_owner_behavior_oracle.cpp": "57f39435f27be738009c5a6b1dfa7a422e2e15f8cf614bbf8e395a87297551fb",
+    "port/level-world/tests/character_state_owner_behavior_differential.py": "93c4535fb29dd75062defb0b6a5dfe14950a5a31da0143bef4952538540fc5fd",
+    "port/level-world/tests/character_state_differential.py": "1e06e6c28f040a7e25b31b1e52e9d76af2b11f17a16d63635ad51411594c5478"
+  },
+  "defined_GLOB_DAT_callbacks_resolved": true,
+  "unused_cpp_RTTI_exception_backend_executed": false
+}

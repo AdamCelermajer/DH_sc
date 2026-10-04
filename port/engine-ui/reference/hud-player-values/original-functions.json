@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z23NativeGetPlayerHUDInfosRKN7gameswf7fn_callE",
+      "elf_address": "0x44e5cc",
+      "size": 3248,
+      "sha256": "69b6445174fe31555f5972f89483777293a8b57d21855fd5bf85a3dd783970e4"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManager10SlowUpdateEv",
+      "elf_address": "0x41de54",
+      "size": 528,
+      "sha256": "c3e30e66be118f7e32a44848c906f525e47a902c132fe8982432be66721ccb60"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManager6UpdateEv",
+      "elf_address": "0x41ec00",
+      "size": 176,
+      "sha256": "59cf28566d2fd50ba8046a40ffed2db77eac78c6d14245b1ec38e088ae471b46"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12PROPS_GetIntEib",
+      "elf_address": "0x3df6e0",
+      "size": 56,
+      "sha256": "f0b419601b44bb6aa3bea1f6df7d7323364dc572daa7a7d5e660201ec9868342"
+    },
+    {
+      "original_symbol": "_Z19NativeGetPlayerCharib",
+      "elf_address": "0x43c388",
+      "size": 124,
+      "sha256": "4d5cf455d3821b750fb164f707334fb002e13e845b426b207618f11720385197"
+    },
+    {
+      "original_symbol": "_ZN14InfoHUDManager10FastUpdateEv",
+      "elf_address": "0x41e064",
+      "size": 2972,
+      "sha256": "e23f70897ec4bb6f3409cfd8e16868b1639ca5e29472dbf4e689b8c10dd8059d"
+    }
+  ]
+}

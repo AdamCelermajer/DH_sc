@@ -1,0 +1,371 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7gameswf14player_contextC1Ev",
+      "elf_address": "0x76ce38",
+      "size": 88,
+      "sha256": "55e7c4560fe718d8adbb6e33aa2b4b05b34d761e0ab32a8606803b796da8cc2c",
+      "calls": {
+        "0x759c04": "_ZN7gameswf11ref_countedC2Ev"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf14player_contextC2Ev",
+      "elf_address": "0x76ce90",
+      "size": 88,
+      "sha256": "42eff074ae24141677a32f0bdb458978da73bfc64da030794f340981ddb142b5",
+      "calls": {
+        "0x759c04": "_ZN7gameswf11ref_countedC2Ev"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf14player_contextD2Ev",
+      "elf_address": "0x76cee8",
+      "size": 172,
+      "sha256": "3622c7128673f02cac5d77a818d7f6684b45b206471308b22cb0566c0102ae7f",
+      "calls": {
+        "0x7d1b40": "_ZN7gameswf14glyph_providerD1Ev",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj",
+        "0x76c9ac": "_ZN7gameswf8destructINS_21bitmap_glyph_providerEEEvPKT_",
+        "0x76ca08": "_ZN7gameswf5arrayIPNS_6playerEE7reserveEi",
+        "0x75dca4": "_ZN7gameswf11ref_countedD2Ev"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf14player_contextD1Ev",
+      "elf_address": "0x76d4cc",
+      "size": 172,
+      "sha256": "2060fa7040acf7ed14ce24db54a0400dba7af954a9dd12753e1815469656a58e",
+      "calls": {
+        "0x7d1b40": "_ZN7gameswf14glyph_providerD1Ev",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj",
+        "0x76c9ac": "_ZN7gameswf8destructINS_21bitmap_glyph_providerEEEvPKT_",
+        "0x76ca08": "_ZN7gameswf5arrayIPNS_6playerEE7reserveEi",
+        "0x75dca4": "_ZN7gameswf11ref_countedD2Ev"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf14player_contextD0Ev",
+      "elf_address": "0x76d578",
+      "size": 28,
+      "sha256": "f6b9f256ab55850a490cfc220030c127ee70f907f680e1e2e3ab91af027e2587",
+      "calls": {
+        "0x76d4cc": "_ZN7gameswf14player_contextD1Ev"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf6playerC1EPNS_14player_contextE",
+      "elf_address": "0x76f180",
+      "size": 544,
+      "sha256": "bd4d28c597bc3a2cc2af3f12c50c3fc7b11c7a728e0d6f5ca405b37e973ccec1",
+      "calls": {
+        "0x759c04": "_ZN7gameswf11ref_countedC2Ev",
+        "0x752ba8": "_ZnwjN3swf7MemHintE",
+        "0x76b820": "_ZN7gameswf9as_objectC1EPNS_6playerE",
+        "0x768cc8": "_ZN7gameswf9smart_ptrINS_9as_objectEE7set_refEPS1_",
+        "0x76f018": "_ZN7gameswf8as_stageC1EPNS_6playerE",
+        "0x797250": "_ZN7gameswf8as_value13set_as_objectEPNS_9as_objectE",
+        "0x7972a0": "_ZN7gameswf8as_value17set_as_c_functionEPFvRKNS_7fn_callEE",
+        "0x76e104": "_ZN7gameswf6player11action_initEv",
+        "0x7b7af8": "_ZN7gameswf8tu_timer11get_systimeEv",
+        "0x7b7898": "_ZN7gameswf9tu_random11next_randomEv",
+        "0x76ca08": "_ZN7gameswf5arrayIPNS_6playerEE7reserveEi"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf6playerC2EPNS_14player_contextE",
+      "elf_address": "0x76f3a0",
+      "size": 544,
+      "sha256": "96af820a25f9c47c9757ca2b858c45de8db5d38d3ad067fee0cbad4775f84e68",
+      "calls": {
+        "0x759c04": "_ZN7gameswf11ref_countedC2Ev",
+        "0x752ba8": "_ZnwjN3swf7MemHintE",
+        "0x76b820": "_ZN7gameswf9as_objectC1EPNS_6playerE",
+        "0x768cc8": "_ZN7gameswf9smart_ptrINS_9as_objectEE7set_refEPS1_",
+        "0x76f018": "_ZN7gameswf8as_stageC1EPNS_6playerE",
+        "0x797250": "_ZN7gameswf8as_value13set_as_objectEPNS_9as_objectE",
+        "0x7972a0": "_ZN7gameswf8as_value17set_as_c_functionEPFvRKNS_7fn_callEE",
+        "0x76e104": "_ZN7gameswf6player11action_initEv",
+        "0x7b7af8": "_ZN7gameswf8tu_timer11get_systimeEv",
+        "0x7b7898": "_ZN7gameswf9tu_random11next_randomEv",
+        "0x76ca08": "_ZN7gameswf5arrayIPNS_6playerEE7reserveEi"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf12render_cache8is_validEPNS_9characterE",
+      "elf_address": "0x7738a4",
+      "size": 208,
+      "sha256": "d3c4593d4d38f10bbf28198f91a3aed2349a5a587143e59899909e2aa0ae2bd7",
+      "calls": {
+        "0x755260": "_ZNK7gameswf8weak_ptrINS_6playerEE11check_proxyEv",
+        "0x753ec0": "_ZN7gameswf9character16get_world_cxformEv",
+        "0x753f74": "_ZN7gameswf9character16get_world_matrixEv"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf4rootC1EPNS_6playerEPNS_14movie_def_implE",
+      "elf_address": "0x775da0",
+      "size": 464,
+      "sha256": "794108f9059226f7aa40c241ce567db8212c060675c6f9f98ccd9c48789d9446",
+      "calls": {
+        "0x759c04": "_ZN7gameswf11ref_countedC2Ev",
+        "0x759c64": "_ZNK7gameswf11ref_counted7add_refEv",
+        "0x75e9ac": "_ZN7gameswf8weak_ptrINS_6playerEEaSEPS1_",
+        "0x775d38": "_ZN7gameswf4root20set_display_viewportEiiii",
+        "0x7741a0": "_ZNK7gameswf4root14get_frame_rateEv",
+        "0x76d71c": "_ZN7gameswf6player8set_rootEPNS_4rootE"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf4rootC2EPNS_6playerEPNS_14movie_def_implE",
+      "elf_address": "0x775f70",
+      "size": 464,
+      "sha256": "011499e4379c901a042443c5f2c398d666f312d39bf90e0f31f173e4037db3c6",
+      "calls": {
+        "0x759c04": "_ZN7gameswf11ref_countedC2Ev",
+        "0x759c64": "_ZNK7gameswf11ref_counted7add_refEv",
+        "0x75e9ac": "_ZN7gameswf8weak_ptrINS_6playerEEaSEPS1_",
+        "0x775d38": "_ZN7gameswf4root20set_display_viewportEiiii",
+        "0x7741a0": "_ZNK7gameswf4root14get_frame_rateEv",
+        "0x76d71c": "_ZN7gameswf6player8set_rootEPNS_4rootE"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf5arrayINS_12render_cache5entryEE7reserveEi",
+      "elf_address": "0x78a6f8",
+      "size": 136,
+      "sha256": "595aff1f1e22e87baf1f668f14d44505f9575c5690da8e69bc9ca48ebb38d158",
+      "calls": {
+        "0x752b38": "_ZN7gameswf13free_internalEPvj",
+        "0x752b9c": "_ZN7gameswf15malloc_internalEjN3swf7MemHintE",
+        "0x752bac": "_ZN7gameswf16realloc_internalEPvjjN3swf7MemHintE"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf19preload_glyph_codesEPNS_14player_contextEPtiPNS_4fontEiPKNS_6filterE",
+      "elf_address": "0x78b240",
+      "size": 464,
+      "sha256": "ca450a7b70fb6bc55a749dfadad61e6b93d3e55cef50759fa982ea75ad0e5c7c",
+      "calls": {
+        "0x7c55d8": "_ZN7gameswf26bitmap_glyph_texture_cache16get_glyph_regionEtPviRNS_4rectE",
+        "0x7d01bc": "_ZNK7gameswf4font9get_glyphEPNS_5glyphEti",
+        "0x7d266c": "_ZN7gameswf19glyph_texture_cache16get_glyph_regionEtPviRNS0_11filter_infoERNS_4rectE",
+        "0x75a240": "_ZN7gameswf11ref_counted8drop_refEv",
+        "0x8be2a0": "__fixunssfsi"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf12render_cacheD1Ev",
+      "elf_address": "0x78ba28",
+      "size": 304,
+      "sha256": "37907dac96548525f4fd159255570ce53e6bb0e9b6bcc8b4f171ea861e6865e0",
+      "calls": {
+        "0x779e7c": "_ZN7gameswf5arrayItE7reserveEi",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj",
+        "0x78a6f8": "_ZN7gameswf5arrayINS_12render_cache5entryEE7reserveEi"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf13texture_cache10unlock_allEPNS_14player_contextE",
+      "elf_address": "0x7935ec",
+      "size": 124,
+      "sha256": "41cec6bd8899dff200bbf12b60fdba4e4085d3eb02489b1a69d9327c83cf6938",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN7gameswf8destructINS_14player_contextEEEvPKT_",
+      "elf_address": "0x7a7fb8",
+      "size": 44,
+      "sha256": "47c1793fda8725e4d79ebb5e880243b34ac41e06338abccfcf5943b523817fda",
+      "calls": {
+        "0x752b38": "_ZN7gameswf13free_internalEPvj"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX14DestroyContextEPN7gameswf14player_contextE",
+      "elf_address": "0x7a7fe4",
+      "size": 12,
+      "sha256": "f89651f35a1f9784b34d8410379e2a9ab959445374a116a3af691848d5b09b55",
+      "calls": {
+        "0x7a7fb8": "_ZN7gameswf8destructINS_14player_contextEEEvPKT_"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX14UnloadTexturesEPN7gameswf14player_contextE",
+      "elf_address": "0x7a8cdc",
+      "size": 152,
+      "sha256": "9e3c0bbfe2d593abe17503a12276c64c09de66a7b2d4e596fee71aa36036e854",
+      "calls": {
+        "0x76d5b4": "_ZN7gameswf6player8get_rootEv"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX23ClearGlyphTextureCachesEPN7gameswf14player_contextE",
+      "elf_address": "0x7a953c",
+      "size": 108,
+      "sha256": "1d011c8d3887fba14d6dd93869f907e369331f3a04973b501416f85dec8eb4c3",
+      "calls": {
+        "0x793ed8": "_ZN7gameswf13texture_cache5resetEv"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX19ForceTexturesToVRAMEbPN7gameswf14player_contextE",
+      "elf_address": "0x7aa0ec",
+      "size": 500,
+      "sha256": "eb2757370fc4ac84c78a258f2419d9b2c9ab73b0d37b7c808ed9e769476915ff",
+      "calls": {
+        "0x76d5b4": "_ZN7gameswf6player8get_rootEv",
+        "0x774298": "_ZN7gameswf4root11end_displayEv",
+        "0x7751bc": "_ZN7gameswf4root13begin_displayEv"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX10ClearFontsEPN7gameswf14player_contextE",
+      "elf_address": "0x7aac54",
+      "size": 420,
+      "sha256": "9d2f74ac7acfa8f46e72400629aef71b13513876f6a11141a3e0f2d3010da4f5",
+      "calls": {
+        "0x7a8c08": "_ZN8RenderFX14FindCharactersEPN7gameswf9characterEPKci",
+        "0x790ab0": "_ZN7gameswf19edit_text_character14set_text_valueERKNS_9tu_stringEb",
+        "0x7aa790": "_ZN7gameswf4hashINS_9tu_stringENS_9smart_ptrINS_11face_entityEEENS_19string_hash_functorIS1_EEE5clearEv",
+        "0x793ed8": "_ZN7gameswf13texture_cache5resetEv",
+        "0x7aa840": "_ZN7gameswf4hashINS_10tu_stringiENS_9smart_ptrINS_18bitmap_font_entityEEENS_20stringi_hash_functorIS1_EEE5clearEv",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj"
+      }
+    },
+    {
+      "original_symbol": "_ZN8RenderFX4LoadEPKcPN7gameswf14player_contextE",
+      "elf_address": "0x7ab784",
+      "size": 416,
+      "sha256": "eb349f87de001b9623319b9e6faf6a276e9de207c8f03c7775527580c65f64f8",
+      "calls": {
+        "0x76c818": "_ZN7gameswf9tu_stringaSEPKc",
+        "0x752ba8": "_ZnwjN3swf7MemHintE",
+        "0x76f180": "_ZN7gameswf6playerC1EPNS_14player_contextE",
+        "0x7a87bc": "_ZN7gameswf9smart_ptrINS_6playerEE7set_refEPS1_",
+        "0x751eb4": "_ZN7gameswf9tu_stringC1EPKci",
+        "0x76c868": "_ZN7gameswf6player11set_workdirEPKc",
+        "0x7736f4": "_ZN7gameswf6player9load_fileEPKc",
+        "0x75a258": "_ZN7gameswf9smart_ptrINS_4rootEE7set_refEPS1_",
+        "0x75a240": "_ZN7gameswf11ref_counted8drop_refEv",
+        "0x7a7ee8": "_ZN8RenderFX10SetContextEPN7gameswf9characterE",
+        "0x752b38": "_ZN7gameswf13free_internalEPvj"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf26bitmap_glyph_texture_cacheC1Eii",
+      "elf_address": "0x7c4648",
+      "size": 40,
+      "sha256": "dff0bcc12053d357327a1e3a7b1ac43fa66b9d8eacd4bde880475266b5ced595",
+      "calls": {
+        "0x7941c0": "_ZN7gameswf13texture_cacheC2Eiiib"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf26bitmap_glyph_texture_cacheC2Eii",
+      "elf_address": "0x7c4670",
+      "size": 40,
+      "sha256": "defa7a464fa49da383c810f97050559c1d069f4f79104644fc2343f0ae03dd3e",
+      "calls": {
+        "0x7941c0": "_ZN7gameswf13texture_cacheC2Eiiib"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf26bitmap_glyph_texture_cache16add_glyph_regionEtPvi",
+      "elf_address": "0x7c53c4",
+      "size": 532,
+      "sha256": "ecf038b7ee26b15eff25a56f67899b9af22b373b22ecbf1a48273827ec99587a",
+      "calls": {
+        "0x7c44d8": "_ZN7gameswf13texture_cache4lockEv",
+        "0x793560": "_ZN7gameswf13texture_cache27get_region_size_requirementERiS1_",
+        "0x794668": "_ZN7gameswf13texture_cache21find_available_regionEii",
+        "0x7c536c": "_ZN7gameswf4hashINS_13texture_cache3keyEPNS1_6regionENS_15fixed_size_hashIS2_EEEixERKS2_",
+        "0x756c30": "_ZN7gameswf13texture_cache17get_region_boundsEPKNS0_6regionERNS_4rectE"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf26bitmap_glyph_texture_cache16get_glyph_regionEtPviRNS_4rectE",
+      "elf_address": "0x7c55d8",
+      "size": 276,
+      "sha256": "bd8c2c09c9ada388d0d9244dd2aee712412e4227423638594ce3289ffbe9fa0e",
+      "calls": {
+        "0x756f1c": "_ZNK7gameswf4hashINS_13texture_cache3keyEPNS1_6regionENS_15fixed_size_hashIS2_EEE10find_indexERKS2_",
+        "0x756c30": "_ZN7gameswf13texture_cache17get_region_boundsEPKNS0_6regionERNS_4rectE",
+        "0x7c53c4": "_ZN7gameswf26bitmap_glyph_texture_cache16add_glyph_regionEtPvi",
+        "0x793ed8": "_ZN7gameswf13texture_cache5resetEv"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf19glyph_texture_cacheD1Ev",
+      "elf_address": "0x7d1a28",
+      "size": 84,
+      "sha256": "6d0f07b6eb64e45c1e7a86690143085e03e6a50487850c0bfa365ddfb9b5b082",
+      "calls": {
+        "0x75722c": "_ZN7gameswf5arrayIhE7reserveEi",
+        "0x758b8c": "_ZN7gameswf13texture_cacheD2Ev"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf19glyph_texture_cache16add_glyph_regionEtPviRNS0_11filter_infoEb",
+      "elf_address": "0x7d1da4",
+      "size": 2248,
+      "sha256": "4287e71085b6e5eaaa23ad71f72f897c41d2f25ec321ff1e4c99a9e30cbac6ab",
+      "calls": {
+        "0x7c44d8": "_ZN7gameswf13texture_cache4lockEv",
+        "0x70a7fc": "FT_Set_Pixel_Sizes",
+        "0x709660": "FT_Load_Char",
+        "0x8be2a0": "__fixunssfsi",
+        "0x793560": "_ZN7gameswf13texture_cache27get_region_size_requirementERiS1_",
+        "0x794488": "_ZN7gameswf13texture_cache16find_used_regionEii",
+        "0x7c536c": "_ZN7gameswf4hashINS_13texture_cache3keyEPNS1_6regionENS_15fixed_size_hashIS2_EEEixERKS2_",
+        "0x756c30": "_ZN7gameswf13texture_cache17get_region_boundsEPKNS0_6regionERNS_4rectE",
+        "0x70c924": "FT_Bitmap_Done",
+        "0x794668": "_ZN7gameswf13texture_cache21find_available_regionEii",
+        "0x70c8fc": "FT_Bitmap_New",
+        "0x70c980": "FT_Bitmap_Convert",
+        "0x75807c": "_ZN7gameswf13filter_engine4copyERNS0_6rasterES2_",
+        "0x758140": "_ZN7gameswf13filter_engine5applyERNS0_6paramsE",
+        "0x75722c": "_ZN7gameswf5arrayIhE7reserveEi"
+      }
+    },
+    {
+      "original_symbol": "_ZN7gameswf19glyph_texture_cache16get_glyph_regionEtPviRNS0_11filter_infoERNS_4rectE",
+      "elf_address": "0x7d266c",
+      "size": 360,
+      "sha256": "434040d68c53e2ed0dc208337792662fe3df8c11bedc486fee4843b080879d7e",
+      "calls": {
+        "0x756f1c": "_ZNK7gameswf4hashINS_13texture_cache3keyEPNS1_6regionENS_15fixed_size_hashIS2_EEE10find_indexERKS2_",
+        "0x756c30": "_ZN7gameswf13texture_cache17get_region_boundsEPKNS0_6regionERNS_4rectE",
+        "0x7d1da4": "_ZN7gameswf19glyph_texture_cache16add_glyph_regionEtPviRNS0_11filter_infoEb",
+        "0x793ed8": "_ZN7gameswf13texture_cache5resetEv"
+      }
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch11set_contextEPN7gameswf14player_contextE",
+      "elf_address": "0x7d3e78",
+      "size": 12,
+      "sha256": "732cf2da980fa9c6ce3dda99ceef8fd0fa4feac5c8abe1bba67e54dc268ccb36",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch16set_render_cacheEPN7gameswf12render_cacheE",
+      "elf_address": "0x7d4f8c",
+      "size": 120,
+      "sha256": "f6085171e5d1350907b6d1f2144ca1e288307bb426ede02694542f704b5c7588",
+      "calls": {}
+    },
+    {
+      "original_symbol": "_ZN21render_handler_glitch4drawEPN7gameswf12render_cacheE",
+      "elf_address": "0x7d93ac",
+      "size": 332,
+      "sha256": "df96a64c4bd0f7ccaa898c7effc68b3349947b60aa680fc84cab107af09af177",
+      "calls": {
+        "0x7d6a48": "_ZN16BufferedRenderer10setTextureERN5boost13intrusive_ptrIN6glitch5video8ITextureEEE",
+        "0x7d4340": "_ZN21render_handler_glitch20ensureBufferCapacityEi",
+        "0x7d860c": "_ZN21render_handler_glitch25process_mask_intersectionEP6VertexiPKtiN6glitch5video16E_PRIMITIVE_TYPEE",
+        "0x7d7094": "_ZN16BufferedRenderer21queueIndexedTrianglesERKN5boost13intrusive_ptrIN6glitch5video14CVertexStreamsEEEPKti"
+      }
+    }
+  ]
+}

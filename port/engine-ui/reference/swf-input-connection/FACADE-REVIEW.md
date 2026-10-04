@@ -1,0 +1,9 @@
+# Retained facade review
+
+Read-only review of root-owned swf_movie.hpp/.cpp typed additions. Initial defects were sent immediately and are now corrected on disk: raw borrowed HUD handles checked only by root address could alias newly allocated graphs after reload; new SwfHudClip retains exact Impl and hud_pins, and hud_goto/hud_play check exact owner before accessing the clip. Teardown traverses and clears pinned clips. Old facade methods now also copy a local shared owner through callbacks, avoiding Scope receiver destruction when an outer facade is moved/reset synchronously.
+
+The new viewport methods retain local owner and connection; successful load resets viewport, while failed load preserves the current graph. connect_viewport binds under Scope; update_viewport executes source camera. display_source_clip consumes source projected rectangle without stock set_display_viewport. screen_to_logical uses source driver orientation rather than surface-aspect inference. New AS-mutating calls are gated by the existing global core Scope, so generic facade reentry rejects as busy; the pure source viewport/event coordinators themselves have no extra once-only guard.
+
+Ordinary false draw-provider delivery records the first failure and still reaches end_display. C++ exceptions during begin/clip/end do not have facade RAII end-display cleanup; the app abort/reset path must remain the explicit recovery owner. Required scene/resources/font/native providers are borrowed through Impl.services and must outlive any graph leases, not just the outer facade. SwfHudClip retaining a graph does not by itself extend an external glyph/provider context's lifetime.
+
+Input is a separate source boundary: no new source cursor/current-menu/native-event provider is registered by this facade review. Stock mouse notification and root advance are not sufficient original HUD button routing. See NOTES.md and complete captured original routines.

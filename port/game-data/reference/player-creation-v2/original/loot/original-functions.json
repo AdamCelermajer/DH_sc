@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13ItemInventory13_AddLootItemsERKSt6vectorIPKN7Structs9LootEntryESaIS4_EERS0_INS_8LootInfoESaIS9_EEb",
+      "elf_address": "0x402dfc",
+      "size": 1300,
+      "sha256": "c7727fe007375f3e480a2890eddc64e978cfaa4b7d50852e3b0342f1f2cd7fc5"
+    },
+    {
+      "original_symbol": "_ZN7Structs9LootEntry4readEP11IStreamBase",
+      "elf_address": "0x4fec08",
+      "size": 760,
+      "sha256": "bf57e3463b2f917df0d9c62630c5bfcd7249b4a83101d13e765a5907922adc44"
+    },
+    {
+      "original_symbol": "_ZN7Structs4Loot4readEP11IStreamBase",
+      "elf_address": "0x4fe794",
+      "size": 1140,
+      "sha256": "203d51dd9509c48a5a89c52065fe0cfd4493b3308c41441c2d0437d956c0fbec"
+    },
+    {
+      "original_symbol": "_ZN9Character14INV_UpdateSkinEv",
+      "elf_address": "0x3a999c",
+      "size": 884,
+      "sha256": "b156c99b56ca13b879fe5de72121bd20a3c097aa092a103153c3196e57085844"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory17CalcLootItemValueEP12ItemInstancei",
+      "elf_address": "0x4020b4",
+      "size": 208,
+      "sha256": "1872493a3e6656c694382e663d82a7d84b36a7c64eeb771f6abd13e2e24412d9"
+    },
+    {
+      "original_symbol": "_ZN6Arrays9LootTable9readNamesEP11IStreamBase",
+      "elf_address": "0x4afdf4",
+      "size": 408,
+      "sha256": "84240f5c885da51e7f5da8cf4161316df45b9908d373a47d0a2e521c60e30466"
+    },
+    {
+      "original_symbol": "_ZN6Arrays9LootTable4readEP11IStreamBase",
+      "elf_address": "0x4b9e8c",
+      "size": 340,
+      "sha256": "d13006a209222f360d9cc53bed812e7fdce305b691cd6388f45a850b0dcd5916"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory7AddLootEiiiib",
+      "elf_address": "0x40407c",
+      "size": 1500,
+      "sha256": "be079000635f62556d0152fcc99a07199143d0b049eb6a6557c2b42ff0b0965b"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory13_AddLootTableEiRSt6vectorIPKN7Structs9LootEntryESaIS4_EEPS6_",
+      "elf_address": "0x4039a0",
+      "size": 1756,
+      "sha256": "692a1310f041de2095523a48a689034132298ac6f1ba2fb16d7c75f297de1553"
+    }
+  ]
+}

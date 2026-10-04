@@ -1,0 +1,23 @@
+#include "../item_gear_properties_v5.hpp"
+#include "../item_power_tables_v5.hpp"
+#include <fstream>
+#include <iostream>
+#include <cstring>
+using namespace dh2::data;using Raw=std::vector<std::uint8_t>;
+static unsigned checks;
+static void ck(bool b){if(!b)throw std::runtime_error("Item gear V5 check "+std::to_string(checks));++checks;}
+static Raw file(const std::string& p){std::ifstream f(p,std::ios::binary);ck(bool(f));return {std::istreambuf_iterator<char>(f),{}};}
+struct Reader {const Raw& b;std::size_t at{};void copy(void* out,std::size_t n){ck(n<=b.size()-at);std::memcpy(out,b.data()+at,n);at+=n;}std::uint32_t u(){std::uint32_t n;copy(&n,4);return n;}};
+int main(int argc,char** argv){try{ck(argc==4);auto gold=file(argv[1]);Reader r{gold};char magic[4];r.copy(magic,4);ck(!std::memcmp(magic,"GPV5",4));auto stats=r.u(),powers=r.u(),caps=r.u();PropertyRules rules;r.copy(rules.defaults.data(),896);r.copy(rules.types.data(),896);
+ for(unsigned i=0;i<stats;++i){auto left=r.u();ItemRecord164 item;r.copy(&item,164);PropertySheet before,after;r.copy(before.data(),896);r.copy(after.data(),896);ck(dh2_gear_stats_v5(before.data(),rules.defaults.data(),&item,left)==0);ck(before==after);}
+ for(unsigned i=0;i<powers;++i){auto left=r.u(),count=r.u();ck(count<=65536);std::vector<GearPowerProperty12V5> v(count);if(count)r.copy(v.data(),count*12);PropertySheet before,after;r.copy(before.data(),896);r.copy(after.data(),896);GearPowerView16V5 view{v.data(),count,0};ck(dh2_gear_power_v5(before.data(),rules.defaults.data(),&view,left)==0);ck(before==after);}
+ for(unsigned i=0;i<caps;++i){PropertyState before,after;r.copy(&before,sizeof before);r.copy(&after,sizeof after);auto v=property_view(rules,before);ck(dh2_gear_validate_vitals_v5(&v)==0);ck(!std::memcmp(&before,&after,sizeof before));}ck(r.at==gold.size());
+ PropertySheet s;s.fill(123);ck(dh2_gear_reset_v5(s.data(),rules.defaults.data())==0&&s==rules.defaults);ItemRecord164 item{};GearPowerProperty12V5 entry{9,1234,0};GearPowerView16V5 view{&entry,1,0};auto before=s;
+ ck(dh2_gear_stats_v5(s.data(),rules.defaults.data(),&item,2)==-1&&s==before);ck(dh2_gear_reset_v5(s.data(),s.data())==-1&&s==before);view.reserved=1;ck(dh2_gear_power_v5(s.data(),rules.defaults.data(),&view,0)==-1&&s==before);view.reserved=0;view.count=65537;ck(dh2_gear_power_v5(s.data(),rules.defaults.data(),&view,0)==-1&&s==before);view.count=1;view.entries=nullptr;ck(dh2_gear_power_v5(s.data(),rules.defaults.data(),&view,0)==-1&&s==before);view.entries=reinterpret_cast<GearPowerProperty12V5*>(s.data());ck(dh2_gear_power_v5(s.data(),rules.defaults.data(),&view,0)==-1&&s==before);ck(dh2_gear_validate_vitals_v5(nullptr)==-1);
+ auto pg=file(argv[2]);Reader pr{pg};pr.copy(magic,4);ck(!std::memcmp(magic,"IPV5",4));auto rows=pr.u();ItemPowerTablesV5 table;std::string e;auto cache=std::string(argv[3]);auto bytes=file(cache+"/item_powers_pyarray.bin"),names=file(cache+"/item_powers_pyarraynames.bin"),schema=file(cache+"/item_powers_pystructnames.bin");ck(table.load({bytes.data(),bytes.size()},{names.data(),names.size()},{schema.data(),schema.size()},e));auto borrow=table.borrow();ck(borrow.rows().size()==rows);unsigned entries=0,guards=7;
+ for(unsigned i=0;i<rows;++i){auto n=pr.u();Raw raw(n);pr.copy(raw.data(),n);ItemPowerScalars28V5 scalars;pr.copy(&scalars,sizeof scalars);auto count=pr.u();std::vector<GearPowerProperty12V5> expected(count);if(count)pr.copy(expected.data(),count*12);ItemPowerDecoded48V5 out;ck(dh2_item_power_decode_v5(&out,raw.data(),n)==0&&out.consumed==n&&out.count==count);ck(!std::memcmp(&out.scalars,&scalars,28));auto& actual=borrow.rows()[i];ck(!std::memcmp(&actual.scalars,&scalars,28)&&actual.properties.size()==count);if(count)ck(!std::memcmp(actual.properties.data(),expected.data(),count*12));
+  ItemPowerDecoded48V5 poison{};std::memset(&poison,0xa5,sizeof poison);auto untouched=poison;ck(dh2_item_power_decode_v5(&poison,raw.data(),n-1)==-1&&!std::memcmp(&poison,&untouched,sizeof poison));++guards;entries+=count;
+ }ck(pr.at==pg.size());auto identity=&borrow.rows();ck(!table.load({bytes.data(),bytes.size()},{names.data(),names.size()},{schema.data(),schema.size()},e)&&identity==&table.borrow().rows());++guards;
+ borrow={};bytes.pop_back();ck(!table.load({bytes.data(),bytes.size()},{names.data(),names.size()},{schema.data(),schema.size()},e)&&table.borrow().rows().size()==rows);++guards;
+ std::cout<<"{\"validation\":\"PASS\",\"gear_original_cases\":"<<stats+powers+caps+1<<",\"actual_power_rows\":"<<rows<<",\"actual_power_properties\":"<<entries<<",\"atomic_guards\":"<<guards<<",\"checks\":"<<checks<<",\"mismatches\":0}\n";return 0;
+ }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

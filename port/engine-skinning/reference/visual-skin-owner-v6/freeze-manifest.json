@@ -1,0 +1,83 @@
+{
+  "validation": "PASS",
+  "production_source_sha256": {
+    "port/engine-skinning/visual_skin_owner_v6.cpp": "401a84f120029150dd25de3bb86e063c4f14a12df02deb9d3c175b4c35a157e7",
+    "port/engine-skinning/visual_skin_owner_v6.hpp": "8908d89b56b2768c6b6e8c1311229fcf846368beb1a53d076e87a5aa80d9f50a",
+    "port/engine-skinning/visual_skin_selection_v6.cpp": "5fd4136601821c8cdc1ab5bacd1f17f30d0aaedbe708dbd03a82de5ccd9d968d",
+    "port/engine-skinning/visual_skin_selection_v6.hpp": "d9293ee7d7bbbe38be513fe50dbcf891608a6d4e8d61889fbae3a7289cd2c3b3"
+  },
+  "source_sha256": {
+    "port/engine-skinning/tests/visual_skin_inventory_v6.cpp": "e347d8cd84678fbc83e416dcf17dc723c2227faddb80e7d3e74143df1bedbef2",
+    "port/engine-skinning/tests/visual_skin_owner_v6.cpp": "e3113d86222ee9c1da4eb577b4e5c7f403a5a3b6f285d1a3ad9108c50943915b",
+    "port/engine-skinning/tests/visual_skin_selection_v6.cpp": "4fdd7c7973f4d104c61d5a94ef7fb36e4ccb46379cdb29eb0ebb91899ca3e967",
+    "port/engine-skinning/tools/audit_visual_skin_owner_v6_host.py": "ea251a061acf7347c22a4f4d72f00a7a32dadff114009b7f59332c04656a9125",
+    "port/engine-skinning/tools/emit_visual_skin_selection_v6_fixture.py": "30dff94bc8ba4d1559893ff81e37806fe7ab4a399721e3d27b9ba2d6607b6f36",
+    "port/engine-skinning/tools/freeze_visual_skin_owner_v6.py": "a413018331c1e5ca8ba783e835208942dc8d2b42f9764d96619d7ddf869605aa",
+    "port/engine-skinning/visual_skin_owner_v6.cpp": "401a84f120029150dd25de3bb86e063c4f14a12df02deb9d3c175b4c35a157e7",
+    "port/engine-skinning/visual_skin_owner_v6.hpp": "8908d89b56b2768c6b6e8c1311229fcf846368beb1a53d076e87a5aa80d9f50a",
+    "port/engine-skinning/visual_skin_selection_v6.cpp": "5fd4136601821c8cdc1ab5bacd1f17f30d0aaedbe708dbd03a82de5ccd9d968d",
+    "port/engine-skinning/visual_skin_selection_v6.hpp": "d9293ee7d7bbbe38be513fe50dbcf891608a6d4e8d61889fbae3a7289cd2c3b3"
+  },
+  "proof_sha256": {
+    "port/engine-skinning/reference/visual-skin-owner-v6/inventory-original-gold.json": "8da663dcd92364ddb827912baf9abc8dcc06b059349c8718caf0083d6d7163b6",
+    "port/engine-skinning/reports/visual-skin-owner-v6-host-audit-v1.json": "f9028ead5a21b34af3feec0a0a4995cb49dedba36978a1ecee32c6a04edacdcc",
+    "port/engine-skinning/reports/visual-skin-selection-v6-arm64-differential.json": "2502a9d167643472d9f82b5dca50fae03cd74b3092ece51302ddba2bb6b04fed"
+  },
+  "reference_sha256": {
+    "port/engine-skinning/reference/visual-skin-owner-v6/catalog.json": "ded4a7bff3c6847eba977d4311fca96e86282fc6c5c3827a1be48f3ab20162a0",
+    "port/engine-skinning/reference/visual-skin-owner-v6/construction/original-functions.json": "20191190d9b12623da947ceeef8017b34087709045a60b4397f35a00e4c8c6a9",
+    "port/engine-skinning/reference/visual-skin-owner-v6/construction/reference/original-functions.asm": "9e90fd57f589bad91d65d26b881b51dcc8225e64cb4405b2e993d4a5b0387d74",
+    "port/engine-skinning/reference/visual-skin-owner-v6/deeper/original-functions.json": "9b94af3f2e7d597a62650200b8cf9bd3ba04dbec9f7ac627e8575f9a6167cf78",
+    "port/engine-skinning/reference/visual-skin-owner-v6/deeper/reference/original-functions.asm": "a3830e0cd012b264519fff83e2eba1da443ea97e5851faadcd498e314378aeb5",
+    "port/engine-skinning/reference/visual-skin-owner-v6/factories/original-functions.json": "686653967b1ee859d4ddca4b5ba90230ad01455314725e29408167cbf0cecf20",
+    "port/engine-skinning/reference/visual-skin-owner-v6/factories/reference/original-functions.asm": "467eaa2423a6be9ad7e43bca1447c614a59834e44a2224593754b536168cd2de",
+    "port/engine-skinning/reference/visual-skin-owner-v6/inventory-fixtures.bin": "8e6a2bbda9c58974c4d9cad20b32c70a43a5a33ce3db48879858a28bd25b1d74",
+    "port/engine-skinning/reference/visual-skin-owner-v6/inventory-original-gold.json": "8da663dcd92364ddb827912baf9abc8dcc06b059349c8718caf0083d6d7163b6",
+    "port/engine-skinning/reference/visual-skin-owner-v6/NOTES.md": "820bd1f13f1238a99c3e41421173bdd469a0e5ea3e65fc98e648f1c27e173ef2",
+    "port/engine-skinning/reference/visual-skin-owner-v6/selection-fixtures.bin": "52e14ec32e36d41127671e303d9ad2ef72252d27b7398f1811e79173ecc424ed",
+    "port/engine-skinning/reference/visual-skin-owner-v6/selection-fixtures.json": "6f6595f64005d9054b97f71936f8e1c370167e8cffafe254ad81c97ebdda7cd5",
+    "port/engine-skinning/reference/visual-skin-owner-v6/weapon-manifest.json": "68814e04c459b0a569a45a75b1333e0611bec463855eb9a291e34d4b49e00c6b",
+    "port/engine-skinning/reference/visual-skin-owner-v6/wrappers/original-functions.json": "e0a58b81079318fb622c3009ccdeb4984521ee57a013e295d9b70031d74eb54c",
+    "port/engine-skinning/reference/visual-skin-owner-v6/wrappers/reference/original-functions.asm": "6b34260d784dc0e11964160cc3d1c8e36971e02956205ec81126ba26883bdf61"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_probe_dependency_sha256": {
+    "port/game-data/tests/fresh_inventory_owned_v4_original.py": "46237659f91c2cda7e44838b813e10062c8bf0dca429db79af7f1659f8e74430",
+    "port/game-data/tests/fresh_inventory_v2_original.py": "fe9bc78a4ed7a3765c0a12c0da605717b487ce58cc2d18a413b6e68780d6a39a",
+    "port/game-data/tests/item_inventory_v1_original.py": "ad586044ca5861b18aa45ed4c11cf8a5c6543433027d732316f74b909d79787e",
+    "port/game-data/tests/player_savegame_v1_original.py": "9ee8850a604f5b786cc937893745c5097ad6f839bd72a47f4072e210bdfe4c25",
+    "port/game-data/tests/items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port/game-data/tests/fresh_inventory_owned_v4_arm64.py": "d077fc7af99bfb18433a69e7f139dd48685c56cd4a18743898d6d6b8ddd7c012",
+    "port/game-data/tests/fresh_inventory_v2_arm64.py": "8d9d1778cf6c01ad0dadaf4e3a9332875b0b6c5ac7664a742a133eed3b6d3d0d",
+    "port/engine-resources/tests/cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port/level-world/tests/navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148",
+    "port/engine-skinning/tests/visual_skin_selection_v6_differential.py": "1e93a61349bd1b4c6eb254d467c75fbc90638f02fb591bd33ecd8b5bda368308"
+  },
+  "additional_localization_input_sha256": {
+    "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.english": "ce07a456aaf8a8d914b210e62e40a5606bcc9a3a40348c958063bcc10e3c4000",
+    "port/android-native/app/src/main/assets/original-cache/data/text/global.english": "020a1779505fda2387cd4b2506aa0ac2ae04d7467405edb10eaefdff3049e568",
+    "port/android-native/app/src/main/assets/original-cache/data/text/ingame.english": "445b1ea59be3f9a9a39753afda8f16825840a67982336c072e2b11a7769f2bff",
+    "port/android-native/app/src/main/assets/original-cache/data/text/items.english": "c1b2c984b5c8b24d3c0c9f0d69a65c4a54cde7275cef0c122361229e4c9604f3"
+  },
+  "borrowed_dependency_sha256": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "libdh2_engine_ui.so": "dce79dc1f2afab048e84e13cc40d9c266c32660a4960f65ae630491cd197e913",
+    "libdh2_game_data.so": "7648f5aa137edf0a0c97ca457a75eb5b1d93aa2b3927cf1188f89a11833ff7e3",
+    "libdh2_level_world.so": "865c6d23f6b20b334bdb215953b8c716bd69058f7d1d0b3709b11feff055de3d",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "93621af10461136d20bb8e93193a79b1999b90e33056343d6293f22766de48c2"
+  },
+  "scope": {
+    "same_authoritative_V4_inventory": true,
+    "all_three_actual_starter_classes": true,
+    "actual_172_module_resources": true,
+    "actual_781_weapon_resources": true,
+    "retained_native_skin_graph": true,
+    "source_selection_original_O2_instruction_parity": true,
+    "deep_original_factory_execution": false,
+    "original_GPU_packed_buffer_ABI": false,
+    "full_render_material_texture_factories": false,
+    "APK_or_device": false
+  }
+}

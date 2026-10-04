@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "cases": 650,
+  "ordered_services": 22584,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "867c6a9d8964fdfb435b0613d2289a1fb9a4f4eb0a3e1d023a5d2a086ea74941",
+  "gold_sha256": "ec2db07d099909cdadc8599e08977b6f8212ab1ed170ccddcb63cc649920f41e",
+  "scope": "Complete original InfoHUDManager methods vs O2 native services coordinator.\nWorld/player/AS/cache/script/camera services are explicit projections; all captured\nmanager instructions, arithmetic, field gates and traversal execute. Original\nRenderFX GotoFrame body executes genuine virtual order. No full backend claim.\n"
+}

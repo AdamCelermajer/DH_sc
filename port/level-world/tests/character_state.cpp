@@ -45,9 +45,10 @@ int main(int argc,char** argv){
  try{
   require(argc==2,"usage: character_state REFERENCE");std::ifstream input(argv[1],std::ios::binary);require(bool(input),"open reference");
   auto magic=read<std::uint32_t>(input),count=read<std::uint32_t>(input);require(magic==0x31545343,"reference format");
-  Fixture fixture;Services services{&fixture,callback};std::uint64_t request_count=0;
+  Fixture fixture;Services services{&fixture,callback};std::uint64_t request_count=0;unsigned isolated_bodies=0,isolated_events=0;
   for(std::uint32_t index=0;index<count;++index){
    Case item=read<Case>(input);State state=read<State>(input);Facts facts=read<Facts>(input);State expected=read<State>(input);
+   const State initial=state;const Facts initial_facts=facts;
    fixture.calls.clear();fixture.mode=item.callback_mode;fixture.facts=&facts;int result=0;
    if(item.operation==0)result=dh2_character_state_transition(&state,&facts,static_cast<std::int32_t>(item.a),static_cast<std::int32_t>(item.b),item.payload,&services);
    else if(item.operation==1)result=dh2_character_state_event(&state,&facts,item.a,item.payload,&services);
@@ -57,6 +58,22 @@ int main(int argc,char** argv){
    else throw std::runtime_error("reference operation");
    if(result!=static_cast<int>(item.result)||!state_equal(expected,state)||fixture.calls.size()!=item.count){std::fprintf(stderr,"case %u operation %u\n",index,item.operation);throw std::runtime_error("original state/return mismatch");}
    for(std::uint32_t n=0;n<item.count;++n)require(request_equal(read<Request>(input),fixture.calls[n]),"original ordered service mismatch");
+   if(item.operation==0){
+    State composed=initial;Facts composed_facts=initial_facts;Fixture bodies;bodies.mode=item.callback_mode;bodies.facts=&composed_facts;Services body_services{&bodies,callback};const auto previous=composed.current;
+    if(previous!=-1)require(dh2_character_state_blur_body(&composed,&composed_facts,&body_services)==1,"isolated Blur body");
+    composed.current=static_cast<std::int32_t>(item.a);if(previous!=composed.current)composed.elapsed_ms=0;
+    require(dh2_character_state_focus_body(&composed,&composed_facts,previous,item.payload,&body_services)==1,"isolated Focus body");
+    const Request notification{raise_event,{0x1d,previous,0},0,0,std::uint64_t(std::int64_t(previous))};callback(&bodies,&composed,&notification);
+    require(state_equal(expected,composed)&&bodies.calls.size()==fixture.calls.size(),"isolated bodies original result mismatch");
+    for(unsigned n=0;n<bodies.calls.size();++n)require(request_equal(fixture.calls[n],bodies.calls[n]),"isolated bodies original ordered mismatch");++isolated_bodies;
+   }
+   if(item.operation==1&&item.result==0&&initial.current!=-1){
+    State composed=initial;Facts composed_facts=initial_facts;Fixture bodies;bodies.mode=item.callback_mode;bodies.facts=&composed_facts;Services body_services{&bodies,callback};
+    if(item.a>=0x2a&&item.a<=0x2c)composed.attack_gate&=~(1u<<(item.a-0x2a));
+    require(dh2_character_state_event_body(&composed,&composed_facts,item.a,&body_services)==1,"isolated OnEvent body");
+    require(state_equal(expected,composed)&&bodies.calls.size()==fixture.calls.size(),"isolated event original result mismatch");
+    for(unsigned n=0;n<bodies.calls.size();++n)require(request_equal(fixture.calls[n],bodies.calls[n]),"isolated event original ordered mismatch");++isolated_events;
+   }
    request_count+=item.count;
   }
   require(input.peek()==std::ifstream::traits_type::eof(),"trailing reference bytes");
@@ -83,7 +100,7 @@ int main(int argc,char** argv){
   require(fixture.calls.size()==11,"reentry service count");for(unsigned n=0;n<11;++n)require(fixture.calls[n].service==order[n],"reentry service order");
   require(fixture.calls[2].argument[0]==253,"AttackMoving source Attack+stance selection");
   require(fixture.calls[7].argument[0]==400&&fixture.calls[7].argument[2]==0x2a,"attack blur delay event");
-  std::printf("{\"original_reference_cases\":%u,\"ordered_service_requests\":%llu,\"malformed_no_mutation_cases\":%u,\"synchronous_reentry_passed\":true,\"mismatches\":0}\n",count,static_cast<unsigned long long>(request_count),malformed);
+  std::printf("{\"validation\":\"PASS\",\"original_reference_cases\":%u,\"ordered_service_requests\":%llu,\"malformed_no_mutation_cases\":%u,\"isolated_Focus_Blur_original_cases\":%u,\"isolated_OnEvent_original_cases\":%u,\"synchronous_reentry_passed\":true,\"mismatches\":0}\n",count,static_cast<unsigned long long>(request_count),malformed,isolated_bodies,isolated_events);
   return 0;
  }catch(const std::exception& failure){std::fprintf(stderr,"character_state audit: %s\n",failure.what());return 1;}
 }

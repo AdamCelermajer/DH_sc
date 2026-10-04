@@ -197,6 +197,8 @@ def main():
 
     def travel(index, destination, bounds):
         velocities = {}
+        no_motion_pulses = 0
+        minimum_duration = .08
         for _ in range(50):
             wait(lambda text: bool(transitions(text)) and transitions(text)[-1]['current']==3)
             before = logs()
@@ -212,6 +214,7 @@ def main():
             magnitude = .35 if mode == 'Walk' else .9
             axes[index] = magnitude if distance > 0 else -magnitude
             duration = .2 if velocity is None else min(.6, max(.08, abs(distance)/velocity*.65))
+            duration = min(.6,max(duration,minimum_duration))
             duration_ms = round(duration*1000)
             count = len(POSITION.findall(before))
             offset = len(before)
@@ -238,7 +241,19 @@ def main():
                              'input_method': 'stationary Android touchscreen swipe',
                              'locomotion': mode, 'command_wall_seconds': command_seconds,
                              'native_walk_entry_observed': True, 'settled_idle_measured': True})
-            assert change > .1, 'Touch waypoint blocked; needs an explicit reviewed setup adapter, not a fabricated position'
+            if change <= .1:
+                # The recovered incoming timeline can consume its first two
+                # scene frames without root displacement. A wall-clock swipe
+                # during an emulator stall can release before a moving frame.
+                # Preserve that observation and repeat only genuine input;
+                # no position write, collision bypass or accepted zero move.
+                movement[-1]['no_motion_pulse'] = True
+                no_motion_pulses += 1
+                assert no_motion_pulses <= 2, 'Three real touch pulses produced no displacement; waypoint remains unverified'
+                minimum_duration = min(.6,duration_ms/1000*2)
+                continue
+            no_motion_pulses = 0
+            minimum_duration = .08
             velocities[mode] = change/(duration_ms/1000)
         raise AssertionError('Crypt waypoint not reached by actual movement controls')
 
@@ -278,6 +293,19 @@ def main():
         report['out_of_reach_ui_rejected'] = True
         for index, destination in ((1, -1000), (0, -1390), (1, -370)):
             travel(index, destination, bounds)
+        # Turning/root motion can change the other coordinate during the last
+        # leg. A completed one-axis waypoint is not a two-dimensional arrival.
+        # Correct through bounded genuine controls and retain every observation.
+        for _ in range(4):
+            arrived = position(logs())
+            if abs(arrived[0]+1390)<35 and abs(arrived[1]+370)<35:
+                break
+            travel(0,-1390,bounds)
+            travel(1,-370,bounds)
+        arrived = position(logs())
+        assert abs(arrived[0]+1390)<35 and abs(arrived[1]+370)<35, 'Final two-dimensional combat approach not reached'
+        report['combat_approach'] = {'destination_xy':[-1390,-370], 'actual_xyz':arrived,
+                                     'per_axis_tolerance':35,'genuine_touch_only':True}
         wait(lambda text: bool(transitions(text)) and transitions(text)[-1]['current'] == 3)
         adb('shell', 'am', 'start', '-W', '--activity-single-top', '-n', 'com.example.dh2/.MainActivity',
             '--ei', 'object_index', '4', '--ei', 'time_ms', '-1')

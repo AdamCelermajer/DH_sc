@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK16CharStateMachine20SM_IsAwaitingToSpawnEv",
+      "elf_address": "0x3c0230",
+      "size": 24,
+      "sha256": "9c84b7e9a22ca895a54266c1e32ba749e1e3afb08f001790d6a112896ace8494"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI17AI_IsInCloseRangeEPK10GameObject",
+      "elf_address": "0x3d63d8",
+      "size": 556,
+      "sha256": "d0b1a5d5f0ec99b6007ca622a8e03a7110c4afbe83da5afbc3d858cfdce542ce"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine13SM_IsInLimbusEv",
+      "elf_address": "0x3c01c0",
+      "size": 20,
+      "sha256": "9a5a7da0e51a2036859e2a5634b8b29dce869733922178f3d9f15430b7c2b3a7"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI17AI_IsInMeleeRangeEPK10GameObject",
+      "elf_address": "0x3d6188",
+      "size": 592,
+      "sha256": "6c13d41b93867847c30a7ab0d56dea1bc82b864d278bc000e2f024628ae4a624"
+    }
+  ]
+}

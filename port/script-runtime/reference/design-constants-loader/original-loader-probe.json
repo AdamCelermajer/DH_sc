@@ -1,0 +1,351 @@
+{
+  "validation": "PASS",
+  "scope": "Actual original reloadData, bounded name readers, owned RB map insertion/string helpers and getConstant instructions; caller allocator/libc/arithmetic/thread imports explicit, logger call sites skipped.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "probe_sha256": "bcebcf8cf554bdb3ed3acf8aca8f62fd7682754e3b0aa7e0721a50cc7650a302",
+  "functions_manifest_sha256": "a574629ffcdae9f244d8fd6bb8e89623368fd6460efc41f6cbdb445da052f20d",
+  "gold_sha256": "a0da51c378a8e651f7f0dcca9b3c9a5e09651c978ed662b3015a8cb609b3529f",
+  "original_loads": 36,
+  "original_queries": 5969,
+  "assignments": 5646,
+  "unique_entries": 5644,
+  "inputs": [
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/ai_pycst.bin",
+      "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e",
+      "bytes": 1042,
+      "consumed": 1042,
+      "assignments": 58,
+      "groups_complete": 7,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pycst.bin",
+      "sha256": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f",
+      "bytes": 1089,
+      "consumed": 1089,
+      "assignments": 57,
+      "groups_complete": 5,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_classes_pycst.bin",
+      "sha256": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84",
+      "bytes": 251,
+      "consumed": 251,
+      "assignments": 10,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pycst.bin",
+      "sha256": "48024ac14ed9994cfb899cb83d161b461bf78f0b7c10ff6efee0860277f14f52",
+      "bytes": 762,
+      "consumed": 762,
+      "assignments": 27,
+      "groups_complete": 7,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/common_text_pycst.bin",
+      "sha256": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5",
+      "bytes": 155738,
+      "consumed": 155738,
+      "assignments": 4656,
+      "groups_complete": 4,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/design_pycst.bin",
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+      "bytes": 3999,
+      "consumed": 3999,
+      "assignments": 152,
+      "groups_complete": 13,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/dialogs_pycst.bin",
+      "sha256": "9625936dfb9f0fc86da76f36ae66c435e5b56f89c896918bd752243b1387ea06",
+      "bytes": 492,
+      "consumed": 492,
+      "assignments": 21,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_pycst.bin",
+      "sha256": "f821c078e34e22df340cac5d6b4e88ae02a0698ad9d9df7e4cbc6bede6a7a625",
+      "bytes": 124,
+      "consumed": 124,
+      "assignments": 6,
+      "groups_complete": 2,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/engine_core_pycst.bin",
+      "sha256": "2b61a269d8feefbcf1419e213c887d00fe9bcc8febf63b43340d37391e27376c",
+      "bytes": 1217,
+      "consumed": 1217,
+      "assignments": 57,
+      "groups_complete": 8,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/faeries_pycst.bin",
+      "sha256": "559a9e44bfa3d1c6cbb9b234523a893d241f6021f464e86b6589da7c0d4930d5",
+      "bytes": 165,
+      "consumed": 165,
+      "assignments": 9,
+      "groups_complete": 2,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/fonts_pycst.bin",
+      "sha256": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa",
+      "bytes": 163,
+      "consumed": 163,
+      "assignments": 11,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/game_objects_pycst.bin",
+      "sha256": "055dadeb6982ebfa47220574b10999a4f9eb78375dfd3f33f69a475313ee4597",
+      "bytes": 1570,
+      "consumed": 1570,
+      "assignments": 63,
+      "groups_complete": 17,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/item_powers_pycst.bin",
+      "sha256": "0bc21dbcee7dfe61394968f758d2eca5c08bd68af04b8ed1d251878b38c4c981",
+      "bytes": 1414,
+      "consumed": 1414,
+      "assignments": 63,
+      "groups_complete": 2,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/levels_pycst.bin",
+      "sha256": "a620d7813bdd92b63b0863cf95f840389d9f358b56d823d8e31313f80ff87c10",
+      "bytes": 308,
+      "consumed": 308,
+      "assignments": 15,
+      "groups_complete": 3,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_audiovisual_pycst.bin",
+      "sha256": "ff1b4a1a5faee0ee2d8cac9bf5113db0eff1a991632b120c4335e8b1b7dc1b34",
+      "bytes": 85,
+      "consumed": 85,
+      "assignments": 5,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pycst.bin",
+      "sha256": "bf60c406ba80b49d337bc82dda35f2f6bc2848d1d6983a37cfb0f881d24cb6fe",
+      "bytes": 1680,
+      "consumed": 1680,
+      "assignments": 91,
+      "groups_complete": 12,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/multiplayer_pycst.bin",
+      "sha256": "5026e0c6aedf643403685deee33defdf2a3f3b56be4a3b6cd1d443e9fe4a5466",
+      "bytes": 97,
+      "consumed": 97,
+      "assignments": 5,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/projectiles_pycst.bin",
+      "sha256": "6be57b10285fdf43c112e00130b00654054597b28b38d34de7ca7cc0142f8595",
+      "bytes": 47,
+      "consumed": 47,
+      "assignments": 1,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts_pycst.bin",
+      "sha256": "8a48588048c3eb7dbe559aae89804a947b391eab67894aaa73f588437a497fd1",
+      "bytes": 1731,
+      "consumed": 1731,
+      "assignments": 80,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/skills_pycst.bin",
+      "sha256": "302879d1b1bb035380f7be9e87c385ceadbc2e58a94e8f1b9285747a307801f1",
+      "bytes": 83,
+      "consumed": 83,
+      "assignments": 4,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/specs_pycst.bin",
+      "sha256": "a1a29eb6918860afc8d9c264c4d1856da9a3dae157536de40b3e2c3e9d5930f5",
+      "bytes": 73,
+      "consumed": 73,
+      "assignments": 3,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/trophies_pycst.bin",
+      "sha256": "30813ee63573f83bf39e5766eb024e086c702c3ef7fec42f49f4488c6c32fd14",
+      "bytes": 2928,
+      "consumed": 2928,
+      "assignments": 155,
+      "groups_complete": 4,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2conditions_pycst.bin",
+      "sha256": "6a5bef06a0eff222c6cae50312bf5c42dfef421f3fed85e3d3122ede2d6550e7",
+      "bytes": 230,
+      "consumed": 230,
+      "assignments": 8,
+      "groups_complete": 2,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2eventmanager_pycst.bin",
+      "sha256": "13e1ace862c6a8c0857a42fd0476e2ddf7a002389e004a055fb3363ace60e8c8",
+      "bytes": 84,
+      "consumed": 84,
+      "assignments": 4,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2quests_pycst.bin",
+      "sha256": "35feff579bdb6b36fef849afea06044830af9dd6180953727179ecc12926ac6a",
+      "bytes": 805,
+      "consumed": 805,
+      "assignments": 40,
+      "groups_complete": 4,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/worldmap_pycst.bin",
+      "sha256": "0d4151ee2f104b13e0f1607d7927d238121041e9fbb37084ddfe1ecc17a0c0e6",
+      "bytes": 163,
+      "consumed": 163,
+      "assignments": 7,
+      "groups_complete": 2,
+      "source_name_stop": false
+    },
+    {
+      "input": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/sounds_pycst.bin",
+      "sha256": "9fce841dd84f0b6f39ab3d57dac8e8bd89288c3eb07949f9f2ddb8e421d0de41",
+      "bytes": 1283,
+      "consumed": 994,
+      "assignments": 27,
+      "groups_complete": 6,
+      "source_name_stop": true
+    },
+    {
+      "input": "synthetic/0",
+      "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+      "bytes": 4,
+      "consumed": 4,
+      "assignments": 0,
+      "groups_complete": 0,
+      "source_name_stop": false
+    },
+    {
+      "input": "synthetic/1",
+      "sha256": "ebd0bcf1d73a0494c4a94fb146748eca36adab8f0a23973ac1ae029c474339a8",
+      "bytes": 62,
+      "consumed": 62,
+      "assignments": 3,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "synthetic/2",
+      "sha256": "4f5d66ba7084ae00b73defe687c72a465aa0408f773cd784d82f10eb2de3e7bf",
+      "bytes": 66,
+      "consumed": 66,
+      "assignments": 2,
+      "groups_complete": 3,
+      "source_name_stop": false
+    },
+    {
+      "input": "synthetic/3",
+      "sha256": "d38e5d41d602602ca897864f4c6d95e3192a959639ff2b05fe52f9b62b886f2c",
+      "bytes": 66,
+      "consumed": 66,
+      "assignments": 3,
+      "groups_complete": 2,
+      "source_name_stop": false
+    },
+    {
+      "input": "synthetic/4",
+      "sha256": "3c45209d80f8df6e3160954e3f14b3039e6e67e37610c4dabddda8d6f26b70ff",
+      "bytes": 51,
+      "consumed": 51,
+      "assignments": 1,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "synthetic/5",
+      "sha256": "ea8695b1fb7a06057bfe27f27e4660d174d71ade2b2e52f23a47ea430eac85d3",
+      "bytes": 530,
+      "consumed": 530,
+      "assignments": 1,
+      "groups_complete": 1,
+      "source_name_stop": false
+    },
+    {
+      "input": "synthetic/6",
+      "sha256": "07f68e39c5b4cf4f7c33a8913749ee79758613ea750b7eb2ddbc3e23ec6493a3",
+      "bytes": 283,
+      "consumed": 263,
+      "assignments": 0,
+      "groups_complete": 0,
+      "source_name_stop": true
+    },
+    {
+      "input": "synthetic/7",
+      "sha256": "d4e18ce3a6cf530ffb58cc55e9353c80da6be2c04795e5adc5d85701799e047d",
+      "bytes": 306,
+      "consumed": 288,
+      "assignments": 1,
+      "groups_complete": 0,
+      "source_name_stop": true
+    },
+    {
+      "input": "synthetic/8",
+      "sha256": "86e20d1edc77a92e5b9dad87bea74b84ba319a3412746378967013e2bc4d214d",
+      "bytes": 31,
+      "consumed": 17,
+      "assignments": 0,
+      "groups_complete": 1,
+      "source_name_stop": false
+    }
+  ],
+  "ordinary_constant_files": 26,
+  "sound_generic_loader_complete": false,
+  "application_file_order_proved": false,
+  "full_sound_format_decoded": false,
+  "allocator_calls": 83,
+  "stream_reads": 17343,
+  "skipped_logger_calls": [
+    "0x4c544c",
+    "0x4c5464",
+    "0x4c5470",
+    "0x4c547c"
+  ]
+}

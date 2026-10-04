@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRN3sfc6script3lua12ReturnValuesE",
+      "elf_address": "0x37c494",
+      "size": 128,
+      "sha256": "f26b03d05e3f9886a18f7d3de525a2cc05d067335ab5d74aad39800fda057538"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKc",
+      "elf_address": "0x37c514",
+      "size": 112,
+      "sha256": "bd5f9d01fa32fcf2e4e458d913958481ded2d873a49c0165c4069484374f29fc"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnEndOfAnimEv",
+      "elf_address": "0x3dbeec",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14OnStateChangedEii",
+      "elf_address": "0x3d0bec",
+      "size": 36,
+      "sha256": "6b77a2b9a1797ffad40e31858b3ad939c8e8f12347408a908ac79ee44eeae330"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault14OnStateChangedEii",
+      "elf_address": "0x3dbe8c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal11OnEndOfAnimEv",
+      "elf_address": "0x3dccd0",
+      "size": 36,
+      "sha256": "35f25adde6f0a2e252ff71ddece3b95ff7fc879d80cecd609c72b65f512e4d33"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11OnEndOfAnimEv",
+      "elf_address": "0x3d0ce8",
+      "size": 36,
+      "sha256": "7ce0618563c3b8418ecc9451ee09255e1591f92dabc2e089a41021675deef30d"
+    }
+  ]
+}

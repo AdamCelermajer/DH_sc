@@ -1,0 +1,10 @@
+import argparse,hashlib,json,subprocess
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[3]
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def main():
+ p=argparse.ArgumentParser();p.add_argument('--output',type=Path,default=ROOT/'port/engine-ui/reports/hud-sprite-timeline-host-audit.json');p.add_argument('--build-dir',default='/home/adampalace/dh2-hud-timeline-audit');a=p.parse_args();paths=['port/engine-ui/hud_sprite_timeline.hpp','port/engine-ui/hud_sprite_timeline.cpp','port/engine-ui/tests/hud_sprite_timeline.cpp'];before={x:sha(ROOT/x) for x in paths};repo='/mnt/c/'+str(ROOT)[3:].replace('\\','/');exe=a.build_dir+'/hud_sprite_timeline_audit';gold=ROOT/'port/engine-ui/reference/hud-sprite-timeline/scheduling-gold.bin'
+ def run(args):
+  q=subprocess.run(args,capture_output=True,text=True);assert q.returncode==0,(q.args,q.stdout,q.stderr);return q.stdout.strip()
+ run(['wsl','-e','mkdir','-p',a.build_dir]);run(['wsl','-e','g++','-std=c++17','-O1','-g','-fPIC','-fsanitize=address,undefined','-fno-omit-frame-pointer','-Wall','-Wextra','-Werror','-Wno-misleading-indentation','-I'+repo+'/port/engine-ui',repo+'/port/engine-ui/hud_sprite_timeline.cpp',repo+'/port/engine-ui/tests/hud_sprite_timeline.cpp','-o',exe]);result=json.loads(run(['wsl','-e','env','ASAN_OPTIONS=detect_leaks=1:halt_on_error=1','UBSAN_OPTIONS=halt_on_error=1',exe,repo+'/port/engine-ui/reference/hud-sprite-timeline/scheduling-gold.bin']));after={x:sha(ROOT/x) for x in paths};assert before==after;report=dict(validation='PASS',**result,source_sha256=before,gold_sha256=sha(gold),executable_sha256=run(['wsl','-e','sha256sum',exe]).split()[0],sanitizers=['address','undefined','leak'],sanitizer_findings=0,scope='Actual full original caller-instruction scheduling gold, including80 original/native recursive cases. Tags/reverse/sound/weak dirty-notification are explicit required services. Fixed borrowed buffer domain, no full source SWF/AS/frame claim.');a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))
+if __name__=='__main__':main()

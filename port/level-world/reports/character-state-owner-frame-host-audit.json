@@ -1,0 +1,80 @@
+{
+  "validation": "PASS",
+  "scope": "Isolated actual source owner/frame/body composition; ASan/UBSan/leak replay.\nNo central DSO, APK, emulator or full game-service parity claim.\n",
+  "host_audit": {
+    "validation": "PASS",
+    "original_bounded_frame_cases": 906,
+    "original_bounded_body_requests": 879,
+    "original_outer_frame_cases": 1536,
+    "original_outer_service_requests": 5808,
+    "other_update_metadata_deliveries": 1104,
+    "nested_source_owner_frame_checks": 3,
+    "captured_elapsed_reload_checks": 1,
+    "guard_and_prefix_checks": 16,
+    "mismatches": 0
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reference_sha256": {
+    "port/level-world/reference/character-state/state-reference.bin": "9e11a899a29f9682959c00e988ad4fc04ee4a3f610de9044e933d47997d27a57",
+    "port/level-world/reference/character-native-fsm/native-update-fixtures.bin": "d858922977f299cab0944d62433acd1f00b573d7ac148054cdbf408a1cc31664"
+  },
+  "source_sha256": {
+    "port/level-world/character_state.cpp": "73d08ae28e2fea576bfc03d5377c5d096be5fc07f1d33ae228227d06495d10c6",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/level-world/character_native_fsm.cpp": "58f7544dc7c4d693f5e6b97a2165c1d645e161e46ab349de48627886ac56ebac",
+    "port/level-world/character_native_fsm.hpp": "525e057929c23b8ed8b45b71a3912b100457ca844b98b575ba11eacc310bdf1b",
+    "port/level-world/character_state_owner.cpp": "c26077ba5a5c1383c81a32f72d60f0e0611204d237d6541bf7845abba72a2820",
+    "port/level-world/character_state_owner.hpp": "0d755e64ed5301e93e623d7825eeab5e87ea0a4f32f6eddbfb61c8f65f99cebd",
+    "port/level-world/character_state_owner_data.inc": "d9cae0c70b8a59db8d66afb3559c5aceeb8241b67528fcc3b4eade57940da634",
+    "port/level-world/character_state_owner_behavior.cpp": "36da18ca632a39ea032e1ff4fd70e152ba37cace03557a1a22045808cfc78ce6",
+    "port/level-world/character_state_owner_behavior.hpp": "5c3d2e6c58960a2eb6cc16bef179cbd72efcd98ab5b3285f2ccb4583859879b1",
+    "port/level-world/character_state_owner_frame.cpp": "d506ba5eac38e2e9991957e586365eccfbe9eeff439b07ed8f4b015fe9eca851",
+    "port/level-world/character_state_owner_frame.hpp": "1c3e6b69e9e8e853ed7aba6bdb0466e99a9262a91bc0ec561320026c2d7fac51",
+    "port/level-world/tests/character_state_owner_frame.cpp": "623720ab0432dddf3e606fd2476335d161d097f172479ab465c957712948ec5d",
+    "port/level-world/tests/character_state_owner_frame_host.py": "409b92fe29751101e3c86c7dba108c50c68fc055527ffbc383eaba01d244ef4c",
+    "port/script-runtime/script_runtime.h": "6da3b8ae002da1eb75cd64d03120d37668ebec198ce3d3b5827096c43d08de14"
+  },
+  "executable_sha256": "3613bfdd3465f646a0377633eb7d0b102559e9b2213aea45d38a2af30dae646f",
+  "sanitizers": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "diagnostics": 0
+  },
+  "original_arm64_proofs": [
+    {
+      "path": "port/level-world/reports/character-state-owner-frame-arm64-differential.json",
+      "sha256": "90aa3dd7ecdfd8fe37bce86e5e76b1358d552f5728c40f579f425a2af4165060"
+    },
+    {
+      "path": "port/level-world/reports/character-state-owner-frame-outer-arm64-differential.json",
+      "sha256": "6f9c7ed212e0d0efd63de6b20f9f5d882274139e16cde8015f2e62b1a4b70d23"
+    }
+  ],
+  "compiler_command": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-g",
+    "-fno-omit-frame-pointer",
+    "-fsanitize=address,undefined",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_state.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_native_fsm.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_state_owner.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_state_owner_behavior.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/character_state_owner_frame.cpp",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world/tests/character_state_owner_frame.cpp",
+    "-o",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-state-owner-frame/frame_audit_final"
+  ],
+  "full_AI": false,
+  "full_effect_backends": false,
+  "central_DSO_used": false,
+  "other_behavior_families": "All sixteen remain mandatory caller providers with original Update address; observed deliveries are explicit fixtures.",
+  "effect_corpus_mutations": "Source pending-effect oracle fixtures update current projection coherently; separate nested checks use genuine owner transitions/events."
+}

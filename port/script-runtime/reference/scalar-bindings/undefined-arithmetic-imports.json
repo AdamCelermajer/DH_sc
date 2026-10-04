@@ -1,0 +1,36 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "c6964e829a90a08aeb2354e65a96da7c30f70207785aca93d7ce6dd979cf934c",
+  "imports": [
+    {
+      "name": "__aeabi_idiv",
+      "address": 0,
+      "size": 0,
+      "section": "SHN_UNDEF"
+    },
+    {
+      "name": "__aeabi_ui2f",
+      "address": 0,
+      "size": 0,
+      "section": "SHN_UNDEF"
+    },
+    {
+      "name": "__aeabi_f2iz",
+      "address": 0,
+      "size": 0,
+      "section": "SHN_UNDEF"
+    },
+    {
+      "name": "__aeabi_i2f",
+      "address": 0,
+      "size": 0,
+      "section": "SHN_UNDEF"
+    },
+    {
+      "name": "__aeabi_fmul",
+      "address": 0,
+      "size": 0,
+      "section": "SHN_UNDEF"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12ItemInstanceD0Ev",
+      "elf_address": "0x3faab0",
+      "size": 28,
+      "sha256": "fff0d9132de04c3634b67ac3a80a62f85cb27b3e466e3c118916f827781c91ba"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstanceD2Ev",
+      "elf_address": "0x3faacc",
+      "size": 76,
+      "sha256": "e2a1e4e66eb3ea008e310ff581e99d7a1ae609f37c44299abfe4e1849fb30704"
+    },
+    {
+      "original_symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv",
+      "elf_address": "0x3139ac",
+      "size": 52,
+      "sha256": "a253cd9243de86ccebdf90d3972ae68307d0585ee02ab438976b847e99b8bdda"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstanceD1Ev",
+      "elf_address": "0x3faa64",
+      "size": 76,
+      "sha256": "fbd77ccfef38b0a21441e513587be444f26de6af00dfa8c09bb2a8415748edda"
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Arrays15GameOptionTable4readEP11IStreamBase",
+      "elf_address": "0x4bc8e0",
+      "size": 312,
+      "sha256": "43c04f7fad95dbaf61fbfd5130ec045bebb12b86fee44efd2b8ffee051a63b0b"
+    },
+    {
+      "original_symbol": "_Z17UpdateSavedValuesv",
+      "elf_address": "0x43a8f0",
+      "size": 64,
+      "sha256": "b88d15813b92879affd0c1da37f316c8562a07dfc2206574047ddd551831c453"
+    },
+    {
+      "original_symbol": "_ZN11Application17GetDeviceLanguageEv",
+      "elf_address": "0x31f75c",
+      "size": 8,
+      "sha256": "6143299c415a779d14d46483b05772d81c6b595bc189b4499503e30275041932"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager13__loadOptionsEP11IStreamBasePv",
+      "elf_address": "0x46d8f4",
+      "size": 196,
+      "sha256": "9aa33fc46d13c5fdd1c32b1e239be3608ee1686fa47cb8d7bbd073a6d759643f"
+    },
+    {
+      "original_symbol": "_ZN9Character27UpdateInventoryLocalizationEv",
+      "elf_address": "0x3b36e4",
+      "size": 8,
+      "sha256": "9af1aad1c649d4134b1ab762e964bd272116537ebfa8b8c11e9f5df308e6ce10"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager11setLanguageEi",
+      "elf_address": "0x46d104",
+      "size": 380,
+      "sha256": "d1ef66513d257ab9814661a1477c538862480c5231ad106d755cc3c088978c9e"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager28__loadLanguageAndOrientationEP11IStreamBasePv",
+      "elf_address": "0x46c7b8",
+      "size": 528,
+      "sha256": "1cb58d913767ef0448b8ad2210ec24be7053465f56933154caad7ec4cc95347b"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsMerchantEv",
+      "elf_address": "0x3a30c4",
+      "size": 24,
+      "sha256": "cd67635d1bb9fc3c66dd5f4389a88dc243ed18421674eaf1a93d636ad390f84b"
+    },
+    {
+      "original_symbol": "_ZNK15SavegameManager9hasOptionEPKc",
+      "elf_address": "0x46d4a8",
+      "size": 48,
+      "sha256": "7c65d3095b378f2170591c06f1ec33abc34d96677c5c3b4e0ca6fc67f40add31"
+    },
+    {
+      "original_symbol": "_ZN7Structs10GameOption4readEP11IStreamBase",
+      "elf_address": "0x4f213c",
+      "size": 668,
+      "sha256": "43bd57d725fce92c1ac077c958d25e6e7a9224c7b244d3678019f4f104ed29bf"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager9setOptionEPKci",
+      "elf_address": "0x46d0d0",
+      "size": 52,
+      "sha256": "1edbc0b6c930c0f257933cd7088f9396d15c9dcf7cff7b4c927fd480c69a99b4"
+    },
+    {
+      "original_symbol": "_ZNK15SavegameManager9getOptionEPKc",
+      "elf_address": "0x46d474",
+      "size": 52,
+      "sha256": "3fcab59a9826462cc9e0219b962a0313718d2a02e9f2e76d909ad333adf27d7c"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader12readStringExEP11IStreamBasePcy",
+      "elf_address": "0x317454",
+      "size": 60,
+      "sha256": "4b98c1070f5b1fde5e9ea6a9ee65e66080cc78d4bc12e5694e9c24abc08cfdec"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a"
+    },
+    {
+      "original_symbol": "_ZN8SavegameC1EPKcb",
+      "elf_address": "0x315ed8",
+      "size": 112,
+      "sha256": "1af81c3bb801adb7d0de1020425e76b08c69caa4ec9f57fe92f73383067e57c1"
+    },
+    {
+      "original_symbol": "_ZN10ItemObject18UpdateLocalizationEv",
+      "elf_address": "0x3ebca8",
+      "size": 36,
+      "sha256": "d13d53d1fb5ca2c21533decf84cf7c728039e418332b71a25cd31367acc930de"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader10readStringEP11IStreamBasePcy",
+      "elf_address": "0x317734",
+      "size": 244,
+      "sha256": "7a5ddf3ee51d3f11ea0aea9b3666862146edec1c8681f8e1f5587acba9e8ea52"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager12loadSettingsEb",
+      "elf_address": "0x46e584",
+      "size": 296,
+      "sha256": "ffaeb99fcf890c2f924f061b4631d6a75091780be3131f1b664e8a53455e23c4"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManagerC1Ev",
+      "elf_address": "0x46cd4c",
+      "size": 140,
+      "sha256": "99cfb00e6c427703b4defdeba4d658bc692b8f7063c1f8adc3f233673cfef691"
+    },
+    {
+      "original_symbol": "_ZN6Arrays15GameOptionTable9readNamesEP11IStreamBase",
+      "elf_address": "0x4b360c",
+      "size": 408,
+      "sha256": "41c7944cf0658bd058641c6d13ac118d8b28ca8c35d0aeae8f16a401aa98ac1c"
+    },
+    {
+      "original_symbol": "_ZN11Application16ResetOrientationEi",
+      "elf_address": "0x31f748",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN8Savegame10_cacheFileEP12StreamBuffer",
+      "elf_address": "0x315ad0",
+      "size": 1032,
+      "sha256": "39a53e263f5393d735860207cd93d503e962d6a697e09c535cf83499ab47c677"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject12IsGameObjectEv",
+      "elf_address": "0x340054",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager13_initSettingsEb",
+      "elf_address": "0x46e47c",
+      "size": 264,
+      "sha256": "05ea9afd9230ff8b25a31e709eda4d16de018b024cc5b19e67c088a3ea55e7b4"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager15__loadTutorialsEP11IStreamBasePv",
+      "elf_address": "0x46c778",
+      "size": 32,
+      "sha256": "7b004aa0752a061ba4a0a6e44d93e31ae570ad8ca7919f9e785249bfba69af41"
+    },
+    {
+      "original_symbol": "_ZNK15SavegameManager11getLanguageEv",
+      "elf_address": "0x46d514",
+      "size": 100,
+      "sha256": "5dd77850e19415e4605757b1b236a5e4a426b22fba229997f1071f851e1fd95b"
+    }
+  ]
+}

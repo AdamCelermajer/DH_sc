@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character12GetCharFaeryEi",
+      "elf_address": "0x3aeac0",
+      "size": 540,
+      "sha256": "fe4e97ed7031dab0c7a88aee5cfb1057f3585d3cb28ee4fcbf874484bc8bfd6f"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsCastingEv",
+      "elf_address": "0x3c0334",
+      "size": 24,
+      "sha256": "4e1a1e64084c9860162ee9fefbd88e638681c392d047e812c1b397e15a0ea558"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharFaeryListIdEv",
+      "elf_address": "0x3ae5a0",
+      "size": 60,
+      "sha256": "c37053de3efe1748d58adb715bef2f581d9ca2b157b24fcbab4ab5ce47f6daca"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+      "elf_address": "0x3c02e8",
+      "size": 24,
+      "sha256": "774242e45789a641452a8aaeefe052685fb066dd31ffcdbfcc718b5562e97619"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "validation": "PASS",
+  "scope": "Complete original Spawn1 method instructions versus optimized ARM64; genuine empty fade/sync bodies execute, deeper services explicit.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "099eac5558cc012787808d0e0de2be05b555bbb3ce3688d58f8d0fd5a3d6b2bf",
+  "reference_sha256": "a23ddde403a56dae258956782ea9e166752de12622b9d501b959a9febea8c70f",
+  "source_sha256": {
+    "port/level-world/character_spawn_body.hpp": "f61c44da6e3756ae1c2e68557401cf320f0a9b076a7e2590210d49e38cccbc80",
+    "port/level-world/character_spawn_body.cpp": "3b81e92efb455f0ba2acc92a2bf2d08622c774f3da2460e45b4818a1825918c3",
+    "port/level-world/character_state.hpp": "9aaab47e7ff2cf762fca6d699b25178f69b206d6c6debe161a479ea12dc20f83",
+    "port/level-world/character_state_empty.hpp": "4d0791ec65ca99b68c233dc6f459562e35032dbd59638a463bfe1de591d0e64a",
+    "port/level-world/character_state_empty.cpp": "72ee801d1ea83f0dca1499fa03c9623f5c096e3a47191596a46c1a00ab38a62e",
+    "port/level-world/reference/character-state-methods/native-methods.inc": "508dc208f661105d0e3d9c1b7826383207b96638ad9a897c2ff927f3a6970ce1",
+    "port/level-world/tests/character_spawn_body_differential.py": "e925379a8445bf95837531dadc9faec590c6701a5e56d9cd6e3487886d975aed"
+  },
+  "original_capture_sha256": "cb207dd27d69bc3ac23d7e3789d8fc38e3d263b6dc488bff9afa758c2d1a92c2",
+  "comparisons": 5458,
+  "ordered_requests": 60104,
+  "mismatches": 0,
+  "service_mutation_modes": 7,
+  "all_physics_AI_CancelSneaking_backends": false,
+  "APK": false
+}

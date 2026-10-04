@@ -1,0 +1,188 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "script_sha256": "c22bbd004f21c52a77a04519dd89db02e05b6008ede0e40e7080bebff7a1feaa",
+  "manifest_sha256": "73bbbfc550216f96b2c5821eb274f0e8142215dd24d7cf036a7c44e46bbd07b4",
+  "inputs": {
+    "data/pydata/effects_pyarray.bin": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_pyarray.bin",
+      "bytes": 12953,
+      "sha256": "9a743e51e4ba098a63fd274ee890efeaf0dc6f750d51fc53fd9ef2c01695f71b"
+    },
+    "data/pydata/effects_pyarraynames.bin": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_pyarraynames.bin",
+      "bytes": 8906,
+      "sha256": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043"
+    },
+    "data/pydata/effects_dictionary_pyarray.bin": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_dictionary_pyarray.bin",
+      "bytes": 16770,
+      "sha256": "e0162462ed31315a637b3f784e6957949054855357cf09431e5249db5c42d294"
+    },
+    "data/pydata/effects_dictionary_pyarraynames.bin": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_dictionary_pyarraynames.bin",
+      "bytes": 10280,
+      "sha256": "8227757b4e18e10f898e0693eeb1b728b024e8b4675162f97c5fbb6647b910f2"
+    },
+    "data/pydata/effects_pystructnames.bin": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/effects_pystructnames.bin",
+      "bytes": 346,
+      "sha256": "d4296263d954714d560083e058da3ff4d87d4b35fa7c796c4e88618f4cb2cc2b"
+    },
+    "data/3D/interface/zombie_spawn_fx.bdae": {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/zombie_spawn_fx.bdae",
+      "bytes": 17288,
+      "sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e"
+    }
+  },
+  "schema": [
+    [
+      "File",
+      "ForceCancel",
+      "Loop",
+      "OrientOnce",
+      "OrientWithAnchor",
+      "PlayTime",
+      "PoolSize",
+      "Redir",
+      "ScaleWithAnchor",
+      "SelfIllum",
+      "Speed",
+      "SubObject"
+    ],
+    [
+      "ForceCache",
+      "LoopAFX",
+      "Steps",
+      "Type"
+    ],
+    [
+      "BloodDeathEffect",
+      "BloodEffect",
+      "FootprintEffect",
+      "SwooshEffect",
+      "TriggerFloorFX"
+    ],
+    [
+      "Effect",
+      "Floortype",
+      "RunSound",
+      "WalkSound"
+    ]
+  ],
+  "table_count": 276,
+  "data_consumed": 12700,
+  "actual_step_read_calls": 276,
+  "selected_set": {
+    "index": 77,
+    "name": "Zombie_spawn",
+    "force_cache": 0,
+    "loop": 0,
+    "type": 0,
+    "steps": [
+      {
+        "words": [
+          0,
+          283,
+          0,
+          0,
+          1,
+          4294967295,
+          0,
+          0,
+          257,
+          1065353216,
+          0,
+          0
+        ],
+        "subobject": "",
+        "effect_id": 283,
+        "type": 0
+      }
+    ]
+  },
+  "resources": {
+    "283": {
+      "dictionary_id": 283,
+      "name": "zombie_spawn_fx",
+      "path": "data/3D/interface/zombie_spawn_fx.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/zombie_spawn_fx.bdae",
+      "bytes": 17288,
+      "sha256": "b54e3b05ba684eca654c8a58b8ebd5e84f7cad25929e0b5a60405f66dfdc772e",
+      "header": "42524553feff00003c000000884300007f020000000000003c000000380a0000a816000068170000"
+    }
+  },
+  "first_registration_trace": [
+    [
+      "load"
+    ],
+    [
+      "module_find",
+      "AnimatedFX"
+    ],
+    [
+      "load"
+    ],
+    [
+      "switch",
+      "isTracingDebugSwitches"
+    ],
+    [
+      "module_insert",
+      "AnimatedFX"
+    ],
+    [
+      "load"
+    ],
+    [
+      "module_find",
+      "AnimatedFX"
+    ],
+    [
+      "load"
+    ],
+    [
+      "switch",
+      "isTracingPreCached_FX"
+    ],
+    [
+      "queue",
+      283
+    ]
+  ],
+  "second_registration_trace": [
+    [
+      "load"
+    ],
+    [
+      "module_find",
+      "AnimatedFX"
+    ],
+    [
+      "load"
+    ],
+    [
+      "module_find",
+      "AnimatedFX"
+    ],
+    [
+      "load"
+    ],
+    [
+      "switch",
+      "isTracingPreCached_FX"
+    ],
+    [
+      "queue",
+      283
+    ]
+  ],
+  "queue_requests": [
+    283
+  ],
+  "unique_queue_expected": [
+    283
+  ],
+  "scope": "Read actual effects tables with original row/step loaders and trace FX77.\n\nAllocator and raw stream reads are explicit desktop fixtures. Registration,\ntyped row loading, module lookup/default insertion and ordered unique queue\ninstructions execute; no scene factory/rendering service is accepted here.\n"
+}

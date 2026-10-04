@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "prior_monster_stage_sha256": "cb316b00339841eef0ea83414a1efc42ba3f8de9d1af099d5be6cad45b655d5e",
+  "original_reader_proof_sha256": "4e4074003625cd7f9e2c99d0bb8533ee6d5e61a16790fe373964322a4720b570",
+  "asset_sha256": {
+    "data/effects_pyarray.bin": "9a743e51e4ba098a63fd274ee890efeaf0dc6f750d51fc53fd9ef2c01695f71b",
+    "data/effects_pyarraynames.bin": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043",
+    "data/effects_pystructnames.bin": "d4296263d954714d560083e058da3ff4d87d4b35fa7c796c4e88618f4cb2cc2b",
+    "data/effects_dictionary_pyarraynames.bin": "8227757b4e18e10f898e0693eeb1b728b024e8b4675162f97c5fbb6647b910f2",
+    "data/effects_dictionary_pyarray.bin": "e0162462ed31315a637b3f784e6957949054855357cf09431e5249db5c42d294"
+  },
+  "assets_per_project": 347,
+  "renderer_sha256": "4e2e915db366b03881c0b6bde21cca93b99206f20a82ab1e3d832ce51b33c32e",
+  "live_validation": "NOT_RUN",
+  "FX_factory_ready": false,
+  "full_game_assets": false
+}

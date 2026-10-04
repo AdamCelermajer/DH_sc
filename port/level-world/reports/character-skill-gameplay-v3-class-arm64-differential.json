@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "cases": 2080,
+  "owner_words_compared": 1863680,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "150261551f4a4b66c010fe7ec3a95f12805a67f6a932176449170add304d61af",
+  "scope": "Original full recursive uncached ApplyClass3e2e20 target=resolved sheet, genuine RecalcProperty/ordered buffs/base/saved/gear arithmetic; all cache classes and random raw owner sheets. No Character construction or gameplay claim."
+}
