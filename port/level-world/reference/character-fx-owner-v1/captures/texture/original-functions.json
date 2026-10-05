@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track19CTextureTransformEx16getIdentityValueEPv",
+      "elf_address": "0x6e3400",
+      "size": 32,
+      "sha256": "95bf87e5269364de7faea9b2e60fc1cea050ea01a6330480b2178f9602fdc1bf"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track19CTextureTransformEx10getValueExERKNS0_18SAnimationAccessorEiiPvRib",
+      "elf_address": "0x6e3b48",
+      "size": 448,
+      "sha256": "750b6b7585d61cf2fb3fbfbe3fc090d274da248e19ce4c17504100b9d0614100"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track19CTextureTransformEx18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiiifPv",
+      "elf_address": "0x6e3ac4",
+      "size": 88,
+      "sha256": "76758eb50689bb09aca135150dbe49592cac06ba2c9f7be6217bf3b642a74659"
+    },
+    {
+      "original_symbol": "_ZN6glitch5video6detail19IMaterialParametersINS0_9CMaterialENS_24ISharedMemoryBlockHeaderIS3_EEE12setParameterEtjRKNS_4core8CMatrix4IfEE",
+      "elf_address": "0x5cb4dc",
+      "size": 112,
+      "sha256": "63eefb87cf2ad6cf3defdabebf7cd7dae90a8c9538d03c1c9020d0fb100d2689"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track19CTextureTransformEx18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiiPv",
+      "elf_address": "0x6e3b1c",
+      "size": 44,
+      "sha256": "5a3e8dc4439a20cf2077e2f605fa87f0d501b4f5674d6f883f9e93a2a352971b"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track19CTextureTransformEx12applyValueExEPvRNS2_5SDataEPNS1_15CApplicatorInfoE",
+      "elf_address": "0x6e38c4",
+      "size": 152,
+      "sha256": "203ab8fb923fda9e1f085ea04813bf1de0585bd40cd18ad7eca5956c1b9a252a"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track19CTextureTransformEx18getKeyBasedValueExERKNS0_18SAnimationAccessorEiiifPv",
+      "elf_address": "0x6e3d30",
+      "size": 72,
+      "sha256": "53bdcf99a55bd1c21c5b84b2316ebb54df3e2449df6cb86e67b2c4f689718da0"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track19CTextureTransformEx10getValueExERKNS0_18SAnimationAccessorEiPvRib",
+      "elf_address": "0x6e3d78",
+      "size": 388,
+      "sha256": "3135e3e561a419e4c532da3463e3dc503d34ea69a43e04d8c7331ee0de932157"
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada15animation_track19CTextureTransformEx15getBlendedValueEPvPfiS3_",
+      "elf_address": "0x6e3420",
+      "size": 364,
+      "sha256": "0f14ad3a3368182a7a81fe3ab447bb58f4eae2faf0f6955da7aba354b53c8616"
+    },
+    {
+      "original_symbol": "_ZN6glitch7collada15animation_track19CTextureTransformEx12applyValueExERKNS0_18SAnimationAccessorEiPvPNS1_15CApplicatorInfoERib",
+      "elf_address": "0x6e3efc",
+      "size": 92,
+      "sha256": "b94f4caddd79d49e526a12f3877e3979f5823cffc00e27fc9c31f1173952c582"
+    }
+  ]
+}

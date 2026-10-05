@@ -1,0 +1,120 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-05T00:05:13.096094+00:00",
+  "scope": "Three-class same-player native stat/item/skill operations through actual retained GameSWF calls and inventory-list AS objects",
+  "source_hashes": {
+    "port/engine-ui/character_menu_stats_owner_v1.hpp": "83b2b5a4d206d948f3a618a4f02c787d2105700e20fed0d39967e94f899d7096",
+    "port/engine-ui/character_menu_stats_owner_v1.cpp": "88a7073674888e3bbd40d923208482898387890debe7948ccac8ca54082664aa",
+    "port/engine-ui/character_menu_actions_owner_v1.hpp": "db1bdc6c94b4a21c3406fcf2c4def9a07382692dc0c031f931c603cfc403b00a",
+    "port/engine-ui/character_menu_actions_owner_v1.cpp": "549971d7a65331cacdc448313e85cbc2212f267c7dc7e6873c30b8816ce8cd71",
+    "port/engine-ui/character_menu_queries_owner_v1.hpp": "3f47284cca99c7f9d718f28e4ba76f83e5b10eee8813e8b8e382a46b12f1bd6d",
+    "port/engine-ui/character_menu_queries_owner_v1.cpp": "b27be17deeebf5b766f5d4bca73eca79bdcc357ae36419ef9c88853f17d906e9",
+    "port/engine-ui/character_menu_font_palette_v1.hpp": "4c855051983b05c53ffab3d350bc5883e135851a29d5237213ec3eddd0b09d91",
+    "port/engine-ui/character_menu_font_palette_v1.cpp": "e946e5454a30df8ce6a25f012235bd2ceb5b6e69f31848e8c613b3662031eb8e",
+    "port/engine-ui/character_menu_inventory_order_v1.hpp": "46594877257a5cd860e586dd32db0f94a8cd780381ee20422d6c69df8f7e725d",
+    "port/engine-ui/character_menu_inventory_order_v1.cpp": "2d9970b793cd6ec671016d72925c665b4f19f54c1e49dd0134cde3590de1b21e",
+    "port/engine-ui/character_menu_inventory_mutation_v1.hpp": "c8bf9e9d3d4122f8b12f3d502caf11cefd9fcf4c3091e90e400f6e975c8edd0a",
+    "port/engine-ui/character_menu_inventory_mutation_v1.cpp": "45288fa0e916c1c1115d78e67e52594ef3a92e14afae175998bf15072ab43c1e",
+    "port/engine-ui/character_menu_as_bridge_v1.hpp": "5f9d355c8beea575c15549fae6eae5475994eb619c05c911274e3a3486927a9c",
+    "port/engine-ui/character_menu_as_bridge_v1.cpp": "166b9b854d8de0ba3a2c538b7ae221180c34c6facb7adc233ef82ac92b5dea20",
+    "port/engine-ui/character_menu_skill_authority_v1.hpp": "9ca9d20e26841619cddb7846fd1c8596c7ad93836d06aee5d780b0ee2efd123f",
+    "port/engine-ui/tests/character_menu_connected_v2.cpp": "5515d3f793cea489f5482b91b9abd60a6720f52e43a158be44dfdb84193f53b1",
+    "port/engine-ui/tests/character_menu_connected_as_host_v2.hpp": "a787a3f866fd66c32e5c3f18cf13d7354cc25a6b13609b6c5070a45f3b20879e",
+    "port/engine-ui/tools/prepare_character_menu_connected_v2.py": "a7dcf5a847f77063658a27f3513f41b6a381191fe83ab9ad8572fb400c088e03",
+    "port/engine-ui/tools/build_character_menu_connected_v2.sh": "7beb959fcd351dae43d8fc56cf2b922cf299f21bb7a5c9cd89bbac3702537536",
+    "port/engine-ui/tools/audit_character_menu_connected_v2.py": "81603996630103bab8e616a375a96db429b565e5ac60bfe3a0b177fcd4a4c186"
+  },
+  "primary_compile_inputs_unchanged_through_verification": {
+    "port/engine-ui/character_menu_stats_owner_v1.hpp": "83b2b5a4d206d948f3a618a4f02c787d2105700e20fed0d39967e94f899d7096",
+    "port/engine-ui/character_menu_stats_owner_v1.cpp": "88a7073674888e3bbd40d923208482898387890debe7948ccac8ca54082664aa",
+    "port/engine-ui/character_menu_actions_owner_v1.hpp": "db1bdc6c94b4a21c3406fcf2c4def9a07382692dc0c031f931c603cfc403b00a",
+    "port/engine-ui/character_menu_actions_owner_v1.cpp": "549971d7a65331cacdc448313e85cbc2212f267c7dc7e6873c30b8816ce8cd71",
+    "port/engine-ui/character_menu_queries_owner_v1.hpp": "3f47284cca99c7f9d718f28e4ba76f83e5b10eee8813e8b8e382a46b12f1bd6d",
+    "port/engine-ui/character_menu_queries_owner_v1.cpp": "b27be17deeebf5b766f5d4bca73eca79bdcc357ae36419ef9c88853f17d906e9",
+    "port/engine-ui/character_menu_font_palette_v1.hpp": "4c855051983b05c53ffab3d350bc5883e135851a29d5237213ec3eddd0b09d91",
+    "port/engine-ui/character_menu_font_palette_v1.cpp": "e946e5454a30df8ce6a25f012235bd2ceb5b6e69f31848e8c613b3662031eb8e",
+    "port/engine-ui/character_menu_inventory_order_v1.hpp": "46594877257a5cd860e586dd32db0f94a8cd780381ee20422d6c69df8f7e725d",
+    "port/engine-ui/character_menu_inventory_order_v1.cpp": "2d9970b793cd6ec671016d72925c665b4f19f54c1e49dd0134cde3590de1b21e",
+    "port/engine-ui/character_menu_inventory_mutation_v1.hpp": "c8bf9e9d3d4122f8b12f3d502caf11cefd9fcf4c3091e90e400f6e975c8edd0a",
+    "port/engine-ui/character_menu_inventory_mutation_v1.cpp": "45288fa0e916c1c1115d78e67e52594ef3a92e14afae175998bf15072ab43c1e",
+    "port/engine-ui/character_menu_as_bridge_v1.hpp": "5f9d355c8beea575c15549fae6eae5475994eb619c05c911274e3a3486927a9c",
+    "port/engine-ui/character_menu_as_bridge_v1.cpp": "166b9b854d8de0ba3a2c538b7ae221180c34c6facb7adc233ef82ac92b5dea20",
+    "port/engine-ui/character_menu_skill_authority_v1.hpp": "9ca9d20e26841619cddb7846fd1c8596c7ad93836d06aee5d780b0ee2efd123f",
+    "port/engine-ui/tests/character_menu_connected_v2.cpp": "5515d3f793cea489f5482b91b9abd60a6720f52e43a158be44dfdb84193f53b1",
+    "port/engine-ui/tests/character_menu_connected_as_host_v2.hpp": "a787a3f866fd66c32e5c3f18cf13d7354cc25a6b13609b6c5070a45f3b20879e",
+    "port/level-world/tests/character_player_skills_v3.cpp": "1cbf31c1cf1a6c7bc6ae87dca10c15635d90d8c13d0870aa79fe804cb9c44da9"
+  },
+  "fixture_derivation": {
+    "source": "port\\engine-ui\\tests\\character_menu_composite_v1.cpp",
+    "source_sha256": "16dc700b5d7afa4cec82ac0073b6213bf3ad180ccb246ccab431348fb20de0af",
+    "generated": {
+      "port\\engine-ui\\tests\\character_menu_connected_v2.cpp": "5515d3f793cea489f5482b91b9abd60a6720f52e43a158be44dfdb84193f53b1",
+      "port\\engine-ui\\tests\\character_menu_connected_as_host_v2.hpp": "a787a3f866fd66c32e5c3f18cf13d7354cc25a6b13609b6c5070a45f3b20879e"
+    },
+    "base_transport_sha256": "52e68152edde31bbb78b63c71067f3380589a424e64f25a9d879d0123220fba7",
+    "limits": "Actual AS fields/lists; authored screen flow and live Android not exercised"
+  },
+  "native_runs": {
+    "SAN": {
+      "result": {
+        "validation": "PASS",
+        "same_graph_classes": 3,
+        "stat_members": 207,
+        "actual_item_members": 341,
+        "actual_skill_members": 27,
+        "whole_training_transactions": 3,
+        "same_graph_actions": 27,
+        "required_provider_guards": 15,
+        "complete_original_scripts": 219,
+        "real_retained_AS_transport": true,
+        "actual_AS_inventory_lists": true,
+        "authored_character_menu_flow": false,
+        "startup_GPU_and_offline_world_boundary_fixtures": true
+      },
+      "result_sha256": "432b8d5a87ccab93c88ebc8c1afd282494bcdc04fe9c157e2f8ee29c44b52041",
+      "executable_sha256": "3fa087ff79bb3d50c7754ac5c7622a12f1d09cb4f4ea8cd3142af1652c57312d"
+    },
+    "O2": {
+      "result": {
+        "validation": "PASS",
+        "same_graph_classes": 3,
+        "stat_members": 207,
+        "actual_item_members": 341,
+        "actual_skill_members": 27,
+        "whole_training_transactions": 3,
+        "same_graph_actions": 27,
+        "required_provider_guards": 15,
+        "complete_original_scripts": 219,
+        "real_retained_AS_transport": true,
+        "actual_AS_inventory_lists": true,
+        "authored_character_menu_flow": false,
+        "startup_GPU_and_offline_world_boundary_fixtures": true
+      },
+      "result_sha256": "432b8d5a87ccab93c88ebc8c1afd282494bcdc04fe9c157e2f8ee29c44b52041",
+      "executable_sha256": "9476548e393c6d89006d21779d7573f11bf43e5cddac291a691923a55e4650dc"
+    }
+  },
+  "linked_snapshot": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd"
+  },
+  "zip_link_archive_sha256": "202cd6cfe087c94638da2e9270e2509ad53fdd3af1eacf284ef5b2f4c56a9728",
+  "original_SWF_inputs": {
+    "dqshared_droid.swf": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+    "dqhud_droid.swf": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238"
+  },
+  "limits": {
+    "whole_authored_character_menu_flow_exercised": false,
+    "live_Android_graph_bound": false,
+    "APK_or_emulator_modified": false,
+    "menu_owners_still_mutable_candidates": true,
+    "Drop_Transmute_Save_ChangeFaery_complete": false,
+    "all_decoded_gameplay_asset_hashes_included": false,
+    "GPU_startup_settings_localization_offline_World_and_HUD_refresh_boundaries_are_fixtures": true
+  }
+}

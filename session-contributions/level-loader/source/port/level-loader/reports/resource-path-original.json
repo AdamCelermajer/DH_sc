@@ -1,0 +1,102 @@
+{
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Original compiled-data path attempts with all resource reads missing; no successful load inferred.",
+  "cases": [
+    {
+      "input": "001_swamp.mlx",
+      "attempts": [
+        "001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "mode_queries": [
+        "001_swamp.mlx",
+        "data/001_swamp.mlx",
+        "data/scene/001_swamp.mlx",
+        "data/3d/modules/001_swamp.mlx"
+      ],
+      "result": 1
+    },
+    {
+      "input": "data/iphone/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "attempts": [
+        "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/scene/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/3d/modules/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+      ],
+      "mode_queries": [
+        "data/iphone/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/data/iphone/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/scene/data/iphone/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+        "data/3d/modules/data/iphone/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp"
+      ],
+      "result": 1
+    },
+    {
+      "input": "old/debug/ps3/iphone/data/a.mgp",
+      "attempts": [
+        "debug/ps3/iphone/data/a.mgp",
+        "data/debug/ps3/iphone/data/a.mgp",
+        "data/scene/debug/ps3/iphone/data/a.mgp",
+        "data/3d/modules/debug/ps3/iphone/data/a.mgp"
+      ],
+      "mode_queries": [
+        "old/debug/ps3/iphone/data/a.mgp",
+        "data/old/debug/ps3/iphone/data/a.mgp",
+        "data/scene/old/debug/ps3/iphone/data/a.mgp",
+        "data/3d/modules/old/debug/ps3/iphone/data/a.mgp"
+      ],
+      "result": 1
+    },
+    {
+      "input": "data/iphone/iphone/a.mvp",
+      "attempts": [
+        "data/iphone/a.mvp",
+        "data/data/iphone/a.mvp",
+        "data/scene/data/iphone/a.mvp",
+        "data/3d/modules/data/iphone/a.mvp"
+      ],
+      "mode_queries": [
+        "data/iphone/iphone/a.mvp",
+        "data/data/iphone/iphone/a.mvp",
+        "data/scene/data/iphone/iphone/a.mvp",
+        "data/3d/modules/data/iphone/iphone/a.mvp"
+      ],
+      "result": 1
+    },
+    {
+      "input": "data/IPP/iphone/a.mvp",
+      "attempts": [
+        "data/IPP/a.mvp",
+        "data/data/IPP/a.mvp",
+        "data/scene/data/IPP/a.mvp",
+        "data/3d/modules/data/IPP/a.mvp"
+      ],
+      "mode_queries": [
+        "data/IPP/iphone/a.mvp",
+        "data/data/IPP/iphone/a.mvp",
+        "data/scene/data/IPP/iphone/a.mvp",
+        "data/3d/modules/data/IPP/iphone/a.mvp"
+      ],
+      "result": 1
+    },
+    {
+      "input": "data/iphone/3d/modules/swamp/mgp/a.mgp",
+      "attempts": [
+        "data/3d/modules/swamp/mgp/a.mgp",
+        "data/data/3d/modules/swamp/mgp/a.mgp",
+        "data/scene/data/3d/modules/swamp/mgp/a.mgp",
+        "data/3d/modules/data/3d/modules/swamp/mgp/a.mgp"
+      ],
+      "mode_queries": [
+        "data/iphone/3d/modules/swamp/mgp/a.mgp",
+        "data/data/iphone/3d/modules/swamp/mgp/a.mgp",
+        "data/scene/data/iphone/3d/modules/swamp/mgp/a.mgp",
+        "data/3d/modules/data/iphone/3d/modules/swamp/mgp/a.mgp"
+      ],
+      "result": 1
+    }
+  ]
+}

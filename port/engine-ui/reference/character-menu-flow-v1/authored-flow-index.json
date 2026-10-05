@@ -1,0 +1,6927 @@
+{
+  "validation": "PASS",
+  "resource_sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+  "tree_sha256": "9c6011a7eba745578900dd19471ab084d6c85d80f6c0faf2724d3cb8e7cd73f9",
+  "blocks": 527,
+  "functions": [
+    {
+      "name": "",
+      "offset": 8260,
+      "path": "root",
+      "args": [
+        {
+          "register": 1,
+          "name": "$string"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 8392,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "merchantName"
+        },
+        {
+          "register": 2,
+          "name": "ID"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 42092,
+      "path": "root/sprite250",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 42163,
+      "path": "root/sprite250",
+      "args": []
+    },
+    {
+      "name": "displaySelectedItemInfos",
+      "offset": 45611,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "GenerateInventoryListItems",
+      "offset": 47271,
+      "path": "root/sprite251",
+      "args": [
+        {
+          "register": 4,
+          "name": "Index"
+        }
+      ]
+    },
+    {
+      "name": "DisplayEquipedItem",
+      "offset": 48068,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 49031,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 49199,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 49389,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 49619,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 50037,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 50293,
+      "path": "root/sprite251",
+      "args": [
+        {
+          "register": 3,
+          "name": "$btn"
+        },
+        {
+          "register": 4,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 50667,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 50714,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 51152,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 51603,
+      "path": "root/sprite251",
+      "args": [
+        {
+          "register": null,
+          "name": "$btn"
+        },
+        {
+          "register": null,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 51650,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 51727,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 51798,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 51927,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52327,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52467,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52659,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52731,
+      "path": "root/sprite251",
+      "args": [
+        {
+          "register": null,
+          "name": "$btn"
+        },
+        {
+          "register": null,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 52784,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52945,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53143,
+      "path": "root/sprite251",
+      "args": []
+    },
+    {
+      "name": "IsSpecTime",
+      "offset": 57631,
+      "path": "root/sprite267",
+      "args": [
+        {
+          "register": 2,
+          "name": "State"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 57774,
+      "path": "root/sprite267",
+      "args": [
+        {
+          "register": 1,
+          "name": "tab"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 57936,
+      "path": "root/sprite267",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 58682,
+      "path": "root/sprite267",
+      "args": [
+        {
+          "register": null,
+          "name": "$title"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 58715,
+      "path": "root/sprite267",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59429,
+      "path": "root/sprite267",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59741,
+      "path": "root/sprite267",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 60039,
+      "path": "root/sprite267",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 60430,
+      "path": "root/sprite267",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 60728,
+      "path": "root/sprite267",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 61007,
+      "path": "root/sprite267",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 63605,
+      "path": "root/sprite279",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 63669,
+      "path": "root/sprite279",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 63733,
+      "path": "root/sprite279",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 63797,
+      "path": "root/sprite279",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 63861,
+      "path": "root/sprite279",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 77029,
+      "path": "root/sprite328",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 77296,
+      "path": "root/sprite328",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 84446,
+      "path": "root/sprite328",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 84955,
+      "path": "root/sprite328",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 85028,
+      "path": "root/sprite328",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 85541,
+      "path": "root/sprite328",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 85620,
+      "path": "root/sprite328",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 86123,
+      "path": "root/sprite328",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 86196,
+      "path": "root/sprite328",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 86699,
+      "path": "root/sprite328",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 89864,
+      "path": "root/sprite352",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 91168,
+      "path": "root/sprite359",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 93652,
+      "path": "root/sprite375",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 95539,
+      "path": "root/sprite386",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 105195,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 105269,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 105564,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 106431,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 106578,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 106721,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 106864,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 107007,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 107150,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 107293,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 107436,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 107579,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 107716,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 107803,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 107847,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 108081,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 108311,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 108541,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 108771,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 109001,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 109231,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 109461,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 109691,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 109921,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 110028,
+      "path": "root/sprite439",
+      "args": []
+    },
+    {
+      "name": "displaySelectedItemInfos",
+      "offset": 116837,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "GenerateInventoryListItems",
+      "offset": 117828,
+      "path": "root/sprite456",
+      "args": [
+        {
+          "register": 4,
+          "name": "Index"
+        }
+      ]
+    },
+    {
+      "name": "DisplayEquipedItem",
+      "offset": 118392,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 119246,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 119407,
+      "path": "root/sprite456",
+      "args": [
+        {
+          "register": 3,
+          "name": "$btn"
+        },
+        {
+          "register": 4,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 119732,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 119779,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 120111,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 120309,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 120446,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 120589,
+      "path": "root/sprite456",
+      "args": [
+        {
+          "register": null,
+          "name": "$btn"
+        },
+        {
+          "register": null,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 120636,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 120797,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 120952,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 121029,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 121106,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 121327,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 121456,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 121856,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 122031,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 122229,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 122300,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 122399,
+      "path": "root/sprite456",
+      "args": []
+    },
+    {
+      "name": "SetStartPosition",
+      "offset": 133808,
+      "path": "root/sprite496",
+      "args": []
+    },
+    {
+      "name": "presetAllSkills",
+      "offset": 133933,
+      "path": "root/sprite496",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 134604,
+      "path": "root/sprite496/presetAllSkills",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 134822,
+      "path": "root/sprite496/presetAllSkills",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 135341,
+      "path": "root/sprite496/presetAllSkills",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 135819,
+      "path": "root/sprite496/presetAllSkills",
+      "args": []
+    },
+    {
+      "name": "refreshUsedSkills",
+      "offset": 136014,
+      "path": "root/sprite496",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 137145,
+      "path": "root/sprite496",
+      "args": [
+        {
+          "register": 2,
+          "name": "SkillID"
+        },
+        {
+          "register": 1,
+          "name": "obj"
+        },
+        {
+          "register": 0,
+          "name": "playerId"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 137361,
+      "path": "root/sprite496",
+      "args": [
+        {
+          "register": 2,
+          "name": "arr"
+        },
+        {
+          "register": 0,
+          "name": "playerId"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 137466,
+      "path": "root/sprite496",
+      "args": [
+        {
+          "register": 1,
+          "name": "SlotID"
+        },
+        {
+          "register": 2,
+          "name": "SkillID"
+        },
+        {
+          "register": 0,
+          "name": "playerId"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 137627,
+      "path": "root/sprite496",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 137792,
+      "path": "root/sprite496",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 138049,
+      "path": "root/sprite496",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 138110,
+      "path": "root/sprite496",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 138541,
+      "path": "root/sprite496",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 146409,
+      "path": "root/sprite547",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 146676,
+      "path": "root/sprite547",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 147082,
+      "path": "root/sprite547",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 148268,
+      "path": "root/sprite547",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 148501,
+      "path": "root/sprite547",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 148730,
+      "path": "root/sprite547",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 148959,
+      "path": "root/sprite547",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 149188,
+      "path": "root/sprite547",
+      "args": []
+    },
+    {
+      "name": "CreateQuestList",
+      "offset": 155917,
+      "path": "root/sprite599",
+      "args": [
+        {
+          "register": 9,
+          "name": "i"
+        },
+        {
+          "register": 10,
+          "name": "QuestID"
+        },
+        {
+          "register": 8,
+          "name": "QuestTitle"
+        },
+        {
+          "register": 6,
+          "name": "IsCurrent"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 156222,
+      "path": "root/sprite599/CreateQuestList",
+      "args": []
+    },
+    {
+      "name": "clearQuestsList",
+      "offset": 157130,
+      "path": "root/sprite599",
+      "args": []
+    },
+    {
+      "name": "adjustScrollArea",
+      "offset": 157281,
+      "path": "root/sprite599",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 157543,
+      "path": "root/sprite599",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 158868,
+      "path": "root/sprite599",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 159067,
+      "path": "root/sprite599",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 159093,
+      "path": "root/sprite599",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 159158,
+      "path": "root/sprite599",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 159223,
+      "path": "root/sprite599",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 159288,
+      "path": "root/sprite599",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 159375,
+      "path": "root/sprite599",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 172811,
+      "path": "root/sprite655",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 173463,
+      "path": "root/sprite655",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 173554,
+      "path": "root/sprite655",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 173633,
+      "path": "root/sprite655",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 179510,
+      "path": "root/sprite688",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 179989,
+      "path": "root/sprite688",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 180255,
+      "path": "root/sprite688",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 180521,
+      "path": "root/sprite688",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 180719,
+      "path": "root/sprite688",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 180992,
+      "path": "root/sprite688",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 188619,
+      "path": "root/sprite721",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 188692,
+      "path": "root/sprite721",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 188757,
+      "path": "root/sprite721",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 188945,
+      "path": "root/sprite721",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 194745,
+      "path": "root/sprite744",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 195004,
+      "path": "root/sprite744",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 195209,
+      "path": "root/sprite744/",
+      "args": [
+        {
+          "register": 7,
+          "name": "i"
+        },
+        {
+          "register": 4,
+          "name": "players"
+        },
+        {
+          "register": 9,
+          "name": "level"
+        },
+        {
+          "register": 0,
+          "name": "ready"
+        },
+        {
+          "register": 6,
+          "name": "Invitation"
+        },
+        {
+          "register": 5,
+          "name": "Kick"
+        },
+        {
+          "register": 10,
+          "name": "Slot"
+        },
+        {
+          "register": 12,
+          "name": "SlotStr"
+        },
+        {
+          "register": 11,
+          "name": "PlayerId"
+        },
+        {
+          "register": 8,
+          "name": "Class"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 195865,
+      "path": "root/sprite744/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 196322,
+      "path": "root/sprite744",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 196408,
+      "path": "root/sprite744",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 196473,
+      "path": "root/sprite744",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 196718,
+      "path": "root/sprite744",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 196779,
+      "path": "root/sprite744",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 196928,
+      "path": "root/sprite744",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 196958,
+      "path": "root/sprite744",
+      "args": []
+    },
+    {
+      "name": "createFriendList",
+      "offset": 205995,
+      "path": "root/sprite772",
+      "args": [
+        {
+          "register": 6,
+          "name": "i"
+        },
+        {
+          "register": 8,
+          "name": "name"
+        },
+        {
+          "register": 9,
+          "name": "id"
+        },
+        {
+          "register": 10,
+          "name": "sent"
+        },
+        {
+          "register": 7,
+          "name": "online"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 206296,
+      "path": "root/sprite772/createFriendList",
+      "args": []
+    },
+    {
+      "name": "clearServerButtons",
+      "offset": 206672,
+      "path": "root/sprite772",
+      "args": []
+    },
+    {
+      "name": "adjustScrollArea",
+      "offset": 206839,
+      "path": "root/sprite772",
+      "args": []
+    },
+    {
+      "name": "duplicateBtnServer",
+      "offset": 207046,
+      "path": "root/sprite772",
+      "args": [
+        {
+          "register": null,
+          "name": "quantity"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 207114,
+      "path": "root/sprite772",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 207525,
+      "path": "root/sprite772",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 207697,
+      "path": "root/sprite772",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 207806,
+      "path": "root/sprite772",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 207846,
+      "path": "root/sprite772",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 207949,
+      "path": "root/sprite772",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 207996,
+      "path": "root/sprite772",
+      "args": []
+    },
+    {
+      "name": "GetTutoInfos",
+      "offset": 212725,
+      "path": "root/sprite784",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 212992,
+      "path": "root/sprite784",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 214497,
+      "path": "root/sprite785",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 215635,
+      "path": "root/sprite785",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 216083,
+      "path": "root/sprite785",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 217645,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 217728,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 217814,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 217895,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 217990,
+      "path": "root",
+      "args": [
+        {
+          "register": 4,
+          "name": "$evt"
+        },
+        {
+          "register": 9,
+          "name": "$arg1"
+        },
+        {
+          "register": 8,
+          "name": "$arg2"
+        },
+        {
+          "register": 7,
+          "name": "$arg3"
+        },
+        {
+          "register": 6,
+          "name": "$arg4"
+        },
+        {
+          "register": 5,
+          "name": "$arg5"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 218197,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$evt"
+        },
+        {
+          "register": 5,
+          "name": "$listener"
+        },
+        {
+          "register": 4,
+          "name": "$fctn"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 218355,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$evt"
+        },
+        {
+          "register": 6,
+          "name": "$listener"
+        },
+        {
+          "register": 5,
+          "name": "$fctn"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 218643,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$can"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 218678,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 218706,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$disabled"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 218886,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 218914,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 218930,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 218946,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 218962,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 218978,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 219637,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 221693,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 221726,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$array"
+        },
+        {
+          "register": 4,
+          "name": "$element"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 221855,
+      "path": "root",
+      "args": [
+        {
+          "register": 1,
+          "name": "$array"
+        },
+        {
+          "register": 2,
+          "name": "$index"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 221917,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$array"
+        },
+        {
+          "register": 4,
+          "name": "$element"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 222079,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$array"
+        },
+        {
+          "register": 4,
+          "name": "$element"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 222207,
+      "path": "root",
+      "args": [
+        {
+          "register": 1,
+          "name": "$rad"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 223057,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 223130,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 223258,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 223274,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 223311,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$mc"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 223397,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$mc"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 223598,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 223626,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$drop"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 223662,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$draggable"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 223689,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$draggable"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 225086,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 225139,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 225381,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 225399,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 225732,
+      "path": "root//",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 225812,
+      "path": "root//",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 226104,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 226387,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 226496,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 226533,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 226626,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 227074,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 227120,
+      "path": "root//",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 227241,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$disabled"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 227368,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$dup"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 227403,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$snap"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 227439,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$dis"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 227474,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$dropTarget"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 227516,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 227544,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$x"
+        },
+        {
+          "register": null,
+          "name": "$y"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 227566,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$target"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 227590,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$target"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 227614,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$underlying"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 227642,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 227658,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 229318,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 229601,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 229939,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$index"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 230174,
+      "path": "root",
+      "args": [
+        {
+          "register": 6,
+          "name": "$pos"
+        },
+        {
+          "register": 5,
+          "name": "$i"
+        },
+        {
+          "register": 3,
+          "name": "$curDataIndex"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 230347,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 230420,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 230493,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 230566,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 230688,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 231022,
+      "path": "root/",
+      "args": [
+        {
+          "register": 2,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 231305,
+      "path": "root/",
+      "args": [
+        {
+          "register": 2,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 231403,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 231441,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 231550,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 231659,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 231675,
+      "path": "root",
+      "args": [
+        {
+          "register": 4,
+          "name": "$firstIndex"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 232339,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 232654,
+      "path": "root",
+      "args": [
+        {
+          "register": 0,
+          "name": "$breakLimits"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 232961,
+      "path": "root",
+      "args": [
+        {
+          "register": 0,
+          "name": "$btn"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 233034,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 233120,
+      "path": "root",
+      "args": [
+        {
+          "register": 4,
+          "name": "$data"
+        },
+        {
+          "register": 3,
+          "name": "$labelMemberName"
+        },
+        {
+          "register": 2,
+          "name": "$iconMemberName"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 233233,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 233261,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 233289,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 233317,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$btn"
+        },
+        {
+          "register": null,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 233344,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$btn"
+        },
+        {
+          "register": null,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 233371,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$btn"
+        },
+        {
+          "register": null,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 233398,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$btn"
+        },
+        {
+          "register": null,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 233425,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$btn"
+        },
+        {
+          "register": null,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 233452,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$btn"
+        },
+        {
+          "register": null,
+          "name": "$data"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 233479,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 233495,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 233511,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 234671,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$targetMc"
+        },
+        {
+          "register": 2,
+          "name": "$sensibility"
+        },
+        {
+          "register": 5,
+          "name": "$belowMinValue"
+        },
+        {
+          "register": 4,
+          "name": "$belowMaxValue"
+        },
+        {
+          "register": 7,
+          "name": "$baseValue"
+        },
+        {
+          "register": 8,
+          "name": "$aboveMinValue"
+        },
+        {
+          "register": 6,
+          "name": "$aboveMaxValue"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 235328,
+      "path": "root",
+      "args": [
+        {
+          "register": 6,
+          "name": "$pos"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 236052,
+      "path": "root",
+      "args": [
+        {
+          "register": 5,
+          "name": "$value"
+        },
+        {
+          "register": 4,
+          "name": "$first"
+        },
+        {
+          "register": 3,
+          "name": "$second"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 236175,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 236307,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 236822,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 237266,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 237290,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 237357,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 237419,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 237596,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$mc"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 237767,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 237835,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 238046,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$mc"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 238290,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$mcs"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 238337,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$value"
+        },
+        {
+          "register": null,
+          "name": "$times"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 238367,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 238383,
+      "path": "root",
+      "args": [
+        {
+          "register": null,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 239250,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 239444,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 239527,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 239584,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$x"
+        },
+        {
+          "register": 2,
+          "name": "$y"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 239643,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$x"
+        },
+        {
+          "register": 2,
+          "name": "$y"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 239702,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$coord"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 239941,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$coord"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 240162,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 240305,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 240430,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$degrees"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 240573,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$degrees"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 240716,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 240867,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 241760,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 241793,
+      "path": "root",
+      "args": [
+        {
+          "register": 0,
+          "name": "$startMc"
+        },
+        {
+          "register": 0,
+          "name": "$childMaxDepth"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 241858,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 242017,
+      "path": "root",
+      "args": [
+        {
+          "register": 1,
+          "name": "$mc"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 242051,
+      "path": "root",
+      "args": [
+        {
+          "register": 5,
+          "name": "$mc"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 242300,
+      "path": "root",
+      "args": [
+        {
+          "register": 1,
+          "name": "$mc"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 242423,
+      "path": "root",
+      "args": [
+        {
+          "register": 1,
+          "name": "$mc"
+        },
+        {
+          "register": 3,
+          "name": "$mustContainHandler"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 242619,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$mcs"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 244138,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 244225,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 244459,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$mc"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 244731,
+      "path": "root",
+      "args": [
+        {
+          "register": 7,
+          "name": "$mc"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 244957,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 244975,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 245151,
+      "path": "root//",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 245672,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 245694,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 246275,
+      "path": "root//",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247012,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$target"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 247212,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247240,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$scroll"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 247278,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247306,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$scroll"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 247344,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247372,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$zone"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 247408,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247436,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$force"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 247509,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247537,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$limit"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 247574,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247602,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$limit"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 247639,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247667,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$limit"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 247704,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247732,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$limit"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 247769,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247797,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247813,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247829,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 247845,
+      "path": "root",
+      "args": []
+    }
+  ],
+  "labels": [
+    {
+      "path": "root/sprite79",
+      "frame": 0,
+      "label": "undefined"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 1,
+      "label": "sword_explosion"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 2,
+      "label": "blank"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 3,
+      "label": "swipe"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 4,
+      "label": "fire_right"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 5,
+      "label": "ground_slam"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 6,
+      "label": "storm_slave"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 7,
+      "label": "cold_ray"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 8,
+      "label": "doppleganger"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 9,
+      "label": "featherfoot"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 10,
+      "label": "bash_down"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 11,
+      "label": "heel_strike"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 12,
+      "label": "elemental_mastery"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 13,
+      "label": "annihilating_spin"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 14,
+      "label": "treasure_hunter"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 15,
+      "label": "crippling_strike"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 16,
+      "label": "alastors_protection"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 17,
+      "label": "leadership"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 18,
+      "label": "ward_of_protection"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 19,
+      "label": "alastors_blessing"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 20,
+      "label": "battle_hardened"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 21,
+      "label": "elemental_strength"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 22,
+      "label": "wisardry"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 23,
+      "label": "spiritual_armor"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 24,
+      "label": "toughness"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 25,
+      "label": "master_of_arms"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 26,
+      "label": "condemnation"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 27,
+      "label": "reaperstorm"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 28,
+      "label": "thunder_braid"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 29,
+      "label": "crusade"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 30,
+      "label": "spiritual_sight"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 31,
+      "label": "fairy_blood"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 32,
+      "label": "potion_capacity"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 33,
+      "label": "vicious_strike"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 34,
+      "label": "grappling_hook"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 35,
+      "label": "jump_attack"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 36,
+      "label": "dagger_mastery"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 37,
+      "label": "desert_pinwheel"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 38,
+      "label": "poison_blades"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 39,
+      "label": "conversion"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 40,
+      "label": "discover_weakness"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 41,
+      "label": "ambidextrous"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 42,
+      "label": "assassinate"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 43,
+      "label": "hypnotic_gaze"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 44,
+      "label": "berserker_rage"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 45,
+      "label": "venom_shot"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 46,
+      "label": "sidestep"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 47,
+      "label": "reflex"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 48,
+      "label": "souleater"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 49,
+      "label": "bloodlust"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 50,
+      "label": "raise"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 51,
+      "label": "harrowing_grasp"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 52,
+      "label": "spell_overdrive"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 53,
+      "label": "pestilence_breath"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 54,
+      "label": "drainsphere"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 55,
+      "label": "putrid_touch"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 56,
+      "label": "hold_time"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 57,
+      "label": "terror"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 58,
+      "label": "nightmare"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 59,
+      "label": "eclipse"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 60,
+      "label": "charisma"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 61,
+      "label": "retribution"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 62,
+      "label": "withering_touch"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 63,
+      "label": "pummel"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 64,
+      "label": "rain_of_arrows"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 65,
+      "label": "maim_shot"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 66,
+      "label": "pierce_shot"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 67,
+      "label": "burst_shot"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 68,
+      "label": "bow_mastery"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 69,
+      "label": "eagle_eye"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 70,
+      "label": "concealing_cloud"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 71,
+      "label": "plague_edge"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 72,
+      "label": "shadow_force"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 73,
+      "label": "outbreak"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 74,
+      "label": "parrying"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 75,
+      "label": "bloodmoon_howl"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 76,
+      "label": "unholy_strength"
+    },
+    {
+      "path": "root/sprite79",
+      "frame": 77,
+      "label": "inner_strength"
+    },
+    {
+      "path": "root/sprite89",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite89",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite89",
+      "frame": 10,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite89",
+      "frame": 14,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite89",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite89",
+      "frame": 34,
+      "label": "locked"
+    },
+    {
+      "path": "root/sprite89",
+      "frame": 39,
+      "label": "unlocked"
+    },
+    {
+      "path": "root/sprite89",
+      "frame": 49,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite89",
+      "frame": 54,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite89",
+      "frame": 58,
+      "label": "Succeeded"
+    },
+    {
+      "path": "root",
+      "frame": 0,
+      "label": "CharacterMenu"
+    },
+    {
+      "path": "root",
+      "frame": 0,
+      "label": "menu_Merchant"
+    },
+    {
+      "path": "root/sprite101",
+      "frame": 0,
+      "label": "Empty"
+    },
+    {
+      "path": "root/sprite101",
+      "frame": 1,
+      "label": "No"
+    },
+    {
+      "path": "root/sprite101",
+      "frame": 2,
+      "label": "Yes"
+    },
+    {
+      "path": "root/sprite101",
+      "frame": 3,
+      "label": "Yes2"
+    },
+    {
+      "path": "root/sprite101",
+      "frame": 4,
+      "label": "buyBack"
+    },
+    {
+      "path": "root/sprite108",
+      "frame": 0,
+      "label": "Unselected"
+    },
+    {
+      "path": "root/sprite108",
+      "frame": 1,
+      "label": "Selected"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 0,
+      "label": "init"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 3,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 11,
+      "label": "scrollnext"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 29,
+      "label": "scrollnext_lastframe"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 30,
+      "label": "scrollprevious"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 48,
+      "label": "scrollprevious_lastframe"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 49,
+      "label": "next"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 67,
+      "label": "next_lastframe"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 68,
+      "label": "previous"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 86,
+      "label": "previous_lastframe"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 90,
+      "label": "next_quick"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 98,
+      "label": "previous_quick"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 103,
+      "label": "destroy_btn_0"
+    },
+    {
+      "path": "root/sprite111",
+      "frame": 104,
+      "label": "destroy_btn_1"
+    },
+    {
+      "path": "root/sprite115",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite115",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite115",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite115",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite115",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite115",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite119",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite119",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite119",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite119",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite119",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite119",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite123",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite123",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite123",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite123",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite123",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite123",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite127",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite127",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite127",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite127",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite127",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite127",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite131",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite131",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite131",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite131",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite131",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite131",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite135",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite135",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite135",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite135",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite135",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite135",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite139",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite139",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite139",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite139",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite139",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite139",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite143",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite143",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite143",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite143",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite143",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite143",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite147",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite147",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite147",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite147",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite147",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite147",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite152",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite152",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite152",
+      "frame": 10,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite152",
+      "frame": 14,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite152",
+      "frame": 25,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite155",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite155",
+      "frame": 4,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite158",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite158",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite158",
+      "frame": 10,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite158",
+      "frame": 14,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite158",
+      "frame": 25,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite159",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite159",
+      "frame": 4,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite179",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite179",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite179",
+      "frame": 13,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite179",
+      "frame": 19,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite179",
+      "frame": 20,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite179",
+      "frame": 21,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite179",
+      "frame": 22,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite202",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite202",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite202",
+      "frame": 13,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite202",
+      "frame": 23,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite202",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite215",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite215",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite215",
+      "frame": 13,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite215",
+      "frame": 23,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite215",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite222",
+      "frame": 0,
+      "label": "MenuBack"
+    },
+    {
+      "path": "root/sprite223",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite223",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite223",
+      "frame": 10,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite223",
+      "frame": 14,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite223",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite223",
+      "frame": 34,
+      "label": "locked"
+    },
+    {
+      "path": "root/sprite223",
+      "frame": 39,
+      "label": "unlocked"
+    },
+    {
+      "path": "root/sprite223",
+      "frame": 49,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite223",
+      "frame": 54,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite227",
+      "frame": 0,
+      "label": "Idle"
+    },
+    {
+      "path": "root/sprite227",
+      "frame": 2,
+      "label": "On"
+    },
+    {
+      "path": "root/sprite227",
+      "frame": 7,
+      "label": "Off"
+    },
+    {
+      "path": "root/sprite248",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite248",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite248",
+      "frame": 13,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite248",
+      "frame": 23,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite248",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite248",
+      "frame": 25,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite248",
+      "frame": 31,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite250",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite250",
+      "frame": 1,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite250",
+      "frame": 14,
+      "label": "hide"
+    },
+    {
+      "path": "root/sprite262",
+      "frame": 0,
+      "label": "CharacterSheet"
+    },
+    {
+      "path": "root/sprite262",
+      "frame": 1,
+      "label": "Inventory"
+    },
+    {
+      "path": "root/sprite262",
+      "frame": 2,
+      "label": "Skills"
+    },
+    {
+      "path": "root/sprite262",
+      "frame": 3,
+      "label": "Faery"
+    },
+    {
+      "path": "root/sprite262",
+      "frame": 4,
+      "label": "LogMap"
+    },
+    {
+      "path": "root/sprite262",
+      "frame": 5,
+      "label": "Map"
+    },
+    {
+      "path": "root/sprite262",
+      "frame": 6,
+      "label": "Back"
+    },
+    {
+      "path": "root/sprite265",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite265",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite265",
+      "frame": 10,
+      "label": "deactivated"
+    },
+    {
+      "path": "root/sprite265",
+      "frame": 20,
+      "label": "highlight"
+    },
+    {
+      "path": "root/sprite265",
+      "frame": 45,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite265",
+      "frame": 50,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite267",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite267",
+      "frame": 5,
+      "label": "hide"
+    },
+    {
+      "path": "root/sprite267",
+      "frame": 20,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite267",
+      "frame": 35,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite267",
+      "frame": 36,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite277",
+      "frame": 0,
+      "label": "Defence"
+    },
+    {
+      "path": "root/sprite277",
+      "frame": 1,
+      "label": "Offence"
+    },
+    {
+      "path": "root/sprite277",
+      "frame": 2,
+      "label": "Recovery"
+    },
+    {
+      "path": "root/sprite277",
+      "frame": 3,
+      "label": "Magic"
+    },
+    {
+      "path": "root/sprite277",
+      "frame": 4,
+      "label": "Stats"
+    },
+    {
+      "path": "root/sprite279",
+      "frame": 0,
+      "label": "idle_statistics"
+    },
+    {
+      "path": "root/sprite297",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite297",
+      "frame": 4,
+      "label": "glow"
+    },
+    {
+      "path": "root/sprite316",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite316",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite316",
+      "frame": 10,
+      "label": "deactivated"
+    },
+    {
+      "path": "root/sprite316",
+      "frame": 12,
+      "label": "highlight"
+    },
+    {
+      "path": "root/sprite316",
+      "frame": 37,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite316",
+      "frame": 43,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite316",
+      "frame": 44,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite327",
+      "frame": 0,
+      "label": "Warrior"
+    },
+    {
+      "path": "root/sprite327",
+      "frame": 1,
+      "label": "Rogue"
+    },
+    {
+      "path": "root/sprite327",
+      "frame": 2,
+      "label": "Mage"
+    },
+    {
+      "path": "root/sprite328",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite328",
+      "frame": 5,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite328",
+      "frame": 14,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite328",
+      "frame": 15,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite347",
+      "frame": 0,
+      "label": "Fire"
+    },
+    {
+      "path": "root/sprite347",
+      "frame": 1,
+      "label": "Water"
+    },
+    {
+      "path": "root/sprite347",
+      "frame": 2,
+      "label": "Lightning"
+    },
+    {
+      "path": "root/sprite347",
+      "frame": 3,
+      "label": "Earth"
+    },
+    {
+      "path": "root/sprite347",
+      "frame": 4,
+      "label": "Air"
+    },
+    {
+      "path": "root/sprite395",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite395",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite395",
+      "frame": 13,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite395",
+      "frame": 23,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite395",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite395",
+      "frame": 25,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite395",
+      "frame": 34,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite414",
+      "frame": 0,
+      "label": "ItemWhite"
+    },
+    {
+      "path": "root/sprite414",
+      "frame": 1,
+      "label": "ItemGreen"
+    },
+    {
+      "path": "root/sprite414",
+      "frame": 2,
+      "label": "ItemBlue"
+    },
+    {
+      "path": "root/sprite414",
+      "frame": 3,
+      "label": "ItemPurple"
+    },
+    {
+      "path": "root/sprite414",
+      "frame": 4,
+      "label": "ItemGold"
+    },
+    {
+      "path": "root/sprite424",
+      "frame": 0,
+      "label": "torso"
+    },
+    {
+      "path": "root/sprite424",
+      "frame": 1,
+      "label": "main_hand"
+    },
+    {
+      "path": "root/sprite424",
+      "frame": 2,
+      "label": "off_hand"
+    },
+    {
+      "path": "root/sprite424",
+      "frame": 3,
+      "label": "ring"
+    },
+    {
+      "path": "root/sprite424",
+      "frame": 4,
+      "label": "head"
+    },
+    {
+      "path": "root/sprite424",
+      "frame": 5,
+      "label": "hands"
+    },
+    {
+      "path": "root/sprite424",
+      "frame": 6,
+      "label": "waist"
+    },
+    {
+      "path": "root/sprite424",
+      "frame": 7,
+      "label": "feet"
+    },
+    {
+      "path": "root/sprite424",
+      "frame": 8,
+      "label": "potions"
+    },
+    {
+      "path": "root/sprite427",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite427",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite427",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite427",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite427",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite427",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite434",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite434",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite434",
+      "frame": 15,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite434",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite434",
+      "frame": 25,
+      "label": "new_item"
+    },
+    {
+      "path": "root/sprite434",
+      "frame": 26,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite435",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite435",
+      "frame": 3,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite444",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite444",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite444",
+      "frame": 13,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite444",
+      "frame": 23,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite444",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite449",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite449",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite449",
+      "frame": 13,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite449",
+      "frame": 23,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite449",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite452",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite452",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite452",
+      "frame": 13,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite452",
+      "frame": 23,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite452",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite472",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite472",
+      "frame": 4,
+      "label": "glow"
+    },
+    {
+      "path": "root/sprite478",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite478",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite478",
+      "frame": 10,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite478",
+      "frame": 14,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite478",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite478",
+      "frame": 34,
+      "label": "locked"
+    },
+    {
+      "path": "root/sprite478",
+      "frame": 39,
+      "label": "unlocked"
+    },
+    {
+      "path": "root/sprite478",
+      "frame": 49,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite478",
+      "frame": 54,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite485",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite485",
+      "frame": 5,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite485",
+      "frame": 10,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite485",
+      "frame": 19,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite485",
+      "frame": 24,
+      "label": "unlocked"
+    },
+    {
+      "path": "root/sprite490",
+      "frame": 0,
+      "label": "init"
+    },
+    {
+      "path": "root/sprite490",
+      "frame": 7,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite490",
+      "frame": 16,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite490",
+      "frame": 30,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite490",
+      "frame": 40,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite490",
+      "frame": 50,
+      "label": "dragged"
+    },
+    {
+      "path": "root/sprite490",
+      "frame": 63,
+      "label": "dropped"
+    },
+    {
+      "path": "root/sprite490",
+      "frame": 73,
+      "label": "dropped_on_target"
+    },
+    {
+      "path": "root/sprite490",
+      "frame": 87,
+      "label": "dragged_from_target"
+    },
+    {
+      "path": "root/sprite493",
+      "frame": 0,
+      "label": "Warrior"
+    },
+    {
+      "path": "root/sprite493",
+      "frame": 1,
+      "label": "Rogue"
+    },
+    {
+      "path": "root/sprite493",
+      "frame": 2,
+      "label": "Mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 0,
+      "label": "HUDSelect"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 1,
+      "label": "HUDPause"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 2,
+      "label": "HUDPotion"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 3,
+      "label": "MenuBack"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 4,
+      "label": "MenuCompare"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 5,
+      "label": "MenuGold"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 6,
+      "label": "DialogNext"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 7,
+      "label": "undefined"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 8,
+      "label": "sword_explosion"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 9,
+      "label": "sword_swing"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 10,
+      "label": "sword_grey"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 11,
+      "label": "fire_right"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 12,
+      "label": "skill05_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 13,
+      "label": "skill06_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 14,
+      "label": "skill07_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 15,
+      "label": "skill08_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 16,
+      "label": "skill09_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 17,
+      "label": "skill10_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 18,
+      "label": "skill11_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 19,
+      "label": "skill12_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 20,
+      "label": "skill13_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 21,
+      "label": "skill14_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 22,
+      "label": "skill15_warrior"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 23,
+      "label": "Torso"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 24,
+      "label": "RightHand"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 25,
+      "label": "LeftHand"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 26,
+      "label": "Feet"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 27,
+      "label": "HandArmor"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 28,
+      "label": "RightHandRingFinger"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 29,
+      "label": "LeftHandRingFinger"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 30,
+      "label": "Waist"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 31,
+      "label": "Head"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 32,
+      "label": "Potions"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 33,
+      "label": "Yes"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 34,
+      "label": "No"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 35,
+      "label": "Blank"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 36,
+      "label": "skill01_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 37,
+      "label": "skill02_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 38,
+      "label": "skill03_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 39,
+      "label": "skill04_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 40,
+      "label": "skill05_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 41,
+      "label": "skill06_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 42,
+      "label": "skill07_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 43,
+      "label": "skill08_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 44,
+      "label": "skill09_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 45,
+      "label": "skill10_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 46,
+      "label": "skill11_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 47,
+      "label": "skill12_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 48,
+      "label": "skill13_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 49,
+      "label": "skill14_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 50,
+      "label": "skill15_rogue"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 51,
+      "label": "skill01_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 52,
+      "label": "skill02_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 53,
+      "label": "skill03_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 54,
+      "label": "skill04_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 55,
+      "label": "skill05_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 56,
+      "label": "skill06_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 57,
+      "label": "skill07_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 58,
+      "label": "skill08_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 59,
+      "label": "skill09_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 60,
+      "label": "skill10_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 61,
+      "label": "skill11_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 62,
+      "label": "skill12_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 63,
+      "label": "skill13_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 64,
+      "label": "skill14_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 65,
+      "label": "skill15_mage"
+    },
+    {
+      "path": "root/sprite526",
+      "frame": 66,
+      "label": "MenuI"
+    },
+    {
+      "path": "root/sprite534",
+      "frame": 0,
+      "label": "Lightning"
+    },
+    {
+      "path": "root/sprite534",
+      "frame": 1,
+      "label": "Fire"
+    },
+    {
+      "path": "root/sprite534",
+      "frame": 2,
+      "label": "Ice"
+    },
+    {
+      "path": "root/sprite534",
+      "frame": 3,
+      "label": "Wind"
+    },
+    {
+      "path": "root/sprite534",
+      "frame": 4,
+      "label": "Nature"
+    },
+    {
+      "path": "root/sprite536",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite536",
+      "frame": 4,
+      "label": "Release"
+    },
+    {
+      "path": "root/sprite536",
+      "frame": 9,
+      "label": "Focused"
+    },
+    {
+      "path": "root/sprite536",
+      "frame": 10,
+      "label": "Deselect"
+    },
+    {
+      "path": "root/sprite543",
+      "frame": 0,
+      "label": "Celest"
+    },
+    {
+      "path": "root/sprite543",
+      "frame": 1,
+      "label": "Hotty"
+    },
+    {
+      "path": "root/sprite543",
+      "frame": 2,
+      "label": "Rocky"
+    },
+    {
+      "path": "root/sprite543",
+      "frame": 3,
+      "label": "Wetty"
+    },
+    {
+      "path": "root/sprite543",
+      "frame": 4,
+      "label": "Windy"
+    },
+    {
+      "path": "root/sprite554",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite554",
+      "frame": 4,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite564",
+      "frame": 0,
+      "label": "Unselected"
+    },
+    {
+      "path": "root/sprite564",
+      "frame": 1,
+      "label": "Selected"
+    },
+    {
+      "path": "root/sprite595",
+      "frame": 0,
+      "label": "Idle"
+    },
+    {
+      "path": "root/sprite595",
+      "frame": 3,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite595",
+      "frame": 9,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite595",
+      "frame": 15,
+      "label": "Disabled"
+    },
+    {
+      "path": "root/sprite595",
+      "frame": 16,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite595",
+      "frame": 22,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 0,
+      "label": "Objective"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 1,
+      "label": "Entrance"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 2,
+      "label": "Exit"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 3,
+      "label": "Character"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 4,
+      "label": "Enemies"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 5,
+      "label": "Champion"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 6,
+      "label": "Boss"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 7,
+      "label": "Player2"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 8,
+      "label": "Player3"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 9,
+      "label": "Player4"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 10,
+      "label": "QuestGiver"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 11,
+      "label": "Merchant"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 12,
+      "label": "Checkpoint"
+    },
+    {
+      "path": "root/sprite614",
+      "frame": 13,
+      "label": "Arrow"
+    },
+    {
+      "path": "root/sprite623",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite623",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite623",
+      "frame": 10,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite623",
+      "frame": 17,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite654",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite654",
+      "frame": 1,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite654",
+      "frame": 14,
+      "label": "hide"
+    },
+    {
+      "path": "root/sprite665",
+      "frame": 0,
+      "label": "Off"
+    },
+    {
+      "path": "root/sprite665",
+      "frame": 13,
+      "label": "OffEnd"
+    },
+    {
+      "path": "root/sprite665",
+      "frame": 14,
+      "label": "On"
+    },
+    {
+      "path": "root/sprite684",
+      "frame": 0,
+      "label": "SpellCelest"
+    },
+    {
+      "path": "root/sprite684",
+      "frame": 1,
+      "label": "SpellWetty"
+    },
+    {
+      "path": "root/sprite684",
+      "frame": 2,
+      "label": "SpellWindy"
+    },
+    {
+      "path": "root/sprite684",
+      "frame": 3,
+      "label": "SpellRocky"
+    },
+    {
+      "path": "root/sprite684",
+      "frame": 4,
+      "label": "SpellHotty"
+    },
+    {
+      "path": "root/sprite684",
+      "frame": 5,
+      "label": "Attack"
+    },
+    {
+      "path": "root/sprite684",
+      "frame": 6,
+      "label": "yes"
+    },
+    {
+      "path": "root/sprite684",
+      "frame": 7,
+      "label": "no"
+    },
+    {
+      "path": "root/sprite685",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite685",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite685",
+      "frame": 12,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite685",
+      "frame": 19,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite685",
+      "frame": 34,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite685",
+      "frame": 41,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite687",
+      "frame": 0,
+      "label": "Idle"
+    },
+    {
+      "path": "root/sprite687",
+      "frame": 1,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite687",
+      "frame": 14,
+      "label": "hide"
+    },
+    {
+      "path": "root/sprite688",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite688",
+      "frame": 5,
+      "label": "hide"
+    },
+    {
+      "path": "root/sprite688",
+      "frame": 20,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite688",
+      "frame": 35,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite688",
+      "frame": 36,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite693",
+      "frame": 0,
+      "label": "Wifi"
+    },
+    {
+      "path": "root/sprite693",
+      "frame": 1,
+      "label": "Blue"
+    },
+    {
+      "path": "root/sprite695",
+      "frame": 0,
+      "label": "Off"
+    },
+    {
+      "path": "root/sprite695",
+      "frame": 1,
+      "label": "On"
+    },
+    {
+      "path": "root/sprite698",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite698",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite698",
+      "frame": 10,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite698",
+      "frame": 14,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite698",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite698",
+      "frame": 34,
+      "label": "locked"
+    },
+    {
+      "path": "root/sprite698",
+      "frame": 39,
+      "label": "unlocked"
+    },
+    {
+      "path": "root/sprite698",
+      "frame": 49,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite698",
+      "frame": 54,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite706",
+      "frame": 0,
+      "label": "Idle"
+    },
+    {
+      "path": "root/sprite706",
+      "frame": 1,
+      "label": "Pressed"
+    },
+    {
+      "path": "root/sprite706",
+      "frame": 8,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite706",
+      "frame": 16,
+      "label": "Invited"
+    },
+    {
+      "path": "root/sprite706",
+      "frame": 17,
+      "label": "Friend"
+    },
+    {
+      "path": "root/sprite706",
+      "frame": 18,
+      "label": "None"
+    },
+    {
+      "path": "root/sprite710",
+      "frame": 0,
+      "label": "Idle"
+    },
+    {
+      "path": "root/sprite710",
+      "frame": 3,
+      "label": "Pressed"
+    },
+    {
+      "path": "root/sprite710",
+      "frame": 9,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite710",
+      "frame": 15,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite710",
+      "frame": 22,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite714",
+      "frame": 0,
+      "label": "Idle"
+    },
+    {
+      "path": "root/sprite714",
+      "frame": 3,
+      "label": "Pressed"
+    },
+    {
+      "path": "root/sprite714",
+      "frame": 9,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite714",
+      "frame": 15,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite714",
+      "frame": 22,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite718",
+      "frame": 0,
+      "label": "Idle"
+    },
+    {
+      "path": "root/sprite718",
+      "frame": 3,
+      "label": "Pressed"
+    },
+    {
+      "path": "root/sprite718",
+      "frame": 9,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite718",
+      "frame": 15,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite718",
+      "frame": 22,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite719",
+      "frame": 0,
+      "label": "Open"
+    },
+    {
+      "path": "root/sprite719",
+      "frame": 1,
+      "label": "Closed"
+    },
+    {
+      "path": "root/sprite719",
+      "frame": 2,
+      "label": "None"
+    },
+    {
+      "path": "root/sprite721",
+      "frame": 0,
+      "label": "Pending"
+    },
+    {
+      "path": "root/sprite738",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite738",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite738",
+      "frame": 13,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite738",
+      "frame": 23,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite738",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite738",
+      "frame": 25,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite738",
+      "frame": 33,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite743",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite743",
+      "frame": 3,
+      "label": "hide"
+    },
+    {
+      "path": "root/sprite743",
+      "frame": 18,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite744",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite744",
+      "frame": 5,
+      "label": "hide"
+    },
+    {
+      "path": "root/sprite744",
+      "frame": 22,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite751",
+      "frame": 0,
+      "label": "enveloppe"
+    },
+    {
+      "path": "root/sprite751",
+      "frame": 1,
+      "label": "empty"
+    },
+    {
+      "path": "root/sprite755",
+      "frame": 0,
+      "label": "On"
+    },
+    {
+      "path": "root/sprite755",
+      "frame": 1,
+      "label": "Off"
+    },
+    {
+      "path": "root/sprite758",
+      "frame": 0,
+      "label": "Unselected"
+    },
+    {
+      "path": "root/sprite758",
+      "frame": 1,
+      "label": "Selected"
+    },
+    {
+      "path": "root/sprite763",
+      "frame": 0,
+      "label": "init"
+    },
+    {
+      "path": "root/sprite763",
+      "frame": 5,
+      "label": "focus_in"
+    },
+    {
+      "path": "root/sprite763",
+      "frame": 13,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite763",
+      "frame": 20,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite763",
+      "frame": 27,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite766",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite766",
+      "frame": 5,
+      "label": "pressed"
+    },
+    {
+      "path": "root/sprite766",
+      "frame": 13,
+      "label": "released"
+    },
+    {
+      "path": "root/sprite766",
+      "frame": 23,
+      "label": "disabled"
+    },
+    {
+      "path": "root/sprite766",
+      "frame": 24,
+      "label": "activated"
+    },
+    {
+      "path": "root/sprite766",
+      "frame": 25,
+      "label": "focus_out"
+    },
+    {
+      "path": "root/sprite772",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite772",
+      "frame": 5,
+      "label": "hide"
+    },
+    {
+      "path": "root/sprite772",
+      "frame": 22,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite784",
+      "frame": 0,
+      "label": "Basic"
+    },
+    {
+      "path": "root/sprite784",
+      "frame": 1,
+      "label": "Stats1"
+    },
+    {
+      "path": "root/sprite784",
+      "frame": 2,
+      "label": "Stats2"
+    },
+    {
+      "path": "root/sprite784",
+      "frame": 3,
+      "label": "Map1"
+    },
+    {
+      "path": "root/sprite784",
+      "frame": 4,
+      "label": "Quest1"
+    },
+    {
+      "path": "root/sprite784",
+      "frame": 5,
+      "label": "Quest2"
+    },
+    {
+      "path": "root/sprite784",
+      "frame": 6,
+      "label": "fearies1"
+    },
+    {
+      "path": "root/sprite784",
+      "frame": 7,
+      "label": "skills1"
+    },
+    {
+      "path": "root/sprite784",
+      "frame": 8,
+      "label": "Equipement1"
+    },
+    {
+      "path": "root/sprite784",
+      "frame": 9,
+      "label": "Stats3"
+    },
+    {
+      "path": "root/sprite785",
+      "frame": 0,
+      "label": "idle"
+    },
+    {
+      "path": "root/sprite785",
+      "frame": 1,
+      "label": "show"
+    },
+    {
+      "path": "root/sprite785",
+      "frame": 6,
+      "label": "hide"
+    }
+  ],
+  "strings": [
+    "",
+    "\n\n",
+    " ",
+    " - ",
+    " / ",
+    " passed to DisplacementDeltas.getDeltaOrientation($coord). $coord can only be \"x\" or \"y\"",
+    "\")",
+    "$btn",
+    "$version",
+    "%",
+    "/",
+    "0",
+    "2 handed Native returns: ",
+    "<font color=\"#FF0000\">Slam current level</font>",
+    "<font color=\"#FF0000\">Slam next level</font>",
+    "ANIMATION_END",
+    "ASSetPropFlags",
+    "Active",
+    "ActivePlayerCash",
+    "AddText",
+    "AddedStatsThisTurn",
+    "AdditionnalInfosForMerchant",
+    "AfterNative",
+    "Air",
+    "AllQuests",
+    "AllServers",
+    "AllStatusBoxes",
+    "AllTutorials",
+    "ArmorDefence",
+    "ArmorStats",
+    "Array",
+    "Arrow",
+    "Assigned",
+    "AttackStats",
+    "Blank",
+    "BlockRating",
+    "BlockingStats",
+    "Blue",
+    "BrownBG",
+    "BtnNameBeforeSell",
+    "ButEquipped",
+    "ButEquipped2",
+    "ButtonName",
+    "ButtonsList",
+    "BuyPotions",
+    "BuyValueForTrace",
+    "CHANGE",
+    "CHANGE_MENU",
+    "CLICK",
+    "CURSOR_DOWN",
+    "CURSOR_UP",
+    "Celest",
+    "CharClassFull",
+    "CharDifficulty",
+    "CharIcon",
+    "CharInfos",
+    "CharNameFull",
+    "Character",
+    "CharacterInformations.Icon is: ",
+    "CharacterMenu",
+    "CharacterMenuTabs",
+    "CharacterSheet",
+    "CheckIcons",
+    "Checkpoint",
+    "Class",
+    "Class1Desc",
+    "Class1Name",
+    "Class2Desc",
+    "Class2Name",
+    "ClassArg",
+    "ClassChangeDown",
+    "ClassChangeUp",
+    "ClassDesc",
+    "ClassIcon",
+    "ClassName",
+    "ClassText",
+    "Clicked",
+    "Clicked from the INVITATION MENU",
+    "Closed",
+    "Completed",
+    "CompletedTitle",
+    "ComponentBase",
+    "Confirmation",
+    "ConfirmationBox",
+    "ConfirmationType",
+    "CreateQuestList",
+    "CriticalOffence",
+    "CriticalStats",
+    "CurItemPrice",
+    "CurSelection",
+    "Current",
+    "Current Level = 1",
+    "CurrentActiveQuest",
+    "DISABLE",
+    "DQSmallBtnValue_Focus_Drag copy",
+    "DamReducStats",
+    "DamageReduction",
+    "Damage_Elemental_Max_Main_Hand",
+    "Damage_Elemental_Max_Off_Hand",
+    "Damage_Elemental_Min_Main_Hand",
+    "Damage_Elemental_Min_Off_Hand",
+    "Damage_Elemental_Type_Main_Hand",
+    "Damage_Elemental_Type_Off_Hand",
+    "Damage_Max_Main_Hand",
+    "Damage_Max_Off_Hand",
+    "Damage_Min_Main_Hand",
+    "Damage_Min_Off_Hand",
+    "Dash",
+    "Dash Description",
+    "DefenceMenuTitle",
+    "DefenceRating",
+    "DefenceStats",
+    "Description",
+    "Description2",
+    "Description3",
+    "Dexterity",
+    "DexterityText",
+    "Disabled",
+    "DisplacementDeltas",
+    "DisplayEquipedItem",
+    "DodgeRating",
+    "DodgeStats",
+    "DragScrollControls",
+    "DragToValue",
+    "Draggable",
+    "DraggingNow",
+    "Drop",
+    "DropTarget",
+    "ENABLE",
+    "ENTER_FRAME",
+    "Earth",
+    "ElementDamageType",
+    "Empty",
+    "Endurance",
+    "EnduranceText",
+    "Enemies",
+    "Energy",
+    "EnergyText",
+    "Entrance",
+    "EquipedItemInfo1",
+    "EquipedItemInfo2",
+    "EquipedItemInfo3",
+    "EquipedItemInfo4",
+    "EquipedItemInfo5",
+    "EquipedItemName",
+    "EquipedItemReq",
+    "EquipedSwordIcon",
+    "Error",
+    "Error! Invalid coordinate ",
+    "Events",
+    "Exit",
+    "ExpTextBox",
+    "FOCUS_IN",
+    "FOCUS_OUT",
+    "Faeries",
+    "Faery",
+    "FaeryElementImage",
+    "FaeryIdNum",
+    "FaeryNameText",
+    "FaeryUpgraded",
+    "Fire",
+    "First time you enter SAVING STATS",
+    "FistTimeYouEnter",
+    "Focused",
+    "ForceExit",
+    "FriendId",
+    "FriendListTop",
+    "FriendsTitle",
+    "FullPotionPrice",
+    "GAMEPLAYMENUS_ACCEPT",
+    "GAMEPLAYMENUS_ADD_SKILL",
+    "GAMEPLAYMENUS_ARMOR_DEFENCE",
+    "GAMEPLAYMENUS_ATTACK_RATING_OFFENSE",
+    "GAMEPLAYMENUS_AUTOEQUIP",
+    "GAMEPLAYMENUS_AUTOEQUIP_ALL",
+    "GAMEPLAYMENUS_BLOCK",
+    "GAMEPLAYMENUS_BUY",
+    "GAMEPLAYMENUS_BUY_MAXIMUM",
+    "GAMEPLAYMENUS_BUY_QUESTION",
+    "GAMEPLAYMENUS_CATEGORY_",
+    "GAMEPLAYMENUS_CATEGORY_0",
+    "GAMEPLAYMENUS_CATEGORY_1",
+    "GAMEPLAYMENUS_CATEGORY_2",
+    "GAMEPLAYMENUS_CATEGORY_3",
+    "GAMEPLAYMENUS_CATEGORY_4",
+    "GAMEPLAYMENUS_CATEGORY_5",
+    "GAMEPLAYMENUS_CATEGORY_6",
+    "GAMEPLAYMENUS_CATEGORY_7",
+    "GAMEPLAYMENUS_CATEGORY_8",
+    "GAMEPLAYMENUS_CHARACTER_SHEET_TITLE",
+    "GAMEPLAYMENUS_CLASS_CHANGE",
+    "GAMEPLAYMENUS_COMPLETED",
+    "GAMEPLAYMENUS_CRITICAL_OFFENSE",
+    "GAMEPLAYMENUS_DAMAGE_REDUCTION_DEFENSE",
+    "GAMEPLAYMENUS_DEFENCE_RATING_DEFENCE",
+    "GAMEPLAYMENUS_DEFENCE_TAB",
+    "GAMEPLAYMENUS_DEXTERITY",
+    "GAMEPLAYMENUS_DODGE",
+    "GAMEPLAYMENUS_DROP_QUESTION",
+    "GAMEPLAYMENUS_ENDURANCE",
+    "GAMEPLAYMENUS_ENERGY",
+    "GAMEPLAYMENUS_EXP",
+    "GAMEPLAYMENUS_FAERIES_TITLE",
+    "GAMEPLAYMENUS_FAERY_1",
+    "GAMEPLAYMENUS_FAERY_1B",
+    "GAMEPLAYMENUS_FAERY_1_DESC",
+    "GAMEPLAYMENUS_FAERY_1_SPELL",
+    "GAMEPLAYMENUS_FAERY_2",
+    "GAMEPLAYMENUS_FAERY_2B",
+    "GAMEPLAYMENUS_FAERY_2_DESC",
+    "GAMEPLAYMENUS_FAERY_2_SPELL",
+    "GAMEPLAYMENUS_FAERY_3",
+    "GAMEPLAYMENUS_FAERY_3B",
+    "GAMEPLAYMENUS_FAERY_3_DESC",
+    "GAMEPLAYMENUS_FAERY_3_SPELL",
+    "GAMEPLAYMENUS_FAERY_4",
+    "GAMEPLAYMENUS_FAERY_4B",
+    "GAMEPLAYMENUS_FAERY_4_DESC",
+    "GAMEPLAYMENUS_FAERY_4_SPELL",
+    "GAMEPLAYMENUS_FAERY_5",
+    "GAMEPLAYMENUS_FAERY_5B",
+    "GAMEPLAYMENUS_FAERY_5_DESC",
+    "GAMEPLAYMENUS_FAERY_5_SPELL",
+    "GAMEPLAYMENUS_HERO_LOG",
+    "GAMEPLAYMENUS_HP",
+    "GAMEPLAYMENUS_HP_LEECH_RECOVERY",
+    "GAMEPLAYMENUS_HP_REGEN_RECOVERY",
+    "GAMEPLAYMENUS_INVENTORY_DROP",
+    "GAMEPLAYMENUS_INVENTORY_SWAP_WEAPON",
+    "GAMEPLAYMENUS_INVENTORY_TITLE",
+    "GAMEPLAYMENUS_LEGEND_ARROW",
+    "GAMEPLAYMENUS_LEVEL",
+    "GAMEPLAYMENUS_MAGIC_DAMAGE_BONUS",
+    "GAMEPLAYMENUS_MAGIC_TAB",
+    "GAMEPLAYMENUS_MAP_TITLE",
+    "GAMEPLAYMENUS_MELEE_TO_HIT_BONUS_OFFENSE",
+    "GAMEPLAYMENUS_MERCHANT_TITLE",
+    "GAMEPLAYMENUS_MP",
+    "GAMEPLAYMENUS_MP_LEECH_RECOVERY",
+    "GAMEPLAYMENUS_MP_REGEN_RECOVERY",
+    "GAMEPLAYMENUS_OFFENSE_TAB",
+    "GAMEPLAYMENUS_PARTY_LOG",
+    "GAMEPLAYMENUS_POINTS_CONFIRM",
+    "GAMEPLAYMENUS_POINTS_LEFT",
+    "GAMEPLAYMENUS_QUEST_JOURNAL_TITLE",
+    "GAMEPLAYMENUS_QUEST_LOG",
+    "GAMEPLAYMENUS_QUEST_MAKE_ACTIVE",
+    "GAMEPLAYMENUS_RECOVERY_TAB",
+    "GAMEPLAYMENUS_REFUSE",
+    "GAMEPLAYMENUS_RESISTANCES",
+    "GAMEPLAYMENUS_SELL",
+    "GAMEPLAYMENUS_SHOP_INVENTORY_FULL",
+    "GAMEPLAYMENUS_SHOP_POTION_FULL",
+    "GAMEPLAYMENUS_SKILLS_TITLE",
+    "GAMEPLAYMENUS_SKILL_POINTS",
+    "GAMEPLAYMENUS_SPELL_CRITICAL_MAGIC",
+    "GAMEPLAYMENUS_SPELL_TO_HIT_MAGIC",
+    "GAMEPLAYMENUS_STATISTICS",
+    "GAMEPLAYMENUS_STRENGTH",
+    "GAMEPLAYMENUS_SUMMARY_2_HAND",
+    "GAMEPLAYMENUS_SUMMARY_2_HAND_ELEM",
+    "GAMEPLAYMENUS_SUMMARY_BOW",
+    "GAMEPLAYMENUS_SUMMARY_BOW_ELEM",
+    "GAMEPLAYMENUS_SUMMARY_D_REDUCTION",
+    "GAMEPLAYMENUS_SUMMARY_L_HAND",
+    "GAMEPLAYMENUS_SUMMARY_L_HAND_ELEM",
+    "GAMEPLAYMENUS_SUMMARY_M_CRIT",
+    "GAMEPLAYMENUS_SUMMARY_M_HIT",
+    "GAMEPLAYMENUS_SUMMARY_R_HAND",
+    "GAMEPLAYMENUS_SUMMARY_R_HAND_ELEM",
+    "GAMEPLAYMENUS_SUMMARY_STAFF",
+    "GAMEPLAYMENUS_SUMMARY_STAFF_ELEM",
+    "GAMEPLAYMENUS_SUMMARY_S_CRIT",
+    "GAMEPLAYMENUS_SUMMARY_S_HIT",
+    "GAMEPLAYMENUS_TRANSMUTE2",
+    "GAMEPLAYMENUS_TRANSMUTE_CONFIRM",
+    "GAMEPLAYMENUS_TRANSMUTE_QUESTION",
+    "GAMEPLAYMENUS_YOUR_POTIONS",
+    "GAMEPLAYMENUS_current_level",
+    "GAMEPLAYMENUS_next_level",
+    "GLOBAL_EMPTY",
+    "GLOBAL_EQUIP",
+    "GLOBAL_UNEQUIP",
+    "GNAAAAA",
+    "GametypeMulti",
+    "GenerateFriendList",
+    "GenerateInventoryListItems",
+    "GetActiveFaery",
+    "GetFaeryIsUnlocked",
+    "GetTutoInfos",
+    "Gold",
+    "GoldString",
+    "Grey",
+    "HE HAVE BOW",
+    "HE HAVE STAFF",
+    "HP",
+    "HasBow",
+    "HasOffHandWeapon",
+    "HasStaff",
+    "Have a button",
+    "Header",
+    "Hide",
+    "Highlight",
+    "Host",
+    "Hotty",
+    "HpLeech",
+    "HpRecovery",
+    "HpTextBox",
+    "ID",
+    "IN NO BUTTON",
+    "IS FIRST",
+    "IS NOT FIRST",
+    "Ice",
+    "Icon",
+    "Id",
+    "Idle",
+    "In DISPLAY selected Item",
+    "In Show",
+    "In Sttting BOTH",
+    "In Sttting STATS",
+    "In Sttting Skills",
+    "In btnBack  useSkillPoint = ",
+    "In swap",
+    "InDisplayEquipedItems",
+    "InOkButton",
+    "InvSlotId",
+    "Inventory",
+    "InventoryList",
+    "Invitation",
+    "Invite",
+    "Is On show",
+    "Is undefined",
+    "IsCurrent",
+    "IsCurrent: ",
+    "IsMultiplayerGame",
+    "IsNowTheHost",
+    "IsPrimary",
+    "IsWeaponTwoHanded",
+    "ItemBuyValue",
+    "ItemBuyValueString",
+    "ItemBuyback",
+    "ItemColor",
+    "ItemEquippable",
+    "ItemEquipped",
+    "ItemEquippedOtherHand",
+    "ItemID",
+    "ItemIndex",
+    "ItemInfo1",
+    "ItemInfo2",
+    "ItemInfo3",
+    "ItemInfo4",
+    "ItemInfo5",
+    "ItemName",
+    "ItemNameForBuy",
+    "ItemPowers0Desc",
+    "ItemPowers1Desc",
+    "ItemPowers2Desc",
+    "ItemPowers3Desc",
+    "ItemPriceReal",
+    "ItemQuantity",
+    "ItemReq",
+    "ItemReqsDesc",
+    "ItemSellValueString",
+    "ItemStatsDesc",
+    "ItemTransmuteValue",
+    "ItemTransmuteValueString",
+    "ItemType",
+    "KEY_CHANGED",
+    "KEY_DOWN",
+    "KEY_UP",
+    "Kick",
+    "Kick: ",
+    "LH",
+    "LastAssignerQuest",
+    "LastSelectedTab",
+    "Leech_HP",
+    "Leech_MP",
+    "LeftHandDamage",
+    "LeftHandDamageMagic",
+    "LeftTexts",
+    "LegendPopup",
+    "Level",
+    "Light",
+    "LightOn",
+    "Lightning",
+    "LobbyLines",
+    "LobbyPlayerId",
+    "Lock",
+    "LogMap",
+    "MENU_CLASS_SKILL",
+    "MENU_CONFIRM",
+    "MENU_HELP_04_TITLE",
+    "MENU_INVITE",
+    "MENU_KICK_CONFIRMATION",
+    "MENU_LEADERBOARDS_SECTION_TITLE_NAME",
+    "MENU_MAIN_QUEST",
+    "MENU_MAP_CHAR",
+    "MENU_MAP_CHECKPOINT",
+    "MENU_MAP_ENEMIES",
+    "MENU_MAP_ENTRANCE",
+    "MENU_MAP_EXIT",
+    "MENU_MAP_LEGEND",
+    "MENU_MAP_MERCHANT",
+    "MENU_MAP_OBJ",
+    "MENU_MAP_PLAYER2",
+    "MENU_MAP_PLAYER3",
+    "MENU_MAP_PLAYER4",
+    "MENU_MAP_QUESTGIVER",
+    "MENU_MAP_RESET_ZOOM",
+    "MENU_MULTIPLAYER_ADD_FRIEND_QUESTION",
+    "MENU_MULTIPLAYER_ERROR_KICKED",
+    "MENU_MULTIPLAYER_TITLE_INVITATION",
+    "MENU_MULTIPLAYER_TITLE_LOBBY",
+    "MENU_MULTI_ONLINE",
+    "MENU_PLAYERS",
+    "MENU_PLOT_MISSION",
+    "MENU_SEND_INVITATIONS",
+    "MENU_SHOW_LEGEND",
+    "MENU_SIDE_QUEST",
+    "MENU_SKILL_BUTTONS",
+    "MENU_SPECIALISATION",
+    "MENU_TOTAL_GOLD",
+    "MENU_VALUE_TITLE",
+    "MENU_title",
+    "MIN DAMAGE: ",
+    "MP",
+    "Mage",
+    "Magic",
+    "Map",
+    "MapIconsDummy",
+    "MapIconsDynamic1",
+    "MapIconsDynamic10",
+    "MapIconsDynamic11",
+    "MapIconsDynamic12",
+    "MapIconsDynamic2",
+    "MapIconsDynamic3",
+    "MapIconsDynamic4",
+    "MapIconsDynamic5",
+    "MapIconsDynamic6",
+    "MapIconsDynamic7",
+    "MapIconsDynamic8",
+    "MapIconsDynamic9",
+    "Math",
+    "MaxNumPotions",
+    "Max_HP",
+    "Max_MP",
+    "Max_XP",
+    "MeleeHitChance",
+    "MeleeHitStats",
+    "MenuBack",
+    "MenuConfirm",
+    "MenuMagicTitle",
+    "MenuSelect",
+    "MenuSpending",
+    "MenuTab",
+    "Menu_Average_Melee_To_Hit",
+    "Menu_Average_Spell_To_Hit",
+    "Menu_Melee_Damage_Reduction",
+    "Merchant",
+    "MerchantErrorPopup",
+    "MerchantID",
+    "MerchantName",
+    "MissingPotions",
+    "MovieClip",
+    "MovieClipsUtils",
+    "MpLeech",
+    "MpRecovery",
+    "MpTextBox",
+    "MultiplayerLobbyDesc",
+    "Name",
+    "NativeAddFriend",
+    "NativeBackToHud",
+    "NativeChangeRolloverInputBehavior",
+    "NativeEquipSkill",
+    "NativeGetCharMenuTutorialMessage",
+    "NativeGetMultiplayerQuestInfo",
+    "NativeGetMultiplayerRoomInfo",
+    "NativeGetNumPotions",
+    "NativeGetParsedString",
+    "NativeGetPlayerStats",
+    "NativeGetPossibleClassSpec",
+    "NativeGetQuestDetails",
+    "NativeGetQuestIDsInRange",
+    "NativeGetSkillDetails",
+    "NativeGetStringFromSymbol",
+    "NativeGetStringNumPotions",
+    "NativeHUDGetActiveFaery",
+    "NativeHUDGetIsFaeryUnlocked",
+    "NativeHUDSetActiveFaery",
+    "NativeInvAutoEquipSlot",
+    "NativeInvDropItem",
+    "NativeInvEquipItem",
+    "NativeInvGetEquipedItem",
+    "NativeInvGetHasOffHandWeapon",
+    "NativeInvGetHasTwoHandedWeapon",
+    "NativeInvGetHasTwoHandedWeapon(0) is: ",
+    "NativeInvGetItemDetails",
+    "NativeInvGetItemsListForSlot",
+    "NativeInvGetPlayerGold",
+    "NativeInvTransmuteItem",
+    "NativeInvUnequipItem",
+    "NativeInvitePlayer",
+    "NativeIsBluetooth",
+    "NativeIsMultiplayerEnabled",
+    "NativeIsMultiplayerGame",
+    "NativeIsMultiplayerHost",
+    "NativeIsOnlineMode",
+    "NativeKickPlayerOut",
+    "NativeMerchantBuyItem",
+    "NativeMerchantGetItemsListForSlot",
+    "NativeMerchantSellItem",
+    "NativeMultiplayerBack",
+    "NativePlaySoundFX",
+    "NativePopAllAbove",
+    "NativePopAllMenus",
+    "NativePopMenu",
+    "NativePushMenu",
+    "NativeReloadSkills",
+    "NativeResetMapZoom",
+    "NativeResult",
+    "NativeSaveGame",
+    "NativeSelectClassSpec",
+    "NativeSendGLInvite",
+    "NativeSetCurrentQuest",
+    "NativeSetMultitouch",
+    "NativeShowMinimapLegend",
+    "NativeShowStatusBar",
+    "NativeSkillGetEquipedSkillsIDs",
+    "NativeSkillsGetSkillPointsLeft",
+    "NativeSkillsTrainSkill",
+    "NativeSkipCharMenuTutorialMessage",
+    "NativeStatsAssignPoint",
+    "NativeSwapEquipment",
+    "Nature",
+    "NewFriendNameToAdd",
+    "Next Level = 2",
+    "No",
+    "None",
+    "Not Enough Space",
+    "NumPotions",
+    "Number",
+    "ONLINE STATUS ",
+    "ONLINE STATUS True",
+    "ONLINE STATUS false",
+    "ObjPotions",
+    "Object",
+    "Objective",
+    "ObjectiveDescription",
+    "Off",
+    "OffEnd",
+    "Offence",
+    "OffenceRating",
+    "OffenceTitle",
+    "On",
+    "OnOffSpec",
+    "OnlineIcon",
+    "OnlineTitle",
+    "Open",
+    "OriginItemPosX",
+    "OriginItemPosY",
+    "Other",
+    "PLAYER HAS: ",
+    "POP_MENU",
+    "PRESS",
+    "PUSH_MENU",
+    "ParsedStringArgs",
+    "Physical_Armor",
+    "PickupArmor",
+    "PickupGold",
+    "PickupPotion",
+    "PickupWeapon",
+    "PlayButtonSound",
+    "Player2",
+    "Player3",
+    "Player4",
+    "PlayerAboutToGetKickedId",
+    "PlayerCanBackToHud",
+    "PlayerId",
+    "PlayerIsKicked",
+    "PlayerStatusLobby",
+    "PlayerText",
+    "PlayerTitleText",
+    "Players",
+    "PlotTitle",
+    "PlotTitleText",
+    "Point",
+    "PointsLeftText",
+    "PostDescription",
+    "PreDescription",
+    "Pressed",
+    "Quest Current is: ",
+    "Quest ID is: ",
+    "Quest Title is: ",
+    "QuestDesc",
+    "QuestDetailsText",
+    "QuestGiver",
+    "QuestID",
+    "QuestMain",
+    "QuestName",
+    "QuestPrio",
+    "QuestTitle",
+    "Quests",
+    "QuestsList",
+    "READY",
+    "RELEASE",
+    "RELEASE_OUTSIDE",
+    "RH",
+    "ROLL_OUT",
+    "ROLL_OVER",
+    "Rating_Armor",
+    "Rating_Attack",
+    "Rating_Block",
+    "Rating_Critical",
+    "Rating_DamReduc",
+    "Rating_Defense",
+    "Rating_Dodge",
+    "Rating_MeleeHit",
+    "Rating_SpellCrit",
+    "Rating_SpellHit",
+    "RealPriceIs: ",
+    "Recovery",
+    "RecoveryTitle",
+    "Regen_HP",
+    "Regen_MP",
+    "Removing ",
+    "RenderedBG",
+    "Resistance_Air",
+    "Resistance_Earth",
+    "Resistance_Fire",
+    "Resistance_Lightning",
+    "Resistance_Water",
+    "ResistancesTxt",
+    "RightHandDamage",
+    "RightHandDamageMagic",
+    "Rocky",
+    "Rogue",
+    "RoomInfos.act = ",
+    "RoomInfos.questDesc = ",
+    "RoomInfos.questName = ",
+    "SAVING THE GODDAMN GAME!!!",
+    "SHOULD BE VISIBLE",
+    "SHOULD NOT BE VISIBLE",
+    "SKILL_NAME",
+    "Scope",
+    "ScrollbarEnvironment_limits",
+    "Selected",
+    "SelectedFriendId",
+    "SelectedFriendName",
+    "SelectedItemName",
+    "SelectedItemType",
+    "SelectedQuest",
+    "SelectedServerHost",
+    "SelectedSeverId",
+    "SendInvitation",
+    "SetEquipedItemToSlots0",
+    "SetEquipedItemToSlots1",
+    "SetEquipedItemToSlots2",
+    "SetEquipedItemToSlots3",
+    "SetEquipedItemToSlots4",
+    "SetEquipedItemToSlots5",
+    "SetEquipedItemToSlots6",
+    "SetEquipedItemToSlots7",
+    "SetEquipedItemToSlots8",
+    "SetPlayerStatus",
+    "SetPotions",
+    "SetStartPosition",
+    "SettingBoth",
+    "SettingSkills",
+    "SettingStats",
+    "Shockwave",
+    "Shockwave Description",
+    "Show",
+    "SideList",
+    "Skill",
+    "Skill focused is ",
+    "SkillAssignable",
+    "SkillAssignedToSlot",
+    "SkillCurrLevel",
+    "SkillDescription",
+    "SkillFocused",
+    "SkillIcon",
+    "SkillLevel",
+    "SkillName",
+    "SkillNextLevel",
+    "SkillUnlocked",
+    "Skills",
+    "Slam",
+    "Slam Description",
+    "Slot",
+    "SlotStatus",
+    "SlotStr",
+    "Spec1",
+    "Spec1Status",
+    "Spec2",
+    "Spec2Status",
+    "SpecName",
+    "SpecTime",
+    "SpecTitle",
+    "SpellCritStats",
+    "SpellCritText",
+    "SpellDamageBonus",
+    "SpellHit",
+    "SpellHitStats",
+    "Spell_Damage_Bonus_Air",
+    "Spell_Damage_Bonus_Earth",
+    "Spell_Damage_Bonus_Fire",
+    "Spell_Damage_Bonus_Lightning",
+    "Spell_Damage_Bonus_Water",
+    "Spell_Rating_Critical",
+    "StartingDex",
+    "StartingEndu",
+    "StartingEnergy",
+    "StartingStrength",
+    "Stat_Dexterity",
+    "Stat_Endurance",
+    "Stat_Energy",
+    "Stat_Points",
+    "Stat_Strength",
+    "StaticFunctions",
+    "Stats",
+    "StatsPoints is below 0 ??  MIGHT BE BUG",
+    "StatsPointsLeft",
+    "Status",
+    "StrNumPotions",
+    "Strength",
+    "StrengthText",
+    "String",
+    "Succeeded",
+    "TWOH",
+    "TYPE: ",
+    "TabIcon",
+    "TextBox",
+    "The condition is false",
+    "This._name is: ",
+    "Title",
+    "TitleGraphic",
+    "TitleText",
+    "Too Many Potions",
+    "TopMultiplayerTabs",
+    "TotalGoldText",
+    "Transmute",
+    "TutorialFrame",
+    "TutorialInfoObj",
+    "TutorialMenu",
+    "TutorialMessage",
+    "TwoHDamage",
+    "TwoHDamageMagic",
+    "Unselected",
+    "UpdateCharInfos",
+    "UpdateLobbyInfos",
+    "Upgraded",
+    "VISIBLE DAMAGE is visible: ",
+    "ValueBox",
+    "ValueText",
+    "WarCry",
+    "WarCry Description",
+    "Warning: You'll have strange behavior with an easeOutForce lower or equal to 1 with a FingerScrollable! (applied to \"",
+    "WarningBox",
+    "WarningType",
+    "Warrior",
+    "Water",
+    "Wetty",
+    "WhirlingBlades",
+    "WhirlingBlades Description",
+    "Wifi",
+    "Wind",
+    "Windy",
+    "XP",
+    "Yes",
+    "Yes2",
+    "[DH2]Btn_EquipedSkill",
+    "_animatingDirection",
+    "_buttonsQty",
+    "_buttonsQtyPost",
+    "_buttonsQtyPre",
+    "_currentIndex",
+    "_currentframe",
+    "_data",
+    "_deltas",
+    "_drop_all",
+    "_droppedIn",
+    "_forcedEndingPoint",
+    "_global",
+    "_height",
+    "_iconMemberName",
+    "_inReleaseArea",
+    "_initX",
+    "_initY",
+    "_isAnimating",
+    "_labelMemberName",
+    "_listeners",
+    "_mainButtons",
+    "_mcNeedingRelease",
+    "_mcsUtils",
+    "_name",
+    "_needingRelease",
+    "_onTarget",
+    "_origX",
+    "_origY",
+    "_parent",
+    "_pressX",
+    "_pressY",
+    "_previousXMouse",
+    "_previousYMouse",
+    "_root",
+    "_root.AddedStatsThisTurn is: ",
+    "_root.CurrentActiveQuest: ",
+    "_root.GametypeMulti is: ",
+    "_root.InvSlotId is: ",
+    "_root.ItemID is: ",
+    "_root.LastAssignerQuest: ",
+    "_root.MerchantID is: ",
+    "_root.MerchantName is: ",
+    "_root.SkillFocused is: ",
+    "_root.SpecName: ",
+    "_root.StartingStrength is: ",
+    "_root.WarningType is: ",
+    "_speedX",
+    "_speedY",
+    "_startingPoint",
+    "_stopScrollX",
+    "_stopScrollY",
+    "_targetIndex",
+    "_this",
+    "_times",
+    "_value",
+    "_visible",
+    "_width",
+    "_x",
+    "_xmouse",
+    "_y",
+    "_ymouse",
+    "aboveDiff",
+    "aboveMaxValue",
+    "aboveMinValue",
+    "abs",
+    "act",
+    "activated",
+    "activeMovieClips",
+    "addDroppedIn",
+    "addListener",
+    "adjustScrollArea",
+    "anim",
+    "applyElementsEventsHandlers",
+    "applyEventsHandlers",
+    "applyOnPressEventHandler",
+    "applyOnReleaseEventHandler",
+    "atan2",
+    "baseValue",
+    "belowDiff",
+    "belowMaxValue",
+    "belowMinValue",
+    "blank",
+    "bottomlimit",
+    "broadcastEvent",
+    "btfill",
+    "btimg",
+    "btimg2",
+    "btn",
+    "btnBack",
+    "btnCharacterSheet",
+    "btnClosed",
+    "btnDefenceTab",
+    "btnFaeriesTab",
+    "btnInventory",
+    "btnInventoryTab",
+    "btnMagicTab",
+    "btnMapTab",
+    "btnOffenseTab",
+    "btnQuestLogTab",
+    "btnQuests",
+    "btnQuests0",
+    "btnRecoveryTab",
+    "btnServer",
+    "btnServer_",
+    "btnServer_0",
+    "btnSkillTreeTab",
+    "btnSpec1",
+    "btnSpec2",
+    "btnStatisticsTab",
+    "btnStats",
+    "btn_",
+    "btn_0",
+    "btn_Action",
+    "btn_Activate",
+    "btn_AddFriend",
+    "btn_AutoEquip",
+    "btn_Back",
+    "btn_Buy",
+    "btn_BuyPotions",
+    "btn_ClickPreventer",
+    "btn_Confirm",
+    "btn_Dragging",
+    "btn_Drop",
+    "btn_EnveloppeTab",
+    "btn_EquipItem",
+    "btn_GAMEPLAYMENUS_ACCEPT",
+    "btn_GAMEPLAYMENUS_AUTOEQUIP_ALL",
+    "btn_GAMEPLAYMENUS_FAERY_1",
+    "btn_GAMEPLAYMENUS_FAERY_2",
+    "btn_GAMEPLAYMENUS_FAERY_3",
+    "btn_GAMEPLAYMENUS_FAERY_4",
+    "btn_GAMEPLAYMENUS_FAERY_5",
+    "btn_GAMEPLAYMENUS_REFUSE",
+    "btn_GAMEPLAYMENUS_TRANSMUTE1",
+    "btn_GAMEPLAYMENUS_TRANSMUTE2",
+    "btn_HeroLog",
+    "btn_INVITE",
+    "btn_Invite",
+    "btn_Kick",
+    "btn_Legend",
+    "btn_MENU_SLOT_01",
+    "btn_Ok",
+    "btn_Open",
+    "btn_PartyLog",
+    "btn_ResetZoom",
+    "btn_Sell",
+    "btn_Swap",
+    "btn_Type0",
+    "btn_Type1",
+    "btn_Type2",
+    "btn_Type3",
+    "btn_Type4",
+    "btn_Type5",
+    "btn_Type6",
+    "btn_Type7",
+    "btn_Type8",
+    "btn_Type9",
+    "btn_Unequip",
+    "btn_activeskill0",
+    "btn_add",
+    "btn_back",
+    "btn_deadzone",
+    "btn_exit",
+    "btn_feet",
+    "btn_hands",
+    "btn_head",
+    "btn_left",
+    "btn_main_hand",
+    "btn_next",
+    "btn_no",
+    "btn_off_hand",
+    "btn_potions",
+    "btn_right",
+    "btn_ring1",
+    "btn_ring2",
+    "btn_skill",
+    "btn_torso",
+    "btn_train_dexterity",
+    "btn_train_endurance",
+    "btn_train_energy",
+    "btn_train_strength",
+    "btn_waist",
+    "btn_yes",
+    "buffer",
+    "buttons",
+    "buy",
+    "buyBack",
+    "calculateButtonsQty",
+    "call",
+    "canGetFocus",
+    "category_title",
+    "checkContactWithPressableMovieClip",
+    "checkOverlapping",
+    "checkPos",
+    "checkPressedMc",
+    "className",
+    "clearQuestsList",
+    "clearServerButtons",
+    "clickzone",
+    "cmdGetString",
+    "cnt",
+    "com",
+    "com.gameloft.components.ui.ButtonsList",
+    "com.gameloft.components.ui.DragScrollControls",
+    "com.gameloft.components.ui.Draggable",
+    "com.gameloft.components.ui.DropTarget",
+    "components",
+    "confirm_msg",
+    "constructDragHandler",
+    "containsEventHandler",
+    "content",
+    "continueTo",
+    "continueToNearestLimit",
+    "cp_Damage_Elemental_Max_Main_Hand",
+    "cp_Damage_Elemental_Max_Off_Hand",
+    "cp_Skill_Points",
+    "createFriendList",
+    "curDragSkill",
+    "curDropTarget",
+    "current_skill_description",
+    "dataIndex",
+    "deactivated",
+    "defaultOnAnimationEnd",
+    "defaultOnLoad",
+    "destroy",
+    "destroyButton",
+    "destroy_",
+    "disabled",
+    "disappearOnTarget",
+    "displayList",
+    "displaySelectedItemInfos",
+    "doDrop",
+    "doMerchant",
+    "doMerchantPotions",
+    "doSnapBack",
+    "doTransmute",
+    "dragHandler",
+    "dragSensibility",
+    "dragToValue",
+    "dragged",
+    "dragged_from_target",
+    "dragging_over",
+    "drop",
+    "dropTarget",
+    "dropped",
+    "dropped_on_target",
+    "duplicate",
+    "duplicateMovieClip",
+    "duplicated",
+    "easeOutForce",
+    "elemental",
+    "equipedSkills",
+    "faery_desc",
+    "faery_spell",
+    "fctn",
+    "feet",
+    "findActiveMcUnderMouse",
+    "findActiveMovieClips",
+    "fire_right",
+    "flash",
+    "focus_in",
+    "focus_out",
+    "forceEndingPoint",
+    "forceStartingPoint",
+    "gameSWF",
+    "gameloft",
+    "geom",
+    "getAngle",
+    "getBottomlimit",
+    "getBounds",
+    "getCanGetFocus",
+    "getClickzone",
+    "getCurrentIndex",
+    "getCurrentPoint",
+    "getData",
+    "getDeltaOrientation",
+    "getDeltas",
+    "getDisabled",
+    "getDropTarget",
+    "getDroppedIn",
+    "getEaseOutForce",
+    "getElementIndex",
+    "getEmptyItemString",
+    "getForcedAngle",
+    "getForcedDeltaOrientation",
+    "getForcedDeltas",
+    "getForcedVectorLength",
+    "getLeftlimit",
+    "getNextHighestDepth",
+    "getNumberOfMainButtons",
+    "getRightlimit",
+    "getTarget",
+    "getToplimit",
+    "getValidIndex",
+    "getVectorLength",
+    "getXscroll",
+    "getYscroll",
+    "glow",
+    "gotoAndPlay",
+    "gotoAndStop",
+    "gotoAndstop",
+    "gotoNext",
+    "gotoPrevious",
+    "hands",
+    "head",
+    "highlight",
+    "hitTest",
+    "hitzone",
+    "htmlText",
+    "i",
+    "iconText1",
+    "iconText10",
+    "iconText11",
+    "iconText12",
+    "iconText2",
+    "iconText3",
+    "iconText4",
+    "iconText5",
+    "iconText6",
+    "iconText7",
+    "iconText8",
+    "iconText9",
+    "iconsContainer",
+    "id",
+    "idle",
+    "img_Faery",
+    "in Condition.  Now, has Staff ? : ",
+    "in Condition.  Now, has bow ? : ",
+    "inc",
+    "index",
+    "indexOf",
+    "input",
+    "inv_anim",
+    "isActiveTab",
+    "isInArray",
+    "isMouseOver",
+    "isMovieClip",
+    "leftlimit",
+    "length",
+    "level",
+    "lightning",
+    "limits",
+    "list",
+    "listener",
+    "loop",
+    "main_hand",
+    "max",
+    "menu_CharacterMenu",
+    "menu_CharacterSheetDefense",
+    "menu_CharacterSheetMagic",
+    "menu_CharacterSheetNew",
+    "menu_CharacterSheetOffense",
+    "menu_CharacterSheetRecovery",
+    "menu_CharacterSheetStats",
+    "menu_EnterName",
+    "menu_FaerySheet",
+    "menu_FriendInvitationMulti",
+    "menu_InventorySheetDetails",
+    "menu_InventorySheetMain",
+    "menu_MapSheet",
+    "menu_Merchant",
+    "menu_MultiplayerJoin",
+    "menu_MultiplayerLobbyMulti",
+    "menu_QuestLogSheetNEW",
+    "menu_SkillTreeSheetNew",
+    "menu_SkillTreeSheetNew.btn_Dragging._visible = ",
+    "menu_Specialisation",
+    "menu_bg",
+    "menu_confirm2",
+    "menu_title",
+    "merchantMode",
+    "min",
+    "mouseContactWithMovieClip",
+    "mouseIsOver",
+    "movieclip",
+    "myactiveTab",
+    "name",
+    "next",
+    "nextFrame",
+    "next_skill_description",
+    "no",
+    "objFaery",
+    "off_hand",
+    "onActivated",
+    "onAnimationEnd",
+    "onButtonDestroyed",
+    "onButtonFocusIn",
+    "onButtonFocusOut",
+    "onButtonPress",
+    "onButtonRelease",
+    "onButtonSet",
+    "onChange",
+    "onDestroyAnimEnd",
+    "onDisabled",
+    "onDown",
+    "onDrag",
+    "onDropped",
+    "onDroppedIn",
+    "onDroppedInTarget",
+    "onEnterFrame",
+    "onEnteringFrame",
+    "onHide",
+    "onLoad",
+    "onNewIndex",
+    "onNewWhole",
+    "onNextAnimEnd",
+    "onNextEnd",
+    "onOverlap",
+    "onPress",
+    "onPreviousAnimEnd",
+    "onPreviousEnd",
+    "onPush",
+    "onReady",
+    "onRelease",
+    "onReleaseOutside",
+    "onRemovedFrom",
+    "onRemovedFromTarget",
+    "onRollOut",
+    "onRollOver",
+    "onScroll",
+    "onShow",
+    "onStopDrag",
+    "onTarget, Drop Target = ",
+    "onTargetPress",
+    "onTargetRelease",
+    "onUp",
+    "on_clicked",
+    "on_focus_in",
+    "on_focus_out",
+    "online",
+    "origX",
+    "origY",
+    "p",
+    "playerReady",
+    "player_class",
+    "player_gold",
+    "player_name",
+    "playing_dragging_over",
+    "post",
+    "potions",
+    "pre",
+    "presetAllSkills",
+    "pressed",
+    "previous",
+    "previousPos",
+    "prototype",
+    "push",
+    "questDesc",
+    "questName",
+    "radiansToDegrees",
+    "refreshUsedSkills",
+    "registerClass",
+    "releaseArea",
+    "released",
+    "removeDroppedIn",
+    "removeElement",
+    "removeElementAtIndex",
+    "removeFromTarget",
+    "removeListener",
+    "removeMovieClip",
+    "retval",
+    "rightlimit",
+    "ring",
+    "round",
+    "scrollbarH_bg",
+    "scrollbarH_handle",
+    "scrollnext",
+    "scrollnext_lastframe",
+    "scrollprevious",
+    "scrollprevious_lastframe",
+    "selectedSkill",
+    "selected_skillid",
+    "sell",
+    "sensibility",
+    "sent",
+    "setActiveMcs",
+    "setBottomlimit",
+    "setButton",
+    "setButtonsImages",
+    "setCanGetFocus",
+    "setCharacterMenuTitle",
+    "setClickzone",
+    "setData",
+    "setDisabled",
+    "setDisappearOnTarget",
+    "setDropTarget",
+    "setDroppedIn",
+    "setDuplicate",
+    "setEaseOutForce",
+    "setLeftlimit",
+    "setRightlimit",
+    "setSnapBack",
+    "setStartingPoint",
+    "setTarget",
+    "setToplimit",
+    "setUnderlyingMcs",
+    "setXscroll",
+    "setYscroll",
+    "show",
+    "skill",
+    "skill0",
+    "skillId",
+    "skill_description",
+    "skillid",
+    "skills",
+    "slotId",
+    "snapBack",
+    "splice",
+    "sqrt",
+    "startDrag",
+    "stop",
+    "stopDrag",
+    "swapDepths",
+    "swipe",
+    "switchTab",
+    "sword_explosion",
+    "symbol",
+    "symbolName",
+    "symbolOwner",
+    "target",
+    "targetMc",
+    "targetValue",
+    "tellEventsOnUnderlyingMcs",
+    "tellNewValue",
+    "text",
+    "the_top_clip",
+    "this",
+    "this.ItemType: ",
+    "this._parent.PlayerText.text: ",
+    "this._parent._name: ",
+    "top_clip",
+    "toplimit",
+    "torso",
+    "tutorial",
+    "txtZone",
+    "txt_title",
+    "ui",
+    "undefined",
+    "updateHandlesPosition",
+    "updatePlayerList",
+    "useSkillPoint",
+    "usedSkills",
+    "utils",
+    "value",
+    "valueIsIn",
+    "w",
+    "waist",
+    "x",
+    "xBased",
+    "xMax",
+    "xMin",
+    "xscroll",
+    "y",
+    "yMax",
+    "yMin",
+    "yes",
+    "yscroll"
+  ],
+  "limits": "Read-only authored action/label evidence; no live screen or original native whole-menu execution"
+}

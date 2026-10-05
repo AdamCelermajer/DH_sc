@@ -1,0 +1,25 @@
+{
+  "validation": "PASS",
+  "comparisons": 2560,
+  "counts": {
+    "set": 512,
+    "loop_end": 512,
+    "update": 512,
+    "play": 512,
+    "drop": 512
+  },
+  "synchronous_mutation_cases": 65,
+  "configured_mutation_cases": 160,
+  "ordered_service_comparisons": 10954,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "cbc278af76fc3adbed1c64418514615711a951bbfff7b7f49b6715d6eb02d572",
+  "reference_sha256": "82ccafa4f51b756b9f562216e281e7c13e68397e9f4ebc88f7153879f1a7e8d7",
+  "source_sha256": {
+    "port/level-world/character_fx_state_v1.hpp": "d5ba33e1a5655710224e77f16af9a8414ad031cf5f3ea306f2181961c0a9c3a5",
+    "port/level-world/character_fx_state_v1.cpp": "9524b8a833b249dad57d182fb42b7ba4b2b2cae76cd1ffcdbfbde6920e1d8fb1",
+    "port/level-world/tests/character_fx_state_v1_differential.py": "d2f7c59895e0c2ec88eecd6deb48e591c03237c325863d3e5348225561b5132e"
+  },
+  "scope": "Original AnimatedFX bodies and full PlayAnimFX caller versus O2 ARM64.\nScene sync, animator/visibility, debug and end-sampling are explicit services.\n",
+  "mismatches": 0,
+  "elapsed_seconds": 4.0
+}

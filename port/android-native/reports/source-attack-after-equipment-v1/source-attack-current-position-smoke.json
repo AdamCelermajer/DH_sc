@@ -1,0 +1,90 @@
+{
+  "validation": "PASS",
+  "scope": "Real Attack button at the current touch-reached position. Records source\nacquisition/animator and existing native melee HP application separately from\nthe failed precision-waypoint harness. No actor position or target is injected.\n",
+  "pid": "7985",
+  "apk_sha256": "d33c029f7bceee424b306c4b5be5bcca48821f9fafcc16fcdffa438520fc5ac0",
+  "full_skill_damage_verified": false,
+  "full_enemy_ai_verified": false,
+  "physical_arm64_tested": false,
+  "installed_apk_sha256": "d33c029f7bceee424b306c4b5be5bcca48821f9fafcc16fcdffa438520fc5ac0",
+  "source_commands": [
+    [
+      "0",
+      "4294967302",
+      "4294967302",
+      "5"
+    ]
+  ],
+  "source_animation_steps": [
+    [
+      "1",
+      "1",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0000000100000006"
+    ],
+    [
+      "1",
+      "1",
+      "1",
+      "0",
+      "0",
+      "1",
+      "0",
+      "0000000100000006"
+    ],
+    [
+      "0",
+      "1",
+      "1",
+      "0",
+      "0",
+      "1",
+      "0",
+      "0000000100000006"
+    ],
+    [
+      "1",
+      "1",
+      "1",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0000000100000006"
+    ],
+    [
+      "0",
+      "1",
+      "1",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0000000100000006"
+    ],
+    [
+      "0",
+      "1",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0",
+      "0000000100000006"
+    ]
+  ],
+  "native_melee_hits": [
+    [
+      "_prim_tmp_cultist07",
+      "21247",
+      "16725",
+      "0"
+    ]
+  ],
+  "source_target_injected": false,
+  "existing_melee_application_verified": true
+}

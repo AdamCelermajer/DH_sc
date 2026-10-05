@@ -1,0 +1,454 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "coverage_sha256": "e544f1c73c2871d6dcea841f8f5b351b7cc25f2192241c84b3fecedf348c3157",
+  "procedural_coverage_sha256": "012059d93c745ab142c995062a6f306958859b21e72285e26234701e46f0417b",
+  "scope": "Original fixed/generated map inspection; runtime mobs/chests pending; known seed failures explicit",
+  "maps": [
+    {
+      "identity": "ABBEY_RUINS_01",
+      "definition": "009a_abbey.mlx",
+      "label": "ABBEY_RUINS_01 (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "APPLETEMPLEBACKUP",
+      "definition": "x50_earth_temple_demo_BACKUP.mlx",
+      "label": "APPLETEMPLEBACKUP (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "DARKWOOD",
+      "definition": "003_darkwood.mlx",
+      "label": "DARKWOOD (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "DARKWOOD_V2",
+      "definition": "003_darkwood.mlx",
+      "label": "DARKWOOD_V2 (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "DARKWOOD_V3",
+      "definition": "003_darkwood.mlx",
+      "label": "DARKWOOD_V3 (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_01",
+      "definition": "038_dark_temple.mlx",
+      "label": "DARK_DUNGEON_TEMPLE_01 (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "definition": "039_dark_temple_bossroom_01.mlx",
+      "label": "DARK_DUNGEON_TEMPLE_BOSSROOM (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "FIRE_TEMPLE_01",
+      "definition": "031_firetemple.mlx",
+      "label": "FIRE_TEMPLE_01 (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "ICY_HUB",
+      "definition": "025_icy_hub.mlx",
+      "label": "ICY_HUB (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "INFECTED_VILLAGE_01",
+      "definition": "005_infectedvillage.mlx",
+      "label": "INFECTED_VILLAGE_01 (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "MACHINE_ROOMS_01",
+      "definition": "037_machine_rooms_01.mlx",
+      "label": "MACHINE_ROOMS_01 (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "MULTIPLAYER_TEST",
+      "definition": "101_debug_MachineRoomTestMultiPlayer.mlx",
+      "label": "MULTIPLAYER_TEST (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "PORTAL_ROOM",
+      "definition": "003_darkwood.mlx",
+      "label": "PORTAL_ROOM (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "RED_DESERT_HUB",
+      "definition": "015_red_desert_hub.mlx",
+      "label": "RED_DESERT_HUB (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "SWAMP",
+      "definition": "001_swamp.mlx",
+      "label": "SWAMP (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "UNDERWORLD_HUB",
+      "definition": "036_underworld_hub.mlx",
+      "label": "UNDERWORLD_HUB (fixed)",
+      "kind": "fixed"
+    },
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "definition": "009_abbey.rule.xml",
+      "kind": "procedural",
+      "label": "ABBEY_ENTRANCE_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "definition": "050_earth_temple_demo.rule.xml",
+      "kind": "procedural",
+      "label": "APPLETEMPLE (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "definition": "016_red_desert_cave_01.rule.xml",
+      "kind": "procedural",
+      "label": "DESERT_CAVE_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "definition": "017_red_desert_cave_02.rule.xml",
+      "kind": "procedural",
+      "label": "DESERT_CAVE_02 (generated; 0: original no layout)",
+      "preparation_by_seed": {
+        "0": "original_no_layout",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "definition": "018_red_desert_cave_03.rule.xml",
+      "kind": "procedural",
+      "label": "DESERT_CAVE_03 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "definition": "011_earth_temple_01.rule.xml",
+      "kind": "procedural",
+      "label": "EARTH_TEMPLE_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "definition": "012_earth_temple_02.rule.xml",
+      "kind": "procedural",
+      "label": "EARTH_TEMPLE_02 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "definition": "013_earth_temple_03.rule.xml",
+      "kind": "procedural",
+      "label": "EARTH_TEMPLE_03 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "definition": "030_el_air.rule.xml",
+      "kind": "procedural",
+      "label": "ELEMENTAL_AIR (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "definition": "014_el_earth.rule.xml",
+      "kind": "procedural",
+      "label": "ELEMENTAL_EARTH (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "definition": "032_el_fire.rule.xml",
+      "kind": "procedural",
+      "label": "ELEMENTAL_FIRE (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "definition": "010_el_lightning.rule.xml",
+      "kind": "procedural",
+      "label": "ELEMENTAL_LIGHT (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "definition": "024_el_water.rule.xml",
+      "kind": "procedural",
+      "label": "ELEMENTAL_WATER (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "definition": "008_gothicus_castle_01.rule.xml",
+      "kind": "procedural",
+      "label": "GOTHICUS_CASTLE_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "definition": "021_gothicus_castle_02.rule.xml",
+      "kind": "procedural",
+      "label": "GOTHICUS_CASTLE_02 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "definition": "007_crypt_01.rule.xml",
+      "kind": "procedural",
+      "label": "GOTHICUS_CRYPT_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "definition": "020_crypt_02.rule.xml",
+      "kind": "procedural",
+      "label": "GOTHICUS_CRYPT_02 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "definition": "026_icy_cavern_01.rule.xml",
+      "kind": "procedural",
+      "label": "ICY_CAVERN_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "definition": "027_icy_cavern_02.rule.xml",
+      "kind": "procedural",
+      "label": "ICY_CAVERN_02 (generated; 0: original no layout, 1: original no layout)",
+      "preparation_by_seed": {
+        "0": "original_no_layout",
+        "1": "original_no_layout"
+      }
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "definition": "028_icy_cavern_03.rule.xml",
+      "kind": "procedural",
+      "label": "ICY_CAVERN_03 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "definition": "019_light_house_01.rule.xml",
+      "kind": "procedural",
+      "label": "LIGHT_HOUSE_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "definition": "019_light_house_02.rule.xml",
+      "kind": "procedural",
+      "label": "LIGHT_HOUSE_02 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "definition": "019_light_house_03.rule.xml",
+      "kind": "procedural",
+      "label": "LIGHT_HOUSE_03 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "QUESTTEST",
+      "definition": "102_debug_QUESTTEST.rule.xml",
+      "kind": "procedural",
+      "label": "QUESTTEST (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "definition": "125_RandomForAlexB.rule.xml",
+      "kind": "procedural",
+      "label": "RANDOMFORALEX (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "definition": "004_root_den.rule.xml",
+      "kind": "procedural",
+      "label": "ROOT_DEN_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "definition": "006_basement.rule.xml",
+      "kind": "procedural",
+      "label": "SECRET_BASEMENT_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "kind": "procedural",
+      "label": "SWAMP_02 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "definition": "022_swamp2_trollcave.rule.xml",
+      "kind": "procedural",
+      "label": "SWAMP_CAVE_TROLL_A (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "definition": "002_swamp_witchcave.rule.xml",
+      "kind": "procedural",
+      "label": "SWAMP_CAVE_WITCH_A (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "definition": "033_voidmaze_01.rule.xml",
+      "kind": "procedural",
+      "label": "VOID_MAZE_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "definition": "034_voidmaze_02.rule.xml",
+      "kind": "procedural",
+      "label": "VOID_MAZE_02 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "definition": "035_voidmaze_03.rule.xml",
+      "kind": "procedural",
+      "label": "VOID_MAZE_03 (generated; 1: assembly blocked)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembly_blocked"
+      }
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "definition": "023_watertemple.rule.xml",
+      "kind": "procedural",
+      "label": "WATER_TEMPLE_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "definition": "029_wind_temple.rule.xml",
+      "kind": "procedural",
+      "label": "WIND_TEMPLE_01 (generated)",
+      "preparation_by_seed": {
+        "0": "assembled",
+        "1": "assembled"
+      }
+    }
+  ]
+}

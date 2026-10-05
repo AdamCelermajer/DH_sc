@@ -6,6 +6,7 @@ include(gameswf_input_overlay_v1.cmake)
 include(gameswf_frame_overlay_v1.cmake)
 include(gameswf_player_lifetime_overlay_v1.cmake)
 include(gameswf_loader_lifetime_overlay_v1.cmake)
+include(gameswf_edit_text_overlay_v1.cmake)
 include(gameswf_source_facade_v1.cmake)
 include(freetype237-hud.cmake)
 # Host clients borrow the engine implemented inside dh2_engine_ui. Keep its
@@ -13,6 +14,7 @@ include(freetype237-hud.cmake)
 # GameSWF globals when a test also links the world-to-UI adapter.
 add_library(dh2_gameswf_headers INTERFACE)
 target_include_directories(dh2_gameswf_headers SYSTEM INTERFACE "${DH2_GAMESWF_ROOT}")
+target_include_directories(dh2_gameswf_headers BEFORE INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/overlays/edit-text-v1")
 target_compile_definitions(dh2_gameswf_headers INTERFACE TU_CONFIG_LINK_TO_JPEGLIB=0 TU_CONFIG_LINK_TO_LIBPNG=0
   TU_CONFIG_LINK_TO_FREETYPE=0 TU_CONFIG_LINK_TO_THREAD=0)
 target_link_libraries(dh2_gameswf_headers INTERFACE z ${CMAKE_DL_LIBS})
@@ -20,6 +22,8 @@ add_library(dh2_gameswf_core STATIC ${DH2_GAMESWF_SOURCES})
 set_target_properties(dh2_gameswf_core PROPERTIES POSITION_INDEPENDENT_CODE ON)
 target_compile_features(dh2_gameswf_core PUBLIC cxx_std_17)
 target_include_directories(dh2_gameswf_core SYSTEM PUBLIC "${DH2_GAMESWF_ROOT}")
+target_include_directories(dh2_gameswf_core BEFORE PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/overlays/edit-text-v1")
+target_include_directories(dh2_gameswf_core PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_compile_definitions(dh2_gameswf_core PUBLIC TU_CONFIG_LINK_TO_JPEGLIB=0 TU_CONFIG_LINK_TO_LIBPNG=0
   TU_CONFIG_LINK_TO_FREETYPE=0 TU_CONFIG_LINK_TO_THREAD=0)
 # Disabled upstream JPEG declarations have no linked RTTI implementation. Keep
@@ -35,7 +39,7 @@ add_library(dh2_engine_ui SHARED gfnt.cpp swf_movie.cpp freetype_font.cpp
   freetype_bitmap_alpha.cpp hud_freetype_font.cpp swf_hud_freetype_provider.cpp
   swf_glyph_lookup.cpp hud_player_values.cpp swf_viewport_connection.cpp
   hud_sprite_timeline.cpp hud_sprite_core.cpp hud_advance.cpp hud_advance_owner.cpp
-  player_status_hud.cpp swf_actionscript_connection.cpp renderfx_text_connection.cpp
+  player_status_hud.cpp enemy_status_hud_v1.cpp enemy_hud_presentation_v2.cpp swf_actionscript_connection.cpp renderfx_text_connection.cpp
   hud_startup_callbacks.cpp game_option_table_v1.cpp owned_hud_settings_v1.cpp
   settings_native_files_v1.cpp settings_language_scene_v1.cpp
   hud_manager.cpp hud_manager_core.cpp text_layout_v1.cpp
@@ -43,6 +47,13 @@ add_library(dh2_engine_ui SHARED gfnt.cpp swf_movie.cpp freetype_font.cpp
   hud_manager_core_v2.cpp text_display_v2.cpp text_render_owner_v2.cpp
   hud_freetype_font_v2.cpp hud_text_format_v1.cpp hud_text_v1.cpp)
 target_sources(dh2_engine_ui PRIVATE item_text_varargs_v5.cpp item_text_owner_v5.cpp)
+target_sources(dh2_engine_ui PRIVATE hud_player_infos.cpp)
+target_sources(dh2_engine_ui PRIVATE combat_flash_queue_v1.cpp combat_flash_swf_v1.cpp)
+target_sources(dh2_engine_ui PRIVATE
+  edit_text_definition_v1.cpp edit_text_event_v1.cpp edit_text_display_v1.cpp
+  edit_text_field_v1.cpp edit_text_format_v1.cpp text_filter_v1.cpp
+  swf_text_filter_attachment_v1.cpp swf_text_font_platform_v1.cpp swf_edit_text_connection_v1.cpp
+  swf_grid_snap_v1.cpp gfnt_text_backend_v1.cpp)
 target_sources(dh2_engine_ui PRIVATE
   swf_cursor_input.cpp swf_input_geometry.cpp swf_input_policy.cpp
   swf_input_history.cpp swf_input_connection.cpp swf_input_connection_v2.cpp
@@ -55,12 +66,16 @@ dh2_select_source_facade_v1(DH2_UI_SOURCE_FACADE_SOURCES)
 set_property(TARGET dh2_engine_ui PROPERTY SOURCES "${DH2_UI_SOURCE_FACADE_SOURCES}")
 target_compile_features(dh2_engine_ui PUBLIC cxx_std_17)
 target_include_directories(dh2_engine_ui PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(dh2_engine_ui BEFORE PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/overlays/edit-text-v1")
 target_compile_options(dh2_engine_ui PRIVATE -Wall -Wextra -fno-fast-math -ffp-contract=off)
 target_link_libraries(dh2_engine_ui PRIVATE dh2_gameswf_core dh2_freetype237)
 target_link_libraries(dh2_engine_ui PRIVATE dh2_game_data)
 if(ANDROID)
   target_link_options(dh2_engine_ui PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined)
 else()
+  add_executable(combat_flash_swf_v1_audit tests/combat_flash_swf_v1.cpp)
+  target_compile_options(combat_flash_swf_v1_audit PRIVATE -fno-sanitize=vptr)
+  target_link_libraries(combat_flash_swf_v1_audit PRIVATE dh2_engine_ui dh2_level_world dh2_script_runtime dh2_freetype237 dh2_gameswf_headers)
   add_executable(item_text_varargs_v5_audit tests/item_text_varargs_v5.cpp
     tests/item_text_varargs_v5_fixture.cpp)
   target_link_libraries(item_text_varargs_v5_audit PRIVATE dh2_engine_ui)
@@ -107,7 +122,10 @@ else()
   target_link_libraries(hud_manager_backends_audit PRIVATE dh2_engine_ui dh2_level_world)
   add_executable(hud_manager_core_audit tests/hud_manager_core.cpp)
   target_compile_options(hud_manager_core_audit PRIVATE -fno-sanitize=vptr)
-  target_link_libraries(hud_manager_core_audit PRIVATE dh2_engine_ui dh2_level_world dh2_gameswf_headers)
+  target_link_libraries(hud_manager_core_audit PRIVATE dh2_engine_ui dh2_level_world dh2_script_runtime dh2_freetype237 dh2_gameswf_headers)
+  add_executable(enemy_status_hud_v1_audit tests/enemy_status_hud_v1.cpp)
+  target_compile_options(enemy_status_hud_v1_audit PRIVATE -fno-sanitize=vptr)
+  target_link_libraries(enemy_status_hud_v1_audit PRIVATE dh2_engine_ui dh2_level_world dh2_script_runtime dh2_freetype237 dh2_gameswf_headers)
   add_executable(hud_startup_audit tests/hud_startup.cpp)
   target_link_libraries(hud_startup_audit PRIVATE dh2_engine_ui)
   add_executable(owned_settings_v1_audit tests/owned_settings_v1.cpp)

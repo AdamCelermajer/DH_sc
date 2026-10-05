@@ -1,0 +1,42 @@
+[
+  {
+    "instruction": "0x3a9a10",
+    "string_address": "0x8c3550",
+    "text": "__naked"
+  },
+  {
+    "instruction": "0x3a9a20",
+    "string_address": "0x8c3540",
+    "text": "__placeholder"
+  },
+  {
+    "instruction": "0x3a9a38",
+    "string_address": "0x8c3558",
+    "text": "isTracingChar_Modular"
+  },
+  {
+    "instruction": "0x3a9b40",
+    "string_address": "0x8c3520",
+    "text": "Shield"
+  },
+  {
+    "instruction": "0x3a9c00",
+    "string_address": "0x8c3520",
+    "text": "Shield"
+  },
+  {
+    "instruction": "0x3a9c70",
+    "string_address": "0x8c3528",
+    "text": "Bow"
+  },
+  {
+    "instruction": "0x3a9c90",
+    "string_address": "0x8c3530",
+    "text": "Claw"
+  },
+  {
+    "instruction": "0x3a9cbc",
+    "string_address": "0x8c3538",
+    "text": "RWeapon"
+  }
+]

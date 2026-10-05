@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z33NativeChangeRolloverInputBehaviorRKN7gameswf7fn_callE",
+      "elf_address": "0x43cdac",
+      "size": 144,
+      "sha256": "94f71d291e52854f21fdac8b82c78a511dc715905994d41ea1f992cf89a11797"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf8as_value9to_numberEv",
+      "elf_address": "0x797a54",
+      "size": 296,
+      "sha256": "976cecbdf0144a7323ce9bff551c9d7ce85f9838a1b003d21ce176759e54c859"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX16SetInputBehaviorEi",
+      "elf_address": "0x7a7c98",
+      "size": 8,
+      "sha256": "571f5461de8be02099ffa978f3f1b41daef39cb23e5ebdeea5dabe315e2772f7"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf8as_value7to_boolEv",
+      "elf_address": "0x797960",
+      "size": 244,
+      "sha256": "177016ffa742949cd86021dcfa9a2bdbf56dec1bfa446c895a4a871e19336e38"
+    }
+  ]
+}

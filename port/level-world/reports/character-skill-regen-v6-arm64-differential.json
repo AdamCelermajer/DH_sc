@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "cases": 4096,
+  "ordered_debug_calls": 10048,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_sha256": "495661e5e5dcddb0f8e6fc4ee99827274c4b5e041ede312e7b2a274c2bc85f24",
+  "gold_sha256": "955a9dc32571053b45f585d8672e97dd02be2ef66fc180c26844caddde0a130f",
+  "scope": "Original RegenHP/MP instruction order, captured delta and genuine Add kernel.",
+  "debug_provider": "explicit fixture, source property kernels execute",
+  "full_target_application": false
+}

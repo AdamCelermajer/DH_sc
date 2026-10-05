@@ -1,0 +1,72 @@
+[
+  {
+    "name": "character_properties_pyarray.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarray.bin",
+    "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+  },
+  {
+    "name": "character_properties_pyarraynames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pyarraynames.bin",
+    "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+  },
+  {
+    "name": "character_properties_pystructnames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_properties_pystructnames.bin",
+    "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+  },
+  {
+    "name": "character_classes_pyarray.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_classes_pyarray.bin",
+    "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55"
+  },
+  {
+    "name": "character_classes_pyarraynames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_classes_pyarraynames.bin",
+    "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"
+  },
+  {
+    "name": "character_classes_pystructnames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/character_classes_pystructnames.bin",
+    "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+  },
+  {
+    "name": "loot_table_pyarray.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pyarray.bin",
+    "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"
+  },
+  {
+    "name": "loot_table_pyarraynames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pyarraynames.bin",
+    "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba"
+  },
+  {
+    "name": "loot_table_pystructnames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pystructnames.bin",
+    "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+  },
+  {
+    "name": "animations_pyarray.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarray.bin",
+    "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+  },
+  {
+    "name": "animations_pyarraynames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pyarraynames.bin",
+    "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+  },
+  {
+    "name": "animations_pystructnames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_pystructnames.bin",
+    "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+  },
+  {
+    "name": "animations_dictionary_pyarray.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarray.bin",
+    "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+  },
+  {
+    "name": "animations_dictionary_pyarraynames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/animations_dictionary_pyarraynames.bin",
+    "sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3"
+  }
+]

@@ -1,0 +1,26 @@
+{
+  "source_sha256": "6dcd53d955ab1c923ea0bb951ce9c5d21dbf086d64d43314002ebfe2c2cd6f4f",
+  "segments": [
+    {
+      "file": "title_intro.wav",
+      "original_segment_offset": 0,
+      "original_segment_bytes": 188416,
+      "samples": 186636,
+      "channels": 2,
+      "rate": 32000,
+      "duration": 5.832375,
+      "sha256": "424e61941a95020cf499dd933fd064b1357bc459702d984ced84af2be752e2f2"
+    },
+    {
+      "file": "title_loop.wav",
+      "original_segment_offset": 188416,
+      "original_segment_bytes": 3648512,
+      "samples": 3622848,
+      "channels": 2,
+      "rate": 32000,
+      "duration": 113.214,
+      "sha256": "2ad9ec9422c4a0f1c45c66abcaadde32d968d7bec60f02168c57767b9592dc4d"
+    }
+  ],
+  "container_reference": "https://github.com/vgmstream/vgmstream/blob/master/src/meta/vxn.c"
+}

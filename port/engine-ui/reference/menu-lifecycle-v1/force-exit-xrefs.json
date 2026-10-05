@@ -1,0 +1,63 @@
+{
+  "targets": [
+    [
+      "0x17e64b",
+      "Enable"
+    ],
+    [
+      "0x8dcf1e",
+      "Enable"
+    ],
+    [
+      "0x8e17dd",
+      "Enable"
+    ],
+    [
+      "0x8e1830",
+      "Enable"
+    ],
+    [
+      "0x8e1861",
+      "Enable"
+    ],
+    [
+      "0x8e18e1",
+      "Enable"
+    ],
+    [
+      "0x8e18f9",
+      "Enable"
+    ],
+    [
+      "0x8e1912",
+      "Enable"
+    ],
+    [
+      "0x8e1965",
+      "Enable"
+    ],
+    [
+      "0x8e197e",
+      "Enable"
+    ],
+    [
+      "0x8e19c3",
+      "Enable"
+    ]
+  ],
+  "xrefs": [
+    {
+      "string": "Enable",
+      "target": "0x8e1830",
+      "instruction": "0x4e74a8",
+      "literal": "0x4e8254",
+      "functions": [
+        {
+          "address": "0x4ddeb8",
+          "size": 51576,
+          "name": "_GLOBAL__I_.._.._sources_Data_PyData_PyDataStructs.cpp"
+        }
+      ]
+    }
+  ]
+}

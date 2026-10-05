@@ -1,0 +1,101 @@
+--------- beginning of main
+10-05 07:10:27.092  3154  3173 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 07:10:27.092  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 07:10:27.097  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:10:52.322  3154  3173 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures
+10-05 07:10:52.322  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 16
+10-05 07:10:52.324  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=497 draws=518 triangles=22659 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:10:58.204  3154  3173 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures
+10-05 07:10:58.204  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 16
+10-05 07:10:58.205  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=497 draws=518 triangles=22659 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:11:09.701  3154  3173 I DH2Loader: SWAMP_02 seed 1 | 12 modules | 523 mesh instances | 546 draws | 3 textures
+10-05 07:11:09.701  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 07:11:09.704  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=523 draws=546 triangles=24753 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:11:14.291  3154  3173 I DH2Loader: Preparation failed; previous map retained: Missing authored XML: missing-loader-test.mlx
+10-05 07:11:14.292  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=523 draws=546 triangles=24753 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:11:31.126  3154  3173 I DH2Loader: Preparation failed; previous map retained: Original generator produced no layout for ICY_CAVERN_02 seed 0
+10-05 07:11:31.128  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=523 draws=546 triangles=24753 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:11:37.133  3154  3173 I DH2Loader: SWAMP_02 seed 1 | 12 modules | 523 mesh instances | 546 draws | 3 textures
+10-05 07:11:37.133  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 07:11:37.135  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=523 draws=546 triangles=24753 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:11:51.490  3154  3173 I DH2Loader: SWAMP_CAVE_TROLL_A seed 0 | 9 modules | 18 mesh instances | 25 draws | 3 textures
+10-05 07:11:51.490  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 07:11:51.491  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_TROLL_A procedural=1 seed=0 modules=9 meshes=18 draws=25 triangles=11664 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:12:06.460  3154  3173 I DH2Loader: GOTHICUS_CRYPT_01 seed 0 | 8 modules | 97 mesh instances | 97 draws | 3 textures
+10-05 07:12:06.460  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 07:12:06.460  3154  3173 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_01 procedural=1 seed=0 modules=8 meshes=97 draws=97 triangles=14251 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:15:13.937  3154  3173 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures
+10-05 07:15:13.937  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 16
+10-05 07:15:13.941  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=497 draws=518 triangles=22659 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:15:19.860  3154  3173 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures
+10-05 07:15:19.860  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 16
+10-05 07:15:19.861  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=497 draws=518 triangles=22659 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:15:31.807  3154  3173 I DH2Loader: SWAMP_02 seed 1 | 12 modules | 523 mesh instances | 546 draws | 3 textures
+10-05 07:15:31.807  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 07:15:31.809  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=523 draws=546 triangles=24753 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:15:36.491  3154  3173 I DH2Loader: Preparation failed; previous map retained: Missing authored XML: missing-loader-test.mlx
+10-05 07:15:36.492  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=523 draws=546 triangles=24753 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:16:02.235  3154  3173 I DH2Loader: Preparation failed; previous map retained: Original generator produced no layout for ICY_CAVERN_02 seed 0
+10-05 07:16:02.236  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=523 draws=546 triangles=24753 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:16:08.578  3154  3173 I DH2Loader: SWAMP_02 seed 1 | 12 modules | 523 mesh instances | 546 draws | 3 textures
+10-05 07:16:08.578  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 07:16:08.582  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=523 draws=546 triangles=24753 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:16:27.030  3154  3173 I DH2Loader: SWAMP_CAVE_TROLL_A seed 0 | 9 modules | 18 mesh instances | 25 draws | 3 textures
+10-05 07:16:27.030  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 07:16:27.030  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_TROLL_A procedural=1 seed=0 modules=9 meshes=18 draws=25 triangles=11664 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:16:53.440  3154  3173 I DH2Loader: GOTHICUS_CRYPT_01 seed 0 | 8 modules | 97 mesh instances | 97 draws | 3 textures
+10-05 07:16:53.440  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 07:16:53.442  3154  3173 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_01 procedural=1 seed=0 modules=8 meshes=97 draws=97 triangles=14251 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:17:25.567  3154  3173 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 07:17:25.567  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 07:17:25.568  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 07:17:30.392  3154  3173 I DH2Loader: Module 0 | obj_4of4_brdwalk_sw_00_0 | mobs/chests pending
+10-05 07:17:40.550  3154  3173 I DH2Loader: Whole map | SWAMP | mobs/chests pending
+10-05 07:25:39.044  3154  3173 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 07:25:39.044  3154  3173 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 07:25:39.046  3154  3173 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=1 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:28:43.683 12538 12560 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 10:28:43.683 12538 12560 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 10:28:43.714 12538 12560 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:28:55.880 12597 12619 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 10:28:55.880 12597 12619 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 10:28:55.889 12597 12619 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:34:44.797 12856 12877 I DH2Loader: DARKWOOD | 24 modules | 923 mesh instances | 936 draws | 5 textures
+10-05 10:34:44.797 12856 12877 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 10:34:44.806 12856 12877 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0
+10-05 10:34:52.364 12939 12961 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures
+10-05 10:34:52.364 12939 12961 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 16
+10-05 10:34:52.369 12939 12961 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=497 draws=518 triangles=22659 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:34:59.786 13022 13042 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 10:34:59.786 13022 13042 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 10:34:59.794 13022 13042 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:35:07.493 13022 13042 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 10:35:07.493 13022 13042 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 10:35:07.496 13022 13042 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:35:10.693 13022 13042 I DH2Loader: Preparation failed; previous map retained: Missing authored XML: missing-loader-test.mlx
+10-05 10:35:10.694 13022 13042 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:35:15.809 13022 13042 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 10:35:15.809 13022 13042 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 10:35:15.811 13022 13042 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:35:18.574 13022 13042 I DH2Loader: Module 0 | obj_4of4_brdwalk_sw_00_0 | mobs/chests pending
+10-05 10:41:09.881 13499 13523 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 10:41:09.881 13499 13523 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 10:41:09.885 13499 13523 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:41:39.660 13570 13591 I DH2Loader: DARKWOOD | 24 modules | 923 mesh instances | 936 draws | 5 textures
+10-05 10:41:39.660 13570 13591 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 10:41:39.670 13570 13591 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0
+10-05 10:41:46.654 13654 13675 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures
+10-05 10:41:46.654 13654 13675 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 16
+10-05 10:41:46.661 13654 13675 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=497 draws=518 triangles=22659 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:41:54.302 13734 13757 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 10:41:54.302 13734 13757 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 10:41:54.306 13734 13757 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:42:01.880 13734 13757 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 10:42:01.880 13734 13757 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 10:42:01.882 13734 13757 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:42:05.526 13734 13757 I DH2Loader: Preparation failed; previous map retained: Missing authored XML: missing-loader-test.mlx
+10-05 10:42:05.526 13734 13757 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:42:10.909 13734 13757 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 10:42:10.909 13734 13757 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 10:42:10.913 13734 13757 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 10:42:13.514 13734 13757 I DH2Loader: Module 0 | obj_4of4_brdwalk_sw_00_0 | mobs/chests pending

@@ -1,0 +1,20 @@
+[
+  {
+    "asset": "data/loot_table_pyarray.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pyarray.bin",
+    "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    "bytes": 284104
+  },
+  {
+    "asset": "data/loot_table_pyarraynames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pyarraynames.bin",
+    "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    "bytes": 39604
+  },
+  {
+    "asset": "data/loot_table_pystructnames.bin",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/loot_table_pystructnames.bin",
+    "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+    "bytes": 8858
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "Only keyboard fill matrices changed; every action, placement, shape edge and other tag is byte preserved",
+  "shapes": [
+    70,
+    72,
+    75,
+    77,
+    80,
+    82,
+    85
+  ],
+  "tag_count": 618,
+  "patched_sha256": "c0220dc7c9aeb2c9de0d9b9f2efa65245c7a4dce8775429f99ac41d4a60b5b68"
+}

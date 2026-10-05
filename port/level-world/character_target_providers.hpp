@@ -9,7 +9,7 @@ struct Character32 {
 };
 struct Types16 { const std::int32_t* types;std::uint32_t count,reserved; };
 enum Query : std::uint32_t { char_type=1,is_monster,is_faerie,is_summoned,is_player,is_interactive,interaction_type,is_zonable,is_character,is_dead };
-enum Service : std::uint32_t { virtual_dead=1,virtual_player,ai_friend,ai_enemy,virtual_character };
+enum Service : std::uint32_t { virtual_dead=1,virtual_player,ai_friend,ai_enemy,virtual_character,live_state_flags };
 struct Request24 {std::uint32_t service,reserved;std::uintptr_t subject,other;};
 struct Services16 {void* context;int (*invoke)(void*,const Request24*,std::uintptr_t* result);};
 struct Handle16 {std::int32_t key;std::uint32_t frame;std::uintptr_t cached;};

@@ -1,0 +1,23 @@
+// Generated from the original character-menu placements; do not hand-edit.
+static constexpr CharacterMenuScreenDefinitionV1 source_screens[]{
+ {"menu_Merchant",251,1,1},
+ {"menu_CharacterMenu",267,258,37},
+ {"menu_CharacterSheetNew",328,262,16},
+ {"menu_CharacterSheetRecovery",339,339,1},
+ {"menu_CharacterSheetMagic",352,361,1},
+ {"menu_CharacterSheetDefense",359,397,1},
+ {"menu_CharacterSheetOffense",375,446,1},
+ {"menu_CharacterSheetStats",386,494,1},
+ {"menu_InventorySheetMain",439,571,1},
+ {"menu_InventorySheetDetails",456,750,1},
+ {"menu_SkillTreeSheetNew",496,988,1},
+ {"menu_FaerySheet",547,1461,1},
+ {"menu_QuestLogSheetNEW",599,1504,1},
+ {"menu_MapSheet",655,1573,1},
+ {"menu_Specialisation",688,1605,37},
+ {"menu_MultiplayerLobbyMulti",744,1631,36},
+ {"menu_FriendInvitationMulti",772,1752,36},
+ {"menu_confirm2",785,1814,16},
+ {"menu_bidonChar",787,1822,1},
+ {"menu_DummyState",788,1824,1},
+};

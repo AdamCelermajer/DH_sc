@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "comparisons": 1536,
+  "scope": "Whole original Character F_ApplyCombatSound 3afee0 and GameObject overload3afd38 selection and ordered Play3D requests versus compiled ARM64 kernel. Row/debug/dead/shared Random/GetPosition and actual audio are explicit observer providers; no audio playback parity claimed. All death/hit/impact flags, empty/nonempty lists, positive/zero/negative amounts and MP_MinimalRandoms guards. Play3D positional=false,repeats1,volume/pitch=-1 exact.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "4d3362f099e01af3e43086ea7afd225df72e06990e6c51a0800ac17bdf352ef5",
+  "source_sha256": "02b74c6d8840a78a1fdf2b2c96ec1ff4e601aeeead9f84c748aa7cb46e1638e3"
+}

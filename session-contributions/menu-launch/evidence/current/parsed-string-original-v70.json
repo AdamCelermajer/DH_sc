@@ -1,0 +1,1579 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "input": "Act ^d",
+      "args": [
+        1
+      ],
+      "pack": 0,
+      "output": "Act 1",
+      "changed": 0
+    },
+    {
+      "input": "A ^d / ^d",
+      "args": [
+        2,
+        3
+      ],
+      "pack": 0,
+      "output": "A 2 / 3",
+      "changed": 0
+    },
+    {
+      "input": "x ^s z",
+      "args": [
+        "Prince"
+      ],
+      "pack": 0,
+      "output": "x Prince z",
+      "changed": 0
+    },
+    {
+      "input": "^s ^d",
+      "args": [
+        "name",
+        1234567
+      ],
+      "pack": 0,
+      "output": "name 1,234,567",
+      "changed": 0
+    },
+    {
+      "input": "plain !?",
+      "args": [],
+      "pack": 0,
+      "output": "plain\u00a0!?",
+      "changed": 0
+    },
+    {
+      "input": "a | b",
+      "args": [],
+      "pack": 0,
+      "output": "a \u0011 b",
+      "changed": 1
+    },
+    {
+      "input": "^x^^^n^#^*^",
+      "args": [],
+      "pack": 0,
+      "output": "^\n#*",
+      "changed": 0
+    },
+    {
+      "input": "^d then ^s",
+      "args": [],
+      "pack": 0,
+      "output": " then ",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        -1234.5
+      ],
+      "pack": 0,
+      "output": "-1234",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        -1.25
+      ],
+      "pack": 0,
+      "output": "-1",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        0
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        1
+      ],
+      "pack": 0,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        1.25
+      ],
+      "pack": 0,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        999
+      ],
+      "pack": 0,
+      "output": "999",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        1000
+      ],
+      "pack": 0,
+      "output": "1,000",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        1234.5
+      ],
+      "pack": 0,
+      "output": "1,234",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        1234567
+      ],
+      "pack": 0,
+      "output": "1,234,567",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        16777217
+      ],
+      "pack": 0,
+      "output": "16,777,216",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        -1234.5
+      ],
+      "pack": 0,
+      "output": "-1234.50",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        -1.25
+      ],
+      "pack": 0,
+      "output": "-1.25",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        0
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        1
+      ],
+      "pack": 0,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        1.25
+      ],
+      "pack": 0,
+      "output": "1.25",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        999
+      ],
+      "pack": 0,
+      "output": "999",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        1000
+      ],
+      "pack": 0,
+      "output": "1,000",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        1234.5
+      ],
+      "pack": 0,
+      "output": "1,234.50",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        1234567
+      ],
+      "pack": 0,
+      "output": "1,234,567.00",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        16777217
+      ],
+      "pack": 0,
+      "output": "16,777,216.00",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        -1234.5
+      ],
+      "pack": 0,
+      "output": "-1.23",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        -1.25
+      ],
+      "pack": 0,
+      "output": "0.00",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        0
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        1
+      ],
+      "pack": 0,
+      "output": "0.00",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        1.25
+      ],
+      "pack": 0,
+      "output": "0.00",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        999
+      ],
+      "pack": 0,
+      "output": "1.00",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        1000
+      ],
+      "pack": 0,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        1234.5
+      ],
+      "pack": 0,
+      "output": "1.23",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        1234567
+      ],
+      "pack": 0,
+      "output": "1,234.57",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        16777217
+      ],
+      "pack": 0,
+      "output": "16,777.22",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        -1234.5
+      ],
+      "pack": 0,
+      "output": "-123450.00",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        -1.25
+      ],
+      "pack": 0,
+      "output": "-125",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        0
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        1
+      ],
+      "pack": 0,
+      "output": "100",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        1.25
+      ],
+      "pack": 0,
+      "output": "125",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        999
+      ],
+      "pack": 0,
+      "output": "99,900.00",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        1000
+      ],
+      "pack": 0,
+      "output": "100,000.00",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        1234.5
+      ],
+      "pack": 0,
+      "output": "123,450.00",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        1234567
+      ],
+      "pack": 0,
+      "output": "123,456,704.00",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        16777217
+      ],
+      "pack": 0,
+      "output": "1677,721,600.00",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        -1234.5
+      ],
+      "pack": 0,
+      "output": "-246.90",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        -1.25
+      ],
+      "pack": 0,
+      "output": "0.25",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        0
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        1
+      ],
+      "pack": 0,
+      "output": "0.20",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        1.25
+      ],
+      "pack": 0,
+      "output": "0.25",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        999
+      ],
+      "pack": 0,
+      "output": "199.80",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        1000
+      ],
+      "pack": 0,
+      "output": "200",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        1234.5
+      ],
+      "pack": 0,
+      "output": "246.90",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        1234567
+      ],
+      "pack": 0,
+      "output": "246,913.40",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        16777217
+      ],
+      "pack": 0,
+      "output": "3,355,443.25",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        -1234.5
+      ],
+      "pack": 0,
+      "output": "-1",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        -1.25
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        0
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        1
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        1.25
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        999
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        1000
+      ],
+      "pack": 0,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        1234.5
+      ],
+      "pack": 0,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        1234567
+      ],
+      "pack": 0,
+      "output": "1,234",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        16777217
+      ],
+      "pack": 0,
+      "output": "16,777",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        -1234.5
+      ],
+      "pack": 0,
+      "output": "-12.4",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        -1.25
+      ],
+      "pack": 0,
+      "output": "0.1",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        0
+      ],
+      "pack": 0,
+      "output": "0.0",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        1
+      ],
+      "pack": 0,
+      "output": "0.1",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        1.25
+      ],
+      "pack": 0,
+      "output": "0.1",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        999
+      ],
+      "pack": 0,
+      "output": "10.0",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        1000
+      ],
+      "pack": 0,
+      "output": "10.0",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        1234.5
+      ],
+      "pack": 0,
+      "output": "12.4",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        1234567
+      ],
+      "pack": 0,
+      "output": "12,345.7",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        16777217
+      ],
+      "pack": 0,
+      "output": "167,772.2",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        -1234.5
+      ],
+      "pack": 0,
+      "output": "-123450",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        -1.25
+      ],
+      "pack": 0,
+      "output": "-125",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        0
+      ],
+      "pack": 0,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        1
+      ],
+      "pack": 0,
+      "output": "100",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        1.25
+      ],
+      "pack": 0,
+      "output": "125",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        999
+      ],
+      "pack": 0,
+      "output": "99,900",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        1000
+      ],
+      "pack": 0,
+      "output": "100,000",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        1234.5
+      ],
+      "pack": 0,
+      "output": "123,450",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        1234567
+      ],
+      "pack": 0,
+      "output": "123,456,704",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        16777217
+      ],
+      "pack": 0,
+      "output": "1677,721,600",
+      "changed": 0
+    },
+    {
+      "input": "Act ^d",
+      "args": [
+        1
+      ],
+      "pack": 4,
+      "output": "Act 1",
+      "changed": 0
+    },
+    {
+      "input": "A ^d / ^d",
+      "args": [
+        2,
+        3
+      ],
+      "pack": 4,
+      "output": "A 2 / 3",
+      "changed": 0
+    },
+    {
+      "input": "x ^s z",
+      "args": [
+        "Prince"
+      ],
+      "pack": 4,
+      "output": "x Prince z",
+      "changed": 0
+    },
+    {
+      "input": "^s ^d",
+      "args": [
+        "name",
+        1234567
+      ],
+      "pack": 4,
+      "output": "name 1,234,567",
+      "changed": 0
+    },
+    {
+      "input": "plain !?",
+      "args": [],
+      "pack": 4,
+      "output": "plain\u00a0! ? ",
+      "changed": 0
+    },
+    {
+      "input": "a | b",
+      "args": [],
+      "pack": 4,
+      "output": "a \u0011 b",
+      "changed": 1
+    },
+    {
+      "input": "^x^^^n^#^*^",
+      "args": [],
+      "pack": 4,
+      "output": "^\n#*",
+      "changed": 0
+    },
+    {
+      "input": "^d then ^s",
+      "args": [],
+      "pack": 4,
+      "output": " then ",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        -1234.5
+      ],
+      "pack": 4,
+      "output": "-1234",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        -1.25
+      ],
+      "pack": 4,
+      "output": "-1",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        0
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        1
+      ],
+      "pack": 4,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        1.25
+      ],
+      "pack": 4,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        999
+      ],
+      "pack": 4,
+      "output": "999",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        1000
+      ],
+      "pack": 4,
+      "output": "1,000",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        1234.5
+      ],
+      "pack": 4,
+      "output": "1,234",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        1234567
+      ],
+      "pack": 4,
+      "output": "1,234,567",
+      "changed": 0
+    },
+    {
+      "input": "^d",
+      "args": [
+        16777217
+      ],
+      "pack": 4,
+      "output": "16,777,216",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        -1234.5
+      ],
+      "pack": 4,
+      "output": "-1234.50",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        -1.25
+      ],
+      "pack": 4,
+      "output": "-1.25",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        0
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        1
+      ],
+      "pack": 4,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        1.25
+      ],
+      "pack": 4,
+      "output": "1.25",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        999
+      ],
+      "pack": 4,
+      "output": "999",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        1000
+      ],
+      "pack": 4,
+      "output": "1,000",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        1234.5
+      ],
+      "pack": 4,
+      "output": "1,234.50",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        1234567
+      ],
+      "pack": 4,
+      "output": "1,234,567.00",
+      "changed": 0
+    },
+    {
+      "input": "^f",
+      "args": [
+        16777217
+      ],
+      "pack": 4,
+      "output": "16,777,216.00",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        -1234.5
+      ],
+      "pack": 4,
+      "output": "-1.23",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        -1.25
+      ],
+      "pack": 4,
+      "output": "0.00",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        0
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        1
+      ],
+      "pack": 4,
+      "output": "0.00",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        1.25
+      ],
+      "pack": 4,
+      "output": "0.00",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        999
+      ],
+      "pack": 4,
+      "output": "1.00",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        1000
+      ],
+      "pack": 4,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        1234.5
+      ],
+      "pack": 4,
+      "output": "1.23",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        1234567
+      ],
+      "pack": 4,
+      "output": "1,234.57",
+      "changed": 0
+    },
+    {
+      "input": "^g",
+      "args": [
+        16777217
+      ],
+      "pack": 4,
+      "output": "16,777.22",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        -1234.5
+      ],
+      "pack": 4,
+      "output": "-123450.00",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        -1.25
+      ],
+      "pack": 4,
+      "output": "-125",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        0
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        1
+      ],
+      "pack": 4,
+      "output": "100",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        1.25
+      ],
+      "pack": 4,
+      "output": "125",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        999
+      ],
+      "pack": 4,
+      "output": "99,900.00",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        1000
+      ],
+      "pack": 4,
+      "output": "100,000.00",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        1234.5
+      ],
+      "pack": 4,
+      "output": "123,450.00",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        1234567
+      ],
+      "pack": 4,
+      "output": "123,456,704.00",
+      "changed": 0
+    },
+    {
+      "input": "^h",
+      "args": [
+        16777217
+      ],
+      "pack": 4,
+      "output": "1677,721,600.00",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        -1234.5
+      ],
+      "pack": 4,
+      "output": "-246.90",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        -1.25
+      ],
+      "pack": 4,
+      "output": "0.25",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        0
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        1
+      ],
+      "pack": 4,
+      "output": "0.20",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        1.25
+      ],
+      "pack": 4,
+      "output": "0.25",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        999
+      ],
+      "pack": 4,
+      "output": "199.80",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        1000
+      ],
+      "pack": 4,
+      "output": "200",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        1234.5
+      ],
+      "pack": 4,
+      "output": "246.90",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        1234567
+      ],
+      "pack": 4,
+      "output": "246,913.40",
+      "changed": 0
+    },
+    {
+      "input": "^i",
+      "args": [
+        16777217
+      ],
+      "pack": 4,
+      "output": "3,355,443.25",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        -1234.5
+      ],
+      "pack": 4,
+      "output": "-1",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        -1.25
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        0
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        1
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        1.25
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        999
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        1000
+      ],
+      "pack": 4,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        1234.5
+      ],
+      "pack": 4,
+      "output": "1",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        1234567
+      ],
+      "pack": 4,
+      "output": "1,234",
+      "changed": 0
+    },
+    {
+      "input": "^k",
+      "args": [
+        16777217
+      ],
+      "pack": 4,
+      "output": "16,777",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        -1234.5
+      ],
+      "pack": 4,
+      "output": "-12.4",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        -1.25
+      ],
+      "pack": 4,
+      "output": "0.1",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        0
+      ],
+      "pack": 4,
+      "output": "0.0",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        1
+      ],
+      "pack": 4,
+      "output": "0.1",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        1.25
+      ],
+      "pack": 4,
+      "output": "0.1",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        999
+      ],
+      "pack": 4,
+      "output": "10.0",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        1000
+      ],
+      "pack": 4,
+      "output": "10.0",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        1234.5
+      ],
+      "pack": 4,
+      "output": "12.4",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        1234567
+      ],
+      "pack": 4,
+      "output": "12,345.7",
+      "changed": 0
+    },
+    {
+      "input": "^m",
+      "args": [
+        16777217
+      ],
+      "pack": 4,
+      "output": "167,772.2",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        -1234.5
+      ],
+      "pack": 4,
+      "output": "-123450",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        -1.25
+      ],
+      "pack": 4,
+      "output": "-125",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        0
+      ],
+      "pack": 4,
+      "output": "0",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        1
+      ],
+      "pack": 4,
+      "output": "100",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        1.25
+      ],
+      "pack": 4,
+      "output": "125",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        999
+      ],
+      "pack": 4,
+      "output": "99,900",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        1000
+      ],
+      "pack": 4,
+      "output": "100,000",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        1234.5
+      ],
+      "pack": 4,
+      "output": "123,450",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        1234567
+      ],
+      "pack": 4,
+      "output": "123,456,704",
+      "changed": 0
+    },
+    {
+      "input": "^p",
+      "args": [
+        16777217
+      ],
+      "pack": 4,
+      "output": "1677,721,600",
+      "changed": 0
+    }
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Actual parseEx instructions with initialized original allocator, supplied numeric/string Variant projection, borrowed localization defaults, modeled ABI float operations/modff/snprintf. AS conversion/title/version not covered."
+}

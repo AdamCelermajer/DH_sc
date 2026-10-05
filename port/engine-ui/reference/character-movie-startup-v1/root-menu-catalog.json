@@ -1,0 +1,166 @@
+{
+  "original_movie_sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+  "tree_sha256": "9c6011a7eba745578900dd19471ab084d6c85d80f6c0faf2724d3cb8e7cd73f9",
+  "root_menu_placements": [
+    {
+      "name": "menu_Merchant",
+      "id": 251,
+      "depth": 1,
+      "frames": 1,
+      "placement_offset": 54483,
+      "definition_offset": 43125
+    },
+    {
+      "name": "menu_CharacterMenu",
+      "id": 267,
+      "depth": 258,
+      "frames": 37,
+      "placement_offset": 62226,
+      "definition_offset": 56477
+    },
+    {
+      "name": "menu_CharacterSheetNew",
+      "id": 328,
+      "depth": 262,
+      "frames": 16,
+      "placement_offset": 87652,
+      "definition_offset": 73066
+    },
+    {
+      "name": "menu_CharacterSheetRecovery",
+      "id": 339,
+      "depth": 339,
+      "frames": 1,
+      "placement_offset": 88873,
+      "definition_offset": 88573
+    },
+    {
+      "name": "menu_CharacterSheetMagic",
+      "id": 352,
+      "depth": 361,
+      "frames": 1,
+      "placement_offset": 90567,
+      "definition_offset": 89773
+    },
+    {
+      "name": "menu_CharacterSheetDefense",
+      "id": 359,
+      "depth": 397,
+      "frames": 1,
+      "placement_offset": 92087,
+      "definition_offset": 91087
+    },
+    {
+      "name": "menu_CharacterSheetOffense",
+      "id": 375,
+      "depth": 446,
+      "frames": 1,
+      "placement_offset": 94191,
+      "definition_offset": 93503
+    },
+    {
+      "name": "menu_CharacterSheetStats",
+      "id": 386,
+      "depth": 494,
+      "frames": 1,
+      "placement_offset": 96429,
+      "definition_offset": 95402
+    },
+    {
+      "name": "menu_InventorySheetMain",
+      "id": 439,
+      "depth": 571,
+      "frames": 1,
+      "placement_offset": 110339,
+      "definition_offset": 103737
+    },
+    {
+      "name": "menu_InventorySheetDetails",
+      "id": 456,
+      "depth": 750,
+      "frames": 1,
+      "placement_offset": 123478,
+      "definition_offset": 114678
+    },
+    {
+      "name": "menu_SkillTreeSheetNew",
+      "id": 496,
+      "depth": 988,
+      "frames": 1,
+      "placement_offset": 139127,
+      "definition_offset": 131963
+    },
+    {
+      "name": "menu_FaerySheet",
+      "id": 547,
+      "depth": 1461,
+      "frames": 1,
+      "placement_offset": 149606,
+      "definition_offset": 145269
+    },
+    {
+      "name": "menu_QuestLogSheetNEW",
+      "id": 599,
+      "depth": 1504,
+      "frames": 1,
+      "placement_offset": 159866,
+      "definition_offset": 154425
+    },
+    {
+      "name": "menu_MapSheet",
+      "id": 655,
+      "depth": 1573,
+      "frames": 1,
+      "placement_offset": 173979,
+      "definition_offset": 172035
+    },
+    {
+      "name": "menu_Specialisation",
+      "id": 688,
+      "depth": 1605,
+      "frames": 37,
+      "placement_offset": 183292,
+      "definition_offset": 178693
+    },
+    {
+      "name": "menu_MultiplayerLobbyMulti",
+      "id": 744,
+      "depth": 1631,
+      "frames": 36,
+      "placement_offset": 201710,
+      "definition_offset": 193255
+    },
+    {
+      "name": "menu_FriendInvitationMulti",
+      "id": 772,
+      "depth": 1752,
+      "frames": 36,
+      "placement_offset": 211432,
+      "definition_offset": 204789
+    },
+    {
+      "name": "menu_confirm2",
+      "id": 785,
+      "depth": 1814,
+      "frames": 16,
+      "placement_offset": 216710,
+      "definition_offset": 213567
+    },
+    {
+      "name": "menu_bidonChar",
+      "id": 787,
+      "depth": 1822,
+      "frames": 1,
+      "placement_offset": 216802,
+      "definition_offset": 216780
+    },
+    {
+      "name": "menu_DummyState",
+      "id": 788,
+      "depth": 1824,
+      "frames": 1,
+      "placement_offset": 216860,
+      "definition_offset": 216833
+    }
+  ]
+}

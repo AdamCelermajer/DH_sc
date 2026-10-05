@@ -1,0 +1,36 @@
+{
+  "validation": "PASS",
+  "checks": 2329,
+  "actual_Crypt_sessions": 11,
+  "native_injury_animation_end_to_Idle": 11,
+  "actual_CPU_animation": true,
+  "controller_heading_fixture": true,
+  "NPC_state_notification_fixture": true,
+  "scope": "Current main-linked LevelWorld NPC injury, actual eleven Crypt sessions/CPU banks and real animator/AI/external VM/FSM closure; host controller heading, state notification and profiling services are named fixtures.",
+  "full_original_NPC_AI": false,
+  "physical_arm64_tested": false,
+  "command": [
+    "wsl.exe",
+    "--cd",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc",
+    "--exec",
+    ".local-inputs/npc-injury-main-linked",
+    "."
+  ],
+  "source_sha256": {
+    "port/level-world/tests/npc_injury_runtime_v1_host.cpp": "dec82d80bbdd5d2a9901021f6efe3358874ecee8da1c37eed97f02de6039b72c",
+    "port/level-world/npc_injury_runtime_v1.cpp": "54d9f271468b0888d9fdb98a1ab79998968da387102e421a836c5b075150249a",
+    "port/level-world/player_injure_state_v7.cpp": "a5821f0323be61892e2995a7b2873d1bd10f211da4bf42b27c8da4499ffed2dd",
+    "port/level-world/npc_controller_look_v1.cpp": "1e4b8be7a3490343b7a796173af9cc34da11ede39439c8d615f214f5a3eb1a65",
+    "port/android-native/app/src/main/cpp/renderer_npc_animation_v1.inc": "396305d2e3e315ba658765d87e23622c57800177cd3557ee9f0f1ae88f275e0a"
+  },
+  "main_linked_libraries": {
+    "libdh2_level_world.so": "0b828b191c33bd99b6c09c8ed7e3e9a8238d37307aa3ebd4ad38960503d42649",
+    "game-data/libdh2_game_data.so": "26cdba7032bf1137305411f123485d41dac75f68f0838b8d0550479d51a142b8",
+    "script-runtime/libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd",
+    "engine-skinning/engine-animation/libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "engine-skinning/libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "engine-ui/libdh2_engine_ui.so": "c0aa35484574007f78e52cbb236358489ee541dc0c2391b56dd217a5510fcc58"
+  }
+}

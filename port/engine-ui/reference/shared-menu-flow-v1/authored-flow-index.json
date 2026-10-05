@@ -1,0 +1,1771 @@
+{
+  "resource_sha256": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+  "tree_sha256": "31dcedb4c86421f8fdbcde336c5e46b5a068deb176447489aab613ae34f18290",
+  "blocks": 163,
+  "functions": [
+    {
+      "name": "",
+      "offset": 10535,
+      "path": "root/sprite46",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 10755,
+      "path": "root/sprite46",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 10805,
+      "path": "root/sprite46",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 11147,
+      "path": "root/sprite46",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 16015,
+      "path": "root/sprite70",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 16241,
+      "path": "root/sprite70",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 16290,
+      "path": "root/sprite70",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 16395,
+      "path": "root/sprite70",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 16500,
+      "path": "root/sprite70",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 20455,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 20506,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 20578,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 20655,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 20732,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 20809,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 20886,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 20963,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 21040,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 21117,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 21188,
+      "path": "root/sprite84",
+      "args": []
+    },
+    {
+      "name": "CreditsMovements",
+      "offset": 24064,
+      "path": "root/sprite93",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 24404,
+      "path": "root/sprite93",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 24469,
+      "path": "root/sprite93",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 24648,
+      "path": "root/sprite93/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 24796,
+      "path": "root/sprite93",
+      "args": []
+    },
+    {
+      "name": "CreditsMovements",
+      "offset": 26244,
+      "path": "root/sprite94",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 26437,
+      "path": "root/sprite94",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 26502,
+      "path": "root/sprite94",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 26579,
+      "path": "root/sprite94/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 26650,
+      "path": "root/sprite94",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 30724,
+      "path": "root/sprite114",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 30820,
+      "path": "root/sprite114",
+      "args": []
+    },
+    {
+      "name": "GetOptions",
+      "offset": 33646,
+      "path": "root/sprite121",
+      "args": [
+        {
+          "register": 2,
+          "name": "OptionType"
+        }
+      ]
+    },
+    {
+      "name": "PlaceSlider",
+      "offset": 33701,
+      "path": "root/sprite121",
+      "args": []
+    },
+    {
+      "name": "SetSelectorOptions",
+      "offset": 33771,
+      "path": "root/sprite121",
+      "args": [
+        {
+          "register": 1,
+          "name": "SelectorObj"
+        }
+      ]
+    },
+    {
+      "name": "SettingArrowsActions",
+      "offset": 33963,
+      "path": "root/sprite121",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 34011,
+      "path": "root/sprite121/SettingArrowsActions",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 34379,
+      "path": "root/sprite121/SettingArrowsActions",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 34820,
+      "path": "root/sprite121",
+      "args": [
+        {
+          "register": 1,
+          "name": "newop"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 34897,
+      "path": "root/sprite121",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 35036,
+      "path": "root/sprite121",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 35100,
+      "path": "root/sprite121",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 35138,
+      "path": "root/sprite121",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 35182,
+      "path": "root/sprite121",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 35294,
+      "path": "root/sprite121/",
+      "args": [
+        {
+          "register": 4,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 35448,
+      "path": "root/sprite121/",
+      "args": [
+        {
+          "register": 4,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 36703,
+      "path": "root/sprite121",
+      "args": []
+    },
+    {
+      "name": "onProgress",
+      "offset": 44638,
+      "path": "root/sprite139",
+      "args": []
+    },
+    {
+      "name": "BarState",
+      "offset": 44695,
+      "path": "root/sprite139",
+      "args": [
+        {
+          "register": 2,
+          "name": "$percentLoaded"
+        }
+      ]
+    },
+    {
+      "name": "HostIsInGame",
+      "offset": 45199,
+      "path": "root/sprite139",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 45297,
+      "path": "root/sprite139",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 45379,
+      "path": "root/sprite139",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 45553,
+      "path": "root/sprite139",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 46670,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 46753,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 46839,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 46920,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 47015,
+      "path": "root",
+      "args": [
+        {
+          "register": 4,
+          "name": "$evt"
+        },
+        {
+          "register": 9,
+          "name": "$arg1"
+        },
+        {
+          "register": 8,
+          "name": "$arg2"
+        },
+        {
+          "register": 7,
+          "name": "$arg3"
+        },
+        {
+          "register": 6,
+          "name": "$arg4"
+        },
+        {
+          "register": 5,
+          "name": "$arg5"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 47222,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$evt"
+        },
+        {
+          "register": 5,
+          "name": "$listener"
+        },
+        {
+          "register": 4,
+          "name": "$fctn"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 47380,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$evt"
+        },
+        {
+          "register": 6,
+          "name": "$listener"
+        },
+        {
+          "register": 5,
+          "name": "$fctn"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 47668,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$can"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 47703,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 47731,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$disabled"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 47911,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 47939,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 47955,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 47971,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 47987,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 48003,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 48662,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 50718,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 50751,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$array"
+        },
+        {
+          "register": 4,
+          "name": "$element"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 50880,
+      "path": "root",
+      "args": [
+        {
+          "register": 1,
+          "name": "$array"
+        },
+        {
+          "register": 2,
+          "name": "$index"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 50942,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$array"
+        },
+        {
+          "register": 4,
+          "name": "$element"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 51104,
+      "path": "root",
+      "args": [
+        {
+          "register": 3,
+          "name": "$array"
+        },
+        {
+          "register": 4,
+          "name": "$element"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 51232,
+      "path": "root",
+      "args": [
+        {
+          "register": 1,
+          "name": "$rad"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 52275,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52310,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52460,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52484,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52566,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52633,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52713,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52737,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52823,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 52904,
+      "path": "root",
+      "args": [
+        {
+          "register": 0,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 52953,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53071,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53087,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53165,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 53296,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53324,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 53361,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53389,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 53426,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53454,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53470,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53486,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53502,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 53518,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 54781,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 54951,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 54969,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55047,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55117,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55187,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55257,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55327,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55390,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55442,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55494,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55546,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55598,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55636,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55788,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55899,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 55936,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 56085,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 56245,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 56410,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 56535,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 56699,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 56880,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$disabled"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 57071,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57099,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57115,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57131,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57147,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57163,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57179,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57195,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57211,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57227,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57243,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 57259,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 58338,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 58560,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 58804,
+      "path": "root",
+      "args": [
+        {
+          "register": 0,
+          "name": "$lang"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 58966,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$label"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 59115,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59143,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$id"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 59177,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59205,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$lbl"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 59385,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59413,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59429,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59445,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59461,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59477,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59493,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59509,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59525,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59541,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59557,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 59573,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 60593,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 60802,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 61242,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 61410,
+      "path": "root",
+      "args": [
+        {
+          "register": 0,
+          "name": "$lang"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 61454,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$text"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 61581,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 61609,
+      "path": "root",
+      "args": [
+        {
+          "register": 2,
+          "name": "$align"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 62463,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 63938,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 64160,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 64715,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 64785,
+      "path": "root",
+      "args": [
+        {
+          "register": 0,
+          "name": "$lang"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 64947,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 64963,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 64979,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 64995,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 65011,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 65027,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 65043,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 65059,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 65075,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 65091,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 65107,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 66002,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 66191,
+      "path": "root",
+      "args": [
+        {
+          "register": 4,
+          "name": "$value"
+        }
+      ]
+    },
+    {
+      "name": "",
+      "offset": 66308,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 66364,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 66606,
+      "path": "root",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 66630,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 66716,
+      "path": "root/",
+      "args": []
+    },
+    {
+      "name": "",
+      "offset": 66797,
+      "path": "root",
+      "args": []
+    }
+  ],
+  "strings": [
+    "",
+    "\n",
+    " (",
+    "$percentLoaded: ",
+    "$version",
+    ") unvalid align value: ",
+    "---------------------IN PUSH-----------------------------",
+    ". Defaulting to left.",
+    "ANIMATION_END",
+    "ASSetPropFlags",
+    "AboutTxt",
+    "Arial",
+    "Array",
+    "AtMax",
+    "AtMin",
+    "AutoOrientation",
+    "AutoTransmute",
+    "BLOCKER PRESSED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+    "BadIphone",
+    "BarState",
+    "Button",
+    "ButtonLabeled",
+    "CHANGE",
+    "CHANGE_MENU",
+    "CLICK",
+    "CURSOR_DOWN",
+    "CURSOR_UP",
+    "ComponentBase",
+    "Condition is false",
+    "CreditsBaseY",
+    "CreditsBox",
+    "CreditsHeight",
+    "CreditsMovements",
+    "CurOptionString",
+    "CurrentOption",
+    "CurrentOptionPath",
+    "CurrentSlot",
+    "DEBUG: SixBUTTONS",
+    "DISABLE",
+    "DPad",
+    "ENABLE",
+    "ENTER_FRAME",
+    "Error in Text ",
+    "Error: No movie clip with id \"mc_icon\" found in ",
+    "Events",
+    "FOCUS_IN",
+    "FOCUS_OUT",
+    "FSCommand:DecOption",
+    "FSCommand:GetParsedString2",
+    "FSCommand:IncOption",
+    "GAMEPLAYMENUS_AUTOORIENTATIONTAB",
+    "GAMEPLAYMENUS_AUTOTRANSMUTETAB",
+    "GAMEPLAYMENUS_CONTROLSTAB",
+    "GAMEPLAYMENUS_HUDSTYLETAB",
+    "GAMEPLAYMENUS_LANGUAGETAB",
+    "GAMEPLAYMENUS_MUSICVOL",
+    "GAMEPLAYMENUS_SFXVOL",
+    "GetOptions",
+    "GoodIphone",
+    "HSlider",
+    "HSlider_Button_Handle",
+    "HUDStyle",
+    "IS FINISHED",
+    "IS false",
+    "IS true",
+    "IgnoreChange",
+    "IsKorean",
+    "KEY_CHANGED",
+    "KEY_DOWN",
+    "KEY_UP",
+    "KOREANNN!! ",
+    "Language",
+    "LeftTabs",
+    "LoadingText",
+    "MENU_ABOUT",
+    "MENU_CREDITS",
+    "MENU_CREDITS_1",
+    "MENU_CREDITS_2",
+    "MENU_HELP_01_TITLE",
+    "MENU_HELP_02_TITLE",
+    "MENU_HELP_03_TITLE",
+    "MENU_HELP_04_TITLE",
+    "MENU_HELP_05_TITLE",
+    "MENU_HELP_06_TITLE",
+    "MENU_HELP_07_TITLE",
+    "MENU_HELP_TITLE",
+    "MENU_LOADING_TITLE",
+    "MENU_MULTIPLAYER_GAMEROOM_HELP_BODY_02",
+    "MENU_MULTIPLAYER_WAITING",
+    "MENU_OPTIONS",
+    "MENU_TOUCH_TO_CONTINUE",
+    "MENU_WAITING_FOR_HOST",
+    "Math",
+    "MenuBack",
+    "MenuConfirm",
+    "MenuSelect",
+    "MenusStack",
+    "MovieClip",
+    "NativeBackToHud",
+    "NativeChangeRolloverInputBehavior",
+    "NativeEndLoading",
+    "NativeEnterOptionMenu",
+    "NativeGetCreditMovement",
+    "NativeGetLoadingProgress",
+    "NativeGetLoadingTipStrID",
+    "NativeGetOptionParameters",
+    "NativeGetStringFromID",
+    "NativeGetStringFromSymbol",
+    "NativeIsJapaneseVersion",
+    "NativeIsKorean",
+    "NativeIsMultiplayerEnabled",
+    "NativeIsMultiplayerHost",
+    "NativeIsMultiplayerLoadCompleted",
+    "NativeLoadSettings",
+    "NativeMustWaitForHost",
+    "NativePlayMusic",
+    "NativePlaySoundFX",
+    "NativePopMenu",
+    "NativePushMenu",
+    "NativeRefreshHudManager",
+    "NativeSaveSettings",
+    "NativeSetOptions",
+    "New Value = ",
+    "NumOptions",
+    "NumberFrame",
+    "NumberOfSlots",
+    "ObjAutoTransmute",
+    "ObjDpad",
+    "ObjLanguage",
+    "ObjOrientation",
+    "ObjStyle",
+    "Object",
+    "OptionInfos",
+    "OptionString",
+    "POP_MENU",
+    "PRESS",
+    "PUSH_MENU",
+    "PlaceSlider",
+    "READY",
+    "RELEASE",
+    "RELEASE_OUTSIDE",
+    "ROLL_OUT",
+    "ROLL_OVER",
+    "ReceivedValue",
+    "SetSelectorOptions",
+    "SetValue",
+    "SettingArrowsActions",
+    "SimpleButton",
+    "Slider",
+    "StaticFunctions",
+    "String = ",
+    "Tab1",
+    "Tab2",
+    "Tab3",
+    "Tab4",
+    "Tab5",
+    "Tab6",
+    "Tab7",
+    "Text",
+    "TextFormat",
+    "TextStyles",
+    "TitleGraphic",
+    "TitleMusic",
+    "Var is True so HIDE it",
+    "Var is false No Hide",
+    "Verdana",
+    "VolumeFX",
+    "VolumeMusic",
+    "WarningBox",
+    "_a",
+    "_b",
+    "_c",
+    "_currentframe",
+    "_global",
+    "_highPos",
+    "_listeners",
+    "_lowPos",
+    "_name",
+    "_oldValue",
+    "_parent",
+    "_range",
+    "_root",
+    "_this",
+    "_visible",
+    "_width",
+    "_x",
+    "_xmouse",
+    "_xoffset",
+    "_y",
+    "_ymouse",
+    "_yoffset",
+    "action",
+    "actionParam",
+    "actionTransition",
+    "activated",
+    "addListener",
+    "align",
+    "applyEventsHandlers",
+    "applyTextStyle",
+    "autoSize",
+    "baseStyle",
+    "blockIndent",
+    "bold",
+    "broadcastEvent",
+    "btimg",
+    "btn_BLOCKER",
+    "btn_MENU_HELP_01_TITLE",
+    "btn_MENU_HELP_02_TITLE",
+    "btn_MENU_HELP_03_TITLE",
+    "btn_MENU_HELP_04_TITLE",
+    "btn_MENU_HELP_05_TITLE",
+    "btn_MENU_HELP_06_TITLE",
+    "btn_MENU_HELP_07_TITLE",
+    "btn_Multi",
+    "btn_back",
+    "btn_exit",
+    "btn_left",
+    "btn_loading_continue",
+    "btn_multi",
+    "btn_no",
+    "btn_right",
+    "btn_yes",
+    "bullet",
+    "buttonOnLoad",
+    "buttons",
+    "call",
+    "canGetFocus",
+    "cancel_action",
+    "center",
+    "checkIfValueChanged",
+    "className",
+    "clicked",
+    "color",
+    "com",
+    "com.gameloft.components.ui.Button",
+    "com.gameloft.components.ui.HSlider",
+    "componentWithFocus",
+    "components",
+    "confirm_action",
+    "confirm_msg",
+    "confirm_one_button",
+    "continue_text",
+    "continue_text._currentframe is:",
+    "currentOption",
+    "custom",
+    "customAction",
+    "customStyle1",
+    "customStyle2",
+    "default",
+    "defaultOnAnimationEnd",
+    "defaultOnLoad",
+    "disabled",
+    "elements",
+    "enterDrag",
+    "executeMenuAction",
+    "fctn",
+    "focus_in",
+    "focus_out",
+    "font",
+    "function",
+    "gameSWF",
+    "gameloft",
+    "getCanGetFocus",
+    "getDisabled",
+    "getElementIndex",
+    "getIconFrameLabel",
+    "getLabel",
+    "getLabelID",
+    "getMaxValue",
+    "getMinValue",
+    "getString",
+    "getText",
+    "getTextFormat",
+    "getValue",
+    "giveFocus",
+    "gotoAndPlay",
+    "gotoAndStop",
+    "handle",
+    "helpMenuText",
+    "helpMenuTitle",
+    "helpText",
+    "helpTitle",
+    "hitzone",
+    "html",
+    "htmlText",
+    "iconFrameLabel",
+    "indent",
+    "index",
+    "indexOf",
+    "isInArray",
+    "italic",
+    "justify",
+    "kerning",
+    "label",
+    "labelID",
+    "leading",
+    "left",
+    "leftMargin",
+    "length",
+    "letterSpacing",
+    "listenToControllerInput",
+    "listener",
+    "loading",
+    "loading_anim",
+    "maxValue",
+    "mc_icon",
+    "mc_koreanRating",
+    "mc_label",
+    "menu_Help",
+    "menu_Options",
+    "menu_bg",
+    "menu_help_01_text",
+    "menu_help_01_title",
+    "menu_help_02_text",
+    "menu_help_02_title",
+    "menu_help_03_text",
+    "menu_help_03_title",
+    "menu_help_04_text",
+    "menu_help_04_title",
+    "menu_help_05_text_a",
+    "menu_help_05_title",
+    "menu_help_06_text",
+    "menu_help_06_title",
+    "menu_help_07_text",
+    "menu_help_07_title",
+    "menu_multiplayer_title_multi",
+    "minValue",
+    "multiline",
+    "nextFrame",
+    "no_icon",
+    "no_label",
+    "onActivated",
+    "onAnimationEnd",
+    "onChange",
+    "onChangeLanguage",
+    "onClicked",
+    "onDisabled",
+    "onDown",
+    "onEnterDrag",
+    "onEnterFrame",
+    "onFocusIn",
+    "onFocusOut",
+    "onLeave",
+    "onLoad",
+    "onNavigatorLeft",
+    "onNavigatorRight",
+    "onOut",
+    "onOver",
+    "onPop",
+    "onPress",
+    "onPressAction",
+    "onPush",
+    "onQuitDrag",
+    "onReady",
+    "onRelease",
+    "onReleaseAction",
+    "onReleaseOutside",
+    "onReleaseOutsideAction",
+    "onRollOut",
+    "onRollOutAction",
+    "onRollOver",
+    "onRollOverAction",
+    "onShow",
+    "onSliding",
+    "onUp",
+    "onUpOutside",
+    "on_clicked",
+    "option_AutoOrientation",
+    "option_AutoTransmute",
+    "option_DPad",
+    "option_HUDStyle",
+    "option_Language",
+    "option_VolumeFX",
+    "option_VolumeMusic",
+    "paragraph1",
+    "paragraph2",
+    "paragraph3",
+    "placeHandleToValue",
+    "play",
+    "playsound",
+    "popMenu",
+    "pressed",
+    "prototype",
+    "push",
+    "pushMenu",
+    "quitDrag",
+    "radiansToDegrees",
+    "refreshText",
+    "registerClass",
+    "released",
+    "removeElement",
+    "removeElementAtIndex",
+    "removeFocus",
+    "removeListener",
+    "retval",
+    "right",
+    "rightMargin",
+    "round",
+    "selectable",
+    "setAlign",
+    "setCanGetFocus",
+    "setCurrentOption",
+    "setDisabled",
+    "setElementsEventsHandlers",
+    "setIconFrameLabel",
+    "setLabel",
+    "setLabelID",
+    "setMaxValue",
+    "setMinValue",
+    "setText",
+    "setTextFormat",
+    "setValue",
+    "setting",
+    "size",
+    "slot",
+    "splice",
+    "start",
+    "stop",
+    "style",
+    "styleCustom",
+    "styles",
+    "substring",
+    "switchMenu",
+    "symbolName",
+    "symbolOwner",
+    "text",
+    "textHeight",
+    "textID",
+    "text_styles",
+    "tf",
+    "this",
+    "this.CreditsBox.AboutTxt._y : ",
+    "title1",
+    "title2",
+    "title3",
+    "title4",
+    "title5",
+    "txt_label",
+    "ui",
+    "underline",
+    "useHandCursor",
+    "value",
+    "wordWrap"
+  ],
+  "limits": "Authored bytecode capture; no native menu lifecycle claim."
+}

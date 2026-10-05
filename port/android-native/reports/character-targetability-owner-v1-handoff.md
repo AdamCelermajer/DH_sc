@@ -1,0 +1,19 @@
+# Canonical Character targetability field
+
+The live failure is a missing nested constructor projection. Character C1 at3aa1f4 forms inline CharAI at Character+3c8 and calls CharAI C2 at3aa210. CharAI C2 mov r0,1 at3cec18; strb r0,[r4,4d] at3cec6c. C1 duplicate3ced78/3cedcc does the same. Thus Character+415 starts1 for every genuinely constructed Character, including campaign NPCs. It does not wait for an invented enable event.
+
+New helper: port/level-world/character_targetability_owner_v1.hpp/.cpp. Construct CharacterTargetabilityOwnerV1 borrowing the actual WorldActor.character. Call construct once during that Character creation; never reapply on refresh or each frame. Its source_byte415 returns the exact canonical interactive415 address. The helper stores no byte itself.
+
+Replace the separate renderer source_byte415 storage with this borrowed canonical address for native_cancel_sneaking and PlayerInjuryRuntimeV7.sneaking_415. The same field must serve World targeting, source SetIsTargetable and source CancelSneaking. cancel_sneaking forwards only the same V6 whose timer identity and resolved property backing match this World Character.
+
+set_is_targetable(count,firstLuaType,actualGetBool) implements the complete original3b7a64 guards: zero arguments means no write; a nonboolean first Lua Value means no write; boolean type1 writes normalized0/1 from actual Value.getBool. Numeric1 must not activate it. This helper accepts the real VM argument facts rather than manufacturing a VM.
+
+Lifecycle writers found by Character/CharAI executable symbol scan: both CharAI ctor variants; SetIsTargetable3b7ac4; player CancelSneaking3bc774 after actual buff146 deletion. Other source code may mutate it through script SetIsTargetable. Source IsInteractive3a4928 reads exactly this byte after live/dead/disabled/visibility/type/flags gates. No reset on death or disable was invented.
+
+NPC Idle2380 includes bit2000; original targetability therefore accepts a living visible enabled normal monster after actual ctor1. Source SetIsTargetable(false), disabled81, absent state bit2000, faery/summoned and death gates remain effective. The helper does not replace target selection with a nearest-enemy choice or override skill range/faction eligibility.
+
+Verification: original ARM constructor prefix and entire SetIsTargetable body42 cases,0 mismatches, receipt character-targetability-owner-v1-original.json. Actual Arguments[0]/Value.getBool are named providers in this proof; original guards and stores execute. Host test character_targetability_owner_v1.cpp ASan/UBSan passes canonical alias identity, positive normal NPC Idle predicate and negative script/disabled/state gates. Strict ARM64 -Wall -Wextra -Werror compile passes.
+
+Reproduce host: wsl g++ -std=c++17 -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -ffunction-sections -fdata-sections -Wl,--gc-sections -Wall -Wextra -Werror -Wno-misleading-indentation port/level-world/character_targetability_owner_v1.cpp port/level-world/character_skill_target_queries_v6.cpp port/level-world/tests/character_targetability_owner_v1.cpp -o .local-inputs/character_targetability_owner_v1; run that binary. Original proof: Python port/level-world/tests/character_targetability_owner_v1_original.py.
+
+Positive hit evidence is separate: actual WorldSkillExecutionV6 host already proves genuine nonlethal enemy HitFor HP Add and trophy capture, stopping honestly at required HitFX provider7. The refreshed self-DoT V7 host458 checks proves same-player native HP prefix. Neither host claims a live Headsplitter activation or the missing combat presentation tails. The combat agent owns real target/range/controller/attack integration; use the canonical ctor field before its source Search and verify actual Headsplitter with the same execution receiver. No renderer/native_app/CMake changes made here.

@@ -1,0 +1,311 @@
+[
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_kor.swf",
+    "sha256": "e6ccbacd22325cf69b18db517d1a41cf0fae71b0e0e8b733b55524d1a07a3e81",
+    "shape_70": []
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus2_i9000.swf",
+    "sha256": "308321c474491afd481186318d65a06b5b155a71699b504ce0a7ae54995d3566",
+    "shape_70": []
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus2.swf",
+    "sha256": "13cab94c9110dc19fd1e54a312d5b2639f4391c10d874381fb56336110ddc5fe",
+    "shape_70": []
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000_lg.swf",
+    "sha256": "f07af0c7187afcc1c5d8b95bcb313423590cb15adbb411a0ae143bd3ca1cd4db",
+    "shape_70": [
+      {
+        "shape": 70,
+        "bounds_twips": [
+          -108,
+          745,
+          -126,
+          743
+        ],
+        "initial_fill_styles": [
+          {
+            "bitmap_id": 1,
+            "kind": 66,
+            "scale": [
+              21.19110107421875,
+              21.19110107421875
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -1151,
+              -19008
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_jp_i9000.swf",
+    "sha256": "4fe76a14377c5c49ca375768c0baf5bae5d5571d66780c370680e857b5a29bdf",
+    "shape_70": [
+      {
+        "shape": 70,
+        "bounds_twips": [
+          249,
+          969,
+          275,
+          1045
+        ],
+        "initial_fill_styles": [
+          {
+            "bitmap_id": 6,
+            "kind": 66,
+            "scale": [
+              20.0,
+              20.0
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -9241,
+              -3215
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000_htc.swf",
+    "sha256": "90b6ecdb484fe20265bb7194ed3a8399ff0913bfc3174f198ce3631982a53979",
+    "shape_70": [
+      {
+        "shape": 70,
+        "bounds_twips": [
+          -108,
+          745,
+          -126,
+          743
+        ],
+        "initial_fill_styles": [
+          {
+            "bitmap_id": 1,
+            "kind": 66,
+            "scale": [
+              21.19110107421875,
+              21.19110107421875
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -1151,
+              -19008
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus.swf",
+    "sha256": "3c1a8ff1d43e89fa5608fb38dc1b27540b07dbd018206f02c6fb8d3ba061c6a5",
+    "shape_70": []
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000.swf",
+    "sha256": "83f3530a66d3a668bcecc6b6e7d0aedfba1d9800341f1f874993ac0691d6dc20",
+    "shape_70": [
+      {
+        "shape": 70,
+        "bounds_twips": [
+          -108,
+          745,
+          -126,
+          743
+        ],
+        "initial_fill_styles": [
+          {
+            "bitmap_id": 1,
+            "kind": 66,
+            "scale": [
+              21.19110107421875,
+              21.19110107421875
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -1151,
+              -19008
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus2_droid.swf",
+    "sha256": "2e2712a9cc6901ab16d801716c24d4e01457e5edf88ac0b4789ab0591b0d1f94",
+    "shape_70": []
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_jp.swf",
+    "sha256": "09957697ac16bd96114de6e7976f5a94a1550b6247860e0837ab17157c465c5d",
+    "shape_70": []
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenusapple.swf",
+    "sha256": "9e021738f84e93cf4c192211bbb569dcd38077e8ed6690f6f2b7dcca01116d4a",
+    "shape_70": [
+      {
+        "shape": 70,
+        "bounds_twips": [
+          -546,
+          5374,
+          -1023,
+          4674
+        ],
+        "initial_fill_styles": [
+          {
+            "bitmap_id": 5,
+            "kind": 64,
+            "scale": [
+              -20.0,
+              20.0
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              12524,
+              -5315
+            ]
+          },
+          {
+            "bitmap_id": 5,
+            "kind": 64,
+            "scale": [
+              20.0,
+              20.0
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -7696,
+              -5315
+            ]
+          },
+          {
+            "bitmap_id": 5,
+            "kind": 64,
+            "scale": [
+              -20.0,
+              808.3200073242188
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              12524,
+              -199872
+            ]
+          },
+          {
+            "bitmap_id": 5,
+            "kind": 64,
+            "scale": [
+              20.0,
+              808.3200073242188
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -7696,
+              -199872
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_jp_droid.swf",
+    "sha256": "3a00db9a9656f266f368527daa0a366ee6cc529e31b8d7455b08c3b92712d628",
+    "shape_70": [
+      {
+        "shape": 70,
+        "bounds_twips": [
+          249,
+          969,
+          275,
+          1045
+        ],
+        "initial_fill_styles": [
+          {
+            "bitmap_id": 6,
+            "kind": 66,
+            "scale": [
+              20.0,
+              20.0
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -9241,
+              -3215
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_droid.swf",
+    "sha256": "c114c7d39b7fe0351a93a515c78f9457dda715d78aed6e3bcc3f4895120de421",
+    "shape_70": [
+      {
+        "shape": 70,
+        "bounds_twips": [
+          -108,
+          745,
+          -126,
+          743
+        ],
+        "initial_fill_styles": [
+          {
+            "bitmap_id": 1,
+            "kind": 66,
+            "scale": [
+              21.19110107421875,
+              21.19110107421875
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -1151,
+              -19008
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

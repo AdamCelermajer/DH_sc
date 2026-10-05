@@ -1,0 +1,61 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "/usr/bin/c++",
+        "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+        "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+        "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+        "-DTU_CONFIG_LINK_TO_THREAD=0",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+        "-isystem",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+        "-isystem",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-g",
+        "-fno-sanitize=vptr",
+        "port/engine-ui/tests/enemy_hud_presentation_v2.cpp",
+        "port/engine-ui/enemy_status_hud_v1.cpp",
+        "port/engine-ui/enemy_hud_presentation_v2.cpp",
+        "port/engine-ui/hud_manager_backends.cpp",
+        "port/level-world/character_timers.cpp",
+        "-L/home/adampalace/dh2-world-build/engine-ui",
+        "-ldh2_engine_ui",
+        "-Wl,-rpath-link,/home/adampalace/dh2-world-build/game-data",
+        "-Wl,-rpath-link,/home/adampalace/dh2-world-build/script-runtime",
+        "-o",
+        ".local-inputs/enemy_hud_presentation_v2_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/home/adampalace/dh2-world-build/engine-ui:/home/adampalace/dh2-world-build/game-data:/home/adampalace/dh2-world-build/script-runtime",
+        ".local-inputs/enemy_hud_presentation_v2_host",
+        ".local-inputs/ui-layout-discovery"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"actual_droid_clip\":true,\"death_zeroHP_reacquire\":true,\"source_viewport\":true,\"projection_fixture\":true,\"queries\":12}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/engine-ui/enemy_hud_presentation_v2.hpp": "6a448396c5380be7eb5976b3eff7b2c7f28169e1d5267775d4b4266f436d3ba4",
+    "port/engine-ui/enemy_hud_presentation_v2.cpp": "3a0dcd73b43ce8ef2b6fced964712ecaa76ed38482ce336e0a8ecf65f8821fdc",
+    "port/engine-ui/enemy_status_hud_v1.hpp": "63fdb40d98a517919fe36456bd88aebac5f5fe2d833fec120573789126c32f72",
+    "port/engine-ui/enemy_status_hud_v1.cpp": "59c75f2a678d30c15c7e2704fa56e2cd64a7455dd3c4f2a3e8c4c060d93dbfeb",
+    "port/engine-ui/tests/enemy_hud_presentation_v2.cpp": "c042d492b360e5add24038404720189d579b80e85576b683391ef79ca5af75f3"
+  },
+  "scope": "Actual droid HUD/source viewport/core timeline; gameplay life and screen projection explicit fixtures; no GPU claim"
+}

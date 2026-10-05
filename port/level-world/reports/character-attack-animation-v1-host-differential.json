@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "original_cases": 1376,
+  "ordered_callbacks": 3507,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reference_sha256": "0392ba13879147f1ef55efc2f42ab32895eed351493a42e422da6caa11477457",
+  "library_sha256": "55571eed0dfd94ecb96f784a2c5763677c0359f8caeb392e3c6c21b83e3cbca0",
+  "sources": {
+    "character_attack_animation_v1.cpp": "5f7e53b0e8e9ec1e631249ff01434fe6d3326300025f5d3d5b3cdd80bedf5c52",
+    "character_attack_animation_v1.hpp": "7c55b9c1c395024ec5c0caf825f617871cad6365fbefe8e87bbed6d76e40f828",
+    "character_attack_animation_v1_differential.py": "489832d8ddb08bebc209841317e0415009ee6dd469f7a0956a7643d2335a5d21"
+  },
+  "scope": "Full original attack step consumers versus native source; backend boundaries\nare explicit fixtures, including target/last mutation during virtual calls.\nThis proves the two methods and call ordering, not end-to-end game combat.\n"
+}

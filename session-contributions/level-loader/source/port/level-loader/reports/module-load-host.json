@@ -1,0 +1,947 @@
+{
+  "validation": "PASS",
+  "scope": "Compare module context/selection/file ordering against the executed ARM caller.\n\nSelection/file/class services are explicit modeled boundaries. Pending yielding,\nfailure latching and explicit unwind are native policies, not original rollback.\n",
+  "original_receipt_sha256": "9de60f14ad3ef10b779df7efa960fc70329ff8bfc646c65371ca7a43f428fa51",
+  "probe_sha256": "7225d900f27fd6070b2a145d35f650d774b3355d20031a7291e2e4cace9c9110",
+  "script_sha256": "1a37a2fc0377eebfe5f6c8ac81707ece9a7160c1bf65484c73202ece51bd8d48",
+  "source_sha256": {
+    "module_load_v1.hpp": "00069ca5d4f9c850fd09ead14f3829c1256f30a68803123dd43574c4b05afc99",
+    "module_load_v1.cpp": "f6cd8b26fb380767c8378bbc5fa5f9700626e28485cde58ce5cf69c51947e97d",
+    "CMakeLists.txt": "a4e361e25f1192621ca06092b77bb47b44a0c06faa2c1286c8c9dfb987f82fee",
+    "object_entry_v1.hpp": "0934a05b557b7797e9a1ddea64fd808d4fc98b7fd8a7ce7d7117398f12270893",
+    "object_entry_v1.cpp": "b84d1dc4b2349d8062b45f22cf69399dfd2d69b25b8036deb83f48bfcf760a31",
+    "xml_document_v1.hpp": "bac16414b6fd623d4c0ffd0004814f8a2fb3cfafb0fb048a10e73105028b614b",
+    "xml_document_v1.cpp": "19ef9043068be2b0e976fa149da0bb1ff542544d099a0b2069632708e0714955",
+    "tests/module_load_probe.cpp": "5da5eec8ad3c09ed9e5e09435c749db6c3881ed7cfe5c394be9ad5c863b71b8d",
+    "tests/module_load_host.py": "1a37a2fc0377eebfe5f6c8ac81707ece9a7160c1bf65484c73202ece51bd8d48"
+  },
+  "input_sha256": "9081ee58c72bbde72ae1106d8291515b0aec9364bb7fa6b5d6461397cc3c31de",
+  "cases_compared": 9,
+  "file_polls_compared": 39,
+  "adapter_checks": 12,
+  "cases": [
+    {
+      "label": "empty",
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 0,
+        "visual": 0
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "gameplay_only",
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 3,
+        "visual": 0
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "visual_only",
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 0,
+        "visual": 4
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "both",
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 1,
+        "visual": 1
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "both_pending",
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 4,
+        "visual": 5
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "same_uri",
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 3,
+        "visual": 4
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "selection_spelling",
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": " Source/UPPER.mgp ",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": " Source/UPPER.mgp ",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "Other\\path.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "Other\\path.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 2,
+        "visual": 2
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "negative_identity",
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": -1
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "gameplay.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "gameplay.mgp",
+          "root": "Module",
+          "returned": true,
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "visual.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "visual.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "visual.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 2,
+        "visual": 3
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "word_preservation",
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "gameplay.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "gameplay.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "gameplay.mgp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "visual.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "visual.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 3,
+        "visual": 2
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "original_selection_verified": false,
+  "original_file_loading_verified": false,
+  "runtime_factory_contract_agreed": false,
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

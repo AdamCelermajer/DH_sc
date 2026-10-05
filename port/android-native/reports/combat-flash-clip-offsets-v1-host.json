@@ -1,0 +1,64 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "/usr/bin/c++",
+        "-Iport/engine-ui/overlays/edit-text-v1",
+        "-DTU_CONFIG_LINK_TO_FREETYPE=0",
+        "-DTU_CONFIG_LINK_TO_JPEGLIB=0",
+        "-DTU_CONFIG_LINK_TO_LIBPNG=0",
+        "-DTU_CONFIG_LINK_TO_THREAD=0",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/overlays/edit-text-v1",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/level-world",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-skinning",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-animation",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/scene-materials",
+        "-I/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/game-data",
+        "-isystem",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/physics-backend/box2d-2.0.1/Include",
+        "-isystem",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/vendor/gameswf1714",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-g",
+        "-fno-sanitize=vptr",
+        "port/engine-ui/tests/combat_flash_clip_offsets_v1.cpp",
+        "port/engine-ui/combat_flash_queue_v1.cpp",
+        "port/engine-ui/combat_flash_swf_v1.cpp",
+        "port/level-world/character_combat_text_v1.cpp",
+        "port/script-runtime/script_constants.cpp",
+        "-L.local-inputs/edit-text-connection-v1-host/build",
+        "-ldh2_engine_ui",
+        "-o",
+        ".local-inputs/combat_flash_v1_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=.local-inputs/edit-text-connection-v1-host/build",
+        ".local-inputs/combat_flash_v1_host",
+        ".local-inputs/ui-layout-discovery",
+        ".local-inputs/font-text-discovery",
+        "port/android-native/app/src/main/assets/original-cache/data",
+        ".local-inputs/font-text-discovery/fonts_pycst.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "SCT_OFFSET anim_sct_normaldamage local -224.45 -125.55 world -224.45 -125.55 parent \nSCT_OFFSET anim_sct_xp local -224.45 -105.55 world -224.45 -105.55 parent \nSCT_OFFSET anim_sct_normaldamageleft local -224.45 -105.55 world -224.45 -105.55 parent \nSCT_OFFSET anim_sct_normaldamageright local -224.45 -105.55 world -224.45 -105.55 parent \nSCT_OFFSET anim_sct_crit local -222.45 -106.55 world -222.45 -106.55 parent \nSCT_OFFSET anim_sct_critleft local -224.45 -105.55 world -224.45 -105.55 parent \nSCT_OFFSET anim_sct_critright local -224.45 -105.55 world -224.45 -105.55 parent \nSCT_OFFSET anim_sct_block local -224.45 -105.55 world -224.45 -105.55 parent \nSCT_OFFSET anim_sct_stun local -224.45 -105.55 world -224.45 -105.55 parent \nSCT_OFFSET anim_sct_dot local -224.45 -105.55 world -224.45 -105.55 parent \n{\"validation\":\"PASS\",\"actual_styles\":20,\"real_glyph_quads\":9,\"source_projection_fixture\":true,\"actual_clone\":true,\"expired_and_reused\":true}\n",
+      "stderr": "source localization: World Map\n"
+    }
+  ],
+  "source_sha256": {
+    "port/engine-ui/combat_flash_queue_v1.hpp": "d9d05f5bfa7add201f07e6acf1fdb3ed9a30f52e12f094573d9031bd6e9ce76a",
+    "port/engine-ui/combat_flash_queue_v1.cpp": "7a80388a82d773b4afc5433b8a17d4b94a2776deaa597eaa3f217f74533a65f1",
+    "port/engine-ui/combat_flash_swf_v1.hpp": "49bb81d09959104567463d61de1c31464c7fef650756e73d14159e6ec979c731",
+    "port/engine-ui/combat_flash_swf_v1.cpp": "cc3b4afd722e0da01ae32cb915c67ce28d11ea1e6aae2b87bc37daa52fc07271",
+    "port/engine-ui/tests/combat_flash_clip_offsets_v1.cpp": "bc80b0c32ea18a47c3e72a36c706cd94cd28f724fcd8bf3d110576a2d488de84"
+  },
+  "scope": "Actual droid HUD and original TTF/native glyph renderer; world projection and external textures explicit fixtures; no GPU claim"
+}

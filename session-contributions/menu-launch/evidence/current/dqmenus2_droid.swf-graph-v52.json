@@ -1,0 +1,341 @@
+{
+  "file": "keyboard-reference-dqmenus2_droid.swf",
+  "sha256": "2e2712a9cc6901ab16d801716c24d4e01457e5edf88ac0b4789ab0591b0d1f94",
+  "bounds_twips": [
+    0,
+    9600,
+    0,
+    6400
+  ],
+  "frame_rate": 30.0,
+  "frames": 1,
+  "root_placements": [
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1,
+      "character": 42,
+      "name": "menu_WorldMapNew"
+    }
+  ],
+  "placements": [
+    {
+      "parent": "sprite:21",
+      "frame": 0,
+      "depth": 1,
+      "character": 17,
+      "name": "btimg"
+    },
+    {
+      "parent": "sprite:21",
+      "frame": 0,
+      "depth": 3,
+      "character": 20,
+      "name": "location"
+    },
+    {
+      "parent": "sprite:24",
+      "frame": 0,
+      "depth": 1,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:24",
+      "frame": 0,
+      "depth": 5,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:29",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:29",
+      "frame": 0,
+      "depth": 25,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:30",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:30",
+      "frame": 0,
+      "depth": 25,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:31",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:31",
+      "frame": 0,
+      "depth": 21,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:32",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:32",
+      "frame": 0,
+      "depth": 25,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:33",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:33",
+      "frame": 0,
+      "depth": 33,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:34",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:34",
+      "frame": 0,
+      "depth": 21,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:35",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:35",
+      "frame": 0,
+      "depth": 33,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:36",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:36",
+      "frame": 0,
+      "depth": 25,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:37",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:37",
+      "frame": 0,
+      "depth": 25,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:38",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:38",
+      "frame": 0,
+      "depth": 39,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:39",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:39",
+      "frame": 0,
+      "depth": 25,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:40",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "building"
+    },
+    {
+      "parent": "sprite:40",
+      "frame": 0,
+      "depth": 25,
+      "character": 23,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 2,
+      "character": 5,
+      "name": "btn_map_bg"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 4,
+      "character": 24,
+      "name": "btn_Catacombs"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 10,
+      "character": 29,
+      "name": "btn_South_Road"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 36,
+      "character": 30,
+      "name": "btn_Thamos_Village"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 62,
+      "character": 31,
+      "name": "btn_Windmill"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 84,
+      "character": 32,
+      "name": "btn_Cathedral"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 110,
+      "character": 33,
+      "name": "btn_Stonebridge"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 144,
+      "character": 34,
+      "name": "btn_Plenko"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 166,
+      "character": 35,
+      "name": "btn_Jeremo_Village"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 200,
+      "character": 36,
+      "name": "btn_Forge"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 226,
+      "character": 37,
+      "name": "btn_Barracks"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 252,
+      "character": 38,
+      "name": "btn_Gothicus"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 292,
+      "character": 39,
+      "name": "btn_Ruins"
+    },
+    {
+      "parent": "sprite:41",
+      "frame": 0,
+      "depth": 318,
+      "character": 40,
+      "name": "btn_Woods"
+    },
+    {
+      "parent": "sprite:42",
+      "frame": 0,
+      "depth": 1,
+      "character": 41,
+      "name": "map"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1,
+      "character": 42,
+      "name": "menu_WorldMapNew"
+    }
+  ],
+  "exports": [
+    {
+      "character": 1,
+      "name": "menus/map.tga"
+    },
+    {
+      "character": 2,
+      "name": "menus/buttons_droid.tga"
+    }
+  ]
+}

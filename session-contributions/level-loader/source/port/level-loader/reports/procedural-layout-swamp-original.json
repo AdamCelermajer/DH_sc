@@ -1,0 +1,2339 @@
+{
+  "scope": "Execute original Generate and room placement against original rule/MGX inputs.\n\nOriginal readers, derived MgxBlock constructors, block-map insertion/linking,\nGenerate, rule traversal, selection, backtracking and Array2d operations execute\nARM32. File discovery is supplied from separately verified GetFiles receipts.\nBlock name/folder/target string assignment is caller input; FromFilename,\nLoadRuleFile orchestration, pool ComputeSizeOfRules and serialization do not\nexecute. The fixture accepts only zero-pool declarations. Imported allocation,\nbyte and numeric services are explicit adapters. No selection, placement,\ncollision, shuffle or generation result is supplied by a hook.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "script_sha256": "f2ca277cac4c45972c54fb71dc496f14d6b25e547a6c3a293435f38d4ed6a95b",
+  "file_lists_receipt_sha256": "2ced1af1a948f0333bd3021c3a1c8bf5f9f7a0c1851a97f0613e1a928b79d7c6",
+  "rules_receipt_sha256": "2fd635a48f9bb3ae6dd458f94e05de0e795deb8e773198433724c0d7a517487e",
+  "dependency_sources_sha256": {
+    "port\\level-loader\\tests\\procedural_layout_original.py": "f2ca277cac4c45972c54fb71dc496f14d6b25e547a6c3a293435f38d4ed6a95b",
+    "port\\level-loader\\tests\\procedural_blocks_original.py": "695ac6d5978dae6e013150d4dfce80461f851c91d6f14b5bb5835739042a16fd",
+    "port\\level-loader\\tests\\procedural_lists_original.py": "1cb25487117915ff043cfc1dd2db35f7546f12ad267566f2d0ee751cf8edc0fc",
+    "port\\level-loader\\tests\\procedural_rules_original.py": "5b7b91c933eec151af11245e540a362162a9761b7e1208feadd2aaaae6e6f9ae",
+    "port\\level-loader\\tests\\procedural_instances_original.py": "2c758929a35302944ba83d960c8691354af692a5ca95e0dd2081cde60a857d78",
+    "port\\engine-resources\\tests\\cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port\\game-data\\tests\\combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "port\\game-data\\tests\\combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "port\\game-data\\tests\\health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "port\\game-data\\tests\\combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "port\\game-data\\tests\\aggro_differential.py": "3d5fc4103199edbe847f886344f048738067ee8b329816531b82d8bc7174a759",
+    "port\\level-world\\tests\\navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148",
+    "port\\game-data\\tests\\items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port\\level-loader\\tests\\xml_original_probe.py": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209"
+  },
+  "cases": [
+    {
+      "name": "single-root",
+      "input_sha256": "d8fbbac1d88f321a3b5f42a95aa8300e9a977788356ea11a1afd71cc1b2ef2d0",
+      "folder": "fixture",
+      "target": "fixture",
+      "blocks": [
+        {
+          "name": "room",
+          "uri": "fixture/room.mgx",
+          "input_sha256": "1f3079e3bd202dd09ad4e682e4e12a3d802576c72e7ee1290ce955ebf2c959df",
+          "input_hex": "3c4d6f64756c653e3c2f4d6f64756c653e"
+        }
+      ],
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "final_state": 0,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "room",
+              "block_source": 0,
+              "block_name": "room",
+              "mgx_uri": "fixture/room.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "",
+                "gameplay": "",
+                "visual": "",
+                "chances": 100
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 0,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 0,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          },
+          "adapters": {}
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "final_state": 1,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "room",
+              "block_source": 0,
+              "block_name": "room",
+              "mgx_uri": "fixture/room.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "",
+                "gameplay": "",
+                "visual": "",
+                "chances": 100
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 0,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 0,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          },
+          "adapters": {}
+        }
+      ],
+      "input_hex": "3c72756c65733e3c526f6f7452756c65206e616d653d22726f6f6d222f3e3c2f72756c65733e",
+      "reader_result": 1,
+      "xml_error": 0,
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "room",
+          "inserted": true
+        }
+      ]
+    },
+    {
+      "name": "three-room-force-chain",
+      "input_sha256": "590ddf7e4376ba9027f50ec0db016b1648030258cb80d1d2956a5929728b7139",
+      "folder": "fixture",
+      "target": "fixture",
+      "blocks": [
+        {
+          "name": "a",
+          "uri": "fixture/a.mgx",
+          "input_sha256": "d7d70a9a5641448e1e1b631a214740c2348dc228d7a34a82e5431cc2774066a6",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652220646972656374696f6e3d226e6f7274682220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e"
+        },
+        {
+          "name": "b",
+          "uri": "fixture/b.mgx",
+          "input_sha256": "4135bde01c42e4854dfe6b6dd13f8ebcbed68d1871f4551d0b7c9d8a9b22b543",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652220646972656374696f6e3d226e6f7274682220706f736974696f6e3d22302c302c30222f3e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652220646972656374696f6e3d22736f7574682220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e"
+        },
+        {
+          "name": "c",
+          "uri": "fixture/c.mgx",
+          "input_sha256": "98027e1787abdf9c546f408b777bcd7342d8cc498efd77d7683e860b7650de2e",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652220646972656374696f6e3d22736f7574682220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e"
+        }
+      ],
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "final_state": 0,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "a",
+              "block_source": 0,
+              "block_name": "a",
+              "mgx_uri": "fixture/a.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "",
+                "gameplay": "",
+                "visual": "",
+                "chances": 100
+              },
+              "children": [
+                1
+              ]
+            },
+            {
+              "index": 1,
+              "name": "b",
+              "block_source": 1,
+              "block_name": "b",
+              "mgx_uri": "fixture/b.mgx",
+              "grid": [
+                0,
+                -1
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "",
+                "gameplay": "",
+                "visual": "",
+                "chances": 100
+              },
+              "children": [
+                2
+              ]
+            },
+            {
+              "index": 2,
+              "name": "c",
+              "block_source": 2,
+              "block_name": "c",
+              "mgx_uri": "fixture/c.mgx",
+              "grid": [
+                0,
+                -2
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "",
+                "gameplay": "",
+                "visual": "",
+                "chances": 100
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 0,
+            "root_attempts": 1,
+            "place_calls": 3,
+            "unspawn_calls": 0,
+            "step_calls": 3,
+            "path_calls": 0,
+            "rule_calls": 2
+          },
+          "adapters": {
+            "strcasecmp": 30,
+            "memchr": 4,
+            "strcpy": 4,
+            "strtok": 12,
+            "strtod": 12,
+            "__aeabi_d2f": 12,
+            "__aeabi_i2f": 8,
+            "ceilf": 8,
+            "__aeabi_f2iz": 8
+          }
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "final_state": 1,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "a",
+              "block_source": 0,
+              "block_name": "a",
+              "mgx_uri": "fixture/a.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "",
+                "gameplay": "",
+                "visual": "",
+                "chances": 100
+              },
+              "children": [
+                1
+              ]
+            },
+            {
+              "index": 1,
+              "name": "b",
+              "block_source": 1,
+              "block_name": "b",
+              "mgx_uri": "fixture/b.mgx",
+              "grid": [
+                0,
+                -1
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "",
+                "gameplay": "",
+                "visual": "",
+                "chances": 100
+              },
+              "children": [
+                2
+              ]
+            },
+            {
+              "index": 2,
+              "name": "c",
+              "block_source": 2,
+              "block_name": "c",
+              "mgx_uri": "fixture/c.mgx",
+              "grid": [
+                0,
+                -2
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "",
+                "gameplay": "",
+                "visual": "",
+                "chances": 100
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 0,
+            "root_attempts": 1,
+            "place_calls": 3,
+            "unspawn_calls": 0,
+            "step_calls": 3,
+            "path_calls": 0,
+            "rule_calls": 2
+          },
+          "adapters": {
+            "strcasecmp": 30,
+            "memchr": 4,
+            "strcpy": 4,
+            "strtok": 12,
+            "strtod": 12,
+            "__aeabi_d2f": 12,
+            "__aeabi_i2f": 8,
+            "ceilf": 8,
+            "__aeabi_f2iz": 8
+          }
+        }
+      ],
+      "input_hex": "3c72756c65733e3c526f6f7452756c65206e616d653d2261223e3c466f726365426c6f636b206e616d653d2262223e3c466f726365426c6f636b206e616d653d2263222f3e3c2f466f726365426c6f636b3e3c2f526f6f7452756c653e3c2f72756c65733e",
+      "reader_result": 1,
+      "xml_error": 0,
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "a",
+          "inserted": true
+        },
+        {
+          "source_index": 1,
+          "name": "b",
+          "inserted": true
+        },
+        {
+          "source_index": 2,
+          "name": "c",
+          "inserted": true
+        }
+      ]
+    },
+    {
+      "name": "same-block-path-rejected",
+      "input_sha256": "267ef1ee006f6ec3c4d5a1267be768de40f53799b6b6c7a971edea215e632167",
+      "folder": "fixture",
+      "target": "fixture",
+      "blocks": [
+        {
+          "name": "room",
+          "uri": "fixture/room.mgx",
+          "input_sha256": "4135bde01c42e4854dfe6b6dd13f8ebcbed68d1871f4551d0b7c9d8a9b22b543",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652220646972656374696f6e3d226e6f7274682220706f736974696f6e3d22302c302c30222f3e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652220646972656374696f6e3d22736f7574682220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e"
+        }
+      ],
+      "runs": [
+        {
+          "seed": 0,
+          "success": false,
+          "final_state": 279470273,
+          "tiles": [],
+          "events": {
+            "random_calls": 1,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 1,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          },
+          "adapters": {
+            "strcasecmp": 12,
+            "memchr": 2,
+            "strcpy": 2,
+            "strtok": 6,
+            "strtod": 6,
+            "__aeabi_d2f": 6,
+            "__aeabi_i2f": 4,
+            "ceilf": 4,
+            "__aeabi_f2iz": 4
+          }
+        },
+        {
+          "seed": 1,
+          "success": false,
+          "final_state": 558940546,
+          "tiles": [],
+          "events": {
+            "random_calls": 1,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 1,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          },
+          "adapters": {
+            "strcasecmp": 12,
+            "memchr": 2,
+            "strcpy": 2,
+            "strtok": 6,
+            "strtod": 6,
+            "__aeabi_d2f": 6,
+            "__aeabi_i2f": 4,
+            "ceilf": 4,
+            "__aeabi_f2iz": 4
+          }
+        }
+      ],
+      "input_hex": "3c72756c65733e3c526f6f7452756c65206e616d653d22726f6f6d223e3c50617468206e616d653d22726f6f6d22206c656e6774683d2232222f3e3c2f526f6f7452756c653e3c2f72756c65733e",
+      "reader_result": 1,
+      "xml_error": 0,
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "room",
+          "inserted": true
+        }
+      ]
+    },
+    {
+      "name": "list-root-selection",
+      "input_sha256": "4e78efd9721ce5554746ae16b41c2f4499b789e417353f1584f7931195ffab41",
+      "folder": "fixture",
+      "target": "fixture",
+      "blocks": [
+        {
+          "name": "a",
+          "uri": "fixture/a.mgx",
+          "input_sha256": "1f3079e3bd202dd09ad4e682e4e12a3d802576c72e7ee1290ce955ebf2c959df",
+          "input_hex": "3c4d6f64756c653e3c2f4d6f64756c653e"
+        },
+        {
+          "name": "b",
+          "uri": "fixture/b.mgx",
+          "input_sha256": "1f3079e3bd202dd09ad4e682e4e12a3d802576c72e7ee1290ce955ebf2c959df",
+          "input_hex": "3c4d6f64756c653e3c2f4d6f64756c653e"
+        }
+      ],
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "final_state": 279470273,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "a",
+              "block_source": 0,
+              "block_name": "a",
+              "mgx_uri": "fixture/a.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "a",
+                "gameplay": "ag",
+                "visual": "av",
+                "chances": 0
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 1,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 0,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          },
+          "adapters": {
+            "sscanf": 2,
+            "strcpy": 1
+          }
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "final_state": 558940546,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "b",
+              "block_source": 1,
+              "block_name": "b",
+              "mgx_uri": "fixture/b.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "b",
+                "gameplay": "bg",
+                "visual": "bv",
+                "chances": -1
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 1,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 0,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          },
+          "adapters": {
+            "sscanf": 2,
+            "strcpy": 1
+          }
+        }
+      ],
+      "input_hex": "3c72756c65733e3c6c697374206e616d653d22726f6f7473223e3c656c656d206e616d653d2261222067616d65706c61793d226167222076697375616c3d22617622206368616e6365733d2230222f3e3c656c656d206e616d653d2262222067616d65706c61793d226267222076697375616c3d22627622206368616e6365733d222d31222f3e3c2f6c6973743e3c526f6f7452756c65206e616d653d2223726f6f7473222f3e3c2f72756c65733e",
+      "reader_result": 1,
+      "xml_error": 0,
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "a",
+          "inserted": true
+        },
+        {
+          "source_index": 1,
+          "name": "b",
+          "inserted": true
+        }
+      ]
+    },
+    {
+      "name": "data/scene/022_swamp2.rule.xml",
+      "input_sha256": "a16dbdabf12282a78f571a85eb456c52e88fc46f19f9d35e374eb68fef140323",
+      "folder": "data/3d/modules/swamp",
+      "target": "iphone",
+      "blocks": [
+        {
+          "name": "bossroomb_swpcave_w_01",
+          "uri": "data/3d/modules/swamp/mgx/bossroomb_swpcave_w_01.mgx",
+          "input_sha256": "f72d3d6621a7086ecda1dea88703bed4d7d30f74f4bebc16cfe8ae635267cea0"
+        },
+        {
+          "name": "bossroom_ruins_ns_",
+          "uri": "data/3d/modules/swamp/mgx/bossroom_ruins_ns_.mgx",
+          "input_sha256": "305f4e6084af6eb6b33ea4f6e399c6af6fe7a04c439ae6e53f2cc458528b7ed4"
+        },
+        {
+          "name": "bossroom_swpcave_w_00",
+          "uri": "data/3d/modules/swamp/mgx/bossroom_swpcave_w_00.mgx",
+          "input_sha256": "6445a47bc149c5789630441220fc81b1a8d3adb21bbf2c49d381118865feb300"
+        },
+        {
+          "name": "corner_brdwalk_ne_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx",
+          "input_sha256": "378298a51ad698b8840c89cc13be14ace82fca8f788bf295eb9ee0e7b46d824d"
+        },
+        {
+          "name": "corner_brdwalk_se_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_brdwalk_se_00.mgx",
+          "input_sha256": "20a167de6f0658c6250310ffb0c6ad1571594d1428d9fe2e87640ebfaad707dd"
+        },
+        {
+          "name": "corner_brdwalk_sw_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_brdwalk_sw_00.mgx",
+          "input_sha256": "298db6afadeb174d486271bca5359399e579a8fd844506a2a0051d462eb05955"
+        },
+        {
+          "name": "corner_ruin_ne_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_ruin_ne_00.mgx",
+          "input_sha256": "3a3245eea0ec04de5b69318cacfb5b5a8d18b714a390f9c6e4d9dc66ca15445c"
+        },
+        {
+          "name": "corner_ruin_nw_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_ruin_nw_00.mgx",
+          "input_sha256": "db07c36888de2c0eb55d12e296c0441c38f980eed3191ed55d52403a8e284345"
+        },
+        {
+          "name": "corner_ruin_se_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx",
+          "input_sha256": "75a1830393b52d2cdb5aebe0598f75b00f629744f9be9a67a83d5a895d6f535d"
+        },
+        {
+          "name": "corner_ruin_wn_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx",
+          "input_sha256": "58d2d65c4f36ab7092d37870770d6482d08b8dd44d338cf7d70b39b21a034887"
+        },
+        {
+          "name": "corner_ruin_ws_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_ruin_ws_00.mgx",
+          "input_sha256": "70d0b4e56c76380e7765240b68b43b93b5a749106581968a3fc30f15d8730ab0"
+        },
+        {
+          "name": "corner_swpcave_ne_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx",
+          "input_sha256": "6b7e5e9cec2e50b007d95a17ef6cb8bd5685d3663ff7015cb1d612febf6e234a"
+        },
+        {
+          "name": "corner_swpcave_nw_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_swpcave_nw_00.mgx",
+          "input_sha256": "0d4b98e25044672c6854bcaa36925ea3aad79fa4caed2c9992e73259b80937b9"
+        },
+        {
+          "name": "corner_swpcave_se_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_swpcave_se_00.mgx",
+          "input_sha256": "922ebca08402c66f83e92ae0d105d380568d73ae7af6feca067175fa683f936f"
+        },
+        {
+          "name": "corner_swpcave_sw_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx",
+          "input_sha256": "f1e8a3d4046a30e2ac4a67a3879aae3d5a69dd16712aff10c630a5d07d5ddae6"
+        },
+        {
+          "name": "deadendb_swpcave_n_01",
+          "uri": "data/3d/modules/swamp/mgx/deadendb_swpcave_n_01.mgx",
+          "input_sha256": "ee356f2ccfbf68801f4d8f84aad207367f972e69518a2baf5564543a5f0c3bdd"
+        },
+        {
+          "name": "deadend_brdwalk_e_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_e_00.mgx",
+          "input_sha256": "5e36576a0f3414c88819ca366c00c0f250637015662ebc61ba4d6a9d6211eed6"
+        },
+        {
+          "name": "deadend_brdwalk_se_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_se_00.mgx",
+          "input_sha256": "369b2a7e913ff9da2c13ae18ea28a3f0aa090cb5ebb05feb8f3bd896e25ad504"
+        },
+        {
+          "name": "deadend_brdwalk_s_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_s_00.mgx",
+          "input_sha256": "d7fa8b229f1ea17a45ba04c272eff70f23b69e556bd06d45c9d161613186159b"
+        },
+        {
+          "name": "deadend_brdwalk_we_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_we_00.mgx",
+          "input_sha256": "208ecd98920a2c9b18f4e405067d601b63bea971202bc8aa314792bf03191380"
+        },
+        {
+          "name": "deadend_brdwalk_w_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx",
+          "input_sha256": "23c9b98157a28d8968202333a79fe0e3ef826d7dbc35e79934d626cec5602c9b"
+        },
+        {
+          "name": "deadend_ruin_w_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_ruin_w_00.mgx",
+          "input_sha256": "800a4adfb0ed26fb88582be0196db996104490ffe431852d75bc497adce6f9b6"
+        },
+        {
+          "name": "deadend_swpcave_e_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_e_00.mgx",
+          "input_sha256": "2e37bc554cf7e2004c223ba47fc3f51b7065f8e7775db28bb4c9e3a22cc18484"
+        },
+        {
+          "name": "deadend_swpcave_n_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx",
+          "input_sha256": "15010b82c921a29c1082c84c34d72e7610c0dcc9057086fb799bdbf9458b0b7a"
+        },
+        {
+          "name": "deadend_swpcave_s_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx",
+          "input_sha256": "947e99465f5824b0212f1bc30d2203fe4c0026bbea62af60f85eb97be88ea95d"
+        },
+        {
+          "name": "deadend_swpcave_w_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx",
+          "input_sha256": "8a366a240c22d110773a1fc76402a5fffd4028afb8609797de23e3cce5944a48"
+        },
+        {
+          "name": "merchantcamp_ruins_swe_00",
+          "uri": "data/3d/modules/swamp/mgx/merchantcamp_ruins_swe_00.mgx",
+          "input_sha256": "7c2be6b2bf4f26b7dbaee648009dcdd0841b1ea3bb46dcc296e4075ce7883f1a"
+        },
+        {
+          "name": "obj_1of4_brdwalk_nse_00",
+          "uri": "data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx",
+          "input_sha256": "5908355ce003474d09cfbf08ac9114971e347109c4dafd06fc74a379d52b728c"
+        },
+        {
+          "name": "obj_2of4_brdwalk_sw_00",
+          "uri": "data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx",
+          "input_sha256": "d123733c22cf5d6008a93730005a4315e66b59d1efce2ae5b99ca5f01e5a8f27"
+        },
+        {
+          "name": "obj_3of4_brdwalk_sw_00",
+          "uri": "data/3d/modules/swamp/mgx/obj_3of4_brdwalk_sw_00.mgx",
+          "input_sha256": "3810b7022aec910d41d8b036a322ba56ba1959a3439eb166b1469c78a1f3913c"
+        },
+        {
+          "name": "obj_4of4_brdwalk_sw_00",
+          "uri": "data/3d/modules/swamp/mgx/obj_4of4_brdwalk_sw_00.mgx",
+          "input_sha256": "614f8c4b609f10522f244af512f2454cf8df06c2e813418b5758dc14430de8c5"
+        },
+        {
+          "name": "straight_brdwalk_ns_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+          "input_sha256": "24af4c7717ee2c4b48458392d9435da5c25915864318712acd326f49be1d4d86"
+        },
+        {
+          "name": "straight_brdwalk_we_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx",
+          "input_sha256": "3a925c3669938410bf69b91d25fd632a9995881c8d425477863aaddbfd3c696b"
+        },
+        {
+          "name": "straight_ruin_ns_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_ruin_ns_00.mgx",
+          "input_sha256": "3ebe2d0c6c2d3a645c25c7418961610f291d1d4d98ae61159a7d04abf44c0bb6"
+        },
+        {
+          "name": "straight_ruin_we_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_ruin_we_00.mgx",
+          "input_sha256": "6d0d23585e3eb62a84fa9e77ff26dfe028bea257434b421c546458b7a6ebf266"
+        },
+        {
+          "name": "straight_swpcave_ns_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_swpcave_ns_00.mgx",
+          "input_sha256": "d3512e7b1c9d48e47b18294cf17657fcb7d0fd80b18c1ebc0bd56ca06081e9cf"
+        },
+        {
+          "name": "straight_swpcave_we_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx",
+          "input_sha256": "a44c48e7300c6a5722b85b6c6f4f1eb9f9b590ed71999d377ad086109ea90f9e"
+        },
+        {
+          "name": "t_ruin_nse_00",
+          "uri": "data/3d/modules/swamp/mgx/t_ruin_nse_00.mgx",
+          "input_sha256": "4b7073c0aef27926ae71113cb57f1d03a2d2c2ed1d5257a024f30777eb6d2fe0"
+        },
+        {
+          "name": "t_ruin_nsw_00",
+          "uri": "data/3d/modules/swamp/mgx/t_ruin_nsw_00.mgx",
+          "input_sha256": "034b8de449075abdcbe411f143cdd3598639432806f100348e23e2212d4c2f87"
+        },
+        {
+          "name": "t_swpcave_nse_00",
+          "uri": "data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx",
+          "input_sha256": "8ac7de6301972def9531bb87d543d23136eda7b6353a360689527c6078566f3b"
+        },
+        {
+          "name": "t_swpcave_nsw_00",
+          "uri": "data/3d/modules/swamp/mgx/t_swpcave_nsw_00.mgx",
+          "input_sha256": "406756844dd9de26cd3128721118a55c249aea3504138de5fd7ffca7b816f08b"
+        }
+      ],
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "final_state": 1411672719,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "corner_ruin_wn_00",
+              "block_source": 9,
+              "block_name": "corner_ruin_wn_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_ruin_wn_00",
+                "gameplay": "swamp2_corner_ruin_wn_00.mgp",
+                "visual": "swamp2_corner_ruin_wn_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                1
+              ]
+            },
+            {
+              "index": 1,
+              "name": "straight_brdwalk_we_00",
+              "block_source": 32,
+              "block_name": "straight_brdwalk_we_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx",
+              "grid": [
+                -1,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_brdwalk_we_00",
+                "gameplay": "swamp2_straight_brdwalk_we_00.mgp",
+                "visual": "swamp2_straight_brdwalk_we_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                2
+              ]
+            },
+            {
+              "index": 2,
+              "name": "corner_brdwalk_ne_00",
+              "block_source": 3,
+              "block_name": "corner_brdwalk_ne_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx",
+              "grid": [
+                -2,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_brdwalk_ne_00",
+                "gameplay": "swamp2_corner_brdwalk_ne_00.mgp",
+                "visual": "swamp2_corner_brdwalk_ne_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                3
+              ]
+            },
+            {
+              "index": 3,
+              "name": "obj_2of4_brdwalk_sw_00",
+              "block_source": 28,
+              "block_name": "obj_2of4_brdwalk_sw_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx",
+              "grid": [
+                -2,
+                -1
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "obj_2of4_brdwalk_sw_00",
+                "gameplay": "swamp2_obj2of4_brdwalk_sw_00.mgp",
+                "visual": "swamp2_obj2of4_brdwalk_sw_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                4
+              ]
+            },
+            {
+              "index": 4,
+              "name": "corner_brdwalk_ne_00",
+              "block_source": 3,
+              "block_name": "corner_brdwalk_ne_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx",
+              "grid": [
+                -3,
+                -1
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_brdwalk_ne_00",
+                "gameplay": "swamp2_corner_brdwalk_ne_00.mgp",
+                "visual": "swamp2_corner_brdwalk_ne_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                5
+              ]
+            },
+            {
+              "index": 5,
+              "name": "obj_1of4_brdwalk_nse_00",
+              "block_source": 27,
+              "block_name": "obj_1of4_brdwalk_nse_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx",
+              "grid": [
+                -3,
+                -2
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "obj_1of4_brdwalk_nse_00",
+                "gameplay": "swamp2_obj_1of4_brdwalk_nse_00.mgp",
+                "visual": "swamp2_obj1of4_brdwalk_nse_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                6,
+                10
+              ]
+            },
+            {
+              "index": 6,
+              "name": "obj_2of4_brdwalk_sw_00",
+              "block_source": 28,
+              "block_name": "obj_2of4_brdwalk_sw_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx",
+              "grid": [
+                -3,
+                -3
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "obj_2of4_brdwalk_sw_00",
+                "gameplay": "swamp2_obj2of4_brdwalk_sw_00.mgp",
+                "visual": "swamp2_obj2of4_brdwalk_sw_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                7
+              ]
+            },
+            {
+              "index": 7,
+              "name": "straight_brdwalk_we_00",
+              "block_source": 32,
+              "block_name": "straight_brdwalk_we_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx",
+              "grid": [
+                -4,
+                -3
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_brdwalk_we_00",
+                "gameplay": "swamp2_straight_brdwalk_we_00.mgp",
+                "visual": "swamp2_straight_brdwalk_we_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                8
+              ]
+            },
+            {
+              "index": 8,
+              "name": "corner_ruin_se_00",
+              "block_source": 8,
+              "block_name": "corner_ruin_se_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx",
+              "grid": [
+                -5,
+                -3
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_ruin_se_00",
+                "gameplay": "swamp2_corner_ruin_se_00.mgp",
+                "visual": "swamp2_corner_ruin_se_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                9
+              ]
+            },
+            {
+              "index": 9,
+              "name": "straight_brdwalk_ns_00",
+              "block_source": 31,
+              "block_name": "straight_brdwalk_ns_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+              "grid": [
+                -5,
+                -2
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_brdwalk_ns_00",
+                "gameplay": "swamp2_straight_brdwalk_ns_01.mgp",
+                "visual": "swamp2_straight_brdwalk_ns_01.mvp",
+                "chances": 100
+              },
+              "children": []
+            },
+            {
+              "index": 10,
+              "name": "deadend_brdwalk_w_00",
+              "block_source": 20,
+              "block_name": "deadend_brdwalk_w_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx",
+              "grid": [
+                -2,
+                -2
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "deadend_brdwalk_w_00",
+                "gameplay": "swamp2_deadend_brdwalk_w_00.mgp",
+                "visual": "swamp2_deadend_brdwalk_w_00.mvp",
+                "chances": 100
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 141,
+            "root_attempts": 1,
+            "place_calls": 49,
+            "unspawn_calls": 38,
+            "step_calls": 40,
+            "path_calls": 35,
+            "rule_calls": 38
+          },
+          "adapters": {
+            "strcpy": 85,
+            "strcasecmp": 450,
+            "sscanf": 166,
+            "__aeabi_d2f": 313,
+            "memchr": 77,
+            "strtok": 231,
+            "strtod": 231,
+            "__aeabi_i2f": 154,
+            "ceilf": 154,
+            "__aeabi_f2iz": 154,
+            "sprintf:[%d]": 16
+          }
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "final_state": 1159212760,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "corner_ruin_wn_00",
+              "block_source": 9,
+              "block_name": "corner_ruin_wn_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_ruin_wn_00",
+                "gameplay": "swamp2_corner_ruin_wn_00.mgp",
+                "visual": "swamp2_corner_ruin_wn_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                1
+              ]
+            },
+            {
+              "index": 1,
+              "name": "straight_brdwalk_we_00",
+              "block_source": 32,
+              "block_name": "straight_brdwalk_we_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx",
+              "grid": [
+                -1,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_brdwalk_we_00",
+                "gameplay": "swamp2_straight_brdwalk_we_00.mgp",
+                "visual": "swamp2_straight_brdwalk_we_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                2
+              ]
+            },
+            {
+              "index": 2,
+              "name": "corner_brdwalk_ne_00",
+              "block_source": 3,
+              "block_name": "corner_brdwalk_ne_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx",
+              "grid": [
+                -2,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_brdwalk_ne_00",
+                "gameplay": "swamp2_corner_brdwalk_ne_00.mgp",
+                "visual": "swamp2_corner_brdwalk_ne_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                3
+              ]
+            },
+            {
+              "index": 3,
+              "name": "straight_brdwalk_ns_00",
+              "block_source": 31,
+              "block_name": "straight_brdwalk_ns_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+              "grid": [
+                -2,
+                -1
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_brdwalk_ns_00",
+                "gameplay": "swamp2_straight_brdwalk_ns_00.mgp",
+                "visual": "swamp2_straight_brdwalk_ns_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                4
+              ]
+            },
+            {
+              "index": 4,
+              "name": "straight_brdwalk_ns_00",
+              "block_source": 31,
+              "block_name": "straight_brdwalk_ns_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+              "grid": [
+                -2,
+                -2
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_brdwalk_ns_00",
+                "gameplay": "swamp2_straight_brdwalk_ns_00.mgp",
+                "visual": "swamp2_straight_brdwalk_ns_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                5
+              ]
+            },
+            {
+              "index": 5,
+              "name": "obj_1of4_brdwalk_nse_00",
+              "block_source": 27,
+              "block_name": "obj_1of4_brdwalk_nse_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx",
+              "grid": [
+                -2,
+                -3
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "obj_1of4_brdwalk_nse_00",
+                "gameplay": "swamp2_obj_1of4_brdwalk_nse_00.mgp",
+                "visual": "swamp2_obj1of4_brdwalk_nse_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                6,
+                7
+              ]
+            },
+            {
+              "index": 6,
+              "name": "deadend_brdwalk_w_00",
+              "block_source": 20,
+              "block_name": "deadend_brdwalk_w_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx",
+              "grid": [
+                -1,
+                -3
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "deadend_brdwalk_w_00",
+                "gameplay": "swamp2_deadend_brdwalk_w_00.mgp",
+                "visual": "swamp2_deadend_brdwalk_w_00.mvp",
+                "chances": 100
+              },
+              "children": []
+            },
+            {
+              "index": 7,
+              "name": "straight_brdwalk_ns_00",
+              "block_source": 31,
+              "block_name": "straight_brdwalk_ns_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+              "grid": [
+                -2,
+                -4
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_brdwalk_ns_00",
+                "gameplay": "swamp2_straight_brdwalk_ns_00.mgp",
+                "visual": "swamp2_straight_brdwalk_ns_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                8
+              ]
+            },
+            {
+              "index": 8,
+              "name": "obj_2of4_brdwalk_sw_00",
+              "block_source": 28,
+              "block_name": "obj_2of4_brdwalk_sw_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx",
+              "grid": [
+                -2,
+                -5
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "obj_2of4_brdwalk_sw_00",
+                "gameplay": "swamp2_obj2of4_brdwalk_sw_00.mgp",
+                "visual": "swamp2_obj2of4_brdwalk_sw_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                9
+              ]
+            },
+            {
+              "index": 9,
+              "name": "straight_brdwalk_we_00",
+              "block_source": 32,
+              "block_name": "straight_brdwalk_we_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx",
+              "grid": [
+                -3,
+                -5
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_brdwalk_we_00",
+                "gameplay": "swamp2_straight_brdwalk_we_00.mgp",
+                "visual": "swamp2_straight_brdwalk_we_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                10
+              ]
+            },
+            {
+              "index": 10,
+              "name": "corner_ruin_se_00",
+              "block_source": 8,
+              "block_name": "corner_ruin_se_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx",
+              "grid": [
+                -4,
+                -5
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_ruin_se_00",
+                "gameplay": "swamp2_corner_ruin_se_00.mgp",
+                "visual": "swamp2_corner_ruin_se_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                11
+              ]
+            },
+            {
+              "index": 11,
+              "name": "straight_brdwalk_ns_00",
+              "block_source": 31,
+              "block_name": "straight_brdwalk_ns_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+              "grid": [
+                -4,
+                -4
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_brdwalk_ns_00",
+                "gameplay": "swamp2_straight_brdwalk_ns_01.mgp",
+                "visual": "swamp2_straight_brdwalk_ns_01.mvp",
+                "chances": 100
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 229,
+            "root_attempts": 1,
+            "place_calls": 176,
+            "unspawn_calls": 164,
+            "step_calls": 155,
+            "path_calls": 90,
+            "rule_calls": 152
+          },
+          "adapters": {
+            "strcpy": 85,
+            "strcasecmp": 450,
+            "sscanf": 166,
+            "__aeabi_d2f": 313,
+            "memchr": 77,
+            "strtok": 231,
+            "strtod": 231,
+            "__aeabi_i2f": 154,
+            "ceilf": 154,
+            "__aeabi_f2iz": 154,
+            "sprintf:[%d]": 84
+          }
+        }
+      ],
+      "reader_result": 0,
+      "xml_error": 0,
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "bossroomb_swpcave_w_01",
+          "inserted": true
+        },
+        {
+          "source_index": 1,
+          "name": "bossroom_ruins_ns_",
+          "inserted": true
+        },
+        {
+          "source_index": 2,
+          "name": "bossroom_swpcave_w_00",
+          "inserted": true
+        },
+        {
+          "source_index": 3,
+          "name": "corner_brdwalk_ne_00",
+          "inserted": true
+        },
+        {
+          "source_index": 4,
+          "name": "corner_brdwalk_se_00",
+          "inserted": true
+        },
+        {
+          "source_index": 5,
+          "name": "corner_brdwalk_sw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 6,
+          "name": "corner_ruin_ne_00",
+          "inserted": true
+        },
+        {
+          "source_index": 7,
+          "name": "corner_ruin_nw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 8,
+          "name": "corner_ruin_se_00",
+          "inserted": true
+        },
+        {
+          "source_index": 9,
+          "name": "corner_ruin_wn_00",
+          "inserted": true
+        },
+        {
+          "source_index": 10,
+          "name": "corner_ruin_ws_00",
+          "inserted": true
+        },
+        {
+          "source_index": 11,
+          "name": "corner_swpcave_ne_00",
+          "inserted": true
+        },
+        {
+          "source_index": 12,
+          "name": "corner_swpcave_nw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 13,
+          "name": "corner_swpcave_se_00",
+          "inserted": true
+        },
+        {
+          "source_index": 14,
+          "name": "corner_swpcave_sw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 15,
+          "name": "deadendb_swpcave_n_01",
+          "inserted": true
+        },
+        {
+          "source_index": 16,
+          "name": "deadend_brdwalk_e_00",
+          "inserted": true
+        },
+        {
+          "source_index": 17,
+          "name": "deadend_brdwalk_se_00",
+          "inserted": true
+        },
+        {
+          "source_index": 18,
+          "name": "deadend_brdwalk_s_00",
+          "inserted": true
+        },
+        {
+          "source_index": 19,
+          "name": "deadend_brdwalk_we_00",
+          "inserted": true
+        },
+        {
+          "source_index": 20,
+          "name": "deadend_brdwalk_w_00",
+          "inserted": true
+        },
+        {
+          "source_index": 21,
+          "name": "deadend_ruin_w_00",
+          "inserted": true
+        },
+        {
+          "source_index": 22,
+          "name": "deadend_swpcave_e_00",
+          "inserted": true
+        },
+        {
+          "source_index": 23,
+          "name": "deadend_swpcave_n_00",
+          "inserted": true
+        },
+        {
+          "source_index": 24,
+          "name": "deadend_swpcave_s_00",
+          "inserted": true
+        },
+        {
+          "source_index": 25,
+          "name": "deadend_swpcave_w_00",
+          "inserted": true
+        },
+        {
+          "source_index": 26,
+          "name": "merchantcamp_ruins_swe_00",
+          "inserted": true
+        },
+        {
+          "source_index": 27,
+          "name": "obj_1of4_brdwalk_nse_00",
+          "inserted": true
+        },
+        {
+          "source_index": 28,
+          "name": "obj_2of4_brdwalk_sw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 29,
+          "name": "obj_3of4_brdwalk_sw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 30,
+          "name": "obj_4of4_brdwalk_sw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 31,
+          "name": "straight_brdwalk_ns_00",
+          "inserted": true
+        },
+        {
+          "source_index": 32,
+          "name": "straight_brdwalk_we_00",
+          "inserted": true
+        },
+        {
+          "source_index": 33,
+          "name": "straight_ruin_ns_00",
+          "inserted": true
+        },
+        {
+          "source_index": 34,
+          "name": "straight_ruin_we_00",
+          "inserted": true
+        },
+        {
+          "source_index": 35,
+          "name": "straight_swpcave_ns_00",
+          "inserted": true
+        },
+        {
+          "source_index": 36,
+          "name": "straight_swpcave_we_00",
+          "inserted": true
+        },
+        {
+          "source_index": 37,
+          "name": "t_ruin_nse_00",
+          "inserted": true
+        },
+        {
+          "source_index": 38,
+          "name": "t_ruin_nsw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 39,
+          "name": "t_swpcave_nse_00",
+          "inserted": true
+        },
+        {
+          "source_index": 40,
+          "name": "t_swpcave_nsw_00",
+          "inserted": true
+        }
+      ]
+    },
+    {
+      "name": "data/scene/022_swamp2_trollcave.rule.xml",
+      "input_sha256": "43e8bccaca1076568067e8fa44136eb24fb55b2c4c6d9d62ae7311a8f629816d",
+      "folder": "data/3d/modules/swamp",
+      "target": "iphone",
+      "blocks": [
+        {
+          "name": "bossroomb_swpcave_w_01",
+          "uri": "data/3d/modules/swamp/mgx/bossroomb_swpcave_w_01.mgx",
+          "input_sha256": "f72d3d6621a7086ecda1dea88703bed4d7d30f74f4bebc16cfe8ae635267cea0"
+        },
+        {
+          "name": "bossroom_ruins_ns_",
+          "uri": "data/3d/modules/swamp/mgx/bossroom_ruins_ns_.mgx",
+          "input_sha256": "305f4e6084af6eb6b33ea4f6e399c6af6fe7a04c439ae6e53f2cc458528b7ed4"
+        },
+        {
+          "name": "bossroom_swpcave_w_00",
+          "uri": "data/3d/modules/swamp/mgx/bossroom_swpcave_w_00.mgx",
+          "input_sha256": "6445a47bc149c5789630441220fc81b1a8d3adb21bbf2c49d381118865feb300"
+        },
+        {
+          "name": "corner_brdwalk_ne_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx",
+          "input_sha256": "378298a51ad698b8840c89cc13be14ace82fca8f788bf295eb9ee0e7b46d824d"
+        },
+        {
+          "name": "corner_brdwalk_se_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_brdwalk_se_00.mgx",
+          "input_sha256": "20a167de6f0658c6250310ffb0c6ad1571594d1428d9fe2e87640ebfaad707dd"
+        },
+        {
+          "name": "corner_brdwalk_sw_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_brdwalk_sw_00.mgx",
+          "input_sha256": "298db6afadeb174d486271bca5359399e579a8fd844506a2a0051d462eb05955"
+        },
+        {
+          "name": "corner_ruin_ne_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_ruin_ne_00.mgx",
+          "input_sha256": "3a3245eea0ec04de5b69318cacfb5b5a8d18b714a390f9c6e4d9dc66ca15445c"
+        },
+        {
+          "name": "corner_ruin_nw_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_ruin_nw_00.mgx",
+          "input_sha256": "db07c36888de2c0eb55d12e296c0441c38f980eed3191ed55d52403a8e284345"
+        },
+        {
+          "name": "corner_ruin_se_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx",
+          "input_sha256": "75a1830393b52d2cdb5aebe0598f75b00f629744f9be9a67a83d5a895d6f535d"
+        },
+        {
+          "name": "corner_ruin_wn_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx",
+          "input_sha256": "58d2d65c4f36ab7092d37870770d6482d08b8dd44d338cf7d70b39b21a034887"
+        },
+        {
+          "name": "corner_ruin_ws_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_ruin_ws_00.mgx",
+          "input_sha256": "70d0b4e56c76380e7765240b68b43b93b5a749106581968a3fc30f15d8730ab0"
+        },
+        {
+          "name": "corner_swpcave_ne_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx",
+          "input_sha256": "6b7e5e9cec2e50b007d95a17ef6cb8bd5685d3663ff7015cb1d612febf6e234a"
+        },
+        {
+          "name": "corner_swpcave_nw_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_swpcave_nw_00.mgx",
+          "input_sha256": "0d4b98e25044672c6854bcaa36925ea3aad79fa4caed2c9992e73259b80937b9"
+        },
+        {
+          "name": "corner_swpcave_se_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_swpcave_se_00.mgx",
+          "input_sha256": "922ebca08402c66f83e92ae0d105d380568d73ae7af6feca067175fa683f936f"
+        },
+        {
+          "name": "corner_swpcave_sw_00",
+          "uri": "data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx",
+          "input_sha256": "f1e8a3d4046a30e2ac4a67a3879aae3d5a69dd16712aff10c630a5d07d5ddae6"
+        },
+        {
+          "name": "deadendb_swpcave_n_01",
+          "uri": "data/3d/modules/swamp/mgx/deadendb_swpcave_n_01.mgx",
+          "input_sha256": "ee356f2ccfbf68801f4d8f84aad207367f972e69518a2baf5564543a5f0c3bdd"
+        },
+        {
+          "name": "deadend_brdwalk_e_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_e_00.mgx",
+          "input_sha256": "5e36576a0f3414c88819ca366c00c0f250637015662ebc61ba4d6a9d6211eed6"
+        },
+        {
+          "name": "deadend_brdwalk_se_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_se_00.mgx",
+          "input_sha256": "369b2a7e913ff9da2c13ae18ea28a3f0aa090cb5ebb05feb8f3bd896e25ad504"
+        },
+        {
+          "name": "deadend_brdwalk_s_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_s_00.mgx",
+          "input_sha256": "d7fa8b229f1ea17a45ba04c272eff70f23b69e556bd06d45c9d161613186159b"
+        },
+        {
+          "name": "deadend_brdwalk_we_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_we_00.mgx",
+          "input_sha256": "208ecd98920a2c9b18f4e405067d601b63bea971202bc8aa314792bf03191380"
+        },
+        {
+          "name": "deadend_brdwalk_w_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx",
+          "input_sha256": "23c9b98157a28d8968202333a79fe0e3ef826d7dbc35e79934d626cec5602c9b"
+        },
+        {
+          "name": "deadend_ruin_w_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_ruin_w_00.mgx",
+          "input_sha256": "800a4adfb0ed26fb88582be0196db996104490ffe431852d75bc497adce6f9b6"
+        },
+        {
+          "name": "deadend_swpcave_e_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_e_00.mgx",
+          "input_sha256": "2e37bc554cf7e2004c223ba47fc3f51b7065f8e7775db28bb4c9e3a22cc18484"
+        },
+        {
+          "name": "deadend_swpcave_n_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx",
+          "input_sha256": "15010b82c921a29c1082c84c34d72e7610c0dcc9057086fb799bdbf9458b0b7a"
+        },
+        {
+          "name": "deadend_swpcave_s_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx",
+          "input_sha256": "947e99465f5824b0212f1bc30d2203fe4c0026bbea62af60f85eb97be88ea95d"
+        },
+        {
+          "name": "deadend_swpcave_w_00",
+          "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx",
+          "input_sha256": "8a366a240c22d110773a1fc76402a5fffd4028afb8609797de23e3cce5944a48"
+        },
+        {
+          "name": "merchantcamp_ruins_swe_00",
+          "uri": "data/3d/modules/swamp/mgx/merchantcamp_ruins_swe_00.mgx",
+          "input_sha256": "7c2be6b2bf4f26b7dbaee648009dcdd0841b1ea3bb46dcc296e4075ce7883f1a"
+        },
+        {
+          "name": "obj_1of4_brdwalk_nse_00",
+          "uri": "data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx",
+          "input_sha256": "5908355ce003474d09cfbf08ac9114971e347109c4dafd06fc74a379d52b728c"
+        },
+        {
+          "name": "obj_2of4_brdwalk_sw_00",
+          "uri": "data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx",
+          "input_sha256": "d123733c22cf5d6008a93730005a4315e66b59d1efce2ae5b99ca5f01e5a8f27"
+        },
+        {
+          "name": "obj_3of4_brdwalk_sw_00",
+          "uri": "data/3d/modules/swamp/mgx/obj_3of4_brdwalk_sw_00.mgx",
+          "input_sha256": "3810b7022aec910d41d8b036a322ba56ba1959a3439eb166b1469c78a1f3913c"
+        },
+        {
+          "name": "obj_4of4_brdwalk_sw_00",
+          "uri": "data/3d/modules/swamp/mgx/obj_4of4_brdwalk_sw_00.mgx",
+          "input_sha256": "614f8c4b609f10522f244af512f2454cf8df06c2e813418b5758dc14430de8c5"
+        },
+        {
+          "name": "straight_brdwalk_ns_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+          "input_sha256": "24af4c7717ee2c4b48458392d9435da5c25915864318712acd326f49be1d4d86"
+        },
+        {
+          "name": "straight_brdwalk_we_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx",
+          "input_sha256": "3a925c3669938410bf69b91d25fd632a9995881c8d425477863aaddbfd3c696b"
+        },
+        {
+          "name": "straight_ruin_ns_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_ruin_ns_00.mgx",
+          "input_sha256": "3ebe2d0c6c2d3a645c25c7418961610f291d1d4d98ae61159a7d04abf44c0bb6"
+        },
+        {
+          "name": "straight_ruin_we_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_ruin_we_00.mgx",
+          "input_sha256": "6d0d23585e3eb62a84fa9e77ff26dfe028bea257434b421c546458b7a6ebf266"
+        },
+        {
+          "name": "straight_swpcave_ns_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_swpcave_ns_00.mgx",
+          "input_sha256": "d3512e7b1c9d48e47b18294cf17657fcb7d0fd80b18c1ebc0bd56ca06081e9cf"
+        },
+        {
+          "name": "straight_swpcave_we_00",
+          "uri": "data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx",
+          "input_sha256": "a44c48e7300c6a5722b85b6c6f4f1eb9f9b590ed71999d377ad086109ea90f9e"
+        },
+        {
+          "name": "t_ruin_nse_00",
+          "uri": "data/3d/modules/swamp/mgx/t_ruin_nse_00.mgx",
+          "input_sha256": "4b7073c0aef27926ae71113cb57f1d03a2d2c2ed1d5257a024f30777eb6d2fe0"
+        },
+        {
+          "name": "t_ruin_nsw_00",
+          "uri": "data/3d/modules/swamp/mgx/t_ruin_nsw_00.mgx",
+          "input_sha256": "034b8de449075abdcbe411f143cdd3598639432806f100348e23e2212d4c2f87"
+        },
+        {
+          "name": "t_swpcave_nse_00",
+          "uri": "data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx",
+          "input_sha256": "8ac7de6301972def9531bb87d543d23136eda7b6353a360689527c6078566f3b"
+        },
+        {
+          "name": "t_swpcave_nsw_00",
+          "uri": "data/3d/modules/swamp/mgx/t_swpcave_nsw_00.mgx",
+          "input_sha256": "406756844dd9de26cd3128721118a55c249aea3504138de5fd7ffca7b816f08b"
+        }
+      ],
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "final_state": 2884133282,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "deadend_swpcave_w_00",
+              "block_source": 25,
+              "block_name": "deadend_swpcave_w_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "deadend_swpcave_w_00",
+                "gameplay": "trollcave_deadend_swpcave_w_00.mgp",
+                "visual": "trollcave_deadend_swpcave_w_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                1
+              ]
+            },
+            {
+              "index": 1,
+              "name": "straight_swpcave_we_00",
+              "block_source": 36,
+              "block_name": "straight_swpcave_we_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx",
+              "grid": [
+                -1,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_swpcave_we_00",
+                "gameplay": "trollcave_straight_swpcave_we_01.mgp",
+                "visual": "trollcave_straight_swpcave_we_01.mvp",
+                "chances": 100
+              },
+              "children": [
+                2
+              ]
+            },
+            {
+              "index": 2,
+              "name": "corner_swpcave_ne_00",
+              "block_source": 11,
+              "block_name": "corner_swpcave_ne_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx",
+              "grid": [
+                -2,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_swpcave_ne_00",
+                "gameplay": "trollcave_corner_swpcave_ne_00.mgp",
+                "visual": "trollcave_corner_swpcave_ne_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                3
+              ]
+            },
+            {
+              "index": 3,
+              "name": "corner_swpcave_sw_00",
+              "block_source": 14,
+              "block_name": "corner_swpcave_sw_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx",
+              "grid": [
+                -2,
+                -1
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_swpcave_sw_00",
+                "gameplay": "trollcave_corner_swpcave_sw_01.mgp",
+                "visual": "trollcave_corner_swpcave_sw_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                4
+              ]
+            },
+            {
+              "index": 4,
+              "name": "corner_swpcave_ne_00",
+              "block_source": 11,
+              "block_name": "corner_swpcave_ne_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx",
+              "grid": [
+                -3,
+                -1
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_swpcave_ne_00",
+                "gameplay": "trollcave_corner_swpcave_ne_00.mgp",
+                "visual": "trollcave_corner_swpcave_ne_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                5
+              ]
+            },
+            {
+              "index": 5,
+              "name": "corner_swpcave_sw_00",
+              "block_source": 14,
+              "block_name": "corner_swpcave_sw_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx",
+              "grid": [
+                -3,
+                -2
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_swpcave_sw_00",
+                "gameplay": "trollcave_corner_swpcave_sw_00.mgp",
+                "visual": "trollcave_corner_swpcave_sw_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                6
+              ]
+            },
+            {
+              "index": 6,
+              "name": "t_swpcave_nse_00",
+              "block_source": 39,
+              "block_name": "t_swpcave_nse_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx",
+              "grid": [
+                -4,
+                -2
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "t_swpcave_nse_00",
+                "gameplay": "trollcave_t_swpcave_nse_01.mgp",
+                "visual": "trollcave_t_swpcave_nse_01.mvp",
+                "chances": 100
+              },
+              "children": [
+                7,
+                8
+              ]
+            },
+            {
+              "index": 7,
+              "name": "deadend_swpcave_n_00",
+              "block_source": 23,
+              "block_name": "deadend_swpcave_n_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx",
+              "grid": [
+                -4,
+                -1
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "deadend_swpcave_n_00",
+                "gameplay": "trollcave_deadend_swpcave_n_00.mgp",
+                "visual": "trollcave_deadend_swpcave_n_00.mvp",
+                "chances": 100
+              },
+              "children": []
+            },
+            {
+              "index": 8,
+              "name": "deadend_swpcave_s_00",
+              "block_source": 24,
+              "block_name": "deadend_swpcave_s_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx",
+              "grid": [
+                -4,
+                -3
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "deadend_swpcave_s_00",
+                "gameplay": "trollcave_deadend_swpcave_s_00.mgp",
+                "visual": "trollcave_deadend_swpcave_s_00.mvp",
+                "chances": 100
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 17,
+            "root_attempts": 1,
+            "place_calls": 11,
+            "unspawn_calls": 2,
+            "step_calls": 8,
+            "path_calls": 6,
+            "rule_calls": 8
+          },
+          "adapters": {
+            "strcpy": 83,
+            "strcasecmp": 437,
+            "sscanf": 165,
+            "__aeabi_d2f": 313,
+            "memchr": 77,
+            "strtok": 231,
+            "strtod": 231,
+            "__aeabi_i2f": 154,
+            "ceilf": 154,
+            "__aeabi_f2iz": 154,
+            "sprintf:[%d]": 3
+          }
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "final_state": 1840777239,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "deadend_swpcave_w_00",
+              "block_source": 25,
+              "block_name": "deadend_swpcave_w_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "deadend_swpcave_w_00",
+                "gameplay": "trollcave_deadend_swpcave_w_00.mgp",
+                "visual": "trollcave_deadend_swpcave_w_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                1
+              ]
+            },
+            {
+              "index": 1,
+              "name": "straight_swpcave_we_00",
+              "block_source": 36,
+              "block_name": "straight_swpcave_we_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx",
+              "grid": [
+                -1,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_swpcave_we_00",
+                "gameplay": "trollcave_straight_swpcave_we_01.mgp",
+                "visual": "trollcave_straight_swpcave_we_01.mvp",
+                "chances": 100
+              },
+              "children": [
+                2
+              ]
+            },
+            {
+              "index": 2,
+              "name": "corner_swpcave_ne_00",
+              "block_source": 11,
+              "block_name": "corner_swpcave_ne_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx",
+              "grid": [
+                -2,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_swpcave_ne_00",
+                "gameplay": "trollcave_corner_swpcave_ne_00.mgp",
+                "visual": "trollcave_corner_swpcave_ne_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                3
+              ]
+            },
+            {
+              "index": 3,
+              "name": "straight_swpcave_ns_00",
+              "block_source": 35,
+              "block_name": "straight_swpcave_ns_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/straight_swpcave_ns_00.mgx",
+              "grid": [
+                -2,
+                -1
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "straight_swpcave_ns_00",
+                "gameplay": "trollcave_straight_swpcave_ns_00.mgp",
+                "visual": "trollcave_straight_swpcave_ns_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                4
+              ]
+            },
+            {
+              "index": 4,
+              "name": "corner_swpcave_sw_00",
+              "block_source": 14,
+              "block_name": "corner_swpcave_sw_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx",
+              "grid": [
+                -2,
+                -2
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "corner_swpcave_sw_00",
+                "gameplay": "trollcave_corner_swpcave_sw_01.mgp",
+                "visual": "trollcave_corner_swpcave_sw_00.mvp",
+                "chances": 100
+              },
+              "children": [
+                5
+              ]
+            },
+            {
+              "index": 5,
+              "name": "t_swpcave_nse_00",
+              "block_source": 39,
+              "block_name": "t_swpcave_nse_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx",
+              "grid": [
+                -3,
+                -2
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "t_swpcave_nse_00",
+                "gameplay": "trollcave_t_swpcave_nse_01.mgp",
+                "visual": "trollcave_t_swpcave_nse_01.mvp",
+                "chances": 100
+              },
+              "children": [
+                6,
+                7
+              ]
+            },
+            {
+              "index": 6,
+              "name": "deadend_swpcave_s_00",
+              "block_source": 24,
+              "block_name": "deadend_swpcave_s_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx",
+              "grid": [
+                -3,
+                -3
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "deadend_swpcave_s_00",
+                "gameplay": "trollcave_deadend_swpcave_s_00.mgp",
+                "visual": "trollcave_deadend_swpcave_s_00.mvp",
+                "chances": 100
+              },
+              "children": []
+            },
+            {
+              "index": 7,
+              "name": "deadend_swpcave_n_00",
+              "block_source": 23,
+              "block_name": "deadend_swpcave_n_00",
+              "mgx_uri": "data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx",
+              "grid": [
+                -3,
+                -1
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "deadend_swpcave_n_00",
+                "gameplay": "trollcave_deadend_swpcave_n_00.mgp",
+                "visual": "trollcave_deadend_swpcave_n_00.mvp",
+                "chances": 100
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 12,
+            "root_attempts": 1,
+            "place_calls": 8,
+            "unspawn_calls": 0,
+            "step_calls": 6,
+            "path_calls": 4,
+            "rule_calls": 5
+          },
+          "adapters": {
+            "strcpy": 83,
+            "strcasecmp": 437,
+            "sscanf": 165,
+            "__aeabi_d2f": 313,
+            "memchr": 77,
+            "strtok": 231,
+            "strtod": 231,
+            "__aeabi_i2f": 154,
+            "ceilf": 154,
+            "__aeabi_f2iz": 154,
+            "sprintf:[%d]": 1
+          }
+        }
+      ],
+      "reader_result": 1,
+      "xml_error": 0,
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "bossroomb_swpcave_w_01",
+          "inserted": true
+        },
+        {
+          "source_index": 1,
+          "name": "bossroom_ruins_ns_",
+          "inserted": true
+        },
+        {
+          "source_index": 2,
+          "name": "bossroom_swpcave_w_00",
+          "inserted": true
+        },
+        {
+          "source_index": 3,
+          "name": "corner_brdwalk_ne_00",
+          "inserted": true
+        },
+        {
+          "source_index": 4,
+          "name": "corner_brdwalk_se_00",
+          "inserted": true
+        },
+        {
+          "source_index": 5,
+          "name": "corner_brdwalk_sw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 6,
+          "name": "corner_ruin_ne_00",
+          "inserted": true
+        },
+        {
+          "source_index": 7,
+          "name": "corner_ruin_nw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 8,
+          "name": "corner_ruin_se_00",
+          "inserted": true
+        },
+        {
+          "source_index": 9,
+          "name": "corner_ruin_wn_00",
+          "inserted": true
+        },
+        {
+          "source_index": 10,
+          "name": "corner_ruin_ws_00",
+          "inserted": true
+        },
+        {
+          "source_index": 11,
+          "name": "corner_swpcave_ne_00",
+          "inserted": true
+        },
+        {
+          "source_index": 12,
+          "name": "corner_swpcave_nw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 13,
+          "name": "corner_swpcave_se_00",
+          "inserted": true
+        },
+        {
+          "source_index": 14,
+          "name": "corner_swpcave_sw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 15,
+          "name": "deadendb_swpcave_n_01",
+          "inserted": true
+        },
+        {
+          "source_index": 16,
+          "name": "deadend_brdwalk_e_00",
+          "inserted": true
+        },
+        {
+          "source_index": 17,
+          "name": "deadend_brdwalk_se_00",
+          "inserted": true
+        },
+        {
+          "source_index": 18,
+          "name": "deadend_brdwalk_s_00",
+          "inserted": true
+        },
+        {
+          "source_index": 19,
+          "name": "deadend_brdwalk_we_00",
+          "inserted": true
+        },
+        {
+          "source_index": 20,
+          "name": "deadend_brdwalk_w_00",
+          "inserted": true
+        },
+        {
+          "source_index": 21,
+          "name": "deadend_ruin_w_00",
+          "inserted": true
+        },
+        {
+          "source_index": 22,
+          "name": "deadend_swpcave_e_00",
+          "inserted": true
+        },
+        {
+          "source_index": 23,
+          "name": "deadend_swpcave_n_00",
+          "inserted": true
+        },
+        {
+          "source_index": 24,
+          "name": "deadend_swpcave_s_00",
+          "inserted": true
+        },
+        {
+          "source_index": 25,
+          "name": "deadend_swpcave_w_00",
+          "inserted": true
+        },
+        {
+          "source_index": 26,
+          "name": "merchantcamp_ruins_swe_00",
+          "inserted": true
+        },
+        {
+          "source_index": 27,
+          "name": "obj_1of4_brdwalk_nse_00",
+          "inserted": true
+        },
+        {
+          "source_index": 28,
+          "name": "obj_2of4_brdwalk_sw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 29,
+          "name": "obj_3of4_brdwalk_sw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 30,
+          "name": "obj_4of4_brdwalk_sw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 31,
+          "name": "straight_brdwalk_ns_00",
+          "inserted": true
+        },
+        {
+          "source_index": 32,
+          "name": "straight_brdwalk_we_00",
+          "inserted": true
+        },
+        {
+          "source_index": 33,
+          "name": "straight_ruin_ns_00",
+          "inserted": true
+        },
+        {
+          "source_index": 34,
+          "name": "straight_ruin_we_00",
+          "inserted": true
+        },
+        {
+          "source_index": 35,
+          "name": "straight_swpcave_ns_00",
+          "inserted": true
+        },
+        {
+          "source_index": 36,
+          "name": "straight_swpcave_we_00",
+          "inserted": true
+        },
+        {
+          "source_index": 37,
+          "name": "t_ruin_nse_00",
+          "inserted": true
+        },
+        {
+          "source_index": 38,
+          "name": "t_ruin_nsw_00",
+          "inserted": true
+        },
+        {
+          "source_index": 39,
+          "name": "t_swpcave_nse_00",
+          "inserted": true
+        },
+        {
+          "source_index": 40,
+          "name": "t_swpcave_nsw_00",
+          "inserted": true
+        }
+      ]
+    }
+  ],
+  "requested_cases": 6,
+  "original_execution_complete": false,
+  "selected_execution_complete": true,
+  "native_layout_generation_verified": false,
+  "full_loader_verified": false,
+  "elapsed_seconds": 114.984
+}

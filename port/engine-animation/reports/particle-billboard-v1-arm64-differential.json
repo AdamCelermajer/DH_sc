@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "comparisons": 500,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "65bba7ed02e7090b6dc6b7aaf443a5b44c66039b2745950b99289d1c1c383215",
+  "reference_sha256": "5eee0582af31b68158bddb3de8de7bbaa145e645c089c9cc9fe34179f7a652b8",
+  "scope": "Whole unlocked camera-facing per-system basis and contextbyte20=0 per-particle billboard corners including actual source quaternion spin. Explicit borrowed camera/world services; GPU streams/material/UV/indices outside comparison."
+}

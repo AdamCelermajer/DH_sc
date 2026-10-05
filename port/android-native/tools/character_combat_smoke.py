@@ -85,7 +85,7 @@ def transitions(text):
     return rows
 
 
-def verify_case(text, predecessor, root, target):
+def verify_case(text, predecessor, root, target, source_attack=False):
     states = transitions(text)
     starts = [row for row in states if row['previous'] == predecessor and row['current'] == 5]
     assert len(starts) == 1, ('Missing/duplicate source attack entry', predecessor, states)
@@ -116,7 +116,13 @@ def verify_case(text, predecessor, root, target):
                      'dead': int(values[5]), 'combo': int(values[6]),
                      'random_after': [int(values[7]), int(values[8])], 'status_requests': int(values[9])})
     assert 'Player clip completed |' not in text and 'Player death clip completed |' not in text, 'Legacy second-cursor completion path is still executing'
-    assert len(re.findall(r'Player attack selected \|', text)) == 1, 'Busy input restarted the attack'
+    if source_attack:
+        assert len(re.findall(r'Original player attack command \|', text)) == 2, 'Missing initial/busy source commands'
+        animator = re.findall(r'Source attack animator \| begin (\d+) \| status (-?\d+) \| phase (\d+)', text)
+        assert animator and all(row[1]=='1' for row in animator), 'Whole source attack animator missing or failed'
+        assert {'0','1'} <= {row[0] for row in animator}, 'Source attack begin/end not both observed'
+    else:
+        assert len(re.findall(r'Player attack selected \|', text)) == 1, 'Busy input restarted the attack'
     displacement = math.dist(start['position'], end['position'])
     if predecessor == 4:
         assert displacement > .1, ('Moving attack lost authored displacement', start, end)
@@ -132,6 +138,7 @@ def main():
     parser.add_argument('--serial', required=True)
     parser.add_argument('--apk', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--source-attack', action='store_true', help='Verify registered-world source acquisition and complete attack animator')
     args = parser.parse_args()
     assert args.serial.startswith('emulator-'), 'This smoke operates on a development emulator only'
     args.output.mkdir(parents=True, exist_ok=True)
@@ -259,7 +266,7 @@ def main():
 
     def command_attack():
         result = adb('shell', 'am', 'broadcast', '-a', 'com.example.dh2.DEBUG_PLAYER_ATTACK',
-                     '-p', 'com.example.dh2', '--ei', 'player_target_index', '4')
+                     '-p', 'com.example.dh2', '--ei', 'player_target_index', '-1' if args.source_attack else '4')
         assert 'Broadcast completed: result=0' in result, result
         return result
 
@@ -287,10 +294,16 @@ def main():
         x0, y0, x1, y1 = controls['Attack nearby enemy']
         out_of_reach_offset = len(logs())
         adb('shell', 'input', 'tap', str((x0+x1)//2), str((y0+y1)//2))
-        rejected = wait(lambda text: 'Player input | Walk closer to an enemy' in text[out_of_reach_offset:])
-        assert not HIT.search(rejected[out_of_reach_offset:]), 'Out-of-reach input applied damage'
-        assert not any(row['current'] == 5 for row in transitions(rejected[out_of_reach_offset:])), 'Out-of-reach input entered Attack'
-        report['out_of_reach_ui_rejected'] = True
+        if args.source_attack:
+            rejected = wait(lambda text: 'Original player attack command | request 0 | target 0 |' in text[out_of_reach_offset:])
+            rejected = wait(lambda text: any(row['previous']==5 and row['current']==3 for row in transitions(text[out_of_reach_offset:])))
+            assert not HIT.search(rejected[out_of_reach_offset:]), 'No-target source attack applied damage'
+            report['source_no_target_swing_without_damage'] = True
+        else:
+            rejected = wait(lambda text: 'Player input | Walk closer to an enemy' in text[out_of_reach_offset:])
+            assert not HIT.search(rejected[out_of_reach_offset:]), 'Out-of-reach input applied damage'
+            assert not any(row['current'] == 5 for row in transitions(rejected[out_of_reach_offset:])), 'Out-of-reach input entered Attack'
+            report['out_of_reach_ui_rejected'] = True
         for index, destination in ((1, -1000), (0, -1390), (1, -370)):
             travel(index, destination, bounds)
         # Turning/root motion can change the other coordinate during the last
@@ -320,11 +333,14 @@ def main():
                 axis((.35, 0), bounds)
                 wait(lambda text: any(row['current'] == 4 for row in transitions(text[offset:])))
             command_attack()
-            started = wait(lambda text: 'Player attack selected |' in text[offset:])
+            started = wait(lambda text: ('Original player attack command |' if args.source_attack else 'Player attack selected |') in text[offset:])
             assert any(row['previous'] == predecessor and row['current'] == 5 for row in transitions(started[offset:])), 'Attack predecessor/root selection was not source-observed'
             # Busy request must return without selecting/resetting another clip.
             command_attack()
-            wait(lambda text: 'Player command applied | Attack is already in progress' in text[offset:])
+            if args.source_attack:
+                wait(lambda text: len(re.findall(r'Original player attack command \|', text[offset:]))>=2)
+            else:
+                wait(lambda text: 'Player command applied | Attack is already in progress' in text[offset:])
             if predecessor == 4:
                 wait(lambda text: any(values[1] in ('attack_mainhand', 'attack_offhand')
                                       and values[6] == 'scene before Step'
@@ -335,7 +351,7 @@ def main():
             time.sleep(.25)
             complete = logs()
             fragment = complete[offset:]
-            cases[label] = verify_case(fragment, predecessor, root, target)
+            cases[label] = verify_case(fragment, predecessor, root, target, args.source_attack)
             # Retained logs after Idle must not contain delayed duplicate hits.
             closure = cases[label]['source_end']['offset']
             assert not HIT.search(fragment[closure:]), 'Hit emitted after finite source Idle closure'
@@ -343,6 +359,7 @@ def main():
             capture(label+'-idle')
         assert any(hit['hp_after'] < hit['hp_before'] for case in cases.values() for hit in case['native_hits']), 'No native damage reached target HP'
         report.update(validation='PASS', cases=cases, movement=movement,
+                      registered_world_source_attack=args.source_attack,
                       enemy_ai_disabled=True, finite_source_idle_closure=True,
                       moving_attack_displacement_preserved=True,
                       legacy_second_cursor_completion_absent=True,

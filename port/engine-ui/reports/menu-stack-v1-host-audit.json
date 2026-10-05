@@ -1,0 +1,47 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "gold_cases": 4800,
+    "ordered_services": 27099,
+    "failure_prefixes": 27099,
+    "owned_nested_checks": 10,
+    "guards": 6,
+    "sanitizer_findings": 0
+  },
+  "sanitizers": {
+    "address": "PASS",
+    "undefined": "PASS",
+    "leak": "PASS",
+    "findings": 0
+  },
+  "source_sha256": {
+    "port/engine-ui/menu_stack_v1.hpp": "d9431517cf43674052381f0ee8c4ffe3b8217d4b1c51861defd61ee1e6b41adc",
+    "port/engine-ui/menu_stack_v1.cpp": "8c68bb6f8ebcb0c5bc33bc1373e656d9d14165521fbf922337e3766d6c7c8f2d",
+    "port/engine-ui/menu_stack_owner_v1.hpp": "8b81d17b88112a2d091733cf15d6ca0afe2ef136dbd8b61f954212440f0d31b8",
+    "port/engine-ui/menu_stack_owner_v1.cpp": "42b3a02d26340db4daa50e9e7ce143be4d74437e323f7c14a53ea6788e607e64",
+    "port/engine-ui/tests/menu_stack_v1.cpp": "d1530aa715d5a744b99349b3eb072aeb7cce2bfa1c74bc110323a1a1ab06ecf3",
+    "port/engine-ui/tests/menu_stack_v1_differential.py": "044adebd0ea5c01b3ff8d18f58dc14c1bf21d791616b017075264607c0715a2c",
+    "port/engine-ui/tools/run_menu_stack_v1_host.py": "0579a5984f365f1b335c62ca5d4db3fe79e6eaa7f6c8beddb647aa3de6706fa6"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "executable_sha256": "a7b480f19f0addbbce7966f915ed3c76259b340b33b9fd38b40269193a5c396b",
+  "gold_sha256": "fe68003d40530643bc1dba4db0a7b3d7997ce5a4f89bea3078c4580a80364c20",
+  "executable": ".local-inputs/ingame-menu-stack-v1/menu_stack_audit",
+  "gold": "port/engine-ui/reference/menu-stack-v1/stack-fixtures.bin",
+  "original_arm64_report": "port/engine-ui/reports/menu-stack-v1-arm64-differential.json",
+  "original_arm64_report_sha256": "a3ef84204fe2ee434553697433f0f2445ee4b815e5b93e8d05f37d3d57e65c5d",
+  "build_command": "g++ -std=c++17 -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -fno-fast-math -ffp-contract=off port/engine-ui/menu_stack_v1.cpp port/engine-ui/menu_stack_owner_v1.cpp port/engine-ui/tests/menu_stack_v1.cpp -o .local-inputs/ingame-menu-stack-v1/menu_stack_audit",
+  "run_command": [
+    "wsl.exe",
+    "-e",
+    "env",
+    "ASAN_OPTIONS=detect_leaks=1",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/ingame-menu-stack-v1/menu_stack_audit",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reference/menu-stack-v1/stack-fixtures.bin"
+  ],
+  "return_code": 0,
+  "stdout": "{\"validation\":\"PASS\",\"gold_cases\":4800,\"ordered_services\":27099,\"failure_prefixes\":27099,\"owned_nested_checks\":10,\"guards\":6,\"sanitizer_findings\":0}\n",
+  "stderr": "",
+  "scope": "Owned native64 projection and original-derived ordered service replay; required SWF/MenuBase/world/touch/AS services are controlled fixtures. No packaged or live menu parity claim."
+}

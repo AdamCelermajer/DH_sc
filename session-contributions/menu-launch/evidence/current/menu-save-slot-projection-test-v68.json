@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "cases": 432,
+  "device": "emulator-5580",
+  "source_sha256": {
+    "menu_save_slot_projection_v1.cpp": "5f68b72f7774667fcef47e9aeab37c21f5a339ff0dcfeac5a5c3fa077f80cfd1",
+    "save_slot_date_v1.cpp": "7faee6f8f97ef65bc0ee22c2e77b0121fcbf1270d053489e051ac22017a781f4",
+    "tests/menu_save_slot_projection_v1.cpp": "511eaf6c7156389679b7730ed156103452e08d6cc2bb54fc0a56192d28139eaf"
+  },
+  "scope": "Native presentation integration over synthetic localized providers/table rows, original recovered field offsets/literals and existing date-format proof. Not a full original NativeGetSaveSlotDetails execution or live occupied menu proof."
+}

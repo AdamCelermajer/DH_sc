@@ -1,0 +1,1366 @@
+[
+  {
+    "path": "root/sprite428",
+    "tag": 12,
+    "frame": 0,
+    "offset": 257344,
+    "rows": [
+      {
+        "offset": 257344,
+        "op": "decl_dict",
+        "length": 339,
+        "constants": [
+          "PlayerClass",
+          "_root",
+          "",
+          "this",
+          "onPush",
+          "MenuBack",
+          "btn_back",
+          "btimg",
+          "gotoAndStop",
+          "MENU_MENUTITLE_CHOOSE_CLASS",
+          "text",
+          "NativeGetStringFromSymbol",
+          "ClassDescriptionBox",
+          "class_description",
+          "MENU_KNIGHT_DESC",
+          "btn_Confirm",
+          "MENU_CONFIRM",
+          "onShow",
+          "on_clicked",
+          "NativePopMenu",
+          "NativePlaySoundFX",
+          "btn_left",
+          "onRelease",
+          "MenuTab",
+          "_root.ClassNumber: ",
+          "ClassNumber",
+          "btn_right",
+          "MenuConfirm"
+        ]
+      },
+      {
+        "offset": 257686,
+        "op": "function2",
+        "length": 27,
+        "name": "CurrentClass",
+        "args": [
+          {
+            "register": 2,
+            "name": "Class"
+          }
+        ],
+        "registers": 3,
+        "flags": 106,
+        "body": [
+          {
+            "offset": 257716,
+            "op": "push_data",
+            "length": 6,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 0,
+                "text": "PlayerClass"
+              },
+              {
+                "register": 2
+              }
+            ]
+          },
+          {
+            "offset": 257725,
+            "op": "set_member",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 257726,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 1,
+            "text": "_root"
+          }
+        ]
+      },
+      {
+        "offset": 257731,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 257732,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 0,
+            "text": "PlayerClass"
+          },
+          {
+            "constant": 2,
+            "text": ""
+          }
+        ]
+      },
+      {
+        "offset": 257739,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 257740,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 3,
+            "text": "this"
+          }
+        ]
+      },
+      {
+        "offset": 257745,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 257746,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 4,
+            "text": "onPush"
+          }
+        ]
+      },
+      {
+        "offset": 257751,
+        "op": "function2",
+        "length": 8,
+        "name": "",
+        "args": [],
+        "registers": 2,
+        "flags": 41,
+        "body": [
+          {
+            "offset": 257762,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              {
+                "constant": 5,
+                "text": "MenuBack"
+              },
+              1,
+              {
+                "register": 1
+              },
+              {
+                "constant": 6,
+                "text": "btn_back"
+              }
+            ]
+          },
+          {
+            "offset": 257776,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 257777,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 7,
+                "text": "btimg"
+              }
+            ]
+          },
+          {
+            "offset": 257782,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 257783,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 8,
+                "text": "gotoAndStop"
+              }
+            ]
+          },
+          {
+            "offset": 257788,
+            "op": "call_method",
+            "length": 0
+          },
+          {
+            "offset": 257789,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 257790,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 9,
+                "text": "MENU_MENUTITLE_CHOOSE_CLASS"
+              }
+            ]
+          },
+          {
+            "offset": 257797,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 257798,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 10,
+                "text": "text"
+              }
+            ]
+          },
+          {
+            "offset": 257803,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 257804,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              {
+                "constant": 10,
+                "text": "text"
+              },
+              {
+                "constant": 9,
+                "text": "MENU_MENUTITLE_CHOOSE_CLASS"
+              },
+              1,
+              {
+                "constant": 11,
+                "text": "NativeGetStringFromSymbol"
+              }
+            ]
+          },
+          {
+            "offset": 257818,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 257819,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 257820,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 12,
+                "text": "ClassDescriptionBox"
+              }
+            ]
+          },
+          {
+            "offset": 257827,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 257828,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 13,
+                "text": "class_description"
+              }
+            ]
+          },
+          {
+            "offset": 257833,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 257834,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 10,
+                "text": "text"
+              }
+            ]
+          },
+          {
+            "offset": 257839,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 257840,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              {
+                "constant": 10,
+                "text": "text"
+              },
+              {
+                "constant": 14,
+                "text": "MENU_KNIGHT_DESC"
+              },
+              1,
+              {
+                "constant": 11,
+                "text": "NativeGetStringFromSymbol"
+              }
+            ]
+          },
+          {
+            "offset": 257854,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 257855,
+            "op": "set_member",
+            "length": 0
+          },
+          {
+            "offset": 257856,
+            "op": "push_data",
+            "length": 4,
+            "values": [
+              {
+                "register": 1
+              },
+              {
+                "constant": 15,
+                "text": "btn_Confirm"
+              }
+            ]
+          },
+          {
+            "offset": 257863,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 257864,
+            "op": "push_data",
+            "length": 2,
+            "values": [
+              {
+                "constant": 10,
+                "text": "text"
+              }
+            ]
+          },
+          {
+            "offset": 257869,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 257870,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              {
+                "constant": 10,
+                "text": "text"
+              },
+              {
+                "constant": 16,
+                "text": "MENU_CONFIRM"
+              },
+              1,
+              {
+                "constant": 11,
+                "text": "NativeGetStringFromSymbol"
+              }
+            ]
+          },
+          {
+            "offset": 257884,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 257885,
+            "op": "set_member",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 257886,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 257887,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 3,
+            "text": "this"
+          }
+        ]
+      },
+      {
+        "offset": 257892,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 257893,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 17,
+            "text": "onShow"
+          }
+        ]
+      },
+      {
+        "offset": 257898,
+        "op": "func",
+        "length": 5,
+        "name": "",
+        "args": [],
+        "registers": null,
+        "flags": null,
+        "body": []
+      },
+      {
+        "offset": 257906,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 257907,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 6,
+            "text": "btn_back"
+          }
+        ]
+      },
+      {
+        "offset": 257912,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 257913,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 18,
+            "text": "on_clicked"
+          }
+        ]
+      },
+      {
+        "offset": 257918,
+        "op": "func",
+        "length": 5,
+        "name": "",
+        "args": [],
+        "registers": null,
+        "flags": null,
+        "body": [
+          {
+            "offset": 257926,
+            "op": "push_data",
+            "length": 11,
+            "values": [
+              0.0,
+              {
+                "constant": 19,
+                "text": "NativePopMenu"
+              }
+            ]
+          },
+          {
+            "offset": 257940,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 257941,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 257942,
+            "op": "push_data",
+            "length": 9,
+            "values": [
+              {
+                "constant": 5,
+                "text": "MenuBack"
+              },
+              1,
+              {
+                "constant": 20,
+                "text": "NativePlaySoundFX"
+              }
+            ]
+          },
+          {
+            "offset": 257954,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 257955,
+            "op": "pop",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 257956,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 257957,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 21,
+            "text": "btn_left"
+          }
+        ]
+      },
+      {
+        "offset": 257962,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 257963,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 22,
+            "text": "onRelease"
+          }
+        ]
+      },
+      {
+        "offset": 257968,
+        "op": "function2",
+        "length": 8,
+        "name": "",
+        "args": [],
+        "registers": 2,
+        "flags": 106,
+        "body": [
+          {
+            "offset": 257979,
+            "op": "push_data",
+            "length": 9,
+            "values": [
+              {
+                "constant": 23,
+                "text": "MenuTab"
+              },
+              1,
+              {
+                "constant": 20,
+                "text": "NativePlaySoundFX"
+              }
+            ]
+          },
+          {
+            "offset": 257991,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 257992,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 257993,
+            "op": "push_data",
+            "length": 6,
+            "values": [
+              {
+                "constant": 24,
+                "text": "_root.ClassNumber: "
+              },
+              {
+                "register": 1
+              },
+              {
+                "constant": 25,
+                "text": "ClassNumber"
+              }
+            ]
+          },
+          {
+            "offset": 258002,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 258003,
+            "op": "add_t",
+            "length": 0
+          },
+          {
+            "offset": 258004,
+            "op": "trace",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 258005,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 258006,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 26,
+            "text": "btn_right"
+          }
+        ]
+      },
+      {
+        "offset": 258011,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 258012,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 22,
+            "text": "onRelease"
+          }
+        ]
+      },
+      {
+        "offset": 258017,
+        "op": "function2",
+        "length": 8,
+        "name": "",
+        "args": [],
+        "registers": 2,
+        "flags": 106,
+        "body": [
+          {
+            "offset": 258028,
+            "op": "push_data",
+            "length": 9,
+            "values": [
+              {
+                "constant": 23,
+                "text": "MenuTab"
+              },
+              1,
+              {
+                "constant": 20,
+                "text": "NativePlaySoundFX"
+              }
+            ]
+          },
+          {
+            "offset": 258040,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 258041,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 258042,
+            "op": "push_data",
+            "length": 6,
+            "values": [
+              {
+                "constant": 24,
+                "text": "_root.ClassNumber: "
+              },
+              {
+                "register": 1
+              },
+              {
+                "constant": 25,
+                "text": "ClassNumber"
+              }
+            ]
+          },
+          {
+            "offset": 258051,
+            "op": "get_member",
+            "length": 0
+          },
+          {
+            "offset": 258052,
+            "op": "add_t",
+            "length": 0
+          },
+          {
+            "offset": 258053,
+            "op": "trace",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 258054,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 258055,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 15,
+            "text": "btn_Confirm"
+          }
+        ]
+      },
+      {
+        "offset": 258060,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 258061,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 22,
+            "text": "onRelease"
+          }
+        ]
+      },
+      {
+        "offset": 258066,
+        "op": "func",
+        "length": 5,
+        "name": "",
+        "args": [],
+        "registers": null,
+        "flags": null,
+        "body": [
+          {
+            "offset": 258074,
+            "op": "push_data",
+            "length": 9,
+            "values": [
+              {
+                "constant": 27,
+                "text": "MenuConfirm"
+              },
+              1,
+              {
+                "constant": 20,
+                "text": "NativePlaySoundFX"
+              }
+            ]
+          },
+          {
+            "offset": 258086,
+            "op": "call_func",
+            "length": 0
+          },
+          {
+            "offset": 258087,
+            "op": "pop",
+            "length": 0
+          },
+          {
+            "offset": 258088,
+            "op": "goto_frame_lbl",
+            "length": 5,
+            "text": "wait"
+          },
+          {
+            "offset": 258096,
+            "op": "play",
+            "length": 0
+          }
+        ]
+      },
+      {
+        "offset": 258097,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 258098,
+        "op": "<end>",
+        "length": 0
+      }
+    ]
+  },
+  {
+    "path": "root/sprite428",
+    "tag": 12,
+    "frame": 4,
+    "offset": 258387,
+    "rows": [
+      {
+        "offset": 258387,
+        "op": "stop",
+        "length": 0
+      },
+      {
+        "offset": 258388,
+        "op": "<end>",
+        "length": 0
+      }
+    ]
+  },
+  {
+    "path": "root/sprite428",
+    "tag": 12,
+    "frame": 14,
+    "offset": 259058,
+    "rows": [
+      {
+        "offset": 259058,
+        "op": "stop",
+        "length": 0
+      },
+      {
+        "offset": 259059,
+        "op": "<end>",
+        "length": 0
+      }
+    ]
+  },
+  {
+    "path": "root/sprite428",
+    "tag": 12,
+    "frame": 24,
+    "offset": 259680,
+    "rows": [
+      {
+        "offset": 259680,
+        "op": "stop",
+        "length": 0
+      },
+      {
+        "offset": 259681,
+        "op": "<end>",
+        "length": 0
+      }
+    ]
+  },
+  {
+    "path": "root/sprite428",
+    "tag": 12,
+    "frame": 29,
+    "offset": 259761,
+    "rows": [
+      {
+        "offset": 259761,
+        "op": "decl_dict",
+        "length": 242,
+        "constants": [
+          "_root",
+          "SlotID",
+          "PlayerClass",
+          "PlayerName",
+          "NativeCreateSaveSlot",
+          "NativeAssignSaveSlotToPlayer",
+          "menu_MainMenu",
+          "current_slot",
+          "NativePopAllAbove",
+          "InvitePending",
+          "Invitation Pending",
+          "NativeStartFromGCInvite",
+          "NO Invitation Pending",
+          "menu_StartGame",
+          "NativePushMenu"
+        ]
+      },
+      {
+        "offset": 260006,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 0,
+            "text": "_root"
+          }
+        ]
+      },
+      {
+        "offset": 260011,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 260012,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 1,
+            "text": "SlotID"
+          },
+          {
+            "constant": 0,
+            "text": "_root"
+          }
+        ]
+      },
+      {
+        "offset": 260019,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 260020,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 2,
+            "text": "PlayerClass"
+          }
+        ]
+      },
+      {
+        "offset": 260025,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 260026,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 0,
+            "text": "_root"
+          }
+        ]
+      },
+      {
+        "offset": 260031,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 260032,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 3,
+            "text": "PlayerName"
+          }
+        ]
+      },
+      {
+        "offset": 260037,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 260038,
+        "op": "push_data",
+        "length": 7,
+        "values": [
+          2,
+          {
+            "constant": 4,
+            "text": "NativeCreateSaveSlot"
+          }
+        ]
+      },
+      {
+        "offset": 260048,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 260049,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 260050,
+        "op": "push_data",
+        "length": 11,
+        "values": [
+          0.0,
+          {
+            "constant": 0,
+            "text": "_root"
+          }
+        ]
+      },
+      {
+        "offset": 260064,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 260065,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 1,
+            "text": "SlotID"
+          }
+        ]
+      },
+      {
+        "offset": 260070,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 260071,
+        "op": "push_data",
+        "length": 7,
+        "values": [
+          2,
+          {
+            "constant": 5,
+            "text": "NativeAssignSaveSlotToPlayer"
+          }
+        ]
+      },
+      {
+        "offset": 260081,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 260082,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 260083,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 0,
+            "text": "_root"
+          }
+        ]
+      },
+      {
+        "offset": 260088,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 260089,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 6,
+            "text": "menu_MainMenu"
+          }
+        ]
+      },
+      {
+        "offset": 260094,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 260095,
+        "op": "push_data",
+        "length": 4,
+        "values": [
+          {
+            "constant": 7,
+            "text": "current_slot"
+          },
+          {
+            "constant": 0,
+            "text": "_root"
+          }
+        ]
+      },
+      {
+        "offset": 260102,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 260103,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 1,
+            "text": "SlotID"
+          }
+        ]
+      },
+      {
+        "offset": 260108,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 260109,
+        "op": "set_member",
+        "length": 0
+      },
+      {
+        "offset": 260110,
+        "op": "push_data",
+        "length": 9,
+        "values": [
+          {
+            "constant": 6,
+            "text": "menu_MainMenu"
+          },
+          1,
+          {
+            "constant": 8,
+            "text": "NativePopAllAbove"
+          }
+        ]
+      },
+      {
+        "offset": 260122,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 260123,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 260124,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 0,
+            "text": "_root"
+          }
+        ]
+      },
+      {
+        "offset": 260129,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 260130,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 9,
+            "text": "InvitePending"
+          }
+        ]
+      },
+      {
+        "offset": 260135,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 260136,
+        "op": "not",
+        "length": 0
+      },
+      {
+        "offset": 260137,
+        "op": "branch_if_true",
+        "length": 2,
+        "target": 260177
+      },
+      {
+        "offset": 260142,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 10,
+            "text": "Invitation Pending"
+          }
+        ]
+      },
+      {
+        "offset": 260147,
+        "op": "trace",
+        "length": 0
+      },
+      {
+        "offset": 260148,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 0,
+            "text": "_root"
+          }
+        ]
+      },
+      {
+        "offset": 260153,
+        "op": "get_var",
+        "length": 0
+      },
+      {
+        "offset": 260154,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 1,
+            "text": "SlotID"
+          }
+        ]
+      },
+      {
+        "offset": 260159,
+        "op": "get_member",
+        "length": 0
+      },
+      {
+        "offset": 260160,
+        "op": "push_data",
+        "length": 7,
+        "values": [
+          1,
+          {
+            "constant": 11,
+            "text": "NativeStartFromGCInvite"
+          }
+        ]
+      },
+      {
+        "offset": 260170,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 260171,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 260172,
+        "op": "goto",
+        "length": 2,
+        "target": 260197
+      },
+      {
+        "offset": 260177,
+        "op": "push_data",
+        "length": 2,
+        "values": [
+          {
+            "constant": 12,
+            "text": "NO Invitation Pending"
+          }
+        ]
+      },
+      {
+        "offset": 260182,
+        "op": "trace",
+        "length": 0
+      },
+      {
+        "offset": 260183,
+        "op": "push_data",
+        "length": 9,
+        "values": [
+          {
+            "constant": 13,
+            "text": "menu_StartGame"
+          },
+          1,
+          {
+            "constant": 14,
+            "text": "NativePushMenu"
+          }
+        ]
+      },
+      {
+        "offset": 260195,
+        "op": "call_func",
+        "length": 0
+      },
+      {
+        "offset": 260196,
+        "op": "pop",
+        "length": 0
+      },
+      {
+        "offset": 260197,
+        "op": "<end>",
+        "length": 0
+      }
+    ]
+  }
+]

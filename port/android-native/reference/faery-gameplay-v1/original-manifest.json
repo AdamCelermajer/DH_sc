@@ -1,0 +1,6 @@
+{
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_bodies": 20,
+  "note": "Recovered original ARM instructions; literal pools printed as instructions are data, not behavior",
+  "reference_sha256": "d8a6671bbbf44652ddb3cc0825b72d77576eb6ec588642d01348e7b24da0bd38"
+}

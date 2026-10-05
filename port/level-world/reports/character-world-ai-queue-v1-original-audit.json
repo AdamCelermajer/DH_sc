@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "whole_original_queue_cases": 518,
+  "whole_original_can_attack_cases": 32,
+  "can_attack_ordered_queries_matched": true,
+  "original_countdown_address": "0x999760",
+  "initial_countdown": -1,
+  "virtual_services": "Queue: Dead/RemotelyUpdated/Zoned/GetDt; CanAttack: Enemy/InventoryMelee/MeleeGeometry/CanRange/RangeGeometry explicit fixture services",
+  "all_remaining_original_instructions": true,
+  "native_differential": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+}

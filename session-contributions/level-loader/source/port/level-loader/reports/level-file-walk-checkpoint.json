@@ -1,0 +1,90 @@
+{
+  "validation": "PASS",
+  "scope": "Verify ready-buffer caller traversal; gameplay construction remains unverified.",
+  "source_and_receipt_sha256": {
+    "CMakeLists.txt": "822cb1fbf5aa73145ba6a87710f1e953fdc4f5146c39b372fc859b372cf8eb7a",
+    "level_file_walk_v1.hpp": "eab42a9a859e4c6fa8626ab547976d7ef92c2be3b6a9219a313523dea4bad787",
+    "level_file_walk_v1.cpp": "9abcc08702f7abf1471289def1b089c39f361a31ec314e2d43b9dbf6a840c941",
+    "xml_document_v1.hpp": "bac16414b6fd623d4c0ffd0004814f8a2fb3cfafb0fb048a10e73105028b614b",
+    "xml_document_v1.cpp": "19ef9043068be2b0e976fa149da0bb1ff542544d099a0b2069632708e0714955",
+    "tests/level_file_walk_original.py": "5fcf6a3da38ce58b94ad6f61ba133ff94062377df2c7c3e94f987a06c566dd46",
+    "tests/xml_original_probe.py": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209",
+    "tests/level_file_walk_probe.cpp": "3ada754487c0811c1ae8e34aaea28e87ba3795f8cde66b0e6f01c325dd4ffe2a",
+    "tests/level_file_walk_host.py": "314e2d4326541995d7820f049355781d6eab8912ac180e54d2d5fa498a4f0e74",
+    "tests/xml_document.cpp": "598df4968ee93da5e0c6b2c18221afa4feffcae99a844fe4b589ce789f4cf1b1",
+    "LEVEL-FILE-WALK-HANDOFF.md": "1978b9007087e77e5c2f6663c6cd87edfd4516797ca7ea2ff9135931b5655333",
+    "INTERFACE-PROPOSAL.md": "b6cbd1c42421aafd1f44b51c660fb280c7566400c377435bf280dd051b72bb38",
+    "tools/capture_level_file_walk_checkpoint.py": "968454e577f6b8a0ac7771515342d49dc677691e846cf8da79db569abd22d9ee",
+    "reports/level-file-walk-original.json": "80783aedcd175d24b4841cf24d006e79c9edb7d3a51cfadddea3da5832078796",
+    "reports/level-file-walk-host.json": "8c0b9b319c01d82cd761713c1d4265b2038c7b01111750397d1ffbb2b0324262",
+    "reports/level-file-walk-sanitizers.json": "912733e6cf5a88a63dbc97ab8e9e55e49b803e54d5fbc3f3c41669663a9d63fe",
+    "reports/object-entry-host.json": "7ec4491eec5df7e3babdf62049e32e0d1d54c1cea6e56f317441d25fc0e553b1",
+    "reports/object-entry-sanitizers.json": "86cd054fd521e0663f167d483de253f9fe09dd4888e760c9f06bcf9f62b0cb45"
+  },
+  "built_artifact_sha256": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\host-xml\\dh2_loader_level_file_walk_probe": "5678e704c0a68d74df047f0cefa2417510894eff2a71834791a07622ee23cdd2",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\host-xml\\dh2_loader_xml_ownership": "fe460f622ca268f81de0c5d0a10f715a4fbb49d02a7710d4a4081b3dfdbe9683",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\host-sanitizers\\dh2_loader_level_file_walk_probe": "7b9798309ac3e7a03afeed161e07b95bece1d4c69e6283e5501795c4a004481d",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\host-sanitizers\\dh2_loader_xml_ownership": "c7940571630f3402f89721402ef52ca4980be345344acc34666a477f0d2912d1",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\android-arm64\\libdh2_level_loader.a": "a933a857b3d44ba79c87b7412368224bc2c7dc6b979df50d14a8fe2706c96672",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\android-x86_64\\libdh2_level_loader.a": "2ccdf882b311bd2c3e1f37349242000efb6f22d4bdeae9ad080703f178ec593f"
+  },
+  "android_member_sha256": {
+    "android-arm64:xml_document_v1.cpp.o": "114b71a5e517af0d30bef05b14bf65679a360cb793d9726ddf7e7784466ddcea",
+    "android-arm64:level_file_walk_v1.cpp.o": "d0e10a128af5fe548095736fb01e8b94ff178d021db5965fda03ca4af2b338c4",
+    "android-arm64:object_entry_v1.cpp.o": "05f54a6bc8f0eb96a044fac534ec81f204658de0e8393bd9782b3666800798b8",
+    "android-x86_64:xml_document_v1.cpp.o": "1b1a47dc7226ea5a03f9b1bc88b304ed9d3fe5adfd04c70960c3109d97739de8",
+    "android-x86_64:level_file_walk_v1.cpp.o": "ade0ddf806fbcfb69bd9c6a37b3cab164a71be5dda1a356cd509c0faf403d73e",
+    "android-x86_64:object_entry_v1.cpp.o": "0ff4df1e28360994f10bd3bc164c23bcb0a4e7f762dcfd8f21e37600fb466787"
+  },
+  "xml_ownership": {
+    "host-xml": {
+      "validation": "PASS",
+      "scope": "XML retained ownership, replacement, rejection and diagnostics"
+    },
+    "host-sanitizers": {
+      "validation": "PASS",
+      "scope": "XML retained ownership, replacement, rejection and diagnostics"
+    }
+  },
+  "cache_files_compared": 1627,
+  "fixtures_compared": 12,
+  "adapter_checks_per_build": 6,
+  "polls_compared_per_build": 21218,
+  "element_callbacks_compared_per_build": 8191,
+  "parse_failures": [
+    {
+      "label": "empty_input",
+      "error": 13
+    },
+    {
+      "label": "bad_close",
+      "error": 9
+    },
+    {
+      "label": "data/3d/modules/swamp/mvp/swamp2_deadend_brdwalk_w_01.mvp",
+      "error": 6
+    },
+    {
+      "label": "data/3d/modules/swamp/mvp/corner_ruin_wn_00.mvp",
+      "error": 6
+    },
+    {
+      "label": "data/3d/modules/lighthousse/mgp/lh01_lv05_open_03_01.mgp",
+      "error": 6
+    }
+  ],
+  "unsafe_roots": [
+    "comment_matches_root"
+  ],
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_and_sanitizer_matches": true,
+  "ready_buffer_caller_verified": true,
+  "initial_open_async_state_verified": false,
+  "runtime_factory_contract_agreed": false,
+  "runtime_objects_verified": false,
+  "mob_and_chest_rendering_verified": false,
+  "new_apk_installed": false,
+  "full_loader_verified": false
+}

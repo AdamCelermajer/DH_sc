@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "original_section_comparisons": 63,
+  "cases": 9,
+  "fixture_sha256": "4cbc4ff5200d7fd93331ca0d468660aee0c6b3ad681e7e4eb067d099b9d2d85c",
+  "binary_sha256": "65cc3540c0c62c3bed10c8f148722b6e7c62f374622030c141a8c8bf0f13fb2a",
+  "scope": "Actual original metadata serializer output vs native producer executed on visible emulator5580; filesystem, backup/date, full SG_Load and live Confirm remain unverified",
+  "source_sha256": {
+    "fresh_player_profile_v1.hpp": "ef9fe40e9cd38f0fce41b2877a668ce3a4911d165bd4600a50fdba147f214d51",
+    "fresh_player_profile_v1.cpp": "ca04bed4bf837b37ff754d4d222a7c92088a1a5e97445aa618800909e0e03e6b",
+    "tests/fresh_player_profile_v1.cpp": "076448bcd4798b6c5bddb6caef7b0bf10f49e8f189e13088212058461fdf4ccc"
+  }
+}

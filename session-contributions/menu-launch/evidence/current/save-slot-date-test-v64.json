@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "cases": 1028,
+  "binary_sha256": "00bfed44684dbde345f56c671ea37280385f511e2aa03ed9a8da19a671bb953d",
+  "fixture_sha256": "429072fd2d70919d482eadc6a18677c1452d54a7f4d2549010bc2b5cabd01879",
+  "scope": "Actual ARM language dispatch compared with Android native menu date formatting; calendar-time fixtures supplied. Campaign timestamp conversion and live occupied slot remain unconnected."
+}

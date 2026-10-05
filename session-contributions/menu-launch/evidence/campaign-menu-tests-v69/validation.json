@@ -1,0 +1,54 @@
+{
+  "status": "PASS occupied field display/slot cycling/resize; act label and game handoff incomplete",
+  "apk_sha256": "3dcd0af7d66c54331bbb7b0a527aa3dc900cec4cd8802c03f914ea974d42c609",
+  "profile_scope": "Temporary source-captured fresh profiles; no gameplay initialization/start proof",
+  "files": [
+    {
+      "name": "dh2_000.savegame",
+      "class": "KnightPlayerBase",
+      "sha256": "73ae5f57232f8d6fd58cfdda0b9d5ab594c6fc8cf0838166f8f0101b0af3025f"
+    },
+    {
+      "name": "dh2_002.savegame.bak",
+      "class": "RoguePlayerBase",
+      "sha256": "9cc4ad7b5372c79ade2b565dbc722517f708e0a979db7d53ce0ba42c400cc569"
+    },
+    {
+      "name": "dh2_003.savegame",
+      "class": "MagePlayerBase",
+      "sha256": "e47c5a5e2cd25b25bf0e01ca262e8916c664a6feb20d41dad81c0dc9cfcb47c9"
+    }
+  ],
+  "surfaces": [
+    {
+      "override": "1080x1920",
+      "same_pid": "18540"
+    },
+    {
+      "override": "1080x2400",
+      "same_pid": "18540"
+    },
+    {
+      "override": "1968x2184",
+      "same_pid": "18540"
+    }
+  ],
+  "backup_profile_selected": true,
+  "third_profile_selected": true,
+  "known_missing": [
+    "NativeGetParsedString: occupied slot act label displays undefined; assignment/start/create/delete not connected"
+  ],
+  "restored_campaign_files": true,
+  "visual_review": {
+    "screenshots": [
+      "occupied-1080x1920.png",
+      "occupied-1080x2400.png",
+      "occupied-1968x2184.png",
+      "next-slot-1.png",
+      "next-slot-2.png",
+      "next-slot-3.png",
+      "restored-empty-main.png"
+    ],
+    "observed": "Prince Warrior/Rogue/Mage, level1, The Boglands, Normal and saved date visible. Backup-only Rogue loads. Fourth display is genuinely empty first-free slot. Main scene stays a static warrior background. Act label remains undefined."
+  }
+}

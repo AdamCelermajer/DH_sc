@@ -1,0 +1,196 @@
+{
+  "validation": "PASS",
+  "original": "Character::SG_SetCurrentFaerie0x3bb9d8",
+  "scope": "Explicit actual difficulty0..2 stores; caller-resolved -1 path excluded",
+  "cases": [
+    {
+      "difficulty": 0,
+      "raw_id": 0,
+      "after": [
+        0,
+        18,
+        19
+      ]
+    },
+    {
+      "difficulty": 0,
+      "raw_id": 1,
+      "after": [
+        1,
+        18,
+        19
+      ]
+    },
+    {
+      "difficulty": 0,
+      "raw_id": 4,
+      "after": [
+        4,
+        18,
+        19
+      ]
+    },
+    {
+      "difficulty": 0,
+      "raw_id": 5,
+      "after": [
+        5,
+        18,
+        19
+      ]
+    },
+    {
+      "difficulty": 0,
+      "raw_id": 2147483647,
+      "after": [
+        2147483647,
+        18,
+        19
+      ]
+    },
+    {
+      "difficulty": 0,
+      "raw_id": 2147483648,
+      "after": [
+        2147483648,
+        18,
+        19
+      ]
+    },
+    {
+      "difficulty": 0,
+      "raw_id": 4294967295,
+      "after": [
+        4294967295,
+        18,
+        19
+      ]
+    },
+    {
+      "difficulty": 1,
+      "raw_id": 0,
+      "after": [
+        17,
+        0,
+        19
+      ]
+    },
+    {
+      "difficulty": 1,
+      "raw_id": 1,
+      "after": [
+        17,
+        1,
+        19
+      ]
+    },
+    {
+      "difficulty": 1,
+      "raw_id": 4,
+      "after": [
+        17,
+        4,
+        19
+      ]
+    },
+    {
+      "difficulty": 1,
+      "raw_id": 5,
+      "after": [
+        17,
+        5,
+        19
+      ]
+    },
+    {
+      "difficulty": 1,
+      "raw_id": 2147483647,
+      "after": [
+        17,
+        2147483647,
+        19
+      ]
+    },
+    {
+      "difficulty": 1,
+      "raw_id": 2147483648,
+      "after": [
+        17,
+        2147483648,
+        19
+      ]
+    },
+    {
+      "difficulty": 1,
+      "raw_id": 4294967295,
+      "after": [
+        17,
+        4294967295,
+        19
+      ]
+    },
+    {
+      "difficulty": 2,
+      "raw_id": 0,
+      "after": [
+        17,
+        18,
+        0
+      ]
+    },
+    {
+      "difficulty": 2,
+      "raw_id": 1,
+      "after": [
+        17,
+        18,
+        1
+      ]
+    },
+    {
+      "difficulty": 2,
+      "raw_id": 4,
+      "after": [
+        17,
+        18,
+        4
+      ]
+    },
+    {
+      "difficulty": 2,
+      "raw_id": 5,
+      "after": [
+        17,
+        18,
+        5
+      ]
+    },
+    {
+      "difficulty": 2,
+      "raw_id": 2147483647,
+      "after": [
+        17,
+        18,
+        2147483647
+      ]
+    },
+    {
+      "difficulty": 2,
+      "raw_id": 2147483648,
+      "after": [
+        17,
+        18,
+        2147483648
+      ]
+    },
+    {
+      "difficulty": 2,
+      "raw_id": 4294967295,
+      "after": [
+        17,
+        18,
+        4294967295
+      ]
+    }
+  ]
+}

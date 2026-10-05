@@ -1,0 +1,140 @@
+[
+  {
+    "symbol": "_ZNK13ItemInventory6HasBowEv",
+    "address": "0x400080",
+    "size": 72,
+    "sha256": "55a16e2b490af8025c900f3e608f930da5b44ab0d8ad044306d96b6b5f6aff9b"
+  },
+  {
+    "symbol": "_ZNK13ItemInventory17HasMainHandWeaponEv",
+    "address": "0x3ffe8c",
+    "size": 48,
+    "sha256": "ca3133a2bde33aa3fbd19720567addf999b760d9dc33117eb95b4ce905bccd01"
+  },
+  {
+    "symbol": "_ZNK9Character7HasManaEi",
+    "address": "0x3bd40c",
+    "size": 236,
+    "sha256": "68a2317b75a673fa81939aa1990d6a7d8a9ba7f3d761a8246fe6888281e5c0ab"
+  },
+  {
+    "symbol": "_ZNK13ItemInventory9HasShieldEv",
+    "address": "0x400110",
+    "size": 72,
+    "sha256": "6bb9c61905b9258e5b7eb9c645f8ef7ab77e5a52784748040ba96ee66f615d77"
+  },
+  {
+    "symbol": "_ZN10GameObject21_TargetListSearchRectERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x392b80",
+    "size": 1936,
+    "sha256": "f72c1f493adb1270f971283795ba8ed1fc3216d679337236a89122672cfe078f"
+  },
+  {
+    "symbol": "_ZNK13ItemInventory14IsDualWieldingEv",
+    "address": "0x40019c",
+    "size": 4,
+    "sha256": "c03b26a2b81d0620626937c6329b87cd97a8b20c758c94a045486bae5ffdba57"
+  },
+  {
+    "symbol": "_ZNK13ItemInventory12HasTwoHanderEb",
+    "address": "0x4001a0",
+    "size": 140,
+    "sha256": "fb30a48a8275d5caad1d79ae0e981d1a0fa436a46318967b373d04427aae3189"
+  },
+  {
+    "symbol": "_ZN10GameObject17_TargetListBackupERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x390bd4",
+    "size": 124,
+    "sha256": "0c03aa2e1ce4163d24bfd5c9a8d1e8362df63ad719916d93686b765d4aa1cbb6"
+  },
+  {
+    "symbol": "_ZN10GameObject17_GetTargetListTopERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x38eb68",
+    "size": 124,
+    "sha256": "d061cca3464cd417497dd6fb37e2328d9b92c4aa3617b144c8a4ee56e04ce15a"
+  },
+  {
+    "symbol": "_ZN9Character7_LookAtERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b8ed8",
+    "size": 96,
+    "sha256": "8bf06addacbc89f05cb0277ffcb350ca4539e35cd1b616c74523c075c8d208da"
+  },
+  {
+    "symbol": "_ZN9Character7UseManaEi",
+    "address": "0x3bdef4",
+    "size": 476,
+    "sha256": "ed3125787dc0818e10c73ac7748201618bfaf23b0df8d9daea23c15bee806e68"
+  },
+  {
+    "symbol": "_ZN10GameObject14_PopTargetListERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x38fbb8",
+    "size": 64,
+    "sha256": "de112b91c47e9ee56e4f708e4bf9fde422a67d33844eef73defc339db35965ee"
+  },
+  {
+    "symbol": "_ZNK9Character13GetAnimStanceEv",
+    "address": "0x3a53e0",
+    "size": 212,
+    "sha256": "0a55bdcde5f109c3e50e2ac4c2ef57f33604c327489c2e422f91fbea864948c0"
+  },
+  {
+    "symbol": "_ZN9Character10_HasShieldERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b6fa4",
+    "size": 32,
+    "sha256": "bd532b80da52314a09c4ae01bc3b05d113d738a00d9fb507391a482e248855e5"
+  },
+  {
+    "symbol": "_ZN10GameObject21_SetTargetListSortingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x390548",
+    "size": 220,
+    "sha256": "b638b9dc6fe8cc6187a42d27a6a90ced73c9e4803379da8fe24f9eb830e65337"
+  },
+  {
+    "symbol": "_ZN10GameObject26_SetTargetListObjectFilterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x390624",
+    "size": 108,
+    "sha256": "66a24fc37456a9ab9e236824b7d50734ec3b23901088ec1427e2370c1997ae70"
+  },
+  {
+    "symbol": "_ZN10GameObject18_IsTargetListEmptyERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x38e970",
+    "size": 28,
+    "sha256": "71c230e23093487e8192b483dfde98120bca9d94f0b8e520bfafa1311520d2d7"
+  },
+  {
+    "symbol": "_ZNK13ItemInventory8HasStaffEv",
+    "address": "0x4000c8",
+    "size": 72,
+    "sha256": "4400a3bc0b5b49e33d2275ecb33005bd601fb4ec985572191d85fb2b312458c9"
+  },
+  {
+    "symbol": "_ZN10GameObject17_TargetListSearchERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x38fcf0",
+    "size": 1820,
+    "sha256": "08fa70e7e58d63e164406c6587310729d93518bfe2e9f5e5e23fd38b938e6cd4"
+  },
+  {
+    "symbol": "_ZN9Character8_UseManaERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b7864",
+    "size": 136,
+    "sha256": "5e517fdbf64178e06e099a623d62a96592e6b44eac73fb08b65f7375f2e93c5f"
+  },
+  {
+    "symbol": "_ZN14ObjectSearcher10TargetList13BackupResultsEPKc",
+    "address": "0x4a36b0",
+    "size": 288,
+    "sha256": "ee1877dee29d759844403a4c733f4372fa70d0f8780d3633845d6506a0c736a4"
+  },
+  {
+    "symbol": "_ZN10GameObject29_SetTargetListCharacterFilterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x390690",
+    "size": 108,
+    "sha256": "0c8e882928862adb00e946483d2a5fbb0ea405b26b3a56c2f3e954a0ba6ba9db"
+  },
+  {
+    "symbol": "_ZN9Character8_HasManaERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b78ec",
+    "size": 136,
+    "sha256": "08359029bd9fb9ca19b23ce3faaf66a1786b09f5826f6873b3dc509fe3e7c0bd"
+  }
+]

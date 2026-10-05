@@ -1,0 +1,84 @@
+
+I/DH2Native( 5880): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 12
+V/DH2Native( 5880): Native transition profile | phase 7 | state 3 | event c354
+V/DH2Native( 5880): Native transition profile | phase 8 | state 3 | event c354
+I/DH2Native( 5880): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 5880): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 5880): Player attack facing | direction 313.188599 174.892212 | angle 2.08008456 | native updates 317
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Source attack animator | begin 1 | status 1 | phase 0 | index 0 | continued 0 | last 0 | finisher 0 | target 0000000100000006 | same AI/FSM/playback
+I/DH2Native( 5880): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 5880): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Source attack animator | begin 1 | status 1 | phase 1 | index 0 | continued 0 | last 1 | finisher 0 | target 0000000100000006 | same AI/FSM/playback
+I/DH2Native( 5880): Character animation selected | state 5 | flags 2341 | sequence 243 | clip 967 | actor state service
+I/DH2Native( 5880): Character state event | state 5 | event 1d | prior 3 | flags 2341
+I/DH2Native( 5880): Player source state | previous 3 | current 5 | event 0xc354 | flags 2341 | root 243 | clip 967 | position -1547.6187 -544.5302 100.3659 | Step 2938
+I/DH2Native( 5880): Original player attack command | request 0 | target 4294967302 | last 4294967302 | state 5 | root 243 | clip 967 | same World/Gear/Target/FSM
+I/DH2Native( 5880): Player input | Attacking
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Enemy HUD presentation | target 0000000100000006 | HP 25600 25600 | dead 0 | visible 1 | anchor pixels 1565.86414 77.9981155 | mesh head -1254.05603 -295.121613 465.216797 | Prince -1547.61865 -544.530212 100.365906 | same submitted camera
+I/DH2Native( 5880): Connected enemy HUD | world 0x76c224243f90 | target 0x100000006 | visible 1 | name Skull Slave | level 8 | HP frame 99 | retained original SWF
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Source NPC animation selected | _prim_tmp_cultist01 | state 3 | sequence 596 | clip 1195 | same retained FSM/CPU actor
+I/DH2Native( 5880): Source NPC animation selected | _prim_Monster05 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Blended character event | event 0x27 | clip 967 | slot 0 | phase 4 | lag 0
+I/DH2Native( 5880): Source attack animator | begin 0 | status 1 | phase 1 | index 0 | continued 0 | last 1 | finisher 0 | target 0000000100000006 | same AI/FSM/playback
+I/DH2Native( 5880): Blended character event | event 0x23 | clip 967 | slot 0 | phase 4 | lag 0
+I/DH2Native( 5880): Blended character event | event 0x26 | clip 967 | slot 0 | phase 5 | lag 0
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Source attack animator | begin 1 | status 1 | phase 1 | index 0 | continued 0 | last 0 | finisher 0 | target 0000000100000006 | same AI/FSM/playback
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Blended character event | event 0x28 | clip 955 | slot 1 | phase 1 | lag 20
+I/DH2Native( 5880): Player animation event | clip 955 | name attack_mainhand | sequence 0 | attack step 0 | kind 1 | lag 20 | scene before Step | Step 2950 | position -1547.6187 -544.5302 100.3659
+I/DH2Native( 5880): Combat aggression | owner 4294967302 | target 4294967297 | amount bits 437f0f00 | delta bits 437f0f00 | outgoing 1 | incoming 1 | requests 1 | callback services pending
+I/DH2Native( 5880): Prince combat hit | target _prim_tmp_cultist07 | attempt 1 | result 4353 -1 0 0 0 0 0 2271925 0 -1 | HP 25600 21247 | dead 0 | combo 1 | RNG 9988867 9 | statuses 0
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Enemy HUD presentation | target 0000000100000006 | HP 21247 25600 | dead 0 | visible 1 | anchor pixels 1569.28308 79.1949387 | mesh head -1251.37866 -296.009949 464.616058 | Prince -1547.61865 -544.530212 100.365906 | same submitted camera
+I/DH2Native( 5880): Connected enemy HUD | world 0x76c224243f90 | target 0x100000006 | visible 1 | name Skull Slave | level 8 | HP frame 81 | retained original SWF
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Source NPC animation selected | _prim_Monster02 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Source NPC animation selected | _prim_tmp_cultist05 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Character point facing applied | native LookAt and LookTowards | angle 2.08008456
+I/DH2Native( 5880): Blended character event | event 0x27 | clip 955 | slot 1 | phase 4 | lag 0
+I/DH2Native( 5880): Source attack animator | begin 0 | status 1 | phase 1 | index 0 | continued 0 | last 0 | finisher 0 | target 0000000100000006 | same AI/FSM/playback
+I/DH2Native( 5880): Blended character event | event 0x25 | clip 955 | slot 1 | phase 4 | lag 0
+I/DH2Native( 5880): Blended character event | event 0x27 | clip 955 | slot 1 | phase 4 | lag 0
+I/DH2Native( 5880): Source attack animator | begin 0 | status 1 | phase 0 | index 0 | continued 0 | last 0 | finisher 0 | target 0000000100000006 | same AI/FSM/playback
+I/DH2Native( 5880): Blended character event | event 0x22 | clip 955 | slot 1 | phase 3 | lag 0
+I/DH2Native( 5880): Character sequence closed | state 5 | event 0x22 | clip 955 | Step 2960 | post Step animator | position -1547.6187 -544.5302 100.3659
+V/DH2Native( 5880): Native transition profile | phase 7 | state 5 | event 22
+V/DH2Native( 5880): Native transition profile | phase 8 | state 5 | event 22
+I/DH2Native( 5880): Character animation selected | state 3 | flags 2380 | sequence 262 | clip 955 | actor state service
+I/DH2Native( 5880): Character state event | state 3 | event 1d | prior 5 | flags 2380
+I/DH2Native( 5880): Player source state | previous 5 | current 3 | event 0x22 | flags 2380 | root 262 | clip 955 | position -1547.6187 -544.5302 100.3659 | Step 2960
+I/DH2Native( 5880): Blended character event | event 0x24 | clip 955 | slot 1 | phase 5 | lag 0
+I/DH2Native( 5880): Blended character event | event 0x26 | clip 955 | slot 1 | phase 5 | lag 0
+I/DH2Native( 5880): Source NPC animation selected | _prim_Monster | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native( 5880): Source NPC animation selected | _prim_tmp_cultist07 | state 3 | sequence 596 | clip 1195 | same retained FSM/CPU actor
+I/DH2Native( 5880): Source NPC animation selected | _prim_Monster_Ghost06 | state 3 | sequence 210 | clip 706 | same retained FSM/CPU actor
+I/DH2Native( 5880): Source NPC animation selected | _prim_tmp_cultist06 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native( 5880): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 18
+I/DH2Native( 5880): Native actor frame | scene 64896 | Step 3000 | actor 3000 | source phase 5 | clip 1040 | ms 927 | replays 73 | body -15.4762 -5.4453 | contacts 4 22 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 5880): Source NPC animation selected | _prim_Monster05 | state 3 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native( 5880): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 5880): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 5880): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 5880): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 5880): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0

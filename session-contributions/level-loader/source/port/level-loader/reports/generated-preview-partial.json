@@ -1,0 +1,4386 @@
+{
+  "apk_sha256": "c90521525b105e55d835d62cb5c348e5940a4c097b16343b908e6724dadabe75",
+  "catalog_sha256": "6e5be50fa4c133753170d9ed783bf4dfa5dfaeda85c21c92ca902b3bb1d21463",
+  "script_sha256": "5753b334689646fc63ad8e1cb24259e05f65240de3229a74e2132085f61ccf12",
+  "levels": [
+    {
+      "identity": "ABBEY_RUINS_01",
+      "definition": "009a_abbey.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 1,
+        "meshes": 49,
+        "draws": 53,
+        "triangles": 7046,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ABBEY_RUINS_01 | 1 modules | 49 mesh instances | 53 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "ABBEY_RUINS_01 (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-abbey_ruins_01-seed0.png",
+      "screenshot_sha256": "261ee5d84f32a600ca67f1777517a97eec3f49a94616beb4943e1633d07b8063",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 48498,
+      "surface_color_count": 25668,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "APPLETEMPLEBACKUP",
+      "definition": "x50_earth_temple_demo_BACKUP.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 5,
+        "meshes": 230,
+        "draws": 231,
+        "triangles": 15260,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "APPLETEMPLEBACKUP | 5 modules | 230 mesh instances | 231 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "APPLETEMPLEBACKUP (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-appletemplebackup-seed0.png",
+      "screenshot_sha256": "8c1cf55d46dcbf6779aa89157662ea2f2b9095149fdb201a7ef4081e926c8dbf",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 31835,
+      "surface_color_count": 16861,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "DARKWOOD",
+      "definition": "003_darkwood.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 24,
+        "meshes": 923,
+        "draws": 936,
+        "triangles": 40142,
+        "textures": 5,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "DARKWOOD | 24 modules | 923 mesh instances | 936 draws | 5 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "DARKWOOD (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-darkwood-seed0.png",
+      "screenshot_sha256": "1d72f9da0808193369b513c82a9ca0417734ccadee65b3a13b12f8a4bf0b22d2",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 37039,
+      "surface_color_count": 27788,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "DARKWOOD_V2",
+      "definition": "003_darkwood.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 24,
+        "meshes": 923,
+        "draws": 936,
+        "triangles": 40142,
+        "textures": 5,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "DARKWOOD_V2 | 24 modules | 923 mesh instances | 936 draws | 5 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "DARKWOOD_V2 (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-darkwood_v2-seed0.png",
+      "screenshot_sha256": "761bbcb622ce4ee7d9a137abca48193b9ad53f213d8435b68a7fb239201d814d",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 37039,
+      "surface_color_count": 27788,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "DARKWOOD_V3",
+      "definition": "003_darkwood.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 24,
+        "meshes": 923,
+        "draws": 936,
+        "triangles": 40142,
+        "textures": 5,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "DARKWOOD_V3 | 24 modules | 923 mesh instances | 936 draws | 5 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "DARKWOOD_V3 (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-darkwood_v3-seed0.png",
+      "screenshot_sha256": "0e3b1f40848ea11b856ab482adc17d19132a671cbcbd8f6963bf1499ad35b14a",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 37039,
+      "surface_color_count": 27788,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_01",
+      "definition": "038_dark_temple.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 8,
+        "meshes": 16,
+        "draws": 17,
+        "triangles": 21087,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "DARK_DUNGEON_TEMPLE_01 | 8 modules | 16 mesh instances | 17 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "DARK_DUNGEON_TEMPLE_01 (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-dark_dungeon_temple_01-seed0.png",
+      "screenshot_sha256": "ffe2b53108e01e7cd9506a942632e87662ff5603f8a2c06a3abb54a470ac95cb",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 16597,
+      "surface_color_count": 1804,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "definition": "039_dark_temple_bossroom_01.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 2,
+        "meshes": 6,
+        "draws": 6,
+        "triangles": 4745,
+        "textures": 4,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "DARK_DUNGEON_TEMPLE_BOSSROOM | 2 modules | 6 mesh instances | 6 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "DARK_DUNGEON_TEMPLE_BOSSROOM (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-dark_dungeon_temple_bossroom-seed0.png",
+      "screenshot_sha256": "f8ae0f2ef448d5cc2e617dca4801ad5e8291073c76f00c30207ca6d2e0b7b374",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 24330,
+      "surface_color_count": 2784,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "FIRE_TEMPLE_01",
+      "definition": "031_firetemple.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 12,
+        "meshes": 274,
+        "draws": 300,
+        "triangles": 39745,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "FIRE_TEMPLE_01 | 12 modules | 274 mesh instances | 300 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "FIRE_TEMPLE_01 (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-fire_temple_01-seed0.png",
+      "screenshot_sha256": "036980dcad0f3fcaf61248de55be75fd41ddf41c56f29bd979f379aae9876ab8",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 32978,
+      "surface_color_count": 15813,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ICY_HUB",
+      "definition": "025_icy_hub.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 7,
+        "meshes": 288,
+        "draws": 288,
+        "triangles": 21313,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ICY_HUB | 7 modules | 288 mesh instances | 288 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "ICY_HUB (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-icy_hub-seed0.png",
+      "screenshot_sha256": "bf6e75d87bc9b159366b6d989c0b492b13703bd79be205e235f81a18975185c4",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 44331,
+      "surface_color_count": 32738,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "INFECTED_VILLAGE_01",
+      "definition": "005_infectedvillage.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 2,
+        "meshes": 9,
+        "draws": 13,
+        "triangles": 5699,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "INFECTED_VILLAGE_01 | 2 modules | 9 mesh instances | 13 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "INFECTED_VILLAGE_01 (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-infected_village_01-seed0.png",
+      "screenshot_sha256": "d67f98bf459862e38121cc185641ce8e7b0402a58c2ebb7d60cf170430f359f7",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 60038,
+      "surface_color_count": 19141,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "MACHINE_ROOMS_01",
+      "definition": "037_machine_rooms_01.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 13,
+        "meshes": 13,
+        "draws": 13,
+        "triangles": 33706,
+        "textures": 2,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "MACHINE_ROOMS_01 | 13 modules | 13 mesh instances | 13 draws | 2 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "MACHINE_ROOMS_01 (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-machine_rooms_01-seed0.png",
+      "screenshot_sha256": "92be42aa7f585577e68ade0526146a05cda85960bb75139d6f27588ef570940b",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 64276,
+      "surface_color_count": 28627,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "MULTIPLAYER_TEST",
+      "definition": "101_debug_MachineRoomTestMultiPlayer.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 1,
+        "meshes": 1,
+        "draws": 1,
+        "triangles": 2592,
+        "textures": 2,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "MULTIPLAYER_TEST | 1 modules | 1 mesh instances | 1 draws | 2 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "MULTIPLAYER_TEST (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-multiplayer_test-seed0.png",
+      "screenshot_sha256": "5e330f1d36e2b57eee8c4f791f2b6c7a1c66a1d8d8b8fe67c1b9cef70bf12cbb",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 77279,
+      "surface_color_count": 33450,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "PORTAL_ROOM",
+      "definition": "003_darkwood.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 24,
+        "meshes": 923,
+        "draws": 936,
+        "triangles": 40142,
+        "textures": 5,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "PORTAL_ROOM | 24 modules | 923 mesh instances | 936 draws | 5 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "PORTAL_ROOM (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-portal_room-seed0.png",
+      "screenshot_sha256": "35c187d3833e427adeecb44bcf5a9b03efe79df23738e1ab21dd0575b974883e",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 37039,
+      "surface_color_count": 27788,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "RED_DESERT_HUB",
+      "definition": "015_red_desert_hub.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 6,
+        "meshes": 205,
+        "draws": 224,
+        "triangles": 19858,
+        "textures": 4,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "RED_DESERT_HUB | 6 modules | 205 mesh instances | 224 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "RED_DESERT_HUB (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-red_desert_hub-seed0.png",
+      "screenshot_sha256": "0d3e065e4d91f309c76c459defbede666a7aa6578da771be7da6a3bbde42b5fe",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 39917,
+      "surface_color_count": 19109,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "SWAMP",
+      "definition": "001_swamp.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 9,
+        "meshes": 369,
+        "draws": 384,
+        "triangles": 24676,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 8",
+        "SWAMP (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-swamp-seed0.png",
+      "screenshot_sha256": "c83e3de7802f9e7492dfdd33091f607bb497c1483856b37b9a9ade67c69fdaa6",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 41346,
+      "surface_color_count": 10559,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "UNDERWORLD_HUB",
+      "definition": "036_underworld_hub.mlx",
+      "kind": "fixed",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 0,
+        "seed": 0,
+        "modules": 9,
+        "meshes": 347,
+        "draws": 348,
+        "triangles": 30148,
+        "textures": 4,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "UNDERWORLD_HUB | 9 modules | 347 mesh instances | 348 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "UNDERWORLD_HUB (fixed)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-underworld_hub-seed0.png",
+      "screenshot_sha256": "fdca59722fac1dfd5f11c00bfe31b53bcd5b4a32070e43993c99c66008affffb",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 23299,
+      "surface_color_count": 18744,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "definition": "009_abbey.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 11,
+        "meshes": 68,
+        "draws": 70,
+        "triangles": 16072,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ABBEY_ENTRANCE_01 seed 0 | 11 modules | 68 mesh instances | 70 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "ABBEY_ENTRANCE_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-abbey_entrance_01-seed0.png",
+      "screenshot_sha256": "8634218aa8079e2daf049c5a497fcdcdf7ac775ca0ffe93a76c24550e2b3565c",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 18198,
+      "surface_color_count": 12152,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "definition": "009_abbey.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 11,
+        "meshes": 67,
+        "draws": 69,
+        "triangles": 15299,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ABBEY_ENTRANCE_01 seed 1 | 11 modules | 67 mesh instances | 69 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "ABBEY_ENTRANCE_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-abbey_entrance_01-seed1.png",
+      "screenshot_sha256": "224df7bb26228d258ad76c20e965f366f6c2fbc5aed24e25662cdb66a4246f22",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 16644,
+      "surface_color_count": 11002,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "definition": "050_earth_temple_demo.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 4,
+        "meshes": 171,
+        "draws": 172,
+        "triangles": 12398,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "APPLETEMPLE seed 0 | 4 modules | 171 mesh instances | 172 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "APPLETEMPLE (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-appletemple-seed0.png",
+      "screenshot_sha256": "b3fdfb0a0f6a4802b67da2cff3dfcccb2d7c58ace210a328ff7e15cdddb920af",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 33530,
+      "surface_color_count": 18023,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "definition": "050_earth_temple_demo.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 4,
+        "meshes": 171,
+        "draws": 172,
+        "triangles": 12398,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "APPLETEMPLE seed 1 | 4 modules | 171 mesh instances | 172 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "APPLETEMPLE (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-appletemple-seed1.png",
+      "screenshot_sha256": "ec28c4896907b197e4bcfd570b849566692f0d4b1db744032eaa33401925ae71",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 33530,
+      "surface_color_count": 18023,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "definition": "016_red_desert_cave_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 9,
+        "meshes": 277,
+        "draws": 287,
+        "triangles": 27080,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "DESERT_CAVE_01 seed 0 | 9 modules | 277 mesh instances | 287 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "DESERT_CAVE_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-desert_cave_01-seed0.png",
+      "screenshot_sha256": "47d1e8d9de7a63bea006e7467b3637275acc9fbed063456f8b3079d13f1359c5",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 27110,
+      "surface_color_count": 13569,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "definition": "016_red_desert_cave_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 7,
+        "meshes": 235,
+        "draws": 243,
+        "triangles": 20918,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "DESERT_CAVE_01 seed 1 | 7 modules | 235 mesh instances | 243 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "DESERT_CAVE_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-desert_cave_01-seed1.png",
+      "screenshot_sha256": "bd46bca5f798844164566371848fe76eeae9631c4d485c30796439442cfc8b40",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 35770,
+      "surface_color_count": 17681,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "definition": "017_red_desert_cave_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "original_no_layout",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "failed",
+      "reason": "--------- beginning of main\r\n10-05 06:56:28.917  5085  5109 I DH2Loader: Preparation failed: Original generator produced no layout for DESERT_CAVE_02 seed 0\r\n",
+      "visible_text": [
+        "Preparation failed: Original generator produced no layout for DESERT_CAVE_02 seed 0",
+        "DESERT_CAVE_02 (generated; 0: original no layout)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-desert_cave_02-seed0.png",
+      "screenshot_sha256": "560b34976ebc3c51ff9a5fa300ef95a137e02b7a0f9ff96ae7162ecafdc42ed8"
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "definition": "017_red_desert_cave_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 10,
+        "meshes": 207,
+        "draws": 218,
+        "triangles": 22110,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "DESERT_CAVE_02 seed 1 | 10 modules | 207 mesh instances | 218 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "DESERT_CAVE_02 (generated; 0: original no layout)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-desert_cave_02-seed1.png",
+      "screenshot_sha256": "babd6e214be092e37d882db06178cec78e6af81bde91eb6ca47d9d3268df938b",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 38867,
+      "surface_color_count": 14637,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "definition": "018_red_desert_cave_03.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 10,
+        "meshes": 208,
+        "draws": 217,
+        "triangles": 24734,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "DESERT_CAVE_03 seed 0 | 10 modules | 208 mesh instances | 217 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "DESERT_CAVE_03 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-desert_cave_03-seed0.png",
+      "screenshot_sha256": "03681ad4103b6b431322dc465e93b5f6a913f970f8d2c66f135087324a031d6a",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 37702,
+      "surface_color_count": 14205,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "definition": "018_red_desert_cave_03.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 10,
+        "meshes": 203,
+        "draws": 211,
+        "triangles": 23012,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "DESERT_CAVE_03 seed 1 | 10 modules | 203 mesh instances | 211 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "DESERT_CAVE_03 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-desert_cave_03-seed1.png",
+      "screenshot_sha256": "f19e587c3c5ced7be205da8ff2392b653b4bf84134f3820e004b7e021b3612b4",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 35373,
+      "surface_color_count": 12850,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "definition": "011_earth_temple_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 7,
+        "meshes": 335,
+        "draws": 335,
+        "triangles": 19622,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "EARTH_TEMPLE_01 seed 0 | 7 modules | 335 mesh instances | 335 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "EARTH_TEMPLE_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-earth_temple_01-seed0.png",
+      "screenshot_sha256": "210aa3a09ebb992d8a8dcbd749e5c39082a3ad56f9b58da276b407d8254f1ff0",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 23862,
+      "surface_color_count": 13463,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "definition": "011_earth_temple_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 6,
+        "meshes": 291,
+        "draws": 291,
+        "triangles": 17652,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "EARTH_TEMPLE_01 seed 1 | 6 modules | 291 mesh instances | 291 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "EARTH_TEMPLE_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-earth_temple_01-seed1.png",
+      "screenshot_sha256": "7617f8e13545af880ce5a5dda064bfc9dd2f874a6d4ecba664d4ac90314e8f59",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 28220,
+      "surface_color_count": 15263,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "definition": "012_earth_temple_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 8,
+        "meshes": 334,
+        "draws": 335,
+        "triangles": 20058,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "EARTH_TEMPLE_02 seed 0 | 8 modules | 334 mesh instances | 335 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "EARTH_TEMPLE_02 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-earth_temple_02-seed0.png",
+      "screenshot_sha256": "7e9f98f1fc238b415734872086909af3bcaf527033187cc5114ffb8d7bb312ed",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 23788,
+      "surface_color_count": 13515,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "definition": "012_earth_temple_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 7,
+        "meshes": 297,
+        "draws": 298,
+        "triangles": 18215,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "EARTH_TEMPLE_02 seed 1 | 7 modules | 297 mesh instances | 298 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "EARTH_TEMPLE_02 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-earth_temple_02-seed1.png",
+      "screenshot_sha256": "14914204cb9525120a86469309f5c63ac44500f26d188f9a23f27a43ac34f8a4",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 25313,
+      "surface_color_count": 13612,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "definition": "013_earth_temple_03.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 5,
+        "meshes": 226,
+        "draws": 226,
+        "triangles": 15034,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "EARTH_TEMPLE_03 seed 0 | 5 modules | 226 mesh instances | 226 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "EARTH_TEMPLE_03 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-earth_temple_03-seed0.png",
+      "screenshot_sha256": "a9f030cf12bd70491adaaede52d381e8d5f46061c94877f4ba5bfb33a6f617b0",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 31747,
+      "surface_color_count": 15612,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "definition": "013_earth_temple_03.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 5,
+        "meshes": 226,
+        "draws": 226,
+        "triangles": 15034,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "EARTH_TEMPLE_03 seed 1 | 5 modules | 226 mesh instances | 226 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "EARTH_TEMPLE_03 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-earth_temple_03-seed1.png",
+      "screenshot_sha256": "52edd818435cf3466ebdad03a18f12e5c674fd5477828d8ea46d8b1447e8998d",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 31747,
+      "surface_color_count": 15612,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "definition": "030_el_air.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 8,
+        "meshes": 267,
+        "draws": 271,
+        "triangles": 19760,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ELEMENTAL_AIR seed 0 | 8 modules | 267 mesh instances | 271 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 2",
+        "ELEMENTAL_AIR (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-elemental_air-seed0.png",
+      "screenshot_sha256": "a048f8c6a134dcf1534d56156f29c7d4f5966b3c74e52b04ffed7c0b334937c7",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 24287,
+      "surface_color_count": 12806,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "definition": "030_el_air.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 7,
+        "meshes": 239,
+        "draws": 243,
+        "triangles": 16987,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ELEMENTAL_AIR seed 1 | 7 modules | 239 mesh instances | 243 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 2",
+        "ELEMENTAL_AIR (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-elemental_air-seed1.png",
+      "screenshot_sha256": "5e97e17e378a000aaaef50bd251da6214619bd643a4f8e2c41f08da085b379af",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 28126,
+      "surface_color_count": 13887,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "definition": "014_el_earth.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 7,
+        "meshes": 233,
+        "draws": 239,
+        "triangles": 17201,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ELEMENTAL_EARTH seed 0 | 7 modules | 233 mesh instances | 239 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 2",
+        "ELEMENTAL_EARTH (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-elemental_earth-seed0.png",
+      "screenshot_sha256": "f5a68a8569615199cab947ff0f854ee5a74757622800bf4768bfb608a807d9a4",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 27259,
+      "surface_color_count": 13721,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "definition": "014_el_earth.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 7,
+        "meshes": 239,
+        "draws": 243,
+        "triangles": 16987,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ELEMENTAL_EARTH seed 1 | 7 modules | 239 mesh instances | 243 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 2",
+        "ELEMENTAL_EARTH (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-elemental_earth-seed1.png",
+      "screenshot_sha256": "feaf013d4eebbd48896fe061863bb276c51024488b414a361902836ebb519038",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 28126,
+      "surface_color_count": 13887,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "definition": "032_el_fire.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 8,
+        "meshes": 267,
+        "draws": 271,
+        "triangles": 19760,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ELEMENTAL_FIRE seed 0 | 8 modules | 267 mesh instances | 271 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 2",
+        "ELEMENTAL_FIRE (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-elemental_fire-seed0.png",
+      "screenshot_sha256": "c950773d32eb2d945237f87896353561f092d2b8236a53ab8e6fb2335156ea1b",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 24287,
+      "surface_color_count": 12806,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "definition": "032_el_fire.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 8,
+        "meshes": 267,
+        "draws": 271,
+        "triangles": 19760,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ELEMENTAL_FIRE seed 1 | 8 modules | 267 mesh instances | 271 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 2",
+        "ELEMENTAL_FIRE (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-elemental_fire-seed1.png",
+      "screenshot_sha256": "fe9de2d53042df2a20f9b62c9d3bb9d57ba0ef8c718935a62460f415b1ff421b",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 24540,
+      "surface_color_count": 12849,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "definition": "010_el_lightning.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 7,
+        "meshes": 233,
+        "draws": 239,
+        "triangles": 17201,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ELEMENTAL_LIGHT seed 0 | 7 modules | 233 mesh instances | 239 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 2",
+        "ELEMENTAL_LIGHT (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-elemental_light-seed0.png",
+      "screenshot_sha256": "51b3940d49da7fefb7a2d5a3fc660db475fe06e90a9a25b453a82cf9e9d9764c",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 27259,
+      "surface_color_count": 13721,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "definition": "010_el_lightning.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 7,
+        "meshes": 239,
+        "draws": 243,
+        "triangles": 16987,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ELEMENTAL_LIGHT seed 1 | 7 modules | 239 mesh instances | 243 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 2",
+        "ELEMENTAL_LIGHT (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-elemental_light-seed1.png",
+      "screenshot_sha256": "7e370bfd1a5102257e5aff69891fa9d4c0741ba7ce22d9217ed5f83e005f1e8a",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 28126,
+      "surface_color_count": 13887,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "definition": "024_el_water.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 8,
+        "meshes": 254,
+        "draws": 258,
+        "triangles": 20105,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ELEMENTAL_WATER seed 0 | 8 modules | 254 mesh instances | 258 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 2",
+        "ELEMENTAL_WATER (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-elemental_water-seed0.png",
+      "screenshot_sha256": "3190ffc7c19c758a73aaa875127023e62074f3f5e6c18a407962735c27bd20de",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 21737,
+      "surface_color_count": 11597,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "definition": "024_el_water.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 8,
+        "meshes": 274,
+        "draws": 280,
+        "triangles": 19629,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ELEMENTAL_WATER seed 1 | 8 modules | 274 mesh instances | 280 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 2",
+        "ELEMENTAL_WATER (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-elemental_water-seed1.png",
+      "screenshot_sha256": "95cc9c684043a5a64b56de8fe989c23436eb11ea47e9873da833151c9ac95add",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 30558,
+      "surface_color_count": 14744,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "definition": "008_gothicus_castle_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 7,
+        "meshes": 216,
+        "draws": 223,
+        "triangles": 17581,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "GOTHICUS_CASTLE_01 seed 0 | 7 modules | 216 mesh instances | 223 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "GOTHICUS_CASTLE_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-gothicus_castle_01-seed0.png",
+      "screenshot_sha256": "a9bc4654734b47894150c984afcb6f77b98a9efdaa1531ff51af4f331a5fe310",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 24144,
+      "surface_color_count": 13283,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "definition": "008_gothicus_castle_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 7,
+        "meshes": 216,
+        "draws": 223,
+        "triangles": 17581,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "GOTHICUS_CASTLE_01 seed 1 | 7 modules | 216 mesh instances | 223 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "GOTHICUS_CASTLE_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-gothicus_castle_01-seed1.png",
+      "screenshot_sha256": "e41c03e56c1b6e28865807e714f8c3619a07cc2de23ca56ea7ac28fbeeefd177",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 24144,
+      "surface_color_count": 13283,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "definition": "021_gothicus_castle_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 7,
+        "meshes": 216,
+        "draws": 223,
+        "triangles": 17581,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "GOTHICUS_CASTLE_02 seed 0 | 7 modules | 216 mesh instances | 223 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "GOTHICUS_CASTLE_02 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-gothicus_castle_02-seed0.png",
+      "screenshot_sha256": "ff7bf19e1d4773340bdfd058bef1a59be464b53db57dda53ab71d33116ae05eb",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 24144,
+      "surface_color_count": 13283,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "definition": "021_gothicus_castle_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 7,
+        "meshes": 216,
+        "draws": 223,
+        "triangles": 17581,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "GOTHICUS_CASTLE_02 seed 1 | 7 modules | 216 mesh instances | 223 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "GOTHICUS_CASTLE_02 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-gothicus_castle_02-seed1.png",
+      "screenshot_sha256": "45dbe08756ecef57452ca5b4e4a1e95d90a66cbf940fe06a6200192f2ebc8231",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 24144,
+      "surface_color_count": 13283,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "definition": "007_crypt_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 8,
+        "meshes": 97,
+        "draws": 97,
+        "triangles": 14251,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "GOTHICUS_CRYPT_01 seed 0 | 8 modules | 97 mesh instances | 97 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "GOTHICUS_CRYPT_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-gothicus_crypt_01-seed0.png",
+      "screenshot_sha256": "d053351730b1c48451d23ce68c8096768db28733ef77ddae84dd0491f98801d3",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 21636,
+      "surface_color_count": 14180,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "definition": "007_crypt_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 8,
+        "meshes": 106,
+        "draws": 106,
+        "triangles": 15754,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "GOTHICUS_CRYPT_01 seed 1 | 8 modules | 106 mesh instances | 106 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "GOTHICUS_CRYPT_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-gothicus_crypt_01-seed1.png",
+      "screenshot_sha256": "6a83b9cfdcb0af4eeb09e019218f838bfa5857bd7526ebd32fe5e170f4f4ed67",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 23794,
+      "surface_color_count": 14412,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "definition": "020_crypt_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 11,
+        "meshes": 66,
+        "draws": 66,
+        "triangles": 17857,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "GOTHICUS_CRYPT_02 seed 0 | 11 modules | 66 mesh instances | 66 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "GOTHICUS_CRYPT_02 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-gothicus_crypt_02-seed0.png",
+      "screenshot_sha256": "0521941448628a42118a9c70a35cacdd77b37b0e3a0f9a468d5060d7db755391",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 17376,
+      "surface_color_count": 12463,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "definition": "020_crypt_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 11,
+        "meshes": 74,
+        "draws": 75,
+        "triangles": 17089,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "GOTHICUS_CRYPT_02 seed 1 | 11 modules | 74 mesh instances | 75 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "GOTHICUS_CRYPT_02 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-gothicus_crypt_02-seed1.png",
+      "screenshot_sha256": "c90661ca0153b13a5f60db0ccadba5a36c8b91482cfd30ed81c0a6e707e05670",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 19652,
+      "surface_color_count": 13203,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "definition": "026_icy_cavern_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 10,
+        "meshes": 142,
+        "draws": 148,
+        "triangles": 30309,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ICY_CAVERN_01 seed 0 | 10 modules | 142 mesh instances | 148 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "ICY_CAVERN_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-icy_cavern_01-seed0.png",
+      "screenshot_sha256": "e3209ef339126a66d4919c2f95eb2b37d4ca57e9669a0cb6b9b4378f78eff749",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 39952,
+      "surface_color_count": 22205,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "definition": "026_icy_cavern_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 10,
+        "meshes": 132,
+        "draws": 139,
+        "triangles": 29783,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ICY_CAVERN_01 seed 1 | 10 modules | 132 mesh instances | 139 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "ICY_CAVERN_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-icy_cavern_01-seed1.png",
+      "screenshot_sha256": "04744a9dbc6f11e70a5a01cebd15d6a2156250708065d00210fe7f2e15b1194b",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 27015,
+      "surface_color_count": 16974,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "definition": "027_icy_cavern_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "original_no_layout",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "failed",
+      "reason": "--------- beginning of main\r\n10-05 06:58:44.080  7571  7593 I DH2Loader: Preparation failed: Original generator produced no layout for ICY_CAVERN_02 seed 0\r\n",
+      "visible_text": [
+        "Preparation failed: Original generator produced no layout for ICY_CAVERN_02 seed 0",
+        "ICY_CAVERN_02 (generated; 0: original no layout, 1: original no layout)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-icy_cavern_02-seed0.png",
+      "screenshot_sha256": "b4e67708d29b22038478b868ae3a8317d8af029615d8945a63769d8f7a948161"
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "definition": "027_icy_cavern_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "original_no_layout",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "failed",
+      "reason": "--------- beginning of main\r\n10-05 06:58:47.914  7642  7667 I DH2Loader: Preparation failed: Original generator produced no layout for ICY_CAVERN_02 seed 1\r\n",
+      "visible_text": [
+        "Preparation failed: Original generator produced no layout for ICY_CAVERN_02 seed 1",
+        "ICY_CAVERN_02 (generated; 0: original no layout, 1: original no layout)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-icy_cavern_02-seed1.png",
+      "screenshot_sha256": "c256790a050b0bbe13e933357aa89c625d0f197e4f737c05febfb74f10657db2"
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "definition": "028_icy_cavern_03.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 11,
+        "meshes": 147,
+        "draws": 155,
+        "triangles": 33916,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ICY_CAVERN_03 seed 0 | 11 modules | 147 mesh instances | 155 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "ICY_CAVERN_03 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-icy_cavern_03-seed0.png",
+      "screenshot_sha256": "6df3289af932b29d69b73250e86fb7eecc25b5cf47477ba1f0ffa00cdc25d9c7",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 22710,
+      "surface_color_count": 14684,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "definition": "028_icy_cavern_03.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 11,
+        "meshes": 141,
+        "draws": 150,
+        "triangles": 33210,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ICY_CAVERN_03 seed 1 | 11 modules | 141 mesh instances | 150 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "ICY_CAVERN_03 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-icy_cavern_03-seed1.png",
+      "screenshot_sha256": "cbe15e7eba7455e9fcfce03892273e5824b041883c002c1d1cdcbc02dff0b661",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 28259,
+      "surface_color_count": 17482,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "definition": "019_light_house_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 5,
+        "meshes": 394,
+        "draws": 425,
+        "triangles": 18187,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "LIGHT_HOUSE_01 seed 0 | 5 modules | 394 mesh instances | 425 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "LIGHT_HOUSE_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-light_house_01-seed0.png",
+      "screenshot_sha256": "363bb842df4d72fa19032947347547fc6d06a05616c89b19a3e32dc93bfd5ec9",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 5868,
+      "surface_color_count": 4732,
+      "visible_map_pixels": true,
+      "focused_module": {
+        "screenshot": "generated-preview-light_house_01-seed0-module0.png",
+        "screenshot_sha256": "68512d58427b60403418ceded1d097a15efb01e0fac61ec2d6913d992ea27ee7",
+        "surface_non_background_pixels": 203445,
+        "visible_text": [
+          "Module 0 | startroom_0 | mobs/chests pending",
+          "LIGHT_HOUSE_01 (generated)",
+          "Seed 0",
+          "LOAD MAP",
+          "WHOLE MAP",
+          "NEXT MODULE",
+          "RELOAD",
+          "ZOOM +",
+          "ZOOM \u2212",
+          "FAILED-LOAD CHECK"
+        ]
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "definition": "019_light_house_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 5,
+        "meshes": 401,
+        "draws": 432,
+        "triangles": 17412,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "LIGHT_HOUSE_01 seed 1 | 5 modules | 401 mesh instances | 432 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "LIGHT_HOUSE_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-light_house_01-seed1.png",
+      "screenshot_sha256": "97d26bc82d8c725f496daa5001bd190ea16ee53b9411f957cca3341e5761d4bd",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 5886,
+      "surface_color_count": 4810,
+      "visible_map_pixels": true,
+      "focused_module": {
+        "screenshot": "generated-preview-light_house_01-seed1-module0.png",
+        "screenshot_sha256": "55edb1c546ca0e0b6d18c05d8d85db0128aaecf6de3484de4699a12de716cd24",
+        "surface_non_background_pixels": 224477,
+        "visible_text": [
+          "Module 0 | startroom_0 | mobs/chests pending",
+          "LIGHT_HOUSE_01 (generated)",
+          "Seed 1",
+          "LOAD MAP",
+          "WHOLE MAP",
+          "NEXT MODULE",
+          "RELOAD",
+          "ZOOM +",
+          "ZOOM \u2212",
+          "FAILED-LOAD CHECK"
+        ]
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "definition": "019_light_house_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 5,
+        "meshes": 437,
+        "draws": 473,
+        "triangles": 21642,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "LIGHT_HOUSE_02 seed 0 | 5 modules | 437 mesh instances | 473 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "LIGHT_HOUSE_02 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-light_house_02-seed0.png",
+      "screenshot_sha256": "5d5280299356ba623d4fcabc10fbfa524d4ce558b414b3a478f967f460fa13cf",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 6409,
+      "surface_color_count": 5026,
+      "visible_map_pixels": true,
+      "focused_module": {
+        "screenshot": "generated-preview-light_house_02-seed0-module0.png",
+        "screenshot_sha256": "55b6b134d588ee0a4bff02693a9be0d8377ed0a512033a9464f0e24bafbd1582",
+        "surface_non_background_pixels": 203790,
+        "visible_text": [
+          "Module 0 | open_02_0 | mobs/chests pending",
+          "LIGHT_HOUSE_02 (generated)",
+          "Seed 0",
+          "LOAD MAP",
+          "WHOLE MAP",
+          "NEXT MODULE",
+          "RELOAD",
+          "ZOOM +",
+          "ZOOM \u2212",
+          "FAILED-LOAD CHECK"
+        ]
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "definition": "019_light_house_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 5,
+        "meshes": 453,
+        "draws": 491,
+        "triangles": 21683,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "LIGHT_HOUSE_02 seed 1 | 5 modules | 453 mesh instances | 491 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "LIGHT_HOUSE_02 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-light_house_02-seed1.png",
+      "screenshot_sha256": "eb6c2fc5cf0cb485c334a8fba8616df047ddd9c34abc3f05ff2b3627c89eb3c9",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 6410,
+      "surface_color_count": 5047,
+      "visible_map_pixels": true,
+      "focused_module": {
+        "screenshot": "generated-preview-light_house_02-seed1-module0.png",
+        "screenshot_sha256": "6433313325b9c29a5fa2b6a05d987c0817f3124db1debb0acae3816d6cdea7b7",
+        "surface_non_background_pixels": 159953,
+        "visible_text": [
+          "Module 0 | open_02_0 | mobs/chests pending",
+          "LIGHT_HOUSE_02 (generated)",
+          "Seed 1",
+          "LOAD MAP",
+          "WHOLE MAP",
+          "NEXT MODULE",
+          "RELOAD",
+          "ZOOM +",
+          "ZOOM \u2212",
+          "FAILED-LOAD CHECK"
+        ]
+      }
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "definition": "019_light_house_03.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 1,
+        "meshes": 32,
+        "draws": 33,
+        "triangles": 1851,
+        "textures": 4,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "LIGHT_HOUSE_03 seed 0 | 1 modules | 32 mesh instances | 33 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "LIGHT_HOUSE_03 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-light_house_03-seed0.png",
+      "screenshot_sha256": "c2e5a1236cfcb67901041a4911f77efd163ddc8936b183fa8432ff3dd46dce9a",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 43368,
+      "surface_color_count": 33113,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "definition": "019_light_house_03.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 1,
+        "meshes": 32,
+        "draws": 33,
+        "triangles": 1851,
+        "textures": 4,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "LIGHT_HOUSE_03 seed 1 | 1 modules | 32 mesh instances | 33 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "LIGHT_HOUSE_03 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-light_house_03-seed1.png",
+      "screenshot_sha256": "90aa9a13e1e61d3c9e0507faa60709b07a2e6bacafa10805e81b053a4963989e",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 43368,
+      "surface_color_count": 33113,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "QUESTTEST",
+      "definition": "102_debug_QUESTTEST.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 7,
+        "meshes": 32,
+        "draws": 32,
+        "triangles": 12319,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "QUESTTEST seed 0 | 7 modules | 32 mesh instances | 32 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "QUESTTEST (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-questtest-seed0.png",
+      "screenshot_sha256": "daec73d6cdbd727d16b1b01866e004cae7d08df2c9fe018dc1c39cef8881d533",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 26849,
+      "surface_color_count": 14412,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "QUESTTEST",
+      "definition": "102_debug_QUESTTEST.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 7,
+        "meshes": 32,
+        "draws": 32,
+        "triangles": 12319,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "QUESTTEST seed 1 | 7 modules | 32 mesh instances | 32 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "QUESTTEST (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-questtest-seed1.png",
+      "screenshot_sha256": "2b576b3c204ffb084c1bd806d4a691e195621ea172316c96eaa0e9620687969b",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 26849,
+      "surface_color_count": 14412,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "definition": "125_RandomForAlexB.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 5,
+        "meshes": 161,
+        "draws": 165,
+        "triangles": 12550,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "RANDOMFORALEX seed 0 | 5 modules | 161 mesh instances | 165 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "RANDOMFORALEX (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-randomforalex-seed0.png",
+      "screenshot_sha256": "6afca1c6546725e8c0134ad2edf131809c77a9abe16df4b40d7659a27ed32440",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 28741,
+      "surface_color_count": 14423,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "definition": "125_RandomForAlexB.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 5,
+        "meshes": 161,
+        "draws": 165,
+        "triangles": 12550,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "RANDOMFORALEX seed 1 | 5 modules | 161 mesh instances | 165 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "RANDOMFORALEX (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-randomforalex-seed1.png",
+      "screenshot_sha256": "c2c87a9972395ae196725b6f2809b02c9d742718d095f84dc525e81f634f18a9",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 28974,
+      "surface_color_count": 14443,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "definition": "004_root_den.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 8,
+        "meshes": 168,
+        "draws": 204,
+        "triangles": 23933,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ROOT_DEN_01 seed 0 | 8 modules | 168 mesh instances | 204 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "ROOT_DEN_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-root_den_01-seed0.png",
+      "screenshot_sha256": "7ad49d2db5ea07102cdf2ed40a36c51ef421dbe61377aa472543244724f034d4",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 33889,
+      "surface_color_count": 15678,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "definition": "004_root_den.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 8,
+        "meshes": 168,
+        "draws": 204,
+        "triangles": 23933,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "ROOT_DEN_01 seed 1 | 8 modules | 168 mesh instances | 204 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "ROOT_DEN_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-root_den_01-seed1.png",
+      "screenshot_sha256": "d3bca6bbdfb21eb4bb0b30510d7d874a4f87bf4ef522663f21c9a426ac404a30",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 33889,
+      "surface_color_count": 15678,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "definition": "006_basement.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 8,
+        "meshes": 49,
+        "draws": 68,
+        "triangles": 19856,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "SECRET_BASEMENT_01 seed 0 | 8 modules | 49 mesh instances | 68 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "SECRET_BASEMENT_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-secret_basement_01-seed0.png",
+      "screenshot_sha256": "9b01450216a9a3a294c762361ae9aff83f63a3d3776a7cc34fb086949c0061e9",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 23967,
+      "surface_color_count": 13181,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "definition": "006_basement.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 8,
+        "meshes": 48,
+        "draws": 67,
+        "triangles": 18912,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "SECRET_BASEMENT_01 seed 1 | 8 modules | 48 mesh instances | 67 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "SECRET_BASEMENT_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-secret_basement_01-seed1.png",
+      "screenshot_sha256": "7c8f678ccc6505cdc799159af52f6fcf3d05acf622d7a6dbb3d7ebbf6f3f8fbc",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 22260,
+      "surface_color_count": 12545,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 11,
+        "meshes": 497,
+        "draws": 518,
+        "triangles": 22659,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 16",
+        "SWAMP_02 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-swamp_02-seed0.png",
+      "screenshot_sha256": "ca7ce3eab0f09288ba1f679ded967f97606fdcf3cf3d84bb732abba5c232ff4f",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 31685,
+      "surface_color_count": 8719,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "SWAMP_02",
+      "definition": "022_swamp2.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 12,
+        "meshes": 523,
+        "draws": 546,
+        "triangles": 24753,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "SWAMP_02 seed 1 | 12 modules | 523 mesh instances | 546 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 8",
+        "SWAMP_02 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-swamp_02-seed1.png",
+      "screenshot_sha256": "0ad0eb6ac8d34e29f03f92f9528f80a595c1c90eb1ef997fc9f084ca5f0293bd",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 29711,
+      "surface_color_count": 8071,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "definition": "022_swamp2_trollcave.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 9,
+        "meshes": 18,
+        "draws": 25,
+        "triangles": 11664,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "SWAMP_CAVE_TROLL_A seed 0 | 9 modules | 18 mesh instances | 25 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "SWAMP_CAVE_TROLL_A (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-swamp_cave_troll_a-seed0.png",
+      "screenshot_sha256": "9c20a89c888c9442ed3026565ec39164f0ca9a45a9330affeb2b39696ab023f7",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 19886,
+      "surface_color_count": 14585,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "definition": "022_swamp2_trollcave.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 8,
+        "meshes": 16,
+        "draws": 22,
+        "triangles": 10311,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "SWAMP_CAVE_TROLL_A seed 1 | 8 modules | 16 mesh instances | 22 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "SWAMP_CAVE_TROLL_A (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-swamp_cave_troll_a-seed1.png",
+      "screenshot_sha256": "9cc006b4220675f02d276f7d4ce58b22461e98b727e337ae01c54ecfd45f813e",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 23120,
+      "surface_color_count": 16385,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "definition": "002_swamp_witchcave.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 7,
+        "meshes": 14,
+        "draws": 19,
+        "triangles": 10002,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "SWAMP_CAVE_WITCH_A seed 0 | 7 modules | 14 mesh instances | 19 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "SWAMP_CAVE_WITCH_A (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-swamp_cave_witch_a-seed0.png",
+      "screenshot_sha256": "bcc94a9129b0acd8169edeeb8ddbf37e1958edc26fa5000461ed03ebb880f5be",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 26927,
+      "surface_color_count": 18763,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "definition": "002_swamp_witchcave.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 7,
+        "meshes": 14,
+        "draws": 19,
+        "triangles": 10002,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "SWAMP_CAVE_WITCH_A seed 1 | 7 modules | 14 mesh instances | 19 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "SWAMP_CAVE_WITCH_A (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-swamp_cave_witch_a-seed1.png",
+      "screenshot_sha256": "79ab96b740f64cc3dadf911183dce60a211f41255b081c9468cc2c57d610814b",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 26927,
+      "surface_color_count": 18763,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "definition": "033_voidmaze_01.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 9,
+        "meshes": 9,
+        "draws": 9,
+        "triangles": 16,
+        "textures": 2,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "VOID_MAZE_01 seed 0 | 9 modules | 9 mesh instances | 9 draws | 2 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "VOID_MAZE_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-void_maze_01-seed0.png",
+      "screenshot_sha256": "6e6cff64f848f65a4ea15ab5a410c9682c4289a7ab0c06a11c9896ceea7d3e71",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 3,
+      "surface_color_count": 4,
+      "visible_map_pixels": true,
+      "focused_module": {
+        "screenshot": "generated-preview-void_maze_01-seed0-module0.png",
+        "screenshot_sha256": "4c3d98d4693701a50ba17ab10791ff10fbd96aa47ebdf5d86982ab474a42dc50",
+        "surface_non_background_pixels": 41048,
+        "visible_text": [
+          "Module 0 | deadend_voidmaze_s_00_0 | mobs/chests pending",
+          "VOID_MAZE_01 (generated)",
+          "Seed 0",
+          "LOAD MAP",
+          "WHOLE MAP",
+          "NEXT MODULE",
+          "RELOAD",
+          "ZOOM +",
+          "ZOOM \u2212",
+          "FAILED-LOAD CHECK"
+        ]
+      }
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "definition": "033_voidmaze_01.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 9,
+        "meshes": 9,
+        "draws": 9,
+        "triangles": 16,
+        "textures": 2,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "VOID_MAZE_01 seed 1 | 9 modules | 9 mesh instances | 9 draws | 2 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "VOID_MAZE_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-void_maze_01-seed1.png",
+      "screenshot_sha256": "b4233108e5dea11bb87e3baa2d49dfa3c30fe134bb333ef29204e0d9e6ed499c",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 3,
+      "surface_color_count": 4,
+      "visible_map_pixels": true,
+      "focused_module": {
+        "screenshot": "generated-preview-void_maze_01-seed1-module0.png",
+        "screenshot_sha256": "1d787bdf3e93beefb3569273ccae286a99326524bd2f409dcb79bcc0672384b7",
+        "surface_non_background_pixels": 41048,
+        "visible_text": [
+          "Module 0 | deadend_voidmaze_s_00_0 | mobs/chests pending",
+          "VOID_MAZE_01 (generated)",
+          "Seed 1",
+          "LOAD MAP",
+          "WHOLE MAP",
+          "NEXT MODULE",
+          "RELOAD",
+          "ZOOM +",
+          "ZOOM \u2212",
+          "FAILED-LOAD CHECK"
+        ]
+      }
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "definition": "034_voidmaze_02.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 11,
+        "meshes": 11,
+        "draws": 11,
+        "triangles": 22,
+        "textures": 2,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "VOID_MAZE_02 seed 0 | 11 modules | 11 mesh instances | 11 draws | 2 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "VOID_MAZE_02 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-void_maze_02-seed0.png",
+      "screenshot_sha256": "96de8d8e1968eafba695805050f0b06c61a86ee5116575e42dedb33e18fabd65",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 14,
+      "surface_color_count": 15,
+      "visible_map_pixels": true,
+      "focused_module": {
+        "screenshot": "generated-preview-void_maze_02-seed0-module0.png",
+        "screenshot_sha256": "60ecc6b6fe6ae91b25a2beeaa896ac069a4558ed9c2357f5d336749ff9971526",
+        "surface_non_background_pixels": 41048,
+        "visible_text": [
+          "Module 0 | deadend_voidmaze_s_00_0 | mobs/chests pending",
+          "VOID_MAZE_02 (generated)",
+          "Seed 0",
+          "LOAD MAP",
+          "WHOLE MAP",
+          "NEXT MODULE",
+          "RELOAD",
+          "ZOOM +",
+          "ZOOM \u2212",
+          "FAILED-LOAD CHECK"
+        ]
+      }
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "definition": "034_voidmaze_02.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 11,
+        "meshes": 11,
+        "draws": 11,
+        "triangles": 22,
+        "textures": 2,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "VOID_MAZE_02 seed 1 | 11 modules | 11 mesh instances | 11 draws | 2 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "VOID_MAZE_02 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-void_maze_02-seed1.png",
+      "screenshot_sha256": "0dce50db4f8052267e4684c41f1995e0e4af36006780890fc0a397e055f1747b",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 14,
+      "surface_color_count": 15,
+      "visible_map_pixels": true,
+      "focused_module": {
+        "screenshot": "generated-preview-void_maze_02-seed1-module0.png",
+        "screenshot_sha256": "3d8aa0dbf8eeda7296989295e119a3a2e8e34ddaf8243c916823da56fff3cab3",
+        "surface_non_background_pixels": 41048,
+        "visible_text": [
+          "Module 0 | deadend_voidmaze_s_00_0 | mobs/chests pending",
+          "VOID_MAZE_02 (generated)",
+          "Seed 1",
+          "LOAD MAP",
+          "WHOLE MAP",
+          "NEXT MODULE",
+          "RELOAD",
+          "ZOOM +",
+          "ZOOM \u2212",
+          "FAILED-LOAD CHECK"
+        ]
+      }
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "definition": "035_voidmaze_03.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 7,
+        "meshes": 7,
+        "draws": 7,
+        "triangles": 14,
+        "textures": 2,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "VOID_MAZE_03 seed 0 | 7 modules | 7 mesh instances | 7 draws | 2 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "VOID_MAZE_03 (generated; 1: assembly blocked)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-void_maze_03-seed0.png",
+      "screenshot_sha256": "4e7e95d802f6f9d71c7afc74ef78f470ad6f417a4293590508f7f82bed846d12",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 20,
+      "surface_color_count": 18,
+      "visible_map_pixels": true,
+      "focused_module": {
+        "screenshot": "generated-preview-void_maze_03-seed0-module0.png",
+        "screenshot_sha256": "a9c17758930374de7f65aeebb7fd92f807b8fcf78d45883b1e14d8a8e3f9fcd5",
+        "surface_non_background_pixels": 41114,
+        "visible_text": [
+          "Module 0 | deadend_voidmaze_e_00_0 | mobs/chests pending",
+          "VOID_MAZE_03 (generated; 1: assembly blocked)",
+          "Seed 0",
+          "LOAD MAP",
+          "WHOLE MAP",
+          "NEXT MODULE",
+          "RELOAD",
+          "ZOOM +",
+          "ZOOM \u2212",
+          "FAILED-LOAD CHECK"
+        ]
+      }
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "definition": "035_voidmaze_03.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembly_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "failed",
+      "reason": "--------- beginning of main\r\n10-05 07:01:15.380 10231 10256 I DH2Loader: Preparation failed: Missing authored XML: data/iphone/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp\r\n",
+      "visible_text": [
+        "Preparation failed: Missing authored XML: data/iphone/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp",
+        "VOID_MAZE_03 (generated; 1: assembly blocked)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-void_maze_03-seed1.png",
+      "screenshot_sha256": "07641861aac42984086a328bf7ae19bcc2ae1cf43265b098b6868db2dbf06ad6"
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "definition": "023_watertemple.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 13,
+        "meshes": 283,
+        "draws": 284,
+        "triangles": 29938,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "WATER_TEMPLE_01 seed 0 | 13 modules | 283 mesh instances | 284 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WATER_TEMPLE_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-water_temple_01-seed0.png",
+      "screenshot_sha256": "ca0491b61d44ee185da6e7bed3459f85e6c09f6fa0721dc1684a098b0f921419",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 36141,
+      "surface_color_count": 15149,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "definition": "023_watertemple.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 13,
+        "meshes": 274,
+        "draws": 275,
+        "triangles": 30306,
+        "textures": 3,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "WATER_TEMPLE_01 seed 1 | 13 modules | 274 mesh instances | 275 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WATER_TEMPLE_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-water_temple_01-seed1.png",
+      "screenshot_sha256": "4604d124c823c0325b4e22f7cd6b3271a5bba1f02b04c950d9e2fdacb62fd82d",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 25280,
+      "surface_color_count": 11033,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "definition": "029_wind_temple.rule.xml",
+      "kind": "procedural",
+      "seed": 0,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 0,
+        "modules": 12,
+        "meshes": 451,
+        "draws": 463,
+        "triangles": 32939,
+        "textures": 4,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "WIND_TEMPLE_01 seed 0 | 12 modules | 451 mesh instances | 463 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "WIND_TEMPLE_01 (generated)",
+        "Seed 0",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-wind_temple_01-seed0.png",
+      "screenshot_sha256": "c112f0909463672ca99f270d7fee520c9e7958123fe859f0f42e3a95894f2244",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 23727,
+      "surface_color_count": 20372,
+      "visible_map_pixels": true
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "definition": "029_wind_temple.rule.xml",
+      "kind": "procedural",
+      "seed": 1,
+      "expected_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "procedural": 1,
+        "seed": 1,
+        "modules": 12,
+        "meshes": 451,
+        "draws": 463,
+        "triangles": 32939,
+        "textures": 4,
+        "width": 2400,
+        "height": 496
+      },
+      "visible_text": [
+        "WIND_TEMPLE_01 seed 1 | 12 modules | 451 mesh instances | 463 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "WIND_TEMPLE_01 (generated)",
+        "Seed 1",
+        "LOAD MAP",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "RELOAD",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "generated-preview-wind_temple_01-seed1.png",
+      "screenshot_sha256": "2f965ae33e9d0cfc6460d8dfffe333f277f337776c3a6e90b4239ef3814e334c",
+      "surface_bounds": [
+        0,
+        269,
+        2400,
+        765
+      ],
+      "surface_non_background_pixels": 23727,
+      "surface_color_count": 20372,
+      "visible_map_pixels": true
+    }
+  ],
+  "logs": [
+    {
+      "identity": "ABBEY_RUINS_01",
+      "seed": 0,
+      "pid": "3193",
+      "log": "--------- beginning of main\r\n10-05 06:54:45.013  3193  3222 I DH2Loader: ABBEY_RUINS_01 | 1 modules | 49 mesh instances | 53 draws | 3 textures\r\n10-05 06:54:45.013  3193  3222 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:54:45.019  3193  3222 I DH2Loader: MAP_FRAME_OK identity=ABBEY_RUINS_01 procedural=0 seed=0 modules=1 meshes=49 draws=53 triangles=7046 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "APPLETEMPLEBACKUP",
+      "seed": 0,
+      "pid": "3289",
+      "log": "--------- beginning of main\r\n10-05 06:54:49.776  3289  3311 I DH2Loader: APPLETEMPLEBACKUP | 5 modules | 230 mesh instances | 231 draws | 3 textures\r\n10-05 06:54:49.776  3289  3311 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:54:49.780  3289  3311 I DH2Loader: MAP_FRAME_OK identity=APPLETEMPLEBACKUP procedural=0 seed=0 modules=5 meshes=230 draws=231 triangles=15260 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "DARKWOOD",
+      "seed": 0,
+      "pid": "3377",
+      "log": "--------- beginning of main\r\n10-05 06:54:55.232  3377  3402 I DH2Loader: DARKWOOD | 24 modules | 923 mesh instances | 936 draws | 5 textures\r\n10-05 06:54:55.232  3377  3402 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:54:55.242  3377  3402 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "DARKWOOD_V2",
+      "seed": 0,
+      "pid": "3468",
+      "log": "--------- beginning of main\r\n10-05 06:55:00.533  3468  3492 I DH2Loader: DARKWOOD_V2 | 24 modules | 923 mesh instances | 936 draws | 5 textures\r\n10-05 06:55:00.533  3468  3492 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:00.539  3468  3492 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD_V2 procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "DARKWOOD_V3",
+      "seed": 0,
+      "pid": "3562",
+      "log": "--------- beginning of main\r\n10-05 06:55:05.682  3562  3586 I DH2Loader: DARKWOOD_V3 | 24 modules | 923 mesh instances | 936 draws | 5 textures\r\n10-05 06:55:05.682  3562  3586 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:05.696  3562  3586 I DH2Loader: MAP_FRAME_OK identity=DARKWOOD_V3 procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_01",
+      "seed": 0,
+      "pid": "3654",
+      "log": "--------- beginning of main\r\n10-05 06:55:10.223  3654  3679 I DH2Loader: DARK_DUNGEON_TEMPLE_01 | 8 modules | 16 mesh instances | 17 draws | 3 textures\r\n10-05 06:55:10.223  3654  3679 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:10.227  3654  3679 I DH2Loader: MAP_FRAME_OK identity=DARK_DUNGEON_TEMPLE_01 procedural=0 seed=0 modules=8 meshes=16 draws=17 triangles=21087 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "seed": 0,
+      "pid": "3741",
+      "log": "--------- beginning of main\r\n10-05 06:55:15.012  3741  3762 I DH2Loader: DARK_DUNGEON_TEMPLE_BOSSROOM | 2 modules | 6 mesh instances | 6 draws | 4 textures\r\n10-05 06:55:15.012  3741  3762 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:15.057  3741  3762 I DH2Loader: MAP_FRAME_OK identity=DARK_DUNGEON_TEMPLE_BOSSROOM procedural=0 seed=0 modules=2 meshes=6 draws=6 triangles=4745 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "FIRE_TEMPLE_01",
+      "seed": 0,
+      "pid": "3825",
+      "log": "--------- beginning of main\r\n10-05 06:55:20.060  3825  3864 I DH2Loader: FIRE_TEMPLE_01 | 12 modules | 274 mesh instances | 300 draws | 3 textures\r\n10-05 06:55:20.060  3825  3864 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:20.066  3825  3864 I DH2Loader: MAP_FRAME_OK identity=FIRE_TEMPLE_01 procedural=0 seed=0 modules=12 meshes=274 draws=300 triangles=39745 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ICY_HUB",
+      "seed": 0,
+      "pid": "3927",
+      "log": "--------- beginning of main\r\n10-05 06:55:24.760  3927  3946 I DH2Loader: ICY_HUB | 7 modules | 288 mesh instances | 288 draws | 3 textures\r\n10-05 06:55:24.760  3927  3946 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:24.766  3927  3946 I DH2Loader: MAP_FRAME_OK identity=ICY_HUB procedural=0 seed=0 modules=7 meshes=288 draws=288 triangles=21313 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "INFECTED_VILLAGE_01",
+      "seed": 0,
+      "pid": "4005",
+      "log": "--------- beginning of main\r\n10-05 06:55:28.887  4005  4026 I DH2Loader: INFECTED_VILLAGE_01 | 2 modules | 9 mesh instances | 13 draws | 3 textures\r\n10-05 06:55:28.887  4005  4026 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:28.892  4005  4026 I DH2Loader: MAP_FRAME_OK identity=INFECTED_VILLAGE_01 procedural=0 seed=0 modules=2 meshes=9 draws=13 triangles=5699 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "MACHINE_ROOMS_01",
+      "seed": 0,
+      "pid": "4078",
+      "log": "--------- beginning of main\r\n10-05 06:55:33.080  4078  4103 I DH2Loader: MACHINE_ROOMS_01 | 13 modules | 13 mesh instances | 13 draws | 2 textures\r\n10-05 06:55:33.080  4078  4103 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:33.092  4078  4103 I DH2Loader: MAP_FRAME_OK identity=MACHINE_ROOMS_01 procedural=0 seed=0 modules=13 meshes=13 draws=13 triangles=33706 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "MULTIPLAYER_TEST",
+      "seed": 0,
+      "pid": "4160",
+      "log": "--------- beginning of main\r\n10-05 06:55:37.484  4160  4184 I DH2Loader: MULTIPLAYER_TEST | 1 modules | 1 mesh instances | 1 draws | 2 textures\r\n10-05 06:55:37.484  4160  4184 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:37.489  4160  4184 I DH2Loader: MAP_FRAME_OK identity=MULTIPLAYER_TEST procedural=0 seed=0 modules=1 meshes=1 draws=1 triangles=2592 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "PORTAL_ROOM",
+      "seed": 0,
+      "pid": "4243",
+      "log": "--------- beginning of main\r\n10-05 06:55:43.164  4243  4267 I DH2Loader: PORTAL_ROOM | 24 modules | 923 mesh instances | 936 draws | 5 textures\r\n10-05 06:55:43.164  4243  4267 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:43.177  4243  4267 I DH2Loader: MAP_FRAME_OK identity=PORTAL_ROOM procedural=0 seed=0 modules=24 meshes=923 draws=936 triangles=40142 textures=5 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "RED_DESERT_HUB",
+      "seed": 0,
+      "pid": "4338",
+      "log": "--------- beginning of main\r\n10-05 06:55:47.830  4338  4363 I DH2Loader: RED_DESERT_HUB | 6 modules | 205 mesh instances | 224 draws | 4 textures\r\n10-05 06:55:47.830  4338  4363 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:47.840  4338  4363 I DH2Loader: MAP_FRAME_OK identity=RED_DESERT_HUB procedural=0 seed=0 modules=6 meshes=205 draws=224 triangles=19858 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "SWAMP",
+      "seed": 0,
+      "pid": "4419",
+      "log": "--------- beginning of main\r\n10-05 06:55:52.576  4419  4442 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures\r\n10-05 06:55:52.576  4419  4442 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8\r\n10-05 06:55:52.592  4419  4442 I DH2Loader: MAP_FRAME_OK identity=SWAMP procedural=0 seed=0 modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "UNDERWORLD_HUB",
+      "seed": 0,
+      "pid": "4506",
+      "log": "--------- beginning of main\r\n10-05 06:55:57.658  4506  4532 I DH2Loader: UNDERWORLD_HUB | 9 modules | 347 mesh instances | 348 draws | 4 textures\r\n10-05 06:55:57.658  4506  4532 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:55:57.665  4506  4532 I DH2Loader: MAP_FRAME_OK identity=UNDERWORLD_HUB procedural=0 seed=0 modules=9 meshes=347 draws=348 triangles=30148 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "seed": 0,
+      "pid": "4589",
+      "log": "--------- beginning of main\r\n10-05 06:56:02.024  4589  4615 I DH2Loader: ABBEY_ENTRANCE_01 seed 0 | 11 modules | 68 mesh instances | 70 draws | 3 textures\r\n10-05 06:56:02.024  4589  4615 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:56:02.030  4589  4615 I DH2Loader: MAP_FRAME_OK identity=ABBEY_ENTRANCE_01 procedural=1 seed=0 modules=11 meshes=68 draws=70 triangles=16072 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ABBEY_ENTRANCE_01",
+      "seed": 1,
+      "pid": "4674",
+      "log": "--------- beginning of main\r\n10-05 06:56:06.473  4674  4697 I DH2Loader: ABBEY_ENTRANCE_01 seed 1 | 11 modules | 67 mesh instances | 69 draws | 3 textures\r\n10-05 06:56:06.473  4674  4697 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:56:06.479  4674  4697 I DH2Loader: MAP_FRAME_OK identity=ABBEY_ENTRANCE_01 procedural=1 seed=1 modules=11 meshes=67 draws=69 triangles=15299 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "seed": 0,
+      "pid": "4749",
+      "log": "--------- beginning of main\r\n10-05 06:56:10.790  4749  4775 I DH2Loader: APPLETEMPLE seed 0 | 4 modules | 171 mesh instances | 172 draws | 3 textures\r\n10-05 06:56:10.790  4749  4775 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:56:10.796  4749  4775 I DH2Loader: MAP_FRAME_OK identity=APPLETEMPLE procedural=1 seed=0 modules=4 meshes=171 draws=172 triangles=12398 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "APPLETEMPLE",
+      "seed": 1,
+      "pid": "4833",
+      "log": "--------- beginning of main\r\n10-05 06:56:15.787  4833  4859 I DH2Loader: APPLETEMPLE seed 1 | 4 modules | 171 mesh instances | 172 draws | 3 textures\r\n10-05 06:56:15.787  4833  4859 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:56:15.793  4833  4859 I DH2Loader: MAP_FRAME_OK identity=APPLETEMPLE procedural=1 seed=1 modules=4 meshes=171 draws=172 triangles=12398 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "seed": 0,
+      "pid": "4919",
+      "log": "--------- beginning of main\r\n10-05 06:56:20.838  4919  4946 I DH2Loader: DESERT_CAVE_01 seed 0 | 9 modules | 277 mesh instances | 287 draws | 3 textures\r\n10-05 06:56:20.838  4919  4946 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:56:20.845  4919  4946 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_01 procedural=1 seed=0 modules=9 meshes=277 draws=287 triangles=27080 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "DESERT_CAVE_01",
+      "seed": 1,
+      "pid": "5008",
+      "log": "--------- beginning of main\r\n10-05 06:56:25.213  5008  5033 I DH2Loader: DESERT_CAVE_01 seed 1 | 7 modules | 235 mesh instances | 243 draws | 3 textures\r\n10-05 06:56:25.213  5008  5033 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:56:25.227  5008  5033 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_01 procedural=1 seed=1 modules=7 meshes=235 draws=243 triangles=20918 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "seed": 0,
+      "pid": "5085",
+      "log": "--------- beginning of main\r\n10-05 06:56:28.917  5085  5109 I DH2Loader: Preparation failed: Original generator produced no layout for DESERT_CAVE_02 seed 0\r\n"
+    },
+    {
+      "identity": "DESERT_CAVE_02",
+      "seed": 1,
+      "pid": "5157",
+      "log": "--------- beginning of main\r\n10-05 06:56:33.579  5157  5187 I DH2Loader: DESERT_CAVE_02 seed 1 | 10 modules | 207 mesh instances | 218 draws | 3 textures\r\n10-05 06:56:33.579  5157  5187 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:56:33.585  5157  5187 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_02 procedural=1 seed=1 modules=10 meshes=207 draws=218 triangles=22110 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "seed": 0,
+      "pid": "5243",
+      "log": "--------- beginning of main\r\n10-05 06:56:38.031  5243  5267 I DH2Loader: DESERT_CAVE_03 seed 0 | 10 modules | 208 mesh instances | 217 draws | 3 textures\r\n10-05 06:56:38.031  5243  5267 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:56:38.037  5243  5267 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_03 procedural=1 seed=0 modules=10 meshes=208 draws=217 triangles=24734 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "DESERT_CAVE_03",
+      "seed": 1,
+      "pid": "5326",
+      "log": "--------- beginning of main\r\n10-05 06:56:42.563  5326  5346 I DH2Loader: DESERT_CAVE_03 seed 1 | 10 modules | 203 mesh instances | 211 draws | 3 textures\r\n10-05 06:56:42.563  5326  5346 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:56:42.614  5326  5346 I DH2Loader: MAP_FRAME_OK identity=DESERT_CAVE_03 procedural=1 seed=1 modules=10 meshes=203 draws=211 triangles=23012 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "seed": 0,
+      "pid": "5408",
+      "log": "--------- beginning of main\r\n10-05 06:56:47.075  5408  5432 I DH2Loader: EARTH_TEMPLE_01 seed 0 | 7 modules | 335 mesh instances | 335 draws | 3 textures\r\n10-05 06:56:47.075  5408  5432 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:56:47.078  5408  5432 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_01 procedural=1 seed=0 modules=7 meshes=335 draws=335 triangles=19622 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "EARTH_TEMPLE_01",
+      "seed": 1,
+      "pid": "5489",
+      "log": "--------- beginning of main\r\n10-05 06:56:51.561  5489  5514 I DH2Loader: EARTH_TEMPLE_01 seed 1 | 6 modules | 291 mesh instances | 291 draws | 3 textures\r\n10-05 06:56:51.561  5489  5514 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:56:51.566  5489  5514 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_01 procedural=1 seed=1 modules=6 meshes=291 draws=291 triangles=17652 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "seed": 0,
+      "pid": "5575",
+      "log": "--------- beginning of main\r\n10-05 06:56:56.294  5575  5601 I DH2Loader: EARTH_TEMPLE_02 seed 0 | 8 modules | 334 mesh instances | 335 draws | 3 textures\r\n10-05 06:56:56.294  5575  5601 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:56:56.308  5575  5601 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_02 procedural=1 seed=0 modules=8 meshes=334 draws=335 triangles=20058 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "EARTH_TEMPLE_02",
+      "seed": 1,
+      "pid": "5656",
+      "log": "--------- beginning of main\r\n10-05 06:57:00.686  5656  5680 I DH2Loader: EARTH_TEMPLE_02 seed 1 | 7 modules | 297 mesh instances | 298 draws | 3 textures\r\n10-05 06:57:00.686  5656  5680 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:57:00.693  5656  5680 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_02 procedural=1 seed=1 modules=7 meshes=297 draws=298 triangles=18215 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "seed": 0,
+      "pid": "5742",
+      "log": "--------- beginning of main\r\n10-05 06:57:05.396  5742  5766 I DH2Loader: EARTH_TEMPLE_03 seed 0 | 5 modules | 226 mesh instances | 226 draws | 3 textures\r\n10-05 06:57:05.396  5742  5766 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:57:05.399  5742  5766 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_03 procedural=1 seed=0 modules=5 meshes=226 draws=226 triangles=15034 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "EARTH_TEMPLE_03",
+      "seed": 1,
+      "pid": "5819",
+      "log": "--------- beginning of main\r\n10-05 06:57:09.972  5819  5845 I DH2Loader: EARTH_TEMPLE_03 seed 1 | 5 modules | 226 mesh instances | 226 draws | 3 textures\r\n10-05 06:57:09.972  5819  5845 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:57:09.977  5819  5845 I DH2Loader: MAP_FRAME_OK identity=EARTH_TEMPLE_03 procedural=1 seed=1 modules=5 meshes=226 draws=226 triangles=15034 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "seed": 0,
+      "pid": "5912",
+      "log": "--------- beginning of main\r\n10-05 06:57:14.491  5912  5937 I DH2Loader: ELEMENTAL_AIR seed 0 | 8 modules | 267 mesh instances | 271 draws | 3 textures\r\n10-05 06:57:14.491  5912  5937 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:57:14.504  5912  5937 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_AIR procedural=1 seed=0 modules=8 meshes=267 draws=271 triangles=19760 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ELEMENTAL_AIR",
+      "seed": 1,
+      "pid": "5993",
+      "log": "--------- beginning of main\r\n10-05 06:57:18.949  5993  6018 I DH2Loader: ELEMENTAL_AIR seed 1 | 7 modules | 239 mesh instances | 243 draws | 3 textures\r\n10-05 06:57:18.949  5993  6018 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:57:18.953  5993  6018 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_AIR procedural=1 seed=1 modules=7 meshes=239 draws=243 triangles=16987 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "seed": 0,
+      "pid": "6071",
+      "log": "--------- beginning of main\r\n10-05 06:57:23.465  6071  6101 I DH2Loader: ELEMENTAL_EARTH seed 0 | 7 modules | 233 mesh instances | 239 draws | 3 textures\r\n10-05 06:57:23.465  6071  6101 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:57:23.471  6071  6101 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_EARTH procedural=1 seed=0 modules=7 meshes=233 draws=239 triangles=17201 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ELEMENTAL_EARTH",
+      "seed": 1,
+      "pid": "6155",
+      "log": "--------- beginning of main\r\n10-05 06:57:28.124  6155  6177 I DH2Loader: ELEMENTAL_EARTH seed 1 | 7 modules | 239 mesh instances | 243 draws | 3 textures\r\n10-05 06:57:28.124  6155  6177 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:57:28.134  6155  6177 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_EARTH procedural=1 seed=1 modules=7 meshes=239 draws=243 triangles=16987 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "seed": 0,
+      "pid": "6235",
+      "log": "--------- beginning of main\r\n10-05 06:57:32.680  6235  6261 I DH2Loader: ELEMENTAL_FIRE seed 0 | 8 modules | 267 mesh instances | 271 draws | 3 textures\r\n10-05 06:57:32.680  6235  6261 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:57:32.698  6235  6261 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_FIRE procedural=1 seed=0 modules=8 meshes=267 draws=271 triangles=19760 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ELEMENTAL_FIRE",
+      "seed": 1,
+      "pid": "6320",
+      "log": "--------- beginning of main\r\n10-05 06:57:37.179  6320  6345 I DH2Loader: ELEMENTAL_FIRE seed 1 | 8 modules | 267 mesh instances | 271 draws | 3 textures\r\n10-05 06:57:37.179  6320  6345 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:57:37.182  6320  6345 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_FIRE procedural=1 seed=1 modules=8 meshes=267 draws=271 triangles=19760 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "seed": 0,
+      "pid": "6402",
+      "log": "--------- beginning of main\r\n10-05 06:57:41.653  6402  6427 I DH2Loader: ELEMENTAL_LIGHT seed 0 | 7 modules | 233 mesh instances | 239 draws | 3 textures\r\n10-05 06:57:41.653  6402  6427 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:57:41.657  6402  6427 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_LIGHT procedural=1 seed=0 modules=7 meshes=233 draws=239 triangles=17201 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ELEMENTAL_LIGHT",
+      "seed": 1,
+      "pid": "6487",
+      "log": "--------- beginning of main\r\n10-05 06:57:46.313  6487  6511 I DH2Loader: ELEMENTAL_LIGHT seed 1 | 7 modules | 239 mesh instances | 243 draws | 3 textures\r\n10-05 06:57:46.313  6487  6511 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:57:46.317  6487  6511 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_LIGHT procedural=1 seed=1 modules=7 meshes=239 draws=243 triangles=16987 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "seed": 0,
+      "pid": "6565",
+      "log": "--------- beginning of main\r\n10-05 06:57:50.751  6565  6590 I DH2Loader: ELEMENTAL_WATER seed 0 | 8 modules | 254 mesh instances | 258 draws | 3 textures\r\n10-05 06:57:50.751  6565  6590 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:57:50.755  6565  6590 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_WATER procedural=1 seed=0 modules=8 meshes=254 draws=258 triangles=20105 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ELEMENTAL_WATER",
+      "seed": 1,
+      "pid": "6650",
+      "log": "--------- beginning of main\r\n10-05 06:57:55.187  6650  6675 I DH2Loader: ELEMENTAL_WATER seed 1 | 8 modules | 274 mesh instances | 280 draws | 3 textures\r\n10-05 06:57:55.187  6650  6675 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 2\r\n10-05 06:57:55.191  6650  6675 I DH2Loader: MAP_FRAME_OK identity=ELEMENTAL_WATER procedural=1 seed=1 modules=8 meshes=274 draws=280 triangles=19629 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "seed": 0,
+      "pid": "6729",
+      "log": "--------- beginning of main\r\n10-05 06:57:59.541  6729  6751 I DH2Loader: GOTHICUS_CASTLE_01 seed 0 | 7 modules | 216 mesh instances | 223 draws | 3 textures\r\n10-05 06:57:59.541  6729  6751 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:57:59.546  6729  6751 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_01 procedural=1 seed=0 modules=7 meshes=216 draws=223 triangles=17581 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_01",
+      "seed": 1,
+      "pid": "6811",
+      "log": "--------- beginning of main\r\n10-05 06:58:04.303  6811  6835 I DH2Loader: GOTHICUS_CASTLE_01 seed 1 | 7 modules | 216 mesh instances | 223 draws | 3 textures\r\n10-05 06:58:04.303  6811  6835 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:58:04.308  6811  6835 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_01 procedural=1 seed=1 modules=7 meshes=216 draws=223 triangles=17581 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "seed": 0,
+      "pid": "6891",
+      "log": "--------- beginning of main\r\n10-05 06:58:08.706  6891  6916 I DH2Loader: GOTHICUS_CASTLE_02 seed 0 | 7 modules | 216 mesh instances | 223 draws | 3 textures\r\n10-05 06:58:08.706  6891  6916 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:58:08.710  6891  6916 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_02 procedural=1 seed=0 modules=7 meshes=216 draws=223 triangles=17581 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "GOTHICUS_CASTLE_02",
+      "seed": 1,
+      "pid": "6973",
+      "log": "--------- beginning of main\r\n10-05 06:58:14.063  6973  6995 I DH2Loader: GOTHICUS_CASTLE_02 seed 1 | 7 modules | 216 mesh instances | 223 draws | 3 textures\r\n10-05 06:58:14.063  6973  6995 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:58:14.070  6973  6995 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CASTLE_02 procedural=1 seed=1 modules=7 meshes=216 draws=223 triangles=17581 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "seed": 0,
+      "pid": "7086",
+      "log": "--------- beginning of main\r\n10-05 06:58:18.385  7086  7110 I DH2Loader: GOTHICUS_CRYPT_01 seed 0 | 8 modules | 97 mesh instances | 97 draws | 3 textures\r\n10-05 06:58:18.385  7086  7110 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:58:18.391  7086  7110 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_01 procedural=1 seed=0 modules=8 meshes=97 draws=97 triangles=14251 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_01",
+      "seed": 1,
+      "pid": "7165",
+      "log": "--------- beginning of main\r\n10-05 06:58:22.788  7165  7188 I DH2Loader: GOTHICUS_CRYPT_01 seed 1 | 8 modules | 106 mesh instances | 106 draws | 3 textures\r\n10-05 06:58:22.788  7165  7188 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:58:22.793  7165  7188 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_01 procedural=1 seed=1 modules=8 meshes=106 draws=106 triangles=15754 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "seed": 0,
+      "pid": "7247",
+      "log": "--------- beginning of main\r\n10-05 06:58:27.125  7247  7272 I DH2Loader: GOTHICUS_CRYPT_02 seed 0 | 11 modules | 66 mesh instances | 66 draws | 3 textures\r\n10-05 06:58:27.125  7247  7272 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:58:27.134  7247  7272 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_02 procedural=1 seed=0 modules=11 meshes=66 draws=66 triangles=17857 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "GOTHICUS_CRYPT_02",
+      "seed": 1,
+      "pid": "7324",
+      "log": "--------- beginning of main\r\n10-05 06:58:31.385  7324  7350 I DH2Loader: GOTHICUS_CRYPT_02 seed 1 | 11 modules | 74 mesh instances | 75 draws | 3 textures\r\n10-05 06:58:31.385  7324  7350 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:58:31.393  7324  7350 I DH2Loader: MAP_FRAME_OK identity=GOTHICUS_CRYPT_02 procedural=1 seed=1 modules=11 meshes=74 draws=75 triangles=17089 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "seed": 0,
+      "pid": "7407",
+      "log": "--------- beginning of main\r\n10-05 06:58:35.773  7407  7429 I DH2Loader: ICY_CAVERN_01 seed 0 | 10 modules | 142 mesh instances | 148 draws | 3 textures\r\n10-05 06:58:35.773  7407  7429 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:58:35.778  7407  7429 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_01 procedural=1 seed=0 modules=10 meshes=142 draws=148 triangles=30309 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ICY_CAVERN_01",
+      "seed": 1,
+      "pid": "7485",
+      "log": "--------- beginning of main\r\n10-05 06:58:40.378  7485  7510 I DH2Loader: ICY_CAVERN_01 seed 1 | 10 modules | 132 mesh instances | 139 draws | 3 textures\r\n10-05 06:58:40.378  7485  7510 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:58:40.384  7485  7510 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_01 procedural=1 seed=1 modules=10 meshes=132 draws=139 triangles=29783 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "seed": 0,
+      "pid": "7571",
+      "log": "--------- beginning of main\r\n10-05 06:58:44.080  7571  7593 I DH2Loader: Preparation failed: Original generator produced no layout for ICY_CAVERN_02 seed 0\r\n"
+    },
+    {
+      "identity": "ICY_CAVERN_02",
+      "seed": 1,
+      "pid": "7642",
+      "log": "--------- beginning of main\r\n10-05 06:58:47.914  7642  7667 I DH2Loader: Preparation failed: Original generator produced no layout for ICY_CAVERN_02 seed 1\r\n"
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "seed": 0,
+      "pid": "7716",
+      "log": "--------- beginning of main\r\n10-05 06:58:52.709  7716  7739 I DH2Loader: ICY_CAVERN_03 seed 0 | 11 modules | 147 mesh instances | 155 draws | 3 textures\r\n10-05 06:58:52.709  7716  7739 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:58:52.720  7716  7739 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_03 procedural=1 seed=0 modules=11 meshes=147 draws=155 triangles=33916 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ICY_CAVERN_03",
+      "seed": 1,
+      "pid": "7799",
+      "log": "--------- beginning of main\r\n10-05 06:58:57.185  7799  7825 I DH2Loader: ICY_CAVERN_03 seed 1 | 11 modules | 141 mesh instances | 150 draws | 3 textures\r\n10-05 06:58:57.185  7799  7825 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:58:57.190  7799  7825 I DH2Loader: MAP_FRAME_OK identity=ICY_CAVERN_03 procedural=1 seed=1 modules=11 meshes=141 draws=150 triangles=33210 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "seed": 0,
+      "pid": "7877",
+      "log": "--------- beginning of main\r\n10-05 06:59:01.779  7877  7902 I DH2Loader: LIGHT_HOUSE_01 seed 0 | 5 modules | 394 mesh instances | 425 draws | 3 textures\r\n10-05 06:59:01.779  7877  7902 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:59:01.785  7877  7902 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_01 procedural=1 seed=0 modules=5 meshes=394 draws=425 triangles=18187 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "LIGHT_HOUSE_01",
+      "seed": 1,
+      "pid": "7996",
+      "log": "--------- beginning of main\r\n10-05 06:59:09.024  7996  8020 I DH2Loader: LIGHT_HOUSE_01 seed 1 | 5 modules | 401 mesh instances | 432 draws | 3 textures\r\n10-05 06:59:09.024  7996  8020 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:59:09.030  7996  8020 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_01 procedural=1 seed=1 modules=5 meshes=401 draws=432 triangles=17412 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "seed": 0,
+      "pid": "8106",
+      "log": "--------- beginning of main\r\n10-05 06:59:16.363  8106  8130 I DH2Loader: LIGHT_HOUSE_02 seed 0 | 5 modules | 437 mesh instances | 473 draws | 3 textures\r\n10-05 06:59:16.363  8106  8130 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:59:16.370  8106  8130 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_02 procedural=1 seed=0 modules=5 meshes=437 draws=473 triangles=21642 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "LIGHT_HOUSE_02",
+      "seed": 1,
+      "pid": "8232",
+      "log": "--------- beginning of main\r\n10-05 06:59:23.912  8232  8262 I DH2Loader: LIGHT_HOUSE_02 seed 1 | 5 modules | 453 mesh instances | 491 draws | 3 textures\r\n10-05 06:59:23.912  8232  8262 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:59:23.918  8232  8262 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_02 procedural=1 seed=1 modules=5 meshes=453 draws=491 triangles=21683 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "seed": 0,
+      "pid": "8347",
+      "log": "--------- beginning of main\r\n10-05 06:59:30.881  8347  8372 I DH2Loader: MATERIAL_TARGET_ALIAS symbol=ColorMaterial target=ColorMaterial_0057E157\r\n10-05 06:59:30.978  8347  8372 I DH2Loader: LIGHT_HOUSE_03 seed 0 | 1 modules | 32 mesh instances | 33 draws | 4 textures\r\n10-05 06:59:30.978  8347  8372 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:59:31.005  8347  8372 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_03 procedural=1 seed=0 modules=1 meshes=32 draws=33 triangles=1851 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "LIGHT_HOUSE_03",
+      "seed": 1,
+      "pid": "8430",
+      "log": "--------- beginning of main\r\n10-05 06:59:35.256  8430  8455 I DH2Loader: MATERIAL_TARGET_ALIAS symbol=ColorMaterial target=ColorMaterial_0057E157\r\n10-05 06:59:35.326  8430  8455 I DH2Loader: LIGHT_HOUSE_03 seed 1 | 1 modules | 32 mesh instances | 33 draws | 4 textures\r\n10-05 06:59:35.326  8430  8455 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:59:35.331  8430  8455 I DH2Loader: MAP_FRAME_OK identity=LIGHT_HOUSE_03 procedural=1 seed=1 modules=1 meshes=32 draws=33 triangles=1851 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "QUESTTEST",
+      "seed": 0,
+      "pid": "8511",
+      "log": "--------- beginning of main\r\n10-05 06:59:39.793  8511  8531 I DH2Loader: QUESTTEST seed 0 | 7 modules | 32 mesh instances | 32 draws | 3 textures\r\n10-05 06:59:39.793  8511  8531 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:59:39.798  8511  8531 I DH2Loader: MAP_FRAME_OK identity=QUESTTEST procedural=1 seed=0 modules=7 meshes=32 draws=32 triangles=12319 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "QUESTTEST",
+      "seed": 1,
+      "pid": "8594",
+      "log": "--------- beginning of main\r\n10-05 06:59:44.108  8594  8618 I DH2Loader: QUESTTEST seed 1 | 7 modules | 32 mesh instances | 32 draws | 3 textures\r\n10-05 06:59:44.108  8594  8618 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 06:59:44.115  8594  8618 I DH2Loader: MAP_FRAME_OK identity=QUESTTEST procedural=1 seed=1 modules=7 meshes=32 draws=32 triangles=12319 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "seed": 0,
+      "pid": "8673",
+      "log": "--------- beginning of main\r\n10-05 06:59:48.709  8673  8700 I DH2Loader: RANDOMFORALEX seed 0 | 5 modules | 161 mesh instances | 165 draws | 3 textures\r\n10-05 06:59:48.709  8673  8700 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:59:48.716  8673  8700 I DH2Loader: MAP_FRAME_OK identity=RANDOMFORALEX procedural=1 seed=0 modules=5 meshes=161 draws=165 triangles=12550 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "RANDOMFORALEX",
+      "seed": 1,
+      "pid": "8755",
+      "log": "--------- beginning of main\r\n10-05 06:59:53.309  8755  8779 I DH2Loader: RANDOMFORALEX seed 1 | 5 modules | 161 mesh instances | 165 draws | 3 textures\r\n10-05 06:59:53.309  8755  8779 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:59:53.316  8755  8779 I DH2Loader: MAP_FRAME_OK identity=RANDOMFORALEX procedural=1 seed=1 modules=5 meshes=161 draws=165 triangles=12550 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "seed": 0,
+      "pid": "8841",
+      "log": "--------- beginning of main\r\n10-05 06:59:57.996  8841  8865 I DH2Loader: ROOT_DEN_01 seed 0 | 8 modules | 168 mesh instances | 204 draws | 3 textures\r\n10-05 06:59:57.996  8841  8865 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 06:59:58.021  8841  8865 I DH2Loader: MAP_FRAME_OK identity=ROOT_DEN_01 procedural=1 seed=0 modules=8 meshes=168 draws=204 triangles=23933 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "ROOT_DEN_01",
+      "seed": 1,
+      "pid": "8942",
+      "log": "--------- beginning of main\r\n10-05 07:00:03.277  8942  8974 I DH2Loader: ROOT_DEN_01 seed 1 | 8 modules | 168 mesh instances | 204 draws | 3 textures\r\n10-05 07:00:03.277  8942  8974 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 07:00:03.281  8942  8974 I DH2Loader: MAP_FRAME_OK identity=ROOT_DEN_01 procedural=1 seed=1 modules=8 meshes=168 draws=204 triangles=23933 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "seed": 0,
+      "pid": "9041",
+      "log": "--------- beginning of main\r\n10-05 07:00:07.502  9041  9065 I DH2Loader: SECRET_BASEMENT_01 seed 0 | 8 modules | 49 mesh instances | 68 draws | 3 textures\r\n10-05 07:00:07.502  9041  9065 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:00:07.507  9041  9065 I DH2Loader: MAP_FRAME_OK identity=SECRET_BASEMENT_01 procedural=1 seed=0 modules=8 meshes=49 draws=68 triangles=19856 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "SECRET_BASEMENT_01",
+      "seed": 1,
+      "pid": "9126",
+      "log": "--------- beginning of main\r\n10-05 07:00:12.389  9126  9149 I DH2Loader: SECRET_BASEMENT_01 seed 1 | 8 modules | 48 mesh instances | 67 draws | 3 textures\r\n10-05 07:00:12.389  9126  9149 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:00:12.396  9126  9149 I DH2Loader: MAP_FRAME_OK identity=SECRET_BASEMENT_01 procedural=1 seed=1 modules=8 meshes=48 draws=67 triangles=18912 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "SWAMP_02",
+      "seed": 0,
+      "pid": "9212",
+      "log": "--------- beginning of main\r\n10-05 07:00:16.952  9212  9236 I DH2Loader: SWAMP_02 seed 0 | 11 modules | 497 mesh instances | 518 draws | 3 textures\r\n10-05 07:00:16.952  9212  9236 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 16\r\n10-05 07:00:16.957  9212  9236 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=0 modules=11 meshes=497 draws=518 triangles=22659 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "SWAMP_02",
+      "seed": 1,
+      "pid": "9292",
+      "log": "--------- beginning of main\r\n10-05 07:00:22.059  9292  9317 I DH2Loader: SWAMP_02 seed 1 | 12 modules | 523 mesh instances | 546 draws | 3 textures\r\n10-05 07:00:22.059  9292  9317 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8\r\n10-05 07:00:22.066  9292  9317 I DH2Loader: MAP_FRAME_OK identity=SWAMP_02 procedural=1 seed=1 modules=12 meshes=523 draws=546 triangles=24753 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "seed": 0,
+      "pid": "9377",
+      "log": "--------- beginning of main\r\n10-05 07:00:26.485  9377  9403 I DH2Loader: SWAMP_CAVE_TROLL_A seed 0 | 9 modules | 18 mesh instances | 25 draws | 3 textures\r\n10-05 07:00:26.485  9377  9403 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:00:26.488  9377  9403 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_TROLL_A procedural=1 seed=0 modules=9 meshes=18 draws=25 triangles=11664 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "SWAMP_CAVE_TROLL_A",
+      "seed": 1,
+      "pid": "9456",
+      "log": "--------- beginning of main\r\n10-05 07:00:30.851  9456  9480 I DH2Loader: SWAMP_CAVE_TROLL_A seed 1 | 8 modules | 16 mesh instances | 22 draws | 3 textures\r\n10-05 07:00:30.851  9456  9480 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:00:30.857  9456  9480 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_TROLL_A procedural=1 seed=1 modules=8 meshes=16 draws=22 triangles=10311 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "seed": 0,
+      "pid": "9538",
+      "log": "--------- beginning of main\r\n10-05 07:00:35.045  9538  9563 I DH2Loader: SWAMP_CAVE_WITCH_A seed 0 | 7 modules | 14 mesh instances | 19 draws | 3 textures\r\n10-05 07:00:35.045  9538  9563 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:00:35.049  9538  9563 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_WITCH_A procedural=1 seed=0 modules=7 meshes=14 draws=19 triangles=10002 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "SWAMP_CAVE_WITCH_A",
+      "seed": 1,
+      "pid": "9614",
+      "log": "--------- beginning of main\r\n10-05 07:00:39.481  9614  9638 I DH2Loader: SWAMP_CAVE_WITCH_A seed 1 | 7 modules | 14 mesh instances | 19 draws | 3 textures\r\n10-05 07:00:39.481  9614  9638 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:00:39.490  9614  9638 I DH2Loader: MAP_FRAME_OK identity=SWAMP_CAVE_WITCH_A procedural=1 seed=1 modules=7 meshes=14 draws=19 triangles=10002 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "seed": 0,
+      "pid": "9694",
+      "log": "--------- beginning of main\r\n10-05 07:00:43.337  9694  9720 I DH2Loader: VOID_MAZE_01 seed 0 | 9 modules | 9 mesh instances | 9 draws | 2 textures\r\n10-05 07:00:43.337  9694  9720 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:00:43.341  9694  9720 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_01 procedural=1 seed=0 modules=9 meshes=9 draws=9 triangles=16 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "VOID_MAZE_01",
+      "seed": 1,
+      "pid": "9796",
+      "log": "--------- beginning of main\r\n10-05 07:00:49.600  9796  9821 I DH2Loader: VOID_MAZE_01 seed 1 | 9 modules | 9 mesh instances | 9 draws | 2 textures\r\n10-05 07:00:49.600  9796  9821 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:00:49.612  9796  9821 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_01 procedural=1 seed=1 modules=9 meshes=9 draws=9 triangles=16 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "seed": 0,
+      "pid": "9898",
+      "log": "--------- beginning of main\r\n10-05 07:00:55.931  9898  9920 I DH2Loader: VOID_MAZE_02 seed 0 | 11 modules | 11 mesh instances | 11 draws | 2 textures\r\n10-05 07:00:55.931  9898  9920 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:00:55.940  9898  9920 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_02 procedural=1 seed=0 modules=11 meshes=11 draws=11 triangles=22 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "VOID_MAZE_02",
+      "seed": 1,
+      "pid": "10031",
+      "log": "--------- beginning of main\r\n10-05 07:01:02.397 10031 10051 I DH2Loader: VOID_MAZE_02 seed 1 | 11 modules | 11 mesh instances | 11 draws | 2 textures\r\n10-05 07:01:02.397 10031 10051 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:01:02.405 10031 10051 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_02 procedural=1 seed=1 modules=11 meshes=11 draws=11 triangles=22 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "seed": 0,
+      "pid": "10132",
+      "log": "--------- beginning of main\r\n10-05 07:01:08.931 10132 10157 I DH2Loader: VOID_MAZE_03 seed 0 | 7 modules | 7 mesh instances | 7 draws | 2 textures\r\n10-05 07:01:08.931 10132 10157 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:01:08.934 10132 10157 I DH2Loader: MAP_FRAME_OK identity=VOID_MAZE_03 procedural=1 seed=0 modules=7 meshes=7 draws=7 triangles=14 textures=2 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "VOID_MAZE_03",
+      "seed": 1,
+      "pid": "10231",
+      "log": "--------- beginning of main\r\n10-05 07:01:15.380 10231 10256 I DH2Loader: Preparation failed: Missing authored XML: data/iphone/3d/modules/void_maze/mgp/vm011_corner_voidmaze_ne_00_01.mgp\r\n"
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "seed": 0,
+      "pid": "10302",
+      "log": "--------- beginning of main\r\n10-05 07:01:19.632 10302 10324 I DH2Loader: WATER_TEMPLE_01 seed 0 | 13 modules | 283 mesh instances | 284 draws | 3 textures\r\n10-05 07:01:19.632 10302 10324 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:01:19.641 10302 10324 I DH2Loader: MAP_FRAME_OK identity=WATER_TEMPLE_01 procedural=1 seed=0 modules=13 meshes=283 draws=284 triangles=29938 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "WATER_TEMPLE_01",
+      "seed": 1,
+      "pid": "10385",
+      "log": "--------- beginning of main\r\n10-05 07:01:24.230 10385 10410 I DH2Loader: WATER_TEMPLE_01 seed 1 | 13 modules | 274 mesh instances | 275 draws | 3 textures\r\n10-05 07:01:24.230 10385 10410 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0\r\n10-05 07:01:24.236 10385 10410 I DH2Loader: MAP_FRAME_OK identity=WATER_TEMPLE_01 procedural=1 seed=1 modules=13 meshes=274 draws=275 triangles=30306 textures=3 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "seed": 0,
+      "pid": "10461",
+      "log": "--------- beginning of main\r\n10-05 07:01:29.166 10461 10485 I DH2Loader: WIND_TEMPLE_01 seed 0 | 12 modules | 451 mesh instances | 463 draws | 4 textures\r\n10-05 07:01:29.166 10461 10485 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 07:01:29.179 10461 10485 I DH2Loader: MAP_FRAME_OK identity=WIND_TEMPLE_01 procedural=1 seed=0 modules=12 meshes=451 draws=463 triangles=32939 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+    },
+    {
+      "identity": "WIND_TEMPLE_01",
+      "seed": 1,
+      "pid": "10542",
+      "log": "--------- beginning of main\r\n10-05 07:01:33.781 10542 10573 I DH2Loader: WIND_TEMPLE_01 seed 1 | 12 modules | 451 mesh instances | 463 draws | 4 textures\r\n10-05 07:01:33.781 10542 10573 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 1\r\n10-05 07:01:33.785 10542 10573 I DH2Loader: MAP_FRAME_OK identity=WIND_TEMPLE_01 procedural=1 seed=1 modules=12 meshes=451 draws=463 triangles=32939 textures=4 viewport=2400x496 gameplay=0 objects=0\r\n"
+    }
+  ]
+}

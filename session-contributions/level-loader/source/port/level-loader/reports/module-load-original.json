@@ -1,0 +1,1034 @@
+{
+  "validation": "PASS",
+  "scope": "Execute Module::LoadModule ordering with explicit selection/file-service results.\n\nThe actual ARM caller, SetObjectModuleId, position writes, file loops and string\nlifetimes execute. _ChooseXmls selection and Level::LoadFile are service stubs;\nno factory, properties, XML parsing, conditions or active-level transition runs.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "eea1c58cc0774f98a10fd1cb881ee7bfc8deb4245e22d0d76a3bba60fe6b8aff",
+  "parser_helper_sha256": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209",
+  "capture_sha256": {
+    "reference/loader-functions/0038a88c.asm": "b41f66647bcc1f9548664209473136ab1647818a9a453b4cddc863156966cc2d",
+    "reference/loader-functions/003ef278.asm": "cc5edfd19f63e8e89b26442d02d4b02b10e4feb4980a7a441b9614ba81c6a5e7"
+  },
+  "cases": [
+    {
+      "label": "empty",
+      "gametype": "Module",
+      "module_id": 42,
+      "position_words": [
+        1148846080,
+        3221225472,
+        1140457472
+      ],
+      "gameplay": "",
+      "visual": "",
+      "gameplay_pending": 0,
+      "visual_pending": 0,
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 0,
+        "visual": 0
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "gameplay_only",
+      "gametype": "Module",
+      "module_id": 42,
+      "position_words": [
+        1148846080,
+        3221225472,
+        1140457472
+      ],
+      "gameplay": "placements.mgp",
+      "visual": "",
+      "gameplay_pending": 2,
+      "visual_pending": 0,
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 3,
+        "visual": 0
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "visual_only",
+      "gametype": "Module",
+      "module_id": 42,
+      "position_words": [
+        1148846080,
+        3221225472,
+        1140457472
+      ],
+      "gameplay": "",
+      "visual": "placements.mvp",
+      "gameplay_pending": 0,
+      "visual_pending": 3,
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 0,
+        "visual": 4
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "both",
+      "gametype": "Module",
+      "module_id": 42,
+      "position_words": [
+        1148846080,
+        3221225472,
+        1140457472
+      ],
+      "gameplay": "placements.mgp",
+      "visual": "placements.mvp",
+      "gameplay_pending": 0,
+      "visual_pending": 0,
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 1,
+        "visual": 1
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "both_pending",
+      "gametype": "Module",
+      "module_id": 42,
+      "position_words": [
+        1148846080,
+        3221225472,
+        1140457472
+      ],
+      "gameplay": "placements.mgp",
+      "visual": "placements.mvp",
+      "gameplay_pending": 3,
+      "visual_pending": 4,
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mgp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "placements.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 4,
+        "visual": 5
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "same_uri",
+      "gametype": "Block",
+      "module_id": 42,
+      "position_words": [
+        1148846080,
+        3221225472,
+        1140457472
+      ],
+      "gameplay": "same",
+      "visual": "same",
+      "gameplay_pending": 2,
+      "visual_pending": 3,
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "same",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 3,
+        "visual": 4
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "selection_spelling",
+      "gametype": "Module",
+      "module_id": 42,
+      "position_words": [
+        1148846080,
+        3221225472,
+        1140457472
+      ],
+      "gameplay": " Source/UPPER.mgp ",
+      "visual": "Other\\path.mvp",
+      "gameplay_pending": 1,
+      "visual_pending": 1,
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": " Source/UPPER.mgp ",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": " Source/UPPER.mgp ",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "Other\\path.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "Other\\path.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 2,
+        "visual": 2
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "negative_identity",
+      "gametype": "Module",
+      "module_id": -1,
+      "position_words": [
+        1148846080,
+        3221225472,
+        1140457472
+      ],
+      "gameplay": "gameplay.mgp",
+      "visual": "visual.mvp",
+      "gameplay_pending": 1,
+      "visual_pending": 2,
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": -1
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "gameplay.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "gameplay.mgp",
+          "root": "Module",
+          "returned": true,
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "visual.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "visual.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "visual.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": -1,
+          "offset": [
+            1148846080,
+            3221225472,
+            1140457472
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 2,
+        "visual": 3
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "label": "word_preservation",
+      "gametype": "Module",
+      "module_id": 42,
+      "position_words": [
+        2147483648,
+        2143294004,
+        2139095040
+      ],
+      "gameplay": "gameplay.mgp",
+      "visual": "visual.mvp",
+      "gameplay_pending": 2,
+      "visual_pending": 1,
+      "events": [
+        {
+          "kind": "set_module_id",
+          "value": 42
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "choose",
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "gameplay.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "gameplay.mgp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "gameplay.mgp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "visual.mvp",
+          "root": "Module",
+          "returned": false,
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "load_file",
+          "uri": "visual.mvp",
+          "root": "Module",
+          "returned": true,
+          "module_id": 42,
+          "offset": [
+            2147483648,
+            2143294004,
+            2139095040
+          ]
+        },
+        {
+          "kind": "set_offset",
+          "words": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "set_module_id",
+          "value": -1
+        }
+      ],
+      "file_polls": {
+        "gameplay": 3,
+        "visual": 2
+      },
+      "final_context": {
+        "module_id": -1,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "original_selection_verified": false,
+  "original_file_loading_verified": false,
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

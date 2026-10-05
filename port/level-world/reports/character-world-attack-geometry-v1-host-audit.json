@@ -1,0 +1,119 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_world_runtime_v1.cpp",
+        "port/level-world/character_world_target_owner_v1.cpp",
+        "port/level-world/character_world_ai_relationship_v1.cpp",
+        "port/level-world/character_world_handle_v1.cpp",
+        "port/level-world/character_skill_target_queries_v6.cpp",
+        "port/level-world/character_attack_geometry.cpp",
+        "port/level-world/character_world_attack_geometry_v1.cpp",
+        "port/level-world/tests/character_world_attack_geometry_v1_host.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-lz",
+        "-o",
+        ".local-inputs/character_world_attack_geometry_v1_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_world_attack_geometry_v1_host"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"same_world_properties_handle_positions\":true,\"constructor_inventory_and_strict_geometry\":true,\"unused_inventory_shortcut\":true,\"interaction_backend_fixture\":true}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_world_runtime_v1.cpp",
+        "port/level-world/character_world_target_owner_v1.cpp",
+        "port/level-world/character_world_ai_relationship_v1.cpp",
+        "port/level-world/character_world_handle_v1.cpp",
+        "port/level-world/character_skill_target_queries_v6.cpp",
+        "port/level-world/character_attack_geometry.cpp",
+        "port/level-world/character_world_attack_geometry_v1.cpp",
+        "port/level-world/tests/character_world_attack_geometry_v1_host.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-lz",
+        "-o",
+        ".local-inputs/character_world_attack_geometry_v1_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_world_attack_geometry_v1_host"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"same_world_properties_handle_positions\":true,\"constructor_inventory_and_strict_geometry\":true,\"unused_inventory_shortcut\":true,\"interaction_backend_fixture\":true}\n",
+      "stderr": ""
+    }
+  ],
+  "dependency_current_source_attribution": false,
+  "source_sha256": {
+    "port/level-world/character_world_runtime_v1.cpp": "39ddde9b42336c1f4dff727a9ebdb7b2a4b1f364f61aadaeafb0828f590cddf5",
+    "port/level-world/character_world_target_owner_v1.cpp": "165500f36d75550c56e23c9bfc6b42fcd37ca86383ecdb8c565159938fc07452",
+    "port/level-world/character_world_ai_relationship_v1.cpp": "b3ea0394ae282e2047ebef1d29154c7db629b6eb5b3bec72d327569f821d629b",
+    "port/level-world/character_world_handle_v1.cpp": "926c2cc5228cd1c1b1210eb101d6243c3626fed6aff742be357b095ab08fce04",
+    "port/level-world/character_skill_target_queries_v6.cpp": "d8a2ea4b8296ee44fcf6c2f70463d7418f5bff8ac40d2d1883de58727ea59916",
+    "port/level-world/character_attack_geometry.cpp": "ea1f629b88bdd223253e51a6a344f01c87b257b18791169eae1cb92e9f413dd0",
+    "port/level-world/character_world_attack_geometry_v1.cpp": "c47b945bc6d621b281b1644b53fb5ecc8bc399001790ce70a9febbee083ca401",
+    "port/level-world/tests/character_world_attack_geometry_v1_host.cpp": "f3c58485bd153fdfafd72d8ee08a31f9fd5c461e367d7a8dcdb2fb199414964e"
+  },
+  "header_sha256": "2d4267329cef3440eda98934210af265af33c98aaa85eba8ea89680f3580bb92",
+  "frozen_dependency_sha256": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd",
+    "libdh2_zip_asset_pack_v1.a": "202cd6cfe087c94638da2e9270e2509ad53fdd3af1eacf284ef5b2f4c56a9728"
+  },
+  "production_renderer_connection": false,
+  "scope": "Same registered-world properties/handle/target-position query composition, constructor-period inventory, strict melee and inclusive ranged boundaries, unused inventory projectile shortcut, reached missing inventory, identity mismatch, named interaction continuation fixture. Existing geometry kernels separately proved 9393 original cases; no new whole original-call differential is claimed."
+}

@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Random9GetRandomEib.clone.1",
+      "elf_address": "0x493780",
+      "size": 148,
+      "sha256": "19b31630e83775b3f92ae659b026ad47e0def4799f0e60e776b4ec664c056df6"
+    },
+    {
+      "original_symbol": "_ZN9Character14DisableStateFXEv",
+      "elf_address": "0x3a40e4",
+      "size": 52,
+      "sha256": "5cee7994f802b8f65bf5fc90858b61b248328747a20828b4911995e3de62d50e"
+    },
+    {
+      "original_symbol": "_ZN10GameObject7_DropFXERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x38fc74",
+      "size": 124,
+      "sha256": "97f283167ab80b783e42c5c9381281734fd33e6040938d3f586ae2819e84acfd"
+    },
+    {
+      "original_symbol": "_ZN10GameObject7_GrabFXERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x392620",
+      "size": 244,
+      "sha256": "a9500e5c48bfecbff9b379e413b51b845a76d3f3a72346888f5f1a0da89b3193"
+    },
+    {
+      "original_symbol": "_ZN9Character13UpdateStateFXEv",
+      "elf_address": "0x3a4470",
+      "size": 556,
+      "sha256": "b4882cc05af9b52b5003b9fdc4faa2c9f6168aee0d8b47c1bd1914d4ac143b84"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator17_PlayItemSwooshFXEP12ItemInstanceb",
+      "elf_address": "0x3c955c",
+      "size": 164,
+      "sha256": "7410ba949ce8ef5aa0727da7552edcda3eba10edfeeb767bc83855f63b6156ac"
+    },
+    {
+      "original_symbol": "_ZN10GameObject14_SetFXEndPointERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x390974",
+      "size": 456,
+      "sha256": "ca8874cdc042dff5bcb10274377a055ae2f9e1bff7a9d52ecdecc70a8929885c"
+    },
+    {
+      "original_symbol": "_ZN9Character13DisableSelfFXEv",
+      "elf_address": "0x3a40b0",
+      "size": 52,
+      "sha256": "6c1bde33e2bcab23cc7e4900b7203df67156985ac591ee624d1336fec80273fd"
+    }
+  ]
+}

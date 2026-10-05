@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "cases": 128,
+  "quest_deliveries": 302,
+  "truncation_prefixes": 48,
+  "fixture_sha256": "d0bc9c0ec4f8231b7532c3d250267d3042d970eb556356053c3cf1ec631c2857",
+  "binary_sha256": "3e03e765d9e48f8fb576d000776dc0d5363144d1929c6d540025a4ff63d28ec3",
+  "source_sha256": {
+    "tests/quest_savegame_v1.cpp": "3cb0dd98f30259369c52ab0c1cc26b5808459c86491faf44464962b334bfa1e8",
+    "quest_savegame_v1.cpp": "cd4e231fbc172e0d681fa316406e842d7959d47312cb3b97a31fcc9839e57749",
+    "quest_savegame_v1.hpp": "9d35ec3c111db3f5352553114321b0087e7d3ef02a6133b8390d74bd4430d969"
+  },
+  "scope": "Original QuestSavegame constructor, UnpackQuest, UnpackQuests and LoadQuests.\nQuest identities and variable-size Quest::_loadQuestData delivery are borrowed\nservices with a synthetic packet; this does not certify condition/objective data.\n Native execution on emulator5580; campaign filesystem, authored quest construction, actual condition/objective delivery and live occupied menu remain pending."
+}

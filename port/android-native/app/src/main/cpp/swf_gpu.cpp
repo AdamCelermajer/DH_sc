@@ -1,4 +1,5 @@
 #include "swf_gpu.hpp"
+#include "swf_grid_snap_v1.hpp"
 #include "../scene-materials/swf_texture.hpp"
 #include <algorithm>
 #include <cmath>
@@ -108,9 +109,10 @@ void SwfGpu::primitive(const ui::SwfDraw& command,const ui::SwfFill& style,GLenu
     for(auto value:style.uv.value)finite(value);
     const float sx=2.f/(bounds_[1]-bounds_[0]),sy=-2.f/(bounds_[3]-bounds_[2]);
     const auto& m=command.matrix.value;
-    const std::array<float,16> matrix{
+    std::array<float,16> matrix{
         sx*m[0],sy*m[3],0,0,sx*m[1],sy*m[4],0,0,0,0,1,0,
         sx*(m[2]-bounds_[0])-1.f,sy*(m[5]-bounds_[2])+1.f,0,1};
+    if(quad&&grid_fit_){matrix={sx,0,0,0,0,sy,0,0,0,0,1,0,-sx*bounds_[0]-1.f,-sy*bounds_[2]+1.f,0,1};}
     std::vector<float> vertices;vertices.reserve(xy.size()*2);
     for(std::size_t i=0;i<xy.size();i+=2){
         const float x=xy[i],y=xy[i+1];finite(x);finite(y);
@@ -119,7 +121,18 @@ void SwfGpu::primitive(const ui::SwfDraw& command,const ui::SwfFill& style,GLenu
             if(quad){const unsigned vertex=static_cast<unsigned>(i/2);u=command.uv_rect[vertex%2];v=command.uv_rect[2+vertex/2];}
             else{const auto& uv=style.uv.value;u=(uv[0]*x+uv[1]*y+uv[2])/texture.width;v=(uv[3]*x+uv[4]*y+uv[5])/texture.height;}
         }
-        finite(u);finite(v);vertices.insert(vertices.end(),{x,y,u,v});
+        float px=x,py=y;
+        if(quad&&grid_fit_){
+            // Original draw_bitmap7d90fc snaps after the full world matrix:
+            // signed ((f2iz(twips)+10)/20)*20, with negative asymmetry.
+            auto snap=[](float value){
+                std::uint32_t bits;std::memcpy(&bits,&value,4);
+                bits=dh2_swf_grid_snap_v1(bits);std::memcpy(&value,&bits,4);
+                return value;
+            };
+            px=snap(m[0]*x+m[1]*y+m[2]);py=snap(m[3]*x+m[4]*y+m[5]);
+        }
+        finite(u);finite(v);vertices.insert(vertices.end(),{px,py,u,v});
     }
     // These four pass selections and GL blend factors were executed against the
     // original GameSWF material. Unknown authored modes must be implemented.

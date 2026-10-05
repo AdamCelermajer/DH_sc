@@ -1,0 +1,3710 @@
+{
+  "validation": "PASS",
+  "scope": "Execute original factory dispatch and XML entry gates over raw declarations.\n\nOriginal table lookup, case-sensitive comparisons, factory-address selection,\ntype-pointer write, Add argument packing and XML null-handle branch execute.\nClass construction/Add/property behavior, debug services, handles, Attribute\nlookup, sprintf and floating arithmetic are explicit service boundaries. No\nreal gameplay object is constructed, activated, rendered or saved.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "script_sha256": "c04b7ffa909ae629515d67e215e86903fc39cf958fae88e68127bf9e36ab41a5",
+  "cpu_helper_sha256": "04b7a600e9bfed2285ef273b9365780c5c86870b9350d796756673eeb1b41f4c",
+  "factory_receipt_sha256": "fe19470f8cb8aa76e7f0d4d375411a7d9094c7984751fd6d41ca697802c0f70f",
+  "capture_sha256": {
+    "reference/object-loading-lifecycle/0034b520.asm": "e09c51833380aeba3ee7564e882d5ba5e135bcca45e2241cdfe367582f3034fe",
+    "reference/loader-functions/0034b868.asm": "c9c287b89e24af402f3a852e8ff1425752904af30cc233e142fa700ef274686f",
+    "reference/object-loading-lifecycle/003f01c8.asm": "34c204476ce9d9c4bc4551c13caae2e24cdb4ac1dfc2746fc363e3e4996377c8"
+  },
+  "factory_dispatch_cases": [
+    {
+      "gametype": "Decor",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x3410fc",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Decor",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Decor"
+        }
+      ]
+    },
+    {
+      "gametype": "Decor",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x3410fc",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "AnimatedDecor",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x342600",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "AnimatedDecor",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "AnimatedDecor"
+        }
+      ]
+    },
+    {
+      "gametype": "AnimatedDecor",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x342600",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "Dummy",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x3410a4",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Dummy",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Dummy"
+        }
+      ]
+    },
+    {
+      "gametype": "Dummy",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x3410a4",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "Floor",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x34104c",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Floor",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Floor"
+        }
+      ]
+    },
+    {
+      "gametype": "Floor",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x34104c",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "LightPoint",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x34115c",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "LightPoint",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "LightPoint"
+        }
+      ]
+    },
+    {
+      "gametype": "LightPoint",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x34115c",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "ColBox",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340fe0",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "ColBox",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "ColBox"
+        }
+      ]
+    },
+    {
+      "gametype": "ColBox",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340fe0",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "Billboard",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340fbc",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Billboard",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Billboard"
+        }
+      ]
+    },
+    {
+      "gametype": "Billboard",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340fbc",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "Module",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f98",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Module",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Module"
+        }
+      ]
+    },
+    {
+      "gametype": "Module",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f98",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "Block",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f98",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Block",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Block"
+        }
+      ]
+    },
+    {
+      "gametype": "Block",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f98",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "Character",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340800",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Character",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Character"
+        }
+      ]
+    },
+    {
+      "gametype": "Character",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340800",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "Player",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340800",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Player",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Player"
+        }
+      ]
+    },
+    {
+      "gametype": "Player",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340800",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "RoomZone",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f74",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "RoomZone",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "RoomZone"
+        }
+      ]
+    },
+    {
+      "gametype": "RoomZone",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f74",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "QuestMoveInZone",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f50",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "QuestMoveInZone",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "QuestMoveInZone"
+        }
+      ]
+    },
+    {
+      "gametype": "QuestMoveInZone",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f50",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "CheckpointZone",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f2c",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "CheckpointZone",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "CheckpointZone"
+        }
+      ]
+    },
+    {
+      "gametype": "CheckpointZone",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f2c",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "TriggerObject",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f0c",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "TriggerObject",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "TriggerObject"
+        }
+      ]
+    },
+    {
+      "gametype": "TriggerObject",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340f0c",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "TriggerPlate",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ee8",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "TriggerPlate",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "TriggerPlate"
+        }
+      ]
+    },
+    {
+      "gametype": "TriggerPlate",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ee8",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "TriggerZone",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ec4",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "TriggerZone",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "TriggerZone"
+        }
+      ]
+    },
+    {
+      "gametype": "TriggerZone",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ec4",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "TriggerZoneExitLevel",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ea0",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "TriggerZoneExitLevel",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "TriggerZoneExitLevel"
+        }
+      ]
+    },
+    {
+      "gametype": "TriggerZoneExitLevel",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ea0",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "TriggerTrap",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340e7c",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "TriggerTrap",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "TriggerTrap"
+        }
+      ]
+    },
+    {
+      "gametype": "TriggerTrap",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340e7c",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "TimerTrap",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340e58",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "TimerTrap",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "TimerTrap"
+        }
+      ]
+    },
+    {
+      "gametype": "TimerTrap",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340e58",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "ProjectileTrap",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340e34",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "ProjectileTrap",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "ProjectileTrap"
+        }
+      ]
+    },
+    {
+      "gametype": "ProjectileTrap",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340e34",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "Door",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340824",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Door",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Door"
+        }
+      ]
+    },
+    {
+      "gametype": "Door",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340824",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "SpawnPoint",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340e10",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "SpawnPoint",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "SpawnPoint"
+        }
+      ]
+    },
+    {
+      "gametype": "SpawnPoint",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340e10",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "SpawnSpot",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340dec",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "SpawnSpot",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "SpawnSpot"
+        }
+      ]
+    },
+    {
+      "gametype": "SpawnSpot",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340dec",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "LiftableObject",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340dc8",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "LiftableObject",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "LiftableObject"
+        }
+      ]
+    },
+    {
+      "gametype": "LiftableObject",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340dc8",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "OpenableContainer",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340da4",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "OpenableContainer",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "OpenableContainer"
+        }
+      ]
+    },
+    {
+      "gametype": "OpenableContainer",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340da4",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "SlotContainer",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340d80",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "SlotContainer",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "SlotContainer"
+        }
+      ]
+    },
+    {
+      "gametype": "SlotContainer",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340d80",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "DestructibleContainer",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340d5c",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "DestructibleContainer",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "DestructibleContainer"
+        }
+      ]
+    },
+    {
+      "gametype": "DestructibleContainer",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340d5c",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "Item",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340d38",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Item",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Item"
+        }
+      ]
+    },
+    {
+      "gametype": "Item",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340d38",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "Projectile",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340d14",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "Projectile",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Projectile"
+        }
+      ]
+    },
+    {
+      "gametype": "Projectile",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340d14",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "LaserTypeProjectile",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340cf0",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "LaserTypeProjectile",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "LaserTypeProjectile"
+        }
+      ]
+    },
+    {
+      "gametype": "LaserTypeProjectile",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340cf0",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "SoundEmitter",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ccc",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "SoundEmitter",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "SoundEmitter"
+        }
+      ]
+    },
+    {
+      "gametype": "SoundEmitter",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ccc",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "LevelConfig",
+      "factory_failure": false,
+      "handle_null": false,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ca8",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "authored_name",
+          "raw_type": "LevelConfig",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "LevelConfig"
+        }
+      ]
+    },
+    {
+      "gametype": "LevelConfig",
+      "factory_failure": true,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ca8",
+          "returned_null": true
+        },
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "dECOR",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "aNIMATEDdECOR",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "dUMMY",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "fLOOR",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "lIGHTpOINT",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "cOLbOX",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "bILLBOARD",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "mODULE",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "bLOCK",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "cHARACTER",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "pLAYER",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "rOOMzONE",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "qUESTmOVEiNzONE",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "cHECKPOINTzONE",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "tRIGGERoBJECT",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "tRIGGERpLATE",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "tRIGGERzONE",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "tRIGGERzONEeXITlEVEL",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "tRIGGERtRAP",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "tIMERtRAP",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "pROJECTILEtRAP",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "dOOR",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "sPAWNpOINT",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "sPAWNsPOT",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "lIFTABLEoBJECT",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "oPENABLEcONTAINER",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "sLOTcONTAINER",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "dESTRUCTIBLEcONTAINER",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "iTEM",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "pROJECTILE",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "lASERtYPEpROJECTILE",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "sOUNDeMITTER",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "lEVELcONFIG",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "link",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "unknown",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "gametype": "",
+      "factory_failure": false,
+      "handle_null": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        }
+      ]
+    }
+  ],
+  "mgp_link_entry_cases": [
+    {
+      "uri": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_sw_00_01.mgp",
+      "name": "_exit_west_09",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_09",
+        "position": "-2698.0,29.0254,2823.19",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "direction": "east",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/icy_cavern/mgp/ic01_corner_icycavern_sw_00_01.mgp",
+      "name": "_exit_west_09",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_09",
+        "position": "-2698.0,29.0254,2823.19",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "direction": "east",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/icy_cavern/mgp/ic03_corner_icycavern_sw_00_01.mgp",
+      "name": "_exit_west_09",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_09",
+        "position": "-2698.0,29.0254,2823.19",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "direction": "east",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/icy_cavern/mgp/ic03_corner_icycavern_sw_00_01.mgp",
+      "name": "_exit_west_09",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_09",
+        "position": "-2698.0,29.0254,2823.19",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "direction": "east",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp",
+      "name": "_exit_west_11",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_11",
+        "position": "-2698.0,29.0254,2823.19",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "direction": "west",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp",
+      "name": "_exit_west_11",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_11",
+        "position": "-2698.0,29.0254,2823.19",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "direction": "west",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp",
+      "name": "_exit_west_09",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_09",
+        "position": "-2698.0,29.0254,2823.19",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "east",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp",
+      "name": "_exit_west_09",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_09",
+        "position": "-2698.0,29.0254,2823.19",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "east",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp",
+      "name": "_exit_west_09_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_09_001",
+        "position": "-2698.0,29.0254,2823.19",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "east",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/icy_cavern/mgp/ic02_corner_icycavern_sw_00_01.mgp",
+      "name": "_exit_west_09_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_09_001",
+        "position": "-2698.0,29.0254,2823.19",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "east",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_05.mgp",
+      "name": "_exit_north_06",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_north_06",
+        "position": "0.0,2835.93,1000.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "north",
+        "linktype": "BoardWalk",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_05.mgp",
+      "name": "_exit_north_06",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_north_06",
+        "position": "0.0,2835.93,1000.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "north",
+        "linktype": "BoardWalk",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_05.mgp",
+      "name": "_exit_east_06",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_east_06",
+        "position": "2835.93,3.1806e-005,1000.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "east",
+        "linktype": "BoardWalk",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/water_temple/mgp/watertemple_corner_ne_05.mgp",
+      "name": "_exit_east_06",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_east_06",
+        "position": "2835.93,3.1806e-005,1000.0",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "east",
+        "linktype": "BoardWalk",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "name": "_exit_south_10_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_10_001",
+        "position": "-10.3984,-2219.46,428.8",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "Crypt",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "name": "_exit_south_10_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_10_001",
+        "position": "-10.3984,-2219.46,428.8",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "Crypt",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "name": "_exit_south_10_001_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_10_001_001",
+        "position": "-10.3984,-2219.46,428.8",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "Crypt",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "name": "_exit_south_10_001_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_10_001_001",
+        "position": "-10.3984,-2219.46,428.8",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "Crypt",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "name": "_exit_south_10_001_001_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_10_001_001_001",
+        "position": "-10.3984,-2219.46,416.395",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "Crypt",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+      "name": "_exit_south_10_001_001_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_10_001_001_001",
+        "position": "-10.3984,-2219.46,416.395",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "Crypt",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/abbey/mgp/debug_straight_a_01.mgp",
+      "name": "_exit_west_01",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_01",
+        "position": "-2180.26,-148.801,164.398",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "link",
+        "direction": "none",
+        "linktype": "1"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/abbey/mgp/debug_straight_a_01.mgp",
+      "name": "_exit_west_01",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_west_01",
+        "position": "-2180.26,-148.801,164.398",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "link",
+        "direction": "none",
+        "linktype": "1"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/abbey/mgp/debug_straight_a_01.mgp",
+      "name": "_exit_east_01",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_east_01",
+        "position": "2169.89,-148.801,164.398",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "link",
+        "direction": "none",
+        "linktype": "1"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/abbey/mgp/debug_straight_a_01.mgp",
+      "name": "_exit_east_01",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_east_01",
+        "position": "2169.89,-148.801,164.398",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,0.0",
+        "gametype": "link",
+        "direction": "none",
+        "linktype": "1"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/castle/mgp/boss_earth.mgp",
+      "name": "_exit_south_07_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_07_001",
+        "position": "0.0,-2835.93,3.05176e-005",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,90.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/castle/mgp/boss_earth.mgp",
+      "name": "_exit_south_07_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_07_001",
+        "position": "0.0,-2835.93,3.05176e-005",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,90.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/castle/mgp/boss_lightning.mgp",
+      "name": "_exit_south_07_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_07_001",
+        "position": "0.0,-2835.93,3.05176e-005",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,90.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/castle/mgp/boss_lightning.mgp",
+      "name": "_exit_south_07_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_07_001",
+        "position": "0.0,-2835.93,3.05176e-005",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,90.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/castle/mgp/boss_fire.mgp",
+      "name": "_exit_south_07_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_07_001",
+        "position": "0.0,-2835.93,3.05176e-005",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,90.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": false,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "uri": "data/3d/modules/castle/mgp/boss_fire.mgp",
+      "name": "_exit_south_07_001",
+      "attributes": {
+        "type": "Block",
+        "name": "_exit_south_07_001",
+        "position": "0.0,-2835.93,3.05176e-005",
+        "scale": "1.0,1.0,1.0",
+        "debugcolor": "255.0,0.0,255.0",
+        "rotation": "0.0,0.0,90.0",
+        "dimensions": "10.0,10.0,10.0",
+        "direction": "south",
+        "linktype": "A",
+        "gametype": "link"
+      },
+      "debug_return": true,
+      "returned_without_object": true,
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": true
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    }
+  ],
+  "xml_gate_cases": [
+    {
+      "route": "level",
+      "type_filter": null,
+      "attributes": {
+        "gametype": "Player",
+        "name": "player"
+      },
+      "events": []
+    },
+    {
+      "route": "level",
+      "type_filter": null,
+      "attributes": {
+        "gametype": "player",
+        "name": "lowercase"
+      },
+      "events": [
+        {
+          "kind": "debug_load"
+        },
+        {
+          "kind": "string_construct",
+          "value": "isTracingObjectManager"
+        },
+        {
+          "kind": "debug_switch",
+          "returned": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": true
+        }
+      ]
+    },
+    {
+      "route": "level",
+      "type_filter": null,
+      "attributes": {
+        "gametype": "Decor",
+        "name": "decor",
+        "game_object": true
+      },
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x3410fc",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "decor",
+          "raw_type": "Decor",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Decor"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "init_properties"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_defaults"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_overrides"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "is_game_object",
+          "returned": true
+        },
+        {
+          "kind": "set_position",
+          "value": [
+            1001.0,
+            2.0,
+            -497.0
+          ],
+          "flag": true
+        }
+      ]
+    },
+    {
+      "route": "level",
+      "type_filter": null,
+      "attributes": {
+        "gametype": "LevelConfig",
+        "name": "config"
+      },
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x340ca8",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "config",
+          "raw_type": "LevelConfig",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "LevelConfig"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "init_properties"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_defaults"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_overrides"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "early_init_post"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "is_game_object",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "route": "level",
+      "type_filter": null,
+      "attributes": {
+        "gametype": "Decor",
+        "name": "templated",
+        "template": "authored_template"
+      },
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x3410fc",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "templated",
+          "raw_type": "Decor",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Decor"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "init_properties"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "string_construct",
+          "value": "authored_template"
+        },
+        {
+          "kind": "set_template",
+          "value": "authored_template"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_defaults"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_overrides"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "is_game_object",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "route": "level",
+      "type_filter": null,
+      "attributes": {
+        "gametype": "Decor"
+      },
+      "events": []
+    },
+    {
+      "route": "manager",
+      "type_filter": null,
+      "attributes": {
+        "name": "unnamed_type"
+      },
+      "events": []
+    },
+    {
+      "route": "level",
+      "type_filter": null,
+      "attributes": {
+        "gametype": "Decor",
+        "name": ""
+      },
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x3410fc",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "",
+          "raw_type": "Decor",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Decor"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "init_properties"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_defaults"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_overrides"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "is_game_object",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "route": "level",
+      "type_filter": null,
+      "attributes": {
+        "gametype": "Decor",
+        "name": "_prim_PlayerLight"
+      },
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x3410fc",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "_prim_PlayerLight_S",
+          "raw_type": "Decor",
+          "object_id": -1,
+          "flag": true,
+          "registered_type": "Decor"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "init_properties"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_defaults"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_overrides"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "is_game_object",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "route": "manager",
+      "type_filter": "Character",
+      "attributes": {
+        "gametype": "Decor",
+        "name": "filter_miss",
+        "type_filter": "Character"
+      },
+      "events": []
+    },
+    {
+      "route": "manager",
+      "type_filter": "Decor",
+      "attributes": {
+        "gametype": "Decor",
+        "name": "filter_match",
+        "type_filter": "Decor"
+      },
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x3410fc",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "filter_match",
+          "raw_type": "Decor",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Decor"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "init_properties"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_defaults"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_overrides"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "is_game_object",
+          "returned": false
+        }
+      ]
+    },
+    {
+      "route": "manager",
+      "type_filter": "decor",
+      "attributes": {
+        "gametype": "Decor",
+        "name": "filter_case",
+        "type_filter": "decor"
+      },
+      "events": []
+    },
+    {
+      "route": "level",
+      "type_filter": null,
+      "attributes": {
+        "gametype": "Decor",
+        "name": "empty_template",
+        "template": ""
+      },
+      "events": [
+        {
+          "kind": "factory_callback",
+          "address": "0x3410fc",
+          "returned_null": false
+        },
+        {
+          "kind": "add",
+          "name": "empty_template",
+          "raw_type": "Decor",
+          "object_id": 77,
+          "flag": true,
+          "registered_type": "Decor"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": false,
+          "null": false
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "init_properties"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "string_construct",
+          "value": ""
+        },
+        {
+          "kind": "set_template",
+          "value": ""
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_defaults"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "load_overrides"
+        },
+        {
+          "kind": "resolve_handle",
+          "required": true,
+          "null": false
+        },
+        {
+          "kind": "is_game_object",
+          "returned": false
+        }
+      ]
+    }
+  ],
+  "imports": {
+    "strcmp": 3987,
+    "sprintf": 76,
+    "__aeabi_fadd": 3
+  },
+  "factory_constructor_execution_verified": false,
+  "runtime_factory_contract_agreed": false,
+  "runtime_objects_verified": false,
+  "full_loader_verified": false
+}

@@ -1,0 +1,9 @@
+v54: connect the Confirm-flow stack callback
+
+NativePopAllAbove is now registered on the retained front/shared renderers and synchronously delivered to their genuine stack owner. The source wrapper 0x43ac28 accepts exactly one STRING/OBJECT, converts with the actual GamesWF to_xstring, and leaves the AS result untouched. Wrong arity/type is a source no-op. The original vtable slot0x3c resolves to MultiMenuManager::PopMenu(name,true) at0x439270. Its loop tests target stack membership and exits when that target becomes current. Original bounded disassembly and literal/vtable receipts are retained in confirm-source-v54.asm and menu-owner-literals-v54.json. This implementation uses the already-connected per-pop retained menu lifecycle.
+
+front_pop_above_smoke.py verifies the real installed callback through the graph, with actual Name/Class entry, one/two-level unwinding, malformed argument rejection, missing/already-current target no-ops, real Back after unwinding and a rapid resize after returning to Main. Screenshots were inspected at physical2400x1080 and2184x1968. No campaign saves were written. This is a prerequisite for the original Confirm flow, not a completed game launch: NativeCreateSaveSlot, NativeAssignSaveSlotToPlayer and menu_StartGame still require their actual native owners. The source frame29 callback order is documented in CONFIRM-GAME-LAUNCH-TRACE.md. Main checkout, chat and emulator5554 remain untouched; v54 is installed in visible DH2_Launch:5580.
+
+The full objective remains active. Equipment, lighting, remaining icons and keyboard Space proportions also remain incomplete. Previous v53 keyboard/surface checks are retained and apply to that exact APK, not a blanket v54 certification.
+
+APK SHA256: 25c513a82c7cb7813d16625532f8f3a111e7b461d3550caff7c483d0fe2dfd34

@@ -1,0 +1,8 @@
+{
+  "source_sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+  "catalog_sha256": "f38f50db3c9cd345f5efd716a730ed5233b4d6bc49638cff941ab7c9757aca51",
+  "rows": 147,
+  "source": "original-cache/data/menus/dqcharmenu_droid.swf",
+  "shape_mapping": "bounds transformed by actual bitmap fill matrix; no inferred grid",
+  "limits": "Crops retain original atlas artwork. This is bitmap presentation, not full authored SWF vector/button rendering."
+}

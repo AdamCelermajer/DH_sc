@@ -9,6 +9,17 @@
 #include "gameswf/gameswf_sprite.h"
 #include "gameswf/gameswf_function.h"
 #include "gameswf/gameswf_text.h"
+#pragma push_macro("main")
+#undef main
+#define main retained_font_resource_fixture_main
+#define Test HudFontResourceFixture
+#include "hud_freetype_provider.cpp"
+#undef Test
+#undef main
+#pragma pop_macro("main")
+#include "../swf_text_font_platform_v1.hpp"
+#include "../gfnt_text_backend_v1.hpp"
+#include "../hud_freetype_font_v2.hpp"
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -19,6 +30,14 @@ namespace {
 constexpr const char*digest="a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238";
 void require(bool b,const std::string&e){if(!b)throw std::runtime_error(e);}
 struct Test {
+ std::shared_ptr<HudFontResourceFixture> font_resources;
+ std::string font_base,cache_base,font_constants;
+ std::unique_ptr<GfntTextBackendV1> bitmap_backend;
+ std::int32_t bitmap_width=0,bitmap_height=0;
+ static bool font_resolve(void* p,const text_v1::Font& f,std::string& uri,bool& found,std::string& e){auto& t=*static_cast<HudFontResourceFixture*>(p);char path[4096];FontResolveOutput32 out{path,sizeof path,0,0,0};FontResolveInput24 in{f.name.c_str(),"cache/",f.bold,f.italic};FontResolveServices16 svc{p,HudFontResourceFixture::resolver};if(dh2_swf_font_resolve(&out,&in,&svc)!=0){e="actual host font resolver failed";return false;}uri=path;found=out.found&&(uri.size()>=4&&uri.substr(uri.size()-4)==".fnt");t.resolved[f.name]=uri;return true;}
+ static bool font_bytes(void*,const char* uri,std::vector<std::uint8_t>& out,std::string& e){std::ifstream f(uri,std::ios::binary);if(!f){e="actual GFNT resource missing";return false;}out.assign(std::istreambuf_iterator<char>(f),{});return true;}
+ static bool source_font_read(void* p,const char* name,bool bold,bool italic,std::vector<std::uint8_t>& out,std::string& e){if(!HudFontResourceFixture::font_read(p,name,bold,italic,out,e))return false;if(out.size()>=4&&!std::memcmp(out.data(),"GFNT",4)){GfntFont gfnt;if(!gfnt.load(out.data(),out.size(),e))return false;HudFreetypeFontV2 ft;if(!ft.load(out.data(),out.size(),e)){if(e!="FreeType rejected font bytes")return false;e.clear();return false;}}return true;}
+ std::unique_ptr<SwfTextFontPlatformV1> retained_text_platform(){font_resources=std::make_shared<HudFontResourceFixture>();font_resources->fonts=font_base;font_resources->assets=cache_base;font_resources->initialize(font_constants.c_str());GfntTextServicesV1 gs{font_resources.get(),&bitmap_width,&bitmap_height,font_resolve,font_bytes,nullptr};bitmap_backend=std::make_unique<GfntTextBackendV1>(gs,font_resources);SwfFontServices fs{font_resources.get(),source_font_read,nullptr};auto platform=std::make_unique<SwfTextFontPlatformV1>(fs,services(),font_resources,bitmap_backend->backends(),1);platform->policy().renderer_feature=[](const auto& c,std::string& e){if(c.kind==edit_text_display_v1::Command::grid_fit)return true;e="host has no render cache";return false;};return platform;}
  std::string base;HudManagerCore core;HudAdvanceOwner advance;SwfAsGraph*graph=nullptr;std::string*error=nullptr;unsigned calls=0,cache_gets=0,frames=0,visibility=0,texts=0,notifications=0,updates=0,guards=0,enemy_labels=0,allies=0,position_fixtures=0,native_settings=0,native_multiplayer=0,styles=0;int style=0;bool multiplayer=false,target=false;std::int32_t sheet[44]{};std::uintptr_t scripts[3]{},spells[1]{};HudManagerActor actor{},enemy{};HudManagerPlayer player{},other{};HudManagerState state{nullptr,0,-1,1};gameswf::character*root=nullptr;
  Test(){sheet[38]=sheet[43]=sheet[34]=100;actor={sheet,44,0,nullptr,scripts,3,0,spells,1,10,"DebugEnemy",42,{1,2,3},1};enemy=actor;enemy.identity=2;player={&actor,-1,20,1,{0,0,0,0,0,0,0},"Prince",1};other=player;other.name="Ally";}
  static bool read(void*p,const char*u,std::vector<std::uint8_t>&b,std::string&e){auto&t=*static_cast<Test*>(p);std::string name=u;name=name.substr(name.find_last_of('/')+1);std::ifstream f(t.base+"/"+name,std::ios::binary);if(!f){e="Actual HUD resource missing";return false;}b.assign(std::istreambuf_iterator<char>(f),{});return true;}
@@ -50,5 +69,5 @@ struct Test {
  SwfServices services(){SwfServices s;s.context=this;s.read=read;s.texture=texture;s.image=image;s.draw=draw;s.native_call=native;s.stencil=stencil;s.native_actions={"NativeLoadSettings","NativeIsMultiplayerEnabled"};s.native_owner=std::make_shared<int>(1);s.native_action=native_as;return s;}
 };
 }
-int main(int argc,char**argv){try{if(argc!=2)return 2;Test t;t.base=argv[1];SwfMovie movie;std::string error;require(movie.load({"dqshared_droid.swf"},"dqhud_droid.swf",t.services(),error),error);require(movie.advance(0,error),error);require(movie.action_script(&t,Test::apply,error),error);auto live=t.advance.live_nodes();require(live&&t.notifications&&t.texts,"Actual core deliveries missing");movie=SwfMovie();HudManagerResponse response;HudManagerRequest request{HudManagerOperation::cache_get,0,0,0,0,0,nullptr,nullptr,{0,0,0},0};require(t.core.dispatch(request,response,error)==0&&error=="HUD manager retained movie owner expired","Weak cache sidecar retained expired movie");++t.guards;require(t.advance.live_nodes()==0,"Advance owner retained expired movie");++t.guards;
+int main(int argc,char**argv){try{if(argc!=5){std::cerr<<"usage: hud_manager_core swfs fonts cache-data fonts-pycst\n";return 2;}Test t;t.base=argv[1];t.font_base=argv[2];t.cache_base=argv[3];t.font_constants=argv[4];auto platform=t.retained_text_platform();SwfMovie movie;std::string error;require(movie.load({"dqshared_droid.swf"},"dqhud_droid.swf",platform->services(),error),error);require(movie.advance(0,error),error);require(movie.action_script(&t,Test::apply,error),error);auto live=t.advance.live_nodes();require(live&&t.notifications&&t.texts,"Actual core deliveries missing");movie=SwfMovie();HudManagerResponse response;HudManagerRequest request{HudManagerOperation::cache_get,0,0,0,0,0,nullptr,nullptr,{0,0,0},0};require(t.core.dispatch(request,response,error)==0&&error=="HUD manager retained movie owner expired","Weak cache sidecar retained expired movie");++t.guards;require(t.advance.live_nodes()==0,"Advance owner retained expired movie");++t.guards;
  std::cout<<"{\"validation\":\"PASS\",\"whole_manager_updates\":"<<t.updates<<",\"authored_hud_styles\":"<<t.styles<<",\"ordered_services\":"<<t.calls<<",\"weak_cache_gets\":"<<t.cache_gets<<",\"source_frame_calls\":"<<t.frames<<",\"visibility_calls\":"<<t.visibility<<",\"plain_text_calls\":"<<t.texts<<",\"notify_deliveries\":"<<t.notifications<<",\"enemy_labels\":"<<t.enemy_labels<<",\"allies_callbacks\":"<<t.allies<<",\"position_provider_fixtures\":"<<t.position_fixtures<<",\"ownership_failure_guards\":"<<t.guards<<",\"startup_settings_fixture\":"<<t.native_settings<<",\"startup_multiplayer_fixture\":"<<t.native_multiplayer<<"}\n";return 0;}catch(const std::exception&e){std::cerr<<e.what()<<'\n';return 1;}}

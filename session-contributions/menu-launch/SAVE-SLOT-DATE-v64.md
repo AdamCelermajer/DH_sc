@@ -1,0 +1,7 @@
+v64 original save-slot date presentation
+
+Recovered NativeGetSaveSlotDetails language-specific date formats directly from the original ELF and resolved its imports to localtime and strftime. Actual ARM dispatch and call setup passed 257 language values, including unsigned out-of-range fallback. All branches pass a local tm pointer and an 80-byte destination to strftime. The menu presents month/day for language0/default, day/month for1/3/7, day.month. for2, and month.day. for4/5/6, followed by five spaces and24-hour HH:MM.
+
+save_slot_date_v1 adds the native menu formatter with the same branch selection and80-byte strftime buffer. 1,028 cases passed on emulator5580 using the captured original format strings and four independently supplied calendar dates, including leap day and midnight. Windows CRLF fixture transport initially caused a false string mismatch; LF fixture regeneration fixed it. Android application build passed.
+
+The formatter accepts a local calendar date from its caller. Actual timestamp conversion, occupied save-slot AS projection, filesystem create/load/delete/backup and Confirm-to-game loading remain unconnected. v64 is a build-only checkpoint; visible menu remains the verified v63. No campaign files, main checkout or main emulator were changed. Main session has received a save ownership/interface coordination request, with no agreement received yet. Full menu/game/media/resolution goal remains active.

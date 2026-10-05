@@ -1,0 +1,90 @@
+{
+  "callback": "NativeInvGetItemDetails",
+  "class_id": 290,
+  "writes": [
+    {
+      "key": "ItemValue",
+      "type": 2,
+      "value": 25.0
+    },
+    {
+      "key": "ItemBuyValue",
+      "type": 2,
+      "value": 1.0
+    },
+    {
+      "key": "ItemSellValue",
+      "type": 2,
+      "value": 1.0
+    },
+    {
+      "key": "ItemTransmuteValue",
+      "type": 2,
+      "value": 1.0
+    },
+    {
+      "key": "ItemValueString",
+      "type": 4,
+      "value": "FIXTURE"
+    },
+    {
+      "key": "ItemBuyValueString",
+      "type": 4,
+      "value": "FIXTURE"
+    },
+    {
+      "key": "ItemSellValueString",
+      "type": 4,
+      "value": "FIXTURE"
+    },
+    {
+      "key": "ItemTransmuteValueString",
+      "type": 4,
+      "value": "FIXTURE"
+    },
+    {
+      "key": "ItemEquippable",
+      "type": 1,
+      "value": 1
+    },
+    {
+      "key": "ItemReqsDesc",
+      "type": 4,
+      "value": "\u007fELF\u0001\u0001\u0001"
+    },
+    {
+      "key": "ItemStatsDesc",
+      "type": 4,
+      "value": "\u007fELF\u0001\u0001\u0001"
+    },
+    {
+      "key": "ItemMagics",
+      "type": 2,
+      "value": 0.0
+    },
+    {
+      "key": "ItemIcon",
+      "type": 4,
+      "value": "FIXTURE"
+    },
+    {
+      "key": "IsStackable",
+      "type": 1,
+      "value": 0
+    }
+  ],
+  "services": [
+    [
+      "_Z19NativeGetPlayerCharib",
+      0,
+      0
+    ],
+    [
+      "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      34604384,
+      34607092,
+      197,
+      6400
+    ]
+  ]
+}

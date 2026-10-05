@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK13ItemInventory16HasOffHandWeaponEv",
+      "elf_address": "0x400158",
+      "size": 68,
+      "sha256": "85f0ba7f6478e524064787834ac6983146bb37bd8b0e1ddc794c9185e82efdc3"
+    }
+  ]
+}

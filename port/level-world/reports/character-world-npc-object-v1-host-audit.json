@@ -1,0 +1,107 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_world_npc_object_v1.cpp",
+        "port/level-world/character_world_npc_room_v1.cpp",
+        "port/level-world/character_design_services.cpp",
+        "port/level-world/navigation_objects.cpp",
+        "port/level-world/tests/character_world_npc_object_v1.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-ldh2_script_runtime",
+        "-lz",
+        "-o",
+        ".local-inputs/character_world_npc_object_v1_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_world_npc_object_v1_O1"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"checks\":517,\"complete_NPC_AI\":false,\"explicit_virtual_service_fixtures\":true}\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_world_npc_object_v1.cpp",
+        "port/level-world/character_world_npc_room_v1.cpp",
+        "port/level-world/character_design_services.cpp",
+        "port/level-world/navigation_objects.cpp",
+        "port/level-world/tests/character_world_npc_object_v1.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-ldh2_script_runtime",
+        "-lz",
+        "-o",
+        ".local-inputs/character_world_npc_object_v1_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_world_npc_object_v1_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"checks\":517,\"complete_NPC_AI\":false,\"explicit_virtual_service_fixtures\":true}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_world_npc_object_v1.cpp": "f97774cd6732ff95fa5702c15882db1dd886316877526bc0aebe4c5729bd0e0b",
+    "port/level-world/character_world_npc_room_v1.cpp": "55c5a9f2285ce3afc3f12994731fc902d9faf24818af80f8387b93396bde4212",
+    "port/level-world/character_design_services.cpp": "bf12eb613228d963cdb78e3ff44d1cb23da87a186e0bae73b01029379808b62d",
+    "port/level-world/navigation_objects.cpp": "daa5d8c5d117b0ebbfcc7c363259c66c58d6e29ce89776044bdd0a9ad4cedbc9",
+    "port/level-world/tests/character_world_npc_object_v1.cpp": "9bcc1a8d3b1461b46c8ae6c3c46468d2165db519ed6d164bf2f520ec322cdccd"
+  },
+  "dependency_sha256": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd",
+    "libdh2_zip_asset_pack_v1.a": "202cd6cfe087c94638da2e9270e2509ad53fdd3af1eacf284ef5b2f4c56a9728"
+  },
+  "dependency_current_source_attribution": false,
+  "production_renderer_connection": false,
+  "full_NPC_AI": false
+}

@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "original_file_comparisons": 9,
+  "original_section_comparisons": 63,
+  "cases": 9,
+  "fixture_sha256": "50c3eb214e214b006e3631346b13bf455033496f2b4df4f93734022a133058eb",
+  "binary_sha256": "23a4afc9429f702e4ff7481118a1835c9abd73415ee7ce91d77b8f0c15b8c2f3",
+  "scope": "Actual original SG_SetSaveDate and Savegame::saveAll complete buffer plus metadata serializers vs native producer executed on emulator5580; filesystem/job processing, backup/date display, full SG_Load and live Confirm remain unverified",
+  "source_sha256": {
+    "fresh_player_profile_v1.hpp": "7b111db2b05e0198d2fc2d91a27917420d82b79b79a6b8bfabfd762b2aa45ab2",
+    "fresh_player_profile_v1.cpp": "5dabe3904996ffcf7734fb7fc0975d4fba96a21b5c84c90d6e3d8d71ca954b3f",
+    "tests/fresh_player_profile_v1.cpp": "c9507299d03ead2ad02984ff0b83a21fbbf0ff141971317c0b3a99790d09a546",
+    "player_savegame_v1.hpp": "d5323b87ea3199e7c654e7344e4ded7a3c455cdb9d4706bf5274a2648b567f46",
+    "player_savegame_v1.cpp": "7ec3f463a8c70fd3968743ab36fbab1ac01712e4b8b7b670f9401b201c2ef3ff"
+  }
+}

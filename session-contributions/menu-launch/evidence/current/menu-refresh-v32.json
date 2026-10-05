@@ -1,0 +1,10 @@
+{
+  "build": "v32",
+  "apk_sha256": "A9456993918574E1AEFB6AC6033B2C789587EF60E6D75D116E12CB8B6F8F22B8",
+  "device": "emulator-5580",
+  "adb_server_port": 5038,
+  "screen": "main",
+  "screenshot": "menu-refreshed-v32.png",
+  "shared_renderer": "Loaded independently; distinct player identities observed",
+  "limits": "Background scene and native navigation remain incomplete"
+}

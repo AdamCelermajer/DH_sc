@@ -1,0 +1,67 @@
+{
+  "validation": "PASS",
+  "scope": "Bind the isolated phase-dispatch milestone to current sources and artifacts.",
+  "source_and_receipt_sha256": {
+    "object_initialization_v1.hpp": "e85e7479696b336d4e2bf2879fba99eb05cbf5fc3793825db2ea42d85cdfaf0b",
+    "object_initialization_v1.cpp": "1e05b6835f742754d54ec2b0d3da0267b16d6678e68f38157b9d895b6151b0ff",
+    "CMakeLists.txt": "6509466024114756271d6a8bdd9c1434145f97e7289dc72a0354c2c69d56a868",
+    "tests/object_initialization_original.py": "435b6c6ae66d85034e73dac22cf5641f8e22ed4b205fb444b250f6c68dbd1d85",
+    "tests/object_initialization_probe.cpp": "fa66d20fc3a113b3a09919b8d0aa048085083d74eb10f6d8ff8e70b8aa06cd6c",
+    "tests/object_initialization_host.py": "5fcc84ca9291c0b92a16cd93866589f3e137cea61e6fe8f6e0b4d45636397cc2",
+    "tools/inspect_original_object_factories.py": "ab208371c03b5aa3d9d2ff5dbd96c3b7f0faef1af3fab958cc5e430b1baa6416",
+    "tools/summarize_original_object_factories.py": "2dd1cba02850e0c804926baf15d9e885dda876e205dd7da7a64564c57c2e1ef7",
+    "tools/capture_object_initialization_checkpoint.py": "ef962bdb9a4fc7c78e5b14b0de8b9d4587dc8eb9993ac932302bcde529d5f5c0",
+    "OBJECT-INITIALIZATION-HANDOFF.md": "1273cee16fbf40fb67dc7a3ccccece52c0aaa664452afe9af383122b6c1dce28",
+    "INTERFACE-PROPOSAL.md": "cc6f2d32b1971e951952ac64ecdc0c0079191bd219bd5a39da96aa2d096027c3",
+    "reports/object-initialization-original.json": "134337ba0eceabf0926441e0007d18e3fa05b1396bb5cb6723f5604e0508e017",
+    "reports/object-initialization-host.json": "93b6e5cb8680f82e26475e4e9bdec122db2e101a2438496020baf999489490bc",
+    "reports/object-initialization-sanitizers.json": "ce655941cc64e05016244466b50e746b6962a9b1e58703481fef24fccbca562c",
+    "reports/original-object-factories.json": "fe19470f8cb8aa76e7f0d4d375411a7d9094c7984751fd6d41ca697802c0f70f",
+    "reports/visible-emulator-window.json": "cc3df3bd278e407c86505749ca0c72a0091d759040eba855d82f60b5182240b5"
+  },
+  "built_artifact_sha256": {
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\host-xml\\dh2_loader_object_initialization_probe": "a99e1dd3ca57914be05ff02f9c1ed756bada0b7f783df9a42dc4449bbc7fcde1",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\host-sanitizers\\dh2_loader_object_initialization_probe": "d3a031fa70daad75181a148bac9f6f82fd820097d50f2896a172aa3f4579f428",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\android-arm64\\libdh2_level_loader.a": "ce348d220ef98980ae624319745da562f78701100823cd71d8446f1494e2a327",
+    "C:\\Users\\adamc\\.codex\\worktrees\\generic-level-loader\\build\\android-x86_64\\libdh2_level_loader.a": "0f594bc2be4726f3a86d88ba69e5eafb138a395086fde09ffb2766395b19822f"
+  },
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_dispatch_fixtures": 16,
+  "original_dispatch_calls": 182,
+  "original_service_events": 269,
+  "host_and_sanitizer_matches": true,
+  "adapter_guard_checks_per_build": 6,
+  "android_library_members_verified": [
+    "android-arm64",
+    "android-x86_64"
+  ],
+  "original_factory_entries": 33,
+  "raw_xml_inventory_documents": 2171,
+  "unregistered_link_declarations": 518,
+  "mgp_link_declarations": 15,
+  "mgp_link_entry_policy_supplement": "OBJECT-ENTRY-HANDOFF.md; reports/object-entry-checkpoint.json",
+  "visible_emulator_receipt": {
+    "avd": "DH2_Loader_API37",
+    "serial": "emulator-5590",
+    "booted": true,
+    "windows": [
+      {
+        "title": "Android Emulator - DH2_Loader_API37:5590",
+        "pid": 154420,
+        "visible": true,
+        "bounds": [
+          1104,
+          142,
+          2008,
+          579
+        ]
+      }
+    ]
+  },
+  "new_apk_installed": false,
+  "runtime_factory_contract_agreed": false,
+  "live_object_initialization_integrated": false,
+  "mob_and_chest_rendering_verified": false,
+  "cleanup_and_transitions_verified": false,
+  "full_loader_verified": false
+}

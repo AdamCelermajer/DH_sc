@@ -157,3 +157,8 @@ extern "C" int dh2_ui_hud_manager_v1(dh2::ui::HudManagerState*s,std::uint32_t en
  using namespace dh2::ui;if(!aligned(s)||!aligned(services)||!services->invoke||entry>4)return -1;
  Run run{*s,*services};switch(static_cast<HudManagerEntry>(entry)){case HudManagerEntry::update:run.update();break;case HudManagerEntry::initialize:run.initialize();break;case HudManagerEntry::one_time:run.one_time();break;case HudManagerEntry::fast:run.fast();break;case HudManagerEntry::slow:run.slow();break;}return run.failure;
 }
+extern "C" int dh2_ui_hud_enemy_v1(dh2::ui::HudManagerState* s,dh2::ui::HudManagerActor* actor,const dh2::ui::HudManagerServices* services)noexcept{
+ using namespace dh2::ui;
+ if(!aligned(s)||!aligned(actor)||!aligned(services)||!services->invoke)return -1;
+ Run run{*s,*services};run.enemy(actor);return run.failure;
+}

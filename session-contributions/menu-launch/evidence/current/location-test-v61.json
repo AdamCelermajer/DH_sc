@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "cases": 128,
+  "fixture_sha256": "4b879acc0db72e62a353de0a4889a940dd9bbe99b442849ddb6d2c203f7b0b01",
+  "binary_sha256": "2e73dac731c5766f918dda105a231610da3169e593bc345c47ed1375fec492a0",
+  "source_sha256": {
+    "tests/player_location_v1.cpp": "1769e38ffe96d265d7cb2c0d74f24cd274ade2a30f439c7fc633309a74394469",
+    "player_savegame_v1.cpp": "7ec3f463a8c70fd3968743ab36fbab1ac01712e4b8b7b670f9401b201c2ef3ff",
+    "skill_tables.cpp": "85695e3a274dae96bb92abcfdd12bdfb24b4d9f910f0026a777a39ce6c5534dd",
+    "data.cpp": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+    "player_savegame_v1.hpp": "d5323b87ea3199e7c654e7344e4ded7a3c455cdb9d4706bf5274a2648b567f46"
+  },
+  "scope": "Actual original LNAM reader vs native reader on emulator5580. Campaign filesystem, occupied menu display and live Confirm remain unconnected."
+}

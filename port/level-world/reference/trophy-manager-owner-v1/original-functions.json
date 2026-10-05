@@ -1,0 +1,82 @@
+[
+  {
+    "name": "constructor",
+    "address": 3671156,
+    "size": 76
+  },
+  {
+    "name": "create",
+    "address": 3671232,
+    "size": 72
+  },
+  {
+    "name": "init_trophies",
+    "address": 3670468,
+    "size": 688
+  },
+  {
+    "name": "get_trophy_data",
+    "address": 3669856,
+    "size": 248
+  },
+  {
+    "name": "is_unlocking",
+    "address": 3668452,
+    "size": 56
+  },
+  {
+    "name": "is_unlocked",
+    "address": 3670104,
+    "size": 20
+  },
+  {
+    "name": "unlock",
+    "address": 3675064,
+    "size": 272
+  },
+  {
+    "name": "unlocked_callback",
+    "address": 3673672,
+    "size": 1392
+  },
+  {
+    "name": "load",
+    "address": 3675420,
+    "size": 332
+  },
+  {
+    "name": "save",
+    "address": 3670124,
+    "size": 344
+  },
+  {
+    "name": "unload",
+    "address": 3669144,
+    "size": 104
+  },
+  {
+    "name": "read_trophy_row",
+    "address": 5267680,
+    "size": 668
+  },
+  {
+    "name": "read_trophy_table",
+    "address": 4951848,
+    "size": 312
+  },
+  {
+    "name": "read_names",
+    "address": 4919600,
+    "size": 408
+  },
+  {
+    "name": "write_bitmap",
+    "address": 3668792,
+    "size": 176
+  },
+  {
+    "name": "read_bitmap",
+    "address": 3668968,
+    "size": 176
+  }
+]

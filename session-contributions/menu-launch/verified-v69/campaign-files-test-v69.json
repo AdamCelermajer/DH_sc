@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "source_sha256": {
+    "campaign_profile_files_v1.cpp": "33a4da5f1f04612ac303c6eac42c6f1d7833a545a5a7413fe3cbcc80f3bc58d6",
+    "player_profile_index_v1.cpp": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a",
+    "tests/campaign_profile_files_v1.cpp": "3f231c08b1b90d2d914b1c37a5fb5e01793ebf8f6de01d1820040993d96e7d6e"
+  },
+  "scope": "Native filesystem cases over controlled temporary files. Policy recovered from original cache branches; not full original filesystem execution."
+}

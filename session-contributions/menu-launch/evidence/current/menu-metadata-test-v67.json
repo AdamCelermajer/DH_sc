@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "original_profiles": 128,
+  "fixture_sha256": "c30d799fd0880c3e024842e35796eb31d0a45bd3379d31477fb194cc38db15a4",
+  "binary_sha256": "d6a5b26dab8a31b08d7f17f6b792c0aa94f932a6c535144438c27a5d1f821ed5",
+  "source_sha256": {
+    "tests/menu_profile_metadata_v1.cpp": "a1fdbc0ab11ed6ef18fd8bf15f26d4f0f33a2cc6a1f19d1df8f1578a91e8e6d4",
+    "menu_profile_metadata_v1.cpp": "cf43f3deaa0302375981eac612b8040e643936c1cc8dc5abf523df8557adc21a",
+    "player_profile_index_v1.cpp": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a",
+    "player_savegame_v1.cpp": "7ec3f463a8c70fd3968743ab36fbab1ac01712e4b8b7b670f9401b201c2ef3ff",
+    "skill_tables.cpp": "85695e3a274dae96bb92abcfdd12bdfb24b4d9f910f0026a777a39ce6c5534dd",
+    "data.cpp": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+    "menu_profile_metadata_v1.hpp": "e46d6d92881545a89bcc6701d0912b3dd08ba16e781cc0cd14a69e0d68b658d7"
+  },
+  "scope": "Original menu metadata constructor/readers vs native temporary display receipt, QEST absent original corpus; QEST requires explicit canonical provider. Filesystem, localization/date display, actual Quest construction and live occupied AS remain unconnected."
+}

@@ -1,0 +1,70 @@
+{
+  "version": 4,
+  "scope": "Borrowed V3 owner adapter; source CSSkill kernel and state6 animation use only. Required live gameplay providers remain external.",
+  "files": {
+    "port/level-world/character_skill_state_v4.hpp": {
+      "bytes": 2497,
+      "sha256": "ee4a21a3503a8e4b3abd21dde48e5c45094e76f2354ba3fd090210deac977150"
+    },
+    "port/level-world/character_skill_state_v4.cpp": {
+      "bytes": 4786,
+      "sha256": "3866f692392bcc01907edd583d3215351e4dfccc593e9525aa86dec76ada421a"
+    },
+    "port/level-world/character_skill_context_v4.hpp": {
+      "bytes": 1623,
+      "sha256": "e0dec1679241b491895ff7d070a975ad240867751bf10d5b80f057e3cebab981"
+    },
+    "port/level-world/character_skill_context_v4.cpp": {
+      "bytes": 2022,
+      "sha256": "d6f0e8041a134dc74c5b4381fb0284889c63758703d1d8f7508e5a78e4a143ca"
+    },
+    "port/level-world/tests/character_skill_state_v4_differential.py": {
+      "bytes": 7198,
+      "sha256": "4e70cff4ede00645f0d7cab16c8dcc34369e9f32b128d16800584219428347fb"
+    },
+    "port/level-world/tests/character_skill_anim_event_v4_differential.py": {
+      "bytes": 2775,
+      "sha256": "709d94b9b46079bfe7f8373972335531443665c347ccc91809f8a0adb2913a31"
+    },
+    "port/level-world/tests/character_skill_state_v4_host.cpp": {
+      "bytes": 2263,
+      "sha256": "5e5f4bf697c59b41eef6e7c309d9b27be27f320f1895405e2df567462ef0ef71"
+    },
+    "port/level-world/reference/character-skill-state-v4/gold-v4.json": {
+      "bytes": 4775675,
+      "sha256": "5fd2b81a0834bd4ea51fb47efc771cce38197b94d8bc9adb5d2bcfa3962c8ea7"
+    },
+    "port/level-world/reference/character-skill-state-v4/anim-event-gold-v4.json": {
+      "bytes": 85015,
+      "sha256": "7018ef3b55a0f840b9fff9fd59ba6c3b7bcf7fe01dedc28a0d077d36aaeda395"
+    },
+    "port/level-world/reference/character-skill-state-v4/NOTES.md": {
+      "bytes": 4104,
+      "sha256": "e4720171bdbec2f1a6e7ba03e4906bd09cc9d7c0f053b92ee79680d5696d0b2d"
+    },
+    "port/level-world/reports/character-skill-state-v4-arm64-differential.json": {
+      "bytes": 1051,
+      "sha256": "599893e709e4c29f2b0fa7e2a06799ca93e05a0afc4c473ac075dab247145ce9"
+    },
+    "port/level-world/reports/character-skill-anim-event-v4-arm64-differential.json": {
+      "bytes": 457,
+      "sha256": "455adb1e86cda5e97ffae1f125b0e5bb185e5daa2d29cefa20bca0935fa649cd"
+    },
+    "port/level-world/tools/build_character_skill_state_v4_oracle.ps1": {
+      "bytes": 771,
+      "sha256": "c13106a8434dc99e292abb41575581b8185c54c9a011f5e2150cd1f61019fbf9"
+    },
+    "port/level-world/tools/freeze_character_skill_state_v4.py": {
+      "bytes": 1716,
+      "sha256": "43ee4774586317f6185fb2a365c3666886f771a2aebd9bd55d12bb27d57bacfa"
+    },
+    "port/level-world/tools/run_character_skill_state_v4_host.py": {
+      "bytes": 1814,
+      "sha256": "f1868fc54186bc4202c2e9a1ad76e3e7571dea8bdc425de0d44f932b8101f9cd"
+    },
+    "port/level-world/reports/character-skill-state-v4-host-audit.json": {
+      "bytes": 1655,
+      "sha256": "306869c0b5dd9a1b789e2375cc3638e601a0d1cb5a8471c033784a02ab636751"
+    }
+  }
+}

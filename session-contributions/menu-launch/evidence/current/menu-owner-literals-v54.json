@@ -1,0 +1,19 @@
+{
+  "0x439c10": {
+    "address": "0x8cbaa0",
+    "text": "OnHide"
+  },
+  "0x439c14": {
+    "address": "0x8cbab8",
+    "text": "hide"
+  },
+  "0x439c18": {
+    "address": "0x8cbac0",
+    "text": "OnShow"
+  },
+  "0x439c0c": {
+    "address": "0x8cbb20",
+    "text": "focus_in"
+  },
+  "vtable-slot-3c": "0x439270"
+}

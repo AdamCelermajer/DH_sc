@@ -1,0 +1,74 @@
+[
+  {
+    "label": "default-width",
+    "literal_pool": "0x4324bc",
+    "add_instruction": "0x431eec",
+    "table": "0x956a64",
+    "indices_0_to_3": [
+      "data/menus/dqshared.swf",
+      "data/menus/dqcharmenu.swf",
+      "data/menus/dqmenus.swf",
+      "data/menus/dqhud.swf"
+    ]
+  },
+  {
+    "label": "width960",
+    "literal_pool": "0x4324cc",
+    "add_instruction": "0x4323f4",
+    "table": "0x956a64",
+    "indices_0_to_3": [
+      "data/menus/dqshared.swf",
+      "data/menus/dqcharmenu.swf",
+      "data/menus/dqmenus.swf",
+      "data/menus/dqhud.swf"
+    ]
+  },
+  {
+    "label": "width854",
+    "literal_pool": "0x4324d0",
+    "add_instruction": "0x432410",
+    "table": "0x956aa4",
+    "indices_0_to_3": [
+      "data/menus/dqshared_droid.swf",
+      "data/menus/dqcharmenu_droid.swf",
+      "data/menus/dqmenus_droid.swf",
+      "data/menus/dqhud_droid.swf"
+    ]
+  },
+  {
+    "label": "width800-branch1",
+    "literal_pool": "0x4324c8",
+    "add_instruction": "0x4321a4",
+    "table": "0x956a84",
+    "indices_0_to_3": [
+      "data/menus/dqshared_i9000.swf",
+      "data/menus/dqcharmenu_i9000.swf",
+      "data/menus/dqmenus_i9000_lg.swf",
+      "data/menus/dqhud_i9000.swf"
+    ]
+  },
+  {
+    "label": "width800-branch2",
+    "literal_pool": "0x4324d4",
+    "add_instruction": "0x432480",
+    "table": "0x956a74",
+    "indices_0_to_3": [
+      "data/menus/dqshared_i9000.swf",
+      "data/menus/dqcharmenu_i9000.swf",
+      "data/menus/dqmenus_i9000.swf",
+      "data/menus/dqhud_i9000.swf"
+    ]
+  },
+  {
+    "label": "width800-branch3",
+    "literal_pool": "0x4324d4",
+    "add_instruction": "0x4324a0",
+    "table": "0x956ab4",
+    "indices_0_to_3": [
+      "data/menus/dqshared.swf",
+      "data/menus/dqcharmenu.swf",
+      "data/menus/dqmenus_Kor.swf",
+      "data/menus/dqhud.swf"
+    ]
+  }
+]

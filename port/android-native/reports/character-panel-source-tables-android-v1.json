@@ -1,0 +1,6 @@
+{
+  "validation": "PASS",
+  "exit_code": 0,
+  "emulator": "emulator-5554",
+  "output": "PASS actual cache powers 937 | ordered properties 1224 | faery lists 4 | faery rows 16\nFAERY slot0 id2 Fake_Celest | name0x00130042 description0x00130044 element2 model34 spellType0 type0 | script\nFAERY slot1 id4 Fake_Rocky | name0x00130051 description0x00130053 element3 model35 spellType0 type1 | script\nFAERY slot2 id5 Fake_Wetty | name0x00130047 description0x00130049 element1 model33 spellType0 type2 | script\nFAERY slot3 id6 Fake_Windy | name0x0013004c description0x0013004e element4 model36 spellType0 type3 | script\nFAERY slot4 id3 Fake_Hotty | name0x00130056 description0x00130058 element0 model32 spellType0 type4 | script\nPOWER id0 AAA_DONT_DELETE | description0xffffffff palette255 effect-1 entries0\nPOWER id1 AR_01 | description0x00170026 palette255 effect-1 entries1\n ATTR 29 BONUS raw1280 number5 FLAGS1\nPOWER id2 AR_01_Hard | description0x00170026 palette255 effect-1 entries1\n ATTR 29 BONUS raw11520 number45 FLAGS1\n"
+}

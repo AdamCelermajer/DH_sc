@@ -1,0 +1,2203 @@
+{
+  "validation": "PASS",
+  "identity": "SWAMP_02",
+  "folder": "data/3d/modules/swamp",
+  "file_list_uri": "data/3d/modules/swamp/mgx/mgxlist.txt",
+  "file_list_bytes": 1050,
+  "document_count": 42,
+  "filenames": [
+    "bossroomb_swpcave_w_01.mgx",
+    "bossroom_ruins_ns_.mgx",
+    "bossroom_swpcave_w_00.mgx",
+    "corner_brdwalk_ne_00.mgx",
+    "corner_brdwalk_se_00.mgx",
+    "corner_brdwalk_sw_00.mgx",
+    "corner_ruin_ne_00.mgx",
+    "corner_ruin_nw_00.mgx",
+    "corner_ruin_se_00.mgx",
+    "corner_ruin_wn_00.mgx",
+    "corner_ruin_ws_00.mgx",
+    "corner_swpcave_ne_00.mgx",
+    "corner_swpcave_nw_00.mgx",
+    "corner_swpcave_se_00.mgx",
+    "corner_swpcave_sw_00.mgx",
+    "deadendb_swpcave_n_01.mgx",
+    "deadend_brdwalk_e_00.mgx",
+    "deadend_brdwalk_se_00.mgx",
+    "deadend_brdwalk_s_00.mgx",
+    "deadend_brdwalk_we_00.mgx",
+    "deadend_brdwalk_w_00.mgx",
+    "deadend_ruin_w_00.mgx",
+    "deadend_swpcave_e_00.mgx",
+    "deadend_swpcave_n_00.mgx",
+    "deadend_swpcave_s_00.mgx",
+    "deadend_swpcave_w_00.mgx",
+    "merchantcamp_ruins_swe_00.mgx",
+    "obj_1of4_brdwalk_nse_00.mgx",
+    "obj_2of4_brdwalk_sw_00.mgx",
+    "obj_3of4_brdwalk_sw_00.mgx",
+    "obj_4of4_brdwalk_sw_00.mgx",
+    "straight_brdwalk_ns_00.mgx",
+    "straight_brdwalk_we_00.mgx",
+    "straight_ruin_ns_00.mgx",
+    "straight_ruin_we_00.mgx",
+    "straight_swpcave_ns_00.mgx",
+    "straight_swpcave_we_00.mgx",
+    "t_ruin_nse_00.mgx",
+    "t_ruin_nsw_00.mgx",
+    "t_swpcave_nse_00.mgx",
+    "t_swpcave_nsw_00.mgx"
+  ],
+  "rule": {
+    "uri": "data/scene/022_swamp2.rule.xml",
+    "parsed": true,
+    "diagnostic": "",
+    "tree": {
+      "tag": "rules",
+      "attributes": {
+        "target": "iphone",
+        "folder": "data/3d/modules/swamp",
+        "ambientColor": "0.5,0.5,0.5",
+        "scriptFile": "data\\pydata\\scripts\\022_swamp2.pyscript",
+        "camera_znear": "900",
+        "camera_zfar": "5000",
+        "music": "SwampHubAmbientMusic",
+        "fog_start": "4000",
+        "fog_end": "5800",
+        "fog_color": "1.14,0.36,0.49",
+        "light_set": "data/3D/Light/swamp.lightset_xml",
+        "fixed_light_set": "data/3D/Light/swamp_es_1_1.lightset_xml",
+        "prog_vertex_buffer_size": "430776",
+        "prog_index_buffer_size": "77538",
+        "fix_vertex_buffer_size": "877392",
+        "fix_index_buffer_size": "91068"
+      },
+      "children": [
+        {
+          "tag": "list",
+          "attributes": {
+            "name": "start",
+            "random": "true"
+          },
+          "children": [
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "corner_ruin_wn_00",
+                "gameplay": "swamp2_corner_ruin_wn_00.mgp",
+                "visual": "swamp2_corner_ruin_wn_00.mvp"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "list",
+          "attributes": {
+            "name": "deadends2",
+            "random": "true"
+          },
+          "children": [
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "deadend_brdwalk_w_00",
+                "gameplay": "swamp2_deadend_brdwalk_w_00.mgp",
+                "visual": "swamp2_deadend_brdwalk_w_00.mvp"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "list",
+          "attributes": {
+            "name": "deadends3",
+            "random": "true"
+          },
+          "children": [
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "straight_brdwalk_ns_00",
+                "gameplay": "swamp2_straight_brdwalk_ns_01.mgp",
+                "visual": "swamp2_straight_brdwalk_ns_01.mvp"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "list",
+          "attributes": {
+            "name": "tmodules",
+            "random": "true"
+          },
+          "children": [
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "obj_1of4_brdwalk_nse_00",
+                "gameplay": "swamp2_obj_1of4_brdwalk_nse_00.mgp",
+                "visual": "swamp2_obj1of4_brdwalk_nse_00.mvp"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "list",
+          "attributes": {
+            "name": "path_road",
+            "random": "true"
+          },
+          "children": [
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "straight_brdwalk_we_00",
+                "gameplay": "swamp2_straight_brdwalk_we_00.mgp",
+                "visual": "swamp2_straight_brdwalk_we_00.mvp"
+              },
+              "children": []
+            },
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "straight_brdwalk_ns_00",
+                "gameplay": "swamp2_straight_brdwalk_ns_00.mgp",
+                "visual": "swamp2_straight_brdwalk_ns_00.mvp"
+              },
+              "children": []
+            },
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "corner_ruin_wn_00",
+                "gameplay": "swamp2_corner_ruin_wn_01.mgp",
+                "visual": "swamp2_corner_ruin_wn_01.mvp"
+              },
+              "children": []
+            },
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "corner_ruin_wn_00",
+                "gameplay": "swamp2_corner_ruin_wn_02.mgp",
+                "visual": "swamp2_corner_ruin_wn_01.mvp"
+              },
+              "children": []
+            },
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "corner_ruin_se_00",
+                "gameplay": "swamp2_corner_ruin_se_00.mgp",
+                "visual": "swamp2_corner_ruin_se_00.mvp"
+              },
+              "children": []
+            },
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "obj_2of4_brdwalk_sw_00",
+                "gameplay": "swamp2_obj2of4_brdwalk_sw_00.mgp",
+                "visual": "swamp2_obj2of4_brdwalk_sw_00.mvp"
+              },
+              "children": []
+            },
+            {
+              "tag": "elem",
+              "attributes": {
+                "name": "corner_brdwalk_ne_00",
+                "gameplay": "swamp2_corner_brdwalk_ne_00.mgp",
+                "visual": "swamp2_corner_brdwalk_ne_00.mvp"
+              },
+              "children": []
+            }
+          ]
+        },
+        {
+          "tag": "RootRule",
+          "attributes": {
+            "name": "#start"
+          },
+          "children": [
+            {
+              "tag": "ForceBlock",
+              "attributes": {
+                "name": "#path_road[0]"
+              },
+              "children": [
+                {
+                  "tag": "Path",
+                  "attributes": {
+                    "name": "#path_road",
+                    "length": "2,4",
+                    "dontGoBack": "true"
+                  },
+                  "children": [
+                    {
+                      "tag": "ForceBlock",
+                      "attributes": {
+                        "name": "#tmodules"
+                      },
+                      "children": [
+                        {
+                          "tag": "ForceBlock",
+                          "attributes": {
+                            "name": "#deadends2"
+                          },
+                          "children": []
+                        },
+                        {
+                          "tag": "Path",
+                          "attributes": {
+                            "name": "#path_road",
+                            "length": "2,4",
+                            "dontGoBack": "true"
+                          },
+                          "children": [
+                            {
+                              "tag": "ForceBlock",
+                              "attributes": {
+                                "name": "#path_road[4]"
+                              },
+                              "children": [
+                                {
+                                  "tag": "ForceBlock",
+                                  "attributes": {
+                                    "name": "#deadends3"
+                                  },
+                                  "children": [
+                                    {
+                                      "tag": "EndPath",
+                                      "attributes": {
+                                        "exit": "south"
+                                      },
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "EndPath",
+              "attributes": {
+                "exit": "north"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "blocks": [
+    {
+      "filename": "bossroomb_swpcave_w_01.mgx",
+      "name": "bossroomb_swpcave_w_01",
+      "uri": "data/3d/modules/swamp/mgx/bossroomb_swpcave_w_01.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_06",
+              "position": "-2809.21,46.1426,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "bossroom_ruins_ns_.mgx",
+      "name": "bossroom_ruins_ns_",
+      "uri": "data/3d/modules/swamp/mgx/bossroom_ruins_ns_.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0block_height = 1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_13",
+              "position": "2800.0,100.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "bossroom_swpcave_w_00.mgx",
+      "name": "bossroom_swpcave_w_00",
+      "uri": "data/3d/modules/swamp/mgx/bossroom_swpcave_w_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_05",
+              "position": "-2809.21,46.1426,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_brdwalk_ne_00.mgx",
+      "name": "corner_brdwalk_ne_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_06",
+              "position": "2800.0,100.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_06",
+              "position": "-200.0,2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_brdwalk_se_00.mgx",
+      "name": "corner_brdwalk_se_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_brdwalk_se_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_07",
+              "position": "2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_07",
+              "position": "0.0,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_brdwalk_sw_00.mgx",
+      "name": "corner_brdwalk_sw_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_brdwalk_sw_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_06",
+              "position": "100.0,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_09",
+              "position": "-2800.0,100.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_ruin_ne_00.mgx",
+      "name": "corner_ruin_ne_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_ruin_ne_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_02",
+              "position": "2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_01",
+              "position": "0.0,2600.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_ruin_nw_00.mgx",
+      "name": "corner_ruin_nw_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_ruin_nw_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_02",
+              "position": "0.0,2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_02",
+              "position": "-2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_ruin_se_00.mgx",
+      "name": "corner_ruin_se_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_03",
+              "position": "2800.0,-100.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_03",
+              "position": "0.0,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_ruin_wn_00.mgx",
+      "name": "corner_ruin_wn_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_07",
+              "position": "-100.0,2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_07",
+              "position": "-2800.0,200.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_ruin_ws_00.mgx",
+      "name": "corner_ruin_ws_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_ruin_ws_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_05",
+              "position": "-2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_04",
+              "position": "0.0,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_swpcave_ne_00.mgx",
+      "name": "corner_swpcave_ne_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_01",
+              "position": "81.3301,2812.12,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_01",
+              "position": "2823.31,14.3174,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_swpcave_nw_00.mgx",
+      "name": "corner_swpcave_nw_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_swpcave_nw_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_02",
+              "position": "39.1133,2787.27,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_02",
+              "position": "-2783.0,49.6118,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_swpcave_se_00.mgx",
+      "name": "corner_swpcave_se_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_swpcave_se_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_02",
+              "position": "2824.71,9.5625,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_01",
+              "position": "-0.763672,-2806.57,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "corner_swpcave_sw_00.mgx",
+      "name": "corner_swpcave_sw_00",
+      "uri": "data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_01",
+              "position": "-2858.03,8.5918,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_02",
+              "position": "-28.4883,-2828.22,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadendb_swpcave_n_01.mgx",
+      "name": "deadendb_swpcave_n_01",
+      "uri": "data/3d/modules/swamp/mgx/deadendb_swpcave_n_01.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_06",
+              "position": "-60.1328,2815.8,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadend_brdwalk_e_00.mgx",
+      "name": "deadend_brdwalk_e_00",
+      "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_e_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_",
+              "position": "2700.0,-100.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadend_brdwalk_se_00.mgx",
+      "name": "deadend_brdwalk_se_00",
+      "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_se_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_09",
+              "position": "0.0,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_09",
+              "position": "2700.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadend_brdwalk_s_00.mgx",
+      "name": "deadend_brdwalk_s_00",
+      "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_s_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_08",
+              "position": "100.0,2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadend_brdwalk_we_00.mgx",
+      "name": "deadend_brdwalk_we_00",
+      "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_we_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_10",
+              "position": "-2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_08",
+              "position": "2700.0,-100.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadend_brdwalk_w_00.mgx",
+      "name": "deadend_brdwalk_w_00",
+      "uri": "data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_08",
+              "position": "-2800.0,-100.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadend_ruin_w_00.mgx",
+      "name": "deadend_ruin_w_00",
+      "uri": "data/3d/modules/swamp/mgx/deadend_ruin_w_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_04",
+              "position": "-2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadend_swpcave_e_00.mgx",
+      "name": "deadend_swpcave_e_00",
+      "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_e_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_04",
+              "position": "2767.69,9.56055,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadend_swpcave_n_00.mgx",
+      "name": "deadend_swpcave_n_00",
+      "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_03",
+              "position": "-60.1328,2815.8,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadend_swpcave_s_00.mgx",
+      "name": "deadend_swpcave_s_00",
+      "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_05",
+              "position": "-6.78516,-2803.69,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "deadend_swpcave_w_00.mgx",
+      "name": "deadend_swpcave_w_00",
+      "uri": "data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_03",
+              "position": "-2809.21,-79.8296,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "merchantcamp_ruins_swe_00.mgx",
+      "name": "merchantcamp_ruins_swe_00",
+      "uri": "data/3d/modules/swamp/mgx/merchantcamp_ruins_swe_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0block_height = 1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_11",
+              "position": "-2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_12",
+              "position": "0.0,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_13",
+              "position": "200.0,2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_10",
+              "position": "2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "obj_1of4_brdwalk_nse_00.mgx",
+      "name": "obj_1of4_brdwalk_nse_00",
+      "uri": "data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_10",
+              "position": "0.0,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_10",
+              "position": "0.0,2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_11",
+              "position": "2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "obj_2of4_brdwalk_sw_00.mgx",
+      "name": "obj_2of4_brdwalk_sw_00",
+      "uri": "data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0block_height = 1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_12",
+              "position": "-2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_13",
+              "position": "65.4102,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "obj_3of4_brdwalk_sw_00.mgx",
+      "name": "obj_3of4_brdwalk_sw_00",
+      "uri": "data/3d/modules/swamp/mgx/obj_3of4_brdwalk_sw_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_11",
+              "position": "0.0,2600.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_12",
+              "position": "2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "obj_4of4_brdwalk_sw_00.mgx",
+      "name": "obj_4of4_brdwalk_sw_00",
+      "uri": "data/3d/modules/swamp/mgx/obj_4of4_brdwalk_sw_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0block_height = 1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_13",
+              "position": "-2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_14",
+              "position": "131.688,2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "straight_brdwalk_ns_00.mgx",
+      "name": "straight_brdwalk_ns_00",
+      "uri": "data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_08",
+              "position": "-200.0,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_09",
+              "position": "0.0,2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "straight_brdwalk_we_00.mgx",
+      "name": "straight_brdwalk_we_00",
+      "uri": "data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_06",
+              "position": "-2800.0,100.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_05",
+              "position": "2800.0,100.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "straight_ruin_ns_00.mgx",
+      "name": "straight_ruin_ns_00",
+      "uri": "data/3d/modules/swamp/mgx/straight_ruin_ns_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_02",
+              "position": "0.0,-2700.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_04",
+              "position": "0.0,2700.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "straight_ruin_we_00.mgx",
+      "name": "straight_ruin_we_00",
+      "uri": "data/3d/modules/swamp/mgx/straight_ruin_we_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_01",
+              "position": "-2700.01,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_01",
+              "position": "2699.99,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "straight_swpcave_ns_00.mgx",
+      "name": "straight_swpcave_ns_00",
+      "uri": "data/3d/modules/swamp/mgx/straight_swpcave_ns_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_",
+              "position": "15.9927,2836.97,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_",
+              "position": "15.9927,-2822.4,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "straight_swpcave_we_00.mgx",
+      "name": "straight_swpcave_we_00",
+      "uri": "data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_",
+              "position": "-2856.86,-8.29492,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_",
+              "position": "2782.94,35.7739,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "t_ruin_nse_00.mgx",
+      "name": "t_ruin_nse_00",
+      "uri": "data/3d/modules/swamp/mgx/t_ruin_nse_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_04",
+              "position": "2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_05",
+              "position": "0.0,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_05",
+              "position": "0.0,2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "t_ruin_nsw_00.mgx",
+      "name": "t_ruin_nsw_00",
+      "uri": "data/3d/modules/swamp/mgx/t_ruin_nsw_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_01",
+              "position": "0.0,-2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_03",
+              "position": "-2800.0,0.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_03",
+              "position": "0.0,2800.0,1000.0",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Ruin,BoardWalk",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "t_swpcave_nse_00.mgx",
+      "name": "t_swpcave_nse_00",
+      "uri": "data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_05",
+              "position": "41.3125,2780.94,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_04",
+              "position": "-6.57813,-2828.22,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_east_03",
+              "position": "2843.96,9.56055,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "east",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    },
+    {
+      "filename": "t_swpcave_nsw_00.mgx",
+      "name": "t_swpcave_nsw_00",
+      "uri": "data/3d/modules/swamp/mgx/t_swpcave_nsw_00.mgx",
+      "parsed": true,
+      "diagnostic": "",
+      "tree": {
+        "tag": "Module",
+        "attributes": {
+          "unit_width": "6000",
+          "unit_height": "6000",
+          "block_width": "1.0",
+          "block_height": "1.0"
+        },
+        "children": [
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_north_04",
+              "position": "41.3633,2787.28,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "north",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_west_04",
+              "position": "-2806.58,7.3208,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "west",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          },
+          {
+            "tag": "GameObject",
+            "attributes": {
+              "type": "Block",
+              "name": "_exit_south_03",
+              "position": "-6.78516,-2803.69,1773.29",
+              "scale": "1.0,1.0,1.0",
+              "debugcolor": "255.0,0.0,255.0",
+              "rotation": "0.0,0.0,0.0",
+              "direction": "south",
+              "linktype": "Cave",
+              "gametype": "link"
+            },
+            "children": []
+          }
+        ]
+      }
+    }
+  ],
+  "ownership_checks": true,
+  "layout_generation_verified": false,
+  "selected_placement_graph_verified": false,
+  "full_loader_verified": false
+}

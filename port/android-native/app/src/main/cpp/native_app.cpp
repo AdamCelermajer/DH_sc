@@ -5,6 +5,9 @@
 #include "model_renderer.hpp"
 #include "authored_shader_program.hpp"
 #include "original_ui_session.hpp"
+#include "character_panel_session_v1.hpp"
+#include "gameplay_hud.hpp"
+#include "gameplay_icons.hpp"
 #include <android/asset_manager_jni.h>
 #include <vector>
 #include <algorithm>
@@ -17,6 +20,8 @@ namespace {
 constexpr const char* tag="DH2Native";
 dh2::android_ui::Program ui_program{};
 dh2::android_ui::OriginalUiSession original_ui;
+std::unique_ptr<dh2::android_ui::CharacterPanelSessionV1> character_panel;
+AAssetManager* gameplay_assets=nullptr;
 std::string original_ui_error;
 GLuint texture=0;
 int surface_width=1,surface_height=1,texture_width=1,texture_height=1;
@@ -37,13 +42,15 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_initializ
   model_renderer::reset_context();ui_program={};texture=0;report_texture_frame=true;
   dh2::android_ui::Program premultiplied;
   try{
-    auto* manager=assets?AAssetManager_fromJava(env,assets):nullptr;
+     auto* manager=assets?AAssetManager_fromJava(env,assets):nullptr;
+     gameplay_assets=manager;
     ui_program=dh2::android_ui::create(manager,false);
     premultiplied=dh2::android_ui::create(manager,true);
     dh2::android_ui::validate_pixels(ui_program,premultiplied);
     dh2::android_ui::release(premultiplied);
     std::string ui_error;
-    if(!original_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);
+     if(!original_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);
+     character_panel=std::make_unique<dh2::android_ui::CharacterPanelSessionV1>(manager);
   }catch(const std::exception& e){
     dh2::android_ui::release(premultiplied);dh2::android_ui::release(ui_program);
     __android_log_print(ANDROID_LOG_ERROR,tag,"Authored UI initialization failed: %s",e.what());
@@ -98,6 +105,10 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*
   }
   if(model_renderer::active()){
     try {
+      if(original_ui.overlays_player()){
+        std::string error;if(!original_ui.prepare_player_frame(surface_width,surface_height,error))throw std::runtime_error("Combat HUD preparation: "+error);
+        model_renderer::connect_combat_text(original_ui.combat_text_sink());
+      }
       model_renderer::draw(surface_width,surface_height);
     } catch(const std::exception& e) {
       __android_log_print(ANDROID_LOG_ERROR,tag,"Native frame failed: %s",e.what());
@@ -111,9 +122,14 @@ extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*
     if(report_model_frame){__android_log_print(ANDROID_LOG_INFO,tag,"Model frame submitted at %d x %d",surface_width,surface_height);report_model_frame=false;}
     if(original_ui.overlays_player()){
       const auto player=model_renderer::player_hud_view();std::string error;
-      if(!original_ui.render_player(surface_width,surface_height,player.resolved,player.count,player.character,error)){
+      const auto enemy=model_renderer::enemy_hud_world_borrow(error);
+      if(!enemy.player||!original_ui.render_player(surface_width,surface_height,player.resolved,player.count,player.character,error,&enemy)){
         original_ui_error=error;
         __android_log_print(ANDROID_LOG_ERROR,tag,"Connected player HUD failed: %s",error.c_str());
+      }
+      model_renderer::CombatTextFrameV1 frame;
+      if(!model_renderer::combat_text_frame(frame,error)||!original_ui.render_combat_text(frame,error)){
+        original_ui_error=error;__android_log_print(ANDROID_LOG_ERROR,tag,"Source combat text failed: %s",error.c_str());
       }
     }
     return;
@@ -182,6 +198,27 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeOr
 }
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_combatTarget(JNIEnv* env,jclass,jint index,jint target){return env->NewStringUTF(model_renderer::set_combat_target(index,target).c_str());}
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_playerAttack(JNIEnv* env,jclass,jint target){return env->NewStringUTF(model_renderer::player_attack(target).c_str());}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_playerEquipmentAction(JNIEnv* env,jclass,jint operation,jint index,jint slot){return result(env,model_renderer::player_equipment_action(operation,index,slot));}
 
 extern "C" JNIEXPORT jintArray JNICALL Java_com_example_dh2_NativeBridge_playerVitals(JNIEnv* env,jclass){auto values=model_renderer::player_vitals();auto out=env->NewIntArray(values.size());if(out)env->SetIntArrayRegion(out,0,values.size(),values.data());return out;}
+extern "C" JNIEXPORT jintArray JNICALL Java_com_example_dh2_NativeBridge_playerGameplayHud(JNIEnv* env,jclass){
+  auto values=model_renderer::gameplay_hud_snapshot(model_renderer::player_gameplay_binding());
+  auto out=env->NewIntArray(static_cast<jsize>(values.size()));if(out&&!values.empty())env->SetIntArrayRegion(out,0,static_cast<jsize>(values.size()),values.data());return out;
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_playerGameplayAction(JNIEnv* env,jclass,jint operation,jint index){return result(env,model_renderer::player_gameplay_action(operation,index));}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_playerCharacterSnapshot(JNIEnv* env,jclass){return result(env,character_panel?character_panel->snapshot(model_renderer::player_gameplay_binding()):"{\"ready\":false,\"error\":\"Character menu unavailable\"}");}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_playerCharacterAction(JNIEnv* env,jclass,jint operation,jint index,jint slot){return result(env,character_panel?character_panel->action(model_renderer::player_gameplay_binding(),operation,index,slot):"Character menu unavailable");}
+extern "C" JNIEXPORT jintArray JNICALL Java_com_example_dh2_NativeBridge_menuIcon(JNIEnv* env,jclass,jstring name){
+  if(!name||!gameplay_assets)return nullptr;const char* raw=env->GetStringUTFChars(name,nullptr);if(!raw)return nullptr;
+  const std::string value(raw);env->ReleaseStringUTFChars(name,raw);std::string error;
+  auto pixels=dh2::android_ui::menu_icon_pixels(gameplay_assets,value,error);
+  if(pixels.empty()){if(!error.empty())__android_log_print(ANDROID_LOG_WARN,tag,"Original icon unavailable | %s | %s",value.c_str(),error.c_str());return nullptr;}
+  auto out=env->NewIntArray(static_cast<jsize>(pixels.size()));if(out)env->SetIntArrayRegion(out,0,static_cast<jsize>(pixels.size()),pixels.data());return out;
+}
+extern "C" JNIEXPORT jobjectArray JNICALL Java_com_example_dh2_NativeBridge_playerGameplayIcons(JNIEnv* env,jclass){
+  auto names=model_renderer::gameplay_hud_icon_names(model_renderer::player_gameplay_binding());
+  auto string_class=env->FindClass("java/lang/String");if(!string_class)return nullptr;
+  auto out=env->NewObjectArray(static_cast<jsize>(names.size()),string_class,nullptr);
+  if(out)for(std::size_t i=0;i<names.size();++i){auto item=env->NewStringUTF(names[i].c_str());if(!item)return nullptr;env->SetObjectArrayElement(out,static_cast<jsize>(i),item);env->DeleteLocalRef(item);}env->DeleteLocalRef(string_class);return out;
+}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_enemyAi(JNIEnv*,jclass,jboolean enabled){model_renderer::set_enemy_ai(enabled);}

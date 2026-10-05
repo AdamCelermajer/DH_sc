@@ -10,6 +10,8 @@ add_subdirectory("${DH2_SOURCE_DIR}/port/engine-skinning" "${CMAKE_CURRENT_BINAR
 add_subdirectory("${DH2_SOURCE_DIR}/port/level-world" "${CMAKE_CURRENT_BINARY_DIR}/level-world")
 add_library(dh2_native SHARED native_app.cpp model_renderer.cpp authored_shader_program.cpp
   swf_gpu.cpp original_ui_assets.cpp original_ui_session.cpp original_cache_assets_v1.cpp
+  gameplay_hud.cpp gameplay_icons.cpp character_panel_session_v1.cpp character_panel_presentation_v1.cpp faery_gameplay_v1.cpp
+  faery_cast_owner_v2.cpp faery_cast_state_v2.cpp player_ai_callables_v1.cpp player_timer_helpers_v1.cpp player_recurring_effects_v7.cpp
   "${DH2_SOURCE_DIR}/port/asset-payloads/zip_asset_pack_v1.cpp")
 target_compile_features(dh2_native PRIVATE cxx_std_17)
 target_compile_options(dh2_native PRIVATE -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)

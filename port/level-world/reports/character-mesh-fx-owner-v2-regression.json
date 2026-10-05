@@ -1,0 +1,6 @@
+{
+  "scope": "V2 current mesh regression, same actual three swooshes; positive particle resource is separately verified.",
+  "exit_code": 0,
+  "stdout": "{\"validation\":\"PASS\",\"checks\":708,\"authored_resources\":3,\"live_scene_nodes\":35,\"animated_node_draws\":0,\"animated_materials\":3,\"live_anchor_moves\":3,\"source_completion_returns\":3,\"retained_snapshots\":3,\"asset_deliveries\":10,\"source_service_projection_deliveries\":255,\"genuine_debug_filesystem_opens\":1,\"sanitizer_findings\":0}\n",
+  "stderr": ""
+}

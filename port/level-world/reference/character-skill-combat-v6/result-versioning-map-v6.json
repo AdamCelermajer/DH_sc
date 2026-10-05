@@ -1,0 +1,12 @@
+{
+  "source": "port\\game-data\\combat_result.cpp",
+  "source_sha256": "e7a90976e2cc02d6a55dc6cd4d446b8f1f20bd62353f82d29cd85f7ef518e6b8",
+  "target": "port\\level-world\\character_combat_result_v6.cpp",
+  "target_sha256": "0590a2331e3bb8cce6b26b9faf25c6ba7233fb1dfa9d1b3d1570791817500233",
+  "changes": [
+    "versioned export",
+    "Debug continuation after status before damage",
+    "reached failure commits result/RNG prefix",
+    "omit unrelated melee export"
+  ]
+}

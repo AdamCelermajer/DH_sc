@@ -1,0 +1,171 @@
+{
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x38ba74",
+      "size": 32,
+      "symbol": "_ZN12VisualObject4SyncEv",
+      "capture": "0038ba74.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x394eb0",
+      "size": 16,
+      "symbol": "_ZN10GameObject16LoadVisualObjectEv",
+      "capture": "00394eb0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x47295c",
+      "size": 176,
+      "symbol": "_ZN12VisualObject9SetParentEP10GameObject",
+      "capture": "0047295c.asm",
+      "pc_relative_strings": []
+    }
+  ],
+  "static_data": [
+    {
+      "address": "0x956a44",
+      "words": [
+        {
+          "value": "0x8cb810",
+          "string": null
+        },
+        {
+          "value": "0x8c6bd8",
+          "string": "data/"
+        },
+        {
+          "value": "0x8c6be0",
+          "string": "data/scene/"
+        },
+        {
+          "value": "0x8bf978",
+          "string": "data/3d/modules/"
+        }
+      ]
+    },
+    {
+      "address": "0x956a54",
+      "words": [
+        {
+          "value": "0x8c6bb8",
+          "string": "old/"
+        },
+        {
+          "value": "0x8c6bc0",
+          "string": "debug/"
+        },
+        {
+          "value": "0x8c6bc8",
+          "string": "ps3/"
+        },
+        {
+          "value": "0x8c6bd0",
+          "string": "iphone/"
+        },
+        {
+          "value": "0x8cb528",
+          "string": "data/menus/dqshared.swf"
+        },
+        {
+          "value": "0x8c9ff0",
+          "string": "data/menus/dqcharmenu.swf"
+        },
+        {
+          "value": "0x8ca088",
+          "string": "data/menus/dqmenus.swf"
+        },
+        {
+          "value": "0x8ca010",
+          "string": "data/menus/dqhud.swf"
+        }
+      ]
+    },
+    {
+      "address": "0x99b07c",
+      "words": [
+        {
+          "value": "0x8dc1e8",
+          "string": "No error"
+        },
+        {
+          "value": "0x8c9f20",
+          "string": "Error"
+        },
+        {
+          "value": "0x8dc1f8",
+          "string": "Failed to open file"
+        },
+        {
+          "value": "0x8dc210",
+          "string": "Memory allocation failed."
+        },
+        {
+          "value": "0x8dc230",
+          "string": "Error parsing Element."
+        },
+        {
+          "value": "0x8dc248",
+          "string": "Failed to read Element name"
+        },
+        {
+          "value": "0x8dc268",
+          "string": "Error reading Element value."
+        },
+        {
+          "value": "0x8dc288",
+          "string": "Error reading Attributes."
+        },
+        {
+          "value": "0x8dc2a8",
+          "string": "Error: empty tag."
+        },
+        {
+          "value": "0x8dc2c0",
+          "string": "Error reading end tag."
+        },
+        {
+          "value": "0x8dc2d8",
+          "string": "Error parsing Unknown."
+        },
+        {
+          "value": "0x8dc2f0",
+          "string": "Error parsing Comment."
+        },
+        {
+          "value": "0x8dc308",
+          "string": "Error parsing Declaration."
+        },
+        {
+          "value": "0x8dc328",
+          "string": "Error document empty."
+        },
+        {
+          "value": "0x8dc340",
+          "string": "Error null (0) or unexpected EOF found in input stream."
+        },
+        {
+          "value": "0x8dc378",
+          "string": "Error parsing CDATA."
+        },
+        {
+          "value": "0x8dc390",
+          "string": "Error when TiXmlDocument added to document, because TiXmlDocument can only be at the root."
+        },
+        {
+          "value": "0x8dc850",
+          "string": "&amp;"
+        },
+        {
+          "value": "0x5",
+          "string": null
+        },
+        {
+          "value": "0x26",
+          "string": null
+        }
+      ]
+    }
+  ]
+}

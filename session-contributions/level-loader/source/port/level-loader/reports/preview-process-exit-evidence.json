@@ -1,0 +1,7 @@
+{
+  "scope": "Read-only host process/event evidence for the loader emulator exit.",
+  "processes": [],
+  "events": {
+    "observation_timeout": true
+  }
+}

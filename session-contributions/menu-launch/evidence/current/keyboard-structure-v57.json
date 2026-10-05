@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "Five keyboard shapes change matrices only; two Space states use verified adjacent capsule slices within original bounds. Every action, placement and other tag is byte preserved",
+  "shapes": [
+    70,
+    72,
+    75,
+    77,
+    80,
+    82,
+    85
+  ],
+  "tag_count": 618,
+  "patched_sha256": "0e6d4a6a0bdd21f413d0d09023c7625271c49b3ae90bce4ceb2b4d2ebb173799"
+}

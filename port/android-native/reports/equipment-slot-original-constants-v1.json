@@ -1,0 +1,68 @@
+[
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "Count",
+    "value": 9
+  },
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "Feet",
+    "value": 3
+  },
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "HandArmor",
+    "value": 4
+  },
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "Head",
+    "value": 8
+  },
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "LeftHand",
+    "value": 2
+  },
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "LeftHandRingFinger",
+    "value": 6
+  },
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "RightHand",
+    "value": 1
+  },
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "RightHandRingFinger",
+    "value": 5
+  },
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "Torso",
+    "value": 0
+  },
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "Waist",
+    "value": 7
+  },
+  {
+    "file": "loot_table_pycst.bin",
+    "group": "EquipmentSlots",
+    "name": "none",
+    "value": 4294967295
+  }
+]

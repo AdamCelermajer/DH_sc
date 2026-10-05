@@ -1,0 +1,87 @@
+{
+  "validation": "PASS",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "leak_detection": true,
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_combat_result_v6.cpp",
+        "port/level-world/tests/character_combat_result_v6_host.cpp",
+        "-Iport/game-data",
+        "-L.local-inputs/character-skill-native-v5-host/snapshot",
+        "-ldh2_game_data",
+        "-o",
+        ".local-inputs/character_combat_result_v6_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skill-native-v5-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_combat_result_v6_host",
+        ".local-inputs/combat-result-original-characters.bin"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"original_result_cases\":9792,\"result_words_per_case\":10,\"random_state_verified\":true,\"invalid_input_atomic\":true,\"outcomes_observed\":[1523,385,913,1595,1240,1093,1147,1203,625]}\n{\"validation\":\"PASS\",\"ordered_debug_calls\":7884,\"required_debug_prefix\":true}\n",
+      "stderr": ""
+    }
+  ],
+  "results": [
+    {
+      "original_result_cases": 9792,
+      "result_words_per_case": 10,
+      "random_state_verified": true,
+      "invalid_input_atomic": true,
+      "outcomes_observed": [
+        1523,
+        385,
+        913,
+        1595,
+        1240,
+        1093,
+        1147,
+        1203,
+        625
+      ]
+    },
+    {
+      "validation": "PASS",
+      "ordered_debug_calls": 7884,
+      "required_debug_prefix": true
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_combat_result_v6.cpp": "0590a2331e3bb8cce6b26b9faf25c6ba7233fb1dfa9d1b3d1570791817500233",
+    "port/level-world/character_skill_combat_v6.hpp": "5cc879f4bbaae2074013c3cbba821ffb323e17e642134fe4debc8cc616bd79a3",
+    "port/level-world/tests/character_combat_result_v6_host.cpp": "ef02ff2c3ecdc5b14563449a7ee543d6c136fe25ebb3dadb036931959ad4c126",
+    "port/level-world/tools/prepare_character_combat_result_v6.py": "bc1e31b7061652a3ded33b426969fc3202b99dca32fa6789d4309e18d3919388",
+    "port/level-world/tools/run_character_combat_result_v6_host.py": "a079a6b1cc934f2932d8aaa177d80e7ac3363532652c29be16f379a41c9d613c"
+  },
+  "original_corpus_sha256": "bdd5180f3267a574eeeadb44c0a8065bd39ee45917debfbfe7c39db77073e586",
+  "private_dependency_sha256": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "5c40960c2deec5bf2752f5b9972cdc4cb7e254c833815df97c948538b230be4b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "46752bb911697276f849a3f6c3bf920df71da97b61094354db5656ed66b39e6c",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd",
+    "libdh2_zip_asset_pack_v1.a": "202cd6cfe087c94638da2e9270e2509ad53fdd3af1eacf284ef5b2f4c56a9728"
+  },
+  "dependency_current_source_attribution": false,
+  "full_target_application": false
+}

@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "whole_original_generate_spawn_calls": 1400,
+  "native_differential": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "seeds": "separate original local/network globals",
+  "source_initial_data_zero": true
+}

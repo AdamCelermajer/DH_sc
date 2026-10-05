@@ -1,0 +1,215 @@
+{
+  "scope": "Source resource/provenance audit; spinner appearance incomplete",
+  "elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "startup_source_rect": [
+    0,
+    0,
+    1280,
+    752
+  ],
+  "startup_default_texture": "data/3d/textures/splash_final.tga",
+  "source_high_resolution_device": true,
+  "atlas_base_and_droid_identical": true,
+  "resources": {
+    "3d/textures/splash_final.tga": {
+      "bytes": 8388652,
+      "sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8"
+    },
+    "3d/textures/splash_final_droid.tga": {
+      "bytes": 8388652,
+      "sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8"
+    },
+    "menus/loadanims.swf": {
+      "bytes": 1563,
+      "sha256": "7242d0e9a563ddd2f97e9711b55fb273fea615d2f2f4dd20b59c6cf9bdd3eeff"
+    },
+    "menus/loadanims_droid.swf": {
+      "bytes": 1456,
+      "sha256": "ee12d5c1dd9791fe2d438eb931794ff78ee53618c084bf350b90ad33838f34d5"
+    },
+    "menus/dqmenus_droid.swf": {
+      "bytes": 315965,
+      "sha256": "c114c7d39b7fe0351a93a515c78f9457dda715d78aed6e3bcc3f4895120de421"
+    }
+  },
+  "loading_fill_tables": {
+    "menus/loadanims.swf": [
+      {
+        "shape": 2,
+        "bounds_twips": [
+          6239,
+          6560,
+          -640,
+          -360
+        ],
+        "initial_fill_styles": [
+          {
+            "bitmap_id": 1,
+            "kind": 66,
+            "scale": [
+              20.0,
+              20.0
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -3480,
+              -20840
+            ]
+          }
+        ]
+      },
+      {
+        "shape": 3,
+        "bounds_twips": [
+          7,
+          907,
+          -33,
+          887
+        ],
+        "initial_fill_styles": [
+          {
+            "bitmap_id": 65535,
+            "kind": 66,
+            "scale": [
+              11.11785888671875,
+              10.474853515625
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -66,
+              -8195
+            ]
+          },
+          {
+            "bitmap_id": 65535,
+            "kind": 66,
+            "scale": [
+              20.0,
+              20.0
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -20639,
+              -3181
+            ]
+          },
+          {
+            "bitmap_id": 65535,
+            "kind": 66,
+            "scale": [
+              20.0,
+              20.0
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -14079,
+              -5581
+            ]
+          },
+          {
+            "bitmap_id": 65535,
+            "kind": 66,
+            "scale": [
+              20.0,
+              20.0
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -20899,
+              -1681
+            ]
+          },
+          {
+            "bitmap_id": 1,
+            "kind": 66,
+            "scale": [
+              20.0,
+              20.0
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -17079,
+              -3001
+            ]
+          }
+        ]
+      }
+    ],
+    "menus/loadanims_droid.swf": [
+      {
+        "shape": 2,
+        "bounds_twips": [
+          173,
+          753,
+          112,
+          697
+        ],
+        "initial_fill_styles": [
+          {
+            "bitmap_id": 1,
+            "kind": 66,
+            "scale": [
+              20.0,
+              20.0
+            ],
+            "skew": [
+              0.0,
+              0.0
+            ],
+            "shift": [
+              -6750,
+              -6601
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "exit_fill_table": [
+    {
+      "shape": 507,
+      "bounds_twips": [
+        64,
+        570,
+        -13,
+        493
+      ],
+      "initial_fill_styles": [
+        {
+          "bitmap_id": 1,
+          "kind": 66,
+          "scale": [
+            17.7545166015625,
+            17.7545166015625
+          ],
+          "skew": [
+            0.0,
+            0.0
+          ],
+          "shift": [
+            -801,
+            -12391
+          ]
+        }
+      ]
+    }
+  ]
+}

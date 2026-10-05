@@ -1,0 +1,313 @@
+{
+  "validation": "PASS",
+  "scope": "Live actual touch/source attack acquisition and existing native melee HP, selected enemy submitted mesh/camera anchor, HP0/dead hides original HUD clip. Source scene camera remains a development camera. Complete original melee hit FX and enemy AI are not claimed.",
+  "apk_sha256": "b28d9b5cc8fd93b029763cc235d5e7a05d545692df7689a0bd7d72aabc675df6",
+  "installed_apk_sha256": "b28d9b5cc8fd93b029763cc235d5e7a05d545692df7689a0bd7d72aabc675df6",
+  "pid": "7005",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "370295293fc462300d2e14a0939c6fec3c456b7047c5ee79bfaded2eec75e74b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "d59803e3a4739c7faf1ca47d46fbc4479cd2c9c585250c82704134bb83dbec11",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "41ac012b447f161d4185fd7314162a2567d34c79fa3304052239613a442bf2b4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "3211c21c723b12c96dd5df034d45c7505a6c4029886df81b253dd653bbe26e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "4af7943df729cbe6e554f5fa4734e8febcb1c160e2653a8dbec6071a1c3034f9",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "fc478b48d5695702b46fff9c82f4b891bd7941261f02d97e73229075f0ba14ae",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "87597c18c51d823dd0a26e3025a76b35cd8ec1e5b0e29fb6156a760b7c1228eb",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "8f84d00e6dd3070bfaa0a8ffd9dc6d416a06df797b4f9aaf33c0c11e2fc7dd5d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "2311e6d8ea7f4a48d9c85600c413c75005157dcedca2b49a83fb45add30a84fd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "f837699723fac3b8e96585baaeaa66cc8447d4832a8cb24ba47ff90bf77a4abd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "76b703e7484c036ef829f2cd006f3c08137a74d82af343ec115990964830f29f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "53d7d0198574d6b3ca5f48d19b5ab162a29d03dcc21454f28907621899bc2635",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+      "sha256": "95e5fc634f6c56f9032bbeb5d1d0a194416d7c94b0dad7a4d26f95bc4d5900dd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "e81d50879e3da80e8715024bce84327d988f51dbb733978368e616876ed8f359",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_ui.so",
+      "sha256": "aef9cb6dcdc3e1fbd8621603cece220213df2deaf1c7685a5cc3f1528c60efdd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "44766e2649a4d5fc33162e6f9f91fc55f450c617dd84591bf0bd5c259eb79869",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "actual_melee_hits": [
+    [
+      "_prim_tmp_cultist07",
+      "25600",
+      "21247",
+      "0"
+    ],
+    [
+      "_prim_tmp_cultist07",
+      "21247",
+      "19370",
+      "0"
+    ],
+    [
+      "_prim_tmp_cultist07",
+      "19370",
+      "14848",
+      "0"
+    ],
+    [
+      "_prim_tmp_cultist07",
+      "14848",
+      "10882",
+      "0"
+    ],
+    [
+      "_prim_tmp_cultist07",
+      "10882",
+      "8783",
+      "0"
+    ],
+    [
+      "_prim_tmp_cultist07",
+      "8783",
+      "4814",
+      "0"
+    ],
+    [
+      "_prim_tmp_cultist07",
+      "4814",
+      "390",
+      "0"
+    ],
+    [
+      "_prim_tmp_cultist07",
+      "390",
+      "0",
+      "1"
+    ]
+  ],
+  "actual_HUD_updates": [
+    [
+      "0000000100000006",
+      "25600",
+      "25600",
+      "0",
+      "1"
+    ],
+    [
+      "0000000100000006",
+      "21247",
+      "25600",
+      "0",
+      "1"
+    ],
+    [
+      "0000000100000006",
+      "19370",
+      "25600",
+      "0",
+      "1"
+    ],
+    [
+      "0000000100000006",
+      "14848",
+      "25600",
+      "0",
+      "1"
+    ],
+    [
+      "0000000100000006",
+      "10882",
+      "25600",
+      "0",
+      "1"
+    ],
+    [
+      "0000000100000006",
+      "8783",
+      "25600",
+      "0",
+      "1"
+    ],
+    [
+      "0000000100000006",
+      "4814",
+      "25600",
+      "0",
+      "1"
+    ],
+    [
+      "0000000100000006",
+      "390",
+      "25600",
+      "0",
+      "1"
+    ],
+    [
+      "0000000100000006",
+      "0",
+      "25600",
+      "1",
+      "0"
+    ]
+  ],
+  "actual_enemy_and_player_positions": [
+    [
+      "0000000100000006",
+      "1310.29297",
+      "150.101486",
+      "-1252.30188",
+      "-295.652771",
+      "465.863098",
+      "-1339.18225",
+      "-488.594635",
+      "135.041809"
+    ],
+    [
+      "0000000100000006",
+      "1309.28821",
+      "148.997528",
+      "-1253.11047",
+      "-295.23291",
+      "466.586121",
+      "-1339.18225",
+      "-488.594635",
+      "135.041809"
+    ],
+    [
+      "0000000100000006",
+      "1414.13342",
+      "172.578613",
+      "-1253.70239",
+      "-295.113159",
+      "467.273254",
+      "-1420.70117",
+      "-465.670349",
+      "144.099304"
+    ],
+    [
+      "0000000100000006",
+      "1427.98047",
+      "181.766998",
+      "-1243.04883",
+      "-300.827698",
+      "462.462219",
+      "-1420.70117",
+      "-465.670349",
+      "144.099304"
+    ],
+    [
+      "0000000100000006",
+      "1427.22473",
+      "181.979004",
+      "-1243.65845",
+      "-301.048645",
+      "462.397614",
+      "-1420.70117",
+      "-465.670349",
+      "144.099304"
+    ],
+    [
+      "0000000100000006",
+      "1426.84119",
+      "182.034988",
+      "-1243.93738",
+      "-300.97229",
+      "462.310059",
+      "-1420.70117",
+      "-465.670349",
+      "144.099304"
+    ],
+    [
+      "0000000100000006",
+      "1425.89368",
+      "180.49028",
+      "-1244.43579",
+      "-298.866028",
+      "462.52063",
+      "-1420.70117",
+      "-465.670349",
+      "144.099304"
+    ],
+    [
+      "0000000100000006",
+      "1422.05554",
+      "178.580719",
+      "-1247.46411",
+      "-298.016754",
+      "463.697357",
+      "-1420.70117",
+      "-465.670349",
+      "144.099304"
+    ]
+  ],
+  "source_target_or_health_injected": false,
+  "physical_arm64_tested": false,
+  "full_original_melee_FX": false,
+  "full_enemy_AI": false,
+  "proof_sha256": {
+    "port/android-native/reports/enemy-hud-presentation-v2-host.json": "eac31a6cb28d491ed466676fae0b4b57797b36e9e16e317152518c73c30d07e6",
+    "port/android-native/reports/npc-injury-v1-current-main-linked.json": "5202f17cb96d1dbd227df9a13daca1afe50be8909d80784230d712ed97ff0d01",
+    "port/level-world/reports/npc-visual-transform-current-arm64-differential.json": "a2649aa955e1d7bc964d90b982539d727ce3c36e9d68950e6262a26d463a86a9"
+  }
+}

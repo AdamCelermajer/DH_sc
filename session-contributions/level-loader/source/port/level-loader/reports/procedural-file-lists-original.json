@@ -1,0 +1,588 @@
+{
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "scope": "Execute original GetFiles tokenization with supplied immutable file bytes.\n\nFile open/size/read/close and vector push_back are observed environment services.\nOriginal string creation, searches, substring lengths and termination execute\nARM instructions. No filename parser result is supplied by a hook.\n",
+  "script_sha256": "c2b2a9fe1ded9cd44981c74e37a89dc1f89fde9115f90b4dea3c82368e00b75f",
+  "cases": [
+    {
+      "name": "case-0",
+      "input_hex": "",
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "rows": [],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "case-1",
+      "input_hex": "6f6e652e6d67780d0a",
+      "input_sha256": "3eaf2d9fc5fcd89479362ad4275b96dd5bd8e2d86b055b5b135056ff17b2fe89",
+      "rows": [
+        "one.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "case-2",
+      "input_hex": "6f6e652e6d67780a",
+      "input_sha256": "f6ba949de3352587bd9b07323cd0a9d16edd29ee22330e2eb7d731f26630fff9",
+      "rows": [
+        "one.mg"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "case-3",
+      "input_hex": "6f6e652e6d6778",
+      "input_sha256": "6789cdb27710497a03f2f4c48c03dddd6419ba7a8cc14b50b2a7621711315a5c",
+      "rows": [],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "case-4",
+      "input_hex": "6f6e652e6d67780d0a74776f2e6d67780d0a",
+      "input_sha256": "11ac41d9b4228f83486e78cdfb71f4f64fd755b2d7bfc6d2de4b1a95f260e473",
+      "rows": [
+        "one.mgx",
+        "two.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "case-5",
+      "input_hex": "6f6e652e6d67780d0a74776f2e6d6778",
+      "input_sha256": "9570adb859364858a5956c1b09fdce7d9722a65ca61a6f980c9567912b5a350b",
+      "rows": [
+        "one.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "case-6",
+      "input_hex": "0d0a",
+      "input_sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "rows": [
+        ""
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "case-7",
+      "input_hex": "0a",
+      "input_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "rows": [
+        "\n"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "case-8",
+      "input_hex": "610d0d0a",
+      "input_sha256": "9b03de62b82ec74f8a4266c87c17fd01910ad11179392bdf2d2bd9806771ef78",
+      "rows": [
+        "a\r"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "case-9",
+      "input_hex": "610068696464656e0d0a",
+      "input_sha256": "7d4f2949587a5d1e9d34420b7cf36d4a635b30d18b27fe87667380ada2866cae",
+      "rows": [],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "case-10",
+      "input_hex": "610a620a",
+      "input_sha256": "911169ddaaf146aff539f58c26c489af3b892dff0fe283c1c264c65ae5aa59a2",
+      "rows": [
+        "",
+        ""
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/mgxlist.txt",
+      "input_hex": "636f726e65725f726f6f7464656e5f6e655f2e6d67780d0a636f726e65725f726f6f7464656e5f6e775f2e6d67780d0a636f726e65725f726f6f7464656e5f73655f2e6d67780d0a636f726e65725f726f6f7464656e5f73775f2e6d67780d0a64656164656e645f726f6f7464656e5f655f2e6d67780d0a64656164656e645f726f6f7464656e5f6e5f2e6d67780d0a64656164656e645f726f6f7464656e5f735f2e6d67780d0a64656164656e645f726f6f7464656e5f775f2e6d67780d0a6f626a626f73735f726f6f7464656e5f775f2e6d67780d0a6f626a63726f73735f726f6f7464656e5f6e6573775f2e6d67780d0a6f626a656e7472795f726f6f7464656e5f655f2e6d67780d0a73747261696768745f726f6f7464656e5f65775f2e6d67780d0a73747261696768745f726f6f7464656e5f6e735f2e6d67780d0a745f726f6f7464656e5f6573775f2e6d67780d0a745f726f6f7464656e5f776e655f2e6d67780d0a",
+      "input_sha256": "899684560cea9624c9847e35ef52ffea0dce1669917ccd6006c63698e6bd6c67",
+      "rows": [
+        "corner_rootden_ne_.mgx",
+        "corner_rootden_nw_.mgx",
+        "corner_rootden_se_.mgx",
+        "corner_rootden_sw_.mgx",
+        "deadend_rootden_e_.mgx",
+        "deadend_rootden_n_.mgx",
+        "deadend_rootden_s_.mgx",
+        "deadend_rootden_w_.mgx",
+        "objboss_rootden_w_.mgx",
+        "objcross_rootden_nesw_.mgx",
+        "objentry_rootden_e_.mgx",
+        "straight_rootden_ew_.mgx",
+        "straight_rootden_ns_.mgx",
+        "t_rootden_esw_.mgx",
+        "t_rootden_wne_.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/icy_hub/mgx/mgxlist.txt",
+      "input_hex": "6963796875622e6d67780d0a",
+      "input_sha256": "94648ada0983629a3bc377dde9747fefd608b9f6d8818809b1a870819bfd1f31",
+      "rows": [
+        "icyhub.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/mgxlist.txt",
+      "input_hex": "626f7373726f6f6d5f69637963617665726e5f775f30302e6d67780d0a636f726e65725f69637963617665726e5f6e655f30302e6d67780d0a636f726e65725f69637963617665726e5f6e775f30302e6d67780d0a636f726e65725f69637963617665726e5f73655f30302e6d67780d0a636f726e65725f69637963617665726e5f73775f30302e6d67780d0a64656164656e645f69637963617665726e5f775f30302e6d67780d0a656e7472616e63655f69637963617665726e5f655f30302e6d67780d0a6d6f6e756d656e745f69637963617665726e5f77652e6d67780d0a736e616b65795f69637963617665726e5f77655f30302e6d67780d0a73747261696768745f69637963617665726e5f6e735f30302e6d67780d0a73747261696768745f69637963617665726e5f77655f30302e6d67780d0a745f69637963617665726e5f6e73655f30302e6d67780d0a745f69637963617665726e5f6e73775f30302e6d67780d0a",
+      "input_sha256": "8f5d03a86ac610e9aaa7d1dc9cd30676e1a20425cfd19f06343f2e0b2d1fc034",
+      "rows": [
+        "bossroom_icycavern_w_00.mgx",
+        "corner_icycavern_ne_00.mgx",
+        "corner_icycavern_nw_00.mgx",
+        "corner_icycavern_se_00.mgx",
+        "corner_icycavern_sw_00.mgx",
+        "deadend_icycavern_w_00.mgx",
+        "entrance_icycavern_e_00.mgx",
+        "monument_icycavern_we.mgx",
+        "snakey_icycavern_we_00.mgx",
+        "straight_icycavern_ns_00.mgx",
+        "straight_icycavern_we_00.mgx",
+        "t_icycavern_nse_00.mgx",
+        "t_icycavern_nsw_00.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/mgxlist.txt",
+      "input_hex": "636f726e65725f776174657274656d705f6e655f30302e6d67780d0a636f726e65725f776174657274656d705f73655f30302e6d67780d0a636f726e65725f776174657274656d705f73775f30302e6d67780d0a636f726e65725f776174657274656d705f776e5f30302e6d67780d0a64656164656e645f776174657274656d705f655f30302e6d67780d0a64656164656e645f776174657274656d705f6e5f30302e6d67780d0a64656164656e645f776174657274656d705f735f30302e6d67780d0a64656164656e645f776174657274656d705f775f30302e6d67780d0a6f626a656e645f776174657274656d705f735f30302e6d67780d0a6f626a6d69645f776174657274656d705f6e735f30302e6d67780d0a6f626a73746172745f776174657274656d705f735f2e6d67780d0a6f626a73746172745f776174657274656d705f735f30302e6d67780d0a6f626a73746172745f776174657274656d705f775f30302e6d67780d0a73747261696768745f776174657274656d705f65775f30302e6d67780d0a73747261696768745f776174657274656d705f6e735f30302e6d67780d0a745f776174657274656d705f6e73775f30302e6d67780d0a745f776174657274656d705f7773655f30302e6d67780d0a",
+      "input_sha256": "258f8ac23e507398fd5091543c76abe007a807cf2dc42a1f58a57943468f5d8a",
+      "rows": [
+        "corner_watertemp_ne_00.mgx",
+        "corner_watertemp_se_00.mgx",
+        "corner_watertemp_sw_00.mgx",
+        "corner_watertemp_wn_00.mgx",
+        "deadend_watertemp_e_00.mgx",
+        "deadend_watertemp_n_00.mgx",
+        "deadend_watertemp_s_00.mgx",
+        "deadend_watertemp_w_00.mgx",
+        "objend_watertemp_s_00.mgx",
+        "objmid_watertemp_ns_00.mgx",
+        "objstart_watertemp_s_.mgx",
+        "objstart_watertemp_s_00.mgx",
+        "objstart_watertemp_w_00.mgx",
+        "straight_watertemp_ew_00.mgx",
+        "straight_watertemp_ns_00.mgx",
+        "t_watertemp_nsw_00.mgx",
+        "t_watertemp_wse_00.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/test/mgx/mgxlist.txt",
+      "input_hex": "626c6f636b5f3178315f30312e6d67780d0a626c6f636b5f3178315f30322e6d67780d0a626c6f636b5f3178315f30332e6d67780d0a626c6f636b5f3178315f30342e6d67780d0a626c6f636b5f3178315f30352e6d67780d0a626c6f636b5f3178315f30355f73746172742e6d67780d0a626c6f636b5f3178315f30362e6d67780d0a626c6f636b5f3178315f30372e6d67780d0a626c6f636b5f3178315f30382e6d67780d0a626c6f636b5f3178315f30392e6d67780d0a626c6f636b5f3178315f31302e6d67780d0a626c6f636b5f3178315f31305f7374616972732e6d67780d0a626c6f636b5f3178315f31312e6d67780d0a626c6f636b5f3178315f31322e6d67780d0a626c6f636b5f3178315f31332e6d67780d0a626c6f636b5f3178315f31342e6d67780d0a626c6f636b5f3178315f31352e6d67780d0a626c6f636b5f3278315f31382e6d67780d0a626c6f636b5f3278315f31385f746573742e6d67780d0a64656275675f61706c6861746573742e6d67780d0a",
+      "input_sha256": "e1a587580e7a9798ce41116b0fdab529321f2121d2cedebb25018f4b57a88b90",
+      "rows": [
+        "block_1x1_01.mgx",
+        "block_1x1_02.mgx",
+        "block_1x1_03.mgx",
+        "block_1x1_04.mgx",
+        "block_1x1_05.mgx",
+        "block_1x1_05_start.mgx",
+        "block_1x1_06.mgx",
+        "block_1x1_07.mgx",
+        "block_1x1_08.mgx",
+        "block_1x1_09.mgx",
+        "block_1x1_10.mgx",
+        "block_1x1_10_stairs.mgx",
+        "block_1x1_11.mgx",
+        "block_1x1_12.mgx",
+        "block_1x1_13.mgx",
+        "block_1x1_14.mgx",
+        "block_1x1_15.mgx",
+        "block_2x1_18.mgx",
+        "block_2x1_18_test.mgx",
+        "debug_aplhatest.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/mgxlist.txt",
+      "input_hex": "636f726e65725f656172746874656d705f6e655f2e6d67780d0a636f726e65725f656172746874656d705f6e775f2e6d67780d0a636f726e65725f656172746874656d705f73655f2e6d67780d0a636f726e65725f656172746874656d705f73775f2e6d67780d0a64656164656e645f656172746874656d705f655f2e6d67780d0a64656164656e645f656172746874656d705f6e5f2e6d67780d0a64656164656e645f656172746874656d705f735f2e6d67780d0a64656164656e645f656172746874656d705f775f2e6d67780d0a656e7472795f656172746874656d705f775f2e6d67780d0a6d6964626f73735f656172746874656d705f6e735f2e6d67780d0a6f626a626f73735f656172746874656d705f735f2e6d67780d0a73747261696768745f656172746874656d705f65775f2e6d67780d0a73747261696768745f656172746874656d705f6e735f2e6d67780d0a745f656172746874656d705f6e65775f2e6d67780d0a745f656172746874656d705f6e73775f2e6d67780d0a",
+      "input_sha256": "49cbaf0af1c953a2ab3ad0d821222134675e3ceab3b473e2cd3c9093b6062afc",
+      "rows": [
+        "corner_earthtemp_ne_.mgx",
+        "corner_earthtemp_nw_.mgx",
+        "corner_earthtemp_se_.mgx",
+        "corner_earthtemp_sw_.mgx",
+        "deadend_earthtemp_e_.mgx",
+        "deadend_earthtemp_n_.mgx",
+        "deadend_earthtemp_s_.mgx",
+        "deadend_earthtemp_w_.mgx",
+        "entry_earthtemp_w_.mgx",
+        "midboss_earthtemp_ns_.mgx",
+        "objboss_earthtemp_s_.mgx",
+        "straight_earthtemp_ew_.mgx",
+        "straight_earthtemp_ns_.mgx",
+        "t_earthtemp_new_.mgx",
+        "t_earthtemp_nsw_.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/mgxlist.txt",
+      "input_hex": "756e6465725f30312e6d67780d0a756e6465725f30322e6d67780d0a756e6465725f30332e6d67780d0a756e6465725f30342e6d67780d0a756e6465725f30352e6d67780d0a756e6465725f30362e6d67780d0a756e6465725f30372e6d67780d0a756e6465725f30382e6d67780d0a756e6465725f30392e6d67780d0a",
+      "input_sha256": "38caec9ba17f39c5d025301795c202947a680034218e4d1ee5062b65aa15a29a",
+      "rows": [
+        "under_01.mgx",
+        "under_02.mgx",
+        "under_03.mgx",
+        "under_04.mgx",
+        "under_05.mgx",
+        "under_06.mgx",
+        "under_07.mgx",
+        "under_08.mgx",
+        "under_09.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/darktemple/mgx/mgxlist.txt",
+      "input_hex": "6461726b74656d706c652e6d67780d0a",
+      "input_sha256": "3749071f17a08a54f42d5081226f380ecc4c714fe600d580e3c75acf3beebb8a",
+      "rows": [
+        "darktemple.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/mgxlist.txt",
+      "input_hex": "636f726e65725f64737274636176655f6e655f30302e6d67780d0a636f726e65725f64737274636176655f73655f30302e6d67780d0a636f726e65725f64737274636176655f776e5f30302e6d67780d0a636f726e65725f64737274636176655f77735f30302e6d67780d0a64656164656e645f64737274636176655f655f30302e6d67780d0a64656164656e645f64737274636176655f6e5f30302e6d67780d0a64656164656e645f64737274636176655f735f30302e6d67780d0a64656164656e645f64737274636176655f775f30302e6d67780d0a6f626a30315f64737274636176655f655f30302e6d67780d0a6f626a30325f64737274636176655f77735f30302e6d67780d0a6f626a30335f64737274636176655f6e735f30302e6d67780d0a6f626a30345f64737274636176655f6e735f30302e6d67780d0a6f626a30355f64737274636176655f6e5f30302e6d67780d0a73747261696768745f64737274636176655f6e735f30302e6d67780d0a73747261696768745f64737274636176655f77655f30302e6d67780d0a745f64737274636176655f6e73655f30302e6d67780d0a745f64737274636176655f6e73775f30302e6d67780d0a",
+      "input_sha256": "568dafcd774f41a59afaa7318be71cb99373c8a2c459ed7da6bb03bb12308500",
+      "rows": [
+        "corner_dsrtcave_ne_00.mgx",
+        "corner_dsrtcave_se_00.mgx",
+        "corner_dsrtcave_wn_00.mgx",
+        "corner_dsrtcave_ws_00.mgx",
+        "deadend_dsrtcave_e_00.mgx",
+        "deadend_dsrtcave_n_00.mgx",
+        "deadend_dsrtcave_s_00.mgx",
+        "deadend_dsrtcave_w_00.mgx",
+        "obj01_dsrtcave_e_00.mgx",
+        "obj02_dsrtcave_ws_00.mgx",
+        "obj03_dsrtcave_ns_00.mgx",
+        "obj04_dsrtcave_ns_00.mgx",
+        "obj05_dsrtcave_n_00.mgx",
+        "straight_dsrtcave_ns_00.mgx",
+        "straight_dsrtcave_we_00.mgx",
+        "t_dsrtcave_nse_00.mgx",
+        "t_dsrtcave_nsw_00.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/mgxlist.txt",
+      "input_hex": "626f73735f726f6f6d2e6d67780d0a63656d65746572795f656e7472616e63652e6d67780d0a636f726e65725f6e652e6d67780d0a636f726e65725f6e772e6d67780d0a636f726e65725f73652e6d67780d0a636f726e65725f73772e6d67780d0a64656164656e645f652e6d67780d0a64656164656e645f6e2e6d67780d0a64656164656e645f772e6d67780d0a656e7472616e63655f6e2e6d67780d0a656e7472616e63655f732e6d67780d0a6b696e67735f6368616d6265725f732e6d67780d0a73747261696768745f615f65772e6d67780d0a73747261696768745f625f65772e6d67780d0a73747261696768745f625f6e732e6d67780d0a73747261696768745f635f65772e6d67780d0a73747261696768745f635f6e732e6d67780d0a73747261696768745f645f65772e6d67780d0a73747261696768745f6e732e6d67780d0a745f6e73652e6d67780d0a745f7365772e6d67780d0a",
+      "input_sha256": "d0d6bfd61283fbcdd032b6c9ce184c23e92b4ae86811557312b94a009db98951",
+      "rows": [
+        "boss_room.mgx",
+        "cemetery_entrance.mgx",
+        "corner_ne.mgx",
+        "corner_nw.mgx",
+        "corner_se.mgx",
+        "corner_sw.mgx",
+        "deadend_e.mgx",
+        "deadend_n.mgx",
+        "deadend_w.mgx",
+        "entrance_n.mgx",
+        "entrance_s.mgx",
+        "kings_chamber_s.mgx",
+        "straight_a_ew.mgx",
+        "straight_b_ew.mgx",
+        "straight_b_ns.mgx",
+        "straight_c_ew.mgx",
+        "straight_c_ns.mgx",
+        "straight_d_ew.mgx",
+        "straight_ns.mgx",
+        "t_nse.mgx",
+        "t_sew.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/mgxlist.txt",
+      "input_hex": "626f73735f6669726574656d706c655f735f30302e6d67780d0a636f726e65725f6669726574656d706c655f6e655f30302e6d67780d0a636f726e65725f6669726574656d706c655f6e775f30302e6d67780d0a636f726e65725f6669726574656d706c655f73655f30302e6d67780d0a636f726e65725f6669726574656d706c655f73775f30302e6d67780d0a656e7472616e63655f6669726574656d706c655f656e5f30302e6d67780d0a66616c6c656e746f7765727265706561745f6669726574656d706c655f6e735f30302e6d67780d0a66616c6c656e746f776572746f705f6669726574656d706c655f6e735f30302e6d67780d0a73747261696768745f6669726574656d706c655f6e735f30302e6d67780d0a73747261696768745f6669726574656d706c655f77655f30302e6d67780d0a746f7765726b6e6f636b646f776e5f6669726574656d706c655f6e735f30302e6d67780d0a745f6669726574656d706c655f6e73655f30302e6d67780d0a745f6669726574656d706c655f6e73775f30302e6d67780d0a",
+      "input_sha256": "454360620e50af6fc3866e6f76e7ed4a779f1307d733682512de03d49a8dee51",
+      "rows": [
+        "boss_firetemple_s_00.mgx",
+        "corner_firetemple_ne_00.mgx",
+        "corner_firetemple_nw_00.mgx",
+        "corner_firetemple_se_00.mgx",
+        "corner_firetemple_sw_00.mgx",
+        "entrance_firetemple_en_00.mgx",
+        "fallentowerrepeat_firetemple_ns_00.mgx",
+        "fallentowertop_firetemple_ns_00.mgx",
+        "straight_firetemple_ns_00.mgx",
+        "straight_firetemple_we_00.mgx",
+        "towerknockdown_firetemple_ns_00.mgx",
+        "t_firetemple_nse_00.mgx",
+        "t_firetemple_nsw_00.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/mgxlist.txt",
+      "input_hex": "636f726e65725f77696e6474656d705f6e655f2e6d67780d0a636f726e65725f77696e6474656d705f6e775f2e6d67780d0a636f726e65725f77696e6474656d705f73655f2e6d67780d0a636f726e65725f77696e6474656d705f73775f2e6d67780d0a64656164656e645f77696e6474656d705f655f2e6d67780d0a64656164656e645f77696e6474656d705f6e5f2e6d67780d0a64656164656e645f77696e6474656d705f735f2e6d67780d0a64656164656e645f77696e6474656d705f775f2e6d67780d0a656e7472795f77696e6474656d705f6e5f2e6d67780d0a6d6964626f73735f77696e6474656d705f77735f2e6d67780d0a6f626a626f73735f77696e6474656d705f655f2e6d67780d0a73747261696768745f77696e6474656d705f65775f2e6d67780d0a73747261696768745f77696e6474656d705f6e735f2e6d67780d0a745f77696e6474656d705f6573775f2e6d67780d0a745f77696e6474656d705f776e655f2e6d67780d0a",
+      "input_sha256": "ced96cee98a9dcceefdca0a5a00211a49b86c9ae1163dec43f85417306200810",
+      "rows": [
+        "corner_windtemp_ne_.mgx",
+        "corner_windtemp_nw_.mgx",
+        "corner_windtemp_se_.mgx",
+        "corner_windtemp_sw_.mgx",
+        "deadend_windtemp_e_.mgx",
+        "deadend_windtemp_n_.mgx",
+        "deadend_windtemp_s_.mgx",
+        "deadend_windtemp_w_.mgx",
+        "entry_windtemp_n_.mgx",
+        "midboss_windtemp_ws_.mgx",
+        "objboss_windtemp_e_.mgx",
+        "straight_windtemp_ew_.mgx",
+        "straight_windtemp_ns_.mgx",
+        "t_windtemp_esw_.mgx",
+        "t_windtemp_wne_.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/mgxlist.txt",
+      "input_hex": "626f7373726f6f6d625f737770636176655f775f30312e6d67780d0a626f7373726f6f6d5f7275696e735f6e735f2e6d67780d0a626f7373726f6f6d5f737770636176655f775f30302e6d67780d0a636f726e65725f62726477616c6b5f6e655f30302e6d67780d0a636f726e65725f62726477616c6b5f73655f30302e6d67780d0a636f726e65725f62726477616c6b5f73775f30302e6d67780d0a636f726e65725f7275696e5f6e655f30302e6d67780d0a636f726e65725f7275696e5f6e775f30302e6d67780d0a636f726e65725f7275696e5f73655f30302e6d67780d0a636f726e65725f7275696e5f776e5f30302e6d67780d0a636f726e65725f7275696e5f77735f30302e6d67780d0a636f726e65725f737770636176655f6e655f30302e6d67780d0a636f726e65725f737770636176655f6e775f30302e6d67780d0a636f726e65725f737770636176655f73655f30302e6d67780d0a636f726e65725f737770636176655f73775f30302e6d67780d0a64656164656e64625f737770636176655f6e5f30312e6d67780d0a64656164656e645f62726477616c6b5f655f30302e6d67780d0a64656164656e645f62726477616c6b5f73655f30302e6d67780d0a64656164656e645f62726477616c6b5f735f30302e6d67780d0a64656164656e645f62726477616c6b5f77655f30302e6d67780d0a64656164656e645f62726477616c6b5f775f30302e6d67780d0a64656164656e645f7275696e5f775f30302e6d67780d0a64656164656e645f737770636176655f655f30302e6d67780d0a64656164656e645f737770636176655f6e5f30302e6d67780d0a64656164656e645f737770636176655f735f30302e6d67780d0a64656164656e645f737770636176655f775f30302e6d67780d0a6d65726368616e7463616d705f7275696e735f7377655f30302e6d67780d0a6f626a5f316f66345f62726477616c6b5f6e73655f30302e6d67780d0a6f626a5f326f66345f62726477616c6b5f73775f30302e6d67780d0a6f626a5f336f66345f62726477616c6b5f73775f30302e6d67780d0a6f626a5f346f66345f62726477616c6b5f73775f30302e6d67780d0a73747261696768745f62726477616c6b5f6e735f30302e6d67780d0a73747261696768745f62726477616c6b5f77655f30302e6d67780d0a73747261696768745f7275696e5f6e735f30302e6d67780d0a73747261696768745f7275696e5f77655f30302e6d67780d0a73747261696768745f737770636176655f6e735f30302e6d67780d0a73747261696768745f737770636176655f77655f30302e6d67780d0a745f7275696e5f6e73655f30302e6d67780d0a745f7275696e5f6e73775f30302e6d67780d0a745f737770636176655f6e73655f30302e6d67780d0a745f737770636176655f6e73775f30302e6d67780d0a",
+      "input_sha256": "91c0d6a9bcc222e0bdccc10fd3f8f27d031277fd7034eb3d0806384f34e50e9d",
+      "rows": [
+        "bossroomb_swpcave_w_01.mgx",
+        "bossroom_ruins_ns_.mgx",
+        "bossroom_swpcave_w_00.mgx",
+        "corner_brdwalk_ne_00.mgx",
+        "corner_brdwalk_se_00.mgx",
+        "corner_brdwalk_sw_00.mgx",
+        "corner_ruin_ne_00.mgx",
+        "corner_ruin_nw_00.mgx",
+        "corner_ruin_se_00.mgx",
+        "corner_ruin_wn_00.mgx",
+        "corner_ruin_ws_00.mgx",
+        "corner_swpcave_ne_00.mgx",
+        "corner_swpcave_nw_00.mgx",
+        "corner_swpcave_se_00.mgx",
+        "corner_swpcave_sw_00.mgx",
+        "deadendb_swpcave_n_01.mgx",
+        "deadend_brdwalk_e_00.mgx",
+        "deadend_brdwalk_se_00.mgx",
+        "deadend_brdwalk_s_00.mgx",
+        "deadend_brdwalk_we_00.mgx",
+        "deadend_brdwalk_w_00.mgx",
+        "deadend_ruin_w_00.mgx",
+        "deadend_swpcave_e_00.mgx",
+        "deadend_swpcave_n_00.mgx",
+        "deadend_swpcave_s_00.mgx",
+        "deadend_swpcave_w_00.mgx",
+        "merchantcamp_ruins_swe_00.mgx",
+        "obj_1of4_brdwalk_nse_00.mgx",
+        "obj_2of4_brdwalk_sw_00.mgx",
+        "obj_3of4_brdwalk_sw_00.mgx",
+        "obj_4of4_brdwalk_sw_00.mgx",
+        "straight_brdwalk_ns_00.mgx",
+        "straight_brdwalk_we_00.mgx",
+        "straight_ruin_ns_00.mgx",
+        "straight_ruin_we_00.mgx",
+        "straight_swpcave_ns_00.mgx",
+        "straight_swpcave_we_00.mgx",
+        "t_ruin_nse_00.mgx",
+        "t_ruin_nsw_00.mgx",
+        "t_swpcave_nse_00.mgx",
+        "t_swpcave_nsw_00.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/infectedvillage/mgx/mgxlist.txt",
+      "input_hex": "696e66656374656476696c6c6167655f30312e6d67780d0a696e66656374656476696c6c6167655f30322e6d67780d0a",
+      "input_sha256": "7abd4b853bf23bf16298637f229014e162f40ce75c35993b06ddbb8fb8951500",
+      "rows": [
+        "infectedvillage_01.mgx",
+        "infectedvillage_02.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/machineroom/mgx/mgxlist.txt",
+      "input_hex": "706c616e655f6d616368696e65726f6f6d5f30302e6d67780d0a706c616e655f6d616368696e65726f6f6d5f30312e6d67780d0a706c616e655f6d616368696e65726f6f6d5f30322e6d67780d0a706c616e655f6d616368696e65726f6f6d5f30332e6d67780d0a",
+      "input_sha256": "64b9b44dc1c50fc6f5a66c600ad3073ee25e5a286927afb2b423e646183fad3e",
+      "rows": [
+        "plane_machineroom_00.mgx",
+        "plane_machineroom_01.mgx",
+        "plane_machineroom_02.mgx",
+        "plane_machineroom_03.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/lighthousse/mgx/mgxlist.txt",
+      "input_hex": "626f7373726f6f6d2e6d67780d0a636c6f73655f30312e6d67780d0a636c6f73655f30322e6d67780d0a636c6f73655f30332e6d67780d0a6f70656e5f30312e6d67780d0a6f70656e5f30322e6d67780d0a6f70656e5f30332e6d67780d0a7374617274726f6f6d2e6d67780d0a",
+      "input_sha256": "2e07153cfc22b6a60a00a0c0519bf5a4cd0d0068e81af3d065e294682089e90a",
+      "rows": [
+        "bossroom.mgx",
+        "close_01.mgx",
+        "close_02.mgx",
+        "close_03.mgx",
+        "open_01.mgx",
+        "open_02.mgx",
+        "open_03.mgx",
+        "startroom.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/abbey/mgx/mgxlist.txt",
+      "input_hex": "73747261696768745f612e6d67780d0a",
+      "input_sha256": "da799352f7c397eab179d62ba43718439f4c74aedd384ca87b6b35b98952c803",
+      "rows": [
+        "straight_a.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/dh1_catacombs/mgx/mgxlist.txt",
+      "input_hex": "746573745f3030312e6d67780d0a",
+      "input_sha256": "3fd3a7ea3af238a703d100003902b29600fe934790ea697ed7630c416baacbd6",
+      "rows": [
+        "test_001.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/mgxlist.txt",
+      "input_hex": "617373617373696e5f766f69646d617a655f735f30302e6d67780d0a636f726e65725f766f69646d617a655f6e655f30302e6d67780d0a636f726e65725f766f69646d617a655f6e775f30302e6d67780d0a636f726e65725f766f69646d617a655f73655f30302e6d67780d0a636f726e65725f766f69646d617a655f73775f30302e6d67780d0a64656164656e645f766f69646d617a655f655f30302e6d67780d0a64656164656e645f766f69646d617a655f6e5f30302e6d67780d0a64656164656e645f766f69646d617a655f6e5f30312e6d67780d0a64656164656e645f766f69646d617a655f735f30302e6d67780d0a64656164656e645f766f69646d617a655f775f30302e6d67780d0a69736c616e645f766f69646d617a655f30302e6d67780d0a73747261696768745f766f69646d617a655f6e735f30302e6d67780d0a73747261696768745f766f69646d617a655f77655f30302e6d67780d0a745f766f69646d617a655f6e73655f30302e6d67780d0a745f766f69646d617a655f6e73775f30302e6d67780d0a785f766f69646d617a655f6e7377655f30302e6d67780d0a",
+      "input_sha256": "5d746dadffc469e7732743303175b475db24e5f4a7ee72f3f2b5725e9b63a944",
+      "rows": [
+        "assassin_voidmaze_s_00.mgx",
+        "corner_voidmaze_ne_00.mgx",
+        "corner_voidmaze_nw_00.mgx",
+        "corner_voidmaze_se_00.mgx",
+        "corner_voidmaze_sw_00.mgx",
+        "deadend_voidmaze_e_00.mgx",
+        "deadend_voidmaze_n_00.mgx",
+        "deadend_voidmaze_n_01.mgx",
+        "deadend_voidmaze_s_00.mgx",
+        "deadend_voidmaze_w_00.mgx",
+        "island_voidmaze_00.mgx",
+        "straight_voidmaze_ns_00.mgx",
+        "straight_voidmaze_we_00.mgx",
+        "t_voidmaze_nse_00.mgx",
+        "t_voidmaze_nsw_00.mgx",
+        "x_voidmaze_nswe_00.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/red_desert/mgx/mgxlist.txt",
+      "input_hex": "30312e6d67780d0a30322e6d67780d0a30332e6d67780d0a30342e6d67780d0a30352e6d67780d0a30362e6d67780d0a",
+      "input_sha256": "526700307e1bc8bff9b55f78c5429b1f26ed4a1ab878fdad0472b81bd20da1fa",
+      "rows": [
+        "01.mgx",
+        "02.mgx",
+        "03.mgx",
+        "04.mgx",
+        "05.mgx",
+        "06.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/mgxlist.txt",
+      "input_hex": "636f726e65725f6e652e6d67780d0a636f726e65725f73652e6d67780d0a636f726e65725f776e2e6d67780d0a636f726e65725f77732e6d67780d0a64656164656e645f652e6d67780d0a64656164656e645f6e2e6d67780d0a64656164656e645f732e6d67780d0a64656164656e645f772e6d67780d0a656e7472616e63655f6e732e6d67780d0a6b696e67726f6f6d5f732e6d67780d0a6f626a656374697665726f6f6d5f732e6d67780d0a7374726169676874615f6e732e6d67780d0a7374726169676874625f65772e6d67780d0a745f6e65772e6d67780d0a",
+      "input_sha256": "a18ecf59097e003509650d2198d9f1e1e2c12dd486bd198d89bdf6f130e76a90",
+      "rows": [
+        "corner_ne.mgx",
+        "corner_se.mgx",
+        "corner_wn.mgx",
+        "corner_ws.mgx",
+        "deadend_e.mgx",
+        "deadend_n.mgx",
+        "deadend_s.mgx",
+        "deadend_w.mgx",
+        "entrance_ns.mgx",
+        "kingroom_s.mgx",
+        "objectiveroom_s.mgx",
+        "straighta_ns.mgx",
+        "straightb_ew.mgx",
+        "t_new.mgx"
+      ],
+      "reads": [
+        "mgxlist.txt"
+      ]
+    }
+  ],
+  "original_execution_complete": true,
+  "layout_generation_verified": false,
+  "full_loader_verified": false
+}

@@ -1,0 +1,1567 @@
+[
+  {
+    "symbol": "_ZN15GLXPlayerMPBase21mpProcessPushMessagesEv",
+    "address": "0x83762c",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN9Character16SG_SetSkillLevelEji",
+    "address": "0x3bbebc",
+    "size": 20
+  },
+  {
+    "symbol": "_ZN9Character13SG_GetSkillIdEj",
+    "address": "0x3bbeec",
+    "size": 28
+  },
+  {
+    "symbol": "_ZNSaIP17CharAISkillScriptE11_M_allocateEjRj",
+    "address": "0x3cd2a0",
+    "size": 112
+  },
+  {
+    "symbol": "_ZN6CharAI16AI_DoMeleeAttackEP10GameObjectb",
+    "address": "0x3d01ac",
+    "size": 1472
+  },
+  {
+    "symbol": "_ZN9Character11ResetSkillsEv",
+    "address": "0x3bc860",
+    "size": 396
+  },
+  {
+    "symbol": "_ZThn16_N17v2MixedController13Ctrl_EndSkillEj",
+    "address": "0x408bb8",
+    "size": 8
+  },
+  {
+    "symbol": "_Z12CF__CalcPushP9CharacterS0_ii",
+    "address": "0x3b0d78",
+    "size": 276
+  },
+  {
+    "symbol": "_ZN7Structs27AttackingFollowerProperties4readEP11IStreamBase",
+    "address": "0x4f7a74",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN6CharAI13_SkillCleanUpEv",
+    "address": "0x3d8ae0",
+    "size": 72
+  },
+  {
+    "symbol": "_ZNK16CharStateMachine14SM_IsAttackingEv",
+    "address": "0x3c02d0",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN9SingletonI8CSAttackE6s_instE",
+    "address": "0x9a2ab8",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN14v2Controllable15Ctrl_BeginSkillEj",
+    "address": "0x404d94",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver25OnMPProcessPushLeaveLobbyEP10DataPacket",
+    "address": "0x823ac4",
+    "size": 1300
+  },
+  {
+    "symbol": "_ZN16CMsgAttackResultD0Ev",
+    "address": "0x3242d0",
+    "size": 60
+  },
+  {
+    "symbol": "_ZN6Arrays14SkillListTable9readNamesEP11IStreamBase",
+    "address": "0x4b0464",
+    "size": 408
+  },
+  {
+    "symbol": "_ZN9SingletonI7CSSkillE6s_instE",
+    "address": "0x9a2ac0",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN9AISPlayer8OnAttackEiib",
+    "address": "0x3dd7ec",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN5Level16CleanUpAllSkillsEv",
+    "address": "0x3ef3fc",
+    "size": 100
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver34OnMPProcessPushJoinLobbyUnlaunchedEP10DataPacket",
+    "address": "0x8235f8",
+    "size": 528
+  },
+  {
+    "symbol": "_ZN9Character10CSM_AttackEiPviRi",
+    "address": "0x3ad22c",
+    "size": 16
+  },
+  {
+    "symbol": "_ZNK6CharAI11AI_GetAggroEP9Character",
+    "address": "0x3d4ac8",
+    "size": 252
+  },
+  {
+    "symbol": "_ZN9Character11_ClearAggroERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b8648",
+    "size": 96
+  },
+  {
+    "symbol": "_ZN10AISDefault11OnPreAttackEi",
+    "address": "0x3dbef8",
+    "size": 4
+  },
+  {
+    "symbol": "_ZTV17CharAISkillScript",
+    "address": "0x966780",
+    "size": 16
+  },
+  {
+    "symbol": "_Z22NativeSkillsTrainSkillRKN7gameswf7fn_callE",
+    "address": "0x43d548",
+    "size": 244
+  },
+  {
+    "symbol": "_ZN9Character7_AttackERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b9f44",
+    "size": 120
+  },
+  {
+    "symbol": "_ZNK9Character14CanRangeAttackEv",
+    "address": "0x3a4d3c",
+    "size": 32
+  },
+  {
+    "symbol": "_ZN9LuaScript12_PushVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x37be00",
+    "size": 68
+  },
+  {
+    "symbol": "_ZN7Structs9AIDoSkill13m_dataOffsetsE",
+    "address": "0x99abd8",
+    "size": 12
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame11_InitSkillsEv",
+    "address": "0x469764",
+    "size": 288
+  },
+  {
+    "symbol": "_ZGVN9SingletonI7CSSkillE6s_instE",
+    "address": "0x9a2a58",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN9Character12ReloadSkillsEv",
+    "address": "0x3a9db4",
+    "size": 252
+  },
+  {
+    "symbol": "_ZN12v2Controller12Cmd_EndSkillEj",
+    "address": "0x405954",
+    "size": 204
+  },
+  {
+    "symbol": "_ZN7CSSkill6OnBlurEiP9CharacterP16CharStateMachinei",
+    "address": "0x3c434c",
+    "size": 308
+  },
+  {
+    "symbol": "_ZN9Character16_AllowSkillBreakERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b7974",
+    "size": 120
+  },
+  {
+    "symbol": "_ZNK9Character16SG_GetSkillLevelEj",
+    "address": "0x3bbed0",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN7Structs9SkillListD0Ev",
+    "address": "0x4d1148",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN7Structs27AttackingFollowerProperties8finalizeEv",
+    "address": "0x4c6890",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame15SG_ReloadSkillsEv",
+    "address": "0x467324",
+    "size": 56
+  },
+  {
+    "symbol": "_ZNK6CharAI16AI_IsSkillUsableEj",
+    "address": "0x3d8358",
+    "size": 284
+  },
+  {
+    "symbol": "_ZNK6CharAI16AI_GetAggroEntryEiRP9CharacterRf",
+    "address": "0x3d72d0",
+    "size": 220
+  },
+  {
+    "symbol": "_ZN7Structs27v2QuestRewardGiveSkillPointD2Ev",
+    "address": "0x4c8988",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame17SG_SetSkillInSlotEij",
+    "address": "0x4680a8",
+    "size": 968
+  },
+  {
+    "symbol": "_ZN6glitch3gui10CGUIButton15setIsPushButtonEb",
+    "address": "0x6a5ec4",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN16CharStateMachine17SM_SetAttackStateEPvb",
+    "address": "0x3c6488",
+    "size": 36
+  },
+  {
+    "symbol": "_ZN6Arrays10SkillTable13finalizeNamesEv",
+    "address": "0x4a5464",
+    "size": 156
+  },
+  {
+    "symbol": "_ZNK14PlayerSavegame15SG_GetSkillSlotEj",
+    "address": "0x46752c",
+    "size": 440
+  },
+  {
+    "symbol": "_ZNK6CharAI12AI_CanAttackEP10GameObject",
+    "address": "0x3d67f4",
+    "size": 156
+  },
+  {
+    "symbol": "_Z14NativePushMenuRKN7gameswf7fn_callE",
+    "address": "0x43b1b4",
+    "size": 48
+  },
+  {
+    "symbol": "_ZN6Arrays14SkillListTable13m_memberNamesE",
+    "address": "0x9a6670",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN16CMsgAttackResult6CreateEiiRKN9Character12AttackResultEb",
+    "address": "0x3af330",
+    "size": 128
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript15SpawnProjectileEjf",
+    "address": "0x3da494",
+    "size": 124
+  },
+  {
+    "symbol": "_ZTV16Script_AIDoSkill",
+    "address": "0x9688a0",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame16SG_SetSkillLevelEji",
+    "address": "0x4667c4",
+    "size": 280
+  },
+  {
+    "symbol": "_ZN9Character13F_SpellAttackERNS_12AttackResultEPS_S2_ii",
+    "address": "0x3b3004",
+    "size": 416
+  },
+  {
+    "symbol": "_ZNSt6vectorIP17CharAISkillScriptSaIS1_EE7reserveEj",
+    "address": "0x3cd584",
+    "size": 204
+  },
+  {
+    "symbol": "_ZN7Structs27AttackingFollowerProperties11m_dataNamesE",
+    "address": "0x9e6520",
+    "size": 5400
+  },
+  {
+    "symbol": "_ZN6Arrays14SkillListTable7membersE",
+    "address": "0x9a666c",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN6CharAI20OnAttackDelayExpiredEv",
+    "address": "0x3d0c7c",
+    "size": 36
+  },
+  {
+    "symbol": "_ZN9Character14_F_ResetResultERNS_12AttackResultE",
+    "address": "0x3af3b0",
+    "size": 72
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript7GetInfoEjPf",
+    "address": "0x3daca8",
+    "size": 468
+  },
+  {
+    "symbol": "_Z15NativePushStateRKN7gameswf7fn_callE",
+    "address": "0x43aebc",
+    "size": 252
+  },
+  {
+    "symbol": "_ZN17CharAISkillScriptD0Ev",
+    "address": "0x3cc448",
+    "size": 60
+  },
+  {
+    "symbol": "_ZNK16CMsgAttackResult11GetDataSizeEv",
+    "address": "0x31f44c",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN9Character18_F_CalculateResultERNS_12AttackResultEPS_S2_iiii",
+    "address": "0x3b2638",
+    "size": 2096
+  },
+  {
+    "symbol": "_ZNK9Character16GetCharSkillListEv",
+    "address": "0x3bc5fc",
+    "size": 48
+  },
+  {
+    "symbol": "_ZN9Character17SG_SetSkillInSlotEij",
+    "address": "0x3bbe54",
+    "size": 20
+  },
+  {
+    "symbol": "_ZN9Character15SG_GetSkillSlotEj",
+    "address": "0x3bbe84",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN14v2Controllable11Ctrl_AttackEP10GameObject",
+    "address": "0x404d90",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN9AISPlayer7OnAggroEP9Character",
+    "address": "0x3ddb70",
+    "size": 728
+  },
+  {
+    "symbol": "_ZNK13ItemInventory14CanMeleeAttackERi",
+    "address": "0x3fff30",
+    "size": 116
+  },
+  {
+    "symbol": "_ZN9Character16SG_HasSkillSlotsEv",
+    "address": "0x3bbea0",
+    "size": 28
+  },
+  {
+    "symbol": "_ZNK6CharAI12AI_SkillInfoEjjRf",
+    "address": "0x3d7e88",
+    "size": 216
+  },
+  {
+    "symbol": "_ZN7Structs27AttackingFollowerPropertiesD0Ev",
+    "address": "0x4ce518",
+    "size": 28
+  },
+  {
+    "symbol": "_Z18NativeReloadSkillsRKN7gameswf7fn_callE",
+    "address": "0x43dbb8",
+    "size": 80
+  },
+  {
+    "symbol": "_ZNK9Character16IsSkillAvailableEi",
+    "address": "0x3bca50",
+    "size": 52
+  },
+  {
+    "symbol": "_ZTVN7Structs9SkillListE",
+    "address": "0x96a460",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN7Structs5SkillD1Ev",
+    "address": "0x4d1004",
+    "size": 96
+  },
+  {
+    "symbol": "_ZN16CMsgAttackResult13SetPropertiesEv",
+    "address": "0x327a40",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN7Structs9SkillListD2Ev",
+    "address": "0x4d1164",
+    "size": 64
+  },
+  {
+    "symbol": "_ZN8CSAttack7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+    "address": "0x3c404c",
+    "size": 768
+  },
+  {
+    "symbol": "_Z11GetNewStateI7CSSkillEP9CharStatev",
+    "address": "0x3c04fc",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN9Character18_GetSkillIDFromOIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b856c",
+    "size": 220
+  },
+  {
+    "symbol": "_ZNK14CharProperties20PROPS_GetAttackSpeedEv",
+    "address": "0x3de74c",
+    "size": 68
+  },
+  {
+    "symbol": "_Z11GetNewStateI8CSAttackEP9CharStatev",
+    "address": "0x3c04e0",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver28OnMPProcessPushAutomatchUserEP10DataPacket",
+    "address": "0x821384",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN9Character18F_ApplyCombatSoundERKNS_12AttackResultEP10GameObjectPS_",
+    "address": "0x3afd38",
+    "size": 424
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver24OnMPProcessPushStartGameEP10DataPacket",
+    "address": "0x821560",
+    "size": 68
+  },
+  {
+    "symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+    "address": "0x3b10b4",
+    "size": 3388
+  },
+  {
+    "symbol": "_ZN16CMsgAttackResult10GetDataPtrEv",
+    "address": "0x31f444",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN17v2MixedController13Ctrl_EndSkillEj",
+    "address": "0x408bc0",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN9AISPlayer9OnDeAggroEP9Character",
+    "address": "0x3dde48",
+    "size": 668
+  },
+  {
+    "symbol": "_ZNK13ItemInventory14CanMeleeAttackEv",
+    "address": "0x3ffd38",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN12v2Controller14Cmd_BeginSkillEj",
+    "address": "0x405a20",
+    "size": 228
+  },
+  {
+    "symbol": "_ZN7Structs9SkillList4readEP11IStreamBase",
+    "address": "0x4ea830",
+    "size": 292
+  },
+  {
+    "symbol": "_ZN7Structs5SkillD0Ev",
+    "address": "0x4d1064",
+    "size": 28
+  },
+  {
+    "symbol": "_ZNK9Character14GetAttackDelayEv",
+    "address": "0x3a3438",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN6CharAI13AI_BeginSkillEj",
+    "address": "0x3d86bc",
+    "size": 428
+  },
+  {
+    "symbol": "_Z25NativeHasPushNotificationRKN7gameswf7fn_callE",
+    "address": "0x440c84",
+    "size": 184
+  },
+  {
+    "symbol": "_ZN7CSSkill7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+    "address": "0x3c4480",
+    "size": 324
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame12__SaveSkillsEP11IStreamBasePv",
+    "address": "0x469e6c",
+    "size": 584
+  },
+  {
+    "symbol": "_ZNK9Character18GetCharSkillListIdEv",
+    "address": "0x3bc5c0",
+    "size": 60
+  },
+  {
+    "symbol": "_ZThn884_N9Character15Ctrl_BeginSkillEj",
+    "address": "0x3ad864",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN3vox19FileSystemInterface13PushDirectoryEPc",
+    "address": "0x8941ec",
+    "size": 164
+  },
+  {
+    "symbol": "_ZN11MenuManager8PushMenuEP8MenuBase",
+    "address": "0x4317e8",
+    "size": 316
+  },
+  {
+    "symbol": "_ZNK9TimerTrap13GetHurtChanceEv",
+    "address": "0x39d5d0",
+    "size": 76
+  },
+  {
+    "symbol": "_ZN19MultiplayerCallback19HandleAttackMessageEPv",
+    "address": "0x49ade0",
+    "size": 404
+  },
+  {
+    "symbol": "_ZN6CharAI13AI_ClearAggroEP9Character",
+    "address": "0x3d6d68",
+    "size": 388
+  },
+  {
+    "symbol": "_ZNK13ItemInventory14CanRangeAttackERiS0_S0_",
+    "address": "0x3ffebc",
+    "size": 116
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver31OnMPProcessPushSameAccountLoginEP10DataPacket",
+    "address": "0x82153c",
+    "size": 36
+  },
+  {
+    "symbol": "_ZN7Structs27v2QuestRewardGiveSkillPoint8finalizeEv",
+    "address": "0x4c89f0",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript10OnPreSkillEv",
+    "address": "0x3da8b8",
+    "size": 292
+  },
+  {
+    "symbol": "_ZN9Character11_BeginSkillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b8cb8",
+    "size": 224
+  },
+  {
+    "symbol": "_ZN12v2Controller10Cmd_AttackEP10GameObject",
+    "address": "0x405b04",
+    "size": 440
+  },
+  {
+    "symbol": "_ZTV8CSAttack",
+    "address": "0x966468",
+    "size": 36
+  },
+  {
+    "symbol": "_ZN6CharAI25_OnAnimStepEnd_SkillSpellEv",
+    "address": "0x3d3d68",
+    "size": 108
+  },
+  {
+    "symbol": "_ZThn16_N17v2MixedController15Ctrl_BeginSkillEj",
+    "address": "0x408bc4",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN7Structs5Skill11m_dataNamesE",
+    "address": "0x9f3cfc",
+    "size": 360
+  },
+  {
+    "symbol": "_ZN7Structs27v2QuestRewardGiveSkillPoint13m_dataOffsetsE",
+    "address": "0x9f5f14",
+    "size": 16
+  },
+  {
+    "symbol": "_ZN10AISDefault7OnAggroEP9Character",
+    "address": "0x3dbea4",
+    "size": 4
+  },
+  {
+    "symbol": "_ZNK9Character12GetCharSkillEi",
+    "address": "0x3bc784",
+    "size": 220
+  },
+  {
+    "symbol": "_Z20PushProfilingContextPKc",
+    "address": "0x3136b4",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN7Structs27AttackingFollowerPropertiesD2Ev",
+    "address": "0x4c6828",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN6CharAI14AI_CancelSkillEj",
+    "address": "0x3d84e0",
+    "size": 244
+  },
+  {
+    "symbol": "_ZNK14PlayerSavegame16SG_GetSkillLevelEj",
+    "address": "0x4668dc",
+    "size": 300
+  },
+  {
+    "symbol": "_ZN9Character10F_GOAttackERNS_12AttackResultEP10GameObjectPS_ii",
+    "address": "0x3b061c",
+    "size": 588
+  },
+  {
+    "symbol": "_ZN6MenuFX8PushMenuEPKc",
+    "address": "0x7ae6a4",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN7Structs5Skill4readEP11IStreamBase",
+    "address": "0x4ebeb0",
+    "size": 1484
+  },
+  {
+    "symbol": "_ZN8MenuBase12FS_PushStateEPKcS1_Pv",
+    "address": "0x421234",
+    "size": 196
+  },
+  {
+    "symbol": "_ZNK6glitch3gui10CGUIButton12isPushButtonEv",
+    "address": "0x6a5ed4",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN7CSSkill7OnEventEiP9CharacterP16CharStateMachineiPv",
+    "address": "0x3c0ac8",
+    "size": 60
+  },
+  {
+    "symbol": "_ZN7Structs9AIDoSkillD1Ev",
+    "address": "0x4d2ae8",
+    "size": 72
+  },
+  {
+    "symbol": "_ZNSt6vectorIP17CharAISkillScriptSaIS1_EE20_M_allocate_and_copyIPS1_EES5_RjT_S7_",
+    "address": "0x3cd310",
+    "size": 60
+  },
+  {
+    "symbol": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+    "address": "0x3b2e68",
+    "size": 412
+  },
+  {
+    "symbol": "_ZN7Structs27AttackingFollowerPropertiesD1Ev",
+    "address": "0x4c685c",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN6Arrays14SkillListTable9skipNamesEP11IStreamBase",
+    "address": "0x4b05fc",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN8MenuBase11FS_IncSkillEPKcS1_Pv",
+    "address": "0x421ce0",
+    "size": 212
+  },
+  {
+    "symbol": "_ZN10AISDefault9OnDeAggroEP9Character",
+    "address": "0x3dbea8",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN6CharAI8OnAttackEiib",
+    "address": "0x3d0e7c",
+    "size": 88
+  },
+  {
+    "symbol": "_ZN6Arrays10SkillTable4readEP11IStreamBase",
+    "address": "0x4b9810",
+    "size": 340
+  },
+  {
+    "symbol": "_Z14NativeHUDSkillRKN7gameswf7fn_callE",
+    "address": "0x43e734",
+    "size": 252
+  },
+  {
+    "symbol": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+    "address": "0x3c8284",
+    "size": 436
+  },
+  {
+    "symbol": "_ZThn892_NK9Character14CanRangeAttackERiS0_S0_",
+    "address": "0x3a4cc8",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN7Structs5Skill8finalizeEv",
+    "address": "0x4d0fa4",
+    "size": 96
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver28OnMPProcessPushKickOutPlayerEP10DataPacket",
+    "address": "0x822c58",
+    "size": 348
+  },
+  {
+    "symbol": "_ZN9Character25_GetPropBonusAttackRatingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b7b84",
+    "size": 92
+  },
+  {
+    "symbol": "_ZN9Character10_StopSkillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b94ac",
+    "size": 212
+  },
+  {
+    "symbol": "_ZNK9Character17IsSkillEquippableEi",
+    "address": "0x3bca84",
+    "size": 84
+  },
+  {
+    "symbol": "_ZN6Arrays10SkillTable4sizeE",
+    "address": "0x9a6674",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN8CSAttack7OnEventEiP9CharacterP16CharStateMachineiPv",
+    "address": "0x3c1288",
+    "size": 624
+  },
+  {
+    "symbol": "_ZN16MultiMenuManager8PushMenuEP8MenuBase",
+    "address": "0x438278",
+    "size": 2460
+  },
+  {
+    "symbol": "_ZN6CharAI16AI_DoRangeAttackEP10GameObjectb",
+    "address": "0x3d076c",
+    "size": 1044
+  },
+  {
+    "symbol": "_Z21NativeGetSkillDetailsRKN7gameswf7fn_callE",
+    "address": "0x445a10",
+    "size": 3252
+  },
+  {
+    "symbol": "_ZN7Structs9AIDoSkill4readEP11IStreamBase",
+    "address": "0x501ad8",
+    "size": 284
+  },
+  {
+    "symbol": "_ZN14PlayerSavegame12__LoadSkillsEP11IStreamBasePv",
+    "address": "0x46ac74",
+    "size": 912
+  },
+  {
+    "symbol": "_ZNK9Character17GetNumComboAttackEv",
+    "address": "0x3a34f0",
+    "size": 132
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver29OnMPProcessPushGameserverAddrEP10DataPacket",
+    "address": "0x8216a8",
+    "size": 184
+  },
+  {
+    "symbol": "_ZN6Arrays14SkillListTable8finalizeEv",
+    "address": "0x4a5680",
+    "size": 228
+  },
+  {
+    "symbol": "_ZN9Character13F_MeleeAttackERNS_12AttackResultEPS_S2_bb",
+    "address": "0x3b3368",
+    "size": 648
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript16_ProjectileCheckEP10ProjectilePv",
+    "address": "0x3daff4",
+    "size": 376
+  },
+  {
+    "symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEj",
+    "address": "0x3c0300",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN7CSSkill8OnUpdateEiP9CharacterP16CharStateMachine",
+    "address": "0x3c0018",
+    "size": 4
+  },
+  {
+    "symbol": "_ZTVN7Structs27AttackingFollowerPropertiesE",
+    "address": "0x96b7e0",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN6CharAI12_UpdateAggroEv",
+    "address": "0x3cf3f0",
+    "size": 2052
+  },
+  {
+    "symbol": "_ZNK6CharAI16AI_GetAggroCountEv",
+    "address": "0x3d4a10",
+    "size": 8
+  },
+  {
+    "symbol": "_ZNK14PlayerSavegame13SG_GetSkillIdEj",
+    "address": "0x466a08",
+    "size": 272
+  },
+  {
+    "symbol": "_ZN9Character26F_ApplyScrollingCombatTextERKNS_12AttackResultEP10GameObjectPS_",
+    "address": "0x3af1fc",
+    "size": 308
+  },
+  {
+    "symbol": "_ZN9Character8_DoSkillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b8bd8",
+    "size": 224
+  },
+  {
+    "symbol": "_ZNK9Character17GetSkillIDFromOIDEi",
+    "address": "0x3bc62c",
+    "size": 92
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript11GetCooldownEv",
+    "address": "0x3da3d0",
+    "size": 108
+  },
+  {
+    "symbol": "_ZN9Character17CanIncrementSkillEi",
+    "address": "0x3bc9ec",
+    "size": 100
+  },
+  {
+    "symbol": "_ZN9Character8IncSkillEib",
+    "address": "0x3bcc58",
+    "size": 820
+  },
+  {
+    "symbol": "_ZN6Arrays14SkillListTable4sizeE",
+    "address": "0x9a6668",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN9Character13F_SkillAttackERNS_12AttackResultEPS_S2_ii",
+    "address": "0x3b31a4",
+    "size": 452
+  },
+  {
+    "symbol": "_ZN6CharAI11OnPreAttackEi",
+    "address": "0x3d0ed4",
+    "size": 72
+  },
+  {
+    "symbol": "_ZN6Arrays10SkillTable9readNamesEP11IStreamBase",
+    "address": "0x4b0938",
+    "size": 408
+  },
+  {
+    "symbol": "_ZN9Character17_CanAttackInMeleeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b6f64",
+    "size": 32
+  },
+  {
+    "symbol": "_ZNK6CharAI12AI_IsAggroedEv",
+    "address": "0x3d4a00",
+    "size": 16
+  },
+  {
+    "symbol": "_ZN9Character19_CanAttackFromRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b6f10",
+    "size": 44
+  },
+  {
+    "symbol": "_ZN6CharAI15AI_ReloadSkillsEv",
+    "address": "0x3d8cfc",
+    "size": 116
+  },
+  {
+    "symbol": "_ZN14GLXPlayerLogin22processApplePushServerEPc",
+    "address": "0x833a84",
+    "size": 568
+  },
+  {
+    "symbol": "_ZNK14ProjectileTrap13GetHurtChanceEv",
+    "address": "0x39cbe4",
+    "size": 80
+  },
+  {
+    "symbol": "_ZN19MultiplayerCallback19searchRoomPushNotifEPv",
+    "address": "0x49b580",
+    "size": 224
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript7OnSkillEv",
+    "address": "0x3da794",
+    "size": 292
+  },
+  {
+    "symbol": "_ZN8CSAttackD1Ev",
+    "address": "0x3c0010",
+    "size": 4
+  },
+  {
+    "symbol": "_ZTV7CSSkill",
+    "address": "0x966490",
+    "size": 36
+  },
+  {
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_10SkillTableEEEiPKc",
+    "address": "0x4ad0dc",
+    "size": 116
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver32OnMPProcessPushJoinLobbyLaunchedEP10DataPacket",
+    "address": "0x822db4",
+    "size": 496
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver25OnMPProcessPushRejoinGameEP10DataPacket",
+    "address": "0x823808",
+    "size": 700
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript14_ProjectileHitEP10ProjectilePv",
+    "address": "0x3dae7c",
+    "size": 376
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver31OnMPProcessPushSetGameParameterEP10DataPacket",
+    "address": "0x82136c",
+    "size": 8
+  },
+  {
+    "symbol": "_Z12CF__CalcHurtP9CharacterS0_ii",
+    "address": "0x3b0e8c",
+    "size": 276
+  },
+  {
+    "symbol": "_ZNK16Script_AIDoSkill10IsBlockingEv",
+    "address": "0x4557b8",
+    "size": 8
+  },
+  {
+    "symbol": "_Z10SafeDeleteI17CharAISkillScriptEvRPT_",
+    "address": "0x3cb46c",
+    "size": 48
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript19OnSkillCheck_ActiveEv",
+    "address": "0x3db16c",
+    "size": 284
+  },
+  {
+    "symbol": "_ZN6CharAI15_UpdateSkillsCBEijPv",
+    "address": "0x3d8948",
+    "size": 188
+  },
+  {
+    "symbol": "_ZN6CharAI11AI_UseSkillEj",
+    "address": "0x3d8868",
+    "size": 44
+  },
+  {
+    "symbol": "_ZN7Structs9AIDoSkillD0Ev",
+    "address": "0x4d2b30",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN7Structs19GetMemberIDByStringINS_5SkillEEEiPKc",
+    "address": "0x4ad150",
+    "size": 88
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript19OnSkillCheck_UsableEv",
+    "address": "0x3da9dc",
+    "size": 288
+  },
+  {
+    "symbol": "_ZThn884_N9Character11Ctrl_AttackEP10GameObject",
+    "address": "0x3ad874",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN6Arrays10SkillTable13m_memberNamesE",
+    "address": "0x9a667c",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN9Character20_GetCurrentSkillInfoERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b8f9c",
+    "size": 232
+  },
+  {
+    "symbol": "_ZNK9Character14CanRangeAttackERiS0_S0_",
+    "address": "0x3a4cd0",
+    "size": 100
+  },
+  {
+    "symbol": "_ZN7Structs27v2QuestRewardGiveSkillPointD0Ev",
+    "address": "0x4cd910",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN9Character20CSM_StoppedAttackingEiPviRi",
+    "address": "0x3ad280",
+    "size": 16
+  },
+  {
+    "symbol": "_ZN6CharAI27_OnAnimStepBegin_SkillSpellEv",
+    "address": "0x3d3dd4",
+    "size": 112
+  },
+  {
+    "symbol": "_ZN7Structs9AIDoSkill11m_dataNamesE",
+    "address": "0x9f3164",
+    "size": 72
+  },
+  {
+    "symbol": "_ZNK14CharProperties26PROPS_GetBonusAttackRatingEb",
+    "address": "0x3df81c",
+    "size": 144
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript15SpawnProjectileEjb",
+    "address": "0x3da510",
+    "size": 124
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver31OnMPProcessPushGameserverParamsEP10DataPacket",
+    "address": "0x82137c",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN7Structs27AttackingFollowerProperties13m_dataOffsetsE",
+    "address": "0x9e619c",
+    "size": 900
+  },
+  {
+    "symbol": "_ZN6Arrays14SkillListTable4readEP11IStreamBase",
+    "address": "0x4b9964",
+    "size": 332
+  },
+  {
+    "symbol": "_ZN6Arrays10SkillTable8finalizeEv",
+    "address": "0x4a5500",
+    "size": 228
+  },
+  {
+    "symbol": "_ZN6CharAI16AI_ClearAllAggroEv",
+    "address": "0x3d5fa8",
+    "size": 480
+  },
+  {
+    "symbol": "_ZN7Structs9AIDoSkill8finalizeEv",
+    "address": "0x4d2ab8",
+    "size": 48
+  },
+  {
+    "symbol": "_ZNK14PlayerSavegame17SG_GetSkillInSlotEi",
+    "address": "0x467488",
+    "size": 164
+  },
+  {
+    "symbol": "_ZN7Structs5Skill13m_dataOffsetsE",
+    "address": "0x99ad44",
+    "size": 60
+  },
+  {
+    "symbol": "_ZN9Character16_InitSkillsSlotsEv",
+    "address": "0x3b3a90",
+    "size": 112
+  },
+  {
+    "symbol": "_ZN6CharAI24AI_ClearAllAggroTowardMeEb",
+    "address": "0x3d6abc",
+    "size": 544
+  },
+  {
+    "symbol": "_ZTVN7Structs5SkillE",
+    "address": "0x96a448",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN10AISDefault8OnAttackEiib",
+    "address": "0x3dc12c",
+    "size": 132
+  },
+  {
+    "symbol": "_ZN6CharAI13ClearAllAggroEv",
+    "address": "0x3cd384",
+    "size": 456
+  },
+  {
+    "symbol": "_ZN10AISDefault20OnAttackDelayExpiredEv",
+    "address": "0x3dbee8",
+    "size": 4
+  },
+  {
+    "symbol": "_ZNK14PlayerSavegame16SG_HasSkillSlotsEv",
+    "address": "0x4676e4",
+    "size": 52
+  },
+  {
+    "symbol": "_ZNK6CharAI11AI_HasAggroEv",
+    "address": "0x3d49f0",
+    "size": 16
+  },
+  {
+    "symbol": "_ZN6CharAI11AI_SetAggroEP9Characterf",
+    "address": "0x3d79ec",
+    "size": 636
+  },
+  {
+    "symbol": "_ZN6CharAI23_OnAnimStepBegin_AttackEv",
+    "address": "0x3d4044",
+    "size": 220
+  },
+  {
+    "symbol": "_ZN9Character15SG_ReloadSkillsEv",
+    "address": "0x3bbe2c",
+    "size": 20
+  },
+  {
+    "symbol": "_ZN13ItemInventory18GetCurrentSkillSetEi",
+    "address": "0x3fc6a0",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver23OnMPProcessPushMessagesEP10DataPacketi",
+    "address": "0x823fd8",
+    "size": 508
+  },
+  {
+    "symbol": "_ZN9Character11Ctrl_AttackEP10GameObject",
+    "address": "0x3ad87c",
+    "size": 12
+  },
+  {
+    "symbol": "_ZN17v2MixedController15Ctrl_BeginSkillEj",
+    "address": "0x408bcc",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN7Structs9SkillListD1Ev",
+    "address": "0x4d1108",
+    "size": 64
+  },
+  {
+    "symbol": "_ZN9Character13Ctrl_EndSkillEj",
+    "address": "0x3ad85c",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN16CMsgAttackResultD1Ev",
+    "address": "0x3200ac",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN12StateMachine9PushStateEP9StateBaseb",
+    "address": "0x33a344",
+    "size": 68
+  },
+  {
+    "symbol": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+    "address": "0x3c8438",
+    "size": 384
+  },
+  {
+    "symbol": "_ZN7Structs9SkillList13m_dataOffsetsE",
+    "address": "0x99ad40",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript13OnSkillUpdateEv",
+    "address": "0x3dabd0",
+    "size": 212
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript11OnPostSkillEv",
+    "address": "0x3da6c0",
+    "size": 212
+  },
+  {
+    "symbol": "_ZN6Arrays14SkillListTable13finalizeNamesEv",
+    "address": "0x4a55e4",
+    "size": 156
+  },
+  {
+    "symbol": "_Z14GetNewInstanceI16CMsgAttackResultEP8CMessageb",
+    "address": "0x328b6c",
+    "size": 120
+  },
+  {
+    "symbol": "_ZN6CharAI9OnDeAggroEP9Character",
+    "address": "0x3d2014",
+    "size": 180
+  },
+  {
+    "symbol": "_ZN16CharStateMachine16SM_SetSkillStateEjbPvb",
+    "address": "0x3c6670",
+    "size": 180
+  },
+  {
+    "symbol": "_ZN9Character15Ctrl_BeginSkillEj",
+    "address": "0x3ad86c",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver31OnMPProcessPushSetUserParameterEP10DataPacket",
+    "address": "0x823510",
+    "size": 232
+  },
+  {
+    "symbol": "_ZN6CharAI10_SkillBlurEv",
+    "address": "0x3d8b7c",
+    "size": 40
+  },
+  {
+    "symbol": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+    "address": "0x3cde2c",
+    "size": 336
+  },
+  {
+    "symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEP10GameObjectPS_b",
+    "address": "0x3b01b8",
+    "size": 996
+  },
+  {
+    "symbol": "_ZN9Character16_SkillCombatRollERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b9fbc",
+    "size": 732
+  },
+  {
+    "symbol": "_ZNK9Character14HasComboAttackEv",
+    "address": "0x3a346c",
+    "size": 132
+  },
+  {
+    "symbol": "_ZN23GLXPlayerMPBaseObserver23OnMPProcessPushMessagesEP10DataPacketi",
+    "address": "0x81bbc0",
+    "size": 4
+  },
+  {
+    "symbol": "_Z30NativeSkillGetEquipedSkillsIDsRKN7gameswf7fn_callE",
+    "address": "0x4425a0",
+    "size": 404
+  },
+  {
+    "symbol": "_ZN7Structs19GetMemberIDByStringINS_9SkillListEEEiPKc",
+    "address": "0x4ad21c",
+    "size": 48
+  },
+  {
+    "symbol": "_ZN6CharAI15UpdateAllSkillsEv",
+    "address": "0x3d8894",
+    "size": 180
+  },
+  {
+    "symbol": "_ZN9Character26F_ApplyScrollingCombatTextERKNS_12AttackResultEPS_S3_",
+    "address": "0x3af77c",
+    "size": 1468
+  },
+  {
+    "symbol": "_ZTV16CMsgAttackResult",
+    "address": "0x95b388",
+    "size": 44
+  },
+  {
+    "symbol": "_ZN9Character21_SpawnSkillProjectileERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b99d0",
+    "size": 956
+  },
+  {
+    "symbol": "_ZThn16_N17v2MixedController11Ctrl_AttackEP10GameObject",
+    "address": "0x408bd0",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN8MenuBase11FS_PushMenuEPKcS1_Pv",
+    "address": "0x421334",
+    "size": 28
+  },
+  {
+    "symbol": "_ZN8CSAttackD0Ev",
+    "address": "0x3c0990",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN6CharAI11_SkillFocusEv",
+    "address": "0x3d808c",
+    "size": 40
+  },
+  {
+    "symbol": "_ZN7Structs9SkillList11m_dataNamesE",
+    "address": "0x9f3ce4",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN17CharAISkillScriptD1Ev",
+    "address": "0x3cc238",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN7Structs9SkillList8finalizeEv",
+    "address": "0x4d10e0",
+    "size": 40
+  },
+  {
+    "symbol": "_ZN11MenuManager8PushMenuEPKc",
+    "address": "0x431924",
+    "size": 36
+  },
+  {
+    "symbol": "_ZNK11TriggerTrap13GetHurtChanceEv",
+    "address": "0x39dc90",
+    "size": 80
+  },
+  {
+    "symbol": "_Z30NativeSkillsGetSkillPointsLeftRKN7gameswf7fn_callE",
+    "address": "0x43ec98",
+    "size": 192
+  },
+  {
+    "symbol": "_ZN6CharAI7OnAggroEP9Character",
+    "address": "0x3d20c8",
+    "size": 180
+  },
+  {
+    "symbol": "_ZN6CharAI11AI_EndSkillEj",
+    "address": "0x3d8474",
+    "size": 108
+  },
+  {
+    "symbol": "_ZNK6CharAI18AI_GetHighestAggroEv",
+    "address": "0x3d4a18",
+    "size": 176
+  },
+  {
+    "symbol": "_ZN6CharAI11_SkillEventEv",
+    "address": "0x3d8bf8",
+    "size": 40
+  },
+  {
+    "symbol": "_ZN17CharAISkillScript14OnSkillCleanUpEv",
+    "address": "0x3daafc",
+    "size": 212
+  },
+  {
+    "symbol": "_ZThn892_NK9Character14CanRangeAttackEv",
+    "address": "0x3a4d34",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN28CMatchingGLLiveLobbyObserver28OnMPProcessPushSetUserStatusEP10DataPacket",
+    "address": "0x821374",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN9Character24_SetSkillCooldownTimerIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b97e0",
+    "size": 496
+  },
+  {
+    "symbol": "_ZN17v2MixedController11Ctrl_AttackEP10GameObject",
+    "address": "0x408bd8",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN9Character13CSM_StopSkillEiPviRi",
+    "address": "0x3ad290",
+    "size": 12
+  },
+  {
+    "symbol": "_ZN7CSSkillD0Ev",
+    "address": "0x3c095c",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN6CharAI12UpdateSkillsEv",
+    "address": "0x3d8a04",
+    "size": 148
+  },
+  {
+    "symbol": "_ZN6Arrays10SkillTable7membersE",
+    "address": "0x9a6678",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN7CSSkillD1Ev",
+    "address": "0x3c0014",
+    "size": 4
+  },
+  {
+    "symbol": "_Z27GetNewScriptCmdImplInstanceI16Script_AIDoSkillEP13ScriptCmdImplv",
+    "address": "0x458358",
+    "size": 72
+  },
+  {
+    "symbol": "_ZNK6CharAI16AI_IsSkillActiveEj",
+    "address": "0x3d85d4",
+    "size": 232
+  },
+  {
+    "symbol": "_ZN7Structs27v2QuestRewardGiveSkillPoint4readEP11IStreamBase",
+    "address": "0x5056f0",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN6CharAI18SetSkillsAndSpellsEv",
+    "address": "0x3ce044",
+    "size": 1916
+  },
+  {
+    "symbol": "_ZN6Arrays19GetMemberIDByStringINS_14SkillListTableEEEiPKc",
+    "address": "0x4ad1a8",
+    "size": 116
+  },
+  {
+    "symbol": "_ZN6CharAI21_OnAnimStepEnd_AttackEv",
+    "address": "0x3d3e44",
+    "size": 436
+  },
+  {
+    "symbol": "_ZN7Structs5SkillD2Ev",
+    "address": "0x4d1080",
+    "size": 96
+  },
+  {
+    "symbol": "_ZN7Structs27v2QuestRewardGiveSkillPointD1Ev",
+    "address": "0x4c89bc",
+    "size": 52
+  },
+  {
+    "symbol": "_ZN9Character9_AddAggroERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b8098",
+    "size": 588
+  },
+  {
+    "symbol": "_ZN8CSAttack6OnBlurEiP9CharacterP16CharStateMachinei",
+    "address": "0x3c3f74",
+    "size": 216
+  },
+  {
+    "symbol": "_Z27GetNewScriptCmdDataInstanceIN7Structs9AIDoSkillEEPNS0_9ScriptCmdEv",
+    "address": "0x456e28",
+    "size": 60
+  },
+  {
+    "symbol": "_ZN9Character13IsSkillUsableEi",
+    "address": "0x3bcad8",
+    "size": 84
+  },
+  {
+    "symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+    "address": "0x3c02e8",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+    "address": "0x3d7c68",
+    "size": 308
+  },
+  {
+    "symbol": "_ZN7Structs9AIDoSkillD2Ev",
+    "address": "0x4d2b4c",
+    "size": 72
+  },
+  {
+    "symbol": "_ZTVN7Structs27v2QuestRewardGiveSkillPointE",
+    "address": "0x969e48",
+    "size": 24
+  },
+  {
+    "symbol": "_ZTVN7Structs9AIDoSkillE",
+    "address": "0x96a898",
+    "size": 24
+  },
+  {
+    "symbol": "_ZN9Character17SG_GetSkillInSlotEi",
+    "address": "0x3bbe68",
+    "size": 28
+  },
+  {
+    "symbol": "_Z16NativeEquipSkillRKN7gameswf7fn_callE",
+    "address": "0x43d63c",
+    "size": 188
+  },
+  {
+    "symbol": "_ZN7Structs27v2QuestRewardGiveSkillPoint11m_dataNamesE",
+    "address": "0x9f5f24",
+    "size": 96
+  },
+  {
+    "symbol": "_ZN9Character9_HasAggroERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b7044",
+    "size": 32
+  },
+  {
+    "symbol": "_ZGVN9SingletonI8CSAttackE6s_instE",
+    "address": "0x9a2a54",
+    "size": 4
+  },
+  {
+    "symbol": "_ZThn884_N9Character13Ctrl_EndSkillEj",
+    "address": "0x3ad854",
+    "size": 8
+  },
+  {
+    "symbol": "_ZN9Character9_EndSkillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+    "address": "0x3b93cc",
+    "size": 224
+  },
+  {
+    "symbol": "_ZN9Character18F_ApplyCombatSoundERKNS_12AttackResultEPS_S3_",
+    "address": "0x3afee0",
+    "size": 728
+  },
+  {
+    "symbol": "_ZNK13ItemInventory14CanRangeAttackEv",
+    "address": "0x400014",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN8CSAttack8OnUpdateEiP9CharacterP16CharStateMachine",
+    "address": "0x3c14f8",
+    "size": 96
+  },
+  {
+    "symbol": "_ZN14v2Controllable13Ctrl_EndSkillEj",
+    "address": "0x404d98",
+    "size": 4
+  },
+  {
+    "symbol": "_ZN16Script_AIDoSkill7ExecuteEbi",
+    "address": "0x4557b4",
+    "size": 4
+  }
+]

@@ -1,0 +1,164 @@
+[
+  [
+    {
+      "target": "Camera01-node",
+      "type": 5
+    }
+  ],
+  [
+    {
+      "target": "Camera01-node",
+      "type": 10
+    }
+  ],
+  [
+    {
+      "target": "Camera01-node",
+      "type": 1
+    }
+  ],
+  [
+    {
+      "target": "Omni01-node",
+      "type": 5
+    }
+  ],
+  [
+    {
+      "target": "Omni01-node",
+      "type": 10
+    }
+  ],
+  [
+    {
+      "target": "Omni01-node",
+      "type": 1
+    }
+  ],
+  [
+    {
+      "target": "_mesh_Cylinder0117-node",
+      "type": 5
+    }
+  ],
+  [
+    {
+      "target": "_mesh_Cylinder0117-node",
+      "type": 10
+    }
+  ],
+  [
+    {
+      "target": "_mesh_Cylinder0117-node",
+      "type": 1
+    }
+  ],
+  [
+    {
+      "target": "_mesh__mesh_solide31602-node",
+      "type": 5
+    }
+  ],
+  [
+    {
+      "target": "_mesh__mesh_solide31602-node",
+      "type": 10
+    }
+  ],
+  [
+    {
+      "target": "_mesh__mesh_solide31602-node",
+      "type": 1
+    }
+  ],
+  [
+    {
+      "target": "dummy_Mage-node",
+      "type": 5
+    }
+  ],
+  [
+    {
+      "target": "dummy_Mage-node",
+      "type": 10
+    }
+  ],
+  [
+    {
+      "target": "dummy_Mage-node",
+      "type": 1
+    }
+  ],
+  [
+    {
+      "target": "dummy_Rogue-node",
+      "type": 5
+    }
+  ],
+  [
+    {
+      "target": "dummy_Rogue-node",
+      "type": 10
+    }
+  ],
+  [
+    {
+      "target": "dummy_Rogue-node",
+      "type": 1
+    }
+  ],
+  [
+    {
+      "target": "dummy_Warrior-node",
+      "type": 5
+    }
+  ],
+  [
+    {
+      "target": "dummy_Warrior-node",
+      "type": 10
+    }
+  ],
+  [
+    {
+      "target": "dummy_Warrior-node",
+      "type": 1
+    }
+  ],
+  [
+    {
+      "target": "dummy_camera_angle-node",
+      "type": 5
+    }
+  ],
+  [
+    {
+      "target": "dummy_camera_angle-node",
+      "type": 10
+    }
+  ],
+  [
+    {
+      "target": "dummy_camera_angle-node",
+      "type": 1
+    }
+  ],
+  [
+    {
+      "target": "root_Camera-node",
+      "type": 5
+    }
+  ],
+  [
+    {
+      "target": "root_Camera-node",
+      "type": 10
+    }
+  ],
+  [
+    {
+      "target": "root_Camera-node",
+      "type": 1
+    }
+  ]
+]

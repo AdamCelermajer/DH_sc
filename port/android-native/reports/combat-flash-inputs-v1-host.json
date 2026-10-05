@@ -1,0 +1,43 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "command": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/engine-ui/combat_flash_inputs_v1.cpp",
+        "port/level-world/character_combat_follower_v1.cpp",
+        "port/engine-ui/tests/combat_flash_inputs_v1.cpp",
+        "port/level-world/character_design_services.cpp",
+        "port/game-data/ai.cpp",
+        "-o",
+        ".local-inputs/combat_flash_inputs_v1_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        ".local-inputs/combat_flash_inputs_v1_host",
+        "port/android-native/app/src/main/assets/data"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":90,\"actual_ai_rows\":76,\"actual_follower_rows\":6,\"same_borrowed_dt_phase\":true,\"retained_source_debug\":true,\"types\":[0,4,4,4,4,2,4,4,0,4,4,6,4,4,4,4,4,0,4,4,3,6,4,4,2,4,6,9,4,4,4,4,4,4,4,4,4,4,4,7,4,4,4,4,1,4,4,3,3,3,2,4,2,6,4,4,4,4,4,6,4,4,4,4,2,2,4,4,4,4,6,6,4,6,4,4]}\n",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "port/engine-ui/combat_flash_inputs_v1.cpp": "09973cfbd39f82dcdd2c18f8bbcdbf886870e09e0905558f22ccff4bffaa39fe",
+    "port/level-world/character_combat_follower_v1.cpp": "2b212353ac09e85aef33e1599a7987944a5abb89d2f7f16f3d5db504e02b5691",
+    "port/engine-ui/tests/combat_flash_inputs_v1.cpp": "41100060039aa942088a23325e2631dc6714a7872e1c66318d7c807da8da86dc"
+  },
+  "scope": "Same borrowed dt/load phase; source missing/existing Debug file fixtures; actual cached AI follower types, no live actor claim"
+}

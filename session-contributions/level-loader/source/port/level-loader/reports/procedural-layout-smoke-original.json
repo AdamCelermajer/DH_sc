@@ -1,0 +1,291 @@
+{
+  "scope": "Execute original Generate and room placement against original rule/MGX inputs.\n\nOriginal readers, derived MgxBlock constructors, block-map insertion/linking,\nGenerate, rule traversal, selection, backtracking and Array2d operations execute\nARM32. File discovery is supplied from separately verified GetFiles receipts.\nBlock name/folder/target string assignment is caller input; FromFilename,\nLoadRuleFile orchestration, pool ComputeSizeOfRules and serialization do not\nexecute. The fixture accepts only zero-pool declarations. Imported allocation,\nbyte and numeric services are explicit adapters. No selection, placement,\ncollision, shuffle or generation result is supplied by a hook.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "script_sha256": "441a115c10cf1a3098b46da8e17ba30fde8803d4ebeceb7583c2a0785b17baca",
+  "file_lists_receipt_sha256": "2ced1af1a948f0333bd3021c3a1c8bf5f9f7a0c1851a97f0613e1a928b79d7c6",
+  "rules_receipt_sha256": "2fd635a48f9bb3ae6dd458f94e05de0e795deb8e773198433724c0d7a517487e",
+  "dependency_sources_sha256": {
+    "port\\level-loader\\tests\\procedural_layout_original.py": "441a115c10cf1a3098b46da8e17ba30fde8803d4ebeceb7583c2a0785b17baca",
+    "port\\level-loader\\tests\\procedural_blocks_original.py": "695ac6d5978dae6e013150d4dfce80461f851c91d6f14b5bb5835739042a16fd",
+    "port\\level-loader\\tests\\procedural_lists_original.py": "1cb25487117915ff043cfc1dd2db35f7546f12ad267566f2d0ee751cf8edc0fc",
+    "port\\level-loader\\tests\\procedural_rules_original.py": "5b7b91c933eec151af11245e540a362162a9761b7e1208feadd2aaaae6e6f9ae",
+    "port\\level-loader\\tests\\procedural_instances_original.py": "2c758929a35302944ba83d960c8691354af692a5ca95e0dd2081cde60a857d78",
+    "port\\engine-resources\\tests\\cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port\\game-data\\tests\\combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "port\\game-data\\tests\\combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "port\\game-data\\tests\\health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "port\\game-data\\tests\\combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "port\\game-data\\tests\\aggro_differential.py": "3d5fc4103199edbe847f886344f048738067ee8b329816531b82d8bc7174a759",
+    "port\\level-world\\tests\\navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148",
+    "port\\game-data\\tests\\items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port\\level-loader\\tests\\xml_original_probe.py": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209"
+  },
+  "cases": [
+    {
+      "name": "single-root",
+      "input_sha256": "d8fbbac1d88f321a3b5f42a95aa8300e9a977788356ea11a1afd71cc1b2ef2d0",
+      "folder": "fixture",
+      "target": "fixture",
+      "blocks": [
+        {
+          "name": "room",
+          "uri": "fixture/room.mgx",
+          "input_sha256": "1f3079e3bd202dd09ad4e682e4e12a3d802576c72e7ee1290ce955ebf2c959df",
+          "input_hex": "3c4d6f64756c653e3c2f4d6f64756c653e"
+        }
+      ],
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "final_state": 0,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "room",
+              "block_source": 0,
+              "block_name": "room",
+              "mgx_uri": "fixture/room.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "",
+                "gameplay": "",
+                "visual": "",
+                "chances": 100
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 0,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 0,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          }
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "final_state": 1,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "room",
+              "block_source": 0,
+              "block_name": "room",
+              "mgx_uri": "fixture/room.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "",
+                "gameplay": "",
+                "visual": "",
+                "chances": 100
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 0,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 0,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          }
+        }
+      ],
+      "input_hex": "3c72756c65733e3c526f6f7452756c65206e616d653d22726f6f6d222f3e3c2f72756c65733e",
+      "reader_result": 1,
+      "xml_error": 0,
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "room",
+          "inserted": true
+        }
+      ]
+    },
+    {
+      "name": "three-room-path",
+      "input_sha256": "267ef1ee006f6ec3c4d5a1267be768de40f53799b6b6c7a971edea215e632167",
+      "folder": "fixture",
+      "target": "fixture",
+      "blocks": [
+        {
+          "name": "room",
+          "uri": "fixture/room.mgx",
+          "input_sha256": "4135bde01c42e4854dfe6b6dd13f8ebcbed68d1871f4551d0b7c9d8a9b22b543",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652220646972656374696f6e3d226e6f7274682220706f736974696f6e3d22302c302c30222f3e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652220646972656374696f6e3d22736f7574682220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e"
+        }
+      ],
+      "runs": [
+        {
+          "seed": 0,
+          "success": false,
+          "final_state": 279470273,
+          "tiles": [],
+          "events": {
+            "random_calls": 1,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 1,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          }
+        },
+        {
+          "seed": 1,
+          "success": false,
+          "final_state": 558940546,
+          "tiles": [],
+          "events": {
+            "random_calls": 1,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 1,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          }
+        }
+      ],
+      "input_hex": "3c72756c65733e3c526f6f7452756c65206e616d653d22726f6f6d223e3c50617468206e616d653d22726f6f6d22206c656e6774683d2232222f3e3c2f526f6f7452756c653e3c2f72756c65733e",
+      "reader_result": 1,
+      "xml_error": 0,
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "room",
+          "inserted": true
+        }
+      ]
+    },
+    {
+      "name": "list-root-selection",
+      "input_sha256": "4e78efd9721ce5554746ae16b41c2f4499b789e417353f1584f7931195ffab41",
+      "folder": "fixture",
+      "target": "fixture",
+      "blocks": [
+        {
+          "name": "a",
+          "uri": "fixture/a.mgx",
+          "input_sha256": "1f3079e3bd202dd09ad4e682e4e12a3d802576c72e7ee1290ce955ebf2c959df",
+          "input_hex": "3c4d6f64756c653e3c2f4d6f64756c653e"
+        },
+        {
+          "name": "b",
+          "uri": "fixture/b.mgx",
+          "input_sha256": "1f3079e3bd202dd09ad4e682e4e12a3d802576c72e7ee1290ce955ebf2c959df",
+          "input_hex": "3c4d6f64756c653e3c2f4d6f64756c653e"
+        }
+      ],
+      "runs": [
+        {
+          "seed": 0,
+          "success": true,
+          "final_state": 279470273,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "a",
+              "block_source": 0,
+              "block_name": "a",
+              "mgx_uri": "fixture/a.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "a",
+                "gameplay": "ag",
+                "visual": "av",
+                "chances": 0
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 1,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 0,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          }
+        },
+        {
+          "seed": 1,
+          "success": true,
+          "final_state": 558940546,
+          "tiles": [
+            {
+              "index": 0,
+              "name": "b",
+              "block_source": 1,
+              "block_name": "b",
+              "mgx_uri": "fixture/b.mgx",
+              "grid": [
+                0,
+                0
+              ],
+              "height_bits": 0,
+              "list_element": {
+                "name": "b",
+                "gameplay": "bg",
+                "visual": "bv",
+                "chances": -1
+              },
+              "children": []
+            }
+          ],
+          "events": {
+            "random_calls": 1,
+            "root_attempts": 1,
+            "place_calls": 1,
+            "unspawn_calls": 0,
+            "step_calls": 1,
+            "path_calls": 0,
+            "rule_calls": 0
+          }
+        }
+      ],
+      "input_hex": "3c72756c65733e3c6c697374206e616d653d22726f6f7473223e3c656c656d206e616d653d2261222067616d65706c61793d226167222076697375616c3d22617622206368616e6365733d2230222f3e3c656c656d206e616d653d2262222067616d65706c61793d226267222076697375616c3d22627622206368616e6365733d222d31222f3e3c2f6c6973743e3c526f6f7452756c65206e616d653d2223726f6f7473222f3e3c2f72756c65733e",
+      "reader_result": 1,
+      "xml_error": 0,
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "a",
+          "inserted": true
+        },
+        {
+          "source_index": 1,
+          "name": "b",
+          "inserted": true
+        }
+      ]
+    }
+  ],
+  "requested_cases": 3,
+  "original_execution_complete": false,
+  "selected_execution_complete": true,
+  "native_layout_generation_verified": false,
+  "full_loader_verified": false,
+  "elapsed_seconds": 119.421
+}

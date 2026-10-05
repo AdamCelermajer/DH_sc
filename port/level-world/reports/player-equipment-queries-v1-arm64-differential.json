@@ -1,0 +1,16 @@
+{
+  "validation": "PASS",
+  "requirements_cases": 1000,
+  "weapon_cases": 1000,
+  "original_predicate_comparisons": 8000,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "c752fec62b3e681708f63d5e7f3f83da191e46420be10d105beda8ffe6158f90",
+  "gold_sha256": "adc9fc014d2ee39b9447f03f0612d250d418e7e3444132ce19aa2e5a8ef23fdf",
+  "source_sha256": {
+    "port/level-world/player_equipment_queries_v1.hpp": "b341d51c9e1f3dfdf52d5a4871666b1cb2bceecb26c860ea4bc932a02b054f7f",
+    "port/level-world/player_equipment_queries_v1.cpp": "cdd1fa38621533d1550b31ef1f8aba23593e54e28a28530db7c871dea75377e4",
+    "port/level-world/tests/player_equipment_queries_v1_differential.py": "25ed24a48ce4f03c3298b41d0be6513b0cb10d1476f7201c2d09b74dc68e1113"
+  },
+  "scope": "Original requirement/weapon accessors versus optimized native projections.\nOnline-manager and remote virtual return values are explicit caller services;\noriginal ItemInventory/current-set/item-table and all predicate bodies execute.\n"
+}

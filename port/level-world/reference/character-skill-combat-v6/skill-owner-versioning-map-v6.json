@@ -1,0 +1,11 @@
+{
+  "frozen_source_sha256": {
+    "port\\level-world\\character_skills_owner_v3.hpp": "594b8a850bb1ce87bd6e1e2d4e0cfe02d7ba683e13bef905adb832af68c95be5",
+    "port\\level-world\\character_skills_owner_v3.cpp": "8ec96b8654a47cbf9b06025b0f250e65fd6ff13eecb4e052ad8c648475d70cff"
+  },
+  "new_sha256": {
+    "character_skills_owner_v6.hpp": "2ddc8b3fcd9560fd964399b3470ae91bfce6598a0233fb65c520a9fc0344a88b",
+    "character_skills_owner_v6.cpp": "19c942f5fcae812f4026b9b4dde1e9f72dc1d880e54c7fb6ed081c2360f9624e"
+  },
+  "new_operation": "Source ascending Skill deleting destructors \u2192 null each cell \u2192 end=begin, preserving spell instances and SAME Session"
+}

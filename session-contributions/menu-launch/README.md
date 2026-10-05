@@ -111,3 +111,387 @@ The bottom-left black center belongs to the authored btn_exit subtree (sprite509
 
 Verified v39: input-tests-v39/input-validation.json PASS for the exact APK SHA256 0be99519546c883e3ff02ae76ed3d1a84ca17a804b3f007353604827298ff980. Three-size input checks, live resize, held-touch cancellation and post-resume tap pass. The final restored-main screenshot shows the original swamp. Navigation/save/avatar/Exit artwork/lighting/loading artwork remain incomplete.
 
+
+## Native loading background v40-v42
+
+v42 draws the original startup artwork separately from the authored loading overlay. `GSInit::Draw` 0x384a4c supplies source rectangle (0,0,1280,752), and `GSInit::SwitchBackground` 0x384f64 selects data/3d/textures/splash_final.tga for the default language. `original-startup-draw-v42.asm` and `loading-resources-v42.json` preserve those source inputs. The modern adapter aspect-fits the source rectangle without stretching. This connects the missing artwork; it does not reconstruct the complete startup state machine or campaign loading stages.
+
+The source ZIP base and Droid splash textures are byte-identical (SHA256 2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8, 8388652 bytes). The runtime catalog now retains the base logical name using the already bundled identical bytes. `audit_loading_resources.py` reproduces source/cached-resource hashes, the native background rectangle, source default filename, loading fill tables, and Exit shape507's fill table.
+
+The v41 base loading movie experiment did not fix the spinner. Its initial bitmap fill table contains five styles; examining only its first matrix gave a misleading apparent match to ring artwork. The actually drawn bitmap style still samples an artwork fragment. Its passing test established background pixels and timeline motion only, not spinner correctness. The final v42 retains the Droid overlay while adding the separate native startup background. The spinner remains visibly incorrect; no guessed coordinate relocation was made. Exit artwork also remains incomplete.
+
+`loading-tests-v42/loading-validation.json` passes for the exact APK: original startup layer/logical rectangle, three aspect-fit sizes, four original pixel samples per size (maximum error 2 bytes), and visible authored timeline motion. It explicitly records spinner_artwork_correct=false and full_menu_functionality=false. Screenshots were inspected. The launch/menu save/navigation/avatar work remains active.
+
+
+### v43: initial authored Main/Info/Back navigation
+
+Installed only on visible DH2_Launch/emulator-5580 using private ADB server 5038.
+Main Info button now synchronously opens menu_info; its authored top-left Back
+button returns to Main. Uses the typed original NativePushMenu/NativePopMenu
+argument wrappers, retained same-player stack, authored onHide/onShow/onPush,
+visible-state changes, generic MenuBase input for Info, and the source SetContext
+pointer replacement (0x7a7ee8). Live cursors/focus are preserved by SetContext.
+
+This is an initial owned navigation slice, not original MultiMenuManager parity.
+Only Main and Info are registered in this slice. Other destinations emit
+`Menu navigation not connected` and remain incomplete. Cross-renderer
+navigation/settings, source touch reset/process ordering, transition animations,
+native state flags/GotFocus/Show side effects and arbitrary named-pop semantics
+are still pending. Info Help/About/Twitter controls are visible, not functional.
+
+Exact APK SHA256: 3d8b936fe455486ab8c74f5ee926ee050b92d30cbce2a9a2dad91843be33c975
+Validation: navigation-tests-v43-retry/navigation-validation.json, repeated
+Main/Info/Back cycles at three surfaces and Info live-resize/back in one process.
+First navigation-tests-v43 failure was an incorrect test Back location at the
+bottom left; screenshot showed the actual authored Back at the top left.
+Test coordinates were corrected; no application hit-zone workaround was added.
+
+Current visible main has the swamp background. Save panel/avatar, Exit atlas
+artwork, loading spinner artwork and complete settings/game paths remain open.
+No main-session checkout or emulator was changed.
+
+
+### v44: shared Help and About navigation; HTML clipping and text metrics
+
+The isolated visible emulator now uses retained independent main/shared SWF
+players for Main -> Info -> Help topics and About -> Back. Each exact root
+advances once; only the selected renderer processes input. Navigation callbacks
+keep their original caller player/renderer scope. Seven original Help topics
+and Other Stats pages a/b/c/b/a are connected.
+
+Original Help HTML extends beyond its authored single-line text rectangle.
+The overlay follows the ordinary original non-border display branch without
+stock's extra rectangle mask, keeping ancestor masks. This exposes all five
+Controls rows and longer Help pages. The original textHeight/textWidth getters
+now return retained formatter bounds in pixels, enabling the authored credits
+scroll and wrap condition. The frozen formatter kernel/vendor remain unchanged.
+Original source captures: text-display-source-v44.asm and
+original-text-get-member-v44.asm.
+
+Credits ^t resolves the real MENU_GAME_TITLE constant and string ID. ^v uses
+the original 1.0.2 ordinary Android operator branch. English is the explicit
+front inspection language; saved settings/language selection and Japanese title
+branch are not connected. Other varargs directives still fail explicitly.
+Credits source capture: credits-application-source-v44.asm.
+
+Shared navigation validation: shared-tests-v44-motion/shared-validation.json.
+Seven topics, pagination, About text-region motion, Back navigation at three
+surface shapes; Help live resize, pause/resume and return in the same process.
+Earlier failures are preserved: retry (credits directives unavailable), credits
+(textHeight absent and stationary text). Motion was not considered passing
+until real screenshot comparison succeeded.
+
+Still incomplete: Options settings/persistence/audio volume, New Game/save
+selection/character panel/avatar, online paths, full native stack transitions,
+original background lighting/material fidelity, Exit atlas and loading spinner
+artwork. Existing cinematic/audio tests refer to earlier exact APKs.
+No complete-menu claim. Main checkout and its emulator were untouched.
+
+Exact APK SHA256: a38cae2123ef483ce0ffae8b7d739976938d3ff3ac7d143b34af5d7e8ba885a9
+
+
+### v45: authored Options, saved settings and audio volumes
+
+Options now uses the original GameOptions table, original SWF sliders/selectors,
+localization IDs, and ordered 16-option plus 14-tutorial-byte save format.
+The private settings file is written through a checked temporary file and rename.
+Music and effect controls deliver actual MediaPlayer volume changes; new audio
+players also receive the saved volume. Language reload follows the authored
+SaveSettings/onPush/LoadSettings path with a retained front scene registry.
+The front scene has no gameplay characters/items; attaching gameplay still
+requires its genuine actor and HUD traversal. Selector saving is verified;
+gameplay effects of Controls, HUD Style and Auto Transmute are not certified.
+Full source Savegame file-manager wrappers, Sharp flags, ResetFonts, native
+audio mix/fade, and full MenuManager focus/transition behavior remain pending.
+
+Exact APK settings validation: settings-tests-v45-utf8/settings-validation.json.
+Three surfaces: 1920x1080, 2400x1080, 2184x1968. Real drags, audio delivery,
+selector changes, file-byte checks, app restart persistence, Back navigation,
+same-process resize and pause/resume passed. Prior private settings were restored.
+The cache file menu.french actually contains Ukrainian text, identical to the
+supplied ZIP. The initially mislabeled French receipt is preserved separately;
+the corrected receipt includes a fresh native Ukrainian title delivery check.
+Shared Help/About regression also passed on this exact APK at all three sizes,
+including seven topics, pagination, text rows, scrolling credits and lifecycle.
+
+Still incomplete: New Game/save/character panel, background material and lighting
+fidelity, Exit/loading artwork, game loading flow, online actions, Asian font
+switching and gameplay selector effects. Earlier cinematic/audio playback
+receipts refer to their earlier exact APKs. No complete-menu claim.
+All changes, testing and emulator operations stayed in the isolated snapshot.
+
+Exact APK SHA256: f844b4c56612aa807be6cd9b10b5d6eec4d442874e086b04da25e2b40850d635
+
+
+### v46: real absent-save branch and authored name initialization
+
+NativeGetSaveSlotDetails now connects the original all-files-absent branch.
+It checks all four dh2_NNN.savegame files and their .bak files in the private
+files directory. Existing campaigns explicitly require the complete
+PlayerSavegame loader; they are never represented as empty. No campaign
+save is created, removed, or replaced by this change. An absent save now
+takes the original Start Game -> menu_EnterName branch.
+
+The name transition follows the relevant original MultiMenuManager Push
+ordering: onPush, RenderFX PlayAnim("show"), then onShow. The authored frame
+15 clears the name field. Its absence had left authoring HTML in the field
+and the eight-character check incorrectly rejected every key. The actual
+text getter was correct and was not changed. Original keyboard handlers
+now produce text, enforce eight characters, and Back returns to Main.
+
+Name verification on this exact APK: name-tests-v46/name-validation.json.
+Three surfaces, real taps, entered "adam", rejected a ninth character,
+Back, empty field after reopening, and same-process resize preserving
+the current name all passed. Screenshots and actual native field inspection
+are retained. The earlier failing probes remain in their own output files.
+v45 Options/Help/About receipts remain exact-v45 evidence; they are not
+represented as fresh v46 certifications. This change is confined to the
+new name transition and absent-save callback.
+
+Still incomplete: class selection and full New Game/game-loading flow,
+existing save loading, main background material and lighting fidelity,
+keyboard/Exit/loading artwork, online actions and prior v45 limitations.
+The supplied splash atlas decodes, but authored keyboard shape 70 samples
+pixels x49..89/y891..932 containing spinner fragments; shape 507 samples
+black artwork. Atlas/native previews and fill tables are preserved in
+keyboard-fill-source-v46.json and *-v46.png. No speculative texture-coordinate
+or asset substitution was made. This is a work-in-progress checkpoint.
+The visible emulator and all work remain isolated from the main checkout.
+
+Exact APK SHA256: 1d0e1273230f1c99d5c67dbe88420f9e78e296a67434e831dd5ac4cf659d2d96
+
+
+### v47: class selection controls and descriptions (preview incomplete)
+
+The authored Name -> Choose a Class flow now reaches menu_SelectClass.
+Original MenuCharacterSelect Update/OnEvent branches supply Warrior
+(KnightPlayerBase), Rogue and Mage order, arrow boundaries, source string
+IDs, HTML descriptions and the actual CurrentClass ActionScript callback.
+The retained original HTML parser renders title/description styling; no
+replacement class artwork or rewritten authored ActionScript was added.
+The selector compares the actual cached button character identities on
+original event kind 2. Show retains the current singleton class index.
+
+Exact-APK receipt: class-tests-v47-controls/class-validation.json. Class
+arrows and boundaries, class-to-name Back/reopening, actual root PlayerClass
+inspection, three surfaces and retained-process class resize passed.
+Source, patch, APK and screenshots are preserved for review. A separate
+earlier test, class-tests-v47-final, failed to reopen Name from Main after
+two back cycles and the third resize. A fresh third-size launch works
+(class-tests-v47-third); that main re-entry/resizing path is unresolved.
+Do not treat the class-only passing receipt as complete menu certification.
+
+Still incomplete: class selection scene/actors/animations/lighting, swipe,
+Confirm -> game creation/loading, full existing-save load, main materials,
+keyboard/Exit/loading icon artwork and previously documented limitations.
+The empty central class preview is an acknowledged missing native owner.
+Earlier Options/Help/Name receipts certify their recorded APKs only.
+This remains an isolated work-in-progress contribution; main checkout and
+main emulator were not modified and the full user goal remains active.
+
+Exact APK SHA256: 8c785108a39c9ef4526cfc3c1c7efa51be85e1e4b6b52deaa9ab29a2dddbd23c
+
+
+### v48: original foliage alpha channel and new full navigation checks
+
+Scene materials now retain their actual external effect filename/URI and
+GLES2 CurrentTechnique. The exact GL_Diffuse_L1_VC_iPhone.bdae technique
+L1_Vc_Al_----_----_----_---- replaces opacity with AlphaSampler's BLUE channel,
+as authored GL_Diffuse_L1_iPhone_FS.glsl specifies; the old generic renderer
+multiplied RED instead. This is a bounded material correctness fix. The
+generic preview shader remains in use: full original lighting, effect/pass
+render states, normals, profile COMMON and other shader variants are pending.
+
+Exact-APK render receipt: material-tests-v48/material-validation.json.
+Baseline v47 hash was read from installed base.apk. Before/after screenshots
+show a small difference, mean RGB difference around 0.04 byte across the frame.
+Three surface sizes and same-process Home/resume passed; this is NOT proof
+of faithful overall background appearance. Native material binding logs and
+the decoded source textures/channel statistics are retained.
+
+Exact-APK navigation receipt: main-reentry-tests-v48/class-validation.json.
+Main -> Name -> Class -> Name -> Main loops, all class arrows/boundaries,
+three surface sizes and retained-process resize passed with Android touch
+logging enabled. These checks wait 2.5 seconds after each WM resize. The
+older v47 failure with a shorter wait remains preserved and is not erased
+or claimed resolved by source changes. Simulator resize readiness remains
+a timing concern; arbitrary resolution and transition timing are not fully
+certified. The emulator still uses a visible, separate instance.
+
+Class-scene investigation confirmed original CLASS_SELECTION.bdae has a
+camera rig, seven lol_* animation segments and three dummy actor anchors.
+It and the original effect bytes are preserved in handoff analysis files.
+They have NOT yet been integrated into the application. Class previews,
+source camera/light owner, complete game creation/loading, icon artwork,
+existing-save loading and prior documented menu limitations remain pending.
+This checkpoint is work in progress; the full user goal remains active.
+
+Exact APK SHA256: 4650ca584c2bfd87ea2df2351162ccfcf1d2c720cbbbedc0f590b40fb72a37c3
+
+
+### v49: authored animated class-selection environment and real display hook
+
+The actual menu_SelectClass.class_select character now owns a GameSWF display
+callback, invoked after its children. The retained movie pins the callback
+character, removes callbacks before teardown, and propagates rendering errors.
+The callback maps its real world bounds through the current stage projection;
+the GLES adapter draws into that pane and restores the SWF viewport/depth/cull
+state. Its coverage and stencil-query targets now share packed depth/stencil
+storage, required for GLES framebuffer completeness with a 3D pane.
+
+The exact original CLASS_SELECTION.bdae is now bundled. All 27 authored
+position/rotation/scale tracks bind without unsupported channels. The seven
+lol_* clips drive the four adjacent camera transitions and three class idle
+views. Camera target direction follows Collada CCameraSceneNode at 0x6e5300;
+FOV conversion follows its constructor; near/far and Z-up follow Show.
+The scene animator replaces Show's initial camera position, so the rendered
+camera retains its sampled position. Class arrow input is locked during the
+transition, as native field fc/IsAnimOver specifies, including queued taps.
+Back restores the main-menu scene; context rebuilds retain class selection.
+
+Verified exact-APK receipts:
+* class-scene-tests-v49-gated/class-validation.json: real callback draw, all
+  seven clip names, 27 bound tracks, rapid arrow tap lock, three surface sizes,
+  class text/identity/boundaries, Back, retained selection on resize and Home,
+  same-process resume, and main-scene restoration.
+* shared-mask-tests-v49/shared-validation.json: packed framebuffer regression
+  for seven Help topics, masked Controls text rows, Skills pagination, moving
+  credits, Home/resume and Back at 1080x2400. This is one surface only.
+
+Screenshots were visually inspected. This delivers the missing environment;
+it does not finish the class preview. Three Characters, LoadPropertiesForClassSelect,
+class equipment, actor idle/selection animation and source lighting/material
+passes remain incomplete. The generic unlit mesh renderer remains in use.
+Icon/keyboard atlas problems, swipe, Confirm/game creation/loading, existing
+save handling, arbitrary-resolution certification and previously documented
+menu limitations remain pending. Earlier cinematic/audio/settings receipts
+remain evidence for those earlier APKs, not a new blanket certification.
+The full user goal remains active. No main checkout/emulator was changed.
+
+Use tools/front_class_scene_smoke.py for this checkpoint: the older class
+controls test uses shorter waits incompatible with source camera input locks.
+The handoff connect_class_scene_v49.py is a one-time staging record, not a
+current repair/rebuild command; later camera/framebuffer fixes are in source.
+
+Exact original ZIP scene member: com.gameloft.android.GAND.GloftD2SS/files/data/3d/optimizedmaxfiles/class_selection.bdae
+Exact APK SHA256: ddcaeaec3b2bed281b0fb08490316a22684be7b9ef7f9faea3eeb0903b433d04
+
+
+### v50: original class preview inputs and corrected loot-cache reader
+
+Corrected Arrays::ItemTypeList: nine variable-length byte lists, not a flat short array. Original ARM reader section offsets are recorded in loot-reader-offsets-v50.json. ClassPreviewDefinition loads actual base/class properties, unpowered singleton starting-item definitions and actual MenuIdle/MenuOnSelect/Template clip paths for the three source class names. It preserves the Rogue dagger duplicate. These are authored inputs; inventory delivery, equip decisions, modular visual binding, actors and native animation state machines remain pending.
+
+Actual-cache native test class-definition-test-v50.log passed on emulator-5580: 3 classes, 16 entries, duplicate daggers, animation paths, failed-load output preservation, truncated ItemTypeList and owned-cache lifetime. Actual Android class-menu loading now invokes the same resolver and logs all three definitions. Exact original loot cache files are bundled and their APK bytes verified against loot-assets-v50.json.
+
+class-scene-tests-v50-packaged/class-validation.json passed against this exact APK: three tested surfaces, all seven environment clips, arrow bounds/input lock, Back, resize selection, Home/resume and main-scene restoration. No new actor, lighting, icon, cinematic/audio or gameplay completion is claimed. The first attempted APK lacked loot assets; that failure is preserved in class-scene-tests-v50. The corrected installed build is this packaged checkpoint. Full requested goal remains active; main checkout and emulator remain untouched.
+APK SHA256: cd2077d30f892eae35e2c4dc3ac0362ba25e8f289b371116e9e710aaf67dd921
+
+
+### v51: three class body previews and original idle clips
+
+The class display callback now draws three independently owned modular body resources. The original starting-item visual names select their exact -mesh-skin controllers. The empty helmet uses MC_Head__naked, following INV_UpdateSkin category + __naked fallback. These are scene/body resources, not a completed Character/ItemInventory factory. Each body uses its class MenuIdle clip from the original animation table. All skeletal targets bind: Warrior 29 tracks, Rogue 26, Mage 31, zero skipped or unbound. Placement follows each authored dummy anchor and original base-property visual scale. Body poses and GPU buffers are updated during the real class display callback. Scene changes release resources; GL context rebuild discards stale handles and recreates resources.
+
+modular-resource-v51.log: native emulator test passed for the exact 4 controllers per class, 1492 skin vertices, finite animated positions, changed idle poses and missing/duplicate module rejection. class-scene-tests-v51-textures/class-validation.json: exact APK passed existing class navigation, camera clips, three surfaces, resize selection, Back and Home/resume. This navigation test still labels full actors incomplete, correctly: equipment inventory, weapons, selection state machine, and full light/shader passes remain pending. Screenshots show actual distinct bodies. The first v51 app attempt lacked Rogue/Mage atlases; its failure is preserved in class-scene-tests-v51. The corrected exact original atlases and all seven original menu/template clip files are bundled and hash checked against class-animation-assets-v51.json and class-texture-assets-v51.json.
+
+This is visible progress, not menu completion. Weapon attachments, original actor state transitions, full lighting, broken icons, swipe, Confirm/game creation/loading, existing saves and other documented remaining menu/audio/lifecycle requirements remain open. Main checkout and emulator untouched; full goal remains active.
+APK SHA256: 58f217aa482ea339d781229e87aca5ad11b87d4c1dced84badb81011f87f151d
+
+
+### v52 keyboard compatibility correction
+
+The supplied Android keyboard samples loading-spinner fragments from its splash atlas. Generic corresponding key shapes provide matching original letter/digit, pressed-glow and Delete artwork. Shift and Space use identified original atlas graphics. Their mappings are compatibility choices; the original Android atlas mapping remains unresolved. No replacement artwork was generated. Original cache bytes stay intact and are validated before the separate compatibility SWF is loaded.
+
+repair_keyboard_atlas.py generates front-compat/dqmenus_droid.swf and its provenance manifest. Seven keyboard shapes change, including bitmap matrices introduced by internal NewStyles records. verify_keyboard_atlas.py confirms every other tag, action, placement, shape edge and bound is byte preserved. This fixes visible keyboard fragments without claiming full original visual fidelity. Space currently stretches the original blank capsule; preservation of original border proportions remains a fidelity limitation.
+
+keyboard-tests-v52-settled covers the exact APK on three surfaces: 1080x1920, 1080x2400, 1968x2184. Real taps verify lower/upper case, Space, Delete, digits, eight-character limit, Back and retained-process resize. Held-pointer screenshots show the actual pressed-letter glow. The final visible keyboard uses physical 2400x1080, no wm override. Earlier keyboard-tests-v52-final failed after resizing 0.4 seconds after Back; its blank main screen and logs remain preserved. The successful run waits 1.5 seconds after Back and verifies the actual pop. Resize during that transition remains an unresolved runtime case. No campaign save writes. The main checkout/session/emulator were untouched. Full menu goal remains active: loading/other icons, full actor equipment/lighting and Confirm/game creation remain open.
+
+APK SHA256: e96412b1da97ce4495a8c6dd4e40c53285ba36abca50a8e171d5979e1dc629e0
+
+
+### v53: retain the native surface across size changes
+
+The rapid Name-menu Back/resize path previously produced a blank Android presentation. resize-back-v53 captures this: native SWF visibility, frame progression and viewport were valid, and GLES readback contained the menu pixels, while Android screenshots were blank. Returning to the physical size could restore presentation. This is evidence of a surface-presentation/lifecycle problem; the specific Android compositor fault is not established. SurfaceSyncGroup timeouts were logged.
+
+MainActivity now handles orientation, screenSize, screenLayout and smallestScreenSize configuration changes. The existing GLSurfaceView and native retained graph resize through onSurfaceChanged. No Android density or locale handling was overridden. onConfigurationChanged records the retained activity identity. A read-only inspect-front probe exposes graph visibility/positions/frame numbers and GPU pixels/binding/viewport for diagnosis.
+
+resize-back-v53-fixed repeats the real failing path: actual name entry, Back, size change after 0.1 seconds, 2184x1968 presentation, then physical 2400x1080 restoration. Visible center colors >3200 at every captured stage, one GL initialization and retained-configuration callbacks. Earlier blank captures and GPU evidence remain preserved. front_resize_transition_smoke.py is the reproducible test in the source handoff.
+
+class-scene-tests-v53-retained verifies the exact APK at three surfaces, all seven original camera clips, 27 animation tracks, class boundaries, transition input locking, Back, retained Rogue selection on resize, and Home/resume in the same process. This does not certify arbitrary resolutions or complete characters/lighting/game creation. Keyboard actions were tested on v52; its assets are unchanged. Current v53 screenshots also show the repaired keyboard on Back. The full menu objective remains active. Main checkout, main session and emulator5554 were untouched.
+
+APK SHA256: 101f4bb03da60a4a1848d62b9329f17fb3622559009dce376eabcbe057251ae4
+
+
+### v54: connect the Confirm-flow stack callback
+
+NativePopAllAbove is now registered on the retained front/shared renderers and synchronously delivered to their genuine stack owner. The source wrapper 0x43ac28 accepts exactly one STRING/OBJECT, converts with the actual GamesWF to_xstring, and leaves the AS result untouched. Wrong arity/type is a source no-op. The original vtable slot0x3c resolves to MultiMenuManager::PopMenu(name,true) at0x439270. Its loop tests target stack membership and exits when that target becomes current. Original bounded disassembly and literal/vtable receipts are retained in confirm-source-v54.asm and menu-owner-literals-v54.json. This implementation uses the already-connected per-pop retained menu lifecycle.
+
+front_pop_above_smoke.py verifies the real installed callback through the graph, with actual Name/Class entry, one/two-level unwinding, malformed argument rejection, missing/already-current target no-ops, real Back after unwinding and a rapid resize after returning to Main. Screenshots were inspected at physical2400x1080 and2184x1968. No campaign saves were written. This is a prerequisite for the original Confirm flow, not a completed game launch: NativeCreateSaveSlot, NativeAssignSaveSlotToPlayer and menu_StartGame still require their actual native owners. The source frame29 callback order is documented in CONFIRM-GAME-LAUNCH-TRACE.md. Main checkout, chat and emulator5554 remain untouched; v54 is installed in visible DH2_Launch:5580.
+
+The full objective remains active. Equipment, lighting, remaining icons and keyboard Space proportions also remain incomplete. Previous v53 keyboard/surface checks are retained and apply to that exact APK, not a blanket v54 certification.
+
+APK SHA256: 25c513a82c7cb7813d16625532f8f3a111e7b461d3550caff7c483d0fe2dfd34
+
+
+### v55: native fresh-player profile encoder
+
+fresh_player_profile_v1 produces the seven initial metadata sections registered by original SG_Load(1): PNAM, PLVL, PCLS, PDFL, LNAM, LEPT and LUSP. These represent name, level1, the genuine CharacterTable base identity, difficulty0, level41/three seeds and source flags, zero entry points and three enabled spawn-point flags. The source seed arithmetic is unsigned real-time plus21371 and86186. Character IDs are resolved from the actual CharacterTable: Knight263, Rogue325, Mage290. The older standalone metadata reader probe's smaller ClassTable fixture is not the appropriate playable character dictionary; the new creation probe loads the original CharacterTable names from the ZIP and asserts these identities.
+
+Original creation instructions0x43f718..0x43f7e0, the parameterized constructor, SG_GenerateSeeds and all seven metadata serializers executed under Unicorn. Class/name input conversion and free-slot inventory are caller inputs; SG_Load is recorded but not executed, SG_SetSaveDate and actual SG_Save/filesystem delivery are external services. Loaded difficulty count is3. These omissions are explicit and do not establish live Confirm, filename/backup handling, full profile loading or filesystem fidelity. The seven payloads compare byte-for-byte with native C++ execution on emulator5580: nine cases,63 sections, three classes, ASCII/UTF-8 names and wraparound timer. Native section-index/name/level/class readers also round-trip the result. Null, non-playable and absent CharacterTable failures preserve output.
+
+The outer count/size/four-byte-tag/payload and ascending tag order follow the recovered Savegame::saveAll source and the native profile-index reader. The entire original saveAll/file-job chain has not yet executed in this probe; original byte comparisons cover section payloads. The encoder is compiled into dh2_game_data and the Android build passes, but no production callback invokes it yet. No campaign files were written. Installed visible app remains the verified v54 build. v55 APK below is a build-only artifact, not a live game-launch claim.
+
+Runtime follow-up: implement genuine free-slot/file delivery, occupied NativeGetSaveSlotDetails, AssignSaveSlotToPlayer storage and menu_StartGame/level loading. Full objective remains active, including menus, loading, assets, actor equipment/lighting, cinematics/audio and dynamic-resolution verification. Main checkout and emulator5554 remain untouched.
+
+
+v57 keyboard texture and Space capsule correction
+
+The separate front-compat movie uses original cached artwork for letter/digit keys, their pressed states, Shift and Delete. The Space normal/glow states now preserve curved end proportions and stretch only their middle. Three bitmap rectangles retain the original Space bounds and bitmap pixels. NewStyles separates their tessellation layers. Explicitly clearing FillStyle0 is required after each layer for the existing GamesWF point test; leaving its sentinel would make the middle/right slices unclickable. No engine/vendor changes were needed.
+
+The structural verifier confirms all 618 tags remain, with every action, placement and non-keyboard tag byte preserved. Five shapes change only matrices; Space shapes80/82 intentionally change their geometry to three adjacent rectangles within original bounds. Original cache assets remain intact. These mappings are compatibility recovery from original artwork; exact original Android atlas coordinates remain unresolved.
+
+The exact installed APK passed real typing, Shift, Delete, digits, eight-character limit and Back on three surfaces:1080x1920,1080x2400,1968x2184. Space was tapped at left, middle and right on each. Screenshots cover normal/pressed Space and held letter artwork. Text survives retained-process resize. The final visible emulator is DH2_Launch:5580 at physical2400x1080 with no wm override, left on Enter Name. Failed development screenshots/receipts remain in keyboard-tests-v57 and keyboard-tests-v57-final; the authoritative final run is keyboard-tests-v57-verified.
+
+The full menu/game-launch/loading/media/resolution objective remains active. Confirm/game creation, occupied save slots, full equipment/lighting and other menu artwork remain unfinished. Keyboard verification on three sizes does not establish all-resolution correctness for the whole application. Main checkout, chat and emulator5554 were untouched.
+
+APK SHA256: b414f21ca5ea266b7fb83bfe3785a72cf80a8b2cf80cd64dc8f0f8868d0a16e8
+
+
+v60 fresh-profile save date and location reader
+
+The first LNAM word is the save timestamp stored by SG_SetSaveDate at PlayerSavegame+0x38, not a constant zero. v55/v58 fixtures used an explicitly stubbed date service and only certified that fixture. The production encoder now accepts separate real-time seed input and time() seconds, stores saved_date and serializes it. Original SG_SetSaveDate instructions now execute with time() fixture seconds; original creation, seven serializers and complete Savegame::saveAll produce nine exact native comparisons across three classes, ASCII/UTF-8 names, timer wraparound and date word boundaries. The file writer traverses genuine borrowed section nodes and performs all seek/backpatch/header operations; filesystem, async job processing, backup delivery and SG_Load remain borrowed/unverified services.
+
+LNAM also owns three level IDs, three seeds and three current acts. The third value in each triple is the current act, not a generic spawn flag. Original __LoadLevelName copies each act into both regular and volatile quest owners (+0xfc/+0x15c arrays). The new PlayerSavegameV1::load_location follows those stores. Blank-constructor date/levels/seeds are zero and acts are one, proven by executing the original constructor. Original/native reader comparisons cover128 arbitrary and signed-boundary spans, constructor defaults and trailing input; bounded native checks cover six truncation prefixes. Nine fresh-file results round-trip through the new native location reader as well as name/level/class/index readers.
+
+Android build passes. These APIs are compiled but CreateSaveSlot, occupied NativeGetSaveSlotDetails, AssignSaveSlotToPlayer and menu_StartGame are still unconnected. No campaign files were written. Installed visible app remains the verified v57 keyboard/menu APK; v60 APK is a build-only checkpoint. Filesystem ownership and occupied-slot AS projection are the next implementation steps. Main checkout/chat/emulator5554 are untouched. The full menu/loading/game-launch/media/dynamic-resolution objective remains active.
+
+
+v61 source menu-load dispatch and entry/spawn readers
+
+Executing the original PlayerSavegame(slot,17,false) constructor and SG_Load shows the menu dispatches PNAM, PLVL, PCLS, PDFL, LNAM, LEPT, LUSP and QEST in that order, initializing both quest owners before QEST. Nine original dated fresh profiles load through the real dispatch and seven real readers. Cache lookup/Savegame::load dispatch delivery, offline singleton and quest initialization are explicit borrowed services. This is not full filesystem or occupied-ActionScript proof. A present QEST section must be loaded: QuestSavegame::UnpackQuests stores current acts and can overwrite LNAM acts; ignoring it would misreport progressed characters.
+
+PlayerSavegameV1 now owns three entry points and three raw spawn bytes. Native LEPT/LUSP readers reproduce original three-int32/three-byte reads and retain reached stores on bounded truncation. Original/native comparisons on isolated emulator5580 pass128 cases including signed limits, noncanonical bool bytes and trailing input;15 native truncation prefixes also pass. The date/location128-case suite and nine full fresh-profile buffers/63 sections were rebuilt and pass with the enlarged owner. Fresh files also round-trip all three starting entry points0 and spawn flags1.
+
+Android build passes. v61 APK is build-only; visible emulator remains verified v57. CreateSaveSlot, occupied-slot AS projection, quest ownership, campaign files/backup, assignment and StartGame are still unconnected. No campaign files or main-session files/emulator were changed. Full menu/loading/game-launch/media/dynamic-resolution goal remains active. Next work must implement QEST ownership and occupied projection before enabling campaign writes in Confirm.
+
+
+v63 Exit power icon
+
+Main menu btn_exit sprite509 contains icon sprite508/shape507. The supplied Android shape samples bitmap1 at x48.72..77.22,y697.17..725.67; its embedded bitmap tag has only a seven-byte format0 placeholder. The supplied generic menu owns the complete bitmap atlas and corresponding btn_exit sprite496/icon shape494 uses the actual power glyph at x656.76..694.16,y774.62..812.17. The separate compatibility movie now maps shape507 to that original glyph while preserving Android shape bounds, edges, placements and all actions. No artwork was generated and original cache bytes remain intact. Exact Android atlas mapping remains unresolved; this is recovery from the corresponding original menu asset.
+
+The structural verifier passes all618 tags: five keyboard shapes plus Exit change matrices only; two Space states keep their existing verified capsule slices. Exit normal/pressed artwork, confirmation opening and No cancellation pass on three retained-process surfaces1080x1920,1080x2400,1968x2184 with screenshots visually inspected. Yes/application shutdown is not exercised. Keyboard typing, Shift, Space at left/middle/right, Delete, digits, eight-character limit, Back and retained resize pass again on the exact installed APK. Physical dimensions are restored with no override. Visible emulator5580 remains separate; main session/emulator5554 are untouched.
+
+The build also contains the verified v62 native QuestSavegame dispatch/progress API. Authored quest construction and actual condition/objective data are still required services. Campaign persistence, occupied AS display, Confirm/assignment/StartGame, full equipment/lighting and complete menu/media/resolution verification remain unfinished. Full goal remains active.
+
+APK SHA256: 93040894d9c1356ca91a611a3d2929af75c49fb5c1230b4b6c515c2b9a94f9cd
+
+Latest build-only increment: see SAVE-SLOT-DATE-v64.md for recovered original date presentation and1,028 native checks. Latest visually verified installed menu remains v63. Save ownership coordination is pending; campaign flow is incomplete.
+
+Latest installed increment v65: see SAVE-SLOT-PROPERTIES-v65.md. Shared empty/occupied AS writer passes1,408 original/native typed setter comparisons; occupied campaign loading is still unconnected. Three-surface keyboard/menu regression passes.
+
+Latest installed v66: see SAVE-SLOT-SERVICES-v66.md for source slot ordering and canonical profile callbacks. 64 original selections/192 native AS calls and three-surface live absent-menu regression pass. Occupied campaign loader and game handoff remain pending.
+
+Latest build-only v67: MENU-PROFILE-METADATA-v67.md describes actual metadata-section loading,128 source/native comparisons and required canonical QEST/difficulty callbacks. Original undefined absent-field backing is explicitly qualified. Visible tested menu remains v66; occupied profile and game handoff are incomplete.
+
+Latest build-only v68: MENU-SAVE-SLOT-PROJECTION-v68.md covers localized class/level/location/date presentation, explicit regular/volatile quest selection and432 native integration cases. Live occupied menus and canonical game/save ownership agreement remain pending. Installed visual menu remains v66.
+
+Latest v69: CAMPAIGN-FILES-MENU-v69.md documents source backup reads and actual occupied fresh-profile menu screenshots at3sizes. Main ownership split agreed. Act label missing NativeGetParsedString; create/assignment/start/delete and canonicalQEST still pending. Test campaign files removed; installed emulator5580 now v69.

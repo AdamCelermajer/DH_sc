@@ -1,0 +1,14 @@
+{
+  "literal_address": "0x6572b0",
+  "relative_offset": "0x34491c",
+  "index_address": "0x99b85c",
+  "indices": [
+    0,
+    1,
+    2,
+    0,
+    2,
+    3
+  ],
+  "producer": "initParticleSystem656f2c loads these12bytes for actual source sharedindexbuffer;6569e8..656a40 repeats template with particle*4"
+}

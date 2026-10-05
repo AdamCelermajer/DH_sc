@@ -1,0 +1,6 @@
+{
+  "validation": "PASS",
+  "scope": "Explicit routing fixtures; not world gameplay oracle",
+  "output": "PASS original NativeHUDSpell routing: controller rejection, ordered begin/end, required failures and reached prefixes (5 cases)\n",
+  "exit_code": 0
+}

@@ -1,0 +1,46 @@
+{
+  "boundary_fixtures": [
+    "equipment vector allocation"
+  ],
+  "fields": {
+    "character": 0,
+    "items": [
+      0,
+      0,
+      0
+    ],
+    "potion": 0,
+    "gold": 0,
+    "limit": 2147483647,
+    "capacity": -1,
+    "flags": [
+      0,
+      0,
+      0
+    ],
+    "equipment": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  }
+}

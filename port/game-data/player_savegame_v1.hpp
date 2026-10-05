@@ -50,6 +50,9 @@ public:
  bool set_faery_state(std::uint32_t id,std::int32_t value,std::uint32_t difficulty,std::string&);
  std::int32_t faery_level(std::uint32_t id,std::uint32_t difficulty)const noexcept;
  std::int32_t current_faery(std::uint32_t difficulty)const noexcept;
+ // Source Character::SG_SetCurrentFaerie3bb9d8 stores raw ID without unlock
+ // validation. Caller resolves original difficulty=-1 via its live World.
+ bool set_current_faery(std::uint32_t id,std::uint32_t difficulty,std::string&);
  const std::array<std::array<SavedFaery4V1,5>,3>& faeries()const noexcept{return faeries_;}
  const std::array<bool,3>& faeries_initialized()const noexcept{return faeries_initialized_;}
  const std::array<std::int32_t,3>& current_faeries()const noexcept{return current_faery_;}

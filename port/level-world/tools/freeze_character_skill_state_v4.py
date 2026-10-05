@@ -17,6 +17,8 @@ FILES=[
  'port/level-world/reports/character-skill-anim-event-v4-arm64-differential.json',
  'port/level-world/tools/build_character_skill_state_v4_oracle.ps1',
  'port/level-world/tools/freeze_character_skill_state_v4.py',
+ 'port/level-world/tools/run_character_skill_state_v4_host.py',
+ 'port/level-world/reports/character-skill-state-v4-host-audit.json',
 ]
 if __name__=='__main__':
  records={name:dict(bytes=(ROOT/name).stat().st_size,sha256=hashlib.sha256((ROOT/name).read_bytes()).hexdigest())for name in FILES}

@@ -1,0 +1,101 @@
+{
+  "validation": "PASS",
+  "production_source_sha256": {
+    "port/level-world/character_fx_kernels_v1.hpp": "7ec1c3349fcb0177a41a1757e0b4e9a5b9e6cfbcb0851705ae0cb716a2c012cb",
+    "port/level-world/character_fx_kernels_v1.cpp": "74292efbf3136dcd7aca614e9879107d1273f7b79821d67bd71065cbf34f5e6d",
+    "port/level-world/fx_texture_animation_v1.hpp": "563cd48c2b8853efc4a87687cc1e84d5017fbb0f8df658452efbbd9b152cf109",
+    "port/level-world/fx_texture_animation_v1.cpp": "4ddcc9d2e384af51d8827643cd7ad26971b221726b1a93ebc402fb56812db9fc",
+    "port/level-world/character_fx_state_v1.hpp": "d5ba33e1a5655710224e77f16af9a8414ad031cf5f3ea306f2181961c0a9c3a5",
+    "port/level-world/character_fx_state_v1.cpp": "9524b8a833b249dad57d182fb42b7ba4b2b2cae76cd1ffcdbfbde6920e1d8fb1",
+    "port/level-world/character_mesh_fx_owner_v1.hpp": "a2092518ecf924856d9874b11016417bc07d05b3b5f060ec786a526d3da6e4e3",
+    "port/level-world/character_mesh_fx_owner_v1.cpp": "5a66408f87624aa96e7b661a4cb35c8358acc7101c96f97f46c0540aa5f3d457"
+  },
+  "source_sha256": {
+    "port/level-world/character_fx_kernels_v1.hpp": "7ec1c3349fcb0177a41a1757e0b4e9a5b9e6cfbcb0851705ae0cb716a2c012cb",
+    "port/level-world/character_fx_kernels_v1.cpp": "74292efbf3136dcd7aca614e9879107d1273f7b79821d67bd71065cbf34f5e6d",
+    "port/level-world/fx_texture_animation_v1.hpp": "563cd48c2b8853efc4a87687cc1e84d5017fbb0f8df658452efbbd9b152cf109",
+    "port/level-world/fx_texture_animation_v1.cpp": "4ddcc9d2e384af51d8827643cd7ad26971b221726b1a93ebc402fb56812db9fc",
+    "port/level-world/character_fx_state_v1.hpp": "d5ba33e1a5655710224e77f16af9a8414ad031cf5f3ea306f2181961c0a9c3a5",
+    "port/level-world/character_fx_state_v1.cpp": "9524b8a833b249dad57d182fb42b7ba4b2b2cae76cd1ffcdbfbde6920e1d8fb1",
+    "port/level-world/character_mesh_fx_owner_v1.hpp": "a2092518ecf924856d9874b11016417bc07d05b3b5f060ec786a526d3da6e4e3",
+    "port/level-world/character_mesh_fx_owner_v1.cpp": "5a66408f87624aa96e7b661a4cb35c8358acc7101c96f97f46c0540aa5f3d457",
+    "port/level-world/tests/character_fx_kernels_v1.cpp": "f8c7524650f472247a42d41eec92f7cd7cc3b74e963e8c46d1c87a5a634004c4",
+    "port/level-world/tests/character_fx_kernels_v1_differential.py": "9a3a2164835cf1e752c931481ce9ba3ecd9ebc180c4312757676ab63ea23848e",
+    "port/level-world/tests/character_fx_state_v1.cpp": "4b5ebf29c8b3ef98c9696c6f97b6974748bf6096edffa98963d4d571745f7950",
+    "port/level-world/tests/character_fx_state_v1_differential.py": "d2f7c59895e0c2ec88eecd6deb48e591c03237c325863d3e5348225561b5132e",
+    "port/level-world/tests/character_mesh_fx_owner_v1.cpp": "7a08d5b139db2b74725dbee9fa04397a1b2c9b81b0764e12641b92373553a836",
+    "port/level-world/tests/character_fx_manager_startup_v1_probe.py": "3bd11c05a22ff2b3a6f54a176e50b959c9b1f3fb08096c8692b10c9233d84653",
+    "port/level-world/tools/freeze_character_fx_owner_v1.py": "8822434f41e69e87eb2c248344b331968e62db45c23981f41ba1f0f89e9703de"
+  },
+  "proof_sha256": {
+    "port/level-world/reports/character-fx-kernels-v1-arm64-differential.json": "258efa9f26aab1de9b693e15323af9d0e051a80b3827edfe2a96e5c417194e1f",
+    "port/level-world/reports/character-fx-state-v1-arm64-differential.json": "614dece2cf177c6ec35e425e7be23310d6bc65abc9da8e6b5aedd9b2cfe83e35",
+    "port/level-world/reports/character-mesh-fx-owner-v1-host-audit-v2.json": "70a0d1d31729665635b7dc4beaaada0baa5476ded8ccfefb47c372ca37a07890"
+  },
+  "reference_sha256": {
+    "port/level-world/reference/character-fx-owner-v1/kernel-fixtures.bin": "792ab838e28b9512a702a4c004f05c3144da4f111a3a244b807fc3b4469636b3",
+    "port/level-world/reference/character-fx-owner-v1/state-fixtures.bin": "82ccafa4f51b756b9f562216e281e7c13e68397e9f4ebc88f7153879f1a7e8d7",
+    "port/level-world/reference/character-fx-owner-v1/manager-startup-probe.json": "817f2f4f78df757c85f5c3b075049238bd5f5939bc054a88ded51cedc03fbaea",
+    "port/level-world/reference/character-fx-owner-v1/NOTES.md": "56207dd869e0dec82bcd0159284d6f7263ccc72f3b3cabd73f75686de9917bd4",
+    "port/level-world/reference/character-fx-owner-v1/starter-class-fx-inventory.txt": "399addeb92f1c0683dc0202c813defa05a9d90ed2d9d40519cd9ecbc39ccfac9",
+    "port/level-world/reference/character-fx-owner-v1/captures/lifecycle/original-functions.json": "83869e170287c4a79254a7c84cf951b76e3371e751440fbfa19fcf8459811571",
+    "port/level-world/reference/character-fx-owner-v1/captures/lifecycle/reference/original-functions.asm": "6b042f532cb0e395e39f7703c4069c6783f131dac8e5c353f16de695c8aa87fa",
+    "port/level-world/reference/character-fx-owner-v1/captures/callers/original-functions.json": "1204db26d5a610aa55d99c33db1561b815842df44bf6ae992b509cef6bd4b85f",
+    "port/level-world/reference/character-fx-owner-v1/captures/callers/reference/original-functions.asm": "7915a44a291fbc30d02717d0f32ce6e01f0bdfe8e8ccfb13f1b56129473ab711",
+    "port/level-world/reference/character-fx-owner-v1/captures/factory/original-functions.json": "22624174f37196c9e0b923a31346abcf2d09eb3c5a81783929c5bdea2e089c8e",
+    "port/level-world/reference/character-fx-owner-v1/captures/factory/reference/original-functions.asm": "0bb7b048eebd50fcc5a6467ec48ee73fd396d7c10910614ce6f97cf4849048b9",
+    "port/level-world/reference/character-fx-owner-v1/captures/texture/original-functions.json": "f02a13d9c21736caac2c8a06ca448aad45c7a96f4b13225e0cb39a504b30e751",
+    "port/level-world/reference/character-fx-owner-v1/captures/texture/reference/original-functions.asm": "4ba8598dc64245ffcc140debeedf0fd03b38455224844573741b2ddd311d3c9a",
+    "port/level-world/reference/character-fx-owner-v1/captures/texture-matrix/original-functions.json": "449a9bb9466235358d0efe920e93f484b3b2a5f5abc19f704fa9b3d135fc32ca",
+    "port/level-world/reference/character-fx-owner-v1/captures/texture-matrix/reference/original-functions.asm": "b900dba5472d5201bfd4bfbc05f8e99d0be413462cbf5676dc48affba96349da",
+    "port/level-world/reference/character-fx-owner-v1/captures/controller/original-functions.json": "a36fee9f83053371be8f849ed9a987e2f1df466933c2842947c429edf60e6628",
+    "port/level-world/reference/character-fx-owner-v1/captures/controller/reference/original-functions.asm": "bac40a933a145c5c2590b2275c93d544e9bce50a8ff2c5d396f1eba1c9ac3dff",
+    "port/level-world/reference/character-fx-owner-v1/captures/manager-constructor/original-functions.json": "ab7d616f888ffd430998b9f1544a0212d9fa8e430940668720dd9b8fab61a8cb",
+    "port/level-world/reference/character-fx-owner-v1/captures/manager-constructor/reference/original-functions.asm": "3ed3b3e910d49ad4bda43c9d4af298ccb2ee52cdc66d726a3a2e3f092b27738d",
+    "port/level-world/reference/character-fx-owner-v1/captures/precache/original-functions.json": "1ff4c8485b7a8293ad35af66ad6dabedc4780e486c49a36dc8025638e8ea543c",
+    "port/level-world/reference/character-fx-owner-v1/captures/precache/reference/original-functions.asm": "cd8dade3a5f478cec80b0584df61da76af668428370df5df3be8ed08067f67b7"
+  },
+  "input_sha256": {
+    "port/game-data/reference/effects-tables/effects_pyarray.bin": "9a743e51e4ba098a63fd274ee890efeaf0dc6f750d51fc53fd9ef2c01695f71b",
+    "port/game-data/reference/effects-tables/effects_pyarraynames.bin": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043",
+    "port/game-data/reference/effects-tables/effects_pystructnames.bin": "d4296263d954714d560083e058da3ff4d87d4b35fa7c796c4e88618f4cb2cc2b",
+    "port/game-data/reference/effects-tables/effects_dictionary_pyarraynames.bin": "8227757b4e18e10f898e0693eeb1b728b024e8b4675162f97c5fbb6647b910f2",
+    "port/game-data/reference/effects-tables/effects_dictionary_pyarray.bin": "e0162462ed31315a637b3f784e6957949054855357cf09431e5249db5c42d294",
+    ".local-inputs/character-fx-owner-v1/cache/swoosh_prince_1hand_combo_01.bdae": "af8ef8a2dc4d6da7c369964aa7d1fed08859ea4ba1d6062ac6796f11a936180b",
+    ".local-inputs/character-fx-owner-v1/cache/swoosh_prince_1hand_combo_02.bdae": "896e1c5247fd596086b855f2ba1ba278f7a7f5899af7bc947b43207255083f84",
+    ".local-inputs/character-fx-owner-v1/cache/swoosh_prince_1hand_combo_03.bdae": "7c3722015b676caf02a2b8fa9c1b546694cbe0e0e46f36697a72b989ea0d3dcd",
+    "port/android-native/app/src/main/assets/models/prince_modular.bdae": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+    ".local-inputs/character-fx-owner-v1/cache/animations_dictionary_pyarray.bin": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+    ".local-inputs/character-fx-owner-v1/cache/animations_dictionary_pyarraynames.bin": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+    ".local-inputs/character-fx-owner-v1/cache/animations_extra_pystructnames.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".local-inputs/character-fx-owner-v1/cache/animations_pyarray.bin": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+    ".local-inputs/character-fx-owner-v1/cache/animations_pyarraynames.bin": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+    ".local-inputs/character-fx-owner-v1/cache/animations_pycst.bin": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f",
+    ".local-inputs/character-fx-owner-v1/cache/animations_pystructnames.bin": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134",
+    ".local-inputs/items-discovery/loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    ".local-inputs/items-discovery/loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    ".local-inputs/items-discovery/loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+  },
+  "historical_dependency_sha256": {
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd"
+  },
+  "production_tus": [
+    "port/level-world/character_fx_kernels_v1.cpp",
+    "port/level-world/fx_texture_animation_v1.cpp",
+    "port/level-world/character_fx_state_v1.cpp",
+    "port/level-world/character_mesh_fx_owner_v1.cpp"
+  ],
+  "limitations": [
+    "mesh type0 single-step nonredirected domain only",
+    "scene/entity/floor providers remain mandatory",
+    "particle and other constructor families reject",
+    "no full historical factory/GPU parity",
+    "no APK/device changes"
+  ]
+}

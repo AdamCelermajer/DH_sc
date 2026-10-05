@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK8MenuBase11IsValidMenuEv",
+      "elf_address": "0x41b3f0",
+      "size": 8,
+      "sha256": "794bb7e82db7104cb7937b6ca18990e9e44d32bfec670f276c8dc910939b2838"
+    },
+    {
+      "original_symbol": "_ZN8MenuBase4ShowEv",
+      "elf_address": "0x425450",
+      "size": 728,
+      "sha256": "31d5f94e29b293fa3462b3a1c47f637eadbf53a0b9eb202c44a2866169e8d1af"
+    },
+    {
+      "original_symbol": "_ZN8MenuBase4HideEv",
+      "elf_address": "0x424af4",
+      "size": 620,
+      "sha256": "f04d3a8e016d6fede2c0ce391644030c44ae709cd0ca8150c8f7180fd4f74b13"
+    },
+    {
+      "original_symbol": "_ZN8MenuBase9LostFocusEv",
+      "elf_address": "0x41b3ec",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN8MenuBase8GotFocusEv",
+      "elf_address": "0x41b3e8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    }
+  ]
+}

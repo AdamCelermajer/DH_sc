@@ -1,0 +1,5 @@
+{
+  "validation": "PASS",
+  "output": "PASS native same Save setter21 original ARM cases; no initialization/unlock, malformed tier guard\n",
+  "exit_code": 0
+}

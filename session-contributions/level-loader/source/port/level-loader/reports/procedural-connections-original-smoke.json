@@ -1,0 +1,467 @@
+{
+  "scope": "Execute original block-map insertion and room-exit connection construction.\n\nActual MGX block interpretation, lstr comparison, insert_unique, red-black\nbalancing/traversal and Block::LinkToOtherBlocks execute original ARM32.\nFile-list bytes are supplied from separately verified original GetFiles\nreceipts. Storage and imported C/float services are explicit adapters.\nThis does not execute full RandomGenerator::LoadBlocks or layout generation.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "original_lists_sha256": "2ced1af1a948f0333bd3021c3a1c8bf5f9f7a0c1851a97f0613e1a928b79d7c6",
+  "script_sha256": "8c227c4a1ca833f6a721975444a539a31f4c7195b64321b61c390e6f3b5cc009",
+  "dependency_sources_sha256": {
+    "port\\level-loader\\tests\\procedural_connections_original.py": "8c227c4a1ca833f6a721975444a539a31f4c7195b64321b61c390e6f3b5cc009",
+    "port\\level-loader\\tests\\procedural_blocks_original.py": "695ac6d5978dae6e013150d4dfce80461f851c91d6f14b5bb5835739042a16fd",
+    "port\\engine-resources\\tests\\cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port\\game-data\\tests\\combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "port\\game-data\\tests\\combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "port\\game-data\\tests\\health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "port\\game-data\\tests\\combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "port\\game-data\\tests\\aggro_differential.py": "3d5fc4103199edbe847f886344f048738067ee8b329816531b82d8bc7174a759",
+    "port\\level-world\\tests\\navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148",
+    "port\\game-data\\tests\\items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port\\level-loader\\tests\\xml_original_probe.py": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209"
+  },
+  "direction_opposites": [
+    2,
+    3,
+    0,
+    1,
+    4
+  ],
+  "cases": [
+    {
+      "name": "ordering-duplicates-self",
+      "inputs": [
+        {
+          "name": "z",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652c676174652220646972656374696f6e3d226e6f7274682220706f736974696f6e3d22302c302c30222f3e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652220646972656374696f6e3d22736f7574682220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "A",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652c676174652220646972656374696f6e3d22736f7574682220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "a",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22676174652220646972656374696f6e3d22736f7574682220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "z",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d2269676e6f7265642220646972656374696f6e3d22776573742220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "empty",
+          "input_hex": "3c4d6f64756c653e3c2f4d6f64756c653e",
+          "uri": ""
+        }
+      ],
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "z",
+          "inserted": true
+        },
+        {
+          "source_index": 1,
+          "name": "A",
+          "inserted": true
+        },
+        {
+          "source_index": 2,
+          "name": "a",
+          "inserted": true
+        },
+        {
+          "source_index": 3,
+          "name": "z",
+          "inserted": false
+        },
+        {
+          "source_index": 4,
+          "name": "empty",
+          "inserted": true
+        }
+      ],
+      "blocks": [
+        {
+          "source_index": 1,
+          "name": "A",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": [
+                [
+                  3,
+                  0
+                ],
+                [
+                  3,
+                  0
+                ],
+                [
+                  3,
+                  0
+                ],
+                [
+                  3,
+                  0
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "source_index": 2,
+          "name": "a",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": [
+                [
+                  3,
+                  0
+                ],
+                [
+                  3,
+                  0
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "source_index": 4,
+          "name": "empty",
+          "uri": "",
+          "exits": []
+        },
+        {
+          "source_index": 0,
+          "name": "z",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  0
+                ],
+                [
+                  3,
+                  1
+                ],
+                [
+                  3,
+                  1
+                ]
+              ]
+            },
+            {
+              "index": 1,
+              "connections": [
+                [
+                  3,
+                  0
+                ],
+                [
+                  3,
+                  0
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unknown-and-case",
+      "inputs": [
+        {
+          "name": "north",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22612c412220646972656374696f6e3d226e6f7274682220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "south",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22612c412220646972656374696f6e3d22736f7574682220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "none",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22612220646972656374696f6e3d226e6f6e652220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "unknown",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22612220646972656374696f6e3d22756e6b6e6f776e2220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "caps",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22412220646972656374696f6e3d22534f5554482220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        }
+      ],
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "north",
+          "inserted": true
+        },
+        {
+          "source_index": 1,
+          "name": "south",
+          "inserted": true
+        },
+        {
+          "source_index": 2,
+          "name": "none",
+          "inserted": true
+        },
+        {
+          "source_index": 3,
+          "name": "unknown",
+          "inserted": true
+        },
+        {
+          "source_index": 4,
+          "name": "caps",
+          "inserted": true
+        }
+      ],
+      "blocks": [
+        {
+          "source_index": 4,
+          "name": "caps",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": [
+                [
+                  2,
+                  0
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "source_index": 2,
+          "name": "none",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": [
+                [
+                  1,
+                  0
+                ],
+                [
+                  4,
+                  0
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "source_index": 0,
+          "name": "north",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  3,
+                  0
+                ],
+                [
+                  3,
+                  0
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "source_index": 1,
+          "name": "south",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": [
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  0
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "source_index": 3,
+          "name": "unknown",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": [
+                [
+                  1,
+                  0
+                ],
+                [
+                  4,
+                  0
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stale-spaces-and-final-zero",
+      "inputs": [
+        {
+          "name": "left",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22612c20622220646972656374696f6e3d22656173742220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "right",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d2262622220646972656374696f6e3d22776573742220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "bad",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22612c302220646972656374696f6e3d22776573742220706f736974696f6e3d22302c302c30222f3e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22612c2220646972656374696f6e3d22776573742220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        },
+        {
+          "name": "other",
+          "input_hex": "3c4d6f64756c653e3c47616d654f626a6563742067616d65747970653d226c696e6b22206c696e6b747970653d22622220646972656374696f6e3d22776573742220706f736974696f6e3d22302c302c30222f3e3c2f4d6f64756c653e",
+          "uri": ""
+        }
+      ],
+      "insertions": [
+        {
+          "source_index": 0,
+          "name": "left",
+          "inserted": true
+        },
+        {
+          "source_index": 1,
+          "name": "right",
+          "inserted": true
+        },
+        {
+          "source_index": 2,
+          "name": "bad",
+          "inserted": true
+        },
+        {
+          "source_index": 3,
+          "name": "other",
+          "inserted": true
+        }
+      ],
+      "blocks": [
+        {
+          "source_index": 2,
+          "name": "bad",
+          "uri": "",
+          "exits": []
+        },
+        {
+          "source_index": 0,
+          "name": "left",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": [
+                [
+                  3,
+                  0
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "source_index": 3,
+          "name": "other",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": []
+            }
+          ]
+        },
+        {
+          "source_index": 1,
+          "name": "right",
+          "uri": "",
+          "exits": [
+            {
+              "index": 0,
+              "connections": [
+                [
+                  1,
+                  0
+                ]
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "empty-map",
+      "inputs": [],
+      "insertions": [],
+      "blocks": []
+    }
+  ],
+  "original_execution_complete": false,
+  "smoke_execution_complete": true,
+  "full_load_blocks_verified": false,
+  "layout_generation_verified": false,
+  "full_loader_verified": false
+}

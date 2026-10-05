@@ -1,0 +1,11 @@
+#include "../blood_render_pass_v3.hpp"
+#include <fstream>
+#include <iostream>
+#include <stdexcept>
+#include <cstring>
+#include <vector>
+using namespace dh2;unsigned checks;void require(bool b,const std::string& s){++checks;if(!b)throw std::runtime_error(s);}std::vector<std::uint8_t> read(const std::string& p){std::ifstream f(p,std::ios::binary);if(!f)throw std::runtime_error(p);return {std::istreambuf_iterator<char>(f),{}};}
+int main(int argc,char**argv){try{require(argc==4,"reference +two actual assets");auto gold=read(argv[1]);std::uint32_t n;std::memcpy(&n,gold.data(),4);require(gold.size()==4+std::size_t(n)*108,"reference extent");for(unsigned i=0;i<n;++i){scene::RenderStateSource76V3 in;scene::RenderPassState32V3 out;std::memcpy(in.data(),gold.data()+4+108*i,76);require(dh2_render_pass_convert_v3(&out,&in)==0&&std::memcmp(out.data(),gold.data()+4+108*i+76,32)==0,"original32-byte renderpass");}
+for(unsigned i=2;i<4;++i){auto b=read(argv[i]);resources::BresView view;require(dh2_bres_open(&view,b.data(),b.size())==resources::BresError::ok,"actual BRES");scene::BloodRenderPassV3 p;std::string error;require(scene::blood_render_pass_v3(view,"fx_particles_alpha","default",p,error),error);require(p.blend&&p.blend_src==0x302&&p.blend_dst==0x303&&p.blend_equation==0x8006,"authored straight-alpha blend");require(p.depth&&p.depth_function==0x203&&!p.depth_write,"authored LEQUAL no depth write");require(p.cull&&p.cull_face==0x405&&p.front_face==0x901,"authored BACK/CCW");require(!p.stencil&&!p.sample_coverage&&!p.polygon_offset,"actual auxiliary states disabled");require(p.vertex_defines=="#define TEXTURED\n"&&p.fragment_defines==p.vertex_defines,"source default defines without ALPHATEST");require(!scene::blood_render_pass_v3(view,"missing","default",p,error)&&!error.empty(),"missing material fails");require(!scene::blood_render_pass_v3(view,"fx_particles_alpha","fog",p,error)&&error.find("nondefault")!=std::string::npos,"unbound fog fails");}
+require(dh2_render_pass_convert_v3(nullptr,nullptr)<0,"invalid API input");std::cout<<"{\"validation\":\"PASS\",\"checks\":"<<checks<<",\"original_cases\":"<<n<<",\"actual_assets\":2,\"gpu_submission\":false}"<<std::endl;
+}catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}}

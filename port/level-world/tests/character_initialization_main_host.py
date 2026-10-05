@@ -67,6 +67,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--build', default='/home/adampalace/dh2-world-build')
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--equipped-player-v1', action='store_true',
+                        help='Rebuild and replay the retained visual/equipment owner alongside all prior suites')
     args = parser.parse_args()
     if args.output.exists():
         raise RuntimeError('Preserve existing main initialization proof')
@@ -256,6 +258,16 @@ def main():
     loot_tests_v7=('loot_power_creation_v7','loot_power_creation_v7_fixture')
     sources += [data/(name+suffix) for name in loot_modules_v7 for suffix in ('.hpp','.cpp')]
     sources += [data/'tests'/(name+'.cpp') for name in loot_tests_v7]
+    if args.equipped_player_v1:
+        skin = ROOT/'port/engine-skinning'
+        sources += [skin/'CMakeLists.txt']
+        sources += [skin/(name+suffix) for name in ('visual_skin_selection_v6','visual_skin_owner_v6')
+                    for suffix in ('.hpp','.cpp')]
+        sources += [skin/'tests'/(name+'.cpp') for name in
+                    ('visual_skin_selection_v6','visual_skin_owner_v6','visual_skin_inventory_v6')]
+        sources += [world/(name+suffix) for name in ('player_equipment_render_owner_v1','player_equipment_queries_v1')
+                    for suffix in ('.hpp','.cpp')]
+        sources += [world/'tests/player_equipment_render_owner_v1.cpp']
     core_manifest_path = ui/'reference/gameswf-core/vendor-manifest.json'
     core_manifest = json.loads(core_manifest_path.read_text())
     for entry in core_manifest['files']:
@@ -697,6 +709,25 @@ def main():
     proofs[spawn_owner_proof.relative_to(ROOT).as_posix()] = sha(spawn_owner_proof)
     endpoint_proof = world/'reference/character-target-event-route/endpoints-original-probe.json'
     proofs[endpoint_proof.relative_to(ROOT).as_posix()] = sha(endpoint_proof)
+    equipment_receipts = {}
+    if args.equipped_player_v1:
+        for freeze_path,receipt_path in (
+            (skin/'reference/visual-skin-owner-v6/freeze-manifest.json',
+             skin/'reports/visual-skin-owner-v6-host-audit-v1.json'),
+            (world/'reference/player-equipment-render-owner-v1/freeze-manifest.json',
+             world/'reports/player-equipment-render-owner-v1-host-audit-v1.json')):
+            freeze = json.loads(freeze_path.read_text())
+            assert freeze['validation'] == 'PASS'
+            for group in ('production_source_sha256','source_sha256','proof_sha256','reference_sha256'):
+                for name,digest in freeze[group].items():
+                    assert sha(ROOT/name) == digest, name
+                    proofs[name] = digest
+            proofs[freeze_path.relative_to(ROOT).as_posix()] = sha(freeze_path)
+            receipt = json.loads(receipt_path.read_text())
+            assert receipt['validation'] == 'PASS'
+            for name,digest in receipt['input_sha256'].items():
+                assert sha(ROOT/name) == digest, name
+            equipment_receipts[receipt_path.relative_to(ROOT).as_posix()] = receipt
     scratch = ROOT/'.local-inputs/character-initialization-main/files'
     scratch.mkdir(parents=True,exist_ok=True)
     common = ROOT/'.local-inputs/character-script-owner-extension/_commons.luac'
@@ -1032,6 +1063,24 @@ def main():
         data/'reference/item-inventory-v1/potion-fixtures.bin',ROOT/'.local-inputs/items-discovery'])
     suites['Player_profile_index_v1']=('game-data/player_profile_index_v1_audit',[
         data/'reference/player-profile-index-v1/fixtures.bin'])
+    if args.equipped_player_v1:
+        suites['Visual_selection_v6']=('engine-skinning/visual_skin_selection_v6_audit',[
+            skin/'reference/visual-skin-owner-v6/selection-fixtures.bin'])
+        suites['Visual_resources_v6']=('engine-skinning/visual_skin_owner_v6_audit',[
+            assets/'models/prince_modular.bdae',ROOT/'.local-inputs/visual-skin-owner-v6/weapons',
+            assets/'animations/prince_walk_1hand.bdae'])
+        suites['Visual_inventory_v6']=('engine-skinning/visual_skin_inventory_v6_audit',[
+            skin/'reference/visual-skin-owner-v6/inventory-fixtures.bin',
+            ROOT/'.local-inputs/items-discovery',item_power_cache_v5,
+            ROOT/'.local-inputs/actors',ROOT/'.local-inputs/combat-data',assets,
+            ROOT/'.local-inputs/player-item-effects-v5/private-save',
+            assets/'models/prince_modular.bdae',ROOT/'.local-inputs/visual-skin-owner-v6/weapons',
+            data/'reference/player-item-effects-v5/starter-effects-fixtures.bin'])
+        suites['Equipped_player_v1']=('player_equipment_render_owner_v1_audit',[
+            inputs,ROOT/'.local-inputs/items-discovery',item_power_cache_v5,assets,
+            ROOT/'.local-inputs/player-item-effects-v5/private-save',
+            ROOT/'.local-inputs/visual-skin-owner-v6/weapons',assets/'models/prince_modular.bdae',
+            data/'reference/player-item-effects-v5/starter-effects-fixtures.bin'])
     files = set(path for name,(_,paths) in suites.items()
                 for path in (paths[:1] if name=='Lua_GC' else paths) if isinstance(path,Path) and path.is_file())
     files.update(baseline_root/key for key in migration_files)
@@ -1054,6 +1103,8 @@ def main():
     item_host_receipt_v5=json.loads((data/'reports/player-item-effects-v5-host-audit-v3.json').read_text())
     files.update(ROOT/name for name in item_host_receipt_v5['input_sha256'])
     files.update((ROOT/'.local-inputs/player-loot-v7/cache').glob('*.bin'))
+    for receipt in equipment_receipts.values():
+        files.update(ROOT/name for name in receipt['input_sha256'])
     input_hashes = {path.relative_to(ROOT).as_posix():sha(path) for path in files}
     commands = []
 
@@ -1074,6 +1125,9 @@ def main():
     binaries = [world_so,runtime_so,data_so,scene_so,animation_so,ui_so,
                 args.build+'/engine-ui/libdh2_gameswf_core.a',
                 args.build+'/engine-ui/libdh2_freetype237.a']+[args.build+'/'+target for target,_ in suites.values()]
+    skin_so = args.build+'/engine-skinning/libdh2_engine_skinning.so'
+    if args.equipped_player_v1:
+        binaries.append(skin_so)
 
     def binary_hashes():
         return {row.split(maxsplit=1)[1]:row.split()[0] for row in run('sha256sum',*binaries).splitlines()}
@@ -1199,6 +1253,12 @@ def main():
     suffixes += ['/'+p['source'].removeprefix('port/') for p in skill_integration_v3['tests']]
     suffixes += ['/game-data/'+name+'.cpp' for name in loot_modules_v7]
     suffixes += ['/game-data/tests/'+name+'.cpp' for name in loot_tests_v7]
+    if args.equipped_player_v1:
+        suffixes += ['/engine-skinning/'+name+'.cpp' for name in ('visual_skin_selection_v6','visual_skin_owner_v6')]
+        suffixes += ['/engine-skinning/tests/'+name+'.cpp' for name in
+                     ('visual_skin_selection_v6','visual_skin_owner_v6','visual_skin_inventory_v6')]
+        suffixes += ['/level-world/player_equipment_render_owner_v1.cpp','/level-world/player_equipment_queries_v1.cpp',
+                     '/level-world/tests/player_equipment_render_owner_v1.cpp']
     records = [record for record in compiler if any(record['file'].endswith(suffix) for suffix in suffixes)]
     # The same genuine font audit is compiled once for raster-only and once for HUD.
     assert len(records) == len(suffixes)+1
@@ -1221,7 +1281,8 @@ def main():
                      'Loot_tables_v2','Fresh_inventory_v2','Fresh_inventory_owned_v4',
                      'Item_gear_properties_v5','Item_presentation_v5','Player_gear_effects_v5',
                      'Player_gear_cache_v5','Player_skin_v5','Loot_power_creation_v7')
-        required_dso = ui_so if name in ui_suites else world_so if name in ('HUD_manager_backends','Player_initial_grants_v2','Skill_info_v1','Skill_session_v2','Player_skills_v2','Current_spell_v1','Script_assets_v1','Player_skills_v3','Skill_AI_v3','Skill_callbacks_v3') else data_so if name in data_suites else scene_so if name in ('asset_sha256','Material_color','Particle_parameter','Particle_factory','Particle_emission','Shader_sources','Swf_texture') else runtime_so
+        visual_suites = ('Visual_selection_v6','Visual_resources_v6','Visual_inventory_v6')
+        required_dso = skin_so if name in visual_suites else world_so if name=='Equipped_player_v1' else ui_so if name in ui_suites else world_so if name in ('HUD_manager_backends','Player_initial_grants_v2','Skill_info_v1','Skill_session_v2','Player_skills_v2','Current_spell_v1','Script_assets_v1','Player_skills_v3','Skill_AI_v3','Skill_callbacks_v3') else data_so if name in data_suites else scene_so if name in ('asset_sha256','Material_color','Particle_parameter','Particle_factory','Particle_emission','Shader_sources','Swf_texture') else runtime_so
         assert all(value in dependencies[name] for value in (required_dso,'libasan.so','libubsan.so'))
         assert 'not found' not in dependencies[name]
         if name in ('Player_gear_cache_v5','Loot_power_creation_v7','Player_skills_v3'):
@@ -1251,9 +1312,16 @@ def main():
         assert audits[name]['validation'] == 'PASS'
         if not name.startswith('monster_animation_') and name not in ('scope','Include','VM_ownership','Lua_GC','timer_effects','state_bodies','object_identity','object_target_events','state_owner','buffs','state_owner_behavior','state_owner_frame','script_commands','target_update','target_event_prefixes','ai_event_route','target_event_route','dot_attack','scene_script_objects','state_empty','enemy_spotted','pre_spawn','hit','state_owner_extensions','clear_aggro','player_scene_objects','object_position','owned_target_pipeline','spawn_select','spawn_body','design_settings','spawn_owner','AI_death','cancel_sneaking','dead_select','skill_tables','sneaking_tables','actor_initialization','asset_sha256','AI_state_changed','AI_state_changed_VM','Idle_update'):
             if name not in ('NPC_body','Idle_events','FX_preload','FX_tables','Init_FX','Can_update','Material_color','Particle_parameter','Update_startup','Deferred_script','Deferred_session','Delayed_Idle','Init_vitals','Init_vitals_session','Delayed_Idle_vitals','Deferred_queue','Particle_factory','Required_deferred','Update_queued','Update_queued_session','Particle_emission','Faery_tables','Skills','Skills_session','GFNT','Shader_sources','Swf_texture','Swf_movie','Freetype_font','Freetype_HUD'):
-                if name not in ui_suites and name not in data_suites and name not in ('HUD_manager_backends','Player_initial_grants_v2','Skill_info_v1','Script_first_return_v1','Skill_session_v2','Player_skills_v2','Current_spell_v1','Script_assets_v1','Player_skills_v3','Skill_AI_v3','Skill_callbacks_v3','Indexed_runtime_v3'):
+                if name not in ui_suites and name not in data_suites and name not in visual_suites and name not in ('Equipped_player_v1','HUD_manager_backends','Player_initial_grants_v2','Skill_info_v1','Script_first_return_v1','Skill_session_v2','Player_skills_v2','Current_spell_v1','Script_assets_v1','Player_skills_v3','Skill_AI_v3','Skill_callbacks_v3','Indexed_runtime_v3'):
                     assert audits[name]['runtime_library'] == runtime_so
     assert audits['Lua_GC']['checks'] == 454
+    if args.equipped_player_v1:
+        visual_receipt = equipment_receipts[(skin/'reports/visual-skin-owner-v6-host-audit-v1.json').relative_to(ROOT).as_posix()]
+        for suite,key in (('Visual_selection_v6','selection'),('Visual_resources_v6','resources'),('Visual_inventory_v6','inventory')):
+            assert audits[suite] == visual_receipt['host_audits'][key]
+        assert audits['Equipped_player_v1']['actual_classes'] == 3
+        assert audits['Equipped_player_v1']['same_inventory_scene_rebindings'] == 3
+        assert audits['Equipped_player_v1']['mismatches'] == 0
     assert audits['Item_gear_properties_v5']['gear_original_cases']==4037
     assert audits['Item_gear_properties_v5']['actual_power_rows']==937
     assert audits['Item_gear_properties_v5']['actual_power_properties']==1224
@@ -1617,6 +1685,12 @@ def main():
         sanitizer_findings=0,actual_main_CMake_targets=True,full_AI_timer_expiry=False,
         source_Application_session_selection=False,live_Android_monster_Init=False,
         packaged_APK=False,full_game_verified=False,physical_arm64_verified=False)
+    if args.equipped_player_v1:
+        result['native_equipment_scope'] = dict(same_V4_inventory=True,
+            same_property_backing=True,actual_starter_classes=3,
+            actual_module_resources=172,actual_weapon_resources=781,
+            retained_scene_rebinding=True,source_selection_gold=True,
+            live_Android_verified=False,original_packed_GPU_ABI=False)
     result['native_UI_scope'] = dict(source_core_revision=1714,freetype_version='2.3.7',
         core_vptr_instrumentation=False,wrapper_vptr_instrumentation=True,
         full_ActionScript_fork_parity=False,GPU_submission_verified=False,

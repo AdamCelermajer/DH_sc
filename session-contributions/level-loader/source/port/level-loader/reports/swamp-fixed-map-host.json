@@ -1,0 +1,261 @@
+{
+  "validation": "PASS",
+  "scope": "Source-bound Swamp native geometry/navigation preparation acceptance.\n\nThis does not establish renderer, gameplay, runtime factory or complete engine\nparity. Placements are compared to XML, not a per-level C++ descriptor.\n",
+  "canonical_cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "definition_sha256": "e3694600f07184567efcdecb79826da8bfe7aa09b7f1505b1bc13eb1eb68a041",
+  "probe_sha256": "25bc9844aca26d170f8014916346d9554473a5f47433aee55882b5a06f66a96f",
+  "sources_sha256": {
+    "fixed_map_v1.cpp": "692d31007e5139f70909d21f9f8bfd1b4a65b4395f0b68e0902b7be483962110",
+    "fixed_map_v1.hpp": "0179a5372b5f3bcd43d6d39407445c8bb9854ebb98f60caf0be90694064813bc",
+    "visual_transform_v1.cpp": "9ef62708858e3ef669181a76700baf7fe91ae3c586cbddef7114b1c7aaaa5446",
+    "user_properties_v1.cpp": "f780e44fea995b4865257dee31107544f2f62c561ee2e9e8659d47e942375ea7",
+    "tests/fixed_map_host.py": "233db494997a4042898cd0e67ae3e8bd5d1a5740631de07bbec57e11717243e2"
+  },
+  "native": {
+    "validation": "PASS",
+    "identity": "SWAMP",
+    "asset_count": 1,
+    "module_count": 9,
+    "nodes": 615,
+    "materials": 9,
+    "geometry_kinds": {
+      "exit": 19,
+      "floor": 16,
+      "mesh": 369,
+      "module_root": 9,
+      "unclassified": 8
+    },
+    "mesh_vertex_visits": 51948,
+    "all_indices": 77784,
+    "all_primitives": 436,
+    "navigation": {
+      "floors": 16,
+      "triangles": 626,
+      "nodes": 767,
+      "edges": 2543,
+      "sewn": true
+    },
+    "mesh_bounds": [
+      [
+        -21024.9492,
+        -3000.00195,
+        -947.893005
+      ],
+      [
+        3000,
+        21000.8711,
+        3742.3999
+      ]
+    ],
+    "modules": [
+      {
+        "name": "obj_4of4_brdwalk_sw_00_0",
+        "xrefobject": "_module_obj_4of4_brdwalk_sw_00",
+        "asset": 0,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "obj_3of4_brdwalk_sw_00_1",
+        "xrefobject": "_module_obj_3of4_brdwalk_sw_00",
+        "asset": 0,
+        "position": [
+          -6000,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "obj_1of4_brdwalk_nse_00_2",
+        "xrefobject": "_module_obj_1of4_brdwalk_nse_00",
+        "asset": 0,
+        "position": [
+          -6000,
+          6000,
+          0
+        ]
+      },
+      {
+        "name": "corner_ruin_ws_00_3",
+        "xrefobject": "_module_corner_ruin_ws_00",
+        "asset": 0,
+        "position": [
+          -6000,
+          12000,
+          0
+        ]
+      },
+      {
+        "name": "merchantcamp_ruins_swe_00_4",
+        "xrefobject": "_module_merchantcamp_ruins_swe_00",
+        "asset": 0,
+        "position": [
+          -12000,
+          12000,
+          0
+        ]
+      },
+      {
+        "name": "corner_brdwalk_se_00_5",
+        "xrefobject": "_module_corner_brdwalk_se_00",
+        "asset": 0,
+        "position": [
+          -12000,
+          18000,
+          0
+        ]
+      },
+      {
+        "name": "deadend_brdwalk_w_00_7",
+        "xrefobject": "_module_deadend_brdwalk_w_00",
+        "asset": 0,
+        "position": [
+          -6000,
+          18000,
+          0
+        ]
+      },
+      {
+        "name": "bossroom_ruins_ns__8",
+        "xrefobject": "_module_bossroom_ruins_ns_",
+        "asset": 0,
+        "position": [
+          -18000,
+          12000,
+          0
+        ]
+      },
+      {
+        "name": "obj_2of4_brdwalk_sw_00_9",
+        "xrefobject": "_module_obj_2of4_brdwalk_sw_00",
+        "asset": 0,
+        "position": [
+          0,
+          6000,
+          0
+        ]
+      }
+    ],
+    "modules_without_floors": [],
+    "floor_flag_counts": {
+      "0": 10,
+      "1": 2,
+      "2": 4
+    },
+    "unclassified_geometry": [
+      "Object01_PIVOT",
+      "Object02_PIVOT",
+      "Object03_PIVOT",
+      "Object04_PIVOT",
+      "Object05_PIVOT",
+      "Object06_PIVOT",
+      "Object07_PIVOT",
+      "Object08_PIVOT"
+    ],
+    "floor_metadata": [
+      {
+        "node": "_floor_obj_4of4_brdwalk_sw_",
+        "raw": "floortypes = %22wood%22",
+        "floor_flags": 0,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_water_obj_4of4_brdwalk_sw_",
+        "raw": "floortypes = %22water%22",
+        "floor_flags": 2,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_corner_ruin_ne_",
+        "raw": "",
+        "floor_flags": 0,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_obj_1of4_brdwalk_nse_",
+        "raw": "floortypes = %22wood%22",
+        "floor_flags": 0,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_corner_ruin_ws_",
+        "raw": "",
+        "floor_flags": 0,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_doorswamp",
+        "raw": "floortypes = %22door%22\r\n",
+        "floor_flags": 0,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_merchantcamp_ruins_swe_",
+        "raw": "",
+        "floor_flags": 0,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_corner_brdwalk_se_",
+        "raw": "floortypes = %22wood%22",
+        "floor_flags": 0,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_deadend_brdwalk_w_",
+        "raw": "floortypes = %22wood%22",
+        "floor_flags": 0,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_deadend_brdwalk_water_w_",
+        "raw": "floortypes = %22water%22",
+        "floor_flags": 2,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_bossroom_ruins_ns_",
+        "raw": "",
+        "floor_flags": 0,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_swampking_01_PIVOT",
+        "raw": "floortypes = %22hole%22",
+        "floor_flags": 1,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_swampking_02_PIVOT",
+        "raw": "floortypes = %22hole%22",
+        "floor_flags": 1,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_water_bossroom_ruins_ns__PIVOT",
+        "raw": "floortypes = %22water%22",
+        "floor_flags": 2,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_obj_2of4_brdwalk_sw_",
+        "raw": "floortypes = %22wood%22",
+        "floor_flags": 0,
+        "object_flags": 1
+      },
+      {
+        "node": "_floor_water_obj_2of4_brdwalk_sw_",
+        "raw": "floortypes = %22water%22",
+        "floor_flags": 2,
+        "object_flags": 1
+      }
+    ],
+    "ownership_checks": true,
+    "map_render_verified": false,
+    "gameplay_verified": false
+  },
+  "authored_module_placements_compared": 9
+}

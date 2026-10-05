@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6MenuFX8GetStateEPKc",
+      "elf_address": "0x7a82c4",
+      "size": 88,
+      "sha256": "faa0adb5022ebbd80917df5c3ff48958342ea28f469d93298dc44c038bb866b3"
+    },
+    {
+      "original_symbol": "_ZN11MenuManager16RegisterListenerEP8MenuBase",
+      "elf_address": "0x431750",
+      "size": 152,
+      "sha256": "d4bfb8830cdd54a67c003b5c7337e4a740c18afa33672d2a778bf4ff731db984"
+    },
+    {
+      "original_symbol": "_ZN11MenuManager18UnRegisterListenerEP8MenuBase",
+      "elf_address": "0x42e110",
+      "size": 248,
+      "sha256": "1023eb63bd205ad4d53ba07ed14907581b435dd593d8edeb25e74e62613bfd5f"
+    },
+    {
+      "original_symbol": "_ZN8RenderFX10SetContextEPN7gameswf9characterE",
+      "elf_address": "0x7a7ee8",
+      "size": 8,
+      "sha256": "fe0a0548a35f746429ebc5f30e61bf8dc63c94dd44bf6fd613e866f0807d1e0b"
+    },
+    {
+      "original_symbol": "_ZN8MenuBase10SetVisibleEb",
+      "elf_address": "0x4223bc",
+      "size": 112,
+      "sha256": "5939f3a6340e25128a54ecff41b7c840accaac724e419e594b37f4b6ef09585f"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf8weak_ptrINS_9characterEE7get_ptrEv",
+      "elf_address": "0x438224",
+      "size": 84,
+      "sha256": "de27418d2afadf1656738d2be3a846b9109b8a3658e8e13b39a632a2502cb5f3"
+    },
+    {
+      "original_symbol": "_ZNK8MenuBase9IsVisibleEv",
+      "elf_address": "0x41f3f4",
+      "size": 8,
+      "sha256": "ec499f8ebde4ef6d7838af5585aa551af2923118ff1a56331e313efa17210b2c"
+    },
+    {
+      "original_symbol": "_ZNK7gameswf8weak_ptrINS_9characterEEptEv",
+      "elf_address": "0x4381d0",
+      "size": 84,
+      "sha256": "ac1a05e0d5af2ea9a5a6a630cf8f2b477bc0fe3e1c9682f3d7a637f7c7340a5f"
+    },
+    {
+      "original_symbol": "_ZN16MultiMenuManagerC1Ev",
+      "elf_address": "0x437e24",
+      "size": 128,
+      "sha256": "62de4e52fc7ea0883655022f67ff4b7dd35ea1c7a1135412288eefc0d71e98c6"
+    },
+    {
+      "original_symbol": "_ZN6MenuFX15GetCurrentStateEv",
+      "elf_address": "0x7a7f30",
+      "size": 28,
+      "sha256": "5fe7ac2b74470cffc57d161bbbc1307475a02dcf309f0c05545853df0db6be2e"
+    },
+    {
+      "original_symbol": "_ZN16MultiMenuManager14IsStateInStackEPN6MenuFX5StateE",
+      "elf_address": "0x437924",
+      "size": 120,
+      "sha256": "c18b9e71db032a2ce13af298e3f3953286a2a77b85f6d2eb9117e5a0edbeb4f5"
+    }
+  ]
+}

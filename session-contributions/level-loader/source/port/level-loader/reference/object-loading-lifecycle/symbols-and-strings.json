@@ -1,0 +1,231 @@
+{
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x34552c",
+      "size": 936,
+      "symbol": "_ZN13ObjectManager8InitPostEv",
+      "capture": "0034552c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "34567c",
+          "address": "0x8c0378",
+          "value": "RoomZone"
+        }
+      ]
+    },
+    {
+      "address": "0x34b520",
+      "size": 516,
+      "symbol": "_ZN13ObjectManager12GetNewObjectEPKcS1_ib",
+      "capture": "0034b520.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "34b538",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "34b550",
+          "address": "0x8c0218",
+          "value": "obj"
+        },
+        {
+          "instruction": "34b56c",
+          "address": "0x8c02a0",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Core\\ObjectManager\\ObjectManager.cpp"
+        },
+        {
+          "instruction": "34b688",
+          "address": "0x8c0400",
+          "value": "isTracingObjectManager"
+        }
+      ]
+    },
+    {
+      "address": "0x34b724",
+      "size": 324,
+      "symbol": "_ZN13ObjectManager5SpawnEPKcS1_bb",
+      "capture": "0034b724.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x3f01c8",
+      "size": 228,
+      "symbol": "_ZN5Level12_LoadFromXMLEP12TiXmlElement",
+      "capture": "003f01c8.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "3f01ec",
+          "address": "0x8c0180",
+          "value": "gametype"
+        },
+        {
+          "instruction": "3f01f8",
+          "address": "0x8c03d0",
+          "value": "Player"
+        },
+        {
+          "instruction": "3f026c",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "3f0270",
+          "address": "0x8c0440",
+          "value": "element"
+        },
+        {
+          "instruction": "3f0274",
+          "address": "0x8c6518",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Game\\Level\\Level.cpp"
+        }
+      ]
+    }
+  ],
+  "static_data": [
+    {
+      "address": "0x956a44",
+      "words": [
+        {
+          "value": "0x8cb810",
+          "string": null
+        },
+        {
+          "value": "0x8c6bd8",
+          "string": "data/"
+        },
+        {
+          "value": "0x8c6be0",
+          "string": "data/scene/"
+        },
+        {
+          "value": "0x8bf978",
+          "string": "data/3d/modules/"
+        }
+      ]
+    },
+    {
+      "address": "0x956a54",
+      "words": [
+        {
+          "value": "0x8c6bb8",
+          "string": "old/"
+        },
+        {
+          "value": "0x8c6bc0",
+          "string": "debug/"
+        },
+        {
+          "value": "0x8c6bc8",
+          "string": "ps3/"
+        },
+        {
+          "value": "0x8c6bd0",
+          "string": "iphone/"
+        },
+        {
+          "value": "0x8cb528",
+          "string": "data/menus/dqshared.swf"
+        },
+        {
+          "value": "0x8c9ff0",
+          "string": "data/menus/dqcharmenu.swf"
+        },
+        {
+          "value": "0x8ca088",
+          "string": "data/menus/dqmenus.swf"
+        },
+        {
+          "value": "0x8ca010",
+          "string": "data/menus/dqhud.swf"
+        }
+      ]
+    },
+    {
+      "address": "0x99b07c",
+      "words": [
+        {
+          "value": "0x8dc1e8",
+          "string": "No error"
+        },
+        {
+          "value": "0x8c9f20",
+          "string": "Error"
+        },
+        {
+          "value": "0x8dc1f8",
+          "string": "Failed to open file"
+        },
+        {
+          "value": "0x8dc210",
+          "string": "Memory allocation failed."
+        },
+        {
+          "value": "0x8dc230",
+          "string": "Error parsing Element."
+        },
+        {
+          "value": "0x8dc248",
+          "string": "Failed to read Element name"
+        },
+        {
+          "value": "0x8dc268",
+          "string": "Error reading Element value."
+        },
+        {
+          "value": "0x8dc288",
+          "string": "Error reading Attributes."
+        },
+        {
+          "value": "0x8dc2a8",
+          "string": "Error: empty tag."
+        },
+        {
+          "value": "0x8dc2c0",
+          "string": "Error reading end tag."
+        },
+        {
+          "value": "0x8dc2d8",
+          "string": "Error parsing Unknown."
+        },
+        {
+          "value": "0x8dc2f0",
+          "string": "Error parsing Comment."
+        },
+        {
+          "value": "0x8dc308",
+          "string": "Error parsing Declaration."
+        },
+        {
+          "value": "0x8dc328",
+          "string": "Error document empty."
+        },
+        {
+          "value": "0x8dc340",
+          "string": "Error null (0) or unexpected EOF found in input stream."
+        },
+        {
+          "value": "0x8dc378",
+          "string": "Error parsing CDATA."
+        },
+        {
+          "value": "0x8dc390",
+          "string": "Error when TiXmlDocument added to document, because TiXmlDocument can only be at the root."
+        },
+        {
+          "value": "0x8dc850",
+          "string": "&amp;"
+        },
+        {
+          "value": "0x5",
+          "string": null
+        },
+        {
+          "value": "0x26",
+          "string": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,239 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_ZN10ObjectBase7EnabledEv",
+      "address": "0x33de04",
+      "size": 48
+    },
+    {
+      "symbol": "_ZN11PropertyMap11SetPropertyEPKcS1_",
+      "address": "0x51387c",
+      "size": 128
+    },
+    {
+      "symbol": "_ZN10GameObject14UpdatePFObjectEv",
+      "address": "0x393ea0",
+      "size": 240
+    },
+    {
+      "symbol": "_ZNK9Character8IsFaerieEv",
+      "address": "0x3a3094",
+      "size": 24
+    },
+    {
+      "symbol": "_ZN14PhysicalObject12enableFilterEv",
+      "address": "0x46ebe4",
+      "size": 136
+    },
+    {
+      "symbol": "_ZN11PropertyMap11AddPropertyIbEEvPKcRT_S3_",
+      "address": "0x33e4ac",
+      "size": 140
+    },
+    {
+      "symbol": "_ZN8RoomZone16AddInitialObjectEP10GameObject",
+      "address": "0x396a90",
+      "size": 436
+    },
+    {
+      "symbol": "_ZN10GameObject7EnabledEv",
+      "address": "0x38ba38",
+      "size": 52
+    },
+    {
+      "symbol": "_ZN10GameObject8DisabledEv",
+      "address": "0x38ba04",
+      "size": 52
+    },
+    {
+      "symbol": "_ZN18SimpleTypePropertyIbE17SetToDefaultValueEPv",
+      "address": "0x33de80",
+      "size": 16
+    },
+    {
+      "symbol": "_ZN10GameObject10ZoneExitedEv",
+      "address": "0x38c69c",
+      "size": 116
+    },
+    {
+      "symbol": "_ZN10ObjectBase11setUpdatingEb",
+      "address": "0x33dcf0",
+      "size": 8
+    },
+    {
+      "symbol": "_ZN10ObjectBase10SetVisibleEb",
+      "address": "0x33dcf8",
+      "size": 16
+    },
+    {
+      "symbol": "_ZN10GameObject10SetVisibleEb",
+      "address": "0x38b0f0",
+      "size": 32
+    },
+    {
+      "symbol": "_ZNK9Character9IsMonsterEv",
+      "address": "0x3a3064",
+      "size": 24
+    },
+    {
+      "symbol": "_ZNK9Character10IsFollowerEv",
+      "address": "0x3a307c",
+      "size": 24
+    },
+    {
+      "symbol": "_ZN10ObjectBase17DeclarePropertiesEv",
+      "address": "0x33f014",
+      "size": 328
+    },
+    {
+      "symbol": "_ZN15LightSetManager21GetLightSetIdFromNameESs",
+      "address": "0x40c3cc",
+      "size": 64
+    },
+    {
+      "symbol": "_ZN12VisualObject4SyncEv",
+      "address": "0x38ba74",
+      "size": 32
+    },
+    {
+      "symbol": "_ZN10GameObject11ZoneEnteredEv",
+      "address": "0x38c710",
+      "size": 128
+    },
+    {
+      "symbol": "_ZN9Character9InitFinalEv",
+      "address": "0x3b4978",
+      "size": 588
+    },
+    {
+      "symbol": "_ZNK14PhysicalObject9getRadiusEv",
+      "address": "0x46e750",
+      "size": 24
+    },
+    {
+      "symbol": "_ZN10GameObjectC1EN10ObjectBase6GO_IDSE",
+      "address": "0x38c130",
+      "size": 616
+    },
+    {
+      "symbol": "_ZN11PropertyMap20LoadOverridesFromXMLEP12TiXmlElement",
+      "address": "0x513a00",
+      "size": 168
+    },
+    {
+      "symbol": "_ZN9Character7EnabledEv",
+      "address": "0x3a598c",
+      "size": 4
+    },
+    {
+      "symbol": "_ZN8PFObjectC1Ev",
+      "address": "0x524644",
+      "size": 268
+    },
+    {
+      "symbol": "_ZN10GameObject21CheckSpawnProbabilityEv",
+      "address": "0x38bd64",
+      "size": 248
+    },
+    {
+      "symbol": "_ZN9Character8DisabledEv",
+      "address": "0x3a5974",
+      "size": 24
+    },
+    {
+      "symbol": "_ZN11PropertyMap21LoadDefaultPropertiesEv",
+      "address": "0x5136ec",
+      "size": 284
+    },
+    {
+      "symbol": "_ZN8RoomZone12RemoveObjectEP10GameObject",
+      "address": "0x3968cc",
+      "size": 76
+    },
+    {
+      "symbol": "_ZN10GameObject9InitFinalEv",
+      "address": "0x38cd48",
+      "size": 408
+    },
+    {
+      "symbol": "_ZN8RoomZone9AddObjectEP10GameObject",
+      "address": "0x39672c",
+      "size": 116
+    },
+    {
+      "symbol": "_ZN6glitch5scene10ISceneNode20getSceneNodeFromNameEPKc",
+      "address": "0x5984f4",
+      "size": 116
+    },
+    {
+      "symbol": "_ZN14PhysicalObject13disableFilterEv",
+      "address": "0x46eb70",
+      "size": 116
+    },
+    {
+      "symbol": "_ZN10ObjectBaseC1ENS_6GO_IDSE",
+      "address": "0x33f15c",
+      "size": 436
+    },
+    {
+      "symbol": "_ZN10ObjectBase8DisabledEv",
+      "address": "0x33de34",
+      "size": 48
+    },
+    {
+      "symbol": "_ZN18SimpleTypePropertyIbE10FromStringEPvPKc",
+      "address": "0x33e598",
+      "size": 24
+    },
+    {
+      "symbol": "_ZN10ObjectBase9SetEnableEb",
+      "address": "0x33ddc8",
+      "size": 60
+    }
+  ],
+  "room_initial_debug_keys": [
+    {
+      "address": "0x8c29d8",
+      "value": "isTracingRoomZoneInit"
+    },
+    {
+      "address": "0x8c29d8",
+      "value": "isTracingRoomZoneInit"
+    }
+  ],
+  "object_boolean_properties": [
+    {
+      "field": "static84",
+      "default": 0,
+      "name": "static",
+      "address": "0x8c0170"
+    },
+    {
+      "field": "visible80",
+      "default": 1,
+      "name": "visible",
+      "address": "0x8c0178"
+    }
+  ],
+  "character_pf_virtuals": [
+    {
+      "slot": "0xb4",
+      "method": "0x3a2ee8",
+      "symbol": "_ZNK9Character10IsObstacleEv"
+    },
+    {
+      "slot": "0xb8",
+      "method": "0x3a2ef0",
+      "symbol": "_ZNK9Character17GetObstacleRadiusEv"
+    },
+    {
+      "slot": "0xbc",
+      "method": "0x3a2efc",
+      "symbol": "_ZNK9Character19GetObstacleStrengthEv"
+    }
+  ],
+  "ctor_visibility": "ObjectBase ctor does not store +80; +8a=1,+84=0,+85=0. PFObject ctor firstword=0 represented by floor UINT_MAX.",
+  "production_renderer_connection": false,
+  "full_NPC_AI": false
+}

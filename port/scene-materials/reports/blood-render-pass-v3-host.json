@@ -1,0 +1,22 @@
+{
+  "scope": "Source renderpass76->32 conversion replay and actual material->effect->GLES2 default technique resolution, authored GL state enums/default TEXTURED shader selection, explicit fog/missing-material failures. No GPU/device or global scene transparent queue claim.",
+  "results": [
+    {
+      "optimization": "O1",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":2023,\"original_cases\":2002,\"actual_assets\":2,\"gpu_submission\":false}\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "optimization": "O2",
+      "stdout": "{\"validation\":\"PASS\",\"checks\":2023,\"original_cases\":2002,\"actual_assets\":2,\"gpu_submission\":false}\n",
+      "stderr": "",
+      "exit_code": 0
+    }
+  ],
+  "sources": {
+    "port/scene-materials/tests/blood_render_pass_v3.cpp": "d34ae0bded3b36a1b9fc3fb33484931416e5a12c0789c3420862d5f924e87e40",
+    "port/scene-materials/blood_render_pass_v3.cpp": "c485048ba315ee65fac71169ca8de9f573f9d608e7cefe149c03d65998921b45"
+  },
+  "fixtures_sha256": "4ba6b43a15c0d6faf08a10361a851bb3e3b35e9194c28dcf152afc44b90a10b7"
+}

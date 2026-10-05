@@ -1,0 +1,614 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "evidence": "static PC-relative string literal resolution; no original execution claimed",
+  "strings": [
+    {
+      "function": "0x422d10",
+      "load": "0x422d7c",
+      "add": "0x422d88",
+      "literal": "0x423078",
+      "target": "0x8c9048",
+      "text": "isTracingMenuBase"
+    },
+    {
+      "function": "0x422d10",
+      "load": "0x422db8",
+      "add": "0x422dbc",
+      "literal": "0x423080",
+      "target": "0x8c9060",
+      "text": "%s.btn_%s.%s"
+    },
+    {
+      "function": "0x422d10",
+      "load": "0x422dc4",
+      "add": "0x422dc8",
+      "literal": "0x423084",
+      "target": "0x8c8d18",
+      "text": "text"
+    },
+    {
+      "function": "0x422d10",
+      "load": "0x422dd0",
+      "add": "0x422dd4",
+      "literal": "0x423088",
+      "target": "0x8c9048",
+      "text": "isTracingMenuBase"
+    },
+    {
+      "function": "0x422d10",
+      "load": "0x422ddc",
+      "add": "0x422de0",
+      "literal": "0x42308c",
+      "target": "0x8eedf8",
+      "text": "%s"
+    },
+    {
+      "function": "0x422d10",
+      "load": "0x422fac",
+      "add": "0x422fb8",
+      "literal": "0x423094",
+      "target": "0x8c9080",
+      "text": "%s.%s"
+    },
+    {
+      "function": "0x42331c",
+      "load": "0x4233b0",
+      "add": "0x4233bc",
+      "literal": "0x4236b4",
+      "target": "0x8c9048",
+      "text": "isTracingMenuBase"
+    },
+    {
+      "function": "0x42331c",
+      "load": "0x4233f8",
+      "add": "0x423404",
+      "literal": "0x4236b8",
+      "target": "0x8c90f8",
+      "text": "deadzone_"
+    },
+    {
+      "function": "0x42331c",
+      "load": "0x423424",
+      "add": "0x423430",
+      "literal": "0x4236bc",
+      "target": "0x8c9048",
+      "text": "isTracingMenuBase"
+    },
+    {
+      "function": "0x7ac228",
+      "load": "0x7ac2a4",
+      "add": "0x7ac2b0",
+      "literal": "0x7ac408",
+      "target": "0x8cbaa8",
+      "text": "focus_out"
+    },
+    {
+      "function": "0x7ac228",
+      "load": "0x7ac3d4",
+      "add": "0x7ac3e0",
+      "literal": "0x7ac40c",
+      "target": "0x8cbb20",
+      "text": "focus_in"
+    },
+    {
+      "function": "0x7ac444",
+      "load": "0x7ac448",
+      "add": "0x7ac454",
+      "literal": "0x7ac494",
+      "target": "0x8c9088",
+      "text": "btn"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426aac",
+      "add": "0x426ab8",
+      "literal": "0x427000",
+      "target": "0x8c9048",
+      "text": "isTracingMenuBase"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426adc",
+      "add": "0x426af0",
+      "literal": "0x42700c",
+      "target": "0x8c37a0",
+      "text": "PushMenu"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426afc",
+      "add": "0x426b04",
+      "literal": "0x427014",
+      "target": "0x8c3798",
+      "text": "PopMenu"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426b10",
+      "add": "0x426b18",
+      "literal": "0x42701c",
+      "target": "0x8c3788",
+      "text": "PopAllAbove"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426b24",
+      "add": "0x426b2c",
+      "literal": "0x427024",
+      "target": "0x8c9258",
+      "text": "PopAllMenu"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426b38",
+      "add": "0x426b40",
+      "literal": "0x42702c",
+      "target": "0x8c9268",
+      "text": "SwitchMenu"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426b4c",
+      "add": "0x426b54",
+      "literal": "0x427034",
+      "target": "0x8c9278",
+      "text": "PushState"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426b60",
+      "add": "0x426b68",
+      "literal": "0x42703c",
+      "target": "0x8c9288",
+      "text": "SetFocus"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426b74",
+      "add": "0x426b7c",
+      "literal": "0x427044",
+      "target": "0x8c9298",
+      "text": "PlaySoundFX"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426b88",
+      "add": "0x426b90",
+      "literal": "0x42704c",
+      "target": "0x8c1bf8",
+      "text": "PlayMusic"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426b9c",
+      "add": "0x426ba4",
+      "literal": "0x427054",
+      "target": "0x8c92a8",
+      "text": "StopMusic"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426bb0",
+      "add": "0x426bb8",
+      "literal": "0x42705c",
+      "target": "0x8c8fc8",
+      "text": "StartGame"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426bc4",
+      "add": "0x426bcc",
+      "literal": "0x427064",
+      "target": "0x8c92b8",
+      "text": "ReturnToGame"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426bd8",
+      "add": "0x426be0",
+      "literal": "0x42706c",
+      "target": "0x8c92c8",
+      "text": "ContinueGame"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426bec",
+      "add": "0x426bf4",
+      "literal": "0x427074",
+      "target": "0x8c92d8",
+      "text": "SetSaveSlot"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426c00",
+      "add": "0x426c08",
+      "literal": "0x42707c",
+      "target": "0x8c92e8",
+      "text": "SetPlayerClass"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426c14",
+      "add": "0x426c1c",
+      "literal": "0x427084",
+      "target": "0x8c92f8",
+      "text": "SetDifficulty"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426c28",
+      "add": "0x426c30",
+      "literal": "0x42708c",
+      "target": "0x8c9308",
+      "text": "SetPlayerName"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426c3c",
+      "add": "0x426c44",
+      "literal": "0x427094",
+      "target": "0x8c9318",
+      "text": "IsSaveSlotValid"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426c50",
+      "add": "0x426c58",
+      "literal": "0x42709c",
+      "target": "0x8c9328",
+      "text": "GetSaveSlot"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426c64",
+      "add": "0x426c6c",
+      "literal": "0x4270a4",
+      "target": "0x8c9338",
+      "text": "ResetSaveFile"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426c78",
+      "add": "0x426c80",
+      "literal": "0x4270ac",
+      "target": "0x8c9348",
+      "text": "SkipScript"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426c8c",
+      "add": "0x426c94",
+      "literal": "0x4270b4",
+      "target": "0x8c9358",
+      "text": "GoToMainMenu"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426ca0",
+      "add": "0x426ca8",
+      "literal": "0x4270bc",
+      "target": "0x8c8ea0",
+      "text": "LoadLevel"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426cb4",
+      "add": "0x426cbc",
+      "literal": "0x4270c4",
+      "target": "0x8c9368",
+      "text": "LoadLevel2"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426cc8",
+      "add": "0x426cd0",
+      "literal": "0x4270cc",
+      "target": "0x8c9378",
+      "text": "EndLoading"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426cdc",
+      "add": "0x426ce4",
+      "literal": "0x4270d4",
+      "target": "0x8c9388",
+      "text": "LoadWorldMap"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426cf0",
+      "add": "0x426cf8",
+      "literal": "0x4270dc",
+      "target": "0x8c9398",
+      "text": "IsMapLocLocked"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426d04",
+      "add": "0x426d0c",
+      "literal": "0x4270e4",
+      "target": "0x8c93a8",
+      "text": "ExitGame"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426d18",
+      "add": "0x426d20",
+      "literal": "0x4270ec",
+      "target": "0x8c93b8",
+      "text": "SetBtnImage"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426d2c",
+      "add": "0x426d34",
+      "literal": "0x4270f4",
+      "target": "0x8c93c8",
+      "text": "GetCharProperty"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426d40",
+      "add": "0x426d48",
+      "literal": "0x4270fc",
+      "target": "0x8c93d8",
+      "text": "GetCharProp"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426d54",
+      "add": "0x426d5c",
+      "literal": "0x427104",
+      "target": "0x8c93e8",
+      "text": "SetText"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426d68",
+      "add": "0x426d70",
+      "literal": "0x42710c",
+      "target": "0x8c93f0",
+      "text": "SetText2"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426d7c",
+      "add": "0x426d84",
+      "literal": "0x427114",
+      "target": "0x8c9400",
+      "text": "GetString"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426d90",
+      "add": "0x426d98",
+      "literal": "0x42711c",
+      "target": "0x8c9410",
+      "text": "GetString2"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426da4",
+      "add": "0x426dac",
+      "literal": "0x427124",
+      "target": "0x8c9420",
+      "text": "GetParsedString2"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426db8",
+      "add": "0x426dc0",
+      "literal": "0x42712c",
+      "target": "0x8c9438",
+      "text": "GetPlayerName"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426dcc",
+      "add": "0x426dd4",
+      "literal": "0x427134",
+      "target": "0x8c9448",
+      "text": "GetPlayerClass"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426de0",
+      "add": "0x426de8",
+      "literal": "0x42713c",
+      "target": "0x8c9458",
+      "text": "GetPlayerClass2"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426df4",
+      "add": "0x426dfc",
+      "literal": "0x427144",
+      "target": "0x8c9468",
+      "text": "GetHasTwoHandWeapon"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426e08",
+      "add": "0x426e10",
+      "literal": "0x42714c",
+      "target": "0x8c9480",
+      "text": "GetHasMainHandWeapon"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426e1c",
+      "add": "0x426e24",
+      "literal": "0x427154",
+      "target": "0x8c9498",
+      "text": "GetHasOffHandWeapon"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426e30",
+      "add": "0x426e38",
+      "literal": "0x42715c",
+      "target": "0x8c94b0",
+      "text": "GetNumPotions"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426e44",
+      "add": "0x426e4c",
+      "literal": "0x427164",
+      "target": "0x8c94c0",
+      "text": "AssignPoint"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426e58",
+      "add": "0x426e60",
+      "literal": "0x42716c",
+      "target": "0x8c94d0",
+      "text": "AutoEquipSlot"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426e6c",
+      "add": "0x426e74",
+      "literal": "0x427174",
+      "target": "0x8c94e0",
+      "text": "IncSkill"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426e80",
+      "add": "0x426e88",
+      "literal": "0x42717c",
+      "target": "0x8c94f0",
+      "text": "ResetDraggablePosition"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426e94",
+      "add": "0x426e9c",
+      "literal": "0x427184",
+      "target": "0x8c9508",
+      "text": "IncOption"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426ea8",
+      "add": "0x426eb0",
+      "literal": "0x42718c",
+      "target": "0x8c9518",
+      "text": "DecOption"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426ebc",
+      "add": "0x426ec4",
+      "literal": "0x427194",
+      "target": "0x8c9528",
+      "text": "ToggleOption"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426ed0",
+      "add": "0x426ed8",
+      "literal": "0x42719c",
+      "target": "0x8c9538",
+      "text": "SetOption"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426ee4",
+      "add": "0x426eec",
+      "literal": "0x4271a4",
+      "target": "0x8c9548",
+      "text": "GetOption"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426ef8",
+      "add": "0x426f00",
+      "literal": "0x4271ac",
+      "target": "0x8c9558",
+      "text": "SetLanguage"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426f0c",
+      "add": "0x426f14",
+      "literal": "0x4271b4",
+      "target": "0x8c9568",
+      "text": "SaveOptions"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426f20",
+      "add": "0x426f28",
+      "literal": "0x4271bc",
+      "target": "0x8c9578",
+      "text": "LoadOptions"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426f34",
+      "add": "0x426f3c",
+      "literal": "0x4271c4",
+      "target": "0x8c4268",
+      "text": "PlayAnim"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426f48",
+      "add": "0x426f50",
+      "literal": "0x4271cc",
+      "target": "0x8c9588",
+      "text": "GotoFrame"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426f5c",
+      "add": "0x426f64",
+      "literal": "0x4271d4",
+      "target": "0x8c9598",
+      "text": "LockCharacter"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426f70",
+      "add": "0x426f78",
+      "literal": "0x4271dc",
+      "target": "0x8c95a8",
+      "text": "UnlockCharacter"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426f84",
+      "add": "0x426f8c",
+      "literal": "0x4271e4",
+      "target": "0x8c95b8",
+      "text": "PauseGameplay"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426f98",
+      "add": "0x426fa0",
+      "literal": "0x4271ec",
+      "target": "0x8c95c8",
+      "text": "ResumeGameplay"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426fac",
+      "add": "0x426fb4",
+      "literal": "0x4271f4",
+      "target": "0x8c95d8",
+      "text": "StopDialog"
+    },
+    {
+      "function": "0x4269dc",
+      "load": "0x426fc0",
+      "add": "0x426fc8",
+      "literal": "0x4271fc",
+      "target": "0x8c95e8",
+      "text": "LaunchTwitter"
+    }
+  ]
+}

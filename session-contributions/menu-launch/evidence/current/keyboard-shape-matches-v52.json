@@ -1,0 +1,338 @@
+[
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000_lg.swf",
+    "id": 70,
+    "tag": 2,
+    "bounds": [
+      -108,
+      745,
+      -126,
+      743
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          21.19110107421875,
+          21.19110107421875
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -1151,
+          -19008
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000_lg.swf",
+    "id": 72,
+    "tag": 2,
+    "bounds": [
+      -147,
+      705,
+      -129,
+      832
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          20.0,
+          20.0
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -2782,
+          -17917
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000_lg.swf",
+    "id": 503,
+    "tag": 2,
+    "bounds": [
+      64,
+      570,
+      -13,
+      493
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          17.7545166015625,
+          17.7545166015625
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -801,
+          -12391
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000_htc.swf",
+    "id": 70,
+    "tag": 2,
+    "bounds": [
+      -108,
+      745,
+      -126,
+      743
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          21.19110107421875,
+          21.19110107421875
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -1151,
+          -19008
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000_htc.swf",
+    "id": 72,
+    "tag": 2,
+    "bounds": [
+      -147,
+      705,
+      -129,
+      832
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          20.0,
+          20.0
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -2782,
+          -17917
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000_htc.swf",
+    "id": 503,
+    "tag": 2,
+    "bounds": [
+      64,
+      570,
+      -13,
+      493
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          17.7545166015625,
+          17.7545166015625
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -801,
+          -12391
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000.swf",
+    "id": 70,
+    "tag": 2,
+    "bounds": [
+      -108,
+      745,
+      -126,
+      743
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          21.19110107421875,
+          21.19110107421875
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -1151,
+          -19008
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000.swf",
+    "id": 72,
+    "tag": 2,
+    "bounds": [
+      -147,
+      705,
+      -129,
+      832
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          20.0,
+          20.0
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -2782,
+          -17917
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_i9000.swf",
+    "id": 503,
+    "tag": 2,
+    "bounds": [
+      64,
+      570,
+      -13,
+      493
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          17.7545166015625,
+          17.7545166015625
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -801,
+          -12391
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_droid.swf",
+    "id": 70,
+    "tag": 2,
+    "bounds": [
+      -108,
+      745,
+      -126,
+      743
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          21.19110107421875,
+          21.19110107421875
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -1151,
+          -19008
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_droid.swf",
+    "id": 72,
+    "tag": 2,
+    "bounds": [
+      -147,
+      705,
+      -129,
+      832
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          20.0,
+          20.0
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -2782,
+          -17917
+        ]
+      }
+    ]
+  },
+  {
+    "file": "com.gameloft.android.GAND.GloftD2SS/files/data/menus/dqmenus_droid.swf",
+    "id": 507,
+    "tag": 2,
+    "bounds": [
+      64,
+      570,
+      -13,
+      493
+    ],
+    "styles": [
+      {
+        "bitmap": 1,
+        "scale": [
+          17.7545166015625,
+          17.7545166015625
+        ],
+        "skew": [
+          0.0,
+          0.0
+        ],
+        "shift": [
+          -801,
+          -12391
+        ]
+      }
+    ]
+  }
+]

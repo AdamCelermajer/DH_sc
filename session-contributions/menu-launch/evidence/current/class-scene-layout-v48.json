@@ -1,0 +1,343 @@
+{
+  "cameras": [
+    {
+      "id": "Camera01-camera",
+      "name": "",
+      "raw": [
+        5176,
+        0,
+        1117006135,
+        1069547520,
+        1065353216,
+        1148846080,
+        5196
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "id": "lol_1_idle",
+      "raw": [
+        5064,
+        6000,
+        6033
+      ]
+    },
+    {
+      "id": "lol_1_to_2",
+      "raw": [
+        5080,
+        0,
+        1299
+      ]
+    },
+    {
+      "id": "lol_2_idle",
+      "raw": [
+        5096,
+        6333,
+        6366
+      ]
+    },
+    {
+      "id": "lol_2_to_1",
+      "raw": [
+        5112,
+        4033,
+        5333
+      ]
+    },
+    {
+      "id": "lol_2_to_3",
+      "raw": [
+        5128,
+        1333,
+        2633
+      ]
+    },
+    {
+      "id": "lol_3_idle",
+      "raw": [
+        5144,
+        6666,
+        6699
+      ]
+    },
+    {
+      "id": "lol_3_to_2",
+      "raw": [
+        5160,
+        2666,
+        4000
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "Omni01-node",
+      "name": "Omni01",
+      "sid": "",
+      "parent": -1,
+      "translation": [
+        310.0220031738281,
+        3.2387099266052246,
+        697.1799926757812
+      ],
+      "quaternion": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "instances": [
+        {
+          "type": 4,
+          "uri": "#Omni01-light",
+          "raw": [
+            0,
+            7348
+          ]
+        }
+      ]
+    },
+    {
+      "id": "_mesh_Cylinder0117-node",
+      "name": "_mesh_Cylinder0117",
+      "sid": "",
+      "parent": -1,
+      "translation": [
+        5.322239875793457,
+        33.1349983215332,
+        189.23599243164062
+      ],
+      "quaternion": [
+        0.0,
+        0.0,
+        -0.4226182699203491,
+        0.9063077569007874
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "instances": []
+    },
+    {
+      "id": "_mesh_Cylinder0117-node_PIVOT",
+      "name": "_mesh_Cylinder0117_PIVOT",
+      "sid": "",
+      "parent": 1,
+      "translation": [
+        0.00012099999730708078,
+        -3.9946300983428955,
+        942.093017578125
+      ],
+      "quaternion": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "instances": [
+        {
+          "type": 3,
+          "uri": "#_mesh_Cylinder0117-mesh",
+          "raw": [
+            0,
+            7436
+          ]
+        }
+      ]
+    },
+    {
+      "id": "_mesh__mesh_solide31602-node",
+      "name": "_mesh__mesh_solide31602",
+      "sid": "",
+      "parent": -1,
+      "translation": [
+        -89.52880096435547,
+        -170.2220001220703,
+        384.65301513671875
+      ],
+      "quaternion": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "instances": [
+        {
+          "type": 3,
+          "uri": "#_mesh__mesh_solide31602-mesh",
+          "raw": [
+            0,
+            7488
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dummy_Mage-node",
+      "name": "dummy_Mage",
+      "sid": "",
+      "parent": -1,
+      "translation": [
+        364.56298828125,
+        -413.02301025390625,
+        0.0
+      ],
+      "quaternion": [
+        0.0,
+        0.0,
+        -0.3362102806568146,
+        0.9417869448661804
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "instances": []
+    },
+    {
+      "id": "dummy_Rogue-node",
+      "name": "dummy_Rogue",
+      "sid": "",
+      "parent": -1,
+      "translation": [
+        3.252700090408325,
+        -616.9739990234375,
+        0.0
+      ],
+      "quaternion": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "instances": []
+    },
+    {
+      "id": "dummy_Warrior-node",
+      "name": "dummy_Warrior",
+      "sid": "",
+      "parent": -1,
+      "translation": [
+        -354.0950012207031,
+        -404.28900146484375,
+        0.0
+      ],
+      "quaternion": [
+        0.0,
+        0.0,
+        0.3453514277935028,
+        0.9384734034538269
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "instances": []
+    },
+    {
+      "id": "root_Camera-node",
+      "name": "root_Camera",
+      "sid": "",
+      "parent": -1,
+      "translation": [
+        0.0,
+        0.0,
+        -25.374799728393555
+      ],
+      "quaternion": [
+        0.0,
+        0.0,
+        0.3420201241970062,
+        0.9396926164627075
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "instances": []
+    },
+    {
+      "id": "dummy_camera_angle-node",
+      "name": "dummy_camera_angle",
+      "sid": "",
+      "parent": 7,
+      "translation": [
+        0.0,
+        0.0,
+        295.0
+      ],
+      "quaternion": [
+        -0.03489949554204941,
+        0.0,
+        0.0,
+        0.9993908405303955
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "instances": []
+    },
+    {
+      "id": "Camera01-node",
+      "name": "Camera01",
+      "sid": "",
+      "parent": 8,
+      "translation": [
+        -6.0999998822808266e-05,
+        -1358.1099853515625,
+        0.32232698798179626
+      ],
+      "quaternion": [
+        -0.7071067690849304,
+        0.0,
+        0.0,
+        0.7071067690849304
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "instances": [
+        {
+          "type": 1,
+          "uri": "#Camera01-camera",
+          "raw": [
+            0,
+            8368
+          ]
+        }
+      ]
+    }
+  ]
+}

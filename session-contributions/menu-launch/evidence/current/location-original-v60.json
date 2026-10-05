@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "scope": "Original PlayerSavegame blank constructor and __LoadLevelName instructions.\nStream bytes and storage are explicit services. These are LNAM reader fixtures,\nnot campaign-file loading, quest initialization or menu display certification.\n",
+  "cases": 128,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "constructor_defaults": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "fixture_sha256": "4b879acc0db72e62a353de0a4889a940dd9bbe99b442849ddb6d2c203f7b0b01"
+}

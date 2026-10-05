@@ -1,0 +1,3752 @@
+{
+  "boundary_fixtures": [
+    "SG_Save",
+    "saved-level getters",
+    "design constants",
+    "property getters",
+    "IsPlayer",
+    "achievement"
+  ],
+  "cases": [
+    {
+      "levels": [],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        0
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        1
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        0
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 5,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 5,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 10,
+      "points": 0,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ],
+        [
+          "property",
+          19
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_spent_all_skill_points"
+        ],
+        [
+          "achievement"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 49,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 0,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ]
+      ]
+    },
+    {
+      "levels": [
+        10,
+        10
+      ],
+      "maximum": 10,
+      "points": 1,
+      "level": 50,
+      "player": 1,
+      "effects": [
+        [
+          "save"
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "skill",
+          0
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "skill",
+          1
+        ],
+        [
+          "constant",
+          "CharacterDesign",
+          "MaxSkillLevelDVeryHard"
+        ],
+        [
+          "achievement_key",
+          "epic_maxskill"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "is_player"
+        ],
+        [
+          "achievement_key",
+          "epic_all_skills_unlocked"
+        ],
+        [
+          "achievement"
+        ],
+        [
+          "property",
+          157
+        ]
+      ]
+    }
+  ]
+}

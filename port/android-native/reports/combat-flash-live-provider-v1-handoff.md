@@ -1,0 +1,27 @@
+# Live provider handoff
+
+`renderer_combat_text_v1.inc` belongs inside model_renderer's anonymous namespace after `PlayerSkillsRuntime::attack_inventory` and the retained runtime global. Required headers are `character_combat_follower_v1.hpp`, `combat_flash_inputs_v1.hpp`, and `player_equipment_queries_v1.hpp`.
+
+`apply_combat_text_v1(result,attacker,target)` invokes the complete verified selector. Reached queue prefixes persist; missing required services throw. Target position comes from the actual registered Character position, height from same runtime local bounds (NPC requires `source_bounds_ready`), properties from the canonical resolved sheet. Player dual wield goes through public equipment `combat_view`, whose private `weapon_queries` uses source main/offhand records and cached203. NPCs borrow the source constructor-owned empty inventory; subsequent equipment mutation requires upgrading that borrow. `virtual_player` is delivered by the existing source target-query owner. Localization/enqueue require the retained UI sink.
+
+`fill_combat_text_frame_v1(frame,error)` borrows `current_application_dt/current_application_tick`, selected World's constructor load phase, and the same World Debug. Root public wrapper can forward directly. Debug failure is retained rather than turned into false.
+
+Source evidence: Character IsFollower3a307c calls GetCharType3a3054, whose GetCharAI3a3024 uses resolved1/Character+ffc with signed fallback8 and reads AI row+38. Real cache contains 76 rows including six type2 followers. Native/original composition is recorded in `combat-flash-follower-v1-original.json`:80 cases,0 mismatches; provider host receipt90 checks.
+
+Level+130 is `_LoadProcess` phase, not level kind. Constructor3f3128 stores zero at3f321c; Load3ef218, ResetIsLoaded3ef224 and Unload3f0690 reset it. `_LoadProcess3f6990` progresses to38. Flash uses fixed33ms only for phases2..26; other phases use root FPS. Retaining genuine ctor phase0 is truthful until the original loader binds its producer. Never infer38 from native World readiness.
+
+Application GetDt31f66c returns+8c. ComputeDt320da4 samples unsigned real-time delta and multiplies ctor1.0 field+9c; SetTimeScale31f67c changes separate+98. Borrow the actual unsigned Application sample, not float frame_dt or character timer dt. MenuManagerUpdate42ea04 calls FlashUpdate once at42ed4c after HUD update; MenuManagerDraw42e818 calls FlashDraw42e9b4 after HUD draw.
+
+FlashDraw414260 loads Debug337888 and queries337a88 exact `IsDisablingFlashAnimation` (key8c8088). Empty Debug ctor335fcc plus missing private savegame produces source false; an existing unsupported file remains explicit -3. Reuse World's Debug; do not create another map.
+
+The host test connects the actual cached movie frame rectangle and a named480x320 surface fixture, then supplies `SwfMovie::source_display_rectangle` as the Flash callback. Projection and external texture delivery remain explicit host fixtures; positive font raster/clone/queue/lifecycle use actual cache/native owners.
+
+## Required font platform connection
+
+The prior Android UI target used the old glyph provider. The proven source platform requires selecting all three `overlays/edit-text-v1/gameswf_text.cpp`, `gameswf_dlist.cpp`, `gameswf_impl.cpp` together, removing stock text/dlist and loader-lifetime impl, with edit-text headers BEFORE core/UI/client headers. Add definition,event,display,field,format,filter,filter-attachment,font-platform and edit-text-connection TUs. The isolated proven complete recipe is `.local-inputs/edit-text-connection-v1-host/CMakeLists.txt`; existing receipt is `port/engine-ui/reports/swf-text-font-platform-v1-handoff.json`.
+
+`original_ui_text_platform_v1.inc` supplies real bitmap-face resolution through the SAME original FontResolve services. A selected TTF is a genuine bitmap miss. Reached `.fnt` raises required GFNT font/image connection; it must not be replaced by generic empty success. Retain one SwfTextFontPlatformV1 per movie/player with actual shared resource/GPU owner, actual font_read and base renderer services. Load through platform.services(). Break owner cycles by destroying flash/status/movie/platform before the final Impl reset.
+
+Grid fit is a genuine renderer field and effect: outer display792964..792984 writes handler+4. Actual render_handler_glitch::draw_bitmap7d8df4 reads it at7d90fc and snaps each already-transformed X/Y (vertex+0xc/+0x10) via source f2iz, wrapping+10, signed division20, wrapping multiplication20, source i2f. Constants magic66666667 and20 are set7d900c/901c/9068. Negative arithmetic intentionally truncates toward zero. The retained SwfGpu must own this field and apply the snap before projection; a successful store with no draw interpretation is insufficient.
+
+Flush is explicit: root::display775574 invokes sprite virtualDisplay at7755b8, flush_buffered_text7748b8 at7755c0, then end_display774298. FlushTextCallback42d734 tailcalls the same flush. The source platform flush must execute while facade/render Scope is active, after clip/root display and before end_display. Existing native Render begin/end does not supply it automatically. The actual source flush sets root+86 flushing1, displays queued fields in order, clears flushing0 and queue; the platform implements the same queue continuation. Original source audit scripts are `.local-inputs/audit_text_flush_v1.py`, `audit_flush_calls_v1.py`, and `audit_grid_usage_v1.py`.

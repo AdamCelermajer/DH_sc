@@ -1,0 +1,152 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "name": "_ZN10ObjectBase7EnabledEv",
+      "address": "0x33de04",
+      "size": 48,
+      "sha256": "f6c5e3e86d349127e1c890023c1dffeae14f65e44d2c8681027a45320df82f4f"
+    },
+    {
+      "name": "_ZN11AISExternalC1Eb",
+      "address": "0x3dd0e4",
+      "size": 68,
+      "sha256": "e71ffa6c1cd72616f2f6750112f8f7d6c08ca7068939c3edef875846222312ee"
+    },
+    {
+      "name": "_ZN10AISDefault14OnCollisionEndEP10GameObjectb",
+      "address": "0x3dbf40",
+      "size": 40,
+      "sha256": "d1ad62ec03bd1aa94bb69a3e393b964e232d2d1848cdf6831c38a35b20f5231a"
+    },
+    {
+      "name": "_ZN10GameObject7EnabledEv",
+      "address": "0x38ba38",
+      "size": 52,
+      "sha256": "519144fe7062bae3613fa4ef59abef4575447f91380719a0a3d0878a4a0152b4"
+    },
+    {
+      "name": "_ZN6CharAI14OnCollisionEndEP10GameObjectb",
+      "address": "0x3d0e34",
+      "size": 36,
+      "sha256": "77ec1e05a1566f1829a74bf0d2b936cbaa3aad2b3313599b0472d14a92c1bc11"
+    },
+    {
+      "name": "_ZN10ObjectBase11setUpdatingEb",
+      "address": "0x33dcf0",
+      "size": 8,
+      "sha256": "4f21d80ef2d0799f981b70e8e1a89f29f25fb25e8636ab468cdc70b8bc9b0597"
+    },
+    {
+      "name": "_ZN11POCharacter15onCollisionEndsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "address": "0x46fd28",
+      "size": 260,
+      "sha256": "c58b102651002c2ffb4520856904c4e3ad5495fe044974be723c0c0edcbc86df"
+    },
+    {
+      "name": "_ZN10ObjectBase10SetVisibleEb",
+      "address": "0x33dcf8",
+      "size": 16,
+      "sha256": "db62b7c7b1650537e39724187400ec5689789469710556a7d7e149189f7ff68b"
+    },
+    {
+      "name": "_ZN6CharAI18OnCollisionPersistEP10GameObjectb",
+      "address": "0x3d0e10",
+      "size": 36,
+      "sha256": "f5bf9731d305a003b5c4c619a0ed9b11af7b090dd0ee6b3b5a53da33297ef14d"
+    },
+    {
+      "name": "_ZN10GameObject10SetVisibleEb",
+      "address": "0x38b0f0",
+      "size": 32,
+      "sha256": "2a8fb1ffd94aced95272d222e42a98747dff5c52f79256153b51fd6678d9e431"
+    },
+    {
+      "name": "_ZN11POCharacter18onCollisionResultsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "address": "0x46fb14",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "name": "_ZN6CharAI16OnCollisionBeginEP10GameObjectb",
+      "address": "0x3d0dec",
+      "size": 36,
+      "sha256": "e5eebd490f741e49456204849dc7b31a4800b89f10ea7c8480da73e263f83e52"
+    },
+    {
+      "name": "_ZN11POCharacter19onCollisionPersistsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "address": "0x46ff6c",
+      "size": 264,
+      "sha256": "72e88cfac04c4266d12396bfc37257cf53592290194b15876e8f67fc03ce8a77"
+    },
+    {
+      "name": "_ZN11POCharacter17onCollisionBeginsEP18PhysicalBaseObjectRK7Point2DIfEb",
+      "address": "0x46fe68",
+      "size": 260,
+      "sha256": "789fde89e603aa085d2ae35c74f2ec495053dbc120e73f5df4a22138e3015966"
+    },
+    {
+      "name": "_ZN9Character7EnabledEv",
+      "address": "0x3a598c",
+      "size": 4,
+      "sha256": "0baa0725a4e1d9bc5efd2f3d8223482259b244514116fe917a949a903dab3bee"
+    },
+    {
+      "name": "_ZN6CharAI17OnCollisionResultEP10GameObjectb",
+      "address": "0x3d0e58",
+      "size": 36,
+      "sha256": "86ccfd3fd38f2a5bc6b2be7cec4bc8e6360012cacec745f783b98697908c3fba"
+    },
+    {
+      "name": "_ZNK16CharStateMachine16SM_IsKnockedBackEv",
+      "address": "0x3c03a4",
+      "size": 24,
+      "sha256": "c3424931d02835fb9e8ad66efa488c6e0a434b3e72a2d18bae1127fc87e6a26c"
+    },
+    {
+      "name": "_ZN10AISDefault18OnCollisionPersistEP10GameObjectb",
+      "address": "0x3dbfa0",
+      "size": 396,
+      "sha256": "8856dcbbd7f710014b7f4339e341b836c0b17f04756c23e2feb2ca2b3e06df4f"
+    },
+    {
+      "name": "_ZN10AISDefault16OnCollisionBeginEP10GameObjectb",
+      "address": "0x3dbf08",
+      "size": 56,
+      "sha256": "3d393d7cb47dfcf5c66c769caa4fda3338f1d983d935171b37d12e36c7510de5"
+    },
+    {
+      "name": "_ZN10AISDefault17OnCollisionResultEP10GameObjectb",
+      "address": "0x3dbf68",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "name": "_ZN11POCharacter15onCollisionTestEP18PhysicalBaseObjectsttstt",
+      "address": "0x46fb4c",
+      "size": 176,
+      "sha256": "1e61fefd1581d0bd47be9db390de3cab9437f2995c5598ef86693c18c10ca9b9"
+    },
+    {
+      "name": "_ZN11AISExternalC2Eb",
+      "address": "0x3dd128",
+      "size": 68,
+      "sha256": "68fdd9e38a0f766ae8be40045639838447a66a798beee51171bceb08f3a1a740"
+    },
+    {
+      "name": "_ZNK16CharStateMachine13SM_IsInLimbusEv",
+      "address": "0x3c01c0",
+      "size": 20,
+      "sha256": "9a5a7da0e51a2036859e2a5634b8b29dce869733922178f3d9f15430b7c2b3a7"
+    }
+  ],
+  "AISExternal_collision_ms": "source+bc constructor0",
+  "AISExternal_last_collision_frame": "source+c0 constructor0",
+  "paused": "same ai_events.paused; sourceCharacter+3e0 == CharAI+18",
+  "common_collision_count": "sourceELFglobal9a2c20 constructor/data0",
+  "collision_debug_key": "isTracingPlayersCollision",
+  "SetVisible80_producer_recovered": true,
+  "source_SetVisible80_caller_initialized_in_renderer": false,
+  "physical_PF_tail_provider_available": false,
+  "full_NPC_AI": false
+}

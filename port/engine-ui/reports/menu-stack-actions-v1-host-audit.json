@@ -1,0 +1,51 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "gold_cases": 960,
+    "ordered_services": 8225,
+    "failure_prefixes": 8225,
+    "facade_checks": 14,
+    "guards": 8,
+    "sanitizer_findings": 0
+  },
+  "sanitizers": {
+    "address": "PASS",
+    "undefined": "PASS",
+    "leak": "PASS",
+    "findings": 0
+  },
+  "source_sha256": {
+    "port/engine-ui/menu_stack_actions_v1.hpp": "10bc7c2d35b4068cdebe6693afe60dc752ed55fd5ab779d9a85d67aad6162b5f",
+    "port/engine-ui/menu_stack_actions_v1.cpp": "09c9e5bc849d3dd4f1e70de97e75170e378a59ad9b27254499c5f04a5316c30d",
+    "port/engine-ui/menu_stack_v1.hpp": "d9431517cf43674052381f0ee8c4ffe3b8217d4b1c51861defd61ee1e6b41adc",
+    "port/engine-ui/menu_stack_v1.cpp": "8c68bb6f8ebcb0c5bc33bc1373e656d9d14165521fbf922337e3766d6c7c8f2d",
+    "port/engine-ui/menu_stack_owner_v1.hpp": "8b81d17b88112a2d091733cf15d6ca0afe2ef136dbd8b61f954212440f0d31b8",
+    "port/engine-ui/menu_stack_owner_v1.cpp": "42b3a02d26340db4daa50e9e7ce143be4d74437e323f7c14a53ea6788e607e64",
+    "port/engine-ui/tests/menu_stack_v1_differential.py": "044adebd0ea5c01b3ff8d18f58dc14c1bf21d791616b017075264607c0715a2c",
+    "port/engine-ui/tests/menu_stack_actions_v1_differential.py": "37da2892f5b64d17bf67e85a9e4f9137290098ac2a277158878d0d6b4cfca68e",
+    "port/engine-ui/character_menu_queries_owner_v1.hpp": "a01c6b5407f785c4c339daa7195f5bcdc141329febe3d92f2ff8d4ed59fe3e8b",
+    "port/engine-ui/tests/menu_stack_actions_v1.cpp": "88f2a923c6ca6946b0b970f1aaeb873f83423496f02d21e89139d3e421bacee6",
+    "port/engine-ui/tests/menu_stack_actions_fixture_v1.hpp": "60abca43fa51703e6e5569e4142a1748e4c6f734e8776bf20b81b2cba32257cf",
+    "port/engine-ui/tests/menu_stack_v1.cpp": "d1530aa715d5a744b99349b3eb072aeb7cce2bfa1c74bc110323a1a1ab06ecf3"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_arm64_report_sha256": "8105103e74510986929136eebbb90ff82eda1e840109a821c91d11e06bf3dfab",
+  "gold_sha256": "f3dcbb30dca42ccc778eb36aae7060884385545981559461c659273d74298c4b",
+  "executable_sha256": "5e5b6f7289271cc41bc2c253475a022e5d4c62c46ee6dd2732addeb647f52393",
+  "executable": ".local-inputs/menu-stack-actions-v1/menu_stack_actions_audit",
+  "gold": "port/engine-ui/reference/menu-stack-actions-v1/action-fixtures.bin",
+  "run_command": [
+    "wsl.exe",
+    "-e",
+    "env",
+    "ASAN_OPTIONS=detect_leaks=1",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/menu-stack-actions-v1/menu_stack_actions_audit",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc/port/engine-ui/reference/menu-stack-actions-v1/action-fixtures.bin"
+  ],
+  "stdout": "{\"validation\":\"PASS\",\"gold_cases\":960,\"ordered_services\":8225,\"failure_prefixes\":8225,\"facade_checks\":14,\"guards\":8,\"sanitizer_findings\":0}\n",
+  "stderr": "",
+  "return_code": 0,
+  "build_script_sha256": "f6c0310c94c539823cdc66e33fc75b2c9c9b3da92f6a3c6778bef083293157fa",
+  "scope": "Owned action facade + same frozen stack against original-derived complete entry gold, with synchronous conversion/instance/lifecycle fixtures; no full conversion algorithm or live SWF lifecycle claim."
+}

@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "cases": 1024,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_sha256": "fb4af6a832865157bd2f2a26252fdd1adc84522d4e6aba7de88ee3a5073eb526",
+  "gold_sha256": "3f98a5d91c7b31304d4f5e425d898bd8aa788609ad6914ad6dc1bd247c828566",
+  "scope": "Whole original GetTargetPosition pointer selector, all enable-byte values."
+}

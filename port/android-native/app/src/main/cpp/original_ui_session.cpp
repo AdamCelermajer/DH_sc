@@ -2,15 +2,21 @@
 #include "original_ui_assets.hpp"
 #include "swf_gpu.hpp"
 #include "swf_hud_freetype_provider.hpp"
+#include "swf_text_font_platform_v1.hpp"
+#include "gfnt_text_backend_v1.hpp"
+#include "hud_freetype_font_v2.hpp"
 #include "swf_font_resolver.hpp"
 #include "localization.hpp"
+#include "hud_text_v1.hpp"
 #include "character_design_services.hpp"
 #include "script_constants.hpp"
 #include "swf_texture.hpp"
 #include "player_status_hud.hpp"
+#include "combat_flash_swf_v1.hpp"
 #include "textures.hpp"
 #include <android/log.h>
 #include <array>
+#include <algorithm>
 #include <cerrno>
 #include <cstdio>
 #include <cstring>
@@ -29,7 +35,7 @@ struct AssetClose {void operator()(AAsset* value)const{if(value)AAsset_close(val
 struct ConstantsDelete {void operator()(dh2_script_constants* value)const{dh2_script_constants_destroy(value);}};
 struct DebugDelete {void operator()(character::DebugSwitches* value)const{dh2_character_debug_destroy(value);}};
 }
-struct OriginalUiSession::Impl {
+struct OriginalUiSession::Impl:std::enable_shared_from_this<Impl> {
     AAssetManager* manager{};
     OriginalUiAssets assets;
     SwfGpu gpu;
@@ -37,7 +43,7 @@ struct OriginalUiSession::Impl {
     std::unique_ptr<dh2_script_constants,ConstantsDelete> constants{dh2_script_constants_create()};
     std::unique_ptr<character::DebugSwitches,DebugDelete> debug{dh2_character_debug_create()};
     character::DebugFileServices24 debug_files{this,debug_open,debug_close};
-    ui::Localization localization;
+    ui::HudTextV1 localization;
     std::map<std::uintptr_t,std::vector<std::uint8_t>> leases;
     std::uintptr_t next_lease=1;
     std::map<std::string,ui::SwfTexture> exports;
@@ -50,9 +56,49 @@ struct OriginalUiSession::Impl {
     int last_width=0,last_height=0;
     // Reverse destruction keeps every provider and owned texture alive until
     // the last movie and its reachable ActionScript graph have been released.
-    std::unique_ptr<ui::SwfHudFreetypeProvider> fonts;
+    std::unique_ptr<ui::SwfTextFontPlatformV1> fonts;
     std::unique_ptr<ui::SwfMovie> movie;
     std::unique_ptr<ui::PlayerStatusHud> status;
+    std::unique_ptr<ui::EnemyStatusHudV1> enemy;
+    std::unique_ptr<ui::CombatFlashSwfV1> combat_flash;
+    struct PendingText {
+        std::string style,text;
+        std::array<float,3> position{};
+        std::int32_t number{},color{};bool numeric{};
+    };
+    std::vector<PendingText> pending_text;
+    std::string borrowed_combat_string;
+    unsigned reported_combat_active{};
+    bool drawing_combat{},reported_combat_glyphs{};
+    unsigned combat_quads{};
+    std::array<float,2> first_combat_quad{};
+    std::array<float,2> combat_quad_extent{};std::uint32_t combat_quad_rgba{};
+    std::uintptr_t reported_enemy{};
+    int reported_enemy_frame=-1;
+
+    static bool combat_project(void*,const float p[3],std::int32_t* x,std::int32_t* y,std::string& error){
+        return model_renderer::combat_text_project(p,x,y,error);
+    }
+    static bool combat_rectangle(void* context,float r[4],std::int32_t v[4],std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        if(!self.movie){error="Combat text requires retained HUD movie";return false;}
+        return self.movie->source_display_rectangle(r,v,error);
+    }
+    static int combat_localized(void* context,std::int32_t id,const char** out){
+        auto& self=*static_cast<Impl*>(context);bool is_null{};std::string error;
+        if(!out||!self.loaded||!integer_string(context,id,self.borrowed_combat_string,is_null,error)||is_null){
+            __android_log_print(ANDROID_LOG_ERROR,tag,"Combat text localization failed | id %d | %s",id,error.c_str());return 1;
+        }
+        *out=self.borrowed_combat_string.c_str();return 0;
+    }
+    static int combat_enqueue(void* context,const character::skills::CombatTextRequestV1* request){
+        auto& self=*static_cast<Impl*>(context);
+        if(!request||!request->style||(!request->numeric&&!request->text)||!self.loaded||!self.combat_flash)return 1;
+        PendingText copy;copy.style=request->style;if(request->text)copy.text=request->text;
+        std::copy_n(request->position,3,copy.position.begin());
+        copy.number=request->number;copy.color=request->color;copy.numeric=request->numeric;
+        self.pending_text.push_back(std::move(copy));return 0;
+    }
 
     static bool orientation(void*,std::int32_t& out,std::string&){
         // The modern GLES owner draws in Android's already oriented surface.
@@ -141,6 +187,10 @@ struct OriginalUiSession::Impl {
     ui::LocalizationServices text_services() {
         return {this,text_open,text_close,localization_debug,constant,no_player,unavailable_player_name};
     }
+    static bool integer_string(void* context,std::int32_t id,std::string& value,bool& is_null,std::string& error){
+        auto& self=*static_cast<Impl*>(context);
+        return self.localization.integer_string(id,self.text_services(),value,is_null,error);
+    }
     static int font_service(void* context,ui::FontResolveRequest40* request) {
         auto& self=*static_cast<Impl*>(context);std::string error;
         using Service=ui::FontResolveService;
@@ -179,6 +229,7 @@ struct OriginalUiSession::Impl {
         if(!self.assets.read(uri,out,error))return false;
         __android_log_print(ANDROID_LOG_INFO,tag,"Original UI font resolved | name %s | uri %s | bytes %zu",name,uri,out.size());return true;
     }
+#include "original_ui_gfnt_backend_v1.inc"
     static void font_diagnostic(void* context,const char* text) {
         auto& self=*static_cast<Impl*>(context);if(self.font_failure.empty())self.font_failure=text?text:"Required original font failed";
         __android_log_print(ANDROID_LOG_ERROR,tag,"Original UI font failed: %s",text?text:"");
@@ -218,6 +269,12 @@ struct OriginalUiSession::Impl {
         if(command.kind==ui::SwfDraw::triangle_strip)++self.strips;
         if(command.kind==ui::SwfDraw::line_strip)++self.lines;
         if(command.kind==ui::SwfDraw::mask_begin)++self.masks;
+        if(self.drawing_combat&&command.kind==ui::SwfDraw::bitmap_quad){
+            if(!self.combat_quads){const auto& m=command.matrix.value;self.first_combat_quad={m[0]*command.rect[0]+m[1]*command.rect[2]+m[2],m[3]*command.rect[0]+m[4]*command.rect[2]+m[5]};
+                self.combat_quad_extent={m[0]*(command.rect[1]-command.rect[0])+m[1]*(command.rect[3]-command.rect[2]),m[3]*(command.rect[1]-command.rect[0])+m[4]*(command.rect[3]-command.rect[2])};
+                self.combat_quad_rgba=(std::uint32_t(command.fill.rgba[3])<<24)|(std::uint32_t(command.fill.rgba[0])<<16)|(std::uint32_t(command.fill.rgba[1])<<8)|command.fill.rgba[2];}
+            ++self.combat_quads;
+        }
         return self.gpu.draw(command,error);
     }
     static bool stencil(void* context,const float bounds[4],std::uint8_t pattern,bool& out,std::string& error) {
@@ -251,12 +308,15 @@ struct OriginalUiSession::Impl {
         const char* uris[]={"data/pydata/common_text_pyarray.bin","data/pydata/common_text_pyarraynames.bin","data/pydata/common_text_pystructnames.bin"};
         for(unsigned i=0;i<3;++i)if(!assets.read(uris[i],metadata[i],error))return false;
         if(!localization.load({metadata[0].data(),metadata[0].size()},{metadata[1].data(),metadata[1].size()},{metadata[2].data(),metadata[2].size()},error))return false;
-        fonts=std::make_unique<ui::SwfHudFreetypeProvider>(ui::SwfFontServices{this,font_read,font_diagnostic},1.f,bitmap_probe);
         movie=std::make_unique<ui::SwfMovie>();ui::SwfServices services;
         services.context=this;services.read=movie_read;services.texture=texture;services.image=image;
         services.draw=draw;services.stencil=stencil;services.native_call=native;services.diagnostic=diagnostic;
-        services.glyphs=fonts->borrowed_provider();
-        if(!movie->load({"data/menus/dqshared_droid.swf"},"data/menus/dqhud_droid.swf",services,error))return false;
+        fonts=std::make_unique<ui::SwfTextFontPlatformV1>(ui::SwfFontServices{this,source_font_read_gfnt_v1,font_diagnostic},services,shared_from_this(),initialize_gfnt_backend_v1(),1.f);
+        fonts->policy().renderer_feature=[this](const ui::edit_text_display_v1::Command& command,std::string& error){
+            if(command.kind==ui::edit_text_display_v1::Command::grid_fit){gpu.set_grid_fit(command.enabled);return true;}
+            error="Required original text render-cache connection";return false;
+        };
+        if(!movie->load({"data/menus/dqshared_droid.swf"},"data/menus/dqhud_droid.swf",fonts->services(),error))return false;
         const ui::ViewportState64 seed{{0,9600,0,6400},{0,0,480,320},{0,0,480,320},1.f,0,0};
         if(!movie->connect_viewport(seed,{this,orientation,dimensions},error)||
            !movie->update_viewport(camera,error)||!movie->advance(0,error))return false;
@@ -265,18 +325,28 @@ struct OriginalUiSession::Impl {
         if(!font_failure.empty()){error=font_failure;return false;}
         status=std::make_unique<ui::PlayerStatusHud>(*movie);
         if(!status->bind(hud_sha,error))return false;
+        enemy=std::make_unique<ui::EnemyStatusHudV1>(*movie,ui::EnemyHudTextServicesV1{this,integer_string});
+        combat_flash=std::make_unique<ui::CombatFlashSwfV1>(*movie,ui::CombatFlashProjectionV1{this,combat_project,combat_rectangle});
+        if(!combat_flash->scan(error))return false;
+        __android_log_print(ANDROID_LOG_INFO,tag,"Source combat flash connected | styles %zu | same retained HUD/font/viewport | Level load-process producer pending",combat_flash->queue().styles().size());
         loaded=true;return true;
     }
     bool reset_failed(std::string& error) {
-        gpu.abort();status.reset();movie.reset();fonts.reset();loaded=false;selected=false;
+        gpu.abort();combat_flash.reset();enemy.reset();status.reset();movie.reset();fonts.reset();gfnt_text_backend_v1.reset();loaded=false;selected=false;
+        pending_text.clear();borrowed_combat_string.clear();reported_combat_active=0;
+        reported_enemy=0;reported_enemy_frame=-1;
         last_width=last_height=0;reported_frames={{-1,-1,-1,-1,-1}};
         leases.clear();exports.clear();font_failure.clear();provider_failure.clear();
         glyph_uploads=bitmap_uploads=string_calls=core_errors=packed_glyphs=strips=lines=masks=0;
         return gpu.reset_images(error);
     }
 };
-OriginalUiSession::OriginalUiSession():impl_(std::make_unique<Impl>()){}
-OriginalUiSession::~OriginalUiSession()=default;
+OriginalUiSession::OriginalUiSession():impl_(std::make_shared<Impl>()){}
+OriginalUiSession::~OriginalUiSession(){
+    // The platform pins this real resource owner. Release the owned graph and
+    // platform before the session to break that deliberate lifetime cycle.
+    impl_->combat_flash.reset();impl_->enemy.reset();impl_->status.reset();impl_->movie.reset();impl_->fonts.reset();impl_->gfnt_text_backend_v1.reset();
+}
 bool OriginalUiSession::initialize(AAssetManager* manager,std::string& error) {
     try{impl_->manager=manager;impl_->assets.manager(manager);impl_->gpu.initialize(manager);impl_->report_frame=true;error.clear();return true;}
     catch(const std::exception& e){error=e.what();impl_->selected=false;return false;}
@@ -314,15 +384,49 @@ void OriginalUiSession::deactivate(){impl_->selected=false;}
 bool OriginalUiSession::attach_player(const std::string& directory,std::string& error){
     if(directory.empty()||directory.front()!='/'){error="Required private HUD directory unavailable";return false;}
     impl_->directory=directory;impl_->live_player=true;impl_->selected=true;impl_->report_frame=true;
+    impl_->pending_text.clear();if(impl_->combat_flash)impl_->combat_flash->stop_all();impl_->reported_combat_active=0;
     error.clear();return true;
 }
+bool OriginalUiSession::prepare_player_frame(int width,int height,std::string& error){
+    if(!overlays_player()){error="Combat text requires active player HUD";return false;}
+    auto& self=*impl_;
+    if(!self.loaded){self.driver_width=width;self.driver_height=height;if(!self.load(error)){
+        const auto failure=error;std::string cleanup;self.reset_failed(cleanup);error=failure;return false;
+    }}
+    return self.viewport(width,height,error);
+}
+model_renderer::CombatTextSinkV1 OriginalUiSession::combat_text_sink(){return {impl_.get(),Impl::combat_localized,Impl::combat_enqueue};}
+bool OriginalUiSession::render_combat_text(const model_renderer::CombatTextFrameV1& frame,std::string& error){
+    auto& self=*impl_;if(!self.loaded||!self.combat_flash){error="Combat flash retained owner unavailable";return false;}
+    // Event values are copied before draw; projection uses this frame's camera.
+    // The source queue itself retains its original twelve-context drop policy.
+    while(!self.pending_text.empty()){
+        const auto& p=self.pending_text.front();
+        if(!self.combat_flash->play(p.style.c_str(),p.position.data(),p.numeric?nullptr:p.text.c_str(),p.number,p.color,p.numeric,error))return false;
+        __android_log_print(ANDROID_LOG_INFO,tag,"Source combat text queued | style %s | number %d | text %s | color %08x | position %.4f %.4f %.4f",p.style.c_str(),p.number,p.text.c_str(),unsigned(p.color),p.position[0],p.position[1],p.position[2]);
+        self.pending_text.erase(self.pending_text.begin());
+    }
+    if(frame.tick&&!self.combat_flash->update(frame.application_dt,frame.level_load_phase,error))return false;
+    self.combat_quads=0;self.drawing_combat=true;
+    const bool drawn=self.combat_flash->draw(frame.debug_disabled,error);self.drawing_combat=false;
+    if(!drawn)return false;
+    unsigned active=0;for(const auto& c:self.combat_flash->queue().contexts())if(c.flags&1)++active;
+    if(active!=self.reported_combat_active||(self.combat_quads&&!self.reported_combat_glyphs)){
+        __android_log_print(ANDROID_LOG_INFO,tag,"Source combat text submitted | active %u | native glyph quads %u | application dt %u | load phase %d | debug disabled %d | first glyph twips %.4f %.4f | extent %.4f %.4f | ARGB %08x",active,self.combat_quads,frame.application_dt,frame.level_load_phase,frame.debug_disabled,self.first_combat_quad[0],self.first_combat_quad[1],self.combat_quad_extent[0],self.combat_quad_extent[1],self.combat_quad_rgba);
+        self.reported_combat_active=active;
+    }
+    if(self.combat_quads)self.reported_combat_glyphs=true;if(!active)self.reported_combat_glyphs=false;
+    return true;
+}
 bool OriginalUiSession::render_player(int width,int height,const std::int32_t* sheet,std::size_t count,
-                                     std::uintptr_t character,std::string& error){
+                                     std::uintptr_t character,std::string& error,const ui::EnemyHudWorldBorrowV1* enemy){
     if(!overlays_player()){error="Connected player HUD inactive";return false;}
     auto& self=*impl_;
     try{
         if(!self.loaded){self.driver_width=width;self.driver_height=height;if(!self.load(error))throw std::runtime_error(error);}
-        if(!self.viewport(width,height,error)||!self.status->update(sheet,count,character,error)||
+        if(!self.viewport(width,height,error))throw std::runtime_error(error);
+        if(enemy&&!update_enemy(*enemy,error))throw std::runtime_error(error);
+        if(!self.status->update(sheet,count,character,error)||
            !self.movie->display_source_clip(status_panel,error)||
            !self.movie->display_source_clip("_root.HurtCorners",error))throw std::runtime_error(error);
         const auto frames=self.status->frames();
@@ -338,5 +442,18 @@ bool OriginalUiSession::render_player(int width,int height,const std::int32_t* s
         const std::string failure=ex.what();std::string cleanup;self.reset_failed(cleanup);
         error=failure+(cleanup.empty()?"":"; cleanup: "+cleanup);return false;
     }
+}
+bool OriginalUiSession::update_enemy(const ui::EnemyHudWorldBorrowV1& borrow,std::string& error){
+    auto& self=*impl_;
+    if(!overlays_player()||!self.loaded||!self.enemy){error="Connected enemy HUD movie unavailable";return false;}
+    if(!self.enemy->update(borrow,error))return false;
+    if(self.enemy->target()!=self.reported_enemy||self.enemy->hp_frame()!=self.reported_enemy_frame){
+        __android_log_print(ANDROID_LOG_INFO,tag,
+            "Connected enemy HUD | world %p | target %p | visible %d | name %s | level %s | HP frame %d | retained original SWF",
+            reinterpret_cast<void*>(borrow.world),reinterpret_cast<void*>(self.enemy->target()),self.enemy->visible(),
+            self.enemy->name().c_str(),self.enemy->level().c_str(),self.enemy->hp_frame());
+        self.reported_enemy=self.enemy->target();self.reported_enemy_frame=self.enemy->hp_frame();
+    }
+    return true;
 }
 }

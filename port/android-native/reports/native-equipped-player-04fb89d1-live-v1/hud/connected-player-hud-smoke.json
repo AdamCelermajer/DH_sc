@@ -1,0 +1,101 @@
+{
+  "validation": "FAIL",
+  "apk_sha256": "04fb89d1ac985050655240643ba46d6693419605aa84b2d64fd29ffcd247fb22",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "370295293fc462300d2e14a0939c6fec3c456b7047c5ee79bfaded2eec75e74b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "d59803e3a4739c7faf1ca47d46fbc4479cd2c9c585250c82704134bb83dbec11",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "41ac012b447f161d4185fd7314162a2567d34c79fa3304052239613a442bf2b4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "3211c21c723b12c96dd5df034d45c7505a6c4029886df81b253dd653bbe26e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "4af7943df729cbe6e554f5fa4734e8febcb1c160e2653a8dbec6071a1c3034f9",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+      "sha256": "f10f06c87d3bb7fc69cb0327e0f22d8744865d2daa171a7350990047b00e4ae4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "5082430c0751dabe1e8f51b0ec42ead74b55827c6d2a95833bb4b2b7128b154d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "1875ffb8e497136be027280376646c2c7a29e9e49ab2b3277b1eeef41d24734b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "165f9f4691f1f0cf5b2a03988d1f5a5229dfbd3278d2cd0ae1b99b5878cafe95",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "fc478b48d5695702b46fff9c82f4b891bd7941261f02d97e73229075f0ba14ae",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "87597c18c51d823dd0a26e3025a76b35cd8ec1e5b0e29fb6156a760b7c1228eb",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_ui.so",
+      "sha256": "ad4c26c3f511e0955d88182f67272f5461cf7b2110d44fe5d23352e87f3dabf0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "23d633a9a3c490b9dc8fd9225fe23de39d046cffe5f70f86a4b47236412e69e1",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "862bb395e586043bd34f50c3f818f0a968d1f9b19012b3dfd4205d9b3216129d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "8da5f444f65d1cc98db21d0002e578b6cd819f94601b26215be9029ebf5e2e8d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "8f84d00e6dd3070bfaa0a8ffd9dc6d416a06df797b4f9aaf33c0c11e2fc7dd5d",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "scope": "Equipped player/status HUD: real touch, authored damage and resume.\n\nEnemy attack selection is an explicit debug scenario using the existing native\nauthored-animation/combat pipeline. It does not establish full enemy AI, potion\nactions, skills, portraits, campaign or physical ARM64 behavior.\n",
+  "physical_arm64_verified": false,
+  "cases": {},
+  "installed_apk_sha256": "04fb89d1ac985050655240643ba46d6693419605aa84b2d64fd29ffcd247fb22",
+  "error": "{'viewport': [1080, 2400], 'character': '0x7e1dac19b958', 'hp': [42265, 42265], 'mp': [6976, 6976], 'xp': [0, 25600], 'frames': [99, 99, 0, 99, 99], 'dirty_nodes': 11, 'movie': '0x7e1ec6bd4010'}"
+}

@@ -1,0 +1,134 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "mode": "SAN",
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "port/level-world/character_world_target_owner_v1.cpp",
+        "port/level-world/character_skill_target_queries_v6.cpp",
+        "port/level-world/tests/character_world_target_owner_v1_host.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-lz",
+        "-o",
+        ".local-inputs/character_world_target_owner_v1_SAN"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "mode": "SAN",
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_world_target_owner_v1_SAN",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":446,\"actual_design_rows\":true,\"explicit_world_topology_and_source_flags_input\":true,\"same_property_life_scene_heading_borrows\":true,\"no_inventory_save_session_or_relation_owner\":true,\"production_renderer_connection\":false}\n",
+      "stderr": ""
+    },
+    {
+      "mode": "O2",
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-fno-fast-math",
+        "-ffp-contract=off",
+        "port/level-world/character_world_target_owner_v1.cpp",
+        "port/level-world/character_skill_target_queries_v6.cpp",
+        "port/level-world/tests/character_world_target_owner_v1_host.cpp",
+        "-L.local-inputs/character-menu-native-v1-host/snapshot",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-ldh2_engine_skinning",
+        "-ldh2_engine_animation",
+        "-ldh2_scene_materials",
+        "-ldh2_zip_asset_pack_v1",
+        "-lz",
+        "-o",
+        ".local-inputs/character_world_target_owner_v1_O2"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "mode": "O2",
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-menu-native-v1-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/character_world_target_owner_v1_O2",
+        "/mnt/c/Users/adamc/Desktop/workspace/DH_sc"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"checks\":446,\"actual_design_rows\":true,\"explicit_world_topology_and_source_flags_input\":true,\"same_property_life_scene_heading_borrows\":true,\"no_inventory_save_session_or_relation_owner\":true,\"production_renderer_connection\":false}\n",
+      "stderr": ""
+    }
+  ],
+  "results": [
+    {
+      "validation": "PASS",
+      "checks": 446,
+      "actual_design_rows": true,
+      "explicit_world_topology_and_source_flags_input": true,
+      "same_property_life_scene_heading_borrows": true,
+      "no_inventory_save_session_or_relation_owner": true,
+      "production_renderer_connection": false
+    },
+    {
+      "validation": "PASS",
+      "checks": 446,
+      "actual_design_rows": true,
+      "explicit_world_topology_and_source_flags_input": true,
+      "same_property_life_scene_heading_borrows": true,
+      "no_inventory_save_session_or_relation_owner": true,
+      "production_renderer_connection": false
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_world_target_owner_v1.cpp": "674eabe9c970778d06516fe9dc8fd79ea03510789edef36dcf9612f444f130b4",
+    "port/level-world/character_skill_target_queries_v6.cpp": "23b6c226b4553812238fea3ac813c9fe91c14fed520007e295eb878ca8ee4595",
+    "port/level-world/tests/character_world_target_owner_v1_host.cpp": "f5efff1a18803bab3aa50479ff887ccef07a727be33bfa9b0e434e19a443d3b6",
+    "port/level-world/character_world_target_owner_v1.hpp": "0df031a75d7a8aba80dded5d1292ada39d957ebda000a4d232ba960bdcb94f91",
+    "port/level-world/tools/run_character_world_target_owner_v1_host.py": "58d6accfef810dc9cbd1b53d02e92aa940ca551bfc500492c8674039a77ee5c3"
+  },
+  "private_dependency_sha256": {
+    "libdh2_engine_animation.so": "922a9a9ec5d6be20c97f414f060fa870e82d919ef87c639f34d19d79b707aaf0",
+    "libdh2_engine_skinning.so": "d612f6c5e41764336b46893b801e773661a349e868f039fdd07617de47db305b",
+    "libdh2_engine_ui.so": "d166eaf253acc4f209139897c8edc633da473e04a6e03142fc71edec19df1d9c",
+    "libdh2_game_data.so": "8f16064799e78881027c2b5f3fa486fa1c3235369d98fca1602ece4cf3a650f8",
+    "libdh2_level_world.so": "dd8d570fce37f7af9336747439c299422c659cc31aaf472dd4aed4949b039986",
+    "libdh2_scene_materials.so": "b1c05403707a3fcfcd8843fe5adabff33e5a14e7a791d6ee4c60b2a08e5099fb",
+    "libdh2_script_runtime.so": "e975cc3b162aae1670580621a5ae9b422fb5cb98d21706c0b2cfc4494727adbd",
+    "libdh2_zip_asset_pack_v1.a": "202cd6cfe087c94638da2e9270e2509ad53fdd3af1eacf284ef5b2f4c56a9728"
+  },
+  "dependency_current_source_attribution": false,
+  "production_renderer_connection": false
+}

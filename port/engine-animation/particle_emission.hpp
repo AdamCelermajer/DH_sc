@@ -37,6 +37,9 @@ public:
  // invalidated by generate/initialize that reallocates or clears storage.
  ParticleSeed100* particle(std::size_t i){return i<particles_.size()?&particles_[i]:nullptr;}
  const std::shared_ptr<ParticleGenerationOwner>& generation_owner()const{return generation_;}
+ // Source update's in-place expired-particle swap/resize. Keeps this sole
+ // generation vector and its capacity; no parallel simulation storage.
+ std::size_t compact_expired_source_v1();
 };
 // This owns external animator BRES sampling data. It is intentionally distinct
 // from the original cloud AnimationDatabase raw streaming-data parameter.

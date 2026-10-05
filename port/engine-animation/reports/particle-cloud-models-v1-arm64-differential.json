@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "comparisons": 1000,
+  "operations": {
+    "0": 100,
+    "1": 100,
+    "2": 100,
+    "3": 100,
+    "4": 100,
+    "5": 100,
+    "6": 100,
+    "7": 100,
+    "8": 100,
+    "9": 100
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "54b8ca3909d0e411dcdf5cf7f3077ef0044a0b0cfc9b31b4ee266edd5fc2db97",
+  "reference_sha256": "c964a08fd73f125f1a3f6ff9a803d547963c614c95676a020abd3bc78f73af61",
+  "original_instructions_executed": true,
+  "compiled_arm64_instructions_executed": true,
+  "scope": "Whole reached Life/Size/Spin/Motion/Sphere/directionalGravity methods over explicit model parameters, actual PSRandom. Virtual seed/world matrix callbacks are explicit borrowed fixture producers. No whole cloud/render claim."
+}

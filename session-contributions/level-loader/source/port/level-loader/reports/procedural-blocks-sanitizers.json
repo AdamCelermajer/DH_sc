@@ -1,0 +1,2407 @@
+{
+  "validation": "PASS",
+  "scope": "Compare typed MGX projection and retained source plans with actual ARM receipts.\n\nAll authored MGX files, original rejection of each link declaration, default\nand authored unit dimensions, accepted exit ordering, direction, coordinate\nbits and link-type bytes are compared. Includes source ownership, failed\npublication and explicit rejection of original unsafe arithmetic/traversal.\nThis does not execute connection graph construction or generated layouts.\n",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_receipt_sha256": "7fb3095363936479d7a839f47fc1afd47da7816f4c715272b2b2fd52ba0c1530",
+  "probe_sha256": "d3ef161315cc178f10817d248a151f98df4cd534ab2d5dab8bc0af4acb92c02d",
+  "sources_sha256": {
+    "procedural_blocks_v1.cpp": "37f14337568ba66ba81117be5c005527636b0c698061c027071aeca3e3ef1c1e",
+    "procedural_blocks_v1.hpp": "65e3b53f933946d663c8e6251b1a7f597bc86a07aa2704cc647b598313af586d",
+    "xml_document_v1.cpp": "6df87206d60c9c42bfc1621c26402520b9e7c720062df0fe86eefe4b17885125",
+    "xml_document_v1.hpp": "99e92337b48601d2a4e89641d5bafbdd795e21b7a0db761297d63ad1fdedcaf4",
+    "procedural_sources_v1.cpp": "9f36a524a963296e663e826183f18b93dcccadf22674e43262a040678de80de0",
+    "procedural_sources_v1.hpp": "ccd7f4c63e5cf4901a4b3fe908024c6de9e7741f9abf2a0429f2a3cb0402ddb9",
+    "procedural_file_list_v1.cpp": "0fdc833d223966a75d606cf153a0334561d650580c67161bd8c0f23064d9347f",
+    "procedural_file_list_v1.hpp": "b9bd71faffe10df3c87115238c9d0eabafd9cb5d2d63b434a28c41b10ee9bf31",
+    "tests\\procedural_blocks_probe.cpp": "7a4a28262164ec7e23e3e8a53e8bfb7fa9ca9263a1c64a848404fd288023588b",
+    "CMakeLists.txt": "aaa90a253079c882fafa1c21461c60c2ccbf9a248bf8dd753b92d79c6e0bdf66",
+    "tests\\procedural_blocks_differential.py": "198c24f0c64910c3a056af13d6985818ef5d5a0f629b5c7918818751ed64fdf6"
+  },
+  "sanitizers": true,
+  "cases": [
+    {
+      "name": "edge-type-0",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-type-1",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-type-2",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-type-3",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-type-4",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-type-5",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-type-6",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-type-7",
+      "exit_count": 0,
+      "link_declarations": 1,
+      "rejected_links": 1,
+      "matches": true
+    },
+    {
+      "name": "edge-type-8",
+      "exit_count": 0,
+      "link_declarations": 1,
+      "rejected_links": 1,
+      "matches": true
+    },
+    {
+      "name": "edge-type-9",
+      "exit_count": 0,
+      "link_declarations": 1,
+      "rejected_links": 1,
+      "matches": true
+    },
+    {
+      "name": "edge-type-10",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-type-11",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-direction-east",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-direction-SOUTH",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-direction-west",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-direction-none",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-direction-unrecognized",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "empty-module",
+      "exit_count": 0,
+      "link_declarations": 0,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "skipped-links",
+      "exit_count": 1,
+      "link_declarations": 4,
+      "rejected_links": 3,
+      "matches": true
+    },
+    {
+      "name": "edge-position-0",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-1",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-2",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-3",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-4",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-5",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-6",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-7",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-8",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-9",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-10",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-11",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-12",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-13",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-position-14",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-attributes-0",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-attributes-1",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "edge-attributes-2",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/deadend_rootden_e_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/t_rootden_wne_.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/t_rootden_esw_.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/deadend_rootden_w_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/straight_rootden_ns_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/straight_rootden_ew_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/objcross_rootden_nesw_.mgx",
+      "exit_count": 4,
+      "link_declarations": 4,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/deadend_rootden_n_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/corner_rootden_ne_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/corner_rootden_se_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/corner_rootden_sw_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/objboss_rootden_w_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/corner_rootden_nw_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/objentry_rootden_e_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/deadend_rootden_s_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_hub/mgx/icyhub.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/deadend_icycavern_w_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/monument_icycavern_we.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/straight_icycavern_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/corner_icycavern_nw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/snakey_icycavern_we_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/straight_icycavern_we_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/t_icycavern_nse_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/corner_icycavern_sw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/bossroom_icycavern_w_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/corner_icycavern_ne_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/entrance_icycavern_e_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/t_icycavern_nsw_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/corner_icycavern_se_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/objstart_watertemp_s_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/corner_watertemp_ne_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/deadend_watertemp_n_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/corner_watertemp_wn_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/corner_watertemp_se_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/objmid_watertemp_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/corner_watertemp_sw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/objstart_watertemp_w_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/objstart_watertemp_s_.mgx",
+      "exit_count": 0,
+      "link_declarations": 0,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/straight_watertemp_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/deadend_watertemp_w_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/straight_watertemp_ew_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/t_watertemp_nsw_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/t_watertemp_wse_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/deadend_watertemp_s_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/deadend_watertemp_e_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/objend_watertemp_s_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_05_start.mgx",
+      "exit_count": 2,
+      "link_declarations": 4,
+      "rejected_links": 2,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/debug_aplhatest.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_08.mgx",
+      "exit_count": 1,
+      "link_declarations": 4,
+      "rejected_links": 3,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_09.mgx",
+      "exit_count": 2,
+      "link_declarations": 4,
+      "rejected_links": 2,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_10_stairs.mgx",
+      "exit_count": 2,
+      "link_declarations": 4,
+      "rejected_links": 2,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_2x1_18_test.mgx",
+      "exit_count": 2,
+      "link_declarations": 6,
+      "rejected_links": 4,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_15.mgx",
+      "exit_count": 4,
+      "link_declarations": 4,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_01.mgx",
+      "exit_count": 1,
+      "link_declarations": 4,
+      "rejected_links": 3,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_14.mgx",
+      "exit_count": 3,
+      "link_declarations": 4,
+      "rejected_links": 1,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_02.mgx",
+      "exit_count": 1,
+      "link_declarations": 4,
+      "rejected_links": 3,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_03.mgx",
+      "exit_count": 2,
+      "link_declarations": 4,
+      "rejected_links": 2,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_07.mgx",
+      "exit_count": 3,
+      "link_declarations": 4,
+      "rejected_links": 1,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_13.mgx",
+      "exit_count": 3,
+      "link_declarations": 4,
+      "rejected_links": 1,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_12.mgx",
+      "exit_count": 2,
+      "link_declarations": 4,
+      "rejected_links": 2,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_06.mgx",
+      "exit_count": 2,
+      "link_declarations": 4,
+      "rejected_links": 2,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_10.mgx",
+      "exit_count": 2,
+      "link_declarations": 4,
+      "rejected_links": 2,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_04.mgx",
+      "exit_count": 1,
+      "link_declarations": 4,
+      "rejected_links": 3,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_05.mgx",
+      "exit_count": 2,
+      "link_declarations": 4,
+      "rejected_links": 2,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_1x1_11.mgx",
+      "exit_count": 3,
+      "link_declarations": 4,
+      "rejected_links": 1,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/block_2x1_18.mgx",
+      "exit_count": 2,
+      "link_declarations": 6,
+      "rejected_links": 4,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/midboss_earthtemp_ns_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/deadend_earthtemp_w_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/deadend_earthtemp_n_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/t_earthtemp_new_.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/deadend_earthtemp_e_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/objboss_earthtemp_s_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/corner_earthtemp_nw_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/t_earthtemp_nsw_.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/corner_earthtemp_sw_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/entry_earthtemp_w_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/straight_earthtemp_ew_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/straight_earthtemp_ns_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/deadend_earthtemp_s_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/corner_earthtemp_se_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/corner_earthtemp_ne_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/under_08.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/under_09.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/under_04.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/under_05.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/under_07.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/under_06.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/under_02.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/under_03.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/under_01.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/darktemple/mgx/darktemple.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/deadend_dsrtcave_n_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/obj01_dsrtcave_e_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/obj04_dsrtcave_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/straight_dsrtcave_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/corner_dsrtcave_ws_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/corner_dsrtcave_wn_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/corner_dsrtcave_se_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/deadend_dsrtcave_w_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/straight_dsrtcave_we_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/obj05_dsrtcave_n_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/t_dsrtcave_nse_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/corner_dsrtcave_ne_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/deadend_dsrtcave_s_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/deadend_dsrtcave_e_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/t_dsrtcave_nsw_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/obj03_dsrtcave_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/obj02_dsrtcave_ws_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/t_nse.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/entrance_s.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/straight_b_ns.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/straight_d_ew.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/corner_sw.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/deadend_e.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/deadend_w.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/straight_b_ew.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/corner_se.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/kings_chamber_s.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/deadend_n.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/cemetery_entrance.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/boss_room.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/straight_c_ns.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/straight_a_ew.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/straight_ns.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/corner_nw.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/entrance_n.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/straight_c_ew.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/corner_ne.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/t_sew.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/corner_firetemple_se_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/towerknockdown_firetemple_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/corner_firetemple_ne_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/boss_firetemple_s_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/corner_firetemple_sw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/corner_firetemple_nw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/fallentowerrepeat_firetemple_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/straight_firetemple_we_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/t_firetemple_nsw_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/entrance_firetemple_en_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/straight_firetemple_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/t_firetemple_nse_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/fallentowertop_firetemple_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/corner_windtemp_se_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/entry_windtemp_n_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/corner_windtemp_ne_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/straight_windtemp_ew_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/deadend_windtemp_s_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/objboss_windtemp_e_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/straight_windtemp_ns_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/corner_windtemp_nw_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/midboss_windtemp_ws_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/corner_windtemp_sw_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/t_windtemp_esw_.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/t_windtemp_wne_.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/deadend_windtemp_n_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/deadend_windtemp_w_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/deadend_windtemp_e_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadend_swpcave_s_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_swpcave_nw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/straight_brdwalk_we_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/t_ruin_nse_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/straight_swpcave_we_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_swpcave_sw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_ruin_ws_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadend_brdwalk_we_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_brdwalk_sw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/bossroom_swpcave_w_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadend_swpcave_e_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/obj_4of4_brdwalk_sw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/merchantcamp_ruins_swe_00.mgx",
+      "exit_count": 4,
+      "link_declarations": 4,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/t_ruin_nsw_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_swpcave_ne_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_brdwalk_ne_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadendb_swpcave_n_01.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/bossroomb_swpcave_w_01.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadend_swpcave_w_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadend_ruin_w_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_swpcave_se_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/straight_ruin_we_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_brdwalk_se_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadend_brdwalk_e_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/t_swpcave_nsw_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_ruin_nw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/straight_ruin_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/bossroom_ruins_ns_.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/obj_2of4_brdwalk_sw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadend_brdwalk_s_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/straight_brdwalk_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/straight_swpcave_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadend_brdwalk_w_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_ruin_se_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/t_swpcave_nse_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_ruin_wn_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/obj_3of4_brdwalk_sw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadend_brdwalk_se_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/corner_ruin_ne_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/obj_1of4_brdwalk_nse_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/deadend_swpcave_n_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/infectedvillage/mgx/infectedvillage_02.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/infectedvillage/mgx/infectedvillage_01.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/machineroom/mgx/plane_machineroom_01.mgx",
+      "exit_count": 4,
+      "link_declarations": 4,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/machineroom/mgx/plane_machineroom_00.mgx",
+      "exit_count": 4,
+      "link_declarations": 4,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/machineroom/mgx/plane_machineroom_02.mgx",
+      "exit_count": 4,
+      "link_declarations": 4,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/machineroom/mgx/plane_machineroom_03.mgx",
+      "exit_count": 4,
+      "link_declarations": 4,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/lighthousse/mgx/bossroom.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/lighthousse/mgx/startroom.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/lighthousse/mgx/close_02.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/lighthousse/mgx/close_03.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/lighthousse/mgx/close_01.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/lighthousse/mgx/open_02.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/lighthousse/mgx/open_03.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/lighthousse/mgx/open_01.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/abbey/mgx/straight_a.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/dh1_catacombs/mgx/test_001.mgx",
+      "exit_count": 0,
+      "link_declarations": 0,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/corner_voidmaze_nw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/t_voidmaze_nse_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/assassin_voidmaze_s_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/corner_voidmaze_sw_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/deadend_voidmaze_w_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/t_voidmaze_nsw_00.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/corner_voidmaze_ne_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/deadend_voidmaze_s_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/straight_voidmaze_we_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/deadend_voidmaze_e_00.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/island_voidmaze_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/corner_voidmaze_se_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/straight_voidmaze_ns_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/deadend_voidmaze_n_01.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/deadend_voidmaze_n_00.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/x_voidmaze_nswe_00.mgx",
+      "exit_count": 4,
+      "link_declarations": 4,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/red_desert/mgx/06.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/red_desert/mgx/04.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/red_desert/mgx/05.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/red_desert/mgx/01.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/red_desert/mgx/02.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/red_desert/mgx/03.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/objectiveroom_s.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/straightb_ew.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/corner_wn.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/deadend_e.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/deadend_s.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/deadend_w.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/kingroom_s.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/corner_se.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/deadend_n.mgx",
+      "exit_count": 1,
+      "link_declarations": 1,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/entrance_ns.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/t_new.mgx",
+      "exit_count": 3,
+      "link_declarations": 3,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/corner_ws.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/corner_ne.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/straighta_ns.mgx",
+      "exit_count": 2,
+      "link_declarations": 2,
+      "rejected_links": 0,
+      "matches": true
+    }
+  ],
+  "explicit_domain_rejections": [
+    {
+      "error": "MGX dimensions outside checked arithmetic domain"
+    },
+    {
+      "error": "MGX integer outside int32 domain"
+    },
+    {
+      "error": "MGX original unfiltered traversal encounters non-element sibling"
+    },
+    {
+      "error": "MGX exit position outside original StrToObj buffer/input domain"
+    },
+    {
+      "error": "MGX original eight-exit capacity exceeded"
+    },
+    {
+      "error": "MGX exit position outside finite domain"
+    }
+  ],
+  "levels": [
+    {
+      "name": "ABBEY_ENTRANCE_01",
+      "file": "009_abbey.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 21
+    },
+    {
+      "name": "ABBEY_RUINS_01",
+      "file": "009a_abbey.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "APPLETEMPLE",
+      "file": "050_earth_temple_demo.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 15
+    },
+    {
+      "name": "APPLETEMPLEBACKUP",
+      "file": "x50_earth_temple_demo_BACKUP.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "DARKWOOD",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "DARKWOOD_V2",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "DARKWOOD_V3",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "DARK_DUNGEON_TEMPLE_01",
+      "file": "038_dark_temple.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "file": "039_dark_temple_bossroom_01.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "DESERT_CAVE_01",
+      "file": "016_red_desert_cave_01.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 17
+    },
+    {
+      "name": "DESERT_CAVE_02",
+      "file": "017_red_desert_cave_02.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 17
+    },
+    {
+      "name": "DESERT_CAVE_03",
+      "file": "018_red_desert_cave_03.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 17
+    },
+    {
+      "name": "EARTH_TEMPLE_01",
+      "file": "011_earth_temple_01.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 15
+    },
+    {
+      "name": "EARTH_TEMPLE_02",
+      "file": "012_earth_temple_02.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 15
+    },
+    {
+      "name": "EARTH_TEMPLE_03",
+      "file": "013_earth_temple_03.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 15
+    },
+    {
+      "name": "ELEMENTAL_AIR",
+      "file": "030_el_air.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 14
+    },
+    {
+      "name": "ELEMENTAL_EARTH",
+      "file": "014_el_earth.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 14
+    },
+    {
+      "name": "ELEMENTAL_FIRE",
+      "file": "032_el_fire.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 14
+    },
+    {
+      "name": "ELEMENTAL_LIGHT",
+      "file": "010_el_lightning.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 14
+    },
+    {
+      "name": "ELEMENTAL_WATER",
+      "file": "024_el_water.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 14
+    },
+    {
+      "name": "FIRE_TEMPLE_01",
+      "file": "031_firetemple.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "GOTHICUS_CASTLE_01",
+      "file": "008_gothicus_castle_01.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 14
+    },
+    {
+      "name": "GOTHICUS_CASTLE_02",
+      "file": "021_gothicus_castle_02.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 14
+    },
+    {
+      "name": "GOTHICUS_CRYPT_01",
+      "file": "007_crypt_01.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 21
+    },
+    {
+      "name": "GOTHICUS_CRYPT_02",
+      "file": "020_crypt_02.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 21
+    },
+    {
+      "name": "ICY_CAVERN_01",
+      "file": "026_icy_cavern_01.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 13
+    },
+    {
+      "name": "ICY_CAVERN_02",
+      "file": "027_icy_cavern_02.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 13
+    },
+    {
+      "name": "ICY_CAVERN_03",
+      "file": "028_icy_cavern_03.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 13
+    },
+    {
+      "name": "ICY_HUB",
+      "file": "025_icy_hub.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "INFECTED_VILLAGE_01",
+      "file": "005_infectedvillage.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "LIGHT_HOUSE_01",
+      "file": "019_light_house_01.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 8
+    },
+    {
+      "name": "LIGHT_HOUSE_02",
+      "file": "019_light_house_02.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 8
+    },
+    {
+      "name": "LIGHT_HOUSE_03",
+      "file": "019_light_house_03.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 8
+    },
+    {
+      "name": "MACHINE_ROOMS_01",
+      "file": "037_machine_rooms_01.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "MULTIPLAYER_TEST",
+      "file": "101_debug_MachineRoomTestMultiPlayer.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "PORTAL_ROOM",
+      "file": "003_darkwood.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "QUESTTEST",
+      "file": "102_debug_QUESTTEST.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 21
+    },
+    {
+      "name": "RANDOMFORALEX",
+      "file": "125_RandomForAlexB.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 14
+    },
+    {
+      "name": "RED_DESERT_HUB",
+      "file": "015_red_desert_hub.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "ROOT_DEN_01",
+      "file": "004_root_den.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 15
+    },
+    {
+      "name": "SECRET_BASEMENT_01",
+      "file": "006_basement.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 15
+    },
+    {
+      "name": "SWAMP",
+      "file": "001_swamp.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "SWAMP_02",
+      "file": "022_swamp2.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 41
+    },
+    {
+      "name": "SWAMP_CAVE_TROLL_A",
+      "file": "022_swamp2_trollcave.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 41
+    },
+    {
+      "name": "SWAMP_CAVE_WITCH_A",
+      "file": "002_swamp_witchcave.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 41
+    },
+    {
+      "name": "UNDERWORLD_HUB",
+      "file": "036_underworld_hub.mlx",
+      "random": 0,
+      "typed_blocks": "fixed_definition"
+    },
+    {
+      "name": "VOID_MAZE_01",
+      "file": "033_voidmaze_01.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 16
+    },
+    {
+      "name": "VOID_MAZE_02",
+      "file": "034_voidmaze_02.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 16
+    },
+    {
+      "name": "VOID_MAZE_03",
+      "file": "035_voidmaze_03.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 16
+    },
+    {
+      "name": "WATER_TEMPLE_01",
+      "file": "023_watertemple.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 17
+    },
+    {
+      "name": "WIND_TEMPLE_01",
+      "file": "029_wind_temple.rule.xml",
+      "random": 1,
+      "typed_blocks": "original_compared",
+      "blocks": 15
+    }
+  ],
+  "summary": {
+    "original_compared": 35,
+    "fixed_definition": 16
+  },
+  "authored_blocks_compared": 250,
+  "block_occurrences_compared": 603,
+  "exit_occurrences_compared": 1073,
+  "rejected_link_occurrences_compared": 0,
+  "connection_graph_verified": false,
+  "layout_generation_verified": false,
+  "full_loader_verified": false
+}

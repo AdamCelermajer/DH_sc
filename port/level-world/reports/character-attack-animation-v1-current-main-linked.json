@@ -1,0 +1,30 @@
+{
+  "validation": "PASS",
+  "scope": "Original CharAI attack step begin/end differential, current main host library linked under ASAN/UBSAN. Dependency callbacks are fixtures; whole damage pipeline and Android runtime are separate proofs.",
+  "command": [
+    "wsl.exe",
+    "--cd",
+    "/mnt/c/Users/adamc/Desktop/workspace/DH_sc",
+    "--exec",
+    ".local-inputs/attack-animation-v1-main-linked",
+    "port/level-world/reference/character-attack-initialization-v1/step-cases.bin"
+  ],
+  "output": "PASS original cases 1376 ordered callbacks 3507 guards/failure prefix 3",
+  "original_cases": 1376,
+  "ordered_callbacks": 3507,
+  "guards_failure_prefix": 3,
+  "current_main_library": {
+    "path": "/home/adampalace/dh2-world-build/libdh2_level_world.so",
+    "sha256": "43ee11cd4e3cff4df3070b7b2496a04d6610fa0bbc48aef5d3722ccb0e6684bc"
+  },
+  "sha256": {
+    "port/level-world/character_attack_animation_v1.hpp": "52ed58f508447dd67c64c8696b62317d5da963fb5b3b7b07ccf77264e3a1cd38",
+    "port/level-world/character_attack_animation_v1.cpp": "7543f17268d417ad4465ce8a73ec272729225429eb676448b744da7ec63306d1",
+    "port/level-world/tests/character_attack_animation_v1_host.cpp": "7549094fb8489009d8307dbbdb07b75c0e6ba38d1598440053f8e106976c43a3",
+    "port/level-world/tests/character_attack_animation_v1_differential.py": "3c0c7275c80ea65aef2ad1dc9c25c5fc058d681e4c7b44d79444e2963d0ba71e",
+    "port/level-world/reference/character-attack-initialization-v1/step-cases.json": "0392ba13879147f1ef55efc2f42ab32895eed351493a42e422da6caa11477457",
+    "port/level-world/reference/character-attack-initialization-v1/step-cases.bin": "9f982e90efd57d8d07167e9771f912a587b6fd086069f0bc7ccebafb415fbcb4",
+    "port/level-world/CMakeLists.txt": "b012f8a9a8a4ff24bcc1ef439fdfb29dbe0ebc8d1287f681beb651e3dc2aee21",
+    ".local-inputs/attack-animation-v1-main-linked": "705e6f931af2b05325f5c470e54c9f67e31783ce431eba397f9abaf6286d0e38"
+  }
+}

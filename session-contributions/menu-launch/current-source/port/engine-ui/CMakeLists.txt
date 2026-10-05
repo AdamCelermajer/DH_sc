@@ -22,11 +22,11 @@ endif()
 target_link_libraries(dh2_gameswf_core PUBLIC z ${CMAKE_DL_LIBS})
 add_library(dh2_engine_ui SHARED gfnt.cpp swf_movie.cpp freetype_font.cpp
   freetype_glyph_kernel.cpp swf_freetype_provider.cpp swf_font_geometry.cpp
-  swf_font_resolver.cpp viewport.cpp localization.cpp
+  swf_font_resolver.cpp viewport.cpp localization.cpp localization_parse_ex_v1.cpp
   freetype_bitmap_alpha.cpp hud_freetype_font.cpp swf_hud_freetype_provider.cpp
   swf_glyph_lookup.cpp hud_player_values.cpp swf_viewport_connection.cpp
   hud_sprite_timeline.cpp hud_sprite_core.cpp hud_advance.cpp hud_advance_owner.cpp
-  player_status_hud.cpp swf_actionscript_connection.cpp swf_menu_sound.cpp swf_menu_options.cpp swf_menu_navigation.cpp menu_manager_push_v1.cpp menu_native_event_v1.cpp renderfx_text_connection.cpp
+  player_status_hud.cpp swf_actionscript_connection.cpp swf_menu_sound.cpp swf_menu_options.cpp swf_menu_navigation.cpp swf_menu_save_slots.cpp save_slot_date_v1.cpp menu_save_slot_projection_v1.cpp menu_manager_push_v1.cpp menu_native_event_v1.cpp renderfx_text_connection.cpp
   hud_startup_callbacks.cpp game_option_table_v1.cpp owned_hud_settings_v1.cpp
   settings_native_files_v1.cpp settings_language_scene_v1.cpp
   hud_manager.cpp hud_manager_core.cpp text_layout_v1.cpp swf_text_layout_connection.cpp
@@ -40,6 +40,8 @@ target_link_libraries(dh2_engine_ui PRIVATE dh2_gameswf_core dh2_freetype237)
 if(ANDROID)
   target_link_options(dh2_engine_ui PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined)
 else()
+  add_executable(save_slot_date_v1_audit tests/save_slot_date_v1.cpp)
+  target_link_libraries(save_slot_date_v1_audit PRIVATE dh2_engine_ui)
   add_executable(text_layout_v1_audit tests/text_layout_v1.cpp)
   target_link_libraries(text_layout_v1_audit PRIVATE dh2_engine_ui)
   add_executable(hud_manager_audit tests/hud_manager.cpp)

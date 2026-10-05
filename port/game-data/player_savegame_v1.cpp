@@ -73,4 +73,5 @@ bool PlayerSavegameV1::set_faery_level(std::uint32_t id,std::int32_t value,std::
 bool PlayerSavegameV1::set_faery_state(std::uint32_t id,std::int32_t value,std::uint32_t difficulty,std::string& e){if(difficulty>=3||id>=5||!faeries_initialized_[difficulty]){e="unsafe saved faery index";return false;}faeries_[difficulty][id].state=static_cast<std::uint8_t>(value);e.clear();return true;}
 std::int32_t PlayerSavegameV1::faery_level(std::uint32_t id,std::uint32_t difficulty)const noexcept{return difficulty<3&&id<5&&faeries_initialized_[difficulty]?faeries_[difficulty][id].level:0;}
 std::int32_t PlayerSavegameV1::current_faery(std::uint32_t difficulty)const noexcept{return difficulty<3?current_faery_[difficulty]:-1;}
+bool PlayerSavegameV1::set_current_faery(std::uint32_t id,std::uint32_t difficulty,std::string& error){if(difficulty>=3){error="Current faery difficulty outside source storage";return false;}current_faery_[difficulty]=signed_word(id);error.clear();return true;}
 }

@@ -16,6 +16,9 @@ if(NOT TARGET dh2_engine_ui)
  add_subdirectory(../engine-ui "${CMAKE_CURRENT_BINARY_DIR}/engine-ui")
 endif()
 add_library(dh2_level_world SHARED world.cpp objects.cpp navigation.cpp navigation_search.cpp navigation_world.cpp navigation_path.cpp navigation_motion.cpp navigation_objects.cpp navigation_avoidance.cpp navigation_producers.cpp navigation_heading.cpp navigation_controller.cpp physical_controls.cpp body_transform.cpp subobjects_update.cpp controller_physical.cpp character_body_config.cpp collision.cpp octree.cpp selector.cpp floor_source.cpp floors.cpp)
+target_sources(dh2_level_world PRIVATE player_equipment_render_owner_v1.cpp player_equipment_queries_v1.cpp)
+set_source_files_properties(player_equipment_render_owner_v1.cpp player_equipment_queries_v1.cpp
+ PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
 # Native HUD backend uses the existing source timer owner. Keep the world
 # dependency here; the retained UI coordinator has no engine-ui -> world cycle.
 target_sources(dh2_level_world PRIVATE ../engine-ui/hud_manager_backends.cpp)
@@ -44,13 +47,52 @@ set_source_files_properties(character_skill_callbacks_v3.cpp character_skill_buf
  character_script_session_v3.cpp character_skills_session_v3.cpp character_skill_info_session_v3.cpp
  character_player_skills_v3.cpp character_skills_owner_v3.cpp character_skill_callback_session_v3.cpp
  character_skill_class_v3.cpp character_skill_cooldown_v3.cpp character_faery_element_v3.cpp
- character_skill_ai_v3.cpp PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+  character_skill_ai_v3.cpp PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
+
+# One live V6 player shares the world's properties, life, inventory and Save.
+# The UI coordinators live here because their provider is the World; engine-ui
+# continues to own the rendering/AS core without a reverse World dependency.
+target_sources(dh2_level_world PRIVATE
+ character_player_skills_v6.cpp character_skills_owner_v6.cpp
+ character_skill_reload_v6.cpp character_skill_save_reload_v6.cpp
+ character_skill_state_v4.cpp
+ character_skill_mana_v5.cpp character_skill_context_v4.cpp character_skill_native_v5.cpp character_target_search_v5.cpp
+ character_hit_v6.cpp character_skill_combat_v6.cpp character_skill_attack_v6.cpp
+ character_skill_native_v6.cpp character_skill_readonly_v6.cpp character_skill_aggro_v6.cpp
+ character_skill_target_queries_v6.cpp character_combat_result_v6.cpp character_skill_application_v6.cpp
+ character_world_runtime_v1.cpp character_world_target_owner_v1.cpp character_world_skill_combat_v6.cpp character_world_npc_state_owner_v1.cpp character_world_npc_initialization_v1.cpp trophy_manager_owner_v1.cpp character_world_skill_execution_v6.cpp
+ character_world_ai_relationship_v1.cpp character_world_handle_v1.cpp
+ ../engine-ui/character_menu_stats_owner_v1.cpp
+ ../engine-ui/character_menu_actions_owner_v1.cpp
+ ../engine-ui/character_menu_queries_owner_v1.cpp
+ ../engine-ui/character_menu_font_palette_v1.cpp
+ ../engine-ui/character_menu_inventory_order_v1.cpp
+ ../engine-ui/character_menu_inventory_mutation_v1.cpp
+ ../engine-ui/character_menu_item_actions_v1.cpp
+ ../engine-ui/character_menu_save_actions_v1.cpp
+ ../engine-ui/character_menu_faery_actions_v1.cpp)
+set_source_files_properties(
+ character_player_skills_v6.cpp character_skills_owner_v6.cpp
+ character_skill_reload_v6.cpp character_skill_save_reload_v6.cpp character_skill_state_v4.cpp
+ character_skill_mana_v5.cpp character_skill_context_v4.cpp character_skill_native_v5.cpp character_target_search_v5.cpp
+ character_hit_v6.cpp character_skill_combat_v6.cpp character_skill_attack_v6.cpp
+ character_skill_native_v6.cpp character_skill_readonly_v6.cpp character_skill_aggro_v6.cpp
+ character_skill_target_queries_v6.cpp character_combat_result_v6.cpp character_skill_application_v6.cpp
+ character_world_runtime_v1.cpp character_world_target_owner_v1.cpp character_world_skill_combat_v6.cpp character_world_npc_state_owner_v1.cpp character_world_npc_initialization_v1.cpp trophy_manager_owner_v1.cpp character_world_skill_execution_v6.cpp
+ character_world_ai_relationship_v1.cpp character_world_handle_v1.cpp
+ ../engine-ui/character_menu_stats_owner_v1.cpp ../engine-ui/character_menu_actions_owner_v1.cpp
+ ../engine-ui/character_menu_queries_owner_v1.cpp ../engine-ui/character_menu_font_palette_v1.cpp
+ ../engine-ui/character_menu_inventory_order_v1.cpp ../engine-ui/character_menu_inventory_mutation_v1.cpp
+ ../engine-ui/character_menu_item_actions_v1.cpp ../engine-ui/character_menu_save_actions_v1.cpp
+ ../engine-ui/character_menu_faery_actions_v1.cpp PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
 
 target_compile_features(dh2_level_world PUBLIC cxx_std_17)
 target_sources(dh2_level_world PRIVATE physical_world.cpp physical_lifecycle.cpp native_body.cpp visual_motion.cpp move_state.cpp decor_body_config.cpp visual_timeline.cpp actor_rotation.cpp actor_runtime.cpp actor_playback.cpp decor_scene.cpp character_scene.cpp)
 target_sources(dh2_level_world PRIVATE character_state.cpp animation_blender.cpp)
 target_sources(dh2_level_world PRIVATE character_timers.cpp character_stance.cpp)
 target_sources(dh2_level_world PRIVATE character_animation_events.cpp)
+target_sources(dh2_level_world PRIVATE character_animation_event_owner_v1.cpp
+ character_mesh_fx_owner_v1.cpp character_fx_state_v1.cpp character_fx_kernels_v1.cpp fx_texture_animation_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_animation_ai.cpp)
 target_sources(dh2_level_world PRIVATE character_script_selection.cpp)
 target_sources(dh2_level_world PRIVATE character_script_lifecycle.cpp character_combat_queries.cpp)
@@ -66,6 +108,10 @@ target_sources(dh2_level_world PRIVATE character_ai_attack.cpp)
 target_sources(dh2_level_world PRIVATE character_script_timers.cpp)
 target_sources(dh2_level_world PRIVATE character_ai_events.cpp)
 target_sources(dh2_level_world PRIVATE character_attack_geometry.cpp)
+target_sources(dh2_level_world PRIVATE character_attack_animation_v1.cpp
+ character_world_ai_can_attack_v1.cpp character_world_player_attack_owner_v1.cpp
+ character_world_attack_geometry_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_targetability_owner_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_target_search.cpp)
 target_sources(dh2_level_world PRIVATE character_script_call_timer.cpp)
 target_sources(dh2_level_world PRIVATE character_script_owner.cpp)
@@ -104,7 +150,12 @@ target_sources(dh2_level_world PRIVATE character_sneaking_tables.cpp actor_initi
 target_sources(dh2_level_world PRIVATE character_ai_state_changed.cpp character_ai_state_changed_vm.cpp)
 target_sources(dh2_level_world PRIVATE character_idle_update.cpp)
 target_sources(dh2_level_world PRIVATE character_npc_body.cpp)
+target_sources(dh2_level_world PRIVATE player_injure_state_v7.cpp npc_injury_runtime_v1.cpp
+ npc_controller_look_v1.cpp character_melee_animation_event_v1.cpp)
 target_sources(dh2_level_world PRIVATE character_idle_events.cpp)
+target_sources(dh2_level_world PRIVATE character_combat_text_v1.cpp character_world_npc_bounds_v1.cpp)
+target_sources(dh2_level_world PRIVATE character_combat_follower_v1.cpp)
+target_sources(dh2_level_world PRIVATE ../engine-ui/combat_flash_inputs_v1.cpp)
 target_sources(dh2_level_world PRIVATE visual_fx_preload.cpp)
 target_sources(dh2_level_world PRIVATE visual_fx_tables.cpp)
 target_sources(dh2_level_world PRIVATE character_init_fx.cpp)
@@ -120,6 +171,9 @@ target_link_libraries(dh2_level_world PUBLIC dh2_engine_skinning dh2_game_data d
 if(ANDROID)
  target_link_options(dh2_level_world PRIVATE -Wl,-z,max-page-size=16384 -Wl,--no-undefined)
 else()
+ add_executable(player_equipment_render_owner_v1_audit tests/player_equipment_render_owner_v1.cpp)
+ target_link_libraries(player_equipment_render_owner_v1_audit PRIVATE dh2_level_world dh2_game_data
+  dh2_engine_ui dh2_engine_skinning dh2_engine_animation dh2_scene_materials dh2_script_runtime)
  add_library(dh2_zip_asset_pack_v1 STATIC ../asset-payloads/zip_asset_pack_v1.cpp)
  target_compile_features(dh2_zip_asset_pack_v1 PUBLIC cxx_std_17)
  target_link_libraries(dh2_zip_asset_pack_v1 PUBLIC dh2_scene_materials z)

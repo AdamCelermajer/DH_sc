@@ -13,7 +13,15 @@ final class NativeBridge {
     static native String objectState(int index,String state);
     static native String combatTarget(int index,int target);
     static native String playerAttack(int target);
+    static native String playerEquipmentAction(int operation,int index,int slot);
     static native int[] playerVitals();
+    // Original HUD members followed by equipped skill ids/levels and faery state.
+    static native int[] playerGameplayHud();
+    static native String playerGameplayAction(int operation,int index);
+    static native String[] playerGameplayIcons();
+    static native int[] menuIcon(String name);
+    static native String playerCharacterSnapshot();
+    static native String playerCharacterAction(int operation,int index,int slot);
     static native void enemyAi(boolean enabled);
     static native void orbit(float dx,float dy,float zoom);
     static native void animationTime(int milliseconds);

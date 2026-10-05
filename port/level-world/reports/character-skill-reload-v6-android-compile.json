@@ -1,0 +1,21 @@
+{
+  "validation": "PASS",
+  "target": "aarch64-linux-android24",
+  "compiler": "NDK29.0.14206865 clang++",
+  "flags": "-std=c++17 -O2 -fPIC -c",
+  "source_sha256": {
+    "port/level-world/character_player_skills_v6.cpp": "d37ebd6f949d4eee9c1d16b86e513d2505edc44051aba06755eef80f45eb9828",
+    "port/level-world/character_player_skills_v6.hpp": "f03585415a6d612e6b91eeb77badce22a9954b98ccc416ffc8cbfa895c9d2e7f",
+    "port/level-world/character_skills_owner_v6.cpp": "19c942f5fcae812f4026b9b4dde1e9f72dc1d880e54c7fb6ed081c2360f9624e",
+    "port/level-world/character_skills_owner_v6.hpp": "2ddc8b3fcd9560fd964399b3470ae91bfce6598a0233fb65c520a9fc0344a88b",
+    "port/level-world/character_skill_reload_v6.cpp": "3e01b0521d478ef234961471ebb0330030d9a6fd034c726af0eeebbb22208643",
+    "port/level-world/character_skill_reload_v6.hpp": "1e8516f515e2755c00d1ef8dec7c1adfdfa08bb0f13ec00386943dadad48e2e3",
+    "port/level-world/character_skill_save_reload_v6.cpp": "fbd97ac170df6f3ef9ac28d589faef68dd5cf27b5fcc1ce42dfb4f2f0f880046",
+    "port/level-world/character_skill_save_reload_v6.hpp": "587a96d93842ff0da23a60d88cd64347b275b188a0a5a2655462866d59802c14"
+  },
+  "object_sha256": {
+    ".local-inputs/character_player_skills_v6.android.o": "0162fd6eb78167c0686574df8f3060ee11eb683e81ac0735a0f21db25775962f",
+    ".local-inputs/character_skills_owner_v6.android.o": "0580fdf6c4f0072b88a0640f9264cbb630a90db4ab80856a5f2d54d19dd491de"
+  },
+  "scope": "Compile-only actual V6 player and Skill ownership; no central binary mutation or whole Android gameplay claim."
+}

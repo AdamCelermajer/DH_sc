@@ -1,0 +1,98 @@
+{
+  "validation": "PASS",
+  "recorded_utc": "2026-10-05T00:00:55.185014+00:00",
+  "scope": "Complete Character::ReloadSkills caller, required component delivery and fresh saved-class branches",
+  "original_binary_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_complete_caller": {
+    "symbol": "_ZN9Character12ReloadSkillsEv",
+    "address": "0x3a9db4",
+    "size": 252,
+    "sha256": "0b0f3d3b0bef68910291e8de5a1d9535739db05cd6ec0d1f8a4af966f631eb56",
+    "direct_calls": {
+      "0x3e0af8": "_ZN14CharProperties20PROPS_RemoveAllBuffsEv",
+      "0x3bc4d0": "_ZN9Character7SG_LoadEi",
+      "0x3d8cfc": "_ZN6CharAI15AI_ReloadSkillsEv",
+      "0x3d8894": "_ZN6CharAI15UpdateAllSkillsEv",
+      "0x3e0810": "_ZN14CharProperties16RecalcPropertiesEb",
+      "0x3a9d10": "_ZN9Character26INV_CheckItemsRequirementsEv",
+      "0x3bb828": "_ZN9Character17SG_GetPlayerLevelEv",
+      "0x42ca8c": "_ZN11MenuManager11GetInstanceEv",
+      "0x7ad7e8": "_ZN8RenderFX16InvokeASCallbackEPKcS1_PKN7gameswf8as_valueEi",
+      "0x797124": "_ZN7gameswf8as_value9drop_refsEv",
+      "0x3bb7fc": "_ZNK9Character17SG_GetPlayerClassEv"
+    },
+    "literal_strings": [
+      {
+        "pc": "0x3a9e34",
+        "address": "0x8c3570",
+        "text": "_root.menu_CharacterMenu"
+      },
+      {
+        "pc": "0x3a9e38",
+        "address": "0x8c3590",
+        "text": "IsSpecTime"
+      }
+    ]
+  },
+  "source_hashes": {
+    "port/engine-ui/character_menu_reload_v1.hpp": "9beeec496465df107a163b8e687d45fcb0eb426ac8118891c5021d1115ae63c6",
+    "port/engine-ui/character_menu_reload_v1.cpp": "891ccca8b8a3dae9d505ecf6a37c9362520edce23112ea7d082d2aa69603796f",
+    "port/engine-ui/tests/character_menu_reload_v1.cpp": "e86a37b7494cd9b25b2e0b40bc3d3f7b635ce40dd22e715ec3f67dbb4ee572a8",
+    "port/engine-ui/tests/character_menu_reload_original_v1.py": "445f271a94d1007c4cbea8c4017f9111af4c385045e5019d4a2784b9972404ff",
+    "port/engine-ui/tests/character_menu_native_v1_original.py": "161197bfa06cf3336df7826845f3029880901762ff67bce54058893419dce34e",
+    "port/engine-ui/tools/build_character_menu_reload_v1.sh": "3d4d7ce0ba86371074047dce1f37ab10681792e21d7abb2af165cac2b143a415",
+    "port/engine-ui/tools/capture_character_menu_stack_v1.py": "1bae2277b1ca884dc2b5feb86e749872b9b2aaa31dc91fc0d1dc32842dc4f420",
+    "port/engine-ui/tools/audit_character_menu_reload_v1.py": "d7b2144ab0da1324786a19fc954efda5a1fafebf0c0d3a93461868e97737e62d"
+  },
+  "reference_hashes": {
+    "reload-gold-v1.bin": "2861335465b953046b40815e8f12ed77813567d2c9c129f15a3fb22e2d3331c4",
+    "reload-original-v1.json": "1b8034a430905fe505c66e1808e6fb3bf983e7b552ce8ad834913a80c123e575",
+    "native-stack-functions.json": "7469b06229fd73c2b79c565ffe6f16c3f27c2aa6651dd5b0f6a482f48d3e2282",
+    "native-stack-functions.asm": "43e27fb8f5abc08a5878eb14cf70ec5ed7b92e94a53dd09a1f1e8a59c40abeeb"
+  },
+  "original": {
+    "validation": "PASS",
+    "original_complete_cases": 554,
+    "ordered_component_boundaries": 5750,
+    "gold_sha256": "2861335465b953046b40815e8f12ed77813567d2c9c129f15a3fb22e2d3331c4",
+    "fresh_class_getters_including_synchronous_change": true,
+    "component_services_are_fixtures": true,
+    "whole_menu_live": false
+  },
+  "native_runs": {
+    "SAN": {
+      "result": {
+        "validation": "PASS",
+        "original_complete_cases": 554,
+        "ordered_component_boundaries": 5750,
+        "required_failure_prefixes": 10,
+        "atomic_guards": 2,
+        "component_services_are_fixtures": true,
+        "whole_menu_live": false
+      },
+      "result_sha256": "d9700c3481fd9722b2bed03a35395d1b06edaf1ce9a133ee7b4bff98173350bc",
+      "executable_sha256": "e78be6d6b9b6512bf92d464ad3ab0e61996b9e80aec00daba21720a0a79b45d2"
+    },
+    "O2": {
+      "result": {
+        "validation": "PASS",
+        "original_complete_cases": 554,
+        "ordered_component_boundaries": 5750,
+        "required_failure_prefixes": 10,
+        "atomic_guards": 2,
+        "component_services_are_fixtures": true,
+        "whole_menu_live": false
+      },
+      "result_sha256": "d9700c3481fd9722b2bed03a35395d1b06edaf1ce9a133ee7b4bff98173350bc",
+      "executable_sha256": "021a23920e8e3db09de31766f5535569edaad91ca923aa793519912ca2a6b1a5"
+    }
+  },
+  "limits": {
+    "component_implementations_proven_by_this_audit": false,
+    "component_services_are_explicit_fixtures": true,
+    "actual_authored_character_menu_navigation_exercised": false,
+    "native_AS_player_selection_included": false,
+    "live_Android_graph_bound": false,
+    "APK_or_emulator_modified": false
+  }
+}

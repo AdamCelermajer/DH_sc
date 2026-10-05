@@ -1,0 +1,903 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "mask": 0,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 0,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 0,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 0,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 1,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 1,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 1,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 1,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 2,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 2,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 2,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 2,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 3,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 3,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 3,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 3,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 4,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 4,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 4,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 4,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 5,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 5,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 5,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 5,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 6,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 6,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 6,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 6,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 7,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 7,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 7,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 7,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 3,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 8,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 3,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 8,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 8,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 8,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 9,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 9,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 3,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 9,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 9,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 10,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 10,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 3,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 10,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 10,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 11,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 11,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 11,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 3,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 11,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 12,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 12,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 3,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 12,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 12,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 13,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 13,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 13,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 3,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 13,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 14,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 14,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 14,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 3,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 14,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": false
+    },
+    {
+      "mask": 15,
+      "display_index": 0,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 0,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 15,
+      "display_index": 1,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 1,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 15,
+      "display_index": 2,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 2,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    },
+    {
+      "mask": 15,
+      "display_index": 3,
+      "queries": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "slot_id": 3,
+      "flags": 17,
+      "volatile": 0,
+      "in_use": true
+    }
+  ],
+  "scope": "Actual NativeGetSaveSlotDetails slot scan/vector ordering/selection.\nSG_Exists answers are fixtures. Original vector growth instructions execute;\ntheir allocation is supplied by existing audit storage services. Stop at the\nselected PlayerSavegame constructor: it and subsequent profile loading do not\nexecute. AS argument conversion is outside this probe.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+}

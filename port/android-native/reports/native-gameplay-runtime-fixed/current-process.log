@@ -1,0 +1,1127 @@
+--------- beginning of main
+I/libprocessgroup( 3306): Created cgroup /sys/fs/cgroup/apps/uid_10235
+I/libprocessgroup( 3306): Created cgroup /sys/fs/cgroup/apps/uid_10235/pid_3306
+I/Zygote  ( 3306): Process 3306 created for com.example.dh2
+I/com.example.dh2( 3306): Late-enabling -Xcheck:jni
+I/com.example.dh2( 3306): Using generational CollectorTypeCMC GC.
+W/com.example.dh2( 3306): Unexpected CPU variant for x86: x86_64.
+W/com.example.dh2( 3306): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, pantherlake, default
+D/nativeloader( 3306): Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+D/CompatChangeReporter( 3306): Compat change id reported: 333566037; UID 10235; state: ENABLED
+D/nativeloader( 3306): Configuring clns-9 for other apk /data/app/~~SXvm1qtOqTEiUYtBq8F2Pg==/com.example.dh2-_npw_EEFBXDdlf8oCdTJbw==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~SXvm1qtOqTEiUYtBq8F2Pg==/com.example.dh2-_npw_EEFBXDdlf8oCdTJbw==/lib/x86_64:/data/app/~~SXvm1qtOqTEiUYtBq8F2Pg==/com.example.dh2-_npw_EEFBXDdlf8oCdTJbw==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.example.dh2
+V/GraphicsEnvironment( 3306): Currently set values for:
+V/GraphicsEnvironment( 3306):   angle_gl_driver_selection_pkgs=[]
+V/GraphicsEnvironment( 3306):   angle_gl_driver_selection_values=[]
+V/GraphicsEnvironment( 3306): com.example.dh2 is not listed in per-application setting
+V/GraphicsEnvironment( 3306): No special selections for ANGLE, returning default driver choice
+V/GraphicsEnvironment( 3306): Neither updatable production driver nor prerelease driver is supported.
+D/CompatChangeReporter( 3306): Compat change id reported: 407952621; UID 10235; state: ENABLED
+D/CompatChangeReporter( 3306): Compat change id reported: 419020719; UID 10235; state: ENABLED
+D/CompatChangeReporter( 3306): Compat change id reported: 458413887; UID 10235; state: ENABLED
+--------- beginning of system
+I/DisplayManager( 3306): Choreographer implicitly registered for the refresh rate.
+D/DesktopExperienceFlags( 3306): Toggle override initialized to: false
+I/GFXSTREAM( 3306): [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+I/GFXSTREAM( 3306): [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+W/libc    ( 3306): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+W/HWUI    ( 3306): Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+W/HWUI    ( 3306): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+D/nativeloader( 3306): Load /data/app/~~SXvm1qtOqTEiUYtBq8F2Pg==/com.example.dh2-_npw_EEFBXDdlf8oCdTJbw==/base.apk!/lib/x86_64/libdh2_native.so using class loader ns clns-9 (caller=/data/app/~~SXvm1qtOqTEiUYtBq8F2Pg==/com.example.dh2-_npw_EEFBXDdlf8oCdTJbw==/base.apk!classes3.dex): ok
+D/CompatChangeReporter( 3306): Compat change id reported: 418924588; UID 10235; state: ENABLED
+W/HWUI    ( 3306): Unknown dataspace 0
+D/InsetsController( 3306): Setting requestedVisibleTypes to 496 (was 503)
+W/libc    ( 3306): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+D/ViewRootImpl( 3306): Skipping stats log for color mode
+D/InsetsController( 3306): Setting requestedVisibleTypes to 496 (was 503)
+D/WindowOnBackDispatcher( 3306): setTopOnBackInvokedCallback (unwrapped): android.app.Activity$$ExternalSyntheticLambda0@3752e42
+D/VRI[MainActivity]( 3306): WindowInsets changed: 2400x1080 statusBars:[0,63,0,0] navigationBars:[0,0,0,63] mandatorySystemGestures:[0,63,0,84] 
+I/HWUI    ( 3306): Using FreeType backend (prop=Auto)
+I/Surface ( 3306): Creating surface for consumer unnamed-3306-0 with slotExpansion=1 for 64 slots
+I/Surface ( 3306): Creating surface for consumer VRI[MainActivity]#0(BLAST Consumer)0 with slotExpansion=1 for 64 slots
+D/VRI[MainActivity]( 3306): WindowInsets changed: statusBars:null navigationBars:null 
+I/Surface ( 3306): Creating surface for consumer unnamed-3306-1 with slotExpansion=1 for 64 slots
+I/Surface ( 3306): Creating surface for consumer 683c390 SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#1(BLAST Consumer)1 with slotExpansion=1 for 64 slots
+W/libc    ( 3306): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+I/DH2Native( 3306): Authored UI shader GPU contract PASS | programs 2 | cases 8 | max byte error 1
+I/DH2Native( 3306): Renderer: Android Emulator OpenGL ES Translator (NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2)
+I/DH2Native( 3306): GLES: OpenGL ES 3.1 (4.5.0 NVIDIA 616.56)
+I/DH2Native( 3306): Enemy AI configured | automatic melee 0
+D/InsetsController( 3306): hide(ime())
+I/ImeTracker( 3306): com.example.dh2:3ea9555d: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+I/DH2Native( 3306): Original cache mounted | files 6833 | archive bytes 433189197 | external storage 0
+I/DH2Native( 3306): Owned script cache ready | scripts 219 | bytes 900493 | faeries 16 | retained 0 | actual APK cache
+I/DH2Native( 3306): Effects native backing | sets 276 | character rows 3 | footsteps 7 | dictionary 284 | consumed 12700 12755 12953 | snapshot 000079cc89c1f250 | modules 000079cc49c560d0 | retained 0 | source cache owned | FX factory pending
+I/DH2Native( 3306): Class tables ready | classes 260 | bytes 34224 | cached base snapshots
+I/DH2Native( 3306): AI tables ready | configs 76 | factions 16 | automatic melee 0 | pursuit and full FSM pending
+I/DH2Native( 3306): Property rules ready | defaults row 0 | types row 1 | properties 224 | supplied sheets only
+I/DH2Native( 3306): Animation tables ready | sequences 785 | characters 80 | clip paths 1447 | bytes 72812
+I/DH2Native( 3306): Actor initialization ready | records 11 | sources 3 | DACT SHA be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca | sidecar SHA 20ae8c16a179c7e626b9d25356779031f71a2f46e304ae62e7f22b2ff1310efe | independently hashed bytes
+I/DH2Native( 3306): Player attack track ready | clip 1111 | tracks 81 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1063 | tracks 29 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1040 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1041 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1126 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1114 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 968 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 956 | tracks 25 | unbound 0 | attack_mainhand ms 333
+I/DH2Native( 3306): Player attack track ready | clip 964 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 970 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 959 | tracks 25 | unbound 0 | attack_mainhand ms 899
+I/DH2Native( 3306): Player attack track ready | clip 965 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 972 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 962 | tracks 25 | unbound 0 | attack_mainhand ms 1533
+I/DH2Native( 3306): Player attack track ready | clip 966 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 967 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 955 | tracks 26 | unbound 0 | attack_mainhand ms 300
+I/DH2Native( 3306): Player attack track ready | clip 957 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 969 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 958 | tracks 26 | unbound 0 | attack_mainhand ms 899
+I/DH2Native( 3306): Player attack track ready | clip 960 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 971 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 961 | tracks 26 | unbound 0 | attack_mainhand ms 1500
+I/DH2Native( 3306): Player attack track ready | clip 963 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1025 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1074 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1110 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1071 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1076 | tracks 29 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1109 | tracks 28 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1026 | tracks 30 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1029 | tracks 28 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1030 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1031 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1032 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 991 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 996 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player death track ready | clip 1023 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 992 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1028 | tracks 29 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1027 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1091 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1093 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1043 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 994 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1044 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1096 | tracks 14 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1103 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1107 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1104 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1108 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1101 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1105 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1100 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1097 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1234 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1239 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1238 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1035 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1036 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 986 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 974 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 976 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 988 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 978 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 980 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 990 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 984 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 985 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 973 | tracks 25 | unbound 0 | attack_mainhand ms 333
+I/DH2Native( 3306): Player attack track ready | clip 975 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 987 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 977 | tracks 25 | unbound 0 | attack_mainhand ms 1066
+I/DH2Native( 3306): Player attack track ready | clip 979 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 989 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 981 | tracks 25 | unbound 0 | attack_mainhand ms 1799
+I/DH2Native( 3306): Player attack track ready | clip 983 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1233 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1037 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1038 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1016 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1000 | tracks 25 | unbound 0 | attack_mainhand ms 333
+I/DH2Native( 3306): Player attack track ready | clip 1011 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1018 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1003 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1012 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1020 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1006 | tracks 25 | unbound 0 | attack_mainhand ms 1566
+I/DH2Native( 3306): Player attack track ready | clip 1013 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1022 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1009 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1014 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1015 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 999 | tracks 25 | unbound 0 | attack_mainhand ms 400
+I/DH2Native( 3306): Player attack track ready | clip 1001 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1017 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1002 | tracks 25 | unbound 0 | attack_mainhand ms 866
+I/DH2Native( 3306): Player attack track ready | clip 1004 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1019 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1005 | tracks 25 | unbound 0 | attack_mainhand ms 1500
+I/DH2Native( 3306): Player attack track ready | clip 1007 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1021 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1008 | tracks 25 | unbound 0 | attack_mainhand ms 2266
+I/DH2Native( 3306): Player attack track ready | clip 1010 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1147 | tracks 27 | unbound 2 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1133 | tracks 27 | unbound 2 | attack_mainhand ms 1633
+I/DH2Native( 3306): Player attack track ready | clip 1146 | tracks 25 | unbound 2 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1218 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1039 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1077 | tracks 18 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1078 | tracks 18 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1079 | tracks 20 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1143 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1138 | tracks 0 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1136 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1137 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist01 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist01 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist01 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist01 | character Crypt_Skeleton | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist01 | character Crypt_Skeleton | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 0 | clip 1194 | skeleton_idle_01.bdae | speed 1.0000 | actor _prim_tmp_cultist01
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1178 | groups 1 | attack_mainhand ms 100
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1179 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1180 | groups 1 | attack_mainhand ms 100
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1181 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1185 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1194 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1195 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1197 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1198 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1204 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor clip bank ready | skeleton.bdae | clips 10 | independent instance clocks
+W/InteractionJankMonitor( 3306): Initializing without READ_DEVICE_CONFIG permission. enabled=false, interval=1, missedFrameThreshold=3, frameTimeThreshold=64, package=com.example.dh2
+I/DH2Native( 3306): Object resource skeleton.bdae | primitives 1 | tracks 23 | unbound 3 | unsupported 0 | removed helpers 2
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist03 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist03 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist03 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist03 | character Crypt_Skeleton | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist03 | character Crypt_Skeleton | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 1 | clip 1195 | skeleton_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist03
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist05 | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist05 | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist05 | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist05 | character CryptSlime | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist05 | character CryptSlime | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 5 | clip 1259 | slime_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist05
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1246 | groups 1 | attack_mainhand ms 266
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1247 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1248 | groups 1 | attack_mainhand ms 300
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1249 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1251 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1258 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1259 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1261 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1262 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1268 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor clip bank ready | slime_green_v2.bdae | clips 10 | independent instance clocks
+I/DH2Native( 3306): Object resource slime_green_v2.bdae | primitives 2 | tracks 12 | unbound 0 | unsupported 0 | removed helpers 0
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist06 | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist06 | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist06 | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist06 | character CryptSlime | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist06 | character CryptSlime | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 5 | clip 1259 | slime_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist06
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist07 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist07 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist07 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist07 | character Crypt_Skeleton | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist07 | character Crypt_Skeleton | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 0 | clip 1194 | skeleton_idle_01.bdae | speed 1.0000 | actor _prim_tmp_cultist07
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist08 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist08 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist08 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist08 | character Crypt_Skeleton | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist08 | character Crypt_Skeleton | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 1 | clip 1195 | skeleton_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist08
+I/com.example.dh2( 3306): Compiler allocated 5239KB to compile void android.view.ViewRootImpl.performTraversals(long)
+I/DH2Native( 3306): Object resource crypt_candles2_small.bdae | primitives 3 | tracks 5 | unbound 0 | unsupported 0 | removed helpers 1
+E/SurfaceSyncGroup( 3306): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(wmsSync-VRI[MainActivity]#1) as ready
+E/SurfaceSyncGroup( 3306): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(VRI[MainActivity]#2) as ready
+E/SurfaceSyncGroup( 3306): Failed to receive transaction ready in 1000ms. Marking SurfaceSyncGroup(SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#0) as ready
+I/DH2Native( 3306): Object resource crypt_candlestand_big.bdae | primitives 4 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 2
+I/DH2Native( 3306): Object resource crypt_candlestand.bdae | primitives 4 | tracks 7 | unbound 0 | unsupported 0 | removed helpers 2
+I/DH2Native( 3306): Object resource crypt_candle2.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Object resource crypt_candle1_small.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Object resource crypt_candles.bdae | primitives 3 | tracks 7 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Object resource swamp_caveentrance_effect.bdae | primitives 1 | tracks 0 | unbound 0 | unsupported 3 | removed helpers 0
+I/DH2Native( 3306): Object resource crypt_candle_big.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Base class snapshot | _prim_Monster | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 3306): Resolved properties | _prim_Monster | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_Monster | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster | character CryptSlime | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster | character CryptSlime | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 1 | clip 1258 | slime_idle.bdae | speed 1.0000 | actor _prim_Monster
+I/DH2Native( 3306): Base class snapshot | _prim_Monster02 | character CryptSlime_RE | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum eb471073d49b2c44 | cached only
+I/DH2Native( 3306): Resolved properties | _prim_Monster02 | character CryptSlime_RE | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum eb471073d49b2c44 | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_Monster02 | character CryptSlime_RE | amount 2135 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 7440849 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster02 | character CryptSlime_RE | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster02 | character CryptSlime_RE | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 0 | clip 1258 | slime_idle.bdae | speed 1.0000 | actor _prim_Monster02
+I/DH2Native( 3306): Base class snapshot | _prim_Monster05 | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 3306): Resolved properties | _prim_Monster05 | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_Monster05 | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster05 | character CryptSlime | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster05 | character CryptSlime | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 4 | clip 1258 | slime_idle.bdae | speed 1.0000 | actor _prim_Monster05
+I/DH2Native( 3306): Object resource crypt_candle1.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Base class snapshot | _prim_Monster_Ghost05 | character Crypt_Ghost | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 37563d932af809fb | cached only
+I/DH2Native( 3306): Resolved properties | _prim_Monster_Ghost05 | character Crypt_Ghost | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 37563d932af809fb | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_Monster_Ghost05 | character Crypt_Ghost | amount 2263 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3474079 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster_Ghost05 | character Crypt_Ghost | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster_Ghost05 | character Crypt_Ghost | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | ghost.bdae | table 24 | sequence 210 | step 0 | clip 706 | ghost_idle_01.bdae | speed 1.3000 | actor _prim_Monster_Ghost05
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 697 | groups 1 | attack_mainhand ms 999
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 700 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 706 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 707 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 710 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 717 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor clip bank ready | ghost.bdae | clips 6 | independent instance clocks
+I/DH2Native( 3306): Object resource ghost.bdae | primitives 2 | tracks 24 | unbound 0 | unsupported 0 | removed helpers 2
+I/DH2Native( 3306): Base class snapshot | _prim_Monster_Ghost06 | character Crypt_Ghost | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 37563d932af809fb | cached only
+I/DH2Native( 3306): Resolved properties | _prim_Monster_Ghost06 | character Crypt_Ghost | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 37563d932af809fb | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_Monster_Ghost06 | character Crypt_Ghost | amount 2263 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3474079 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster_Ghost06 | character Crypt_Ghost | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster_Ghost06 | character Crypt_Ghost | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | ghost.bdae | table 24 | sequence 210 | step 0 | clip 706 | ghost_idle_01.bdae | speed 1.3000 | actor _prim_Monster_Ghost06
+I/DH2Native( 3306): 3D upload OK | 4 draws | 586 triangles | 2 textures
+I/DH2Native( 3306): 29 animation tracks | 0 skipped | Preview lighting. Drag to orbit. | nodes 35 | skipped nongeometry instances 1 | skin draws 4 | segments 2
+I/DH2Native( 3306): Persistent game design ready | host cached level 1 | level row 23 | difficulty 0 | authored levels 51 | development Crypt selection
+I/DH2Native( 3306): Design settings ready | rows 1 | Default index 0 | fields 43 | EnemySpottedAggro bits 41200000 | records consumed 176 | names consumed 15 | retained 0 | backing 000079cdb9c08280 | owned cache data
+I/DH2Native( 3306): Debug switches file | opened 0 | errno 2 | app-private directory
+I/DH2Native( 3306): Spawn vitals | _prim_tmp_cultist01 | character Crypt_Skeleton | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum f2fe28291ff60a19 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist01 | character Crypt_Skeleton | resources 23 | occurrences 44 | template 1203 | CPU instance 000079cd99d2ce60 | retained 0 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist01 | identity 0000000100000002 | CharAI 000079cd49c3a8a8 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist01 | character Crypt_Skeleton | identity 0000000100000002 | session 000079cd49c3c6a8 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -1234.43005 497.979004 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Spawn vitals | _prim_tmp_cultist03 | character Crypt_Skeleton | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum f2fe28291ff60a19 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist03 | character Crypt_Skeleton | resources 23 | occurrences 44 | template 1203 | CPU instance 000079cd99d34720 | retained 0 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist03 | identity 0000000100000003 | CharAI 000079cd49c3b628 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist03 | character Crypt_Skeleton | identity 0000000100000003 | session 000079cd49c3eaa8 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved 821.286987 -1452.16003 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Spawn vitals | _prim_tmp_cultist07 | character Crypt_Skeleton | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum f2fe28291ff60a19 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist07 | character Crypt_Skeleton | resources 23 | occurrences 44 | template 1203 | CPU instance 000079cd99d2dfa0 | retained 0 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist07 | identity 0000000100000006 | CharAI 000079cd49c3a428 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist07 | character Crypt_Skeleton | identity 0000000100000006 | session 000079cd49c3e1a8 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -1234.43005 -369.638 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Spawn vitals | _prim_tmp_cultist08 | character Crypt_Skeleton | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum f2fe28291ff60a19 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist08 | character Crypt_Skeleton | resources 23 | occurrences 44 | template 1203 | CPU instance 000079cd99d31360 | retained 0 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist08 | identity 0000000100000007 | CharAI 000079cd49c3cdc8 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist08 | character Crypt_Skeleton | identity 0000000100000007 | session 000079cd49c3e508 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved 821.286987 -651.690979 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Spawn vitals | _prim_tmp_cultist05 | character CryptSlime | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum 2f1545cf06b9a334 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist05 | character CryptSlime | resources 23 | occurrences 37 | template 1267 | CPU instance 000079cd99d2fdd0 | retained 0 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist05 | identity 0000000100000004 | CharAI 000079cd49c3c828 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist05 | character CryptSlime | identity 0000000100000004 | session 000079cd49c44388 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved 168.604996 1606.04004 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Spawn vitals | _prim_tmp_cultist06 | character CryptSlime | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum 2f1545cf06b9a334 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist06 | character CryptSlime | resources 23 | occurrences 37 | template 1267 | CPU instance 000079cd99d35410 | retained 0 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist06 | identity 0000000100000005 | CharAI 000079cd49c3ca68 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist06 | character CryptSlime | identity 0000000100000005 | session 000079cd49c41688 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -200.063004 1659.26001 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Spawn vitals | _prim_Monster | character CryptSlime | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum 2f1545cf06b9a334 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_Monster | character CryptSlime | resources 23 | occurrences 37 | template 1267 | CPU instance 000079cd99d30ac0 | retained 0 | preset 3 | authored state 1 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_Monster | identity 0000000100000027 | CharAI 000079cd49c3cb88 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_Monster | character CryptSlime | identity 0000000100000027 | session 000079cd49c48708 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -6020 10130 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Spawn vitals | _prim_Monster02 | character CryptSlime_RE | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum 0992678aa7c656e7 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_Monster02 | character CryptSlime_RE | resources 23 | occurrences 37 | template 1267 | CPU instance 000079cd99d2e840 | retained 0 | preset 3 | authored state 1 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_Monster02 | identity 0000000100000028 | CharAI 000079cd49c3a668 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_Monster02 | character CryptSlime_RE | identity 0000000100000028 | session 000079cd49c46548 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -5800 8430 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Spawn vitals | _prim_Monster05 | character CryptSlime | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum 2f1545cf06b9a334 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_Monster05 | character CryptSlime | resources 23 | occurrences 37 | template 1267 | CPU instance 000079cd99d335e0 | retained 0 | preset 3 | authored state 1 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_Monster05 | identity 0000000100000029 | CharAI 000079cd49c3d488 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_Monster05 | character CryptSlime | identity 0000000100000029 | session 000079cd49c44da8 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -5630 10130 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Spawn vitals | _prim_Monster_Ghost05 | character Crypt_Ghost | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum 47a75571fd5fb8b8 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_Monster_Ghost05 | character Crypt_Ghost | resources 18 | occurrences 28 | template 716 | CPU instance 000079cd99d328f0 | retained 0 | preset 3 | authored state 1 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_Monster_Ghost05 | identity 000000010000004e | CharAI 000079cd49c3b508 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_Monster_Ghost05 | character Crypt_Ghost | identity 000000010000004e | session 000079cd49c4b528 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved 161.587997 20228.0508 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Spawn vitals | _prim_Monster_Ghost06 | character Crypt_Ghost | HP raw 25600 | Max_HP raw 25600 | MP raw 23552 | Max_MP raw 23552 | first HP add raw 1 | first MP add raw 1 | second HP add raw 0 | second MP add raw 0 | checksum 47a75571fd5fb8b8 | passes 2
+I/DH2Native( 3306): Monster native backing | _prim_Monster_Ghost06 | character Crypt_Ghost | resources 18 | occurrences 28 | template 716 | CPU instance 000079cd99d32050 | retained 0 | preset 3 | authored state 1 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_Monster_Ghost06 | identity 000000010000004f | CharAI 000079cd49c3cee8 | retained 0 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_Monster_Ghost06 | character Crypt_Ghost | identity 000000010000004f | session 000079cd49c49488 | retained 0 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -316.752014 20312.0195 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster scripts ready | initialized 11 | retained 0 | live original Init | full AI frame pending
+I/DH2Native( 3306): Player properties | KnightPlayerBase | HP 42265 | MP 6976 | checksum 80406e3d6a338f9d | attempts 0 | attacking 0
+I/DH2Native( 3306): Original cache mounted | files 6833 | archive bytes 433189197 | external storage 0
+I/DH2Native( 3306): Equipped GPU graph rebuilt | parts 5 | draws 5 | textures 3 | live source snapshot
+I/DH2Native( 3306): Native player equipment connected | identity 0000000100000001 | items 5 | potions 5 | selected 0 | retained 0 | property backing 000079ccb9cbcae8 | RNG calls 5
+I/DH2Native( 3306): Native inventory item | index 0 | ID 1079 | quantity 1 | name Ceremonial Garb | slots 0 -1
+I/DH2Native( 3306): Native inventory item | index 1 | ID 1073 | quantity 1 | name Ceremonial Boots | slots 3 -1
+I/DH2Native( 3306): Native inventory item | index 2 | ID 1076 | quantity 1 | name Ceremonial Gloves | slots 4 -1
+I/DH2Native( 3306): Native inventory item | index 3 | ID 664 | quantity 1 | name Useless Blade | slots 1 -1
+I/DH2Native( 3306): Native inventory item | index 4 | ID 925 | quantity 5 | name Potion | slots -1 -1
+I/DH2Native( 3306): Prince blended bank ready | resources 116 | occurrences 158 | targets 83 | template 1111 | engine 0 | game clip 1111
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1111 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1111 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Character animation selected | state 3 | flags 2380 | sequence 262 | clip 1040 | actor state service
+I/DH2Native( 3306): Character state event | state 3 | event 1d | prior -1 | flags 2380
+I/DH2Native( 3306): Player source state | previous -1 | current 3 | event 0x0 | flags 2380 | root 262 | clip 1040 | position -2227.7700 1220.9301 842.3644 | Step 0
+I/DH2Native( 3306): Native actor ready | genuine bodies 83 | decor colliders 82 | radius 113.699707 | source bounds -2341.47 1190.17 -2114.07 1251.69 | flags 2380 | scene then Step then actor
+I/DH2Native( 3306): Original trophy manager retained | catalog 69 | same player SkillAI owner | unlock notification/save services required
+I/DH2Native( 3306): Source NPC animation selected | _prim_tmp_cultist01 | sequence 596 | clip 1194 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_tmp_cultist01 | current 3 | flags 2380 | clip 1194 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Source NPC animation selected | _prim_tmp_cultist03 | sequence 596 | clip 1194 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_tmp_cultist03 | current 3 | flags 2380 | clip 1194 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Source NPC animation selected | _prim_tmp_cultist07 | sequence 596 | clip 1195 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_tmp_cultist07 | current 3 | flags 2380 | clip 1195 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Source NPC animation selected | _prim_tmp_cultist08 | sequence 596 | clip 1194 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_tmp_cultist08 | current 3 | flags 2380 | clip 1194 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Source NPC animation selected | _prim_tmp_cultist05 | sequence 613 | clip 1259 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_tmp_cultist05 | current 3 | flags 2380 | clip 1259 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Source NPC animation selected | _prim_tmp_cultist06 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_tmp_cultist06 | current 3 | flags 2380 | clip 1258 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Source NPC animation selected | _prim_Monster | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_Monster | current 3 | flags 2380 | clip 1258 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Source NPC animation selected | _prim_Monster02 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_Monster02 | current 3 | flags 2380 | clip 1258 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Source NPC animation selected | _prim_Monster05 | sequence 613 | clip 1258 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_Monster05 | current 3 | flags 2380 | clip 1258 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Source NPC animation selected | _prim_Monster_Ghost05 | sequence 210 | clip 706 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_Monster_Ghost05 | current 3 | flags 2380 | clip 706 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Source NPC animation selected | _prim_Monster_Ghost06 | sequence 210 | clip 706 | same retained FSM/CPU actor
+I/DH2Native( 3306): Original NPC level state | _prim_Monster_Ghost06 | current 3 | flags 2380 | clip 706 | same World/ScriptSession/FSM/HP
+I/DH2Native( 3306): Original Level LoadCharStates complete | NPCs 11 | authored preset | no synthetic interaction flags
+I/DH2Native( 3306): Retained player SkillV6 ready | character 0000000100000001 | skills 16 | spells 5 | saved rows 16 | buffs 1 | same Gear props/life/Save | source level0/empty slots
+I/DH2Native( 3306): Original initial skill slots | ready 1 | row0 level 1 | slot0 0 | unspent 0 | 
+I/DH2Native( 3306): Player script object | identity 0000000100000001 | CharAI 000079cd49c3d5a8 | retained 0 | properties 000079ccb9cbcae8 | life 000079cc49cfb6e8 | HP 42265 | dead 0 | checksum 29d563865a0ca55b | position -2227.77002 1220.93005 842.36438 | shared gameplay backing verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist01 | identity 0000000100000002 | position -1234.43005 497.979004 596.723022 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist03 | identity 0000000100000003 | position 821.286987 -1452.16003 -356.072998 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist07 | identity 0000000100000006 | position -1234.43005 -369.638 198.436996 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist08 | identity 0000000100000007 | position 821.286987 -651.690979 -356.072998 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist05 | identity 0000000100000004 | position 168.604996 1606.04004 36.4949989 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist06 | identity 0000000100000005 | position -200.063004 1659.26001 36.4949989 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_Monster | identity 0000000100000027 | position -6020 10130 800 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_Monster02 | identity 0000000100000028 | position -5800 8430 450 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_Monster05 | identity 0000000100000029 | position -5630 10130 800 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_Monster_Ghost05 | identity 000000010000004e | position 161.587997 20228.0508 607.5 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_Monster_Ghost06 | identity 000000010000004f | position -316.752014 20312.0195 607.5 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 0 | original object GetPosition verified
+I/DH2Native( 3306): Objects ready | monsters 11 | decors 84 | resources 12 | instance draws 291 | triangles 6103 | character records 448 | model entries 116 | original monster Init
+I/DH2Native( 3306): Native floors ready | records 8 | graph nodes 335 | graph edges 838 | selector collision controls height
+I/DH2Native( 3306): Native floor links ready | neighbour relations 14 | validation references 998 | graph-node search ready
+I/DH2Native( 3306): Native graph route probe | floor pairs 64 | successful 64 | segments 1598 | state 5454073390c7d916 | endpoints and movement pending
+I/DH2Native( 3306): Native world route probe | floor pairs 64 | successful 64 | direct 0 | graph 64 | segments 2086 | state 3a3ab2a724cc383b | smoothing and movement pending
+I/DH2Native( 3306): Native FindPath probe | floor pairs 64 | successful 64 | owned 64 | segments 2086 | state 9356b419cae2bc57 | position controller pending
+I/DH2Native( 3306): Native floor motion probe | floor pairs 64 | position valid 64 | accepted 64 | direction valid 64 | state d60ad48039cc85c6 | controller and dynamic obstacles pending
+I/DH2Native( 3306): Native obstacle registry probe | floor pairs 64 | accepted 64 | registered 64 | relocated 56 | state 22a98dfc4102db51 | forces and controller pending
+I/DH2Native( 3306): Native avoidance probe | floors 8 | force contributions 16 | adjusted 8 | turn limited 8 | state 09d1d79d2612c945 | actor producers and controller pending
+I/DH2Native( 3306): Native actor producer probe | floors 8 | registered 8 | physical radius updates 8 | state 30c1f3ac1bf81145 | physical construction and controller pending
+I/DH2Native( 3306): Native heading control | player movement and melee facing use recovered source | UpdatePath rotation subobjects and genuine physics active
+I/DH2Native( 3306): World ready | rooms 8 | visual draws 101 | navigation triangles 314 | idle tracks 23 | walk tracks 27 | position -2227.7700 1220.9301 842.3644
+I/DH2Native( 3306): Prince blended inspection | frozen 0 | scene 0 | Step 0 | actor 0 | clip 1040 | ms 0 | body -22.2777 12.2093 | pose 5f96fe6e2b6d998d
+I/DH2Native( 3306): worlds/crypt01.dwld: Crypt | 8 rooms | 11 monsters | 84 scenery objects
+I/DH2Native( 3306): 20940 triangles. Drag the movement control to walk.
+I/DH2Native( 3306): Original player status HUD connected to world
+I/DH2Native( 3306): Surface resized to 2400 x 1080
+I/DH2Native( 3306): Character external service pending | service 19 | state 3
+I/DH2Native( 3306): Native actor frame | scene 1 | Step 1 | actor 1 | source phase 5 | clip 1040 | ms 0 | replays 0 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Model frame submitted at 2400 x 1080
+I/DH2Native( 3306): Original cache mounted | files 6833 | archive bytes 433189197 | external storage 0
+I/DH2Native( 3306): Original cache verified | uri data/scripts/skills/prince_mage_staffmaster.luac | bytes 1429 | sha256 b61c7b5a0d7039d0384f0b84aef66a7f460721fd7736882a7b1a9607eca0f84b
+I/DH2Native( 3306): Original cache verified | uri data/sounds/sfx_menu_select.wav | bytes 10784 | sha256 8afb7665dec542af18f914295adb0ea7ecfb498ba5973d573d755ae485e6799d
+I/DH2Native( 3306): Original cache verified | uri data/3d/completelevels/dh2_testing/dh2_testing_floormap.bdae | bytes 4400 | sha256 a46d743c562e9ee082912971a04b028972f80f9e702338fadf49657ec64a82df
+I/DH2Native( 3306): Original cache verified | uri data/pydata/loot_table_pyarray.bin | bytes 284104 | sha256 4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f
+I/DH2Native( 3306): Original cache verified | uri data/menus/loadanims_i9000.swf | bytes 1456 | sha256 1089ccb7f77e4da014d47326a9cbe0bb6150b1439ebb04693154d997d678d2a3
+I/DH2Native( 3306): Original cache verified | uri .nomedia | bytes 0 | sha256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+I/DH2Native( 3306): Original UI export delivered | name menus/iPhone_Table_DH2.tga | uri data/3d/textures/iphone_table_dh2.tga | texture 256 256
+I/DH2Native( 3306): Original UI export delivered | name menus/MenusGraphics_droid.tga | uri data/3d/textures/menusgraphics_droid.tga | texture 1024 1024
+I/DH2Native( 3306): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 3306): Original SWF core diagnostic: error in call_function: 'NativeIsMultiplayerEnabled' is not a function
+I/DH2Native( 3306): Original SWF core diagnostic: IS false
+W/DH2Native( 3306): Original SWF core diagnostic: error in call_function: 'NativeLoadSettings' is not a function
+I/DH2Native( 3306): Original UI export delivered | name map_top.tga | uri data/3d/textures/map_top.tga | texture 512 512
+I/DH2Native( 3306): Original UI export delivered | name map_bottom.tga | uri data/3d/textures/map_bottom.tga | texture 1024 1024
+I/DH2Native( 3306): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+I/DH2Native( 3306): Original UI font resolved | name Arial | uri data/wqy-zenhei.ttf | bytes 10773492
+I/DH2Native( 3306): Original UI font resolved | name Fontin SmallCaps | uri data/Fontin SmallCaps.ttf | bytes 79836
+I/DH2Native( 3306): Original UI packed glyph decoded | code 80 | size 12 | mode 1 | width 5 | rows 8 | pitch 1 | grays 256
+I/DH2Native( 3306): Original UI packed glyph decoded | code 76 | size 12 | mode 1 | width 5 | rows 8 | pitch 1 | grays 256
+I/DH2Native( 3306): Original UI packed glyph decoded | code 65 | size 12 | mode 1 | width 7 | rows 8 | pitch 1 | grays 256
+I/DH2Native( 3306): Original UI packed glyph decoded | code 89 | size 12 | mode 1 | width 5 | rows 8 | pitch 1 | grays 256
+I/DH2Native( 3306): Original UI packed glyph decoded | code 73 | size 12 | mode 1 | width 3 | rows 8 | pitch 1 | grays 256
+I/DH2Native( 3306): Original UI packed glyph decoded | code 83 | size 12 | mode 1 | width 5 | rows 8 | pitch 1 | grays 256
+I/DH2Native( 3306): Original UI packed glyph decoded | code 84 | size 12 | mode 1 | width 7 | rows 8 | pitch 1 | grays 256
+I/DH2Native( 3306): Original SWF core diagnostic: ControllerFlash
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target com.gameloft.dungeonhunter.menus.HUD
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target as.hud
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target as.hud
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target as.hud
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target as.hud
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target com.gameloft.dungeonhunter.menus.HUD
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target com.gameloft.input
+W/DH2Native( 3306): Original SWF core diagnostic: can't find target com.gameloft.components.ui
+I/DH2Native( 3306): Original SWF core diagnostic: _root.btn_PauseBlocker._visible is: false
+I/DH2Native( 3306): Original SWF core diagnostic: _root.btn_TravelBlocker._visible is: false
+I/DH2Native( 3306): Original UI string delivered | symbol GAMEPLAYMENUS_FASTTRAVEL | found 1 | text World Map
+I/DH2Native( 3306): Original SWF core diagnostic: NUMBER IS: 3
+I/DH2Native( 3306): Connected enemy HUD | world 0x79cd49c50730 | target 0x0 | visible 0 | name  | level  | HP frame 0 | retained original SWF
+I/DH2Native( 3306): Connected player HUD submitted | viewport 2400 1080 | character 0x79cb306b8218 | HP 42265 42265 | MP 6976 6976 | XP 0 25600 | frames 99 99 0 99 99 | dirty 11 | retained movie 0x79cc49df0050 | original timeline and viewport
+I/DH2Native( 3306): Original cache mounted | files 6833 | archive bytes 433189197 | external storage 0
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 499
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 1 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 1 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 1 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 1 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 1 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 12
+W/com.example.dh2( 3306): Cleared Reference was only reachable from finalizer (only reported once)
+I/DH2Native( 3306): Player position -2227.7700 1220.9301 842.3644 | moved 0 | blocked 0
+I/DH2Native( 3306): Player facing | angle 0 | native updates 0
+I/DH2Native( 3306): Original cache mounted | files 6833 | archive bytes 433189197 | external storage 0
+I/DH2Native( 3306): Character snapshot | {"ready":true,"stats":{"Class":"Warrior","Damage_Air_Max_Main_Hand":0,"Damage_Air_Min_Main_Hand":0,"Damage_Earth_Max_Main_Hand":0,"Damage_Earth_Min_Main_Hand":0,"Damage_Elemental_Max_Main_Hand":0,"Damage_Elemental_Max_Off_Hand":0,"Damage_Elemental_Min_Main_Hand":0,"Damage_Elemental_Min_Off_Hand":0,"Damage_Elemental_Type_Main_Hand":-1,"Damage_Elemental_Type_Off_Hand":-1,"Damage_Fire_Max_Main_Hand":0,"Damage_Fire_Min_Main_Hand":0,"Damage_Lightning_Max_Main_Hand":0,"Damage_Lightning_Min_Main_Hand":0,"Damage_Max_Main_Hand":17,"Damage_Max_Off_Hand":0,"Damage_Min_Main_Hand":13,"Damage_Min_Off_Hand":0,"Damage_Water_Max_Main_Hand":0,"Damage_Water_Min_Main_Hand":0,"HP":165,"HP_Bonus":-1,"HasBow":false,"HasOffHandWeapon":false,"HasStaff":false,"Icon":1,"IsWeaponTwoHanded":false,"Leech_HP":0,"Leech_MP":0,"Level":1,"MP":27,"MP_Bonus":-1,"Max_HP":165,"Max_MP":27,"Max_XP":100,"Menu_Average_Melee_To_Hit":84,"Menu_Average_Spell_To_Hit":74,"Menu_Melee_Damage_Reduction":0,"Name":"","Physical_Armor":4,"Rating_Attack":69,"Rating_Block":1,"Rating_Critical":5,"Rating_Defense":36,"Rating_Dodge":5,"Regen_HP":6,"Regen_MP":2,"Resistance_Air":0,"Resistance_Earth":0,"Resistance_Fire":0,"Resistance_Lightning":30,"Resistance_Water":0,"Special_Loot_Gold_Multiplier":0,"Special_Loot_Magical_Chance":0,"Spell_Damage_Bonus_Air":3,"Spell_Damage_Bonus_Earth":3,"Spell_Damage_Bonus_Fire":3,"Spell_Damage_Bonus_Lightning":3,"Spell_Damage_Bonus_Water":3,"Spell_Rating_Critical":5,"Spell_Rating_Dodge":2,"Stat_Dexterity":5,"Stat_Endurance":8,"Stat_Energy":3,"Stat_Points":0,"Stat_Strength":10,"Stun_Resist_Chance":85,"XP":0},"items":[{"EquipmentSlotName":"Torso","EquippedSlot":0,"Index":0,"IsStackable":false,"ItemBuyValue":1,"ItemBuyValueString":"1","ItemEquippable":true,"ItemID":1079,"ItemIcon":"","ItemMagics":0,"ItemName":"Ceremonial Garb","ItemReqsDesc":"","ItemSellValue":1,"ItemSellValueString":"1","ItemStatsDesc":"Armor: 2","ItemTransmuteValue":1,"ItemTransmuteValueString":"1","ItemValue":10,"ItemValueString":"10","Quantity":1},{"EquipmentSlotName":"Feet","EquippedSlot":3,"Index":1,"IsStackable":false,"ItemBuyValue":1,"ItemBuyValueString":"1","ItemEquippable":true,"ItemID":1073,"ItemIcon":"","ItemMagics":0,"ItemName":"Ceremonial Boots","ItemReqsDesc":"","ItemSellValue":1,"ItemSellValueString":"1","ItemStatsDesc":"Armor: 1","ItemTransmuteValue":1,"ItemTransmuteValueString":"1","ItemValue":10,"ItemValueString":"10","Quantity":1},{"EquipmentSlotName":"HandArmor","EquippedSlot":4,"Index":2,"IsStackable":false,"ItemBuyValue":1,"ItemBuyValueString":"1","ItemEquippable":true,"ItemID":1076,"ItemIcon":"","ItemMagics":0,"ItemName":"Ceremonial Gloves","ItemReqsDesc":"","ItemSellValue":1,"ItemSellValueString":"1","ItemStatsDesc":"Armor: 1","ItemTransmuteValue":1,"ItemTransmuteValueString":"1","ItemValue":10,"ItemValueString":"10","Quantity":1},{"EquipmentSlotName":"RightHand","EquippedSlot":1,"Index":3,"IsStackable":false,"ItemBuyValue":1,"ItemBuyValueString":"1","ItemEquippable":true,"ItemID":664,"ItemIcon":"","ItemMagics":0,"ItemName":"Useless Blade","ItemReqsDesc":"Req: 5 str, 3 dex","ItemSellValue":1,"ItemSellValueString":"1","ItemStatsDesc":"Damage 12 - 15","ItemTransmuteValue":18,"ItemTransmuteValueString":"18","ItemValue":100,"ItemValueString":"100","Quantity":1},{"EquippedSlot":-1,"Index":4,"IsStackable":true,"ItemBuyValue":1,"ItemBuyValueString":"1","ItemEquippable":false,"ItemID":925,"ItemIcon":"","ItemMagics":0,"ItemName":"Potion","ItemReqsDesc":"","ItemSellValue":1,"ItemSellValueString":"1","ItemStatsDesc":"","ItemTransmuteValue":1,"ItemTransmuteValueString":"1","ItemValue":5,"ItemValueString":"5","Quantity":5}],"skills":[{"EquippedSlot":0,"Index":0,"RequiredLevel":0,"SkillAssignable":true,"SkillAssignedToSlot":0,"SkillCurrLevel":"MP cost: 9\u000aDamage: 14-21","SkillDescription":"[<font color=\"#9CFF9A\">Active</font>] A targeted strike that damages a single enemy and knocks him backwards.","SkillIcon":"sword_explosion","SkillLevel":1,"SkillName":"Headsplitter ","SkillNextLevel":"MP cost: 12\u000aDamag
+W/DH2Native( 3306): Original icon unavailable | blank | Original icon label unavailable: blank
+I/DH2Native( 3306): Character snapshot state | {"ready":true,"stats":{"Class":"Warrior","Damage_Air_Max_Main_Hand":0,"Damage_Air_Min_Main_Hand":0,"Damage_Earth_Max_Main_Hand":0,"Damage_Earth_Min_Main_Hand":0,"Damage_Elemental_Max_Main_Hand":0,"Damage_Elemental_Max_Off_Hand":0,"Damage_Elemental_Min_Main_Hand":0,"Damage_Elemental_Min_Off_Hand":0,"Damage_Elemental_Type_Main_Hand":-1,"Damage_Elemental_Type_Off_Hand":-1,"Damage_Fire_Max_Main_Hand":0,"Damage_Fire_Min_Main_Hand":0,"Damage_Lightning_Max_Main_Hand":0,"Damage_Lightning_Min_Main_Hand":0,"Damage_Max_Main_Hand":17,"Damage_Max_Off_Hand":0,"Damage_Min_Main_Hand":13,"Damage_Min_Off_Hand":0,"Damage_Water_Max_Main_Hand":0,"Damage_Water_Min_Main_Hand":0,"HP":165,"HP_Bonus":-1,"HasBow":false,"HasOffHandWeapon":false,"HasStaff":false,"Icon":1,"IsWeaponTwoHanded":false,"Leech_HP":0,"Leech_MP":0,"Level":1,"MP":27,"MP_Bonus":-1,"Max_HP":165,"Max_MP":27,"Max_XP":100,"Menu_Average_Melee_To_Hit":84,"Menu_Average_Spell_To_Hit":74,"Menu_Melee_Damage_Reduction":0,"Name":"","Physical_Armor":4,"Rating_Attack":69,"Rating_Block":1,"Rating_Critical":5,"Rating_Defense":36,"Rating_Dodge":5,"Regen_HP":6,"Regen_MP":2,"Resistance_Air":0,"Resistance_Earth":0,"Resistance_Fire":0,"Resistance_Lightning":30,"Resistance_Water":0,"Special_Loot_Gold_Multiplier":0,"Special_Loot_Magical_Chance":0,"Spell_Damage_Bonus_Air":3,"Spell_Damage_Bonus_Earth":3,"Spell_Damage_Bonus_Fire":3,"Spell_Damage_Bonus_Lightning":3,"Spell_Damage_Bonus_Water":3,"Spell_Rating_Critical":5,"Spell_Rating_Dodge":2,"Stat_Dexterity":5,"Stat_Endurance":8,"Stat_Energy":3,"Stat_Points":0,"Stat_Strength":10,"Stun_Resist_Chance":85,"XP":0},"skillPoints":0,"items":[{"Index":0,"ItemID":1079,"Quantity":1,"EquippedSlot":0},{"Index":1,"ItemID":1073,"Quantity":1,"EquippedSlot":3},{"Index":2,"ItemID":1076,"Quantity":1,"EquippedSlot":4},{"Index":3,"ItemID":664,"Quantity":1,"EquippedSlot":1},{"Index":4,"ItemID":925,"Quantity":5,"EquippedSlot":-1}],"skills":[{"Index":0,"SkillLevel":1,"EquippedSlot":0},{"Index":1,"SkillLevel":0,"EquippedSlot":-1},{"Index":2,"SkillLevel":0,"EquippedSlot":-1},{"Index":3,"SkillLevel":0,"EquippedSlot":-1},{"Index":4,"SkillLevel":0,"EquippedSlot":-1},{"Index":5,"SkillLevel":0,"EquippedSlot":-1},{"Index":6,"SkillLevel":0,"EquippedSlot":-1},{"Index":7,"SkillLevel":0,"EquippedSlot":-1},{"Index":8,"SkillLevel":0,"EquippedSlot":-1},{"Index":9,"SkillLevel":0,"EquippedSlot":-1},{"Index":10,"SkillLevel":0,"EquippedSlot":-1},{"Index":11,"SkillLevel":0,"EquippedSlot":-1},{"Index":12,"SkillLevel":0,"EquippedSlot":-1},{"Index":13,"SkillLevel":0,"EquippedSlot":-1},{"Index":14,"SkillLevel":0,"EquippedSlot":-1},{"Index":15,"SkillLevel":0,"EquippedSlot":-1}],"faeries":[{"Index":0,"State":0,"Level":0,"Selected":true},{"Index":1,"State":0,"Level":0,"Selected":false},{"Index":2,"State":0,"Level":0,"Selected":false},{"Index":3,"State":0,"Level":0,"Selected":false},{"Index":4,"State":0,"Level":0,"Selected":false}]}
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 2 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 2 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 2 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 2 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 2 | active 1 | next clip 1258 | layers 1
+D/ProfileInstaller( 3306): Installing profile for com.example.dh2
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 14
+I/DH2Native( 3306): Native actor frame | scene 3505 | Step 120 | actor 120 | source phase 5 | clip 1040 | ms 1040 | replays 2 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 3 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 3 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 3 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 3 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 3 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 8
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost05 | state Idle | completions 1 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost06 | state Idle | completions 1 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 4 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 4 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 4 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 4 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 4 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Native actor frame | scene 5572 | Step 240 | actor 240 | source phase 5 | clip 1041 | ms 933 | replays 4 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist03 | state Idle | completions 1 | active 1 | next clip 1194 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist08 | state Idle | completions 1 | active 1 | next clip 1195 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 5 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 5 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 5 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 5 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 5 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1041 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1041 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Equipped GPU graph rebuilt | parts 5 | draws 5 | textures 3 | live source snapshot
+I/DH2Native( 3306): Native equipment action | operation 2 | index -1 | slot 0 | result 0 | selected 0 | parts 5 | property checksum e377881c37ff9c0f
+I/DH2Native( 3306): Character action | 1 | 0 | 0 | Equipment updated
+I/DH2Native( 3306): Character snapshot state | {"ready":true,"stats":{"Class":"Warrior","Damage_Air_Max_Main_Hand":0,"Damage_Air_Min_Main_Hand":0,"Damage_Earth_Max_Main_Hand":0,"Damage_Earth_Min_Main_Hand":0,"Damage_Elemental_Max_Main_Hand":0,"Damage_Elemental_Max_Off_Hand":0,"Damage_Elemental_Min_Main_Hand":0,"Damage_Elemental_Min_Off_Hand":0,"Damage_Elemental_Type_Main_Hand":-1,"Damage_Elemental_Type_Off_Hand":-1,"Damage_Fire_Max_Main_Hand":0,"Damage_Fire_Min_Main_Hand":0,"Damage_Lightning_Max_Main_Hand":0,"Damage_Lightning_Min_Main_Hand":0,"Damage_Max_Main_Hand":17,"Damage_Max_Off_Hand":0,"Damage_Min_Main_Hand":13,"Damage_Min_Off_Hand":0,"Damage_Water_Max_Main_Hand":0,"Damage_Water_Min_Main_Hand":0,"HP":165,"HP_Bonus":-1,"HasBow":false,"HasOffHandWeapon":false,"HasStaff":false,"Icon":1,"IsWeaponTwoHanded":false,"Leech_HP":0,"Leech_MP":0,"Level":1,"MP":27,"MP_Bonus":-1,"Max_HP":165,"Max_MP":27,"Max_XP":100,"Menu_Average_Melee_To_Hit":84,"Menu_Average_Spell_To_Hit":74,"Menu_Melee_Damage_Reduction":0,"Name":"","Physical_Armor":2,"Rating_Attack":69,"Rating_Block":1,"Rating_Critical":5,"Rating_Defense":34,"Rating_Dodge":5,"Regen_HP":6,"Regen_MP":2,"Resistance_Air":0,"Resistance_Earth":0,"Resistance_Fire":0,"Resistance_Lightning":30,"Resistance_Water":0,"Special_Loot_Gold_Multiplier":0,"Special_Loot_Magical_Chance":0,"Spell_Damage_Bonus_Air":3,"Spell_Damage_Bonus_Earth":3,"Spell_Damage_Bonus_Fire":3,"Spell_Damage_Bonus_Lightning":3,"Spell_Damage_Bonus_Water":3,"Spell_Rating_Critical":5,"Spell_Rating_Dodge":2,"Stat_Dexterity":5,"Stat_Endurance":8,"Stat_Energy":3,"Stat_Points":0,"Stat_Strength":10,"Stun_Resist_Chance":85,"XP":0},"skillPoints":0,"items":[{"Index":0,"ItemID":1079,"Quantity":1,"EquippedSlot":-1},{"Index":1,"ItemID":1073,"Quantity":1,"EquippedSlot":3},{"Index":2,"ItemID":1076,"Quantity":1,"EquippedSlot":4},{"Index":3,"ItemID":664,"Quantity":1,"EquippedSlot":1},{"Index":4,"ItemID":925,"Quantity":5,"EquippedSlot":-1}],"skills":[{"Index":0,"SkillLevel":1,"EquippedSlot":0},{"Index":1,"SkillLevel":0,"EquippedSlot":-1},{"Index":2,"SkillLevel":0,"EquippedSlot":-1},{"Index":3,"SkillLevel":0,"EquippedSlot":-1},{"Index":4,"SkillLevel":0,"EquippedSlot":-1},{"Index":5,"SkillLevel":0,"EquippedSlot":-1},{"Index":6,"SkillLevel":0,"EquippedSlot":-1},{"Index":7,"SkillLevel":0,"EquippedSlot":-1},{"Index":8,"SkillLevel":0,"EquippedSlot":-1},{"Index":9,"SkillLevel":0,"EquippedSlot":-1},{"Index":10,"SkillLevel":0,"EquippedSlot":-1},{"Index":11,"SkillLevel":0,"EquippedSlot":-1},{"Index":12,"SkillLevel":0,"EquippedSlot":-1},{"Index":13,"SkillLevel":0,"EquippedSlot":-1},{"Index":14,"SkillLevel":0,"EquippedSlot":-1},{"Index":15,"SkillLevel":0,"EquippedSlot":-1}],"faeries":[{"Index":0,"State":0,"Level":0,"Selected":true},{"Index":1,"State":0,"Level":0,"Selected":false},{"Index":2,"State":0,"Level":0,"Selected":false},{"Index":3,"State":0,"Level":0,"Selected":false},{"Index":4,"State":0,"Level":0,"Selected":false}]}
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 146
+I/DH2Native( 3306): Native actor frame | scene 8007 | Step 360 | actor 360 | source phase 5 | clip 1040 | ms 1017 | replays 5 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 6 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 6 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 6 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 6 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 6 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 12
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost05 | state Idle | completions 2 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost06 | state Idle | completions 2 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist01 | state Idle | completions 1 | active 1 | next clip 1194 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist07 | state Idle | completions 1 | active 1 | next clip 1194 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 7 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 7 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 7 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 7 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 7 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 13
+I/DH2Native( 3306): Native actor frame | scene 10005 | Step 480 | actor 480 | source phase 5 | clip 1040 | ms 830 | replays 7 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Equipped GPU graph rebuilt | parts 5 | draws 5 | textures 3 | live source snapshot
+I/DH2Native( 3306): Native equipment action | operation 0 | index 0 | slot -1 | result 1 | selected 0 | parts 5 | property checksum 0a258e14c164f8ca
+I/DH2Native( 3306): Character action | 0 | 0 | -1 | Equipment updated
+I/DH2Native( 3306): Character snapshot state | {"ready":true,"stats":{"Class":"Warrior","Damage_Air_Max_Main_Hand":0,"Damage_Air_Min_Main_Hand":0,"Damage_Earth_Max_Main_Hand":0,"Damage_Earth_Min_Main_Hand":0,"Damage_Elemental_Max_Main_Hand":0,"Damage_Elemental_Max_Off_Hand":0,"Damage_Elemental_Min_Main_Hand":0,"Damage_Elemental_Min_Off_Hand":0,"Damage_Elemental_Type_Main_Hand":-1,"Damage_Elemental_Type_Off_Hand":-1,"Damage_Fire_Max_Main_Hand":0,"Damage_Fire_Min_Main_Hand":0,"Damage_Lightning_Max_Main_Hand":0,"Damage_Lightning_Min_Main_Hand":0,"Damage_Max_Main_Hand":17,"Damage_Max_Off_Hand":0,"Damage_Min_Main_Hand":13,"Damage_Min_Off_Hand":0,"Damage_Water_Max_Main_Hand":0,"Damage_Water_Min_Main_Hand":0,"HP":165,"HP_Bonus":-1,"HasBow":false,"HasOffHandWeapon":false,"HasStaff":false,"Icon":1,"IsWeaponTwoHanded":false,"Leech_HP":0,"Leech_MP":0,"Level":1,"MP":27,"MP_Bonus":-1,"Max_HP":165,"Max_MP":27,"Max_XP":100,"Menu_Average_Melee_To_Hit":84,"Menu_Average_Spell_To_Hit":74,"Menu_Melee_Damage_Reduction":0,"Name":"","Physical_Armor":4,"Rating_Attack":69,"Rating_Block":1,"Rating_Critical":5,"Rating_Defense":36,"Rating_Dodge":5,"Regen_HP":6,"Regen_MP":2,"Resistance_Air":0,"Resistance_Earth":0,"Resistance_Fire":0,"Resistance_Lightning":30,"Resistance_Water":0,"Special_Loot_Gold_Multiplier":0,"Special_Loot_Magical_Chance":0,"Spell_Damage_Bonus_Air":3,"Spell_Damage_Bonus_Earth":3,"Spell_Damage_Bonus_Fire":3,"Spell_Damage_Bonus_Lightning":3,"Spell_Damage_Bonus_Water":3,"Spell_Rating_Critical":5,"Spell_Rating_Dodge":2,"Stat_Dexterity":5,"Stat_Endurance":8,"Stat_Energy":3,"Stat_Points":0,"Stat_Strength":10,"Stun_Resist_Chance":85,"XP":0},"skillPoints":0,"items":[{"Index":0,"ItemID":1079,"Quantity":1,"EquippedSlot":0},{"Index":1,"ItemID":1073,"Quantity":1,"EquippedSlot":3},{"Index":2,"ItemID":1076,"Quantity":1,"EquippedSlot":4},{"Index":3,"ItemID":664,"Quantity":1,"EquippedSlot":1},{"Index":4,"ItemID":925,"Quantity":5,"EquippedSlot":-1}],"skills":[{"Index":0,"SkillLevel":1,"EquippedSlot":0},{"Index":1,"SkillLevel":0,"EquippedSlot":-1},{"Index":2,"SkillLevel":0,"EquippedSlot":-1},{"Index":3,"SkillLevel":0,"EquippedSlot":-1},{"Index":4,"SkillLevel":0,"EquippedSlot":-1},{"Index":5,"SkillLevel":0,"EquippedSlot":-1},{"Index":6,"SkillLevel":0,"EquippedSlot":-1},{"Index":7,"SkillLevel":0,"EquippedSlot":-1},{"Index":8,"SkillLevel":0,"EquippedSlot":-1},{"Index":9,"SkillLevel":0,"EquippedSlot":-1},{"Index":10,"SkillLevel":0,"EquippedSlot":-1},{"Index":11,"SkillLevel":0,"EquippedSlot":-1},{"Index":12,"SkillLevel":0,"EquippedSlot":-1},{"Index":13,"SkillLevel":0,"EquippedSlot":-1},{"Index":14,"SkillLevel":0,"EquippedSlot":-1},{"Index":15,"SkillLevel":0,"EquippedSlot":-1}],"faeries":[{"Index":0,"State":0,"Level":0,"Selected":true},{"Index":1,"State":0,"Level":0,"Selected":false},{"Index":2,"State":0,"Level":0,"Selected":false},{"Index":3,"State":0,"Level":0,"Selected":false},{"Index":4,"State":0,"Level":0,"Selected":false}]}
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 8 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 8 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 8 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 8 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 8 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 9 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 9 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 9 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 9 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 9 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist08 | state Idle | completions 2 | active 1 | next clip 1194 | layers 1
+I/DH2Native( 3306): Native actor frame | scene 12440 | Step 600 | actor 600 | source phase 5 | clip 1041 | ms 1890 | replays 8 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1041 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1041 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 10 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 10 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 10 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 10 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 10 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 8
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost05 | state Idle | completions 3 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost06 | state Idle | completions 3 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Native actor frame | scene 14438 | Step 720 | actor 720 | source phase 5 | clip 1040 | ms 449 | replays 10 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 11 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 11 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 11 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 11 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 11 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist03 | state Idle | completions 2 | active 1 | next clip 1194 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 12 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 12 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 12 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 12 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 12 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Native actor frame | scene 16458 | Step 840 | actor 840 | source phase 5 | clip 1041 | ms 1383 | replays 11 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Character action | 4 | 0 | 1 | Skill assigned to slot 2
+I/DH2Native( 3306): Character snapshot state | {"ready":true,"stats":{"Class":"Warrior","Damage_Air_Max_Main_Hand":0,"Damage_Air_Min_Main_Hand":0,"Damage_Earth_Max_Main_Hand":0,"Damage_Earth_Min_Main_Hand":0,"Damage_Elemental_Max_Main_Hand":0,"Damage_Elemental_Max_Off_Hand":0,"Damage_Elemental_Min_Main_Hand":0,"Damage_Elemental_Min_Off_Hand":0,"Damage_Elemental_Type_Main_Hand":-1,"Damage_Elemental_Type_Off_Hand":-1,"Damage_Fire_Max_Main_Hand":0,"Damage_Fire_Min_Main_Hand":0,"Damage_Lightning_Max_Main_Hand":0,"Damage_Lightning_Min_Main_Hand":0,"Damage_Max_Main_Hand":17,"Damage_Max_Off_Hand":0,"Damage_Min_Main_Hand":13,"Damage_Min_Off_Hand":0,"Damage_Water_Max_Main_Hand":0,"Damage_Water_Min_Main_Hand":0,"HP":165,"HP_Bonus":-1,"HasBow":false,"HasOffHandWeapon":false,"HasStaff":false,"Icon":1,"IsWeaponTwoHanded":false,"Leech_HP":0,"Leech_MP":0,"Level":1,"MP":27,"MP_Bonus":-1,"Max_HP":165,"Max_MP":27,"Max_XP":100,"Menu_Average_Melee_To_Hit":84,"Menu_Average_Spell_To_Hit":74,"Menu_Melee_Damage_Reduction":0,"Name":"","Physical_Armor":4,"Rating_Attack":69,"Rating_Block":1,"Rating_Critical":5,"Rating_Defense":36,"Rating_Dodge":5,"Regen_HP":6,"Regen_MP":2,"Resistance_Air":0,"Resistance_Earth":0,"Resistance_Fire":0,"Resistance_Lightning":30,"Resistance_Water":0,"Special_Loot_Gold_Multiplier":0,"Special_Loot_Magical_Chance":0,"Spell_Damage_Bonus_Air":3,"Spell_Damage_Bonus_Earth":3,"Spell_Damage_Bonus_Fire":3,"Spell_Damage_Bonus_Lightning":3,"Spell_Damage_Bonus_Water":3,"Spell_Rating_Critical":5,"Spell_Rating_Dodge":2,"Stat_Dexterity":5,"Stat_Endurance":8,"Stat_Energy":3,"Stat_Points":0,"Stat_Strength":10,"Stun_Resist_Chance":85,"XP":0},"skillPoints":0,"items":[{"Index":0,"ItemID":1079,"Quantity":1,"EquippedSlot":0},{"Index":1,"ItemID":1073,"Quantity":1,"EquippedSlot":3},{"Index":2,"ItemID":1076,"Quantity":1,"EquippedSlot":4},{"Index":3,"ItemID":664,"Quantity":1,"EquippedSlot":1},{"Index":4,"ItemID":925,"Quantity":5,"EquippedSlot":-1}],"skills":[{"Index":0,"SkillLevel":1,"EquippedSlot":1},{"Index":1,"SkillLevel":0,"EquippedSlot":-1},{"Index":2,"SkillLevel":0,"EquippedSlot":-1},{"Index":3,"SkillLevel":0,"EquippedSlot":-1},{"Index":4,"SkillLevel":0,"EquippedSlot":-1},{"Index":5,"SkillLevel":0,"EquippedSlot":-1},{"Index":6,"SkillLevel":0,"EquippedSlot":-1},{"Index":7,"SkillLevel":0,"EquippedSlot":-1},{"Index":8,"SkillLevel":0,"EquippedSlot":-1},{"Index":9,"SkillLevel":0,"EquippedSlot":-1},{"Index":10,"SkillLevel":0,"EquippedSlot":-1},{"Index":11,"SkillLevel":0,"EquippedSlot":-1},{"Index":12,"SkillLevel":0,"EquippedSlot":-1},{"Index":13,"SkillLevel":0,"EquippedSlot":-1},{"Index":14,"SkillLevel":0,"EquippedSlot":-1},{"Index":15,"SkillLevel":0,"EquippedSlot":-1}],"faeries":[{"Index":0,"State":0,"Level":0,"Selected":true},{"Index":1,"State":0,"Level":0,"Selected":false},{"Index":2,"State":0,"Level":0,"Selected":false},{"Index":3,"State":0,"Level":0,"Selected":false},{"Index":4,"State":0,"Level":0,"Selected":false}]}
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 13 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 13 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 13 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 13 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 13 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1041 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1041 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1041 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1041 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1041 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 13
+I/DH2Native( 3306): Native actor frame | scene 18455 | Step 960 | actor 960 | source phase 5 | clip 1040 | ms 1030 | replays 12 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost05 | state Idle | completions 4 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost06 | state Idle | completions 4 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist01 | state Idle | completions 2 | active 1 | next clip 1195 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist07 | state Idle | completions 2 | active 1 | next clip 1195 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 14 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 14 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 14 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 14 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 14 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 0
+I/DH2Native( 3306): Character action | 4 | 0 | 0 | Skill assigned to slot 1
+I/DH2Native( 3306): Character snapshot state | {"ready":true,"stats":{"Class":"Warrior","Damage_Air_Max_Main_Hand":0,"Damage_Air_Min_Main_Hand":0,"Damage_Earth_Max_Main_Hand":0,"Damage_Earth_Min_Main_Hand":0,"Damage_Elemental_Max_Main_Hand":0,"Damage_Elemental_Max_Off_Hand":0,"Damage_Elemental_Min_Main_Hand":0,"Damage_Elemental_Min_Off_Hand":0,"Damage_Elemental_Type_Main_Hand":-1,"Damage_Elemental_Type_Off_Hand":-1,"Damage_Fire_Max_Main_Hand":0,"Damage_Fire_Min_Main_Hand":0,"Damage_Lightning_Max_Main_Hand":0,"Damage_Lightning_Min_Main_Hand":0,"Damage_Max_Main_Hand":17,"Damage_Max_Off_Hand":0,"Damage_Min_Main_Hand":13,"Damage_Min_Off_Hand":0,"Damage_Water_Max_Main_Hand":0,"Damage_Water_Min_Main_Hand":0,"HP":165,"HP_Bonus":-1,"HasBow":false,"HasOffHandWeapon":false,"HasStaff":false,"Icon":1,"IsWeaponTwoHanded":false,"Leech_HP":0,"Leech_MP":0,"Level":1,"MP":27,"MP_Bonus":-1,"Max_HP":165,"Max_MP":27,"Max_XP":100,"Menu_Average_Melee_To_Hit":84,"Menu_Average_Spell_To_Hit":74,"Menu_Melee_Damage_Reduction":0,"Name":"","Physical_Armor":4,"Rating_Attack":69,"Rating_Block":1,"Rating_Critical":5,"Rating_Defense":36,"Rating_Dodge":5,"Regen_HP":6,"Regen_MP":2,"Resistance_Air":0,"Resistance_Earth":0,"Resistance_Fire":0,"Resistance_Lightning":30,"Resistance_Water":0,"Special_Loot_Gold_Multiplier":0,"Special_Loot_Magical_Chance":0,"Spell_Damage_Bonus_Air":3,"Spell_Damage_Bonus_Earth":3,"Spell_Damage_Bonus_Fire":3,"Spell_Damage_Bonus_Lightning":3,"Spell_Damage_Bonus_Water":3,"Spell_Rating_Critical":5,"Spell_Rating_Dodge":2,"Stat_Dexterity":5,"Stat_Endurance":8,"Stat_Energy":3,"Stat_Points":0,"Stat_Strength":10,"Stun_Resist_Chance":85,"XP":0},"skillPoints":0,"items":[{"Index":0,"ItemID":1079,"Quantity":1,"EquippedSlot":0},{"Index":1,"ItemID":1073,"Quantity":1,"EquippedSlot":3},{"Index":2,"ItemID":1076,"Quantity":1,"EquippedSlot":4},{"Index":3,"ItemID":664,"Quantity":1,"EquippedSlot":1},{"Index":4,"ItemID":925,"Quantity":5,"EquippedSlot":-1}],"skills":[{"Index":0,"SkillLevel":1,"EquippedSlot":0},{"Index":1,"SkillLevel":0,"EquippedSlot":-1},{"Index":2,"SkillLevel":0,"EquippedSlot":-1},{"Index":3,"SkillLevel":0,"EquippedSlot":-1},{"Index":4,"SkillLevel":0,"EquippedSlot":-1},{"Index":5,"SkillLevel":0,"EquippedSlot":-1},{"Index":6,"SkillLevel":0,"EquippedSlot":-1},{"Index":7,"SkillLevel":0,"EquippedSlot":-1},{"Index":8,"SkillLevel":0,"EquippedSlot":-1},{"Index":9,"SkillLevel":0,"EquippedSlot":-1},{"Index":10,"SkillLevel":0,"EquippedSlot":-1},{"Index":11,"SkillLevel":0,"EquippedSlot":-1},{"Index":12,"SkillLevel":0,"EquippedSlot":-1},{"Index":13,"SkillLevel":0,"EquippedSlot":-1},{"Index":14,"SkillLevel":0,"EquippedSlot":-1},{"Index":15,"SkillLevel":0,"EquippedSlot":-1}],"faeries":[{"Index":0,"State":0,"Level":0,"Selected":true},{"Index":1,"State":0,"Level":0,"Selected":false},{"Index":2,"State":0,"Level":0,"Selected":false},{"Index":3,"State":0,"Level":0,"Selected":false},{"Index":4,"State":0,"Level":0,"Selected":false}]}
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 15 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 15 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 15 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 15 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 15 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 15
+I/DH2Native( 3306): Native actor frame | scene 20475 | Step 1080 | actor 1080 | source phase 5 | clip 1040 | ms 869 | replays 14 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 10
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 16 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 16 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 16 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 16 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 16 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist08 | state Idle | completions 3 | active 1 | next clip 1194 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Native actor frame | scene 22581 | Step 1200 | actor 1200 | source phase 5 | clip 1041 | ms 802 | replays 16 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 17 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 17 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 17 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 17 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 17 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost05 | state Idle | completions 5 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost06 | state Idle | completions 5 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 18 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 18 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 18 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 18 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 18 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1041 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1041 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Native actor frame | scene 24589 | Step 1320 | actor 1320 | source phase 5 | clip 1040 | ms 460 | replays 17 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 8
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist01 | state Idle | completions 3 | active 1 | next clip 1195 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist03 | state Idle | completions 3 | active 1 | next clip 1194 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist07 | state Idle | completions 3 | active 1 | next clip 1194 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 19 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 19 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 19 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 19 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 19 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 16
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Native actor frame | scene 26654 | Step 1440 | actor 1440 | source phase 5 | clip 1041 | ms 323 | replays 19 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 20 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 20 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 20 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 20 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 20 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost05 | state Idle | completions 6 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost06 | state Idle | completions 6 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 21 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 21 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 21 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 21 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 21 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1041 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1041 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1041 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1041 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1041 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Native actor frame | scene 28772 | Step 1560 | actor 1560 | source phase 5 | clip 1040 | ms 92 | replays 20 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Gameplay HUD action | operation 2 | index 0 | Health and mana are full
+I/DH2Native( 3306): Gameplay HUD snapshot | [1, 1, 100, 15, 100, 0, 0, 0, 0, 1, 0, 0, 0, 0, 5, 0, 0, 7, -1, -1, 1, 0, 0, -1, 0, 0, -1]
+I/DH2Native( 3306): Player position -2227.7700 1220.9301 842.3644 | moved 0 | blocked 0
+I/DH2Native( 3306): Player facing | angle 0 | native updates 0
+I/DH2Native( 3306): Authored UI shader GPU contract PASS | programs 2 | cases 8 | max byte error 1
+I/DH2Native( 3306): Renderer: Android Emulator OpenGL ES Translator (NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2)
+I/DH2Native( 3306): GLES: OpenGL ES 3.1 (4.5.0 NVIDIA 616.56)
+I/DH2Native( 3306): Enemy AI configured | automatic melee 0
+I/DH2Native( 3306): Owned script cache ready | scripts 219 | bytes 900493 | faeries 16 | retained 1 | actual APK cache
+I/DH2Native( 3306): Effects native backing | sets 276 | character rows 3 | footsteps 7 | dictionary 284 | consumed 12700 12755 12953 | snapshot 000079cc89c1f250 | modules 000079cc49c560d0 | retained 1 | source cache owned | FX factory pending
+I/DH2Native( 3306): Class tables ready | classes 260 | bytes 34224 | cached base snapshots
+I/DH2Native( 3306): AI tables ready | configs 76 | factions 16 | automatic melee 0 | pursuit and full FSM pending
+I/DH2Native( 3306): Property rules ready | defaults row 0 | types row 1 | properties 224 | supplied sheets only
+I/DH2Native( 3306): Animation tables ready | sequences 785 | characters 80 | clip paths 1447 | bytes 72812
+I/DH2Native( 3306): Actor initialization ready | records 11 | sources 3 | DACT SHA be44bd6d160973bf70a0cab61399a14d8bea6a7eade41790594cf6b781a04cca | sidecar SHA 20ae8c16a179c7e626b9d25356779031f71a2f46e304ae62e7f22b2ff1310efe | independently hashed bytes
+I/DH2Native( 3306): Player attack track ready | clip 1111 | tracks 81 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1063 | tracks 29 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1040 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1041 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1126 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1114 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 968 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 956 | tracks 25 | unbound 0 | attack_mainhand ms 333
+I/DH2Native( 3306): Player attack track ready | clip 964 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 970 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 959 | tracks 25 | unbound 0 | attack_mainhand ms 899
+I/DH2Native( 3306): Player attack track ready | clip 965 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 972 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 962 | tracks 25 | unbound 0 | attack_mainhand ms 1533
+I/DH2Native( 3306): Player attack track ready | clip 966 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 967 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 955 | tracks 26 | unbound 0 | attack_mainhand ms 300
+I/DH2Native( 3306): Player attack track ready | clip 957 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 969 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 958 | tracks 26 | unbound 0 | attack_mainhand ms 899
+I/DH2Native( 3306): Player attack track ready | clip 960 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 971 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 961 | tracks 26 | unbound 0 | attack_mainhand ms 1500
+I/DH2Native( 3306): Player attack track ready | clip 963 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1025 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1074 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1110 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1071 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1076 | tracks 29 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1109 | tracks 28 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1026 | tracks 30 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1029 | tracks 28 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1030 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1031 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1032 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 991 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 996 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player death track ready | clip 1023 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 992 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1028 | tracks 29 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1027 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1091 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1093 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1043 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 994 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1044 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1096 | tracks 14 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1103 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1107 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1104 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1108 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1101 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1105 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1100 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1097 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1234 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1239 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1238 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1035 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1036 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 986 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 974 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 976 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 988 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 978 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 980 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 990 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 984 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 985 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 973 | tracks 25 | unbound 0 | attack_mainhand ms 333
+I/DH2Native( 3306): Player attack track ready | clip 975 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 987 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 977 | tracks 25 | unbound 0 | attack_mainhand ms 1066
+I/DH2Native( 3306): Player attack track ready | clip 979 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 989 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 981 | tracks 25 | unbound 0 | attack_mainhand ms 1799
+I/DH2Native( 3306): Player attack track ready | clip 983 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1233 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1037 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1038 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1016 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1000 | tracks 25 | unbound 0 | attack_mainhand ms 333
+I/DH2Native( 3306): Player attack track ready | clip 1011 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1018 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1003 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1012 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1020 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1006 | tracks 25 | unbound 0 | attack_mainhand ms 1566
+I/DH2Native( 3306): Player attack track ready | clip 1013 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1022 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1009 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1014 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1015 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 999 | tracks 25 | unbound 0 | attack_mainhand ms 400
+I/DH2Native( 3306): Player attack track ready | clip 1001 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1017 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1002 | tracks 25 | unbound 0 | attack_mainhand ms 866
+I/DH2Native( 3306): Player attack track ready | clip 1004 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1019 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1005 | tracks 25 | unbound 0 | attack_mainhand ms 1500
+I/DH2Native( 3306): Player attack track ready | clip 1007 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1021 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1008 | tracks 25 | unbound 0 | attack_mainhand ms 2266
+I/DH2Native( 3306): Player attack track ready | clip 1010 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1147 | tracks 27 | unbound 2 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1133 | tracks 27 | unbound 2 | attack_mainhand ms 1633
+I/DH2Native( 3306): Player attack track ready | clip 1146 | tracks 25 | unbound 2 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1218 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1039 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1077 | tracks 18 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1078 | tracks 18 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1079 | tracks 20 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1143 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1138 | tracks 0 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1136 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Player attack track ready | clip 1137 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist01 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist01 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist01 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist01 | character Crypt_Skeleton | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist01 | character Crypt_Skeleton | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 0 | clip 1194 | skeleton_idle_01.bdae | speed 1.0000 | actor _prim_tmp_cultist01
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1178 | groups 1 | attack_mainhand ms 100
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1179 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1180 | groups 1 | attack_mainhand ms 100
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1181 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1185 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1194 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1195 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1197 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1198 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | skeleton.bdae | clip 1204 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor clip bank ready | skeleton.bdae | clips 10 | independent instance clocks
+I/DH2Native( 3306): Object resource skeleton.bdae | primitives 1 | tracks 23 | unbound 3 | unsupported 0 | removed helpers 2
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist03 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist03 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist03 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist03 | character Crypt_Skeleton | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist03 | character Crypt_Skeleton | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 1 | clip 1195 | skeleton_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist03
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist05 | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist05 | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist05 | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist05 | character CryptSlime | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist05 | character CryptSlime | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 5 | clip 1259 | slime_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist05
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1246 | groups 1 | attack_mainhand ms 266
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1247 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1248 | groups 1 | attack_mainhand ms 300
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1249 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1251 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1258 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1259 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1261 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1262 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | slime_green_v2.bdae | clip 1268 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor clip bank ready | slime_green_v2.bdae | clips 10 | independent instance clocks
+I/DH2Native( 3306): Object resource slime_green_v2.bdae | primitives 2 | tracks 12 | unbound 0 | unsupported 0 | removed helpers 0
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist06 | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist06 | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist06 | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist06 | character CryptSlime | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist06 | character CryptSlime | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 5 | clip 1259 | slime_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist06
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist07 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist07 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist07 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist07 | character Crypt_Skeleton | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist07 | character Crypt_Skeleton | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 0 | clip 1194 | skeleton_idle_01.bdae | speed 1.0000 | actor _prim_tmp_cultist07
+I/DH2Native( 3306): Base class snapshot | _prim_tmp_cultist08 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 3306): Resolved properties | _prim_tmp_cultist08 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_tmp_cultist08 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist08 | character Crypt_Skeleton | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_tmp_cultist08 | character Crypt_Skeleton | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 1 | clip 1195 | skeleton_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist08
+I/DH2Native( 3306): Object resource crypt_candles2_small.bdae | primitives 3 | tracks 5 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Object resource crypt_candlestand_big.bdae | primitives 4 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 2
+I/DH2Native( 3306): Object resource crypt_candlestand.bdae | primitives 4 | tracks 7 | unbound 0 | unsupported 0 | removed helpers 2
+I/DH2Native( 3306): Object resource crypt_candle2.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Object resource crypt_candle1_small.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Object resource crypt_candles.bdae | primitives 3 | tracks 7 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Object resource swamp_caveentrance_effect.bdae | primitives 1 | tracks 0 | unbound 0 | unsupported 3 | removed helpers 0
+I/DH2Native( 3306): Object resource crypt_candle_big.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Base class snapshot | _prim_Monster | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 3306): Resolved properties | _prim_Monster | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_Monster | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster | character CryptSlime | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster | character CryptSlime | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 1 | clip 1258 | slime_idle.bdae | speed 1.0000 | actor _prim_Monster
+I/DH2Native( 3306): Base class snapshot | _prim_Monster02 | character CryptSlime_RE | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum eb471073d49b2c44 | cached only
+I/DH2Native( 3306): Resolved properties | _prim_Monster02 | character CryptSlime_RE | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum eb471073d49b2c44 | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_Monster02 | character CryptSlime_RE | amount 2135 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 7440849 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster02 | character CryptSlime_RE | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster02 | character CryptSlime_RE | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 0 | clip 1258 | slime_idle.bdae | speed 1.0000 | actor _prim_Monster02
+I/DH2Native( 3306): Base class snapshot | _prim_Monster05 | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 3306): Resolved properties | _prim_Monster05 | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_Monster05 | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster05 | character CryptSlime | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster05 | character CryptSlime | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 4 | clip 1258 | slime_idle.bdae | speed 1.0000 | actor _prim_Monster05
+I/DH2Native( 3306): Object resource crypt_candle1.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 3306): Base class snapshot | _prim_Monster_Ghost05 | character Crypt_Ghost | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 37563d932af809fb | cached only
+I/DH2Native( 3306): Resolved properties | _prim_Monster_Ghost05 | character Crypt_Ghost | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 37563d932af809fb | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_Monster_Ghost05 | character Crypt_Ghost | amount 2263 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3474079 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster_Ghost05 | character Crypt_Ghost | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster_Ghost05 | character Crypt_Ghost | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | ghost.bdae | table 24 | sequence 210 | step 0 | clip 706 | ghost_idle_01.bdae | speed 1.3000 | actor _prim_Monster_Ghost05
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 697 | groups 1 | attack_mainhand ms 999
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 700 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 706 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 707 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 710 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor event track ready | ghost.bdae | clip 717 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 3306): Actor clip bank ready | ghost.bdae | clips 6 | independent instance clocks
+I/DH2Native( 3306): Object resource ghost.bdae | primitives 2 | tracks 24 | unbound 0 | unsupported 0 | removed helpers 2
+I/DH2Native( 3306): Base class snapshot | _prim_Monster_Ghost06 | character Crypt_Ghost | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 37563d932af809fb | cached only
+I/DH2Native( 3306): Resolved properties | _prim_Monster_Ghost06 | character Crypt_Ghost | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 37563d932af809fb | supplied sheets only
+I/DH2Native( 3306): Combat result probe | _prim_Monster_Ghost06 | character Crypt_Ghost | amount 2263 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3474079 | calls 9 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster_Ghost06 | character Crypt_Ghost | damage 256 | add -256 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Health probe | _prim_Monster_Ghost06 | character Crypt_Ghost | damage 16384 | add -16384 | before -1 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 3306): Original idle selected | ghost.bdae | table 24 | sequence 210 | step 0 | clip 706 | ghost_idle_01.bdae | speed 1.3000 | actor _prim_Monster_Ghost06
+I/DH2Native( 3306): 3D upload OK | 4 draws | 586 triangles | 2 textures
+I/DH2Native( 3306): 29 animation tracks | 0 skipped | Preview lighting. Drag to orbit. | nodes 35 | skipped nongeometry instances 1 | skin draws 4 | segments 2
+I/DH2Native( 3306): Combat actor restored | _prim_tmp_cultist01 | HP 25600 | dead 0 | combo 0 | state Idle | cursor 4308.0009 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Combat actor restored | _prim_tmp_cultist03 | HP 25600 | dead 0 | combo 0 | state Idle | cursor 4308.0009 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Combat actor restored | _prim_tmp_cultist07 | HP 25600 | dead 0 | combo 0 | state Idle | cursor 4308.0009 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Combat actor restored | _prim_tmp_cultist08 | HP 25600 | dead 0 | combo 0 | state Idle | cursor 7542.0009 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Combat actor restored | _prim_tmp_cultist05 | HP 25600 | dead 0 | combo 0 | state Idle | cursor 1080.0009 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Combat actor restored | _prim_tmp_cultist06 | HP 25600 | dead 0 | combo 0 | state Idle | cursor 1080.0009 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Combat actor restored | _prim_Monster | HP 25600 | dead 0 | combo 0 | state Idle | cursor 1080.0009 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Combat actor restored | _prim_Monster02 | HP 25600 | dead 0 | combo 0 | state Idle | cursor 1080.0009 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Combat actor restored | _prim_Monster05 | HP 25600 | dead 0 | combo 0 | state Idle | cursor 1080.0009 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Combat actor restored | _prim_Monster_Ghost05 | HP 25600 | dead 0 | combo 0 | state Idle | cursor 1794.8998 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Combat actor restored | _prim_Monster_Ghost06 | HP 25600 | dead 0 | combo 0 | state Idle | cursor 1794.8998 | events 0 | aggro 0 0 | target -1 | AI attack 0
+I/DH2Native( 3306): Persistent game design ready | host cached level 1 | level row 23 | difficulty 0 | authored levels 51 | development Crypt selection
+I/DH2Native( 3306): Design settings ready | rows 1 | Default index 0 | fields 43 | EnemySpottedAggro bits 41200000 | records consumed 176 | names consumed 15 | retained 1 | backing 000079cdb9c08280 | owned cache data
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist01 | character Crypt_Skeleton | resources 23 | occurrences 44 | template 1203 | CPU instance 000079cd99d2ce60 | retained 1 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist01 | identity 0000000100000002 | CharAI 000079cd49c3a8a8 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist01 | character Crypt_Skeleton | identity 0000000100000002 | session 000079cd49c3c6a8 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -1234.43005 497.979004 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist03 | character Crypt_Skeleton | resources 23 | occurrences 44 | template 1203 | CPU instance 000079cd99d34720 | retained 1 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist03 | identity 0000000100000003 | CharAI 000079cd49c3b628 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist03 | character Crypt_Skeleton | identity 0000000100000003 | session 000079cd49c3eaa8 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved 821.286987 -1452.16003 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist07 | character Crypt_Skeleton | resources 23 | occurrences 44 | template 1203 | CPU instance 000079cd99d2dfa0 | retained 1 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist07 | identity 0000000100000006 | CharAI 000079cd49c3a428 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist07 | character Crypt_Skeleton | identity 0000000100000006 | session 000079cd49c3e1a8 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -1234.43005 -369.638 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist08 | character Crypt_Skeleton | resources 23 | occurrences 44 | template 1203 | CPU instance 000079cd99d31360 | retained 1 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist08 | identity 0000000100000007 | CharAI 000079cd49c3cdc8 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist08 | character Crypt_Skeleton | identity 0000000100000007 | session 000079cd49c3e508 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved 821.286987 -651.690979 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist05 | character CryptSlime | resources 23 | occurrences 37 | template 1267 | CPU instance 000079cd99d2fdd0 | retained 1 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist05 | identity 0000000100000004 | CharAI 000079cd49c3c828 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist05 | character CryptSlime | identity 0000000100000004 | session 000079cd49c44388 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved 168.604996 1606.04004 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster native backing | _prim_tmp_cultist06 | character CryptSlime | resources 23 | occurrences 37 | template 1267 | CPU instance 000079cd99d35410 | retained 1 | preset 3 | authored state 0 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_tmp_cultist06 | identity 0000000100000005 | CharAI 000079cd49c3ca68 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_tmp_cultist06 | character CryptSlime | identity 0000000100000005 | session 000079cd49c41688 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -200.063004 1659.26001 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster native backing | _prim_Monster | character CryptSlime | resources 23 | occurrences 37 | template 1267 | CPU instance 000079cd99d30ac0 | retained 1 | preset 3 | authored state 1 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_Monster | identity 0000000100000027 | CharAI 000079cd49c3cb88 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_Monster | character CryptSlime | identity 0000000100000027 | session 000079cd49c48708 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -6020 10130 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster native backing | _prim_Monster02 | character CryptSlime_RE | resources 23 | occurrences 37 | template 1267 | CPU instance 000079cd99d2e840 | retained 1 | preset 3 | authored state 1 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_Monster02 | identity 0000000100000028 | CharAI 000079cd49c3a668 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_Monster02 | character CryptSlime_RE | identity 0000000100000028 | session 000079cd49c46548 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -5800 8430 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster native backing | _prim_Monster05 | character CryptSlime | resources 23 | occurrences 37 | template 1267 | CPU instance 000079cd99d335e0 | retained 1 | preset 3 | authored state 1 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_Monster05 | identity 0000000100000029 | CharAI 000079cd49c3d488 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_Monster05 | character CryptSlime | identity 0000000100000029 | session 000079cd49c44da8 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -5630 10130 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster native backing | _prim_Monster_Ghost05 | character Crypt_Ghost | resources 18 | occurrences 28 | template 716 | CPU instance 000079cd99d328f0 | retained 1 | preset 3 | authored state 1 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_Monster_Ghost05 | identity 000000010000004e | CharAI 000079cd49c3b508 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_Monster_Ghost05 | character Crypt_Ghost | identity 000000010000004e | session 000079cd49c4b528 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved 161.587997 20228.0508 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster native backing | _prim_Monster_Ghost06 | character Crypt_Ghost | resources 18 | occurrences 28 | template 716 | CPU instance 000079cd99d32050 | retained 1 | preset 3 | authored state 1 | CPU playback prepared | live FSM pending
+I/DH2Native( 3306): Scene script object | _prim_Monster_Ghost06 | identity 000000010000004f | CharAI 000079cd49c3cee8 | retained 1 | target 0000000000000000 | source GetID and HasTarget verified
+I/DH2Native( 3306): Monster script session | _prim_Monster_Ghost06 | character Crypt_Ghost | identity 000000010000004f | session 000079cd49c49488 | retained 1 | files 2 | step 7 | flags 183c | level raw 2048 | HP 25600 25600 | MP 23552 23552 | saved -316.752014 20312.0195 | flee 1 | buff 48 | timers 51 3000 52 1000 | registrations 170 | unavailable 136
+I/DH2Native( 3306): Monster scripts ready | initialized 0 | retained 11 | live original Init | full AI frame pending
+I/DH2Native( 3306): Player properties | KnightPlayerBase | HP 42265 | MP 6976 | checksum 0a258e14c164f8ca | attempts 0 | attacking 0
+I/DH2Native( 3306): Original cache mounted | files 6833 | archive bytes 433189197 | external storage 0
+I/DH2Native( 3306): Equipped GPU graph rebuilt | parts 5 | draws 5 | textures 3 | live source snapshot
+I/DH2Native( 3306): Native player equipment connected | identity 0000000100000001 | items 5 | potions 5 | selected 0 | retained 1 | property backing 000079ccb9cbcae8 | RNG calls 5
+I/DH2Native( 3306): Native inventory item | index 0 | ID 1079 | quantity 1 | name Ceremonial Garb | slots 0 -1
+I/DH2Native( 3306): Native inventory item | index 1 | ID 1073 | quantity 1 | name Ceremonial Boots | slots 3 -1
+I/DH2Native( 3306): Native inventory item | index 2 | ID 1076 | quantity 1 | name Ceremonial Gloves | slots 4 -1
+I/DH2Native( 3306): Native inventory item | index 3 | ID 664 | quantity 1 | name Useless Blade | slots 1 -1
+I/DH2Native( 3306): Native inventory item | index 4 | ID 925 | quantity 5 | name Potion | slots -1 -1
+I/DH2Native( 3306): Prince blended bank ready | resources 116 | occurrences 158 | targets 83 | template 1111 | engine 0 | game clip 1111
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1111 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1111 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Character animation selected | state 3 | flags 2380 | sequence 262 | clip 1040 | actor state service
+I/DH2Native( 3306): Character state event | state 3 | event 1d | prior 3 | flags 2380
+I/DH2Native( 3306): Player source state | previous 3 | current 3 | event 0x0 | flags 2380 | root 262 | clip 1040 | position -2227.7700 1220.9301 842.3644 | Step 1578
+I/DH2Native( 3306): Native actor ready | genuine bodies 83 | decor colliders 82 | radius 113.699707 | source bounds -2341.47 1190.17 -2114.07 1251.69 | flags 2380 | scene then Step then actor
+I/DH2Native( 3306): Player script object | identity 0000000100000001 | CharAI 000079cd49c3d5a8 | retained 1 | properties 000079ccb9cbcae8 | life 000079cc49cfb6e8 | HP 42265 | dead 0 | checksum 0a258e14c164f8ca | position -2227.77002 1220.93005 842.36438 | shared gameplay backing verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist01 | identity 0000000100000002 | position -1234.43005 497.979004 596.723022 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist03 | identity 0000000100000003 | position 821.286987 -1452.16003 -356.072998 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist07 | identity 0000000100000006 | position -1234.43005 -369.638 198.436996 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist08 | identity 0000000100000007 | position 821.286987 -651.690979 -356.072998 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist05 | identity 0000000100000004 | position 168.604996 1606.04004 36.4949989 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_tmp_cultist06 | identity 0000000100000005 | position -200.063004 1659.26001 36.4949989 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_Monster | identity 0000000100000027 | position -6020 10130 800 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_Monster02 | identity 0000000100000028 | position -5800 8430 450 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_Monster05 | identity 0000000100000029 | position -5630 10130 800 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_Monster_Ghost05 | identity 000000010000004e | position 161.587997 20228.0508 607.5 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Scene position methods | _prim_Monster_Ghost06 | identity 000000010000004f | position -316.752014 20312.0195 607.5 | player identity 0000000100000001 | player position -2227.77002 1220.93005 842.36438 | retained 1 | original object GetPosition verified
+I/DH2Native( 3306): Objects ready | monsters 11 | decors 84 | resources 12 | instance draws 291 | triangles 6103 | character records 448 | model entries 116 | original monster Init
+I/DH2Native( 3306): Native floors ready | records 8 | graph nodes 335 | graph edges 838 | selector collision controls height
+I/DH2Native( 3306): Native floor links ready | neighbour relations 14 | validation references 998 | graph-node search ready
+I/DH2Native( 3306): Native graph route probe | floor pairs 64 | successful 64 | segments 1598 | state 5454073390c7d916 | endpoints and movement pending
+I/DH2Native( 3306): Native world route probe | floor pairs 64 | successful 64 | direct 0 | graph 64 | segments 2086 | state 3a3ab2a724cc383b | smoothing and movement pending
+I/DH2Native( 3306): Native FindPath probe | floor pairs 64 | successful 64 | owned 64 | segments 2086 | state 9356b419cae2bc57 | position controller pending
+I/DH2Native( 3306): Native floor motion probe | floor pairs 64 | position valid 64 | accepted 64 | direction valid 64 | state d60ad48039cc85c6 | controller and dynamic obstacles pending
+I/DH2Native( 3306): Native obstacle registry probe | floor pairs 64 | accepted 64 | registered 64 | relocated 56 | state 22a98dfc4102db51 | forces and controller pending
+I/DH2Native( 3306): Native avoidance probe | floors 8 | force contributions 16 | adjusted 8 | turn limited 8 | state 09d1d79d2612c945 | actor producers and controller pending
+I/DH2Native( 3306): Native actor producer probe | floors 8 | registered 8 | physical radius updates 8 | state 30c1f3ac1bf81145 | physical construction and controller pending
+I/DH2Native( 3306): Native heading control | player movement and melee facing use recovered source | UpdatePath rotation subobjects and genuine physics active
+I/DH2Native( 3306): World ready | rooms 8 | visual draws 101 | navigation triangles 314 | idle tracks 23 | walk tracks 27 | position -2227.7700 1220.9301 842.3644
+I/DH2Native( 3306): Prince blended inspection | frozen 0 | scene 0 | Step 0 | actor 0 | clip 1040 | ms 0 | body -22.2777 12.2093 | pose 5f96fe6e2b6d998d
+I/DH2Native( 3306): Inspect object 0 | skeleton.bdae | _prim_tmp_cultist01 | room 0 | position -1234.4301 497.9790 596.7230
+I/DH2Native( 3306): Combat actor state | _prim_tmp_cultist01 | HP 25600 | MP 23552 | dead 0 | combo 0 | state Idle | target -1 | hits 0
+I/DH2Native( 3306): Combat target selected | index 0 | _prim_tmp_cultist01 | target -2 | supplied development target
+I/DH2Native( 3306): Actor state selected | index 0 | _prim_tmp_cultist01 | skeleton.bdae | state Attack | clip 1198 | layers 2
+I/DH2Native( 3306): worlds/crypt01.dwld: Crypt | 8 rooms | 11 monsters | 84 scenery objects
+I/DH2Native( 3306): 20940 triangles. Drag the movement control to walk.
+I/DH2Native( 3306): Original player status HUD connected to world
+I/DH2Native( 3306): Original actor state: Attack
+I/DH2Native( 3306): Actor command applied | index 0 | state Attack | time -1 | Crypt | 8 rooms | 11 monsters | 84 scenery objects
+I/DH2Native( 3306): 20940 triangles. Drag the movement control to walk.
+I/DH2Native( 3306): Original player status HUD connected to world
+I/DH2Native( 3306): Original actor state: Attack
+I/DH2Native( 3306): Surface resized to 2400 x 1080
+I/DH2Native( 3306): Native actor frame | scene 0 | Step 1 | actor 1 | source phase 5 | clip 1040 | ms 0 | replays 0 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Model frame submitted at 2400 x 1080
+I/DH2Native( 3306): Connected player HUD submitted | viewport 2400 1080 | character 0x79cb306b8218 | HP 42265 42265 | MP 6976 6976 | XP 0 25600 | frames 99 99 0 99 99 | dirty 11 | retained movie 0x79cc49df0050 | original timeline and viewport
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 22 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 22 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 22 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 22 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 22 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 14
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist01 | state Attack | completions 1 | active 1 | next clip 1180 | layers 2
+I/DH2Native( 3306): Actor animation event | _prim_tmp_cultist01 | state Attack | clip 1180 | name attack_mainhand | lag ms 9 | time ms 109 | count 1
+I/DH2Native( 3306): Actor combat action | _prim_tmp_cultist01 | state Attack | clip 1180 | name attack_mainhand | kind 1 | sequence 3 | attack step 0 | offhand 0 | capability 0 | projectile -1 | native target request
+I/DH2Native( 3306): Combat aggression | owner 4294967297 | target 4294967298 | amount bits 00000000 | delta bits 00000000 | outgoing 0 | incoming 0 | requests 0 | callback services pending
+I/DH2Native( 3306): Prince damage received | attacker _prim_tmp_cultist01 | attempt 1 | result 10047 -1 0 0 0 0 24 2271925 -1 -1 | HP 42265 32218 | dead 0 | combo 1 | RNG 9988867 9 | statuses 8 | low health armed 1 | cue 0 | checksum 0735c75cce7954b5
+I/DH2Native( 3306): Player status services pending | requests 8
+I/DH2Native( 3306): Connected player HUD submitted | viewport 2400 1080 | character 0x79cb306b8218 | HP 32218 42265 | MP 6976 6976 | XP 0 25600 | frames 75 99 0 75 75 | dirty 11 | retained movie 0x79cc49df0050 | original timeline and viewport
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist01 | state Attack | completions 2 | active 1 | next clip 1181 | layers 2
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 23 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 23 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 23 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 23 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 23 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 0 | phase 1 | lag 4
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist08 | state Idle | completions 4 | active 1 | next clip 1195 | layers 1
+I/DH2Native( 3306): Native actor frame | scene 2099 | Step 120 | actor 120 | source phase 5 | clip 1040 | ms 997 | replays 1 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 13
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist01 | state Attack | completions 3 | active 0 | next clip 1181 | layers 0
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 24 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 24 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster | state Idle | completions 24 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster02 | state Idle | completions 24 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster05 | state Idle | completions 24 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 3306): Gameplay HUD action | operation 2 | index 0 | Potion used: health and mana restored
+I/DH2Native( 3306): Gameplay HUD snapshot | [1, 1, 100, 15, 100, 0, 0, 0, 0, 1, 0, 0, 0, 0, 4, 0, 0, 7, -1, -1, 1, 0, 0, -1, 0, 0, -1]
+I/DH2Native( 3306): Connected player HUD submitted | viewport 2400 1080 | character 0x79cb306b8218 | HP 42265 42265 | MP 6976 6976 | XP 0 25600 | frames 99 99 0 99 99 | dirty 11 | retained movie 0x79cc49df0050 | original timeline and viewport
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost05 | state Idle | completions 7 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Actor clip completed | _prim_Monster_Ghost06 | state Idle | completions 7 | active 1 | next clip 706 | layers 1
+I/DH2Native( 3306): Blended character event | event 0x27 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x25 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x23 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 3306): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0

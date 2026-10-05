@@ -1,0 +1,14 @@
+[
+  {
+    "asset": "textures/atlas_modular_rogue.tga",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_modular_rogue.tga",
+    "sha256": "edbd02af477575a8f83f3a80933b44018e86c5f4300fa5c01b356759011c03fc",
+    "bytes": 524348
+  },
+  {
+    "asset": "textures/atlas_modular_mage.tga",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_modular_mage.tga",
+    "sha256": "3a171eb9f83cc008fb577a4dd66fdbc98db65499eda85e6a5a7de62c064ce6b9",
+    "bytes": 524348
+  }
+]

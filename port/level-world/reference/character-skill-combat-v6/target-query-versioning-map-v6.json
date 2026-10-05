@@ -1,0 +1,6 @@
+{
+  "source_sha256": "24c160b8f7e1d3e95bb06ef5f43f63c794851ec430ccfc4ff6e2135fd7aba70a",
+  "new_sha256": "9ba6c1a0e6a192131b386d3f0836b9132a5b97eecf0f1bffa1deb73e8607b89f",
+  "change": "Only native cached sheet pointer type; reads actual resolved int32 array, no property copying or struct type-punning",
+  "entry": "dh2_character_skill_target_query_v6"
+}

@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "scope": "In-game dqcharmenu only; main menu and character selection excluded",
+  "status": "same-graph-query-and-action-components-proven; whole-menu-candidate-incomplete",
+  "stat_owner": {
+    "sources": ["character_menu_stats_owner_v1.hpp", "character_menu_stats_owner_v1.cpp"],
+    "original_runner": "tests/character_menu_stats_full_original_v1.py",
+    "gold": "reference/character-menu-native-v1/stat-full-gold-v1.bin",
+    "gold_sha256": "6de65448b21c5d548bfdf42589db9b5314a92ce9650910cc173bc580137e4aa6",
+    "original_cases": 60,
+    "actors": [263, 290, 325],
+    "points": [-1, 0, 1, 2, 8388607],
+    "comparison": "Exact base, saved, gear, resolved property sheets; original property, class recalculation and base reload execute without mocks",
+    "native_validation": "ASAN+UBSAN and O2 PASS: 60 original cases, 36 actual-data cases, 72 graph guards",
+    "build_recipe": "tools/build_character_menu_stats_owner_v1.sh",
+    "required_inputs": ["same live PropertyState and PropertyView", "actual character and class tables", "actual actor index", "Debug load and isTracingChar_Stats query providers"],
+    "failure_semantics": "Missing Debug provider reports failure after the original property mutation prefix"
+  },
+  "source_schemas": {
+    "capture": "reference/character-menu-native-v1/original-functions.json",
+    "runner": "tests/character_menu_native_v1_original.py",
+    "query_evidence": "reference/character-menu-native-v1/schema-variants-v1.json",
+    "stat_members": 69,
+    "skill_members": 9,
+    "item_members_without_powers": 14,
+    "qualification": "Member names, order and result style recovered by original ARM execution with explicit query boundary fixtures; values are not live native menu results"
+  },
+  "action_candidate": {
+    "sources": ["character_menu_actions_owner_v1.hpp", "character_menu_actions_owner_v1.cpp"],
+    "validation": "ASAN+UBSAN+LSAN and O2 PASS: 3 actual classes, 3 whole training transactions, 27 same-graph actions including slot/all auto equipment, 15 required-provider/no-player/reached-prefix guards",
+    "binding": "Retains and borrows the actual PlayerEquipmentRenderOwnerV1, its inventory/properties, ONE V3 or signature-compatible V6 skills owner via CharacterMenuSkillAuthorityV1, save owner and genuine IncSkill services",
+    "mandatory_save_binding": "Caller must prove this save supplies V3 saved-skill getters",
+    "swap_ui_obligations": ["DisplayRightHud", "FillActionIcon"],
+    "equipped_skills_result": "Append saved slot row numbers 0, 1, 2 to supplied AS array without clearing it; bool true result"
+  },
+  "query_value_components": {
+    "sources": ["character_menu_queries_owner_v1.hpp", "character_menu_queries_owner_v1.cpp", "character_menu_skill_authority_v1.hpp", "character_menu_font_palette_v1.hpp", "character_menu_font_palette_v1.cpp"],
+    "proof": "tests/character_menu_composite_v1.cpp; tools/build_character_menu_composite_v1.sh",
+    "passed_snapshot": "207 stat members, 341 actual item members including six-field allocated/appended item-list rows, 27 actual skill members across Knight263/Mage290/Rogue325; 219 original cached scripts",
+    "transport": "Root-owned bridge and character_menu_connected_v2 separately passed SAN/O2 with actual gameswf::fn_call/member objects/arrays/native-created list rows; v2 primary source hashes bound. Authored dqcharmenu navigation/live integration remains separate",
+    "font_palette": "Original ZIP fonts_pyarray.bin and fonts_pystructnames.bin; immutable source glowcolor/textcolor rows; original GetColor/GetFontDef oracle 56 cases over actual 7 rows",
+    "fresh_inventory_work": "SAN/O2 PASS item-list positive transactions and original ARM differential gold: 810 slot eligibility, 450 class/value comparator, 360 equipment-priority comparator cases. Full callback sort order/ties and reached failure-prefix oracle remains pending; not yet frozen",
+    "unsupported_trade_form": "Merchant item-details 6-argument branch requires its genuine inventory/trade owner and rejects explicitly"
+  },
+  "remaining_action_components": {
+    "source_name_coverage": "All23 recovered callback names recognized; reports/character-menu-callback-name-coverage-v1.json. NativeReloadSkills/navigation outside this subset remain root-owned",
+    "sources": ["character_menu_inventory_mutation_v1.hpp", "character_menu_inventory_mutation_v1.cpp", "character_menu_item_actions_v1.hpp", "character_menu_item_actions_v1.cpp", "character_menu_save_actions_v1.hpp", "character_menu_save_actions_v1.cpp", "character_menu_faery_actions_v1.hpp", "character_menu_faery_actions_v1.cpp"],
+    "original": "RemoveItem176; TransferItem coordinator160; default inventory constructor fields; Transmute coordinator720/price45; offline Drop coordinator8; Save post-coordinator96; ChangeFaery30. Every runner identifies its exact dependency boundaries",
+    "private_native": "70151 SAN/O2 PASS: existing three-class query/action graph plus same-Gear removals matched to original captured states, unique transfers, original-null-owner temporary constructor/lifetime, native potion ownership cleanup, cache-driven Transmute previews and provider reentry,45 exact price cases,45 same-Save faery stores,3 same-graph native skill updates with explicit NULL world/HUD boundary facts",
+    "compiler": "GCC host and Android NDK29 aarch64 Clang PASS; query dispatcher also compiles NDK with one existing aggregate missing-field-initializer warning",
+    "save": "Mandatory complete SG_Save callback consumes same actual Save/Skill/Character/Property backing. Missing provider rejects; no successful full SG_Save claim",
+    "item": "Transmute source mutation/gold/property/achievement/Skin and Drop packet/default temp/transfer/WorldDrop coordinators exist; reached genuine providers are mandatory. Full successful Skin/achievement/world-spawn transactions are unproved",
+    "faery": "Direct typed same-Save current-faery store, same native UpdateAllSkills owner, mandatory fresh actual faery/HUD providers; spawned actor/retarget/effect/live HUD remains unproved",
+    "status": "Candidate, not frozen or centrally selected"
+  },
+  "remaining": [
+    "Complete original whole query/value dispatcher oracle, including list order and reached failure prefixes",
+    "Full original automatic-slot and all-slot coordinator differential oracle; positive same-graph slot/all transactions pass but are not frozen as a complete oracle",
+    "Positive complete DropItem/TransmuteItem/SaveGame transactions with genuine World/Skin/achievement/SG_Save producers, and reached ChangeFaery world/HUD effects",
+    "Complete native case-for-case Remove/Transfer original differential beyond actual matched Gear states, including split/merge and all reachable potion branches",
+    "Live Android ONE V3-or-V6/save facade binding and authored dqcharmenu flow; do not infer publication from isolated composite proofs",
+    "Original editable-text whole class coordinator oracle remains pending"
+  ],
+  "integration_policy": "No frozen sources, CMake, central harness or renderer changed. Select proven stat kernel separately; do not publish candidate whole menu as complete."
+}

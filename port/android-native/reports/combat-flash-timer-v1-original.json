@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "cases": 675,
+  "mismatches": 0,
+  "scope": "Whole original FlashAnimManager::Update against optimized native owner.\nThe same twelve contexts are compared; level/dt/frame-count are explicit fixtures.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_sha256": "22d9c9ed875c7d83dce00a983ad7831714bfd4167bafae4517340fa08cd53331"
+}

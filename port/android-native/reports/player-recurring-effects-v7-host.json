@@ -1,0 +1,71 @@
+{
+  "validation": "PASS",
+  "commands": [
+    {
+      "args": [
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "port/level-world/character_player_skills_v6.cpp",
+        "port/level-world/character_skill_mana_v5.cpp",
+        "port/level-world/character_skill_native_v5.cpp",
+        "port/level-world/character_target_search_v5.cpp",
+        "port/game-data/fresh_inventory_owned_v4.cpp",
+        "port/level-world/tests/player_recurring_effects_v7_host.cpp",
+        "port/level-world/character_skills_owner_v6.cpp",
+        "port/level-world/character_skill_save_reload_v6.cpp",
+        "port/level-world/character_skill_reload_v6.cpp",
+        "port/android-native/app/src/main/cpp/player_recurring_effects_v7.cpp",
+        "-Iport/level-world",
+        "-L.local-inputs/character-skill-native-v5-host/snapshot",
+        ".local-inputs/character-skill-native-v5-host/snapshot/libdh2_zip_asset_pack_v1.a",
+        "-ldh2_level_world",
+        "-ldh2_game_data",
+        "-ldh2_engine_ui",
+        "-ldh2_script_runtime",
+        "-lz",
+        "-o",
+        ".local-inputs/player_recurring_effects_v7_host"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "env",
+        "LD_LIBRARY_PATH=/mnt/c/Users/adamc/Desktop/workspace/DH_sc/.local-inputs/character-skill-native-v5-host/snapshot",
+        "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+        "UBSAN_OPTIONS=halt_on_error=1",
+        ".local-inputs/player_recurring_effects_v7_host",
+        "port/level-world/reference/character-game-design/real-cache-inputs.bin",
+        "port/android-native/app/src/main/assets",
+        ".local-inputs/character-skill-session-v2/cache",
+        "/mnt/c/Users/adamc/Downloads/dungeonhunter2/Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+        ".local-inputs/items-discovery"
+      ],
+      "exit_code": 0,
+      "stdout": "{\"validation\":\"PASS\",\"actual_source_scripts\":3,\"same_v3_callbacks\":15,\"same_owner_mana_spends\":3,\"required_debug_failure_prefix\":3,\"explicit_empty_world_fixture\":true,\"no_alias_fixture\":true,\"full_campaign\":false,\"checks\":619}\n",
+      "stderr": ""
+    }
+  ],
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer"
+  ],
+  "timer33": "Reached missing provider fails actual V6 owner, error retained",
+  "timer35": "Actual authored SetSkillCooldown/selected AIS/private VM clears same native instance after owner failure",
+  "timer36": "Same actual BuffOwner expiry removes buff/property group after owner failure",
+  "source_sha256": {
+    "port/level-world/tests/player_recurring_effects_v7_host.cpp": "3a1e9db37d17725d4b77562b08ef247e3249666faa46407d3391d1a719c0342c",
+    "port/android-native/app/src/main/cpp/player_recurring_effects_v7.cpp": "9cc4846c9896a107bef1e4859314abc59d61b7eab5e7ab97fa62b74bfb6ab0f6",
+    "port/android-native/app/src/main/cpp/player_recurring_effects_v7.hpp": "4c807ee23868e3942dcae24461c6815029421b93850c573ec6fb52ed43f3b7bf"
+  },
+  "dependencies": "Existing private V6 host snapshot from character-player-skills-v6-host-audit.json; not rebuilt current whole world",
+  "timer33_regen_effect": false,
+  "full_dot_application": false
+}

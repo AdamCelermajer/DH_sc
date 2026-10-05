@@ -1,0 +1,943 @@
+{
+  "status": "PASS",
+  "scope": "Original PlayerSavegame(slot,17,false) metadata dispatch and readers.\nSavegame file/cache lookup is caller supplied; missing named sections are misses.\nQuest allocation is borrowed and recorded. No quest payload is synthesized and\nthis probe does not certify quest loading, filesystem or the AS property writer.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cases": [
+    {
+      "slot": 0,
+      "projection": {
+        "0x4": 0,
+        "0x30": 1,
+        "0x34": 263,
+        "0x38": 0,
+        "0x3c": 0,
+        "0x40": 0,
+        "0x44": 0,
+        "0x48": 0,
+        "0x50": 41,
+        "0x54": 41,
+        "0x58": 41,
+        "0x5c": 0,
+        "0x60": 21371,
+        "0x64": 86186,
+        "0x68": 0,
+        "0x6c": 0,
+        "0x70": 0,
+        "0xfc": 1,
+        "0x100": 1,
+        "0x104": 1,
+        "0x15c": 1,
+        "0x160": 1,
+        "0x164": 1,
+        "spawn_bytes": "010101",
+        "selected_difficulty": 0,
+        "name": "A"
+      },
+      "dispatch": [
+        {
+          "tag": "PNAM",
+          "reader": "0x4698dc",
+          "present": true
+        },
+        {
+          "tag": "PLVL",
+          "reader": "0x4689a0",
+          "present": true
+        },
+        {
+          "tag": "PCLS",
+          "reader": "0x469d88",
+          "present": true
+        },
+        {
+          "tag": "PDFL",
+          "reader": "0x468968",
+          "present": true
+        },
+        {
+          "tag": "LNAM",
+          "reader": "0x468b78",
+          "present": true
+        },
+        {
+          "tag": "LEPT",
+          "reader": "0x468938",
+          "present": true
+        },
+        {
+          "tag": "LUSP",
+          "reader": "0x468af0",
+          "present": true
+        },
+        {
+          "tag": "QEST",
+          "reader": "0x469478",
+          "present": false
+        }
+      ],
+      "quest_initializations": 2,
+      "sections": [
+        {
+          "tag": "PNAM",
+          "bytes": "020000004100"
+        },
+        {
+          "tag": "PLVL",
+          "bytes": "01000000"
+        },
+        {
+          "tag": "PCLS",
+          "bytes": "110000004b6e69676874506c617965724261736500"
+        },
+        {
+          "tag": "PDFL",
+          "bytes": "0000000000000000"
+        },
+        {
+          "tag": "LNAM",
+          "bytes": "00000000290000000000000001000000290000007b5300000100000029000000aa50010001000000"
+        },
+        {
+          "tag": "LEPT",
+          "bytes": "000000000000000000000000"
+        },
+        {
+          "tag": "LUSP",
+          "bytes": "010101"
+        }
+      ]
+    },
+    {
+      "slot": 2,
+      "projection": {
+        "0x4": 2,
+        "0x30": 1,
+        "0x34": 263,
+        "0x38": 1791180000,
+        "0x3c": 0,
+        "0x40": 0,
+        "0x44": 0,
+        "0x48": 0,
+        "0x50": 41,
+        "0x54": 41,
+        "0x58": 41,
+        "0x5c": 123456,
+        "0x60": 144827,
+        "0x64": 209642,
+        "0x68": 0,
+        "0x6c": 0,
+        "0x70": 0,
+        "0xfc": 1,
+        "0x100": 1,
+        "0x104": 1,
+        "0x15c": 1,
+        "0x160": 1,
+        "0x164": 1,
+        "spawn_bytes": "010101",
+        "selected_difficulty": 0,
+        "name": "Prince"
+      },
+      "dispatch": [
+        {
+          "tag": "PNAM",
+          "reader": "0x4698dc",
+          "present": true
+        },
+        {
+          "tag": "PLVL",
+          "reader": "0x4689a0",
+          "present": true
+        },
+        {
+          "tag": "PCLS",
+          "reader": "0x469d88",
+          "present": true
+        },
+        {
+          "tag": "PDFL",
+          "reader": "0x468968",
+          "present": true
+        },
+        {
+          "tag": "LNAM",
+          "reader": "0x468b78",
+          "present": true
+        },
+        {
+          "tag": "LEPT",
+          "reader": "0x468938",
+          "present": true
+        },
+        {
+          "tag": "LUSP",
+          "reader": "0x468af0",
+          "present": true
+        },
+        {
+          "tag": "QEST",
+          "reader": "0x469478",
+          "present": false
+        }
+      ],
+      "quest_initializations": 2,
+      "sections": [
+        {
+          "tag": "PNAM",
+          "bytes": "070000005072696e636500"
+        },
+        {
+          "tag": "PLVL",
+          "bytes": "01000000"
+        },
+        {
+          "tag": "PCLS",
+          "bytes": "110000004b6e69676874506c617965724261736500"
+        },
+        {
+          "tag": "PDFL",
+          "bytes": "0000000000000000"
+        },
+        {
+          "tag": "LNAM",
+          "bytes": "e03cc36a2900000040e201000100000029000000bb3502000100000029000000ea32030001000000"
+        },
+        {
+          "tag": "LEPT",
+          "bytes": "000000000000000000000000"
+        },
+        {
+          "tag": "LUSP",
+          "bytes": "010101"
+        }
+      ]
+    },
+    {
+      "slot": 3,
+      "projection": {
+        "0x4": 3,
+        "0x30": 1,
+        "0x34": 263,
+        "0x38": 4294967295,
+        "0x3c": 0,
+        "0x40": 0,
+        "0x44": 0,
+        "0x48": 0,
+        "0x50": 41,
+        "0x54": 41,
+        "0x58": 41,
+        "0x5c": 4294967280,
+        "0x60": 21355,
+        "0x64": 86170,
+        "0x68": 0,
+        "0x6c": 0,
+        "0x70": 0,
+        "0xfc": 1,
+        "0x100": 1,
+        "0x104": 1,
+        "0x15c": 1,
+        "0x160": 1,
+        "0x164": 1,
+        "spawn_bytes": "010101",
+        "selected_difficulty": 0,
+        "name": "\u05d0\u05d3\u05dd"
+      },
+      "dispatch": [
+        {
+          "tag": "PNAM",
+          "reader": "0x4698dc",
+          "present": true
+        },
+        {
+          "tag": "PLVL",
+          "reader": "0x4689a0",
+          "present": true
+        },
+        {
+          "tag": "PCLS",
+          "reader": "0x469d88",
+          "present": true
+        },
+        {
+          "tag": "PDFL",
+          "reader": "0x468968",
+          "present": true
+        },
+        {
+          "tag": "LNAM",
+          "reader": "0x468b78",
+          "present": true
+        },
+        {
+          "tag": "LEPT",
+          "reader": "0x468938",
+          "present": true
+        },
+        {
+          "tag": "LUSP",
+          "reader": "0x468af0",
+          "present": true
+        },
+        {
+          "tag": "QEST",
+          "reader": "0x469478",
+          "present": false
+        }
+      ],
+      "quest_initializations": 2,
+      "sections": [
+        {
+          "tag": "PNAM",
+          "bytes": "07000000d790d793d79d00"
+        },
+        {
+          "tag": "PLVL",
+          "bytes": "01000000"
+        },
+        {
+          "tag": "PCLS",
+          "bytes": "110000004b6e69676874506c617965724261736500"
+        },
+        {
+          "tag": "PDFL",
+          "bytes": "0000000000000000"
+        },
+        {
+          "tag": "LNAM",
+          "bytes": "ffffffff29000000f0ffffff01000000290000006b53000001000000290000009a50010001000000"
+        },
+        {
+          "tag": "LEPT",
+          "bytes": "000000000000000000000000"
+        },
+        {
+          "tag": "LUSP",
+          "bytes": "010101"
+        }
+      ]
+    },
+    {
+      "slot": 0,
+      "projection": {
+        "0x4": 0,
+        "0x30": 1,
+        "0x34": 325,
+        "0x38": 0,
+        "0x3c": 0,
+        "0x40": 0,
+        "0x44": 0,
+        "0x48": 0,
+        "0x50": 41,
+        "0x54": 41,
+        "0x58": 41,
+        "0x5c": 0,
+        "0x60": 21371,
+        "0x64": 86186,
+        "0x68": 0,
+        "0x6c": 0,
+        "0x70": 0,
+        "0xfc": 1,
+        "0x100": 1,
+        "0x104": 1,
+        "0x15c": 1,
+        "0x160": 1,
+        "0x164": 1,
+        "spawn_bytes": "010101",
+        "selected_difficulty": 0,
+        "name": "A"
+      },
+      "dispatch": [
+        {
+          "tag": "PNAM",
+          "reader": "0x4698dc",
+          "present": true
+        },
+        {
+          "tag": "PLVL",
+          "reader": "0x4689a0",
+          "present": true
+        },
+        {
+          "tag": "PCLS",
+          "reader": "0x469d88",
+          "present": true
+        },
+        {
+          "tag": "PDFL",
+          "reader": "0x468968",
+          "present": true
+        },
+        {
+          "tag": "LNAM",
+          "reader": "0x468b78",
+          "present": true
+        },
+        {
+          "tag": "LEPT",
+          "reader": "0x468938",
+          "present": true
+        },
+        {
+          "tag": "LUSP",
+          "reader": "0x468af0",
+          "present": true
+        },
+        {
+          "tag": "QEST",
+          "reader": "0x469478",
+          "present": false
+        }
+      ],
+      "quest_initializations": 2,
+      "sections": [
+        {
+          "tag": "PNAM",
+          "bytes": "020000004100"
+        },
+        {
+          "tag": "PLVL",
+          "bytes": "01000000"
+        },
+        {
+          "tag": "PCLS",
+          "bytes": "10000000526f677565506c617965724261736500"
+        },
+        {
+          "tag": "PDFL",
+          "bytes": "0000000000000000"
+        },
+        {
+          "tag": "LNAM",
+          "bytes": "00000000290000000000000001000000290000007b5300000100000029000000aa50010001000000"
+        },
+        {
+          "tag": "LEPT",
+          "bytes": "000000000000000000000000"
+        },
+        {
+          "tag": "LUSP",
+          "bytes": "010101"
+        }
+      ]
+    },
+    {
+      "slot": 2,
+      "projection": {
+        "0x4": 2,
+        "0x30": 1,
+        "0x34": 325,
+        "0x38": 1791180000,
+        "0x3c": 0,
+        "0x40": 0,
+        "0x44": 0,
+        "0x48": 0,
+        "0x50": 41,
+        "0x54": 41,
+        "0x58": 41,
+        "0x5c": 123456,
+        "0x60": 144827,
+        "0x64": 209642,
+        "0x68": 0,
+        "0x6c": 0,
+        "0x70": 0,
+        "0xfc": 1,
+        "0x100": 1,
+        "0x104": 1,
+        "0x15c": 1,
+        "0x160": 1,
+        "0x164": 1,
+        "spawn_bytes": "010101",
+        "selected_difficulty": 0,
+        "name": "Prince"
+      },
+      "dispatch": [
+        {
+          "tag": "PNAM",
+          "reader": "0x4698dc",
+          "present": true
+        },
+        {
+          "tag": "PLVL",
+          "reader": "0x4689a0",
+          "present": true
+        },
+        {
+          "tag": "PCLS",
+          "reader": "0x469d88",
+          "present": true
+        },
+        {
+          "tag": "PDFL",
+          "reader": "0x468968",
+          "present": true
+        },
+        {
+          "tag": "LNAM",
+          "reader": "0x468b78",
+          "present": true
+        },
+        {
+          "tag": "LEPT",
+          "reader": "0x468938",
+          "present": true
+        },
+        {
+          "tag": "LUSP",
+          "reader": "0x468af0",
+          "present": true
+        },
+        {
+          "tag": "QEST",
+          "reader": "0x469478",
+          "present": false
+        }
+      ],
+      "quest_initializations": 2,
+      "sections": [
+        {
+          "tag": "PNAM",
+          "bytes": "070000005072696e636500"
+        },
+        {
+          "tag": "PLVL",
+          "bytes": "01000000"
+        },
+        {
+          "tag": "PCLS",
+          "bytes": "10000000526f677565506c617965724261736500"
+        },
+        {
+          "tag": "PDFL",
+          "bytes": "0000000000000000"
+        },
+        {
+          "tag": "LNAM",
+          "bytes": "e03cc36a2900000040e201000100000029000000bb3502000100000029000000ea32030001000000"
+        },
+        {
+          "tag": "LEPT",
+          "bytes": "000000000000000000000000"
+        },
+        {
+          "tag": "LUSP",
+          "bytes": "010101"
+        }
+      ]
+    },
+    {
+      "slot": 3,
+      "projection": {
+        "0x4": 3,
+        "0x30": 1,
+        "0x34": 325,
+        "0x38": 4294967295,
+        "0x3c": 0,
+        "0x40": 0,
+        "0x44": 0,
+        "0x48": 0,
+        "0x50": 41,
+        "0x54": 41,
+        "0x58": 41,
+        "0x5c": 4294967280,
+        "0x60": 21355,
+        "0x64": 86170,
+        "0x68": 0,
+        "0x6c": 0,
+        "0x70": 0,
+        "0xfc": 1,
+        "0x100": 1,
+        "0x104": 1,
+        "0x15c": 1,
+        "0x160": 1,
+        "0x164": 1,
+        "spawn_bytes": "010101",
+        "selected_difficulty": 0,
+        "name": "\u05d0\u05d3\u05dd"
+      },
+      "dispatch": [
+        {
+          "tag": "PNAM",
+          "reader": "0x4698dc",
+          "present": true
+        },
+        {
+          "tag": "PLVL",
+          "reader": "0x4689a0",
+          "present": true
+        },
+        {
+          "tag": "PCLS",
+          "reader": "0x469d88",
+          "present": true
+        },
+        {
+          "tag": "PDFL",
+          "reader": "0x468968",
+          "present": true
+        },
+        {
+          "tag": "LNAM",
+          "reader": "0x468b78",
+          "present": true
+        },
+        {
+          "tag": "LEPT",
+          "reader": "0x468938",
+          "present": true
+        },
+        {
+          "tag": "LUSP",
+          "reader": "0x468af0",
+          "present": true
+        },
+        {
+          "tag": "QEST",
+          "reader": "0x469478",
+          "present": false
+        }
+      ],
+      "quest_initializations": 2,
+      "sections": [
+        {
+          "tag": "PNAM",
+          "bytes": "07000000d790d793d79d00"
+        },
+        {
+          "tag": "PLVL",
+          "bytes": "01000000"
+        },
+        {
+          "tag": "PCLS",
+          "bytes": "10000000526f677565506c617965724261736500"
+        },
+        {
+          "tag": "PDFL",
+          "bytes": "0000000000000000"
+        },
+        {
+          "tag": "LNAM",
+          "bytes": "ffffffff29000000f0ffffff01000000290000006b53000001000000290000009a50010001000000"
+        },
+        {
+          "tag": "LEPT",
+          "bytes": "000000000000000000000000"
+        },
+        {
+          "tag": "LUSP",
+          "bytes": "010101"
+        }
+      ]
+    },
+    {
+      "slot": 0,
+      "projection": {
+        "0x4": 0,
+        "0x30": 1,
+        "0x34": 290,
+        "0x38": 0,
+        "0x3c": 0,
+        "0x40": 0,
+        "0x44": 0,
+        "0x48": 0,
+        "0x50": 41,
+        "0x54": 41,
+        "0x58": 41,
+        "0x5c": 0,
+        "0x60": 21371,
+        "0x64": 86186,
+        "0x68": 0,
+        "0x6c": 0,
+        "0x70": 0,
+        "0xfc": 1,
+        "0x100": 1,
+        "0x104": 1,
+        "0x15c": 1,
+        "0x160": 1,
+        "0x164": 1,
+        "spawn_bytes": "010101",
+        "selected_difficulty": 0,
+        "name": "A"
+      },
+      "dispatch": [
+        {
+          "tag": "PNAM",
+          "reader": "0x4698dc",
+          "present": true
+        },
+        {
+          "tag": "PLVL",
+          "reader": "0x4689a0",
+          "present": true
+        },
+        {
+          "tag": "PCLS",
+          "reader": "0x469d88",
+          "present": true
+        },
+        {
+          "tag": "PDFL",
+          "reader": "0x468968",
+          "present": true
+        },
+        {
+          "tag": "LNAM",
+          "reader": "0x468b78",
+          "present": true
+        },
+        {
+          "tag": "LEPT",
+          "reader": "0x468938",
+          "present": true
+        },
+        {
+          "tag": "LUSP",
+          "reader": "0x468af0",
+          "present": true
+        },
+        {
+          "tag": "QEST",
+          "reader": "0x469478",
+          "present": false
+        }
+      ],
+      "quest_initializations": 2,
+      "sections": [
+        {
+          "tag": "PNAM",
+          "bytes": "020000004100"
+        },
+        {
+          "tag": "PLVL",
+          "bytes": "01000000"
+        },
+        {
+          "tag": "PCLS",
+          "bytes": "0f0000004d616765506c617965724261736500"
+        },
+        {
+          "tag": "PDFL",
+          "bytes": "0000000000000000"
+        },
+        {
+          "tag": "LNAM",
+          "bytes": "00000000290000000000000001000000290000007b5300000100000029000000aa50010001000000"
+        },
+        {
+          "tag": "LEPT",
+          "bytes": "000000000000000000000000"
+        },
+        {
+          "tag": "LUSP",
+          "bytes": "010101"
+        }
+      ]
+    },
+    {
+      "slot": 2,
+      "projection": {
+        "0x4": 2,
+        "0x30": 1,
+        "0x34": 290,
+        "0x38": 1791180000,
+        "0x3c": 0,
+        "0x40": 0,
+        "0x44": 0,
+        "0x48": 0,
+        "0x50": 41,
+        "0x54": 41,
+        "0x58": 41,
+        "0x5c": 123456,
+        "0x60": 144827,
+        "0x64": 209642,
+        "0x68": 0,
+        "0x6c": 0,
+        "0x70": 0,
+        "0xfc": 1,
+        "0x100": 1,
+        "0x104": 1,
+        "0x15c": 1,
+        "0x160": 1,
+        "0x164": 1,
+        "spawn_bytes": "010101",
+        "selected_difficulty": 0,
+        "name": "Prince"
+      },
+      "dispatch": [
+        {
+          "tag": "PNAM",
+          "reader": "0x4698dc",
+          "present": true
+        },
+        {
+          "tag": "PLVL",
+          "reader": "0x4689a0",
+          "present": true
+        },
+        {
+          "tag": "PCLS",
+          "reader": "0x469d88",
+          "present": true
+        },
+        {
+          "tag": "PDFL",
+          "reader": "0x468968",
+          "present": true
+        },
+        {
+          "tag": "LNAM",
+          "reader": "0x468b78",
+          "present": true
+        },
+        {
+          "tag": "LEPT",
+          "reader": "0x468938",
+          "present": true
+        },
+        {
+          "tag": "LUSP",
+          "reader": "0x468af0",
+          "present": true
+        },
+        {
+          "tag": "QEST",
+          "reader": "0x469478",
+          "present": false
+        }
+      ],
+      "quest_initializations": 2,
+      "sections": [
+        {
+          "tag": "PNAM",
+          "bytes": "070000005072696e636500"
+        },
+        {
+          "tag": "PLVL",
+          "bytes": "01000000"
+        },
+        {
+          "tag": "PCLS",
+          "bytes": "0f0000004d616765506c617965724261736500"
+        },
+        {
+          "tag": "PDFL",
+          "bytes": "0000000000000000"
+        },
+        {
+          "tag": "LNAM",
+          "bytes": "e03cc36a2900000040e201000100000029000000bb3502000100000029000000ea32030001000000"
+        },
+        {
+          "tag": "LEPT",
+          "bytes": "000000000000000000000000"
+        },
+        {
+          "tag": "LUSP",
+          "bytes": "010101"
+        }
+      ]
+    },
+    {
+      "slot": 3,
+      "projection": {
+        "0x4": 3,
+        "0x30": 1,
+        "0x34": 290,
+        "0x38": 4294967295,
+        "0x3c": 0,
+        "0x40": 0,
+        "0x44": 0,
+        "0x48": 0,
+        "0x50": 41,
+        "0x54": 41,
+        "0x58": 41,
+        "0x5c": 4294967280,
+        "0x60": 21355,
+        "0x64": 86170,
+        "0x68": 0,
+        "0x6c": 0,
+        "0x70": 0,
+        "0xfc": 1,
+        "0x100": 1,
+        "0x104": 1,
+        "0x15c": 1,
+        "0x160": 1,
+        "0x164": 1,
+        "spawn_bytes": "010101",
+        "selected_difficulty": 0,
+        "name": "\u05d0\u05d3\u05dd"
+      },
+      "dispatch": [
+        {
+          "tag": "PNAM",
+          "reader": "0x4698dc",
+          "present": true
+        },
+        {
+          "tag": "PLVL",
+          "reader": "0x4689a0",
+          "present": true
+        },
+        {
+          "tag": "PCLS",
+          "reader": "0x469d88",
+          "present": true
+        },
+        {
+          "tag": "PDFL",
+          "reader": "0x468968",
+          "present": true
+        },
+        {
+          "tag": "LNAM",
+          "reader": "0x468b78",
+          "present": true
+        },
+        {
+          "tag": "LEPT",
+          "reader": "0x468938",
+          "present": true
+        },
+        {
+          "tag": "LUSP",
+          "reader": "0x468af0",
+          "present": true
+        },
+        {
+          "tag": "QEST",
+          "reader": "0x469478",
+          "present": false
+        }
+      ],
+      "quest_initializations": 2,
+      "sections": [
+        {
+          "tag": "PNAM",
+          "bytes": "07000000d790d793d79d00"
+        },
+        {
+          "tag": "PLVL",
+          "bytes": "01000000"
+        },
+        {
+          "tag": "PCLS",
+          "bytes": "0f0000004d616765506c617965724261736500"
+        },
+        {
+          "tag": "PDFL",
+          "bytes": "0000000000000000"
+        },
+        {
+          "tag": "LNAM",
+          "bytes": "ffffffff29000000f0ffffff01000000290000006b53000001000000290000009a50010001000000"
+        },
+        {
+          "tag": "LEPT",
+          "bytes": "000000000000000000000000"
+        },
+        {
+          "tag": "LUSP",
+          "bytes": "010101"
+        }
+      ]
+    }
+  ]
+}

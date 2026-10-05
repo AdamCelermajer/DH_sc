@@ -1,0 +1,8 @@
+{
+  "validation": "PASS",
+  "original_instruction_cases": 376,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "reference_sha256": "47ff15f5c5b6429506a03e600d6ee66f441d9737a921dd3affe5925d1ab52218",
+  "world_debug_audio_services": "explicit fixtures",
+  "production_music_provider": false
+}

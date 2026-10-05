@@ -1,0 +1,19 @@
+--------- beginning of main
+10-05 04:38:27.850  3335  3358 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 04:38:27.850  3335  3358 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 04:38:27.855  3335  3358 I DH2Loader: MAP_FRAME_OK identity=SWAMP modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 04:39:20.648  3335  3358 I DH2Loader: RED_DESERT_HUB | 6 modules | 205 mesh instances | 224 draws | 4 textures
+10-05 04:39:20.648  3335  3358 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 04:39:20.650  3335  3358 I DH2Loader: MAP_FRAME_OK identity=RED_DESERT_HUB modules=6 meshes=205 draws=224 triangles=19858 textures=4 viewport=2400x496 gameplay=0 objects=0
+10-05 04:39:50.101  3335  3358 I DH2Loader: ICY_HUB | 7 modules | 288 mesh instances | 288 draws | 3 textures
+10-05 04:39:50.101  3335  3358 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 04:39:50.103  3335  3358 I DH2Loader: MAP_FRAME_OK identity=ICY_HUB modules=7 meshes=288 draws=288 triangles=21313 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 04:40:14.111  3335  3358 I DH2Loader: Module 0 | _module__001 | mobs/chests pending
+10-05 04:40:42.196  3335  3358 I DH2Loader: Preparation failed; previous map retained: Missing authored XML: missing-loader-test.mlx
+10-05 04:40:42.196  3335  3358 I DH2Loader: MAP_FRAME_OK identity=ICY_HUB modules=7 meshes=288 draws=288 triangles=21313 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 04:40:46.527  3335  3358 I DH2Loader: ICY_HUB | 7 modules | 288 mesh instances | 288 draws | 3 textures
+10-05 04:40:46.527  3335  3358 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 0
+10-05 04:40:46.528  3335  3358 I DH2Loader: MAP_FRAME_OK identity=ICY_HUB modules=7 meshes=288 draws=288 triangles=21313 textures=3 viewport=2400x496 gameplay=0 objects=0
+10-05 04:41:29.444  3335  3358 I DH2Loader: SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures
+10-05 04:41:29.444  3335  3358 I DH2Loader: Map inspection only; mobs/chests pending. Unclassified geometry retained: 8
+10-05 04:41:29.445  3335  3358 I DH2Loader: MAP_FRAME_OK identity=SWAMP modules=9 meshes=369 draws=384 triangles=24676 textures=3 viewport=2400x496 gameplay=0 objects=0

@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK13ItemInventory17HasMainHandWeaponEv",
+      "elf_address": "0x3ffe8c",
+      "size": 48,
+      "sha256": "ca3133a2bde33aa3fbd19720567addf999b760d9dc33117eb95b4ce905bccd01"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory15GetEquippedItemEj",
+      "elf_address": "0x3ffe3c",
+      "size": 80,
+      "sha256": "69cf53b6cff74ab550cd32f132e5a8a15b3b86fb9fa35be16a195bf20c2f918f"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory14IsDualWieldingEv",
+      "elf_address": "0x40019c",
+      "size": 4,
+      "sha256": "c03b26a2b81d0620626937c6329b87cd97a8b20c758c94a045486bae5ffdba57"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory12HasTwoHanderEb",
+      "elf_address": "0x4001a0",
+      "size": 140,
+      "sha256": "fb30a48a8275d5caad1d79ae0e981d1a0fa436a46318967b373d04427aae3189"
+    },
+    {
+      "original_symbol": "_ZN9Character24INV_DoesMeetRequirementsEP12ItemInstance",
+      "elf_address": "0x3a4930",
+      "size": 192,
+      "sha256": "53986785d46254670d185463aabf743b60b0707c869792b953bf35e089b8746b"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory20GetNumEquipmentSlotsEv",
+      "elf_address": "0x3ffd20",
+      "size": 24,
+      "sha256": "39113843180ae8a2410dfc8afe704ca4feb65036fe3571ae2ae0f5d00a00c9d0"
+    }
+  ]
+}

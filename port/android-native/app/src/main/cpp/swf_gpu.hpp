@@ -13,6 +13,7 @@ public:
     bool image(std::int32_t width,std::int32_t height,unsigned channels,
                const std::uint8_t* pixels,std::size_t pitch,ui::SwfTexture&,std::string&);
     bool draw(const ui::SwfDraw&,std::string&);
+    void set_grid_fit(bool value) noexcept {grid_fit_=value;}
     bool stencil(const float bounds[4],std::uint8_t pattern,bool&,std::string&);
     void abort() noexcept; // restore destination after a failed command/provider
     bool reset_images(std::string&); // only after all dependent movies/fonts die
@@ -28,6 +29,7 @@ private:
     float bounds_[4]{};
     int viewport_[4]{},mask_level_=0;
     bool frame_=false,submitting_mask_=false,begin_pending_=false;
+    bool grid_fit_=false;
     void upload(Texture&);
     void primitive(const ui::SwfDraw&,const ui::SwfFill&,GLenum);
     void mask_rectangle();

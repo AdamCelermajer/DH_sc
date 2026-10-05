@@ -1,0 +1,589 @@
+{
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "script_sha256": "fb9e50673ba6079299786058bc590882ebf7cca026993ff288f4a33bc9597ee0",
+  "scope": "Execute original MGX block/exit interpretation on original XML trees.\n\nOriginal Block constructor, MgxBlock::LoadFromXml, Exit::LoadFromXml,\nStrToObj, string/vector operations and exit grid arithmetic execute ARM32.\nAllocator and imported C/float services are explicit environment adapters.\nHost CRT numeric scanning is not proof of historical Bionic parsing for all strings.\nNo block, direction, link-type or coordinate result is supplied by a hook.\n",
+  "cases": [
+    {
+      "name": "edge-type-0",
+      "input_sha256": "ff1c332e91ff226a082b52d6fc9059c3586b950efd8f8177912d6c82187d2876",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 1088421888,
+          "direction": 0,
+          "link_types": [
+            "a"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-type-1",
+      "input_sha256": "73cead5bd9b5da90415d55dd0c7b2b95862fadff53eb8bb68a226f6747f68948",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 1088421888,
+          "direction": 0,
+          "link_types": [
+            "a",
+            "b"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-type-2",
+      "input_sha256": "8e5e95e67f371be748d04b4339075f180f2cbf3a5a951051d94fc17b790e0fef",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 1088421888,
+          "direction": 0,
+          "link_types": [
+            "a",
+            "bb"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-type-3",
+      "input_sha256": "227c4bf4aa03e81c616d159a2973ec7523cc635e79a06d407e2ffb5c52f02059",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 1088421888,
+          "direction": 0,
+          "link_types": [
+            "aa"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-type-4",
+      "input_sha256": "e4987e24d1f624fc2a394f9a82e943d149d5c05c823fa6080a3e7dff9cf81165",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 1088421888,
+          "direction": 0,
+          "link_types": [
+            "a "
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-type-5",
+      "input_sha256": "ff79faca7cc513246062ac70c58d61708b772f092cbde08e537dac4fa5c4ecd6",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 1088421888,
+          "direction": 0,
+          "link_types": [
+            "abb"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-type-6",
+      "input_sha256": "8eb148ee501fac300da5fb63e356e30a83fa748409221bcaa135f53fdd13d40a",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 1088421888,
+          "direction": 0,
+          "link_types": [
+            "a",
+            "b",
+            "c",
+            "c"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-type-7",
+      "input_sha256": "3299c4794f1d1edda09866a78328ab747c03a5010cb1ba604ba472632d7f835a",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": []
+    },
+    {
+      "name": "edge-type-8",
+      "input_sha256": "57642c714d483d0ef700d2da43d4aec40224fe1c5c1aebe83052d80dcb9917c9",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": []
+    },
+    {
+      "name": "edge-type-9",
+      "input_sha256": "e42eddbe2bd59fb6eb20c08e5f3f53d3cefd03d2454d4f7f7a4def7e9e74f41e",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": []
+    },
+    {
+      "name": "edge-type-10",
+      "input_sha256": "392b4e0e2cf090d92573735c4c8dd8f232ef1d3201469c41b87488904c311069",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 1088421888,
+          "direction": 0,
+          "link_types": [
+            "A",
+            "a"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-type-11",
+      "input_sha256": "bd29b6defd2ce19ca1892f2943e02c1b8341db71e45c6af8ab9933ee0b149a8d",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 1088421888,
+          "direction": 0,
+          "link_types": [
+            "a a  "
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-direction-east",
+      "input_sha256": "92cae11032cf98b2319bac776c426d6b22c64f919855d82707430a24f190a696",
+      "load_result": 1,
+      "unit_bits": [
+        1169915904,
+        1165623296
+      ],
+      "size": [
+        3,
+        2
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            3,
+            1
+          ],
+          "height_bits": 1067450368,
+          "direction": 1,
+          "link_types": [
+            "gate"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-direction-SOUTH",
+      "input_sha256": "b8566f2667e0fa3f3771588face299a4e3acd30b8c8e28fd0792cd262ea5830a",
+      "load_result": 1,
+      "unit_bits": [
+        1169915904,
+        1165623296
+      ],
+      "size": [
+        3,
+        2
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            3,
+            1
+          ],
+          "height_bits": 1067450368,
+          "direction": 2,
+          "link_types": [
+            "gate"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-direction-west",
+      "input_sha256": "3a6289c35c5a9c13accd1c57dd98925ed614985a2271c5442a175c6375a1fbae",
+      "load_result": 1,
+      "unit_bits": [
+        1169915904,
+        1165623296
+      ],
+      "size": [
+        3,
+        2
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            3,
+            1
+          ],
+          "height_bits": 1067450368,
+          "direction": 3,
+          "link_types": [
+            "gate"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-direction-none",
+      "input_sha256": "20e0de3983df5414d4963ea0142d8ccce96ae6f7b071cb4fce569fead75aae0e",
+      "load_result": 1,
+      "unit_bits": [
+        1169915904,
+        1165623296
+      ],
+      "size": [
+        3,
+        2
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            3,
+            1
+          ],
+          "height_bits": 1067450368,
+          "direction": 4,
+          "link_types": [
+            "gate"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "edge-direction-unrecognized",
+      "input_sha256": "4b61ec54d59ce5b2ae3b10761646e199a9ed795c0bd8c0d5412f5c21349da424",
+      "load_result": 1,
+      "unit_bits": [
+        1169915904,
+        1165623296
+      ],
+      "size": [
+        3,
+        2
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            3,
+            1
+          ],
+          "height_bits": 1067450368,
+          "direction": 4,
+          "link_types": [
+            "gate"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "empty-module",
+      "input_sha256": "c22454b9ae18e52720a6adb9e684722175e4987739e2d83c0aaa9f1b9397daa2",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": []
+    },
+    {
+      "name": "skipped-links",
+      "input_sha256": "579d1943db16b73703addc28072dcee07f9f83ac92527d43043de4ee19d965c3",
+      "load_result": 1,
+      "unit_bits": [
+        1161527296,
+        1161527296
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 0,
+          "direction": 1,
+          "link_types": [
+            "gate"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/deadend_rootden_e_.mgx",
+      "input_sha256": "c3c61d5685d6ba89916f2902102b12d6d1d5026f28a3b3da7c6c714455a9832a",
+      "load_result": 1,
+      "unit_bits": [
+        1169915904,
+        1169915904
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 0,
+          "direction": 1,
+          "link_types": [
+            "A"
+          ],
+          "connections": 0
+        }
+      ]
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/t_rootden_wne_.mgx",
+      "input_sha256": "75500a9af5d958dab732851dfa775c64a158ef9a00159d486c33c1b7ce07bdbf",
+      "load_result": 1,
+      "unit_bits": [
+        1169915904,
+        1169915904
+      ],
+      "size": [
+        1,
+        1
+      ],
+      "exits": [
+        {
+          "index": 0,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 0,
+          "direction": 1,
+          "link_types": [
+            "A"
+          ],
+          "connections": 0
+        },
+        {
+          "index": 1,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 0,
+          "direction": 3,
+          "link_types": [
+            "A"
+          ],
+          "connections": 0
+        },
+        {
+          "index": 2,
+          "grid": [
+            0,
+            0
+          ],
+          "height_bits": 0,
+          "direction": 0,
+          "link_types": [
+            "A"
+          ],
+          "connections": 0
+        }
+      ]
+    }
+  ],
+  "original_execution_complete": true,
+  "authored_blocks_requested": 2,
+  "adapters": {
+    "strcasecmp": 108,
+    "memchr": 24,
+    "strcpy": 19,
+    "strtok": 57,
+    "strtod": 57,
+    "__aeabi_d2f": 71,
+    "__aeabi_i2f": 38,
+    "ceilf": 38,
+    "__aeabi_f2iz": 38,
+    "sscanf": 28
+  },
+  "historical_bionic_numeric_parsing_verified": false,
+  "generated_layout_verified": false,
+  "full_loader_verified": false
+}

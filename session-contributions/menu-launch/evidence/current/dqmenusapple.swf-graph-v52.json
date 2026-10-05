@@ -1,0 +1,3127 @@
+{
+  "file": "keyboard-reference-dqmenusapple.swf",
+  "sha256": "9e021738f84e93cf4c192211bbb569dcd38077e8ed6690f6f2b7dcca01116d4a",
+  "bounds_twips": [
+    0,
+    9600,
+    0,
+    6400
+  ],
+  "frame_rate": 30.0,
+  "frames": 1,
+  "root_placements": [
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1,
+      "character": 4,
+      "name": "menu_Debug"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 3,
+      "character": 11,
+      "name": "menu_bg"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 7,
+      "character": 38,
+      "name": "menu_SelectControls"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 38,
+      "character": 78,
+      "name": "menu_Save"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 75,
+      "character": 93,
+      "name": "menu_EnterName"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 107,
+      "character": 155,
+      "name": "menu_MultiplayerConnectivity"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 185,
+      "character": 172,
+      "name": "menu_Multiplayer_Game_Type"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 258,
+      "character": 176,
+      "name": "menu_Multiplayer_AfterChoice"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 331,
+      "character": 189,
+      "name": "menu_MultiLogin"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 368,
+      "character": 193,
+      "name": "menu_Multiplayer"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 441,
+      "character": 234,
+      "name": "menu_FriendInvitation"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 485,
+      "character": 239,
+      "name": "menu_GameCenter"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 558,
+      "character": 271,
+      "name": "menu_VerificationLoading"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 598,
+      "character": 296,
+      "name": "menu_MultiplayerJoin"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 661,
+      "character": 340,
+      "name": "menu_MultiplayerLobby"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 792,
+      "character": 342,
+      "name": "menu_servers"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 829,
+      "character": 360,
+      "name": "menu_WorldMapNewHUD"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 905,
+      "character": 373,
+      "name": "menu_Cheats"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1101,
+      "character": 391,
+      "name": "menu_StringLoading"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1107,
+      "character": 409,
+      "name": "menu_SelectClass"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1135,
+      "character": 411,
+      "name": "menu_Difficulty"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1166,
+      "character": 412,
+      "name": "menu_Load"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1203,
+      "character": 427,
+      "name": "menu_info"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1231,
+      "character": 455,
+      "name": "menu_StartGame"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1358,
+      "character": 463,
+      "name": "menu_splash"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1381,
+      "character": 471,
+      "name": "menu_language"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1404,
+      "character": 473,
+      "name": "menu_bidonMain"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1406,
+      "character": 65,
+      "name": "menu_DummyState"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1408,
+      "character": 481,
+      "name": "menu_MainMenu"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1539,
+      "character": 488,
+      "name": "preload_font"
+    }
+  ],
+  "placements": [
+    {
+      "parent": "sprite:4",
+      "frame": 0,
+      "depth": 1,
+      "character": 3,
+      "name": "text"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1,
+      "character": 4,
+      "name": "menu_Debug"
+    },
+    {
+      "parent": "sprite:11",
+      "frame": 0,
+      "depth": 1,
+      "character": 8,
+      "name": "BrownBG"
+    },
+    {
+      "parent": "sprite:11",
+      "frame": 0,
+      "depth": 3,
+      "character": 10,
+      "name": "RenderedBG"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 3,
+      "character": 11,
+      "name": "menu_bg"
+    },
+    {
+      "parent": "sprite:15",
+      "frame": 0,
+      "depth": 1,
+      "character": 14,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:21",
+      "frame": 0,
+      "depth": 7,
+      "character": 15,
+      "name": "MENU_CONTROLS_DESC"
+    },
+    {
+      "parent": "sprite:21",
+      "frame": 0,
+      "depth": 9,
+      "character": 20,
+      "name": "btn_yes"
+    },
+    {
+      "parent": "sprite:28",
+      "frame": 0,
+      "depth": 5,
+      "character": 27,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:29",
+      "frame": 0,
+      "depth": 1,
+      "character": 28,
+      "name": "btn_MENU_CONTROLS_DPAD"
+    },
+    {
+      "parent": "sprite:29",
+      "frame": 0,
+      "depth": 7,
+      "character": 28,
+      "name": "btn_MENU_CONTROLS_CLICK"
+    },
+    {
+      "parent": "sprite:34",
+      "frame": 0,
+      "depth": 4,
+      "character": 31,
+      "name": "btimg"
+    },
+    {
+      "parent": "sprite:36",
+      "frame": 0,
+      "depth": 1,
+      "character": 35,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:37",
+      "frame": 0,
+      "depth": 1,
+      "character": 20,
+      "name": "btn_yes"
+    },
+    {
+      "parent": "sprite:38",
+      "frame": 0,
+      "depth": 3,
+      "character": 21,
+      "name": "ControlDescriptionBox"
+    },
+    {
+      "parent": "sprite:38",
+      "frame": 0,
+      "depth": 13,
+      "character": 29,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:38",
+      "frame": 0,
+      "depth": 21,
+      "character": 34,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:38",
+      "frame": 0,
+      "depth": 30,
+      "character": 36,
+      "name": "MENU_CONTROLS_TITLE"
+    },
+    {
+      "parent": "sprite:38",
+      "frame": 4,
+      "depth": 13,
+      "character": 37,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:38",
+      "frame": 5,
+      "depth": 13,
+      "character": 29,
+      "name": "buttons"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 7,
+      "character": 38,
+      "name": "menu_SelectControls"
+    },
+    {
+      "parent": "sprite:69",
+      "frame": 0,
+      "depth": 1,
+      "character": 63,
+      "name": "btimg"
+    },
+    {
+      "parent": "sprite:69",
+      "frame": 0,
+      "depth": 11,
+      "character": 65,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:72",
+      "frame": 0,
+      "depth": 2,
+      "character": 71,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:74",
+      "frame": 0,
+      "depth": 5,
+      "character": 73,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:75",
+      "frame": 0,
+      "depth": 1,
+      "character": 74,
+      "name": "btn_MENU_SLOT_02"
+    },
+    {
+      "parent": "sprite:75",
+      "frame": 0,
+      "depth": 7,
+      "character": 74,
+      "name": "btn_MENU_SLOT_03"
+    },
+    {
+      "parent": "sprite:75",
+      "frame": 0,
+      "depth": 13,
+      "character": 74,
+      "name": "btn_MENU_SLOT_01"
+    },
+    {
+      "parent": "sprite:75",
+      "frame": 0,
+      "depth": 19,
+      "character": 74,
+      "name": "btn_MENU_SLOT_04"
+    },
+    {
+      "parent": "sprite:77",
+      "frame": 0,
+      "depth": 1,
+      "character": 76,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:78",
+      "frame": 0,
+      "depth": 1,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:78",
+      "frame": 0,
+      "depth": 16,
+      "character": 75,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:78",
+      "frame": 0,
+      "depth": 36,
+      "character": 77,
+      "name": "MENU_SELECT_SLOT"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 38,
+      "character": 78,
+      "name": "menu_Save"
+    },
+    {
+      "parent": "sprite:84",
+      "frame": 0,
+      "depth": 1,
+      "character": 83,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:88",
+      "frame": 0,
+      "depth": 1,
+      "character": 87,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:89",
+      "frame": 0,
+      "depth": 5,
+      "character": 88,
+      "name": "Accept"
+    },
+    {
+      "parent": "sprite:91",
+      "frame": 0,
+      "depth": 1,
+      "character": 84,
+      "name": "btn_character_name"
+    },
+    {
+      "parent": "sprite:91",
+      "frame": 0,
+      "depth": 3,
+      "character": 86,
+      "name": "btn_blocker"
+    },
+    {
+      "parent": "sprite:91",
+      "frame": 0,
+      "depth": 5,
+      "character": 89,
+      "name": "btn_Accept"
+    },
+    {
+      "parent": "sprite:91",
+      "frame": 0,
+      "depth": 11,
+      "character": 90,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:93",
+      "frame": 0,
+      "depth": 3,
+      "character": 82,
+      "name": "bgBack"
+    },
+    {
+      "parent": "sprite:93",
+      "frame": 0,
+      "depth": 5,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:93",
+      "frame": 0,
+      "depth": 17,
+      "character": 77,
+      "name": "MENU_SELECT_CHAR"
+    },
+    {
+      "parent": "sprite:93",
+      "frame": 0,
+      "depth": 19,
+      "character": 91,
+      "name": "buttons"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 75,
+      "character": 93,
+      "name": "menu_EnterName"
+    },
+    {
+      "parent": "sprite:103",
+      "frame": 0,
+      "depth": 4,
+      "character": 102,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:104",
+      "frame": 0,
+      "depth": 1,
+      "character": 103,
+      "name": "btn_MENU_MULTI_ONLINE"
+    },
+    {
+      "parent": "sprite:104",
+      "frame": 0,
+      "depth": 6,
+      "character": 103,
+      "name": "btn_MENU_MULTI_WIRELESS"
+    },
+    {
+      "parent": "sprite:104",
+      "frame": 0,
+      "depth": 11,
+      "character": 103,
+      "name": "btn_MENU_MULTI_BLUETOOTH"
+    },
+    {
+      "parent": "sprite:106",
+      "frame": 0,
+      "depth": 1,
+      "character": 105,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:112",
+      "frame": 0,
+      "depth": 1,
+      "character": 111,
+      "name": "value"
+    },
+    {
+      "parent": "sprite:114",
+      "frame": 0,
+      "depth": 1,
+      "character": 113,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:116",
+      "frame": 0,
+      "depth": 1,
+      "character": 115,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:118",
+      "frame": 0,
+      "depth": 1,
+      "character": 117,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:120",
+      "frame": 0,
+      "depth": 1,
+      "character": 119,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:122",
+      "frame": 0,
+      "depth": 1,
+      "character": 121,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:124",
+      "frame": 0,
+      "depth": 1,
+      "character": 123,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 1,
+      "character": 112,
+      "name": "cp_Level"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 3,
+      "character": 114,
+      "name": "player_class"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 5,
+      "character": 116,
+      "name": "GAMEPLAYMENUS_LEVEL"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 7,
+      "character": 118,
+      "name": "Hud_Location"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 9,
+      "character": 120,
+      "name": "Hud_Level"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 11,
+      "character": 118,
+      "name": "Hud_Act"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 13,
+      "character": 122,
+      "name": "Last_Save"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 15,
+      "character": 122,
+      "name": "Last_Save_Infos"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 17,
+      "character": 118,
+      "name": "Difficulty"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 19,
+      "character": 114,
+      "name": "DifficultyTitle"
+    },
+    {
+      "parent": "sprite:125",
+      "frame": 0,
+      "depth": 21,
+      "character": 124,
+      "name": "dateTxt"
+    },
+    {
+      "parent": "sprite:134",
+      "frame": 0,
+      "depth": 1,
+      "character": 133,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:143",
+      "frame": 0,
+      "depth": 6,
+      "character": 141,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:145",
+      "frame": 0,
+      "depth": 7,
+      "character": 143,
+      "name": "btn_Ok"
+    },
+    {
+      "parent": "sprite:145",
+      "frame": 0,
+      "depth": 14,
+      "character": 144,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:148",
+      "frame": 0,
+      "depth": 1,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:148",
+      "frame": 0,
+      "depth": 5,
+      "character": 135,
+      "name": "btnPrevent"
+    },
+    {
+      "parent": "sprite:148",
+      "frame": 0,
+      "depth": 7,
+      "character": 145,
+      "name": "ConfirmationBox"
+    },
+    {
+      "parent": "sprite:155",
+      "frame": 0,
+      "depth": 9,
+      "character": 104,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:155",
+      "frame": 0,
+      "depth": 21,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:155",
+      "frame": 0,
+      "depth": 33,
+      "character": 106,
+      "name": "MENU_MULTIPLAYER_TITLE_MULTI"
+    },
+    {
+      "parent": "sprite:155",
+      "frame": 0,
+      "depth": 35,
+      "character": 106,
+      "name": "MENU_CONNECTIVITY"
+    },
+    {
+      "parent": "sprite:155",
+      "frame": 0,
+      "depth": 37,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:155",
+      "frame": 0,
+      "depth": 43,
+      "character": 125,
+      "name": "PlayerInfos"
+    },
+    {
+      "parent": "sprite:155",
+      "frame": 0,
+      "depth": 65,
+      "character": 130,
+      "name": "btnRightArrowDiff"
+    },
+    {
+      "parent": "sprite:155",
+      "frame": 0,
+      "depth": 70,
+      "character": 132,
+      "name": "btnLeftArrowDiff"
+    },
+    {
+      "parent": "sprite:155",
+      "frame": 0,
+      "depth": 75,
+      "character": 134,
+      "name": "SlotText"
+    },
+    {
+      "parent": "sprite:155",
+      "frame": 0,
+      "depth": 77,
+      "character": 148,
+      "name": "Confirmation"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 107,
+      "character": 155,
+      "name": "menu_MultiplayerConnectivity"
+    },
+    {
+      "parent": "sprite:166",
+      "frame": 0,
+      "depth": 6,
+      "character": 165,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:167",
+      "frame": 0,
+      "depth": 1,
+      "character": 166,
+      "name": "btn_MENU_MULTIPLAYER_JOIN"
+    },
+    {
+      "parent": "sprite:167",
+      "frame": 0,
+      "depth": 8,
+      "character": 166,
+      "name": "btn_MENU_MULTIPLAYER_HOST"
+    },
+    {
+      "parent": "sprite:172",
+      "frame": 0,
+      "depth": 9,
+      "character": 167,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:172",
+      "frame": 0,
+      "depth": 18,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:172",
+      "frame": 0,
+      "depth": 30,
+      "character": 106,
+      "name": "MENU_MULTIPLAYER_TITLE_MULTI"
+    },
+    {
+      "parent": "sprite:172",
+      "frame": 0,
+      "depth": 32,
+      "character": 106,
+      "name": "MENU_MULTIPLAYER_TITLE_MULTI_SERVER"
+    },
+    {
+      "parent": "sprite:172",
+      "frame": 0,
+      "depth": 34,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:172",
+      "frame": 0,
+      "depth": 40,
+      "character": 130,
+      "name": "btnRightArrowDiff"
+    },
+    {
+      "parent": "sprite:172",
+      "frame": 0,
+      "depth": 45,
+      "character": 132,
+      "name": "btnLeftArrowDiff"
+    },
+    {
+      "parent": "sprite:172",
+      "frame": 0,
+      "depth": 50,
+      "character": 125,
+      "name": "PlayerInfos"
+    },
+    {
+      "parent": "sprite:172",
+      "frame": 0,
+      "depth": 72,
+      "character": 134,
+      "name": "SlotText"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 185,
+      "character": 172,
+      "name": "menu_Multiplayer_Game_Type"
+    },
+    {
+      "parent": "sprite:176",
+      "frame": 0,
+      "depth": 9,
+      "character": 167,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:176",
+      "frame": 0,
+      "depth": 18,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:176",
+      "frame": 0,
+      "depth": 30,
+      "character": 106,
+      "name": "MENU_MULTIPLAYER_TITLE_MULTI"
+    },
+    {
+      "parent": "sprite:176",
+      "frame": 0,
+      "depth": 32,
+      "character": 106,
+      "name": "MENU_MULTIPLAYER_TITLE_MULTI_SERVER"
+    },
+    {
+      "parent": "sprite:176",
+      "frame": 0,
+      "depth": 34,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:176",
+      "frame": 0,
+      "depth": 40,
+      "character": 130,
+      "name": "btnRightArrowDiff"
+    },
+    {
+      "parent": "sprite:176",
+      "frame": 0,
+      "depth": 45,
+      "character": 132,
+      "name": "btnLeftArrowDiff"
+    },
+    {
+      "parent": "sprite:176",
+      "frame": 0,
+      "depth": 50,
+      "character": 125,
+      "name": "PlayerInfos"
+    },
+    {
+      "parent": "sprite:176",
+      "frame": 0,
+      "depth": 72,
+      "character": 134,
+      "name": "SlotText"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 258,
+      "character": 176,
+      "name": "menu_Multiplayer_AfterChoice"
+    },
+    {
+      "parent": "sprite:180",
+      "frame": 0,
+      "depth": 1,
+      "character": 179,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:183",
+      "frame": 0,
+      "depth": 2,
+      "character": 182,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:185",
+      "frame": 0,
+      "depth": 5,
+      "character": 184,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:186",
+      "frame": 0,
+      "depth": 1,
+      "character": 183,
+      "name": "btn_character_name"
+    },
+    {
+      "parent": "sprite:186",
+      "frame": 0,
+      "depth": 4,
+      "character": 183,
+      "name": "btn_Password"
+    },
+    {
+      "parent": "sprite:186",
+      "frame": 0,
+      "depth": 7,
+      "character": 185,
+      "name": "btn_ClearAll"
+    },
+    {
+      "parent": "sprite:186",
+      "frame": 0,
+      "depth": 13,
+      "character": 185,
+      "name": "btn_Connect"
+    },
+    {
+      "parent": "sprite:188",
+      "frame": 0,
+      "depth": 1,
+      "character": 187,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:189",
+      "frame": 0,
+      "depth": 4,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:189",
+      "frame": 0,
+      "depth": 16,
+      "character": 180,
+      "name": "Username"
+    },
+    {
+      "parent": "sprite:189",
+      "frame": 0,
+      "depth": 18,
+      "character": 180,
+      "name": "Password"
+    },
+    {
+      "parent": "sprite:189",
+      "frame": 0,
+      "depth": 20,
+      "character": 77,
+      "name": "Title"
+    },
+    {
+      "parent": "sprite:189",
+      "frame": 0,
+      "depth": 22,
+      "character": 186,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:189",
+      "frame": 5,
+      "depth": 16,
+      "character": 188,
+      "name": "Username"
+    },
+    {
+      "parent": "sprite:189",
+      "frame": 5,
+      "depth": 18,
+      "character": 188,
+      "name": "Password"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 331,
+      "character": 189,
+      "name": "menu_MultiLogin"
+    },
+    {
+      "parent": "sprite:193",
+      "frame": 0,
+      "depth": 9,
+      "character": 167,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:193",
+      "frame": 0,
+      "depth": 18,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:193",
+      "frame": 0,
+      "depth": 30,
+      "character": 106,
+      "name": "MENU_MULTIPLAYER_TITLE_MULTI"
+    },
+    {
+      "parent": "sprite:193",
+      "frame": 0,
+      "depth": 32,
+      "character": 106,
+      "name": "MENU_MULTIPLAYER_TITLE_MULTI_SERVER"
+    },
+    {
+      "parent": "sprite:193",
+      "frame": 0,
+      "depth": 34,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:193",
+      "frame": 0,
+      "depth": 40,
+      "character": 130,
+      "name": "btnRightArrowDiff"
+    },
+    {
+      "parent": "sprite:193",
+      "frame": 0,
+      "depth": 45,
+      "character": 132,
+      "name": "btnLeftArrowDiff"
+    },
+    {
+      "parent": "sprite:193",
+      "frame": 0,
+      "depth": 50,
+      "character": 125,
+      "name": "PlayerInfos"
+    },
+    {
+      "parent": "sprite:193",
+      "frame": 0,
+      "depth": 72,
+      "character": 134,
+      "name": "SlotText"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 368,
+      "character": 193,
+      "name": "menu_Multiplayer"
+    },
+    {
+      "parent": "sprite:205",
+      "frame": 0,
+      "depth": 2,
+      "character": 199,
+      "name": "Host"
+    },
+    {
+      "parent": "sprite:205",
+      "frame": 0,
+      "depth": 3,
+      "character": 200,
+      "name": "Players"
+    },
+    {
+      "parent": "sprite:205",
+      "frame": 0,
+      "depth": 4,
+      "character": 202,
+      "name": "symbol"
+    },
+    {
+      "parent": "sprite:206",
+      "frame": 0,
+      "depth": 1,
+      "character": 205,
+      "name": "btnServer"
+    },
+    {
+      "parent": "sprite:213",
+      "frame": 0,
+      "depth": 3,
+      "character": 206,
+      "name": "content"
+    },
+    {
+      "parent": "sprite:213",
+      "frame": 0,
+      "depth": 5,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:213",
+      "frame": 0,
+      "depth": 9,
+      "character": 208,
+      "name": "limits"
+    },
+    {
+      "parent": "sprite:213",
+      "frame": 0,
+      "depth": 11,
+      "character": 210,
+      "name": "scrollbarH_bg"
+    },
+    {
+      "parent": "sprite:213",
+      "frame": 0,
+      "depth": 13,
+      "character": 212,
+      "name": "scrollbarH_handle"
+    },
+    {
+      "parent": "sprite:215",
+      "frame": 0,
+      "depth": 1,
+      "character": 214,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:224",
+      "frame": 0,
+      "depth": 1,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:224",
+      "frame": 0,
+      "depth": 10,
+      "character": 222,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:224",
+      "frame": 0,
+      "depth": 11,
+      "character": 223,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:227",
+      "frame": 0,
+      "depth": 3,
+      "character": 31,
+      "name": "btimg"
+    },
+    {
+      "parent": "sprite:232",
+      "frame": 0,
+      "depth": 5,
+      "character": 223,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:233",
+      "frame": 0,
+      "depth": 2,
+      "character": 232,
+      "name": "btn_EnveloppeTab"
+    },
+    {
+      "parent": "sprite:234",
+      "frame": 0,
+      "depth": 3,
+      "character": 213,
+      "name": "AllServers"
+    },
+    {
+      "parent": "sprite:234",
+      "frame": 0,
+      "depth": 17,
+      "character": 135,
+      "name": "btnPrevent"
+    },
+    {
+      "parent": "sprite:234",
+      "frame": 0,
+      "depth": 19,
+      "character": 135,
+      "name": "btnPrevent2"
+    },
+    {
+      "parent": "sprite:234",
+      "frame": 0,
+      "depth": 21,
+      "character": 215,
+      "name": "MENU_MULTIPLAYER_TITLE_INVITATION"
+    },
+    {
+      "parent": "sprite:234",
+      "frame": 0,
+      "depth": 23,
+      "character": 224,
+      "name": "btn_MENU_MULTIPLAYER_READY"
+    },
+    {
+      "parent": "sprite:234",
+      "frame": 0,
+      "depth": 35,
+      "character": 227,
+      "name": "btn_Back"
+    },
+    {
+      "parent": "sprite:234",
+      "frame": 0,
+      "depth": 43,
+      "character": 233,
+      "name": "TopMultiplayerTabs"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 441,
+      "character": 234,
+      "name": "menu_FriendInvitation"
+    },
+    {
+      "parent": "sprite:238",
+      "frame": 0,
+      "depth": 1,
+      "character": 103,
+      "name": "btn_MENU_MULTI_ONLINE"
+    },
+    {
+      "parent": "sprite:238",
+      "frame": 0,
+      "depth": 6,
+      "character": 103,
+      "name": "btn_MENU_MULTI_WIRELESS"
+    },
+    {
+      "parent": "sprite:239",
+      "frame": 0,
+      "depth": 9,
+      "character": 238,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:239",
+      "frame": 0,
+      "depth": 16,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:239",
+      "frame": 0,
+      "depth": 28,
+      "character": 106,
+      "name": "MENU_MULTIPLAYER_TITLE_MULTI"
+    },
+    {
+      "parent": "sprite:239",
+      "frame": 0,
+      "depth": 30,
+      "character": 106,
+      "name": "MENU_CONNECTIVITY"
+    },
+    {
+      "parent": "sprite:239",
+      "frame": 0,
+      "depth": 32,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:239",
+      "frame": 0,
+      "depth": 38,
+      "character": 125,
+      "name": "PlayerInfos"
+    },
+    {
+      "parent": "sprite:239",
+      "frame": 0,
+      "depth": 60,
+      "character": 130,
+      "name": "btnRightArrowDiff"
+    },
+    {
+      "parent": "sprite:239",
+      "frame": 0,
+      "depth": 65,
+      "character": 132,
+      "name": "btnLeftArrowDiff"
+    },
+    {
+      "parent": "sprite:239",
+      "frame": 0,
+      "depth": 70,
+      "character": 134,
+      "name": "SlotText"
+    },
+    {
+      "parent": "sprite:239",
+      "frame": 0,
+      "depth": 72,
+      "character": 148,
+      "name": "Confirmation"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 485,
+      "character": 239,
+      "name": "menu_GameCenter"
+    },
+    {
+      "parent": "sprite:243",
+      "frame": 0,
+      "depth": 1,
+      "character": 242,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:245",
+      "frame": 0,
+      "depth": 1,
+      "character": 244,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:269",
+      "frame": 0,
+      "depth": 1,
+      "character": 245,
+      "name": "LoadingText"
+    },
+    {
+      "parent": "sprite:271",
+      "frame": 0,
+      "depth": 7,
+      "character": 241,
+      "name": "Verifying"
+    },
+    {
+      "parent": "sprite:271",
+      "frame": 0,
+      "depth": 8,
+      "character": 243,
+      "name": "loading"
+    },
+    {
+      "parent": "sprite:271",
+      "frame": 0,
+      "depth": 10,
+      "character": 269,
+      "name": "Faery"
+    },
+    {
+      "parent": "sprite:271",
+      "frame": 0,
+      "depth": 25,
+      "character": 270,
+      "name": "PleaseWait"
+    },
+    {
+      "parent": "sprite:271",
+      "frame": 0,
+      "depth": 27,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:271",
+      "frame": 0,
+      "depth": 39,
+      "character": 148,
+      "name": "Confirmation"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 558,
+      "character": 271,
+      "name": "menu_VerificationLoading"
+    },
+    {
+      "parent": "sprite:281",
+      "frame": 0,
+      "depth": 1,
+      "character": 280,
+      "name": "Slot0"
+    },
+    {
+      "parent": "sprite:281",
+      "frame": 0,
+      "depth": 4,
+      "character": 280,
+      "name": "Slot1"
+    },
+    {
+      "parent": "sprite:281",
+      "frame": 0,
+      "depth": 7,
+      "character": 280,
+      "name": "Slot2"
+    },
+    {
+      "parent": "sprite:281",
+      "frame": 0,
+      "depth": 10,
+      "character": 280,
+      "name": "Slot3"
+    },
+    {
+      "parent": "sprite:282",
+      "frame": 0,
+      "depth": 2,
+      "character": 272,
+      "name": "Host"
+    },
+    {
+      "parent": "sprite:282",
+      "frame": 0,
+      "depth": 3,
+      "character": 273,
+      "name": "Act"
+    },
+    {
+      "parent": "sprite:282",
+      "frame": 0,
+      "depth": 4,
+      "character": 276,
+      "name": "symbol"
+    },
+    {
+      "parent": "sprite:282",
+      "frame": 0,
+      "depth": 6,
+      "character": 281,
+      "name": "AllSlots"
+    },
+    {
+      "parent": "sprite:283",
+      "frame": 0,
+      "depth": 1,
+      "character": 282,
+      "name": "btnServer"
+    },
+    {
+      "parent": "sprite:284",
+      "frame": 0,
+      "depth": 3,
+      "character": 283,
+      "name": "content"
+    },
+    {
+      "parent": "sprite:284",
+      "frame": 0,
+      "depth": 5,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:284",
+      "frame": 0,
+      "depth": 9,
+      "character": 208,
+      "name": "limits"
+    },
+    {
+      "parent": "sprite:284",
+      "frame": 0,
+      "depth": 11,
+      "character": 210,
+      "name": "scrollbarH_bg"
+    },
+    {
+      "parent": "sprite:284",
+      "frame": 0,
+      "depth": 13,
+      "character": 212,
+      "name": "scrollbarH_handle"
+    },
+    {
+      "parent": "sprite:287",
+      "frame": 0,
+      "depth": 5,
+      "character": 65,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:291",
+      "frame": 0,
+      "depth": 1,
+      "character": 288,
+      "name": "Slot"
+    },
+    {
+      "parent": "sprite:291",
+      "frame": 0,
+      "depth": 2,
+      "character": 289,
+      "name": "Host"
+    },
+    {
+      "parent": "sprite:291",
+      "frame": 0,
+      "depth": 3,
+      "character": 290,
+      "name": "Act"
+    },
+    {
+      "parent": "sprite:293",
+      "frame": 0,
+      "depth": 1,
+      "character": 292,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:295",
+      "frame": 0,
+      "depth": 1,
+      "character": 294,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 1,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 5,
+      "character": 284,
+      "name": "AllServers"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 19,
+      "character": 135,
+      "name": "btnPrevent"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 21,
+      "character": 135,
+      "name": "btnPrevent2"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 23,
+      "character": 224,
+      "name": "btn_MENU_MULTIPLAYER_READY"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 35,
+      "character": 287,
+      "name": "btnRefresh"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 41,
+      "character": 291,
+      "name": "TabTitle"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 45,
+      "character": 293,
+      "name": "CharInfos"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 47,
+      "character": 215,
+      "name": "MENU_MULTIPLAYER_JOIN"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 49,
+      "character": 227,
+      "name": "btn_Back"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 57,
+      "character": 295,
+      "name": "NoRoom"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 59,
+      "character": 233,
+      "name": "TopMultiplayerTabs"
+    },
+    {
+      "parent": "sprite:296",
+      "frame": 0,
+      "depth": 62,
+      "character": 148,
+      "name": "Error"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 598,
+      "character": 296,
+      "name": "menu_MultiplayerJoin"
+    },
+    {
+      "parent": "sprite:300",
+      "frame": 0,
+      "depth": 8,
+      "character": 299,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:300",
+      "frame": 0,
+      "depth": 9,
+      "character": 223,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:302",
+      "frame": 0,
+      "depth": 1,
+      "character": 301,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:303",
+      "frame": 0,
+      "depth": 1,
+      "character": 302,
+      "name": "Location"
+    },
+    {
+      "parent": "sprite:303",
+      "frame": 0,
+      "depth": 3,
+      "character": 302,
+      "name": "TextForState"
+    },
+    {
+      "parent": "sprite:312",
+      "frame": 0,
+      "depth": 4,
+      "character": 223,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:316",
+      "frame": 0,
+      "depth": 4,
+      "character": 223,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:320",
+      "frame": 0,
+      "depth": 4,
+      "character": 223,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:324",
+      "frame": 0,
+      "depth": 4,
+      "character": 223,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:325",
+      "frame": 0,
+      "depth": 1,
+      "character": 316,
+      "name": "btnFriends"
+    },
+    {
+      "parent": "sprite:325",
+      "frame": 0,
+      "depth": 6,
+      "character": 320,
+      "name": "btnClosed"
+    },
+    {
+      "parent": "sprite:325",
+      "frame": 0,
+      "depth": 11,
+      "character": 324,
+      "name": "btn_Open"
+    },
+    {
+      "parent": "sprite:328",
+      "frame": 0,
+      "depth": 3,
+      "character": 223,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:330",
+      "frame": 0,
+      "depth": 2,
+      "character": 306,
+      "name": "PlayerText"
+    },
+    {
+      "parent": "sprite:330",
+      "frame": 0,
+      "depth": 3,
+      "character": 312,
+      "name": "btn_AddFriend"
+    },
+    {
+      "parent": "sprite:330",
+      "frame": 0,
+      "depth": 8,
+      "character": 325,
+      "name": "SlotStatus"
+    },
+    {
+      "parent": "sprite:330",
+      "frame": 0,
+      "depth": 20,
+      "character": 328,
+      "name": "btn_Kick"
+    },
+    {
+      "parent": "sprite:330",
+      "frame": 0,
+      "depth": 24,
+      "character": 329,
+      "name": "ClassText"
+    },
+    {
+      "parent": "sprite:331",
+      "frame": 0,
+      "depth": 2,
+      "character": 330,
+      "name": "PlayerStatusLobby2"
+    },
+    {
+      "parent": "sprite:331",
+      "frame": 0,
+      "depth": 27,
+      "character": 330,
+      "name": "PlayerStatusLobby3"
+    },
+    {
+      "parent": "sprite:331",
+      "frame": 0,
+      "depth": 52,
+      "character": 330,
+      "name": "PlayerStatusLobby4"
+    },
+    {
+      "parent": "sprite:331",
+      "frame": 0,
+      "depth": 77,
+      "character": 330,
+      "name": "PlayerStatusLobby1"
+    },
+    {
+      "parent": "sprite:333",
+      "frame": 0,
+      "depth": 1,
+      "character": 332,
+      "name": "PlayerTitleText"
+    },
+    {
+      "parent": "sprite:335",
+      "frame": 0,
+      "depth": 1,
+      "character": 334,
+      "name": "PlotTitleText"
+    },
+    {
+      "parent": "sprite:338",
+      "frame": 0,
+      "depth": 7,
+      "character": 143,
+      "name": "btn_GAMEPLAYMENUS_ACCEPT"
+    },
+    {
+      "parent": "sprite:338",
+      "frame": 0,
+      "depth": 14,
+      "character": 143,
+      "name": "btn_GAMEPLAYMENUS_REFUSE"
+    },
+    {
+      "parent": "sprite:338",
+      "frame": 0,
+      "depth": 21,
+      "character": 337,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:339",
+      "frame": 0,
+      "depth": 1,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:339",
+      "frame": 0,
+      "depth": 5,
+      "character": 135,
+      "name": "btnPrevent"
+    },
+    {
+      "parent": "sprite:339",
+      "frame": 0,
+      "depth": 7,
+      "character": 338,
+      "name": "ConfirmationBox"
+    },
+    {
+      "parent": "sprite:340",
+      "frame": 0,
+      "depth": 7,
+      "character": 300,
+      "name": "btn_Invite"
+    },
+    {
+      "parent": "sprite:340",
+      "frame": 0,
+      "depth": 17,
+      "character": 224,
+      "name": "btn_MENU_MULTIPLAYER_START"
+    },
+    {
+      "parent": "sprite:340",
+      "frame": 0,
+      "depth": 29,
+      "character": 227,
+      "name": "btn_Back"
+    },
+    {
+      "parent": "sprite:340",
+      "frame": 0,
+      "depth": 37,
+      "character": 303,
+      "name": "MultiplayerLobbyDesc"
+    },
+    {
+      "parent": "sprite:340",
+      "frame": 0,
+      "depth": 41,
+      "character": 331,
+      "name": "AllStatusBoxes"
+    },
+    {
+      "parent": "sprite:340",
+      "frame": 0,
+      "depth": 119,
+      "character": 215,
+      "name": "MENU_MULTIPLAYER_TITLE_LOBBY"
+    },
+    {
+      "parent": "sprite:340",
+      "frame": 0,
+      "depth": 121,
+      "character": 333,
+      "name": "LeftTexts"
+    },
+    {
+      "parent": "sprite:340",
+      "frame": 0,
+      "depth": 124,
+      "character": 335,
+      "name": "PlotTitle"
+    },
+    {
+      "parent": "sprite:340",
+      "frame": 0,
+      "depth": 127,
+      "character": 233,
+      "name": "TopMultiplayerTabs"
+    },
+    {
+      "parent": "sprite:340",
+      "frame": 0,
+      "depth": 130,
+      "character": 339,
+      "name": "Confirmation"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 661,
+      "character": 340,
+      "name": "menu_MultiplayerLobby"
+    },
+    {
+      "parent": "sprite:341",
+      "frame": 0,
+      "depth": 1,
+      "character": 74,
+      "name": "btn_server4"
+    },
+    {
+      "parent": "sprite:341",
+      "frame": 0,
+      "depth": 7,
+      "character": 74,
+      "name": "btn_server3"
+    },
+    {
+      "parent": "sprite:341",
+      "frame": 0,
+      "depth": 13,
+      "character": 74,
+      "name": "btn_server2"
+    },
+    {
+      "parent": "sprite:341",
+      "frame": 0,
+      "depth": 19,
+      "character": 74,
+      "name": "btn_server1"
+    },
+    {
+      "parent": "sprite:342",
+      "frame": 0,
+      "depth": 1,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:342",
+      "frame": 0,
+      "depth": 16,
+      "character": 341,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:342",
+      "frame": 0,
+      "depth": 36,
+      "character": 77,
+      "name": "MENU_SELECT_SLOT"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 792,
+      "character": 342,
+      "name": "menu_servers"
+    },
+    {
+      "parent": "sprite:345",
+      "frame": 0,
+      "depth": 5,
+      "character": 344,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:346",
+      "frame": 0,
+      "depth": 1,
+      "character": 345,
+      "name": "btn_sublocation07"
+    },
+    {
+      "parent": "sprite:346",
+      "frame": 0,
+      "depth": 7,
+      "character": 345,
+      "name": "btn_sublocation06"
+    },
+    {
+      "parent": "sprite:346",
+      "frame": 0,
+      "depth": 13,
+      "character": 345,
+      "name": "btn_sublocation05"
+    },
+    {
+      "parent": "sprite:346",
+      "frame": 0,
+      "depth": 19,
+      "character": 345,
+      "name": "btn_sublocation04"
+    },
+    {
+      "parent": "sprite:346",
+      "frame": 0,
+      "depth": 25,
+      "character": 345,
+      "name": "btn_sublocation03"
+    },
+    {
+      "parent": "sprite:346",
+      "frame": 0,
+      "depth": 31,
+      "character": 345,
+      "name": "btn_sublocation02"
+    },
+    {
+      "parent": "sprite:346",
+      "frame": 0,
+      "depth": 37,
+      "character": 345,
+      "name": "btn_sublocation01"
+    },
+    {
+      "parent": "sprite:351",
+      "frame": 0,
+      "depth": 1,
+      "character": 350,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:353",
+      "frame": 0,
+      "depth": 1,
+      "character": 352,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:356",
+      "frame": 0,
+      "depth": 1,
+      "character": 355,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:357",
+      "frame": 0,
+      "depth": 1,
+      "character": 346,
+      "name": "MapSublocations"
+    },
+    {
+      "parent": "sprite:357",
+      "frame": 0,
+      "depth": 39,
+      "character": 71,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:357",
+      "frame": 0,
+      "depth": 47,
+      "character": 351,
+      "name": "desc"
+    },
+    {
+      "parent": "sprite:357",
+      "frame": 0,
+      "depth": 49,
+      "character": 353,
+      "name": "title"
+    },
+    {
+      "parent": "sprite:357",
+      "frame": 0,
+      "depth": 53,
+      "character": 356,
+      "name": "MENU_GO_TO_LEVEL"
+    },
+    {
+      "parent": "sprite:360",
+      "frame": 0,
+      "depth": 9,
+      "character": 357,
+      "name": "textboxes"
+    },
+    {
+      "parent": "sprite:360",
+      "frame": 0,
+      "depth": 63,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:360",
+      "frame": 0,
+      "depth": 75,
+      "character": 359,
+      "name": "btn_deadzone_text"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 829,
+      "character": 360,
+      "name": "menu_WorldMapNewHUD"
+    },
+    {
+      "parent": "sprite:367",
+      "frame": 0,
+      "depth": 1,
+      "character": 366,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:368",
+      "frame": 0,
+      "depth": 1,
+      "character": 69,
+      "name": "btn_toggle"
+    },
+    {
+      "parent": "sprite:368",
+      "frame": 0,
+      "depth": 15,
+      "character": 224,
+      "name": "btn_label"
+    },
+    {
+      "parent": "sprite:368",
+      "frame": 0,
+      "depth": 27,
+      "character": 367,
+      "name": "setting"
+    },
+    {
+      "parent": "sprite:369",
+      "frame": 0,
+      "depth": 1,
+      "character": 368,
+      "name": "option_GOD"
+    },
+    {
+      "parent": "sprite:369",
+      "frame": 0,
+      "depth": 29,
+      "character": 368,
+      "name": "option_GOD_MANA"
+    },
+    {
+      "parent": "sprite:369",
+      "frame": 0,
+      "depth": 57,
+      "character": 368,
+      "name": "option_OneShotKill"
+    },
+    {
+      "parent": "sprite:369",
+      "frame": 0,
+      "depth": 85,
+      "character": 368,
+      "name": "option_LevelUp"
+    },
+    {
+      "parent": "sprite:369",
+      "frame": 0,
+      "depth": 113,
+      "character": 368,
+      "name": "option_AllFaeries"
+    },
+    {
+      "parent": "sprite:369",
+      "frame": 0,
+      "depth": 141,
+      "character": 368,
+      "name": "option_AllLevels"
+    },
+    {
+      "parent": "sprite:369",
+      "frame": 0,
+      "depth": 169,
+      "character": 368,
+      "name": "option_GiveGold"
+    },
+    {
+      "parent": "sprite:371",
+      "frame": 0,
+      "depth": 1,
+      "character": 370,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:372",
+      "frame": 0,
+      "depth": 1,
+      "character": 371,
+      "name": "option_description"
+    },
+    {
+      "parent": "sprite:373",
+      "frame": 0,
+      "depth": 181,
+      "character": 372,
+      "name": "OptionDescriptionBox"
+    },
+    {
+      "parent": "sprite:373",
+      "frame": 0,
+      "depth": 183,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:373",
+      "frame": 0,
+      "depth": 195,
+      "character": 77,
+      "name": "MENU_OPTIONS"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 905,
+      "character": 373,
+      "name": "menu_Cheats"
+    },
+    {
+      "parent": "sprite:391",
+      "frame": 0,
+      "depth": 1,
+      "character": 65,
+      "name": "btn_deadzone_options"
+    },
+    {
+      "parent": "sprite:391",
+      "frame": 0,
+      "depth": 3,
+      "character": 387,
+      "name": "anim_loading_circle"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1101,
+      "character": 391,
+      "name": "menu_StringLoading"
+    },
+    {
+      "parent": "sprite:398",
+      "frame": 0,
+      "depth": 2,
+      "character": 397,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:400",
+      "frame": 0,
+      "depth": 8,
+      "character": 399,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:409",
+      "frame": 0,
+      "depth": 1,
+      "character": 393,
+      "name": "class_select"
+    },
+    {
+      "parent": "sprite:409",
+      "frame": 0,
+      "depth": 6,
+      "character": 398,
+      "name": "class_description"
+    },
+    {
+      "parent": "sprite:409",
+      "frame": 0,
+      "depth": 9,
+      "character": 400,
+      "name": "btn_Confirm"
+    },
+    {
+      "parent": "sprite:409",
+      "frame": 0,
+      "depth": 18,
+      "character": 402,
+      "name": "class_title"
+    },
+    {
+      "parent": "sprite:409",
+      "frame": 0,
+      "depth": 20,
+      "character": 77,
+      "name": "MENU_MENUTITLE_CHOOSE_CLASS"
+    },
+    {
+      "parent": "sprite:409",
+      "frame": 0,
+      "depth": 22,
+      "character": 405,
+      "name": "btn_left"
+    },
+    {
+      "parent": "sprite:409",
+      "frame": 0,
+      "depth": 24,
+      "character": 406,
+      "name": "btn_right"
+    },
+    {
+      "parent": "sprite:409",
+      "frame": 0,
+      "depth": 27,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1107,
+      "character": 409,
+      "name": "menu_SelectClass"
+    },
+    {
+      "parent": "sprite:410",
+      "frame": 0,
+      "depth": 1,
+      "character": 74,
+      "name": "btn_MENU_NORMAL"
+    },
+    {
+      "parent": "sprite:410",
+      "frame": 0,
+      "depth": 7,
+      "character": 74,
+      "name": "btn_MENU_HARD"
+    },
+    {
+      "parent": "sprite:410",
+      "frame": 0,
+      "depth": 13,
+      "character": 74,
+      "name": "btn_MENU_EASY"
+    },
+    {
+      "parent": "sprite:411",
+      "frame": 0,
+      "depth": 4,
+      "character": 410,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:411",
+      "frame": 0,
+      "depth": 18,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:411",
+      "frame": 0,
+      "depth": 30,
+      "character": 77,
+      "name": "MENU_DIFFICULTY"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1135,
+      "character": 411,
+      "name": "menu_Difficulty"
+    },
+    {
+      "parent": "sprite:412",
+      "frame": 0,
+      "depth": 4,
+      "character": 75,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:412",
+      "frame": 0,
+      "depth": 24,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:412",
+      "frame": 0,
+      "depth": 36,
+      "character": 77,
+      "name": "MENU_SELECT_SLOT"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1166,
+      "character": 412,
+      "name": "menu_Load"
+    },
+    {
+      "parent": "sprite:420",
+      "frame": 0,
+      "depth": 5,
+      "character": 419,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:424",
+      "frame": 0,
+      "depth": 1,
+      "character": 420,
+      "name": "btn_MENU_HELP"
+    },
+    {
+      "parent": "sprite:424",
+      "frame": 0,
+      "depth": 7,
+      "character": 420,
+      "name": "btn_MENU_ABOUT"
+    },
+    {
+      "parent": "sprite:424",
+      "frame": 0,
+      "depth": 13,
+      "character": 423,
+      "name": "btn_MENU_TWITTER"
+    },
+    {
+      "parent": "sprite:427",
+      "frame": 0,
+      "depth": 1,
+      "character": 8,
+      "name": "BrownBG"
+    },
+    {
+      "parent": "sprite:427",
+      "frame": 0,
+      "depth": 3,
+      "character": 77,
+      "name": "MENU_INFO"
+    },
+    {
+      "parent": "sprite:427",
+      "frame": 0,
+      "depth": 5,
+      "character": 414,
+      "name": "ConfirmationBox"
+    },
+    {
+      "parent": "sprite:427",
+      "frame": 0,
+      "depth": 12,
+      "character": 424,
+      "name": "buttons"
+    },
+    {
+      "parent": "sprite:427",
+      "frame": 0,
+      "depth": 27,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1203,
+      "character": 427,
+      "name": "menu_info"
+    },
+    {
+      "parent": "sprite:428",
+      "frame": 0,
+      "depth": 1,
+      "character": 74,
+      "name": "btn_Debug1"
+    },
+    {
+      "parent": "sprite:428",
+      "frame": 0,
+      "depth": 7,
+      "character": 74,
+      "name": "btn_debug2"
+    },
+    {
+      "parent": "sprite:446",
+      "frame": 0,
+      "depth": 6,
+      "character": 444,
+      "name": "mc_icon"
+    },
+    {
+      "parent": "sprite:446",
+      "frame": 0,
+      "depth": 8,
+      "character": 445,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:452",
+      "frame": 0,
+      "depth": 7,
+      "character": 143,
+      "name": "btn_GAMEPLAYMENUS_ACCEPT"
+    },
+    {
+      "parent": "sprite:452",
+      "frame": 0,
+      "depth": 14,
+      "character": 143,
+      "name": "btn_GAMEPLAYMENUS_REFUSE"
+    },
+    {
+      "parent": "sprite:452",
+      "frame": 0,
+      "depth": 21,
+      "character": 451,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:453",
+      "frame": 0,
+      "depth": 1,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:453",
+      "frame": 0,
+      "depth": 5,
+      "character": 135,
+      "name": "btnPrevent"
+    },
+    {
+      "parent": "sprite:453",
+      "frame": 0,
+      "depth": 7,
+      "character": 452,
+      "name": "ConfirmationBox"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 1,
+      "character": 428,
+      "name": "buttons_debug"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 16,
+      "character": 446,
+      "name": "btn_MENU_SINGLE_PLAYER"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 25,
+      "character": 446,
+      "name": "btn_Achievements"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 34,
+      "character": 446,
+      "name": "btn_MENU_Leader"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 43,
+      "character": 446,
+      "name": "btn_MENU_MULTIPLAYER"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 53,
+      "character": 69,
+      "name": "btn_menuI"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 65,
+      "character": 448,
+      "name": "btn_g"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 73,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 79,
+      "character": 130,
+      "name": "btnRightArrowDiff"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 84,
+      "character": 132,
+      "name": "btnLeftArrowDiff"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 89,
+      "character": 125,
+      "name": "PlayerInfos"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 111,
+      "character": 134,
+      "name": "SlotText"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 114,
+      "character": 69,
+      "name": "btn_back"
+    },
+    {
+      "parent": "sprite:455",
+      "frame": 0,
+      "depth": 126,
+      "character": 453,
+      "name": "Confirmation"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1231,
+      "character": 455,
+      "name": "menu_StartGame"
+    },
+    {
+      "parent": "sprite:459",
+      "frame": 0,
+      "depth": 1,
+      "character": 458,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:462",
+      "frame": 0,
+      "depth": 1,
+      "character": 461,
+      "name": "Continue"
+    },
+    {
+      "parent": "sprite:463",
+      "frame": 0,
+      "depth": 1,
+      "character": 457,
+      "name": "ze_bg"
+    },
+    {
+      "parent": "sprite:463",
+      "frame": 0,
+      "depth": 3,
+      "character": 459,
+      "name": "MENU_COPYRIGHT"
+    },
+    {
+      "parent": "sprite:463",
+      "frame": 0,
+      "depth": 5,
+      "character": 269,
+      "name": "Faery"
+    },
+    {
+      "parent": "sprite:463",
+      "frame": 0,
+      "depth": 20,
+      "character": 462,
+      "name": "ClickToContinue"
+    },
+    {
+      "parent": "sprite:463",
+      "frame": 0,
+      "depth": 22,
+      "character": 65,
+      "name": "btn_Continue"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1358,
+      "character": 463,
+      "name": "menu_splash"
+    },
+    {
+      "parent": "sprite:464",
+      "frame": 0,
+      "depth": 6,
+      "character": 65,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:465",
+      "frame": 0,
+      "depth": 6,
+      "character": 65,
+      "name": "hitzone"
+    },
+    {
+      "parent": "sprite:467",
+      "frame": 0,
+      "depth": 1,
+      "character": 466,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:469",
+      "frame": 0,
+      "depth": 1,
+      "character": 468,
+      "name": "text"
+    },
+    {
+      "parent": "sprite:470",
+      "frame": 0,
+      "depth": 1,
+      "character": 464,
+      "name": "btn_left"
+    },
+    {
+      "parent": "sprite:470",
+      "frame": 0,
+      "depth": 8,
+      "character": 465,
+      "name": "btn_right"
+    },
+    {
+      "parent": "sprite:470",
+      "frame": 0,
+      "depth": 15,
+      "character": 467,
+      "name": "setting"
+    },
+    {
+      "parent": "sprite:470",
+      "frame": 0,
+      "depth": 17,
+      "character": 469,
+      "name": "MENU_SELECT_LANGUAGE"
+    },
+    {
+      "parent": "sprite:471",
+      "frame": 0,
+      "depth": 4,
+      "character": 470,
+      "name": "option_Language"
+    },
+    {
+      "parent": "sprite:471",
+      "frame": 0,
+      "depth": 22,
+      "character": 37,
+      "name": "buttons"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1381,
+      "character": 471,
+      "name": "menu_language"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1404,
+      "character": 473,
+      "name": "menu_bidonMain"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1406,
+      "character": 65,
+      "name": "menu_DummyState"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 1,
+      "character": 428,
+      "name": "buttons_debug"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 16,
+      "character": 446,
+      "name": "btn_MENU_SINGLE_PLAYER"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 25,
+      "character": 446,
+      "name": "btn_MENU_MORE_GAMES"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 34,
+      "character": 475,
+      "name": "btn_GLLive"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 36,
+      "character": 446,
+      "name": "btn_MENU_INFO"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 45,
+      "character": 446,
+      "name": "btn_MENU_OPTIONS"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 55,
+      "character": 69,
+      "name": "btn_menuI"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 67,
+      "character": 448,
+      "name": "btn_g"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 75,
+      "character": 108,
+      "name": "flush_text"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 81,
+      "character": 130,
+      "name": "btnRightArrowDiff"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 86,
+      "character": 132,
+      "name": "btnLeftArrowDiff"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 91,
+      "character": 480,
+      "name": "btnDelete"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 96,
+      "character": 125,
+      "name": "PlayerInfos"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 118,
+      "character": 130,
+      "name": "btnRightArrow"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 123,
+      "character": 132,
+      "name": "btnLeftArrow"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 128,
+      "character": 134,
+      "name": "SlotText"
+    },
+    {
+      "parent": "sprite:481",
+      "frame": 0,
+      "depth": 130,
+      "character": 453,
+      "name": "Confirmation"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1408,
+      "character": 481,
+      "name": "menu_MainMenu"
+    },
+    {
+      "parent": "sprite:488",
+      "frame": 0,
+      "depth": 1,
+      "character": 482,
+      "name": "preload_font1"
+    },
+    {
+      "parent": "sprite:488",
+      "frame": 0,
+      "depth": 2,
+      "character": 483,
+      "name": "preload_font2"
+    },
+    {
+      "parent": "sprite:488",
+      "frame": 0,
+      "depth": 3,
+      "character": 484,
+      "name": "preload_font3"
+    },
+    {
+      "parent": "sprite:488",
+      "frame": 0,
+      "depth": 4,
+      "character": 485,
+      "name": "preload_font4"
+    },
+    {
+      "parent": "sprite:488",
+      "frame": 0,
+      "depth": 5,
+      "character": 486,
+      "name": "preload_font5"
+    },
+    {
+      "parent": "sprite:488",
+      "frame": 0,
+      "depth": 6,
+      "character": 487,
+      "name": "preload_font6"
+    },
+    {
+      "parent": "root",
+      "frame": 0,
+      "depth": 1539,
+      "character": 488,
+      "name": "preload_font"
+    }
+  ],
+  "exports": [
+    {
+      "character": 1,
+      "name": "menus/splash_final.tga"
+    },
+    {
+      "character": 5,
+      "name": "menus/MenusGraphics.tga"
+    },
+    {
+      "character": 208,
+      "name": "ScrollbarEnvironment_limits"
+    },
+    {
+      "character": 284,
+      "name": "ScrollbarsEnvironment"
+    },
+    {
+      "character": 489,
+      "name": "__Packages.com.gameloft.components.ComponentBase"
+    },
+    {
+      "character": 490,
+      "name": "__Packages.com.gameloft.components.Events"
+    },
+    {
+      "character": 491,
+      "name": "__Packages.com.gameloft.StaticFunctions"
+    },
+    {
+      "character": 492,
+      "name": "__Packages.com.gameloft.components.ui.DragScrollControls"
+    },
+    {
+      "character": 493,
+      "name": "__Packages.com.gameloft.components.ui.ScrollbarsEnvironment"
+    }
+  ]
+}

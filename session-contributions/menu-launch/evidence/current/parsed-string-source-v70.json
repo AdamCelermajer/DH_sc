@@ -1,0 +1,104 @@
+{
+  "status": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "dispatch": {
+    "#": "0x50a1c4",
+    "*": "0x50a1c4",
+    "^": "0x50a1c4",
+    "d": "0x50a0e8",
+    "f": "0x509f28",
+    "g": "0x509f28",
+    "h": "0x509f28",
+    "i": "0x509f28",
+    "k": "0x50a0e8",
+    "m": "0x509f28",
+    "n": "0x509dd4",
+    "p": "0x50a0e8",
+    "s": "0x509ed4",
+    "t": "0x509eb8",
+    "v": "0x509e7c"
+  },
+  "literals": [
+    {
+      "pc": "0x509b64",
+      "literal": "0x50a434",
+      "value": "StrID"
+    },
+    {
+      "pc": "0x509b6c",
+      "literal": "0x50a438",
+      "value": "GLOBAL_DECIMAL_SEPERATOR"
+    },
+    {
+      "pc": "0x509b90",
+      "literal": "0x50a43c",
+      "value": "GLOBAL_THOUSANDS_SEPERATOR"
+    },
+    {
+      "pc": "0x509bb4",
+      "literal": "0x50a440",
+      "value": "GLOBAL_THOUSANDS_GROUP_AT"
+    },
+    {
+      "pc": "0x509bf0",
+      "literal": "0x50a444",
+      "value": "\n"
+    },
+    {
+      "pc": "0x509c04",
+      "literal": "0x50a44c",
+      "value": "%.1f"
+    },
+    {
+      "pc": "0x509c18",
+      "literal": "0x50a450",
+      "value": "%.2f"
+    },
+    {
+      "pc": "0x509c28",
+      "literal": "0x50a454",
+      "value": "%d"
+    },
+    {
+      "pc": "0x50a1a8",
+      "literal": "0x50a458",
+      "value": "%d%s%03d"
+    },
+    {
+      "pc": "0x50a1e4",
+      "literal": "0x50a45c",
+      "value": "%c"
+    },
+    {
+      "pc": "0x50a220",
+      "literal": "0x50a460",
+      "value": "%d"
+    },
+    {
+      "pc": "0x50a2cc",
+      "literal": "0x50a464",
+      "value": "%d"
+    },
+    {
+      "pc": "0x50a2ec",
+      "literal": "0x50a468",
+      "value": "%d"
+    },
+    {
+      "pc": "0x50a358",
+      "literal": "0x50a46c",
+      "value": "%d%s%03d%s%03d"
+    },
+    {
+      "pc": "0x50a384",
+      "literal": "0x50a470",
+      "value": "%d%s%03d%s%03d"
+    },
+    {
+      "pc": "0x50a06c",
+      "literal": "0x50a448",
+      "value": "%d%s%03d"
+    }
+  ],
+  "scope": "Exact original parseEx dispatch/literals, not execution proof."
+}

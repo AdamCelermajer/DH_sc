@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "cases": 128,
+  "quest_deliveries": 302,
+  "scope": "Original QuestSavegame constructor, UnpackQuest, UnpackQuests and LoadQuests.\nQuest identities and variable-size Quest::_loadQuestData delivery are borrowed\nservices with a synthetic packet; this does not certify condition/objective data.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "fixture_sha256": "d0bc9c0ec4f8231b7532c3d250267d3042d970eb556356053c3cf1ec631c2857"
+}

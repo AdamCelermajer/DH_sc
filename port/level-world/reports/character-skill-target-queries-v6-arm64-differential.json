@@ -1,0 +1,13 @@
+{
+  "validation": "PASS",
+  "cases": 1762,
+  "ordered_callbacks": 1761,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_sha256": "f20086a6caa4e0859c07d95a6f000fe35d68b61fa7338a84f576fc8b0c5b8d5a",
+  "gold_sha256": "38798dd77b0e74e6b4089c8369dfcb0d478a290f608f7c8409440697af8d1793",
+  "source_sha256": "23b6c226b4553812238fea3ac813c9fe91c14fed520007e295eb878ca8ee4595",
+  "header_sha256": "f74af882d237e77d5724d07d5ab5b3727f45f30ef8956df0bf174dee5d73546d",
+  "script_sha256": "2014329bff9904c41bd8d6a52185e81b5c5465914373550f4f5cc4a32707d7a4",
+  "scope": "Original predicate corpus replay against V6 direct live-array borrowing."
+}

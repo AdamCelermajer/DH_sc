@@ -1,0 +1,145 @@
+{
+  "scope": "Execute original room-list readers and actual block/list map operations.\n\nKnown block keys are caller inputs from verified file-list/block-map receipts.\nOriginal ValidBlock membership, list allocation, lowercase conversion, element\nparsing, copying and unique map insertion execute ARM32. No membership or list\nresult is supplied by a hook. This does not execute layout selection/generation.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "connections_receipt_sha256": "0b0334856faac73620d43b3c4aaf3ab74309cf16f3525d08b3d3cd4534569589",
+  "script_sha256": "2b01f76515b5a0e621a69b5f020986f4874aa6a1143b450de7c67594c9384b6a",
+  "dependency_sources_sha256": {
+    "port\\level-loader\\tests\\procedural_lists_original.py": "2b01f76515b5a0e621a69b5f020986f4874aa6a1143b450de7c67594c9384b6a",
+    "port\\level-loader\\tests\\procedural_blocks_original.py": "695ac6d5978dae6e013150d4dfce80461f851c91d6f14b5bb5835739042a16fd",
+    "port\\engine-resources\\tests\\cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port\\game-data\\tests\\combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "port\\game-data\\tests\\combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "port\\game-data\\tests\\health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "port\\game-data\\tests\\combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "port\\game-data\\tests\\aggro_differential.py": "3d5fc4103199edbe847f886344f048738067ee8b329816531b82d8bc7174a759",
+    "port\\level-world\\tests\\navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148",
+    "port\\game-data\\tests\\items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port\\level-loader\\tests\\xml_original_probe.py": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209"
+  },
+  "cases": [
+    {
+      "name": "defaults",
+      "input_hex": "3c72756c65733e3c6c697374206e616d653d224d69586544223e3c656c656d206e616d653d22726f6f6d222f3e3c2f6c6973743e3c2f72756c65733e",
+      "block_names": [
+        "room"
+      ],
+      "xml_error": 0,
+      "load_result": 1,
+      "lists": [
+        {
+          "name": "mixed",
+          "replacement": true,
+          "elements": [
+            {
+              "block_name": "room",
+              "gameplay": "",
+              "visual": "",
+              "chances": 100
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "replacement-and-random",
+      "input_hex": "3c72756c65733e3c6c697374206e616d653d227a22207265706c6163656d656e743d2266616c7365222072616e646f6d3d2274727565223e3c656c656d206e616d653d22726f6f6d22206368616e6365733d222d327461696c222067616d65706c61793d224d697865645c58222076697375616c3d2259222f3e3c2f6c6973743e3c6c697374206e616d653d224122207265706c6163656d656e743d2254525545223e3c656c656d206e616d653d22726f6f6d22206368616e6365733d2230222f3e3c2f6c6973743e3c6c697374206e616d653d2262222072616e646f6d3d2266616c7365223e3c656c656d206e616d653d22726f6f6d22206368616e6365733d22626164222f3e3c2f6c6973743e3c2f72756c65733e",
+      "block_names": [
+        "room"
+      ],
+      "xml_error": 0,
+      "load_result": 1,
+      "lists": [
+        {
+          "name": "a",
+          "replacement": false,
+          "elements": [
+            {
+              "block_name": "room",
+              "gameplay": "",
+              "visual": "",
+              "chances": 0
+            }
+          ]
+        },
+        {
+          "name": "b",
+          "replacement": true,
+          "elements": [
+            {
+              "block_name": "room",
+              "gameplay": "",
+              "visual": "",
+              "chances": 100
+            }
+          ]
+        },
+        {
+          "name": "z",
+          "replacement": false,
+          "elements": [
+            {
+              "block_name": "room",
+              "gameplay": "Mixed\\X",
+              "visual": "Y",
+              "chances": -2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "duplicate-and-filtered-tags",
+      "input_hex": "3c72756c65733e3c6c697374206e616d653d2253616d65223e3c656c656d206e616d653d22726f6f6d222f3e3c69676e6f7265642f3e3c656c656d206e616d653d22726f6f6d22206368616e6365733d223235222f3e3c2f6c6973743e3c4c697374206e616d653d2275707065722d746167222f3e3c6c697374206e616d653d2273616d65223e3c656c656d206e616d653d22726f6f6d22206368616e6365733d2231222f3e3c2f6c6973743e3c6c6973743e3c656c656d206e616d653d22726f6f6d222f3e3c2f6c6973743e3c2f72756c65733e",
+      "block_names": [
+        "room"
+      ],
+      "xml_error": 0,
+      "load_result": 1,
+      "lists": [
+        {
+          "name": "",
+          "replacement": true,
+          "elements": [
+            {
+              "block_name": "room",
+              "gameplay": "",
+              "visual": "",
+              "chances": 100
+            }
+          ]
+        },
+        {
+          "name": "same",
+          "replacement": true,
+          "elements": [
+            {
+              "block_name": "room",
+              "gameplay": "",
+              "visual": "",
+              "chances": 100
+            },
+            {
+              "block_name": "room",
+              "gameplay": "",
+              "visual": "",
+              "chances": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "empty-map",
+      "input_hex": "3c72756c65732f3e",
+      "block_names": [],
+      "xml_error": 0,
+      "load_result": 1,
+      "lists": []
+    }
+  ],
+  "original_execution_complete": false,
+  "smoke_execution_complete": true,
+  "layout_generation_verified": false,
+  "full_loader_verified": false
+}

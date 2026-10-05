@@ -1,0 +1,13 @@
+{
+  "validation": "PASS",
+  "whole_original_POCharacter_callback_cases": 96,
+  "whole_AISExternal_ctor_with_declared_base_service": 8,
+  "same_other_owner_RaiseEvent_payload": true,
+  "begin_end_Debug_before_handle": true,
+  "persist_handle_before_Debug": true,
+  "source_collision_debug_key": "isTracingPlayersCollision",
+  "source_AIS_fields": "collision_ms+bc,last_collision_frame+c0 both zero; paused borrowed Character+3e0=CharAI+18",
+  "POCharacter_Result": "complete bx lr body, no AIS forwarding",
+  "native_differential": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+}

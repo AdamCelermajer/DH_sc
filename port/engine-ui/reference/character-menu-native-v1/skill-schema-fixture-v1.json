@@ -1,0 +1,128 @@
+{
+  "callback": "NativeGetSkillDetails",
+  "class_id": 290,
+  "writes": [
+    {
+      "key": "SkillName",
+      "type": 4,
+      "value": ""
+    },
+    {
+      "key": "SkillDescription",
+      "type": 4,
+      "value": ""
+    },
+    {
+      "key": "SkillCurrLevel",
+      "type": 4,
+      "value": "FIXTURE"
+    },
+    {
+      "key": "SkillNextLevel",
+      "type": 4,
+      "value": "FIXTURE"
+    },
+    {
+      "key": "SkillAssignable",
+      "type": 1,
+      "value": 0
+    },
+    {
+      "key": "SkillIcon",
+      "type": 4,
+      "value": "\u007fELF\u0001\u0001\u0001"
+    },
+    {
+      "key": "SkillLevel",
+      "type": 2,
+      "value": 10.0
+    },
+    {
+      "key": "SkillAssignedToSlot",
+      "type": 2,
+      "value": 10.0
+    },
+    {
+      "key": "SkillUnlocked",
+      "type": 1,
+      "value": 1
+    }
+  ],
+  "services": [
+    [
+      "_Z19NativeGetPlayerCharib",
+      0,
+      0
+    ],
+    [
+      "_ZN9Character13SG_GetSkillIdEj",
+      34603008,
+      0,
+      67165936,
+      67165912
+    ],
+    [
+      "_ZNK9Character8GetLevelEv",
+      34603008,
+      0,
+      9222160,
+      0
+    ],
+    [
+      "_ZNK9Character16SG_GetSkillLevelEj",
+      34603008,
+      0,
+      9222160,
+      0
+    ],
+    [
+      "_ZN9Character28SG_GetGameDifficultyUnlockedEv",
+      34603008,
+      9181016,
+      9193648,
+      10046104
+    ],
+    [
+      "_ZN9Character28SG_GetGameDifficultyUnlockedEv",
+      34603008,
+      9181016,
+      9193648,
+      10046104
+    ],
+    [
+      "_ZNK9Character16SG_GetSkillLevelEj",
+      34603008,
+      0,
+      9193648,
+      10046104
+    ],
+    [
+      "_ZNK9Character16SG_GetSkillLevelEj",
+      34603008,
+      0,
+      4172,
+      67165748
+    ],
+    [
+      "_ZNK9Character16SG_GetSkillLevelEj",
+      34603008,
+      0,
+      1,
+      0
+    ],
+    [
+      "_ZNK9Character16SG_GetSkillLevelEj",
+      34603008,
+      0,
+      67165800,
+      34611456
+    ],
+    [
+      "_ZN9Character15SG_GetSkillSlotEj",
+      34603008,
+      0,
+      67165788,
+      34611456
+    ]
+  ]
+}

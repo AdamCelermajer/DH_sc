@@ -31,6 +31,11 @@ public final class MainActivity extends Activity {
     private volatile boolean ready;
     private MovementControl movement;
     private Button attack;
+    private GameplayHud gameplayHud;
+    private FrameLayout viewportOverlay;
+    private CharacterPanel characterPanel;
+    private final java.util.Map<String,android.graphics.Bitmap> characterIcons=new java.util.HashMap<>();
+    private long nextHudUpdate;
     private volatile String loadedAsset;
     private volatile String baseReport;
     private volatile boolean pendingActorCommand;
@@ -71,7 +76,7 @@ public final class MainActivity extends Activity {
         }
         catch(Exception e){Log.e("DH2Native","Asset listing failed",e);status.setText(e.toString());}
         String requested=state!=null?state.getString("asset"):null;
-        pendingActorCommand=state!=null?state.getBoolean("pendingPlayerAttack",false):getIntent().getBooleanExtra("player_attack",false);
+        pendingActorCommand=state!=null?state.getBoolean("pendingActorCommand",false):getIntent().getBooleanExtra("player_attack",false)||getIntent().getStringExtra("object_state")!=null;
         if(requested==null&&getIntent().getStringExtra("model")!=null)requested="models/"+getIntent().getStringExtra("model");
         if(requested==null&&getIntent().getStringExtra("texture")!=null)requested="textures/"+getIntent().getStringExtra("texture");
         if(requested==null&&getIntent().getStringExtra("world")!=null)requested="worlds/"+getIntent().getStringExtra("world");
@@ -106,12 +111,20 @@ public final class MainActivity extends Activity {
             @Override public void onSurfaceChanged(GL10 gl,int w,int h){NativeBridge.resize(w,h);}
             @Override public void onDrawFrame(GL10 gl){
                 NativeBridge.draw();
+                long now=android.os.SystemClock.uptimeMillis();
+                if(gameplayHud!=null&&loadedAsset!=null&&loadedAsset.startsWith("worlds/")&&now>=nextHudUpdate){
+                    nextHudUpdate=now+100;
+                    int[] snapshot=NativeBridge.playerGameplayHud();
+                    updateGameplayIcons();
+                    runOnUiThread(()->gameplayHud.update(snapshot));
+                }
                 String error=NativeBridge.consumeOriginalUiError();
                 if(error!=null){Log.e("DH2Native","Original UI display failed: "+error);show("Original HUD failed: "+error);}
             }
         });
         surface.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
         FrameLayout viewport=new FrameLayout(this);viewport.addView(surface,new FrameLayout.LayoutParams(-1,-1));
+        viewportOverlay=viewport;
         loadError=new TextView(this);loadError.setTextColor(Color.WHITE);loadError.setBackgroundColor(Color.argb(230,85,25,25));loadError.setPadding(20,12,20,12);loadError.setVisibility(View.GONE);
         viewport.addView(loadError,new FrameLayout.LayoutParams(-2,-2,Gravity.TOP|Gravity.CENTER_HORIZONTAL));
         movement=new MovementControl();movement.setVisibility(View.GONE);
@@ -121,6 +134,21 @@ public final class MainActivity extends Activity {
         attack=new Button(this);attack.setText("Attack");attack.setContentDescription("Attack nearby enemy");attack.setVisibility(View.GONE);
         FrameLayout.LayoutParams attackLayout=new FrameLayout.LayoutParams((int)(112*getResources().getDisplayMetrics().density),(int)(64*getResources().getDisplayMetrics().density),Gravity.BOTTOM|Gravity.RIGHT);attackLayout.rightMargin=attackLayout.bottomMargin=(int)(24*getResources().getDisplayMetrics().density);viewport.addView(attack,attackLayout);
         attack.setOnClickListener(v->surface.queueEvent(()->{String report=NativeBridge.playerAttack(-1);Log.i("DH2Native","Player input | "+report);show(baseReport+"\n"+report);}));
+        gameplayHud=new GameplayHud(this,(operation,index)->surface.queueEvent(()->{
+            String report=NativeBridge.playerGameplayAction(operation,index);
+            Log.i("DH2Native","Gameplay HUD action | operation "+operation+" | index "+index+" | "+report);
+            int[] snapshot=NativeBridge.playerGameplayHud();
+            Log.i("DH2Native","Gameplay HUD snapshot | "+Arrays.toString(snapshot));
+            runOnUiThread(()->{gameplayHud.update(snapshot);gameplayHud.result(report);});
+        }));
+        gameplayHud.setVisibility(View.GONE);
+        FrameLayout.LayoutParams hudLayout=new FrameLayout.LayoutParams((int)(360*getResources().getDisplayMetrics().density),(int)(102*getResources().getDisplayMetrics().density),Gravity.BOTTOM|Gravity.CENTER_HORIZONTAL);
+        hudLayout.bottomMargin=(int)(8*getResources().getDisplayMetrics().density);
+        viewport.addView(gameplayHud,hudLayout);
+        Button character=new Button(this);character.setText("Character");character.setAllCaps(false);character.setContentDescription("Open character stats inventory skills and faeries");
+        FrameLayout.LayoutParams characterLayout=new FrameLayout.LayoutParams((int)(112*getResources().getDisplayMetrics().density),(int)(40*getResources().getDisplayMetrics().density),Gravity.TOP|Gravity.RIGHT);
+        characterLayout.rightMargin=(int)(68*getResources().getDisplayMetrics().density);viewport.addView(character,characterLayout);
+        character.setOnClickListener(v->showCharacterPanel());
         ScrollView tools=new ScrollView(this);tools.addView(developerPanel);tools.setVisibility(developerOpen?View.VISIBLE:View.GONE);
         int toolsWidth=(int)(340*getResources().getDisplayMetrics().density);
         viewport.addView(tools,new FrameLayout.LayoutParams(toolsWidth,-1,Gravity.RIGHT));
@@ -141,6 +169,11 @@ public final class MainActivity extends Activity {
             debugAttackReceiver=new BroadcastReceiver(){
                 @Override public void onReceive(Context context,Intent intent){
                     if(!ready||loadedAsset==null||!loadedAsset.startsWith("worlds/"))return;
+                    if("com.example.dh2.DEBUG_EQUIPMENT".equals(intent.getAction())){
+                        final int operation=intent.getIntExtra("operation",-1),index=intent.getIntExtra("index",-1),slot=intent.getIntExtra("slot",-1);
+                        surface.queueEvent(()->{String report=NativeBridge.playerEquipmentAction(operation,index,slot);Log.i("DH2Native","Equipment command applied | "+report);show(baseReport+"\n"+report);surface.requestRender();});
+                        return;
+                    }
                     if("com.example.dh2.DEBUG_ANIMATION_TIME".equals(intent.getAction())){
                         final int time=intent.getIntExtra("time_ms",-1);
                         surface.queueEvent(()->{NativeBridge.animationTime(time);Log.i("DH2Native","Animation time command applied | time "+time);surface.requestRender();});
@@ -152,10 +185,66 @@ public final class MainActivity extends Activity {
             };
             IntentFilter filter=new IntentFilter("com.example.dh2.DEBUG_PLAYER_ATTACK");
             filter.addAction("com.example.dh2.DEBUG_ANIMATION_TIME");
+            filter.addAction("com.example.dh2.DEBUG_EQUIPMENT");
             if(Build.VERSION.SDK_INT>=33)registerReceiver(debugAttackReceiver,filter,"android.permission.DUMP",null,Context.RECEIVER_EXPORTED);
             else registerReceiver(debugAttackReceiver,filter,"android.permission.DUMP",null);
         }
     }
+    private void updateGameplayIcons(){
+        String[] names=NativeBridge.playerGameplayIcons();
+        if(names==null||names.length!=5||!gameplayHud.needsIcons(names))return;
+        android.graphics.Bitmap[] bitmaps=new android.graphics.Bitmap[5];
+        for(int i=0;i<5;i++)if(names[i]!=null&&!names[i].isEmpty()){
+            int[] pixels=NativeBridge.menuIcon(names[i]);
+            if(pixels!=null&&pixels.length>=2&&pixels[0]>0&&pixels[1]>0&&pixels.length==(long)pixels[0]*pixels[1]+2)
+                bitmaps[i]=android.graphics.Bitmap.createBitmap(pixels,2,pixels[0],pixels[0],pixels[1],android.graphics.Bitmap.Config.ARGB_8888);
+        }
+        runOnUiThread(()->gameplayHud.icons(names,bitmaps));
+    }
+    private void showCharacterPanel(){
+        if(characterPanel!=null||!ready||loadedAsset==null||!loadedAsset.startsWith("worlds/"))return;
+        surface.queueEvent(()->NativeBridge.moveAxis(0,0));
+        movement.setVisibility(View.GONE);attack.setVisibility(View.GONE);gameplayHud.setVisibility(View.GONE);
+        characterPanel=new CharacterPanel(this,new CharacterPanel.Host(){
+            @Override public void refresh(CharacterPanel panel){surface.queueEvent(()->publishCharacterPanel(panel,NativeBridge.playerCharacterSnapshot(),null));}
+            @Override public void action(CharacterPanel panel,int operation,int index,int slot){surface.queueEvent(()->{String report=NativeBridge.playerCharacterAction(operation,index,slot);String snapshot=NativeBridge.playerCharacterSnapshot();Log.i("DH2Native","Character action | "+operation+" | "+index+" | "+slot+" | "+report);publishCharacterPanel(panel,snapshot,report);});}
+            @Override public void close(){closeCharacterPanel();}
+        });
+        viewportOverlay.addView(characterPanel,new FrameLayout.LayoutParams(-1,-1));
+        final CharacterPanel panel=characterPanel;
+        surface.queueEvent(()->{String snapshot=NativeBridge.playerCharacterSnapshot();Log.i("DH2Native","Character snapshot | "+snapshot);publishCharacterPanel(panel,snapshot,null);});
+    }
+    // Invoked only on the GL thread, where the native texture decoder is owned.
+    private void publishCharacterPanel(CharacterPanel panel,String snapshot,String report){
+        try{
+            org.json.JSONObject object=new org.json.JSONObject(snapshot);
+            org.json.JSONObject evidence=new org.json.JSONObject();evidence.put("ready",object.optBoolean("ready"));evidence.put("stats",object.optJSONObject("stats"));evidence.put("skillPoints",object.optInt("skillPoints"));
+            String[][] fields={{"Index","ItemID","Quantity","EquippedSlot"},{"Index","SkillLevel","EquippedSlot"},{"Index","State","Level","Selected"}};
+            String[] collections={"items","skills","faeries"},keys={"ItemIcon","SkillIcon","Icon"};
+            for(int group=0;group<collections.length;group++){
+                org.json.JSONArray rows=object.optJSONArray(collections[group]);if(rows==null)continue;
+                org.json.JSONArray compact=new org.json.JSONArray();
+                for(int i=0;i<rows.length();i++){
+                    org.json.JSONObject row=rows.optJSONObject(i);if(row==null)continue;String name=row.optString(keys[group]);
+                    org.json.JSONObject values=new org.json.JSONObject();for(String key:fields[group])values.put(key,row.opt(key));compact.put(values);
+                    if(name.isEmpty()||characterIcons.containsKey(name))continue;
+                    int[] pixels=NativeBridge.menuIcon(name);android.graphics.Bitmap bitmap=null;
+                    if(pixels!=null&&pixels.length>=2&&pixels[0]>0&&pixels[1]>0&&pixels.length==(long)pixels[0]*pixels[1]+2)
+                        bitmap=android.graphics.Bitmap.createBitmap(pixels,2,pixels[0],pixels[0],pixels[1],android.graphics.Bitmap.Config.ARGB_8888);
+                    characterIcons.put(name,bitmap);
+                }
+                evidence.put(collections[group],compact);
+            }
+            Log.i("DH2Native","Character snapshot state | "+evidence);
+        }catch(org.json.JSONException error){Log.w("DH2Native","Character icon metadata failed",error);}
+        java.util.Map<String,android.graphics.Bitmap> images=new java.util.HashMap<>(characterIcons);
+        runOnUiThread(()->{if(characterPanel==panel){panel.update(snapshot);panel.icons(images);if(report!=null)panel.result(report);}});
+    }
+    private void closeCharacterPanel(){
+        if(characterPanel==null)return;viewportOverlay.removeView(characterPanel);characterPanel=null;
+        boolean world=loadedAsset!=null&&loadedAsset.startsWith("worlds/");movement.setVisibility(world?View.VISIBLE:View.GONE);attack.setVisibility(world?View.VISIBLE:View.GONE);gameplayHud.setVisibility(world?View.VISIBLE:View.GONE);
+    }
+    @Override public void onBackPressed(){if(characterPanel!=null){closeCharacterPanel();return;}super.onBackPressed();}
     private void show(String text){runOnUiThread(()->{
         status.setText(text);
         boolean failed=text.contains("failed")||text.contains("error")||text.contains("Exception");
@@ -183,7 +272,7 @@ public final class MainActivity extends Activity {
     private void loadSelected(){
         String name=assets[selected];
         if(name.equals(loadedAsset))return;
-        runOnUiThread(()->{movement.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);attack.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);});
+        runOnUiThread(()->{movement.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);attack.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);gameplayHud.update(null);gameplayHud.setVisibility(name.startsWith("worlds/")?View.VISIBLE:View.GONE);});
         if(name.equals("ui/original-health-panel")){
             String report=NativeBridge.loadOriginalHealthPanel(getFilesDir().getAbsolutePath());
             if(!report.contains("failed"))loadedAsset=name;
@@ -201,7 +290,9 @@ public final class MainActivity extends Activity {
                 String attackReport=NativeBridge.playerAttack(getIntent().getIntExtra("player_target_index",-1));report+="\n"+attackReport;
                 Log.i("DH2Native","Player command applied | "+attackReport);pendingActorCommand=false;
             }
-            if(name.startsWith("worlds/")&&getIntent().getStringExtra("object_state")!=null&&(!report.contains("Native combat resumed")||pendingActorCommand)){
+            // An intent is a command, not a desired state to replay every time
+            // Android recreates the GL surface. The native actor owns its state.
+            if(name.startsWith("worlds/")&&pendingActorCommand&&getIntent().getStringExtra("object_state")!=null){
                 int index=getIntent().getIntExtra("object_index",-1);
                 String targetReport=NativeBridge.combatTarget(index,getIntent().getIntExtra("combat_target_index",-1));
                 report+="\n"+(targetReport.equals("Combat target selected")||targetReport.equals("Combat target cleared")?NativeBridge.objectState(index,getIntent().getStringExtra("object_state")):targetReport);
@@ -233,8 +324,8 @@ public final class MainActivity extends Activity {
         @Override public boolean performClick(){super.performClick();return true;}
         void stop(){axisX=axisY=0;invalidate();surface.queueEvent(()->NativeBridge.moveAxis(0,0));}
     }
-    @Override protected void onPause(){super.onPause();ready=false;movement.stop();surface.onPause();}
+    @Override protected void onPause(){super.onPause();ready=false;movement.stop();gameplayHud.cancelPress();surface.onPause();}
     @Override protected void onResume(){super.onResume();surface.onResume();}
     @Override protected void onDestroy(){if(debugAttackReceiver!=null)unregisterReceiver(debugAttackReceiver);super.onDestroy();}
-    @Override protected void onSaveInstanceState(Bundle state){super.onSaveInstanceState(state);if(assets.length>0)state.putString("asset",assets[selected]);state.putBoolean("pendingPlayerAttack",pendingActorCommand&&getIntent().getBooleanExtra("player_attack",false));state.putBoolean("enemyAi",enemyAi);state.putBoolean("developerOpen",developerOpen);}
+    @Override protected void onSaveInstanceState(Bundle state){super.onSaveInstanceState(state);if(assets.length>0)state.putString("asset",assets[selected]);state.putBoolean("pendingActorCommand",pendingActorCommand);state.putBoolean("enemyAi",enemyAi);state.putBoolean("developerOpen",developerOpen);}
 }

@@ -1,0 +1,1265 @@
+{
+  "validation": "FAIL",
+  "apk_sha256": "d33c029f7bceee424b306c4b5be5bcca48821f9fafcc16fcdffa438520fc5ac0",
+  "installed_apk_sha256": "d33c029f7bceee424b306c4b5be5bcca48821f9fafcc16fcdffa438520fc5ac0",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "370295293fc462300d2e14a0939c6fec3c456b7047c5ee79bfaded2eec75e74b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "d59803e3a4739c7faf1ca47d46fbc4479cd2c9c585250c82704134bb83dbec11",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "41ac012b447f161d4185fd7314162a2567d34c79fa3304052239613a442bf2b4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "3211c21c723b12c96dd5df034d45c7505a6c4029886df81b253dd653bbe26e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "4af7943df729cbe6e554f5fa4734e8febcb1c160e2653a8dbec6071a1c3034f9",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "fc478b48d5695702b46fff9c82f4b891bd7941261f02d97e73229075f0ba14ae",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "87597c18c51d823dd0a26e3025a76b35cd8ec1e5b0e29fb6156a760b7c1228eb",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "8f84d00e6dd3070bfaa0a8ffd9dc6d416a06df797b4f9aaf33c0c11e2fc7dd5d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "2311e6d8ea7f4a48d9c85600c413c75005157dcedca2b49a83fb45add30a84fd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "f837699723fac3b8e96585baaeaa66cc8447d4832a8cb24ba47ff90bf77a4abd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+      "sha256": "4da21f36a55b5cb798e7fa441edc93081e1107f30196f9ec2c01fd16aa35f87f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_ui.so",
+      "sha256": "32a0460ccb5abffe339e5dde94f323d95d8e674e56ab9544ddaa035440d6c967",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "953132a04ea44446476ab4c755348fb1acd4b250be5982d720956dcc08e8f03e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "18b8d1357d1eae41d63fee046e97cf6f16666b83a55e218e610c761fa0881951",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "afd28402535e9e1e9b5ca410d96b8e3a98c20ece2cd74713c5af2e7bbba44b89",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "f321cf208c51b0423f4eb6da99bc8b802e82838ace63cdac383408cefdfba398",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "scope": "Exercise source player states and authored combat events on an emulator.\n\nThe caller must already install --apk. This script verifies the installed hash,\nfresh-launches Crypt with enemy AI disabled, uses actual touch movement and the\ndebug broadcast into the same playerAttack UI bridge, and records bounded\nsource-state observations without pausing the Activity or changing held input.\nIt does not establish full FSM, blended-pose, GPU or physical ARM64 parity.\nRequired transition log contract: Player source state | previous P | current C\n| event 0xE | flags HEX | root R | clip K | position X Y Z | Step N.\n",
+  "physical_arm64_tested": false,
+  "full_original_fsm_or_gpu_parity_claimed": false,
+  "source_no_target_swing_without_damage": true,
+  "error": "Crypt waypoint not reached by actual movement controls",
+  "cases": {},
+  "movement": [
+    {
+      "axis": 1,
+      "start": [
+        -2227.77,
+        1220.9301,
+        842.3644
+      ],
+      "end": [
+        -2223.9382,
+        1099.0426,
+        842.3644
+      ],
+      "requested_hold_seconds": 0.2,
+      "input_duration_ms": 200,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.26600000000325963,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2223.9382,
+        1099.0426,
+        842.3644
+      ],
+      "end": [
+        -2221.5681,
+        657.3981,
+        702.6853
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.6720000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2221.5681,
+        657.3981,
+        702.6853
+      ],
+      "end": [
+        -2220.5923,
+        174.4829,
+        458.8672
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.6720000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2220.5923,
+        174.4829,
+        458.8672
+      ],
+      "end": [
+        -2219.5557,
+        -299.4855,
+        219.5664
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.6879999999655411,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2219.5557,
+        -299.4855,
+        219.5664
+      ],
+      "end": [
+        -2217.3577,
+        -747.8887,
+        41.7078
+      ],
+      "requested_hold_seconds": 0.576,
+      "input_duration_ms": 576,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.6410000000032596,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2217.3577,
+        -747.8887,
+        41.7078
+      ],
+      "end": [
+        -2213.4741,
+        -871.4195,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.211,
+      "input_duration_ms": 211,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.29599999997299165,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2213.4741,
+        -871.4195,
+        41.7079
+      ],
+      "end": [
+        -2213.4741,
+        -909.3013,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.2,
+      "input_duration_ms": 200,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.26600000000325963,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2213.4741,
+        -909.3013,
+        41.7079
+      ],
+      "end": [
+        -2213.4741,
+        -976.182,
+        41.7081
+      ],
+      "requested_hold_seconds": 0.311,
+      "input_duration_ms": 311,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.39000000001396984,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -2213.4741,
+        -976.182,
+        41.7081
+      ],
+      "end": [
+        -2120.3208,
+        -998.4611,
+        41.7081
+      ],
+      "requested_hold_seconds": 0.2,
+      "input_duration_ms": 200,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.26500000001396984,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -2120.3208,
+        -998.4611,
+        41.7081
+      ],
+      "end": [
+        -1644.6749,
+        -997.0729,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.6719999999622814,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1644.6749,
+        -997.0729,
+        41.7079
+      ],
+      "end": [
+        -1509.3464,
+        -992.8143,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.209,
+      "input_duration_ms": 209,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.26600000000325963,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1509.3464,
+        -992.8143,
+        41.7079
+      ],
+      "end": [
+        -1499.8289,
+        -992.8143,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.2,
+      "input_duration_ms": 200,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.28100000001722947,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1499.8289,
+        -992.8143,
+        41.7079
+      ],
+      "end": [
+        -1351.1949,
+        -992.8143,
+        41.7081
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6880000000237487,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1351.1949,
+        -992.8143,
+        41.7081
+      ],
+      "end": [
+        -1347.5271,
+        -989.3699,
+        41.7081
+      ],
+      "requested_hold_seconds": 0.102,
+      "input_duration_ms": 102,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.18799999996554106,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1347.5271,
+        -989.3699,
+        41.7081
+      ],
+      "end": [
+        -1496.2711,
+        -989.3699,
+        41.7081
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6880000000237487,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1496.2711,
+        -989.3699,
+        41.7081
+      ],
+      "end": [
+        -1472.3719,
+        -952.0673,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.279,
+      "input_duration_ms": 279,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.34399999998277053,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1472.3719,
+        -952.0673,
+        41.7079
+      ],
+      "end": [
+        -1323.7317,
+        -952.0673,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6719999999622814,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1323.7317,
+        -952.0673,
+        41.7079
+      ],
+      "end": [
+        -1320.7422,
+        -923.3083,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.174,
+      "input_duration_ms": 174,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.26600000000325963,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1320.7422,
+        -923.3083,
+        41.7079
+      ],
+      "end": [
+        -1466.2479,
+        -923.3083,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6709999999729916,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1466.2479,
+        -923.3083,
+        41.7079
+      ],
+      "end": [
+        -1469.9067,
+        -891.1917,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.204,
+      "input_duration_ms": 204,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.2809999999590218,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1469.9067,
+        -891.1917,
+        41.7079
+      ],
+      "end": [
+        -1317.9857,
+        -891.1917,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6720000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1317.9857,
+        -891.1917,
+        41.7079
+      ],
+      "end": [
+        -1312.3236,
+        -862.3604,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.185,
+      "input_duration_ms": 185,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.25,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1312.3236,
+        -862.3604,
+        41.7079
+      ],
+      "end": [
+        -1455.5216,
+        -862.3604,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6720000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1455.5216,
+        -862.3604,
+        41.7079
+      ],
+      "end": [
+        -1456.8688,
+        -831.6106,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.178,
+      "input_duration_ms": 178,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.23399999999674037,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1456.8688,
+        -831.6106,
+        41.7079
+      ],
+      "end": [
+        -1312.1329,
+        -831.6106,
+        41.7078
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6570000000065193,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1312.1329,
+        -831.6106,
+        41.7078
+      ],
+      "end": [
+        -1311.8867,
+        -798.3527,
+        41.7078
+      ],
+      "requested_hold_seconds": 0.21,
+      "input_duration_ms": 210,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.28100000001722947,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1311.8867,
+        -798.3527,
+        41.7078
+      ],
+      "end": [
+        -1455.9286,
+        -798.3527,
+        41.7078
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6720000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1455.9286,
+        -798.3527,
+        41.7078
+      ],
+      "end": [
+        -1461.8562,
+        -771.593,
+        41.7078
+      ],
+      "requested_hold_seconds": 0.179,
+      "input_duration_ms": 179,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.25,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1461.8562,
+        -771.593,
+        41.7078
+      ],
+      "end": [
+        -1311.8323,
+        -771.593,
+        41.7078
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6560000000172295,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1311.8323,
+        -771.593,
+        41.7078
+      ],
+      "end": [
+        -1314.8738,
+        -738.7547,
+        41.7078
+      ],
+      "requested_hold_seconds": 0.203,
+      "input_duration_ms": 203,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.26600000000325963,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1314.8738,
+        -738.7547,
+        41.7078
+      ],
+      "end": [
+        -1460.7515,
+        -738.7547,
+        41.7078
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6720000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1460.7515,
+        -738.7547,
+        41.7078
+      ],
+      "end": [
+        -1461.6851,
+        -708.6838,
+        41.7078
+      ],
+      "requested_hold_seconds": 0.189,
+      "input_duration_ms": 189,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.26600000000325963,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1461.6851,
+        -708.6838,
+        41.7078
+      ],
+      "end": [
+        -1327.8055,
+        -708.6838,
+        41.7078
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.7029999999795109,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1327.8055,
+        -708.6838,
+        41.7078
+      ],
+      "end": [
+        -1327.077,
+        -677.2061,
+        41.7077
+      ],
+      "requested_hold_seconds": 0.181,
+      "input_duration_ms": 181,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.25,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1327.077,
+        -677.2061,
+        41.7077
+      ],
+      "end": [
+        -1466.7601,
+        -677.2061,
+        41.7077
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6719999999622814,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1466.7601,
+        -677.2061,
+        41.7077
+      ],
+      "end": [
+        -1465.0658,
+        -643.8853,
+        52.7512
+      ],
+      "requested_hold_seconds": 0.214,
+      "input_duration_ms": 214,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.28100000001722947,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1465.0658,
+        -643.8853,
+        52.7512
+      ],
+      "end": [
+        -1317.7494,
+        -643.8853,
+        57.299
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6869999999762513,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1317.7494,
+        -643.8853,
+        57.299
+      ],
+      "end": [
+        -1322.4564,
+        -608.3449,
+        75.0975
+      ],
+      "requested_hold_seconds": 0.191,
+      "input_duration_ms": 191,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.26600000000325963,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1322.4564,
+        -608.3449,
+        75.0975
+      ],
+      "end": [
+        -1475.3712,
+        -608.3449,
+        70.3769
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6719999999622814,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1475.3712,
+        -608.3449,
+        70.3769
+      ],
+      "end": [
+        -1474.2211,
+        -575.59,
+        86.95
+      ],
+      "requested_hold_seconds": 0.218,
+      "input_duration_ms": 218,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.28100000001722947,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1474.2211,
+        -575.59,
+        86.95
+      ],
+      "end": [
+        -1323.6854,
+        -575.59,
+        91.5972
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6720000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1323.6854,
+        -575.59,
+        91.5972
+      ],
+      "end": [
+        -1322.1038,
+        -545.1756,
+        107.002
+      ],
+      "requested_hold_seconds": 0.172,
+      "input_duration_ms": 172,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.26600000000325963,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1322.1038,
+        -545.1756,
+        107.002
+      ],
+      "end": [
+        -1469.5531,
+        -545.1756,
+        102.45
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6720000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1469.5531,
+        -545.1756,
+        102.45
+      ],
+      "end": [
+        -1463.3702,
+        -509.5637,
+        120.6208
+      ],
+      "requested_hold_seconds": 0.21,
+      "input_duration_ms": 210,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.28100000001722947,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1463.3702,
+        -509.5637,
+        120.6208
+      ],
+      "end": [
+        -1320.6436,
+        -509.5637,
+        125.027
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6719999999622814,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1320.6436,
+        -509.5637,
+        125.027
+      ],
+      "end": [
+        -1323.6422,
+        -477.3009,
+        141.2235
+      ],
+      "requested_hold_seconds": 0.19,
+      "input_duration_ms": 190,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.2649999999557622,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1323.6422,
+        -477.3009,
+        141.2235
+      ],
+      "end": [
+        -1464.9116,
+        -477.3009,
+        136.8623
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6559999999590218,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1464.9116,
+        -477.3009,
+        136.8623
+      ],
+      "end": [
+        -1454.3527,
+        -440.2773,
+        155.8811
+      ],
+      "requested_hold_seconds": 0.207,
+      "input_duration_ms": 207,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.28100000001722947,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1454.3527,
+        -440.2773,
+        155.8811
+      ],
+      "end": [
+        -1306.3405,
+        -440.2773,
+        160.4503
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6870000000344589,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1306.3405,
+        -440.2773,
+        160.4503
+      ],
+      "end": [
+        -1313.8,
+        -404.666,
+        178.1999
+      ],
+      "requested_hold_seconds": 0.22,
+      "input_duration_ms": 220,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.2970000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1313.8,
+        -404.666,
+        178.1999
+      ],
+      "end": [
+        -1458.5758,
+        -404.666,
+        173.7305
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6560000000172295,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1458.5758,
+        -404.666,
+        173.7305
+      ],
+      "end": [
+        -1456.032,
+        -373.8602,
+        189.3625
+      ],
+      "requested_hold_seconds": 0.185,
+      "input_duration_ms": 185,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.26500000001396984,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1456.032,
+        -373.8602,
+        189.3625
+      ],
+      "end": [
+        -1309.7628,
+        -373.8602,
+        193.8779
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6720000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1309.7628,
+        -373.8602,
+        193.8779
+      ],
+      "end": [
+        -1314.0702,
+        -339.3355,
+        211.176
+      ],
+      "requested_hold_seconds": 0.214,
+      "input_duration_ms": 214,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.28100000001722947,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1314.0702,
+        -339.3355,
+        211.176
+      ],
+      "end": [
+        -1459.9419,
+        -339.3355,
+        206.6728
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6720000000204891,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1459.9419,
+        -339.3355,
+        206.6728
+      ],
+      "end": [
+        -1464.225,
+        -309.1722,
+        221.7697
+      ],
+      "requested_hold_seconds": 0.187,
+      "input_duration_ms": 187,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.25,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1464.225,
+        -309.1722,
+        221.7697
+      ],
+      "end": [
+        -1316.856,
+        -309.1722,
+        226.3191
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.6709999999729916,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1316.856,
+        -309.1722,
+        226.3191
+      ],
+      "end": [
+        -1315.5778,
+        -278.2648,
+        241.9634
+      ],
+      "requested_hold_seconds": 0.194,
+      "input_duration_ms": 194,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.25,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    }
+  ]
+}

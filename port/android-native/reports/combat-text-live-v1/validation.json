@@ -1,0 +1,124 @@
+{
+  "validation": "PASS",
+  "scope": "Actual movement/Attack touches, source CombatResult selector, retained HUD/font/GPU draw and finite expiry. Enemy automatic AI explicitly disabled. Original Level load-process phase producer pending; actual constructor phase0 retained. Development camera used.",
+  "installed_apk_sha256": "becfbda33fbbf3ce9b442329175ea92315535f7b8397a44e0fd6ac66029e5e4a",
+  "pid": "12233",
+  "actual_hits": [
+    [
+      "_prim_tmp_cultist07",
+      "1",
+      "4353",
+      "25600",
+      "21247",
+      "0"
+    ],
+    [
+      "_prim_tmp_cultist07",
+      "2",
+      "1877",
+      "21247",
+      "19370",
+      "0"
+    ],
+    [
+      "_prim_tmp_cultist07",
+      "3",
+      "4522",
+      "19370",
+      "14848",
+      "0"
+    ]
+  ],
+  "source_text": [
+    [
+      "anim_sct_normaldamage",
+      "17",
+      "",
+      "ffffffff",
+      "-1234.4301",
+      "-369.6380",
+      "548.4370"
+    ],
+    [
+      "anim_sct_block",
+      "0",
+      "Block",
+      "ffff7f00",
+      "-1234.4301",
+      "-369.6380",
+      "548.4370"
+    ],
+    [
+      "anim_sct_normaldamage",
+      "7",
+      "",
+      "ffffffff",
+      "-1234.4301",
+      "-369.6380",
+      "548.4370"
+    ],
+    [
+      "anim_sct_normaldamage",
+      "17",
+      "",
+      "ffffffff",
+      "-1234.4301",
+      "-369.6380",
+      "548.4370"
+    ]
+  ],
+  "native_draw_and_expiry": [
+    [
+      "1",
+      "2",
+      "38",
+      "0",
+      "0"
+    ],
+    [
+      "0",
+      "0",
+      "41",
+      "0",
+      "0"
+    ],
+    [
+      "2",
+      "6",
+      "42",
+      "0",
+      "0"
+    ],
+    [
+      "1",
+      "1",
+      "44",
+      "0",
+      "0"
+    ],
+    [
+      "0",
+      "0",
+      "29",
+      "0",
+      "0"
+    ],
+    [
+      "1",
+      "2",
+      "42",
+      "0",
+      "0"
+    ],
+    [
+      "0",
+      "0",
+      "41",
+      "0",
+      "0"
+    ]
+  ],
+  "errors": [],
+  "injected_target_or_HP": false,
+  "physical_ARM64_tested": false
+}

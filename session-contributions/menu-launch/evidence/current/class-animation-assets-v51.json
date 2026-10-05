@@ -1,0 +1,44 @@
+[
+  {
+    "asset": "animations/prince_menu_idle_knight.bdae",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_menu_idle_knight.bdae",
+    "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a",
+    "bytes": 19400
+  },
+  {
+    "asset": "animations/prince_menu_idle_knight_02.bdae",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_menu_idle_knight_02.bdae",
+    "sha256": "f7c2c9da65f17b6bb737062bbdd13d3a2390332e6aa7504daf61af755df66aba",
+    "bytes": 36772
+  },
+  {
+    "asset": "animations/prince_menu_idle_rogue.bdae",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_menu_idle_rogue.bdae",
+    "sha256": "17dee5ad32e29307c25a83b4db898d14091de5e198ed5e50a5928c61444bbfa0",
+    "bytes": 14580
+  },
+  {
+    "asset": "animations/prince_menu_idle_rogue_02.bdae",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_menu_idle_rogue_02.bdae",
+    "sha256": "69a972b82dec287e392938a2aae3e810b135cec9a278f172b3a3ba7f592bbefe",
+    "bytes": 29472
+  },
+  {
+    "asset": "animations/prince_menu_idle_mage.bdae",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_menu_idle_mage.bdae",
+    "sha256": "63f1673b3c8074079b8033514087f4f0a614f3d32c983fd2193bc48a14462058",
+    "bytes": 12884
+  },
+  {
+    "asset": "animations/prince_menu_idle_mage_02.bdae",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_menu_idle_mage_02.bdae",
+    "sha256": "a9062d260e7b889fc3cf464c0d1edbed0f9b88323f5f0704a98d3d97e6df87c6",
+    "bytes": 34936
+  },
+  {
+    "asset": "animations/prince_template_anim.bdae",
+    "source": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/prince/animations/prince_template_anim.bdae",
+    "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102",
+    "bytes": 19908
+  }
+]

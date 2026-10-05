@@ -1,0 +1,14 @@
+port/android-native/app/src/main/assets/animations/skeleton_idle_01.bdae entries=0
+port/android-native/app/src/main/assets/animations/skeleton_idle_02.bdae entries=0
+port/android-native/app/src/main/assets/animations/skeleton_attack_01_to_idle.bdae entries=0
+port/android-native/app/src/main/assets/animations/skeleton_attack_02_to_idle.bdae entries=0
+port/android-native/app/src/main/assets/animations/skeleton_hurt.bdae entries=0
+port/android-native/app/src/main/assets/animations/skeleton_hurt_02.bdae entries=0
+port/android-native/app/src/main/assets/animations/slime_idle.bdae entries=0
+port/android-native/app/src/main/assets/animations/slime_idle_02.bdae entries=0
+port/android-native/app/src/main/assets/animations/slime_attack_01_to_idle.bdae entries=0
+port/android-native/app/src/main/assets/animations/slime_attack_02_to_idle.bdae entries=0
+port/android-native/app/src/main/assets/animations/slime_hurt_01.bdae entries=0
+port/android-native/app/src/main/assets/animations/slime_hurt_02.bdae entries=0
+port/android-native/app/src/main/assets/animations/ghost_idle_01.bdae entries=0
+port/android-native/app/src/main/assets/animations/ghost_hurt_01.bdae entries=0

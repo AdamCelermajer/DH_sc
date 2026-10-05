@@ -1,0 +1,779 @@
+{
+  "scope": "Generic private renderer attempts for prepared fixed source sets. Frame submission and screenshots do not establish original scene parity, objects, campaign transitions or saves.",
+  "serial": "emulator-5590",
+  "avd": "DH2_Loader_API37",
+  "app_id": "local.dh2.loader",
+  "apk_sha256": "e45bf76e36c789e546bf16529a59d6401e340e6062b7c54aaf3d341c4f163acd",
+  "assembly_coverage_sha256": "80919d0126a9203f0ecd694240ceaa75feaedaecb113b5034b935071177f150d",
+  "audit_source_sha256": "b853bb42c38d3192d1aba6886928f752703f620a4b36677a7f223d1a011050c4",
+  "summary": {
+    "source_blocked": 35,
+    "frame_submitted": 16
+  },
+  "levels": [
+    {
+      "name": "ABBEY_ENTRANCE_01",
+      "file": "009_abbey.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/009_abbey.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ABBEY_RUINS_01",
+      "file": "009a_abbey.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 1,
+        "meshes": 49,
+        "draws": 53,
+        "triangles": 7046,
+        "textures": 3,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "ABBEY_RUINS_01 | 1 modules | 49 mesh instances | 53 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-abbey_ruins_01.png",
+      "screenshot_sha256": "0fc40c60dd150dbb6bcbc82e593dd1176bb381961fa065291e8f80af5c5cf1de"
+    },
+    {
+      "name": "APPLETEMPLE",
+      "file": "050_earth_temple_demo.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/050_earth_temple_demo.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "APPLETEMPLEBACKUP",
+      "file": "x50_earth_temple_demo_BACKUP.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 5,
+        "meshes": 230,
+        "draws": 231,
+        "triangles": 15260,
+        "textures": 3,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "APPLETEMPLEBACKUP | 5 modules | 230 mesh instances | 231 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 1",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-appletemplebackup.png",
+      "screenshot_sha256": "3e41c3488f3856aef8e944779c55588bf2020716e59fb7b5bba4e7530a368d6b"
+    },
+    {
+      "name": "DARKWOOD",
+      "file": "003_darkwood.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 24,
+        "meshes": 923,
+        "draws": 936,
+        "triangles": 40142,
+        "textures": 5,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "DARKWOOD | 24 modules | 923 mesh instances | 936 draws | 5 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-darkwood.png",
+      "screenshot_sha256": "11d5559a31b95582341cb5fd9c4b5d0582751d314886006161db37986b657573"
+    },
+    {
+      "name": "DARKWOOD_V2",
+      "file": "003_darkwood.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 24,
+        "meshes": 923,
+        "draws": 936,
+        "triangles": 40142,
+        "textures": 5,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "DARKWOOD_V2 | 24 modules | 923 mesh instances | 936 draws | 5 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-darkwood_v2.png",
+      "screenshot_sha256": "9b3c1c40135c2f84ac547a46d22acb0401c3eb064b090bca2978d0da1e7055d7"
+    },
+    {
+      "name": "DARKWOOD_V3",
+      "file": "003_darkwood.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 24,
+        "meshes": 923,
+        "draws": 936,
+        "triangles": 40142,
+        "textures": 5,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "DARKWOOD_V3 | 24 modules | 923 mesh instances | 936 draws | 5 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-darkwood_v3.png",
+      "screenshot_sha256": "2c46885b51b7e09400661ec9516b10c0056ecf9ae9e19e073e963d1e92e8c465"
+    },
+    {
+      "name": "DARK_DUNGEON_TEMPLE_01",
+      "file": "038_dark_temple.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 8,
+        "meshes": 16,
+        "draws": 17,
+        "triangles": 21087,
+        "textures": 3,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "DARK_DUNGEON_TEMPLE_01 | 8 modules | 16 mesh instances | 17 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-dark_dungeon_temple_01.png",
+      "screenshot_sha256": "d74b156ac24d534cd0c9909f25a4782816c220da631716ec5bd7ba194122fad6"
+    },
+    {
+      "name": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+      "file": "039_dark_temple_bossroom_01.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 2,
+        "meshes": 6,
+        "draws": 6,
+        "triangles": 4745,
+        "textures": 4,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "DARK_DUNGEON_TEMPLE_BOSSROOM | 2 modules | 6 mesh instances | 6 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-dark_dungeon_temple_bossroom.png",
+      "screenshot_sha256": "15e99c8755412db60524ff2102e16586c63c8a1b22bc052ae03723c7a91475b9"
+    },
+    {
+      "name": "DESERT_CAVE_01",
+      "file": "016_red_desert_cave_01.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/016_red_desert_cave_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "DESERT_CAVE_02",
+      "file": "017_red_desert_cave_02.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/017_red_desert_cave_02.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "DESERT_CAVE_03",
+      "file": "018_red_desert_cave_03.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/018_red_desert_cave_03.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "EARTH_TEMPLE_01",
+      "file": "011_earth_temple_01.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/011_earth_temple_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "EARTH_TEMPLE_02",
+      "file": "012_earth_temple_02.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/012_earth_temple_02.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "EARTH_TEMPLE_03",
+      "file": "013_earth_temple_03.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/013_earth_temple_03.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ELEMENTAL_AIR",
+      "file": "030_el_air.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/030_el_air.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ELEMENTAL_EARTH",
+      "file": "014_el_earth.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/014_el_earth.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ELEMENTAL_FIRE",
+      "file": "032_el_fire.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/032_el_fire.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ELEMENTAL_LIGHT",
+      "file": "010_el_lightning.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/010_el_lightning.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ELEMENTAL_WATER",
+      "file": "024_el_water.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/024_el_water.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "FIRE_TEMPLE_01",
+      "file": "031_firetemple.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 12,
+        "meshes": 274,
+        "draws": 300,
+        "triangles": 39745,
+        "textures": 3,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "FIRE_TEMPLE_01 | 12 modules | 274 mesh instances | 300 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-fire_temple_01.png",
+      "screenshot_sha256": "e440146c6019219af5c5e48208d1071435099508889a198b087ef7a732550d8b"
+    },
+    {
+      "name": "GOTHICUS_CASTLE_01",
+      "file": "008_gothicus_castle_01.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/008_gothicus_castle_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "GOTHICUS_CASTLE_02",
+      "file": "021_gothicus_castle_02.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/021_gothicus_castle_02.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "GOTHICUS_CRYPT_01",
+      "file": "007_crypt_01.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/007_crypt_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "GOTHICUS_CRYPT_02",
+      "file": "020_crypt_02.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "XML parse failure in data/scene/020_crypt_02.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "ICY_CAVERN_01",
+      "file": "026_icy_cavern_01.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/026_icy_cavern_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ICY_CAVERN_02",
+      "file": "027_icy_cavern_02.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/027_icy_cavern_02.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ICY_CAVERN_03",
+      "file": "028_icy_cavern_03.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/028_icy_cavern_03.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "ICY_HUB",
+      "file": "025_icy_hub.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 7,
+        "meshes": 288,
+        "draws": 288,
+        "triangles": 21313,
+        "textures": 3,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "ICY_HUB | 7 modules | 288 mesh instances | 288 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-icy_hub.png",
+      "screenshot_sha256": "e208796866917145a396cccb0e1089aac87ba93534e983f14b4eb9ce790820bf"
+    },
+    {
+      "name": "INFECTED_VILLAGE_01",
+      "file": "005_infectedvillage.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 2,
+        "meshes": 9,
+        "draws": 13,
+        "triangles": 5699,
+        "textures": 3,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "INFECTED_VILLAGE_01 | 2 modules | 9 mesh instances | 13 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-infected_village_01.png",
+      "screenshot_sha256": "077e1e13bcba8342c6718342686c41b8eca1bdd8e5410deb89556bac4685f388"
+    },
+    {
+      "name": "LIGHT_HOUSE_01",
+      "file": "019_light_house_01.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/019_light_house_01.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "LIGHT_HOUSE_02",
+      "file": "019_light_house_02.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/019_light_house_02.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "LIGHT_HOUSE_03",
+      "file": "019_light_house_03.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/019_light_house_03.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "MACHINE_ROOMS_01",
+      "file": "037_machine_rooms_01.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 13,
+        "meshes": 13,
+        "draws": 13,
+        "triangles": 33706,
+        "textures": 2,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "MACHINE_ROOMS_01 | 13 modules | 13 mesh instances | 13 draws | 2 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-machine_rooms_01.png",
+      "screenshot_sha256": "116df90e0c5430bcbcba06cbf5982968623f7baf66855c783e95863d2f4625bc"
+    },
+    {
+      "name": "MULTIPLAYER_TEST",
+      "file": "101_debug_MachineRoomTestMultiPlayer.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 1,
+        "meshes": 1,
+        "draws": 1,
+        "triangles": 2592,
+        "textures": 2,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "MULTIPLAYER_TEST | 1 modules | 1 mesh instances | 1 draws | 2 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-multiplayer_test.png",
+      "screenshot_sha256": "943ada9ab065eb66af4b85731ecc391216ade0511507e2ac96363039c9c749f4"
+    },
+    {
+      "name": "PORTAL_ROOM",
+      "file": "003_darkwood.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 24,
+        "meshes": 923,
+        "draws": 936,
+        "triangles": 40142,
+        "textures": 5,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "PORTAL_ROOM | 24 modules | 923 mesh instances | 936 draws | 5 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-portal_room.png",
+      "screenshot_sha256": "8c9b89ebac940b1939d4bded4e2bbb7b2173922d6595b3865098e48b66ff7e29"
+    },
+    {
+      "name": "QUESTTEST",
+      "file": "102_debug_QUESTTEST.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "XML parse failure in data/scene/102_debug_questtest.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "RANDOMFORALEX",
+      "file": "125_RandomForAlexB.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/125_randomforalexb.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "RED_DESERT_HUB",
+      "file": "015_red_desert_hub.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 6,
+        "meshes": 205,
+        "draws": 224,
+        "triangles": 19858,
+        "textures": 4,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "RED_DESERT_HUB | 6 modules | 205 mesh instances | 224 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-red_desert_hub.png",
+      "screenshot_sha256": "2e9dc077e4143672b33ce192e949367fd79d6d40e8e419df83f57dba0e8f1fcb"
+    },
+    {
+      "name": "ROOT_DEN_01",
+      "file": "004_root_den.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "XML parse failure in data/scene/004_root_den.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "SECRET_BASEMENT_01",
+      "file": "006_basement.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "XML parse failure in data/scene/006_basement.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "SWAMP",
+      "file": "001_swamp.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 9,
+        "meshes": 369,
+        "draws": 384,
+        "triangles": 24676,
+        "textures": 3,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "SWAMP | 9 modules | 369 mesh instances | 384 draws | 3 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 8",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-swamp.png",
+      "screenshot_sha256": "21e5f89ebf35a9fd98d6bb6e49dcaf300ae158eaf44b97d614fcb698c1cd09d5"
+    },
+    {
+      "name": "SWAMP_02",
+      "file": "022_swamp2.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/022_swamp2.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "SWAMP_CAVE_TROLL_A",
+      "file": "022_swamp2_trollcave.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/022_swamp2_trollcave.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "SWAMP_CAVE_WITCH_A",
+      "file": "002_swamp_witchcave.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/002_swamp_witchcave.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "UNDERWORLD_HUB",
+      "file": "036_underworld_hub.mlx",
+      "map_preparation": "assembled",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "frame_submitted",
+      "native": {
+        "modules": 9,
+        "meshes": 347,
+        "draws": 348,
+        "triangles": 30148,
+        "textures": 4,
+        "width": 2400,
+        "height": 748
+      },
+      "visible_text": [
+        "UNDERWORLD_HUB | 9 modules | 347 mesh instances | 348 draws | 4 textures\nMap inspection only; mobs/chests pending. Unclassified geometry retained: 0",
+        "WHOLE MAP",
+        "NEXT MODULE",
+        "ZOOM +",
+        "ZOOM \u2212",
+        "RELOAD",
+        "FAILED-LOAD CHECK"
+      ],
+      "screenshot": "fixed-preview-underworld_hub.png",
+      "screenshot_sha256": "919af66b1fa1b2c8bb3705cadc355c535f364b6b3a3dc0b743a7b7b0f504511f"
+    },
+    {
+      "name": "VOID_MAZE_01",
+      "file": "033_voidmaze_01.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "XML parse failure in data/scene/033_voidmaze_01.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "VOID_MAZE_02",
+      "file": "034_voidmaze_02.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "XML parse failure in data/scene/034_voidmaze_02.rule.xml: Error reading end tag."
+    },
+    {
+      "name": "VOID_MAZE_03",
+      "file": "035_voidmaze_03.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/035_voidmaze_03.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "WATER_TEMPLE_01",
+      "file": "023_watertemple.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/023_watertemple.rule.xml; rule generation is not implemented by fixed source preparation"
+    },
+    {
+      "name": "WIND_TEMPLE_01",
+      "file": "029_wind_temple.rule.xml",
+      "map_preparation": "source_blocked",
+      "runtime_objects_verified": false,
+      "gameplay_verified": false,
+      "preview": "source_blocked",
+      "reason": "Required XML root Level absent in data/scene/029_wind_temple.rule.xml; rule generation is not implemented by fixed source preparation"
+    }
+  ],
+  "full_loader_verified": false
+}

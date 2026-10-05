@@ -1,0 +1,364 @@
+{
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "address": "0x33e404",
+      "size": 168,
+      "symbol": "_ZN11PropertyMap11AddPropertyISsEEvPKcRT_S3_",
+      "capture": "0033e404.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x33e4ac",
+      "size": 140,
+      "symbol": "_ZN11PropertyMap11AddPropertyIbEEvPKcRT_S3_",
+      "capture": "0033e4ac.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x33ef7c",
+      "size": 144,
+      "symbol": "_ZN11PropertyMap11AddPropertyISsEEvPKcRT_",
+      "capture": "0033ef7c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x389894",
+      "size": 156,
+      "symbol": "_ZN11PropertyMap11AddPropertyI7Point3DIfEEEvPKcRT_S5_",
+      "capture": "00389894.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x39503c",
+      "size": 140,
+      "symbol": "_ZN11PropertyMap11AddPropertyIfEEvPKcRT_S3_",
+      "capture": "0039503c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x398878",
+      "size": 140,
+      "symbol": "_ZN11PropertyMap11AddPropertyIiEEvPKcRT_S3_",
+      "capture": "00398878.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x510b4c",
+      "size": 152,
+      "symbol": "_ZN11PropertyMap16GetThisClassNameEv",
+      "capture": "00510b4c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "510bac",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "510bb4",
+          "address": "0x8dbfe8",
+          "value": "m_className != 0"
+        },
+        {
+          "instruction": "510bb8",
+          "address": "0x8dc000",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\PropertyMap\\PropertyMap.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x510dec",
+      "size": 500,
+      "symbol": "_ZN11PropertyMap19DestroyPropertyMapsEv",
+      "capture": "00510dec.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x5134c0",
+      "size": 48,
+      "symbol": "_ZN11PropertyMap14GetPropertyMapEv",
+      "capture": "005134c0.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x5134f0",
+      "size": 388,
+      "symbol": "_ZN11PropertyMap19SavePropertiesToXMLEP12TiXmlElementPKc",
+      "capture": "005134f0.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "51365c",
+          "address": "0x8c0270",
+          "value": "GameObject"
+        }
+      ]
+    },
+    {
+      "address": "0x513674",
+      "size": 120,
+      "symbol": "_ZN11PropertyMap14DumpPropertiesEv",
+      "capture": "00513674.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x5136ec",
+      "size": 284,
+      "symbol": "_ZN11PropertyMap21LoadDefaultPropertiesEv",
+      "capture": "005136ec.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x513808",
+      "size": 40,
+      "symbol": "_ZN11PropertyMap7GetPropEPKc",
+      "capture": "00513808.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x513830",
+      "size": 40,
+      "symbol": "_ZN11PropertyMap20SetTemplateParameterEPKcS1_",
+      "capture": "00513830.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x513858",
+      "size": 36,
+      "symbol": "_ZN11PropertyMap11GetPropertyEPKc",
+      "capture": "00513858.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x51387c",
+      "size": 128,
+      "symbol": "_ZN11PropertyMap11SetPropertyEPKcS1_",
+      "capture": "0051387c.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x5138fc",
+      "size": 260,
+      "symbol": "_ZN11PropertyMap15ClonePropertiesERS_",
+      "capture": "005138fc.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x513a00",
+      "size": 168,
+      "symbol": "_ZN11PropertyMap20LoadOverridesFromXMLEP12TiXmlElement",
+      "capture": "00513a00.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x513ce4",
+      "size": 148,
+      "symbol": "_ZN11PropertyMap11AddPropertyEPKcP8Property",
+      "capture": "00513ce4.asm",
+      "pc_relative_strings": []
+    },
+    {
+      "address": "0x513d78",
+      "size": 628,
+      "symbol": "_ZN11PropertyMap14InitPropertiesEv",
+      "capture": "00513d78.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "513f60",
+          "address": "0x8c0468",
+          "value": "template"
+        }
+      ]
+    },
+    {
+      "address": "0x513fec",
+      "size": 400,
+      "symbol": "_ZN11PropertyMap11SetTemplateERKSs",
+      "capture": "00513fec.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "514148",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "51414c",
+          "address": "0x8dc050",
+          "value": "newTemplate.size() == 0"
+        },
+        {
+          "instruction": "514150",
+          "address": "0x8dc000",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\PropertyMap\\PropertyMap.cpp"
+        }
+      ]
+    },
+    {
+      "address": "0x51419c",
+      "size": 136,
+      "symbol": "_ZN11PropertyMap12LoadTemplateEv",
+      "capture": "0051419c.asm",
+      "pc_relative_strings": [
+        {
+          "instruction": "5141f0",
+          "address": "0x8be3e0",
+          "value": "ASSERT(%s) FAILED: %s:%d\n"
+        },
+        {
+          "instruction": "5141f4",
+          "address": "0x8be570",
+          "value": "false"
+        },
+        {
+          "instruction": "5141f8",
+          "address": "0x8dc068",
+          "value": "..\\..\\project_vs2005\\Game/..\\..\\sources\\Data\\PropertyMap\\PropertyMapTemplates.cpp"
+        }
+      ]
+    }
+  ],
+  "static_data": [
+    {
+      "address": "0x956a44",
+      "words": [
+        {
+          "value": "0x8cb810",
+          "string": null
+        },
+        {
+          "value": "0x8c6bd8",
+          "string": "data/"
+        },
+        {
+          "value": "0x8c6be0",
+          "string": "data/scene/"
+        },
+        {
+          "value": "0x8bf978",
+          "string": "data/3d/modules/"
+        }
+      ]
+    },
+    {
+      "address": "0x956a54",
+      "words": [
+        {
+          "value": "0x8c6bb8",
+          "string": "old/"
+        },
+        {
+          "value": "0x8c6bc0",
+          "string": "debug/"
+        },
+        {
+          "value": "0x8c6bc8",
+          "string": "ps3/"
+        },
+        {
+          "value": "0x8c6bd0",
+          "string": "iphone/"
+        },
+        {
+          "value": "0x8cb528",
+          "string": "data/menus/dqshared.swf"
+        },
+        {
+          "value": "0x8c9ff0",
+          "string": "data/menus/dqcharmenu.swf"
+        },
+        {
+          "value": "0x8ca088",
+          "string": "data/menus/dqmenus.swf"
+        },
+        {
+          "value": "0x8ca010",
+          "string": "data/menus/dqhud.swf"
+        }
+      ]
+    },
+    {
+      "address": "0x99b07c",
+      "words": [
+        {
+          "value": "0x8dc1e8",
+          "string": "No error"
+        },
+        {
+          "value": "0x8c9f20",
+          "string": "Error"
+        },
+        {
+          "value": "0x8dc1f8",
+          "string": "Failed to open file"
+        },
+        {
+          "value": "0x8dc210",
+          "string": "Memory allocation failed."
+        },
+        {
+          "value": "0x8dc230",
+          "string": "Error parsing Element."
+        },
+        {
+          "value": "0x8dc248",
+          "string": "Failed to read Element name"
+        },
+        {
+          "value": "0x8dc268",
+          "string": "Error reading Element value."
+        },
+        {
+          "value": "0x8dc288",
+          "string": "Error reading Attributes."
+        },
+        {
+          "value": "0x8dc2a8",
+          "string": "Error: empty tag."
+        },
+        {
+          "value": "0x8dc2c0",
+          "string": "Error reading end tag."
+        },
+        {
+          "value": "0x8dc2d8",
+          "string": "Error parsing Unknown."
+        },
+        {
+          "value": "0x8dc2f0",
+          "string": "Error parsing Comment."
+        },
+        {
+          "value": "0x8dc308",
+          "string": "Error parsing Declaration."
+        },
+        {
+          "value": "0x8dc328",
+          "string": "Error document empty."
+        },
+        {
+          "value": "0x8dc340",
+          "string": "Error null (0) or unexpected EOF found in input stream."
+        },
+        {
+          "value": "0x8dc378",
+          "string": "Error parsing CDATA."
+        },
+        {
+          "value": "0x8dc390",
+          "string": "Error when TiXmlDocument added to document, because TiXmlDocument can only be at the root."
+        },
+        {
+          "value": "0x8dc850",
+          "string": "&amp;"
+        },
+        {
+          "value": "0x5",
+          "string": null
+        },
+        {
+          "value": "0x26",
+          "string": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,820 @@
+{
+  "validation": "PASS",
+  "scope": "Compare native file-list tokenization with original ARM GetFiles receipts.",
+  "original_receipt_sha256": "2ced1af1a948f0333bd3021c3a1c8bf5f9f7a0c1851a97f0613e1a928b79d7c6",
+  "probe_sha256": "d805d483c9e6e8d473b823c5216df7545752df9f4951e4876f11de987fd49bcd",
+  "sources_sha256": {
+    "procedural_file_list_v1.cpp": "0fdc833d223966a75d606cf153a0334561d650580c67161bd8c0f23064d9347f",
+    "procedural_file_list_v1.hpp": "b9bd71faffe10df3c87115238c9d0eabafd9cb5d2d63b434a28c41b10ee9bf31",
+    "tests\\procedural_file_list_probe.cpp": "3aaf9333c19f7c3b1a5aa68f2570385bbf5d499165347d24bb07079973e3924c",
+    "tests\\procedural_file_list_differential.py": "8042ec5e52f218476a1461fa411b7340d46b12c77616f80a40f6e6008fc73206"
+  },
+  "sanitizers": false,
+  "cases": [
+    {
+      "name": "case-0",
+      "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected": [],
+      "actual": [],
+      "matches": true
+    },
+    {
+      "name": "case-1",
+      "input_sha256": "3eaf2d9fc5fcd89479362ad4275b96dd5bd8e2d86b055b5b135056ff17b2fe89",
+      "expected": [
+        "one.mgx"
+      ],
+      "actual": [
+        "one.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "case-2",
+      "input_sha256": "f6ba949de3352587bd9b07323cd0a9d16edd29ee22330e2eb7d731f26630fff9",
+      "expected": [
+        "one.mg"
+      ],
+      "actual": [
+        "one.mg"
+      ],
+      "matches": true
+    },
+    {
+      "name": "case-3",
+      "input_sha256": "6789cdb27710497a03f2f4c48c03dddd6419ba7a8cc14b50b2a7621711315a5c",
+      "expected": [],
+      "actual": [],
+      "matches": true
+    },
+    {
+      "name": "case-4",
+      "input_sha256": "11ac41d9b4228f83486e78cdfb71f4f64fd755b2d7bfc6d2de4b1a95f260e473",
+      "expected": [
+        "one.mgx",
+        "two.mgx"
+      ],
+      "actual": [
+        "one.mgx",
+        "two.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "case-5",
+      "input_sha256": "9570adb859364858a5956c1b09fdce7d9722a65ca61a6f980c9567912b5a350b",
+      "expected": [
+        "one.mgx"
+      ],
+      "actual": [
+        "one.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "case-6",
+      "input_sha256": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "expected": [
+        ""
+      ],
+      "actual": [
+        ""
+      ],
+      "matches": true
+    },
+    {
+      "name": "case-7",
+      "input_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "expected": [
+        "\n"
+      ],
+      "actual": [
+        "\n"
+      ],
+      "matches": true
+    },
+    {
+      "name": "case-8",
+      "input_sha256": "9b03de62b82ec74f8a4266c87c17fd01910ad11179392bdf2d2bd9806771ef78",
+      "expected": [
+        "a\r"
+      ],
+      "actual": [
+        "a\r"
+      ],
+      "matches": true
+    },
+    {
+      "name": "case-9",
+      "input_sha256": "7d4f2949587a5d1e9d34420b7cf36d4a635b30d18b27fe87667380ada2866cae",
+      "expected": [],
+      "actual": [],
+      "matches": true
+    },
+    {
+      "name": "case-10",
+      "input_sha256": "911169ddaaf146aff539f58c26c489af3b892dff0fe283c1c264c65ae5aa59a2",
+      "expected": [
+        "",
+        ""
+      ],
+      "actual": [
+        "",
+        ""
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/root_den/mgx/mgxlist.txt",
+      "input_sha256": "899684560cea9624c9847e35ef52ffea0dce1669917ccd6006c63698e6bd6c67",
+      "expected": [
+        "corner_rootden_ne_.mgx",
+        "corner_rootden_nw_.mgx",
+        "corner_rootden_se_.mgx",
+        "corner_rootden_sw_.mgx",
+        "deadend_rootden_e_.mgx",
+        "deadend_rootden_n_.mgx",
+        "deadend_rootden_s_.mgx",
+        "deadend_rootden_w_.mgx",
+        "objboss_rootden_w_.mgx",
+        "objcross_rootden_nesw_.mgx",
+        "objentry_rootden_e_.mgx",
+        "straight_rootden_ew_.mgx",
+        "straight_rootden_ns_.mgx",
+        "t_rootden_esw_.mgx",
+        "t_rootden_wne_.mgx"
+      ],
+      "actual": [
+        "corner_rootden_ne_.mgx",
+        "corner_rootden_nw_.mgx",
+        "corner_rootden_se_.mgx",
+        "corner_rootden_sw_.mgx",
+        "deadend_rootden_e_.mgx",
+        "deadend_rootden_n_.mgx",
+        "deadend_rootden_s_.mgx",
+        "deadend_rootden_w_.mgx",
+        "objboss_rootden_w_.mgx",
+        "objcross_rootden_nesw_.mgx",
+        "objentry_rootden_e_.mgx",
+        "straight_rootden_ew_.mgx",
+        "straight_rootden_ns_.mgx",
+        "t_rootden_esw_.mgx",
+        "t_rootden_wne_.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_hub/mgx/mgxlist.txt",
+      "input_sha256": "94648ada0983629a3bc377dde9747fefd608b9f6d8818809b1a870819bfd1f31",
+      "expected": [
+        "icyhub.mgx"
+      ],
+      "actual": [
+        "icyhub.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/icy_cavern/mgx/mgxlist.txt",
+      "input_sha256": "8f5d03a86ac610e9aaa7d1dc9cd30676e1a20425cfd19f06343f2e0b2d1fc034",
+      "expected": [
+        "bossroom_icycavern_w_00.mgx",
+        "corner_icycavern_ne_00.mgx",
+        "corner_icycavern_nw_00.mgx",
+        "corner_icycavern_se_00.mgx",
+        "corner_icycavern_sw_00.mgx",
+        "deadend_icycavern_w_00.mgx",
+        "entrance_icycavern_e_00.mgx",
+        "monument_icycavern_we.mgx",
+        "snakey_icycavern_we_00.mgx",
+        "straight_icycavern_ns_00.mgx",
+        "straight_icycavern_we_00.mgx",
+        "t_icycavern_nse_00.mgx",
+        "t_icycavern_nsw_00.mgx"
+      ],
+      "actual": [
+        "bossroom_icycavern_w_00.mgx",
+        "corner_icycavern_ne_00.mgx",
+        "corner_icycavern_nw_00.mgx",
+        "corner_icycavern_se_00.mgx",
+        "corner_icycavern_sw_00.mgx",
+        "deadend_icycavern_w_00.mgx",
+        "entrance_icycavern_e_00.mgx",
+        "monument_icycavern_we.mgx",
+        "snakey_icycavern_we_00.mgx",
+        "straight_icycavern_ns_00.mgx",
+        "straight_icycavern_we_00.mgx",
+        "t_icycavern_nse_00.mgx",
+        "t_icycavern_nsw_00.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/water_temple/mgx/mgxlist.txt",
+      "input_sha256": "258f8ac23e507398fd5091543c76abe007a807cf2dc42a1f58a57943468f5d8a",
+      "expected": [
+        "corner_watertemp_ne_00.mgx",
+        "corner_watertemp_se_00.mgx",
+        "corner_watertemp_sw_00.mgx",
+        "corner_watertemp_wn_00.mgx",
+        "deadend_watertemp_e_00.mgx",
+        "deadend_watertemp_n_00.mgx",
+        "deadend_watertemp_s_00.mgx",
+        "deadend_watertemp_w_00.mgx",
+        "objend_watertemp_s_00.mgx",
+        "objmid_watertemp_ns_00.mgx",
+        "objstart_watertemp_s_.mgx",
+        "objstart_watertemp_s_00.mgx",
+        "objstart_watertemp_w_00.mgx",
+        "straight_watertemp_ew_00.mgx",
+        "straight_watertemp_ns_00.mgx",
+        "t_watertemp_nsw_00.mgx",
+        "t_watertemp_wse_00.mgx"
+      ],
+      "actual": [
+        "corner_watertemp_ne_00.mgx",
+        "corner_watertemp_se_00.mgx",
+        "corner_watertemp_sw_00.mgx",
+        "corner_watertemp_wn_00.mgx",
+        "deadend_watertemp_e_00.mgx",
+        "deadend_watertemp_n_00.mgx",
+        "deadend_watertemp_s_00.mgx",
+        "deadend_watertemp_w_00.mgx",
+        "objend_watertemp_s_00.mgx",
+        "objmid_watertemp_ns_00.mgx",
+        "objstart_watertemp_s_.mgx",
+        "objstart_watertemp_s_00.mgx",
+        "objstart_watertemp_w_00.mgx",
+        "straight_watertemp_ew_00.mgx",
+        "straight_watertemp_ns_00.mgx",
+        "t_watertemp_nsw_00.mgx",
+        "t_watertemp_wse_00.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/test/mgx/mgxlist.txt",
+      "input_sha256": "e1a587580e7a9798ce41116b0fdab529321f2121d2cedebb25018f4b57a88b90",
+      "expected": [
+        "block_1x1_01.mgx",
+        "block_1x1_02.mgx",
+        "block_1x1_03.mgx",
+        "block_1x1_04.mgx",
+        "block_1x1_05.mgx",
+        "block_1x1_05_start.mgx",
+        "block_1x1_06.mgx",
+        "block_1x1_07.mgx",
+        "block_1x1_08.mgx",
+        "block_1x1_09.mgx",
+        "block_1x1_10.mgx",
+        "block_1x1_10_stairs.mgx",
+        "block_1x1_11.mgx",
+        "block_1x1_12.mgx",
+        "block_1x1_13.mgx",
+        "block_1x1_14.mgx",
+        "block_1x1_15.mgx",
+        "block_2x1_18.mgx",
+        "block_2x1_18_test.mgx",
+        "debug_aplhatest.mgx"
+      ],
+      "actual": [
+        "block_1x1_01.mgx",
+        "block_1x1_02.mgx",
+        "block_1x1_03.mgx",
+        "block_1x1_04.mgx",
+        "block_1x1_05.mgx",
+        "block_1x1_05_start.mgx",
+        "block_1x1_06.mgx",
+        "block_1x1_07.mgx",
+        "block_1x1_08.mgx",
+        "block_1x1_09.mgx",
+        "block_1x1_10.mgx",
+        "block_1x1_10_stairs.mgx",
+        "block_1x1_11.mgx",
+        "block_1x1_12.mgx",
+        "block_1x1_13.mgx",
+        "block_1x1_14.mgx",
+        "block_1x1_15.mgx",
+        "block_2x1_18.mgx",
+        "block_2x1_18_test.mgx",
+        "debug_aplhatest.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/earth_temple/mgx/mgxlist.txt",
+      "input_sha256": "49cbaf0af1c953a2ab3ad0d821222134675e3ceab3b473e2cd3c9093b6062afc",
+      "expected": [
+        "corner_earthtemp_ne_.mgx",
+        "corner_earthtemp_nw_.mgx",
+        "corner_earthtemp_se_.mgx",
+        "corner_earthtemp_sw_.mgx",
+        "deadend_earthtemp_e_.mgx",
+        "deadend_earthtemp_n_.mgx",
+        "deadend_earthtemp_s_.mgx",
+        "deadend_earthtemp_w_.mgx",
+        "entry_earthtemp_w_.mgx",
+        "midboss_earthtemp_ns_.mgx",
+        "objboss_earthtemp_s_.mgx",
+        "straight_earthtemp_ew_.mgx",
+        "straight_earthtemp_ns_.mgx",
+        "t_earthtemp_new_.mgx",
+        "t_earthtemp_nsw_.mgx"
+      ],
+      "actual": [
+        "corner_earthtemp_ne_.mgx",
+        "corner_earthtemp_nw_.mgx",
+        "corner_earthtemp_se_.mgx",
+        "corner_earthtemp_sw_.mgx",
+        "deadend_earthtemp_e_.mgx",
+        "deadend_earthtemp_n_.mgx",
+        "deadend_earthtemp_s_.mgx",
+        "deadend_earthtemp_w_.mgx",
+        "entry_earthtemp_w_.mgx",
+        "midboss_earthtemp_ns_.mgx",
+        "objboss_earthtemp_s_.mgx",
+        "straight_earthtemp_ew_.mgx",
+        "straight_earthtemp_ns_.mgx",
+        "t_earthtemp_new_.mgx",
+        "t_earthtemp_nsw_.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/underworldhub/mgx/mgxlist.txt",
+      "input_sha256": "38caec9ba17f39c5d025301795c202947a680034218e4d1ee5062b65aa15a29a",
+      "expected": [
+        "under_01.mgx",
+        "under_02.mgx",
+        "under_03.mgx",
+        "under_04.mgx",
+        "under_05.mgx",
+        "under_06.mgx",
+        "under_07.mgx",
+        "under_08.mgx",
+        "under_09.mgx"
+      ],
+      "actual": [
+        "under_01.mgx",
+        "under_02.mgx",
+        "under_03.mgx",
+        "under_04.mgx",
+        "under_05.mgx",
+        "under_06.mgx",
+        "under_07.mgx",
+        "under_08.mgx",
+        "under_09.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/darktemple/mgx/mgxlist.txt",
+      "input_sha256": "3749071f17a08a54f42d5081226f380ecc4c714fe600d580e3c75acf3beebb8a",
+      "expected": [
+        "darktemple.mgx"
+      ],
+      "actual": [
+        "darktemple.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/desert_cave/mgx/mgxlist.txt",
+      "input_sha256": "568dafcd774f41a59afaa7318be71cb99373c8a2c459ed7da6bb03bb12308500",
+      "expected": [
+        "corner_dsrtcave_ne_00.mgx",
+        "corner_dsrtcave_se_00.mgx",
+        "corner_dsrtcave_wn_00.mgx",
+        "corner_dsrtcave_ws_00.mgx",
+        "deadend_dsrtcave_e_00.mgx",
+        "deadend_dsrtcave_n_00.mgx",
+        "deadend_dsrtcave_s_00.mgx",
+        "deadend_dsrtcave_w_00.mgx",
+        "obj01_dsrtcave_e_00.mgx",
+        "obj02_dsrtcave_ws_00.mgx",
+        "obj03_dsrtcave_ns_00.mgx",
+        "obj04_dsrtcave_ns_00.mgx",
+        "obj05_dsrtcave_n_00.mgx",
+        "straight_dsrtcave_ns_00.mgx",
+        "straight_dsrtcave_we_00.mgx",
+        "t_dsrtcave_nse_00.mgx",
+        "t_dsrtcave_nsw_00.mgx"
+      ],
+      "actual": [
+        "corner_dsrtcave_ne_00.mgx",
+        "corner_dsrtcave_se_00.mgx",
+        "corner_dsrtcave_wn_00.mgx",
+        "corner_dsrtcave_ws_00.mgx",
+        "deadend_dsrtcave_e_00.mgx",
+        "deadend_dsrtcave_n_00.mgx",
+        "deadend_dsrtcave_s_00.mgx",
+        "deadend_dsrtcave_w_00.mgx",
+        "obj01_dsrtcave_e_00.mgx",
+        "obj02_dsrtcave_ws_00.mgx",
+        "obj03_dsrtcave_ns_00.mgx",
+        "obj04_dsrtcave_ns_00.mgx",
+        "obj05_dsrtcave_n_00.mgx",
+        "straight_dsrtcave_ns_00.mgx",
+        "straight_dsrtcave_we_00.mgx",
+        "t_dsrtcave_nse_00.mgx",
+        "t_dsrtcave_nsw_00.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/crypt/mgx/mgxlist.txt",
+      "input_sha256": "d0d6bfd61283fbcdd032b6c9ce184c23e92b4ae86811557312b94a009db98951",
+      "expected": [
+        "boss_room.mgx",
+        "cemetery_entrance.mgx",
+        "corner_ne.mgx",
+        "corner_nw.mgx",
+        "corner_se.mgx",
+        "corner_sw.mgx",
+        "deadend_e.mgx",
+        "deadend_n.mgx",
+        "deadend_w.mgx",
+        "entrance_n.mgx",
+        "entrance_s.mgx",
+        "kings_chamber_s.mgx",
+        "straight_a_ew.mgx",
+        "straight_b_ew.mgx",
+        "straight_b_ns.mgx",
+        "straight_c_ew.mgx",
+        "straight_c_ns.mgx",
+        "straight_d_ew.mgx",
+        "straight_ns.mgx",
+        "t_nse.mgx",
+        "t_sew.mgx"
+      ],
+      "actual": [
+        "boss_room.mgx",
+        "cemetery_entrance.mgx",
+        "corner_ne.mgx",
+        "corner_nw.mgx",
+        "corner_se.mgx",
+        "corner_sw.mgx",
+        "deadend_e.mgx",
+        "deadend_n.mgx",
+        "deadend_w.mgx",
+        "entrance_n.mgx",
+        "entrance_s.mgx",
+        "kings_chamber_s.mgx",
+        "straight_a_ew.mgx",
+        "straight_b_ew.mgx",
+        "straight_b_ns.mgx",
+        "straight_c_ew.mgx",
+        "straight_c_ns.mgx",
+        "straight_d_ew.mgx",
+        "straight_ns.mgx",
+        "t_nse.mgx",
+        "t_sew.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/firetemple/mgx/mgxlist.txt",
+      "input_sha256": "454360620e50af6fc3866e6f76e7ed4a779f1307d733682512de03d49a8dee51",
+      "expected": [
+        "boss_firetemple_s_00.mgx",
+        "corner_firetemple_ne_00.mgx",
+        "corner_firetemple_nw_00.mgx",
+        "corner_firetemple_se_00.mgx",
+        "corner_firetemple_sw_00.mgx",
+        "entrance_firetemple_en_00.mgx",
+        "fallentowerrepeat_firetemple_ns_00.mgx",
+        "fallentowertop_firetemple_ns_00.mgx",
+        "straight_firetemple_ns_00.mgx",
+        "straight_firetemple_we_00.mgx",
+        "towerknockdown_firetemple_ns_00.mgx",
+        "t_firetemple_nse_00.mgx",
+        "t_firetemple_nsw_00.mgx"
+      ],
+      "actual": [
+        "boss_firetemple_s_00.mgx",
+        "corner_firetemple_ne_00.mgx",
+        "corner_firetemple_nw_00.mgx",
+        "corner_firetemple_se_00.mgx",
+        "corner_firetemple_sw_00.mgx",
+        "entrance_firetemple_en_00.mgx",
+        "fallentowerrepeat_firetemple_ns_00.mgx",
+        "fallentowertop_firetemple_ns_00.mgx",
+        "straight_firetemple_ns_00.mgx",
+        "straight_firetemple_we_00.mgx",
+        "towerknockdown_firetemple_ns_00.mgx",
+        "t_firetemple_nse_00.mgx",
+        "t_firetemple_nsw_00.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/wind_temple/mgx/mgxlist.txt",
+      "input_sha256": "ced96cee98a9dcceefdca0a5a00211a49b86c9ae1163dec43f85417306200810",
+      "expected": [
+        "corner_windtemp_ne_.mgx",
+        "corner_windtemp_nw_.mgx",
+        "corner_windtemp_se_.mgx",
+        "corner_windtemp_sw_.mgx",
+        "deadend_windtemp_e_.mgx",
+        "deadend_windtemp_n_.mgx",
+        "deadend_windtemp_s_.mgx",
+        "deadend_windtemp_w_.mgx",
+        "entry_windtemp_n_.mgx",
+        "midboss_windtemp_ws_.mgx",
+        "objboss_windtemp_e_.mgx",
+        "straight_windtemp_ew_.mgx",
+        "straight_windtemp_ns_.mgx",
+        "t_windtemp_esw_.mgx",
+        "t_windtemp_wne_.mgx"
+      ],
+      "actual": [
+        "corner_windtemp_ne_.mgx",
+        "corner_windtemp_nw_.mgx",
+        "corner_windtemp_se_.mgx",
+        "corner_windtemp_sw_.mgx",
+        "deadend_windtemp_e_.mgx",
+        "deadend_windtemp_n_.mgx",
+        "deadend_windtemp_s_.mgx",
+        "deadend_windtemp_w_.mgx",
+        "entry_windtemp_n_.mgx",
+        "midboss_windtemp_ws_.mgx",
+        "objboss_windtemp_e_.mgx",
+        "straight_windtemp_ew_.mgx",
+        "straight_windtemp_ns_.mgx",
+        "t_windtemp_esw_.mgx",
+        "t_windtemp_wne_.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/swamp/mgx/mgxlist.txt",
+      "input_sha256": "91c0d6a9bcc222e0bdccc10fd3f8f27d031277fd7034eb3d0806384f34e50e9d",
+      "expected": [
+        "bossroomb_swpcave_w_01.mgx",
+        "bossroom_ruins_ns_.mgx",
+        "bossroom_swpcave_w_00.mgx",
+        "corner_brdwalk_ne_00.mgx",
+        "corner_brdwalk_se_00.mgx",
+        "corner_brdwalk_sw_00.mgx",
+        "corner_ruin_ne_00.mgx",
+        "corner_ruin_nw_00.mgx",
+        "corner_ruin_se_00.mgx",
+        "corner_ruin_wn_00.mgx",
+        "corner_ruin_ws_00.mgx",
+        "corner_swpcave_ne_00.mgx",
+        "corner_swpcave_nw_00.mgx",
+        "corner_swpcave_se_00.mgx",
+        "corner_swpcave_sw_00.mgx",
+        "deadendb_swpcave_n_01.mgx",
+        "deadend_brdwalk_e_00.mgx",
+        "deadend_brdwalk_se_00.mgx",
+        "deadend_brdwalk_s_00.mgx",
+        "deadend_brdwalk_we_00.mgx",
+        "deadend_brdwalk_w_00.mgx",
+        "deadend_ruin_w_00.mgx",
+        "deadend_swpcave_e_00.mgx",
+        "deadend_swpcave_n_00.mgx",
+        "deadend_swpcave_s_00.mgx",
+        "deadend_swpcave_w_00.mgx",
+        "merchantcamp_ruins_swe_00.mgx",
+        "obj_1of4_brdwalk_nse_00.mgx",
+        "obj_2of4_brdwalk_sw_00.mgx",
+        "obj_3of4_brdwalk_sw_00.mgx",
+        "obj_4of4_brdwalk_sw_00.mgx",
+        "straight_brdwalk_ns_00.mgx",
+        "straight_brdwalk_we_00.mgx",
+        "straight_ruin_ns_00.mgx",
+        "straight_ruin_we_00.mgx",
+        "straight_swpcave_ns_00.mgx",
+        "straight_swpcave_we_00.mgx",
+        "t_ruin_nse_00.mgx",
+        "t_ruin_nsw_00.mgx",
+        "t_swpcave_nse_00.mgx",
+        "t_swpcave_nsw_00.mgx"
+      ],
+      "actual": [
+        "bossroomb_swpcave_w_01.mgx",
+        "bossroom_ruins_ns_.mgx",
+        "bossroom_swpcave_w_00.mgx",
+        "corner_brdwalk_ne_00.mgx",
+        "corner_brdwalk_se_00.mgx",
+        "corner_brdwalk_sw_00.mgx",
+        "corner_ruin_ne_00.mgx",
+        "corner_ruin_nw_00.mgx",
+        "corner_ruin_se_00.mgx",
+        "corner_ruin_wn_00.mgx",
+        "corner_ruin_ws_00.mgx",
+        "corner_swpcave_ne_00.mgx",
+        "corner_swpcave_nw_00.mgx",
+        "corner_swpcave_se_00.mgx",
+        "corner_swpcave_sw_00.mgx",
+        "deadendb_swpcave_n_01.mgx",
+        "deadend_brdwalk_e_00.mgx",
+        "deadend_brdwalk_se_00.mgx",
+        "deadend_brdwalk_s_00.mgx",
+        "deadend_brdwalk_we_00.mgx",
+        "deadend_brdwalk_w_00.mgx",
+        "deadend_ruin_w_00.mgx",
+        "deadend_swpcave_e_00.mgx",
+        "deadend_swpcave_n_00.mgx",
+        "deadend_swpcave_s_00.mgx",
+        "deadend_swpcave_w_00.mgx",
+        "merchantcamp_ruins_swe_00.mgx",
+        "obj_1of4_brdwalk_nse_00.mgx",
+        "obj_2of4_brdwalk_sw_00.mgx",
+        "obj_3of4_brdwalk_sw_00.mgx",
+        "obj_4of4_brdwalk_sw_00.mgx",
+        "straight_brdwalk_ns_00.mgx",
+        "straight_brdwalk_we_00.mgx",
+        "straight_ruin_ns_00.mgx",
+        "straight_ruin_we_00.mgx",
+        "straight_swpcave_ns_00.mgx",
+        "straight_swpcave_we_00.mgx",
+        "t_ruin_nse_00.mgx",
+        "t_ruin_nsw_00.mgx",
+        "t_swpcave_nse_00.mgx",
+        "t_swpcave_nsw_00.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/infectedvillage/mgx/mgxlist.txt",
+      "input_sha256": "7abd4b853bf23bf16298637f229014e162f40ce75c35993b06ddbb8fb8951500",
+      "expected": [
+        "infectedvillage_01.mgx",
+        "infectedvillage_02.mgx"
+      ],
+      "actual": [
+        "infectedvillage_01.mgx",
+        "infectedvillage_02.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/machineroom/mgx/mgxlist.txt",
+      "input_sha256": "64b9b44dc1c50fc6f5a66c600ad3073ee25e5a286927afb2b423e646183fad3e",
+      "expected": [
+        "plane_machineroom_00.mgx",
+        "plane_machineroom_01.mgx",
+        "plane_machineroom_02.mgx",
+        "plane_machineroom_03.mgx"
+      ],
+      "actual": [
+        "plane_machineroom_00.mgx",
+        "plane_machineroom_01.mgx",
+        "plane_machineroom_02.mgx",
+        "plane_machineroom_03.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/lighthousse/mgx/mgxlist.txt",
+      "input_sha256": "2e07153cfc22b6a60a00a0c0519bf5a4cd0d0068e81af3d065e294682089e90a",
+      "expected": [
+        "bossroom.mgx",
+        "close_01.mgx",
+        "close_02.mgx",
+        "close_03.mgx",
+        "open_01.mgx",
+        "open_02.mgx",
+        "open_03.mgx",
+        "startroom.mgx"
+      ],
+      "actual": [
+        "bossroom.mgx",
+        "close_01.mgx",
+        "close_02.mgx",
+        "close_03.mgx",
+        "open_01.mgx",
+        "open_02.mgx",
+        "open_03.mgx",
+        "startroom.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/abbey/mgx/mgxlist.txt",
+      "input_sha256": "da799352f7c397eab179d62ba43718439f4c74aedd384ca87b6b35b98952c803",
+      "expected": [
+        "straight_a.mgx"
+      ],
+      "actual": [
+        "straight_a.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/dh1_catacombs/mgx/mgxlist.txt",
+      "input_sha256": "3fd3a7ea3af238a703d100003902b29600fe934790ea697ed7630c416baacbd6",
+      "expected": [
+        "test_001.mgx"
+      ],
+      "actual": [
+        "test_001.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/void_maze/mgx/mgxlist.txt",
+      "input_sha256": "5d746dadffc469e7732743303175b475db24e5f4a7ee72f3f2b5725e9b63a944",
+      "expected": [
+        "assassin_voidmaze_s_00.mgx",
+        "corner_voidmaze_ne_00.mgx",
+        "corner_voidmaze_nw_00.mgx",
+        "corner_voidmaze_se_00.mgx",
+        "corner_voidmaze_sw_00.mgx",
+        "deadend_voidmaze_e_00.mgx",
+        "deadend_voidmaze_n_00.mgx",
+        "deadend_voidmaze_n_01.mgx",
+        "deadend_voidmaze_s_00.mgx",
+        "deadend_voidmaze_w_00.mgx",
+        "island_voidmaze_00.mgx",
+        "straight_voidmaze_ns_00.mgx",
+        "straight_voidmaze_we_00.mgx",
+        "t_voidmaze_nse_00.mgx",
+        "t_voidmaze_nsw_00.mgx",
+        "x_voidmaze_nswe_00.mgx"
+      ],
+      "actual": [
+        "assassin_voidmaze_s_00.mgx",
+        "corner_voidmaze_ne_00.mgx",
+        "corner_voidmaze_nw_00.mgx",
+        "corner_voidmaze_se_00.mgx",
+        "corner_voidmaze_sw_00.mgx",
+        "deadend_voidmaze_e_00.mgx",
+        "deadend_voidmaze_n_00.mgx",
+        "deadend_voidmaze_n_01.mgx",
+        "deadend_voidmaze_s_00.mgx",
+        "deadend_voidmaze_w_00.mgx",
+        "island_voidmaze_00.mgx",
+        "straight_voidmaze_ns_00.mgx",
+        "straight_voidmaze_we_00.mgx",
+        "t_voidmaze_nse_00.mgx",
+        "t_voidmaze_nsw_00.mgx",
+        "x_voidmaze_nswe_00.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/red_desert/mgx/mgxlist.txt",
+      "input_sha256": "526700307e1bc8bff9b55f78c5429b1f26ed4a1ab878fdad0472b81bd20da1fa",
+      "expected": [
+        "01.mgx",
+        "02.mgx",
+        "03.mgx",
+        "04.mgx",
+        "05.mgx",
+        "06.mgx"
+      ],
+      "actual": [
+        "01.mgx",
+        "02.mgx",
+        "03.mgx",
+        "04.mgx",
+        "05.mgx",
+        "06.mgx"
+      ],
+      "matches": true
+    },
+    {
+      "name": "data/3d/modules/castle/mgx/mgxlist.txt",
+      "input_sha256": "a18ecf59097e003509650d2198d9f1e1e2c12dd486bd198d89bdf6f130e76a90",
+      "expected": [
+        "corner_ne.mgx",
+        "corner_se.mgx",
+        "corner_wn.mgx",
+        "corner_ws.mgx",
+        "deadend_e.mgx",
+        "deadend_n.mgx",
+        "deadend_s.mgx",
+        "deadend_w.mgx",
+        "entrance_ns.mgx",
+        "kingroom_s.mgx",
+        "objectiveroom_s.mgx",
+        "straighta_ns.mgx",
+        "straightb_ew.mgx",
+        "t_new.mgx"
+      ],
+      "actual": [
+        "corner_ne.mgx",
+        "corner_se.mgx",
+        "corner_wn.mgx",
+        "corner_ws.mgx",
+        "deadend_e.mgx",
+        "deadend_n.mgx",
+        "deadend_s.mgx",
+        "deadend_w.mgx",
+        "entrance_ns.mgx",
+        "kingroom_s.mgx",
+        "objectiveroom_s.mgx",
+        "straighta_ns.mgx",
+        "straightb_ew.mgx",
+        "t_new.mgx"
+      ],
+      "matches": true
+    }
+  ],
+  "authored_lists_compared": 21,
+  "layout_generation_verified": false,
+  "full_loader_verified": false
+}

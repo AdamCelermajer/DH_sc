@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "cases": 4096,
+  "ordered_services": 11320,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_arm64_sha256": "74800b780b48f05b66bb70eac6a170ef66f3a25e1d466e53f547316cacfe6149",
+  "scope": "Execute actual HasMana/UseMana ARM32 and O2 ARM64 property-kernel effects.\nApplication/player/Debug ownership policies remain declared synchronous inputs.\nCosts cover the nonnegative source assertion domain only.\n"
+}

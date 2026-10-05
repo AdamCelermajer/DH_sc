@@ -1,0 +1,126 @@
+{
+  "validation": "PASS",
+  "scope": "Verify native character actions and potion health on the visible development emulator.\n\nNo gameplay state is injected: character changes use visible widgets, damage\nuses the existing original enemy attack debug command, and healing uses touch.\nFull campaign, authored SWF navigation and skill damage are outside this proof.\n",
+  "apk_sha256": "28d9027fe2aac032d8c78f9bb23bce2e2e6840feb2804f753bc92d1614394d66",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "370295293fc462300d2e14a0939c6fec3c456b7047c5ee79bfaded2eec75e74b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "89eaab6ef410241bffa4acab02fbd4c12c707dcc3216f447994227820b8d3e59",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "d59803e3a4739c7faf1ca47d46fbc4479cd2c9c585250c82704134bb83dbec11",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "41ac012b447f161d4185fd7314162a2567d34c79fa3304052239613a442bf2b4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "a182539ce73a50ceb8b9e3c8a8668e883f8eb63c845e96483f455c58e36ecc09",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "3211c21c723b12c96dd5df034d45c7505a6c4029886df81b253dd653bbe26e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "4af7943df729cbe6e554f5fa4734e8febcb1c160e2653a8dbec6071a1c3034f9",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "5082430c0751dabe1e8f51b0ec42ead74b55827c6d2a95833bb4b2b7128b154d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "fc478b48d5695702b46fff9c82f4b891bd7941261f02d97e73229075f0ba14ae",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "87597c18c51d823dd0a26e3025a76b35cd8ec1e5b0e29fb6156a760b7c1228eb",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "23d633a9a3c490b9dc8fd9225fe23de39d046cffe5f70f86a4b47236412e69e1",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "8f84d00e6dd3070bfaa0a8ffd9dc6d416a06df797b4f9aaf33c0c11e2fc7dd5d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+      "sha256": "7e046c0c3941846d1bcbff74621de6a1104d03f814460ffb89a869215d66493f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_ui.so",
+      "sha256": "9986ced1296cd6011b4fe127519e8d4a256c7677aa8dffb4d8844ba98ce3fdcb",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "d285bc888cb359230d26b61cefdbeb7222b9138068ce985b43a1c7467e17d560",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "645c85e08626501049e39a347c5cc55d63627e17c0973b1c1a21fdeb139684b2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "a35dec4bd9f8270a624354ec989dd1b5e0521cdc42b9d9707dd32510ab4a5858",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "1149a6425b44c94dfaf85856efd37b2efee583a4f0c40ebe0874974c692defbc",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "physical_arm64_tested": false,
+  "full_game_playable": false,
+  "installed_apk_sha256": "28d9027fe2aac032d8c78f9bb23bce2e2e6840feb2804f753bc92d1614394d66",
+  "steps": [
+    "Open character stats inventory skills and faeries",
+    "Character Equipment tab",
+    "Unequip Ceremonial Garb",
+    "Equip Ceremonial Garb",
+    "Character Skills tab",
+    "Slot 2",
+    "Slot 1",
+    "Character Faeries tab",
+    "Close character panel",
+    "HUD control 4",
+    "HUD control 4"
+  ],
+  "source_armor_before": 4,
+  "source_armor_unequipped": 2,
+  "source_armor_restored": 4,
+  "source_skill_assignment_roundtrip": true,
+  "source_initial_skill_level": 1,
+  "source_no_spendable_points_training_disabled": true,
+  "original_faery_names_visible": true,
+  "locked_faeries_preserved": true,
+  "potion_full_refused_count": 5,
+  "potion_after_enemy_hit_count": 4,
+  "enemy_hp_before": 42265,
+  "enemy_hp_after": 32218,
+  "potion_restored_raw_hp": 42265
+}

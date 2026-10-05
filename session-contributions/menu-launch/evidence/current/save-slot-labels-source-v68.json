@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "function": "NativeGetSaveSlotDetails 0x44aa28",
+  "labels": [
+    {
+      "role": "level_format",
+      "pc": "0x44ac14",
+      "literal": "0x44b594",
+      "string_address": "0x8c1eb8",
+      "text": "%d"
+    },
+    {
+      "role": "separator",
+      "pc": "0x44ac18",
+      "literal": "0x44b590",
+      "string_address": "0x8c1438",
+      "text": " "
+    },
+    {
+      "role": "constant_group",
+      "pc": "0x44ac44",
+      "literal": "0x44b598",
+      "string_address": "0x8bec30",
+      "text": "StrID"
+    },
+    {
+      "role": "constant_name",
+      "pc": "0x44ac48",
+      "literal": "0x44b59c",
+      "string_address": "0x8cc7e8",
+      "text": "GAMEPLAYMENUS_LEVEL"
+    }
+  ],
+  "scope": "Exact original ELF label/separator/constants literals; localized text remains StringManager data."
+}

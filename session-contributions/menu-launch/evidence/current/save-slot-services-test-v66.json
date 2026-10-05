@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "original_selection_cases": 64,
+  "native_AS_service_calls": 192,
+  "fixture_sha256": "6a7ebae00064c930ceaa39b2d800f267239fe45a19d37dabc8a8912e7110ea88",
+  "native_library_sha256": "f1b3372963b33b9264d55a2766620203dd617001717b5aa8993c40ff8b11f06c",
+  "source_sha256": {
+    "port\\android-native\\tools\\menu_save_slot_services_audit.cpp": "f3f6a2de57fb9313301d5a5841325c95a70eeb5c6d601b7608ad170183b17852",
+    "port\\engine-ui\\swf_menu_save_slots.hpp": "ccc26d42627339f29bb39456afeb7f3fd39857cc68b1f462af1dc0d227ff8992",
+    "port\\engine-ui\\swf_menu_save_slots.cpp": "6acabef5e2ba71dd04856a509181ed43b6d854a7d375748d7dd772e718923433"
+  },
+  "scope": "Original slot scan/sorting/selection compared with real native AS callback wrapper. Canonical profile details are service fixtures; no real occupied campaign loading claim."
+}

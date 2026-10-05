@@ -118,6 +118,7 @@ struct SwfMovie::Impl:gameswf::render_handler {
  gameswf::character*find(const char*path){if(!root||!path)return nullptr;auto*o=root->get_root_movie()->find_target(gameswf::as_value(path));return o&&o->is(gameswf::character::m_class_id)?static_cast<gameswf::character*>(o):nullptr;}
 };
 SwfMovie::Impl*SwfMovie::Impl::active=nullptr;
+#include "swf_movie_combat_flash_v1.inc"
 SwfMovie::SwfMovie():impl_(new Impl){}SwfMovie::~SwfMovie()=default;
 SwfMovie::SwfMovie(SwfMovie&&)noexcept=default;SwfMovie&SwfMovie::operator=(SwfMovie&&)noexcept=default;
 bool SwfMovie::load(const std::vector<std::string>&shared,const std::string&movie,const SwfServices&s,std::string&e){auto p=std::make_shared<Impl>();p->service=s;Impl::Scope scope(p.get());if(!scope.entered){e="SWF core busy";return false;}

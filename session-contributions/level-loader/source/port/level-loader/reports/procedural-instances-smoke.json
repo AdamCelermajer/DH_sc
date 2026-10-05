@@ -1,0 +1,1633 @@
+{
+  "scope": "Execute original procedural runtime constructors and caller control flow.\n\nOriginal XML/list/rule readers prepare each source tree. Each runtime rule\nconstructor then executes ARM32 with an explicit seed and parent fixture.\nOriginal GetInt/NextInt and pool lookup execute; integer division, allocation\nand C services are explicit adapters. Preorder is a test invocation order,\nnot the unverified layout traversal order. The Level caller audit executes\nits ARM instructions with loader/generator/serializer/constructor/destructor\nservices replaced by recorded boundary fixtures; it proves branching and\nreturn policy only, not those substituted services' behavior.\n",
+  "engine_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "rules_receipt_sha256": "2fd635a48f9bb3ae6dd458f94e05de0e795deb8e773198433724c0d7a517487e",
+  "script_sha256": "917ee49442db422f3b39fe877e83dc4c4bf578d459d24b6e4a944c1707b0170b",
+  "dependency_sources_sha256": {
+    "port\\level-loader\\tests\\procedural_instances_original.py": "917ee49442db422f3b39fe877e83dc4c4bf578d459d24b6e4a944c1707b0170b",
+    "port\\level-loader\\tests\\procedural_blocks_original.py": "695ac6d5978dae6e013150d4dfce80461f851c91d6f14b5bb5835739042a16fd",
+    "port\\level-loader\\tests\\procedural_lists_original.py": "1cb25487117915ff043cfc1dd2db35f7546f12ad267566f2d0ee751cf8edc0fc",
+    "port\\level-loader\\tests\\procedural_rules_original.py": "5b7b91c933eec151af11245e540a362162a9761b7e1208feadd2aaaae6e6f9ae",
+    "port\\engine-resources\\tests\\cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port\\game-data\\tests\\combat_differential.py": "457e3507a7f91a628b07b09a6dd836aa6bddb00d4826a5c26fb0cab82014e7ce",
+    "port\\game-data\\tests\\combat_result_differential.py": "5303a3a81a0b8e1df3b330793d74b53ea9862d359319d0c5944431e603195e46",
+    "port\\game-data\\tests\\health_differential.py": "5330340a25e94c506ca68150a1bab87b8b461cfb7aea11e346961bc2ff6dff44",
+    "port\\game-data\\tests\\combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "port\\game-data\\tests\\aggro_differential.py": "3d5fc4103199edbe847f886344f048738067ee8b329816531b82d8bc7174a759",
+    "port\\level-world\\tests\\navigation_differential.py": "44348f1af0fb62cd62ea0a17c1eb486df2d88d02bbab9360795b59a5a1f9f148",
+    "port\\game-data\\tests\\items_differential.py": "7f7fb185583e3d3ccb68b0c99648b5f04867a2cfffdc564eeab7facf10e1f000",
+    "port\\level-loader\\tests\\xml_original_probe.py": "d856a3d96331f1f65e6225e7889efbd3cc5633215bd043acd880a19681a39209"
+  },
+  "caller_cases": [
+    {
+      "load_result": 0,
+      "generate_result": 0,
+      "serialize_result": 0,
+      "seed": 0,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 0,
+      "serialize_result": 0,
+      "seed": 0,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 0,
+      "serialize_result": 0,
+      "seed": 4294967295,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 0,
+      "serialize_result": 0,
+      "seed": 4294967295,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 0,
+      "serialize_result": 1,
+      "seed": 0,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 0,
+      "serialize_result": 1,
+      "seed": 0,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 0,
+      "serialize_result": 1,
+      "seed": 4294967295,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 0,
+      "serialize_result": 1,
+      "seed": 4294967295,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 1,
+      "serialize_result": 0,
+      "seed": 0,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 1,
+      "serialize_result": 0,
+      "seed": 0,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 1,
+      "serialize_result": 0,
+      "seed": 4294967295,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 1,
+      "serialize_result": 0,
+      "seed": 4294967295,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 1,
+      "serialize_result": 1,
+      "seed": 0,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 1,
+      "serialize_result": 1,
+      "seed": 0,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 1,
+      "serialize_result": 1,
+      "seed": 4294967295,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 0,
+      "generate_result": 1,
+      "serialize_result": 1,
+      "seed": 4294967295,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 0,
+      "serialize_result": 0,
+      "seed": 0,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 0,
+      "serialize_result": 0,
+      "seed": 0,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 0,
+      "serialize_result": 0,
+      "seed": 4294967295,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 0,
+      "serialize_result": 0,
+      "seed": 4294967295,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 0,
+      "serialize_result": 1,
+      "seed": 0,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 0,
+      "serialize_result": 1,
+      "seed": 0,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 0,
+      "serialize_result": 1,
+      "seed": 4294967295,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 0,
+      "serialize_result": 1,
+      "seed": 4294967295,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 0,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 1,
+      "serialize_result": 0,
+      "seed": 0,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 1,
+      "serialize_result": 0,
+      "seed": 0,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 1,
+      "serialize_result": 0,
+      "seed": 4294967295,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 1,
+      "serialize_result": 0,
+      "seed": 4294967295,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 1,
+      "serialize_result": 1,
+      "seed": 0,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 1,
+      "serialize_result": 1,
+      "seed": 0,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 1,
+      "serialize_result": 1,
+      "seed": 4294967295,
+      "old_generator": false,
+      "events": [
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    },
+    {
+      "load_result": 1,
+      "generate_result": 1,
+      "serialize_result": 1,
+      "seed": 4294967295,
+      "old_generator": true,
+      "events": [
+        "destroy_old",
+        "construct",
+        "load",
+        "generate",
+        "serialize",
+        "destroy_new"
+      ],
+      "return": 1,
+      "generator_cleared": true
+    }
+  ],
+  "cases": [
+    {
+      "name": "explicit-default",
+      "input_sha256": "d8fbbac1d88f321a3b5f42a95aa8300e9a977788356ea11a1afd71cc1b2ef2d0",
+      "block_names": [
+        "room"
+      ],
+      "input_hex": "3c72756c65733e3c526f6f7452756c65206e616d653d22726f6f6d222f3e3c2f72756c65733e",
+      "xml_error": 0,
+      "reader_result": 1,
+      "rule_nodes": 1,
+      "runs": [
+        {
+          "seed": 0,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 0,
+              "random_after": 0,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 0,
+          "random_calls": 0
+        },
+        {
+          "seed": 1,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 1,
+              "random_after": 1,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 1,
+          "random_calls": 0
+        },
+        {
+          "seed": 2147483647,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483647,
+              "random_after": 2147483647,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 2147483647,
+          "random_calls": 0
+        },
+        {
+          "seed": 2147483648,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483648,
+              "random_after": 2147483648,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 2147483648,
+          "random_calls": 0
+        },
+        {
+          "seed": 4294967295,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 4294967295,
+              "random_after": 4294967295,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 4294967295,
+          "random_calls": 0
+        }
+      ]
+    },
+    {
+      "name": "list-index-and-path",
+      "input_sha256": "e28c8a3898e3f586d40620256659e5c2b24527036d8dc29abf08b9af742c2d36",
+      "block_names": [
+        "room"
+      ],
+      "input_hex": "3c72756c65733e3c6c697374206e616d653d22526f6164223e3c656c656d206e616d653d22726f6f6d222f3e3c2f6c6973743e3c526f6f7452756c65206e616d653d2223726f61645b305d222069643d22726f6f74223e3c50617468206e616d653d2223726f616422206c656e6774683d22322c342220646f6e74476f4261636b3d2230223e3c466f726365426c6f636b206e616d653d22726f6f6d2220636f6e6e65637446726f6d3d22656173742220657869743d22736f757468223e3c456e6450617468206e616d653d22726f6f6d2220657869743d226e6f727468222f3e3c2f466f726365426c6f636b3e3c2f506174683e3c2f526f6f7452756c653e3c2f72756c65733e",
+      "xml_error": 0,
+      "reader_result": 1,
+      "rule_nodes": 4,
+      "runs": [
+        {
+          "seed": 0,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 0,
+              "random_after": 0,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "Path",
+              "parent": false,
+              "length": 3,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 0,
+              "random_after": 279470273,
+              "random_calls": 1,
+              "path_direction": 4
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "Path",
+              "parent": true,
+              "length": 3,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 279470273,
+              "random_after": 1475680373,
+              "random_calls": 1,
+              "path_direction": 4
+            },
+            {
+              "path": [
+                0,
+                0
+              ],
+              "type": "ForceBlock",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 1475680373,
+              "random_after": 1475680373,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0
+              ],
+              "type": "ForceBlock",
+              "parent": true,
+              "length": 1,
+              "exit_direction": 2,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 1475680373,
+              "random_after": 1475680373,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0,
+                0
+              ],
+              "type": "EndPath",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 1475680373,
+              "random_after": 1475680373,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0,
+                0
+              ],
+              "type": "EndPath",
+              "parent": true,
+              "length": 1,
+              "exit_direction": 0,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 1475680373,
+              "random_after": 1475680373,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 1475680373,
+          "random_calls": 2
+        },
+        {
+          "seed": 1,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 1,
+              "random_after": 1,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "Path",
+              "parent": false,
+              "length": 2,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 1,
+              "random_after": 558940546,
+              "random_calls": 1,
+              "path_direction": 4
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "Path",
+              "parent": true,
+              "length": 3,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 558940546,
+              "random_after": 2671890473,
+              "random_calls": 1,
+              "path_direction": 4
+            },
+            {
+              "path": [
+                0,
+                0
+              ],
+              "type": "ForceBlock",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2671890473,
+              "random_after": 2671890473,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0
+              ],
+              "type": "ForceBlock",
+              "parent": true,
+              "length": 1,
+              "exit_direction": 2,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2671890473,
+              "random_after": 2671890473,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0,
+                0
+              ],
+              "type": "EndPath",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2671890473,
+              "random_after": 2671890473,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0,
+                0
+              ],
+              "type": "EndPath",
+              "parent": true,
+              "length": 1,
+              "exit_direction": 0,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2671890473,
+              "random_after": 2671890473,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 2671890473,
+          "random_calls": 2
+        },
+        {
+          "seed": 2147483647,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483647,
+              "random_after": 2147483647,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "Path",
+              "parent": false,
+              "length": 2,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483647,
+              "random_after": 2846159328,
+              "random_calls": 1,
+              "path_direction": 4
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "Path",
+              "parent": true,
+              "length": 3,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2846159328,
+              "random_after": 3269995523,
+              "random_calls": 1,
+              "path_direction": 4
+            },
+            {
+              "path": [
+                0,
+                0
+              ],
+              "type": "ForceBlock",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 3269995523,
+              "random_after": 3269995523,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0
+              ],
+              "type": "ForceBlock",
+              "parent": true,
+              "length": 1,
+              "exit_direction": 2,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 3269995523,
+              "random_after": 3269995523,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0,
+                0
+              ],
+              "type": "EndPath",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 3269995523,
+              "random_after": 3269995523,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0,
+                0
+              ],
+              "type": "EndPath",
+              "parent": true,
+              "length": 1,
+              "exit_direction": 0,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 3269995523,
+              "random_after": 3269995523,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 3269995523,
+          "random_calls": 2
+        },
+        {
+          "seed": 2147483648,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483648,
+              "random_after": 2147483648,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "Path",
+              "parent": false,
+              "length": 3,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483648,
+              "random_after": 3125629601,
+              "random_calls": 1,
+              "path_direction": 4
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "Path",
+              "parent": true,
+              "length": 2,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 3125629601,
+              "random_after": 171238332,
+              "random_calls": 1,
+              "path_direction": 4
+            },
+            {
+              "path": [
+                0,
+                0
+              ],
+              "type": "ForceBlock",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 171238332,
+              "random_after": 171238332,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0
+              ],
+              "type": "ForceBlock",
+              "parent": true,
+              "length": 1,
+              "exit_direction": 2,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 171238332,
+              "random_after": 171238332,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0,
+                0
+              ],
+              "type": "EndPath",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 171238332,
+              "random_after": 171238332,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0,
+                0
+              ],
+              "type": "EndPath",
+              "parent": true,
+              "length": 1,
+              "exit_direction": 0,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 171238332,
+              "random_after": 171238332,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 171238332,
+          "random_calls": 2
+        },
+        {
+          "seed": 4294967295,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 4294967295,
+              "random_after": 4294967295,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "Path",
+              "parent": false,
+              "length": 2,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 4294967295,
+              "random_after": 0,
+              "random_calls": 1,
+              "path_direction": 4
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "Path",
+              "parent": true,
+              "length": 3,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 0,
+              "random_after": 279470273,
+              "random_calls": 1,
+              "path_direction": 4
+            },
+            {
+              "path": [
+                0,
+                0
+              ],
+              "type": "ForceBlock",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 279470273,
+              "random_after": 279470273,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0
+              ],
+              "type": "ForceBlock",
+              "parent": true,
+              "length": 1,
+              "exit_direction": 2,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 279470273,
+              "random_after": 279470273,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0,
+                0
+              ],
+              "type": "EndPath",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 279470273,
+              "random_after": 279470273,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0,
+                0,
+                0
+              ],
+              "type": "EndPath",
+              "parent": true,
+              "length": 1,
+              "exit_direction": 0,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 279470273,
+              "random_after": 279470273,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 279470273,
+          "random_calls": 2
+        }
+      ]
+    },
+    {
+      "name": "missing-endpath-name",
+      "input_sha256": "af80b07f842b3d7ce0c96aae6a9d9688f06bda8689c0c4a2ffb84ccf7a184a03",
+      "block_names": [
+        "room"
+      ],
+      "input_hex": "3c72756c65733e3c526f6f7452756c65206e616d653d22726f6f6d222069643d22726f6f74223e3c456e645061746820657869743d226e6f727468222f3e3c2f526f6f7452756c653e3c2f72756c65733e",
+      "xml_error": 0,
+      "reader_result": 0,
+      "rule_nodes": 2,
+      "runs": [
+        {
+          "seed": 0,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 0,
+              "random_after": 0,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "EndPath",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 0,
+              "random_after": 0,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "EndPath",
+              "parent": true,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 0,
+              "random_after": 0,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 0,
+          "random_calls": 0
+        },
+        {
+          "seed": 1,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 1,
+              "random_after": 1,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "EndPath",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 1,
+              "random_after": 1,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "EndPath",
+              "parent": true,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 1,
+              "random_after": 1,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 1,
+          "random_calls": 0
+        },
+        {
+          "seed": 2147483647,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483647,
+              "random_after": 2147483647,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "EndPath",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483647,
+              "random_after": 2147483647,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "EndPath",
+              "parent": true,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483647,
+              "random_after": 2147483647,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 2147483647,
+          "random_calls": 0
+        },
+        {
+          "seed": 2147483648,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483648,
+              "random_after": 2147483648,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "EndPath",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483648,
+              "random_after": 2147483648,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "EndPath",
+              "parent": true,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 2147483648,
+              "random_after": 2147483648,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 2147483648,
+          "random_calls": 0
+        },
+        {
+          "seed": 4294967295,
+          "instances": [
+            {
+              "path": [],
+              "type": "RootRule",
+              "parent": false,
+              "length": 0,
+              "exit_direction": null,
+              "block_names": [
+                "room"
+              ],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 4294967295,
+              "random_after": 4294967295,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "EndPath",
+              "parent": false,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 4294967295,
+              "random_after": 4294967295,
+              "random_calls": 0
+            },
+            {
+              "path": [
+                0
+              ],
+              "type": "EndPath",
+              "parent": true,
+              "length": 1,
+              "exit_direction": null,
+              "block_names": [],
+              "children": 0,
+              "tile_present": false,
+              "progress": 0,
+              "random_before": 4294967295,
+              "random_after": 4294967295,
+              "random_calls": 0
+            }
+          ],
+          "final_state": 4294967295,
+          "random_calls": 0
+        }
+      ]
+    }
+  ],
+  "original_execution_complete": false,
+  "smoke_execution_complete": true,
+  "layout_generation_verified": false,
+  "pool_size_allocation_verified": false,
+  "full_loader_verified": false
+}

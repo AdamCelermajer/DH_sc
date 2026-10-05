@@ -1,0 +1,18 @@
+{
+  "source_sha256": {
+    "port\\level-world\\character_player_skills_v3.hpp": "8f887c84860a5669a9333f6235d0a21e694612cecc919e40b50ed520c4215a6a",
+    "port\\level-world\\character_player_skills_v3.cpp": "951da6934eff712d5a3755eb91eb0d5d8fc1b44b7122d7f361a658f93e5551a5"
+  },
+  "new_sha256": {
+    "character_player_skills_v6.hpp": "f03585415a6d612e6b91eeb77badce22a9954b98ccc416ffc8cbfa895c9d2e7f",
+    "character_player_skills_v6.cpp": "d37ebd6f949d4eee9c1d16b86e513d2505edc44051aba06755eef80f45eb9828"
+  },
+  "construction": "one V6 player and one V6 SkillOwner; frozen V3 implementation text reused with class-token remapping; same Session/timer/property/buff graph",
+  "new_operations": [
+    "native_buffs borrowed lifetime",
+    "native_delete_buff same owned BuffOwner",
+    "native_cancel_sneaking source class146 deletion and same SkillAI end",
+    "native_savegame same Save borrow",
+    "native_reload_skills shared original-order coordinator; same owned V6 Skill vector and same Save SG lifecycle"
+  ]
+}

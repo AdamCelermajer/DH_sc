@@ -1,0 +1,69 @@
+{
+  "names_sha256": "7b894a23179f51911983c2fe7a674c7d6af64a949f0fea0cb60dff4105436e1f",
+  "records_sha256": "1a0f9d325d3f2d10ec1cb15394ec709b6da991b3818eb33c6cabda95bee25ab8",
+  "records_consumed": 11295,
+  "sound_count": 183,
+  "menu": [
+    {
+      "id": 60,
+      "name": "FloatingArmorBossSpawn",
+      "file": "sfx_menu_back.wav",
+      "volume": 100,
+      "channel": 1,
+      "format": 0,
+      "repeat": 0
+    },
+    {
+      "id": 93,
+      "name": "MenuBack",
+      "file": "sfx_menu_back.wav",
+      "volume": 100,
+      "channel": 1,
+      "format": 0,
+      "repeat": 0
+    },
+    {
+      "id": 94,
+      "name": "MenuConfirm",
+      "file": "sfx_menu_confirm.wav",
+      "volume": 100,
+      "channel": 1,
+      "format": 0,
+      "repeat": 0
+    },
+    {
+      "id": 96,
+      "name": "MenuSelect",
+      "file": "sfx_menu_select.wav",
+      "volume": 100,
+      "channel": 1,
+      "format": 0,
+      "repeat": 0
+    },
+    {
+      "id": 97,
+      "name": "MenuSpending",
+      "file": "sfx_menu_spending.wav",
+      "volume": 100,
+      "channel": 1,
+      "format": 0,
+      "repeat": 0
+    },
+    {
+      "id": 98,
+      "name": "MenuTab",
+      "file": "sfx_menu_tab.wav",
+      "volume": 100,
+      "channel": 1,
+      "format": 0,
+      "repeat": 0
+    }
+  ],
+  "delivered_files": [
+    "sfx_menu_back.wav",
+    "sfx_menu_confirm.wav",
+    "sfx_menu_select.wav",
+    "sfx_menu_spending.wav",
+    "sfx_menu_tab.wav"
+  ]
+}

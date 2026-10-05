@@ -1,0 +1,13 @@
+{
+  "validation": "PASS",
+  "cases": 42,
+  "mismatches": 0,
+  "scope": "Original nested CharAI ctor prefix and whole SetIsTargetable argument gates.\nActual Lua argument access/getBool are named fixtures; all branch/store code\nexecutes the original ARM ELF. Native host test covers same World projection.\n",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "ctor_source": [
+    "Character+3c8 calls CharAI C2 at3aa210",
+    "CharAI C2 mov1 at3cec18 and store+4d at3cec6c",
+    "CharAI C1 duplicate3ced78/3cedcc"
+  ],
+  "sole_field": "WorldActor.character.interactive415"
+}

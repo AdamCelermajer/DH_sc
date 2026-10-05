@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "apk_sha256": "b414f21ca5ea266b7fb83bfe3785a72cf80a8b2cf80cd64dc8f0f8868d0a16e8",
+  "scope": "Compatibility artwork, typing, Shift, Space, Delete, digits, eight-character limit, Back and retained resize",
+  "surfaces": [
+    {
+      "size": "1080x1920",
+      "shift": "PASS",
+      "space": "PASS",
+      "delete": "PASS",
+      "digit": "PASS",
+      "limit": "aQaaaaaa",
+      "back": "PASS"
+    },
+    {
+      "size": "1080x2400",
+      "shift": "PASS",
+      "space": "PASS",
+      "delete": "PASS",
+      "digit": "PASS",
+      "limit": "aQaaaaaa",
+      "back": "PASS"
+    },
+    {
+      "size": "1968x2184",
+      "shift": "PASS",
+      "space": "PASS",
+      "delete": "PASS",
+      "digit": "PASS",
+      "limit": "aQaaaaaa",
+      "back": "PASS"
+    }
+  ],
+  "retained_resize": {
+    "pid": "7295",
+    "text": "a"
+  }
+}

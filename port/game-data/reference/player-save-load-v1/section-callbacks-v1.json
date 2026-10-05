@@ -1,0 +1,96 @@
+{
+  "PNAM": [
+    {
+      "first": "_ZN14PlayerSavegame16__LoadPlayerNameEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame16__SavePlayerNameEP11IStreamBasePv"
+    }
+  ],
+  "PLVL": [
+    {
+      "first": "_ZN14PlayerSavegame17__LoadPlayerLevelEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame17__SavePlayerLevelEP11IStreamBasePv"
+    }
+  ],
+  "PCLS": [
+    {
+      "first": "_ZN14PlayerSavegame17__LoadPlayerClassEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame17__SavePlayerClassEP11IStreamBasePv"
+    }
+  ],
+  "PDFL": [
+    {
+      "first": "_ZN14PlayerSavegame21__LoadDifficultyLevelEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame21__SaveDifficultyLevelEP11IStreamBasePv"
+    }
+  ],
+  "LNAM": [
+    {
+      "first": "_ZN14PlayerSavegame15__LoadLevelNameEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame15__SaveLevelNameEP11IStreamBasePv"
+    }
+  ],
+  "LEPT": [
+    {
+      "first": "_ZN14PlayerSavegame21__LoadLevelEntryPointEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame21__SaveLevelEntryPointEP11IStreamBasePv"
+    }
+  ],
+  "LUSP": [
+    {
+      "first": "_ZN14PlayerSavegame19__LoadUseSpawnPointEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame19__SaveUseSpawnPointEP11IStreamBasePv"
+    }
+  ],
+  "LVLS": [
+    {
+      "first": "_ZN14PlayerSavegame17__LoadLevelStatesEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame17__SaveLevelStatesEP11IStreamBasePv"
+    }
+  ],
+  "SKIL": [
+    {
+      "first": "_ZN14PlayerSavegame12__LoadSkillsEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame12__SaveSkillsEP11IStreamBasePv"
+    }
+  ],
+  "FAES": [
+    {
+      "first": "_ZN14PlayerSavegame13__LoadFaeriesEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame13__SaveFaeriesEP11IStreamBasePv"
+    }
+  ],
+  "CFEE": [
+    {
+      "first": "0x0",
+      "second": "_ZN14PlayerSavegame18__SaveCurrentFaeryEP11IStreamBasePv"
+    },
+    {
+      "first": "_ZN14PlayerSavegame18__LoadCurrentFaeryEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame18__SaveCurrentFaeryEP11IStreamBasePv"
+    }
+  ],
+  "QEST": [
+    {
+      "first": "_ZN14PlayerSavegame12__LoadQuestsEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame12__SaveQuestsEP11IStreamBasePv"
+    }
+  ],
+  "PROP": [
+    {
+      "first": "_ZN14PlayerSavegame16__LoadPropertiesEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame16__SavePropertiesEP11IStreamBasePv"
+    }
+  ],
+  "GEAR": [
+    {
+      "first": "_ZN14PlayerSavegame15__LoadInventoryEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame15__SaveInventoryEP11IStreamBasePv"
+    }
+  ],
+  "FTVL": [
+    {
+      "first": "_ZN14PlayerSavegame20__LoadFastTravelListEP11IStreamBasePv",
+      "second": "_ZN14PlayerSavegame20__SaveFastTravelListEP11IStreamBasePv"
+    }
+  ]
+}

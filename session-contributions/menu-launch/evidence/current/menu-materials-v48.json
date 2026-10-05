@@ -1,0 +1,1280 @@
+[
+  {
+    "asset": "main_menu_charactere_swamp.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/menu/main_menu_charactere_swamp.bdae",
+    "materials": [
+      {
+        "id": "Material__11805",
+        "raw": [
+          4108,
+          4108,
+          4128,
+          4164,
+          22,
+          11748
+        ],
+        "fields": [
+          [
+            0,
+            "Material__11805"
+          ],
+          [
+            4,
+            "Material__11805"
+          ],
+          [
+            8,
+            "GL_Diffuse_L1_VC_iPhone.bdae"
+          ],
+          [
+            12,
+            "#Multilight-fx"
+          ]
+        ],
+        "params": [
+          {
+            "name": "Ambient_Color",
+            "type": 6,
+            "raw": [
+              4184,
+              2716,
+              6,
+              1,
+              12276,
+              12280
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "Object_Alpha",
+            "type": 4,
+            "raw": [
+              4204,
+              2716,
+              4,
+              1,
+              12292,
+              12296
+            ],
+            "value": [
+              1.0
+            ]
+          },
+          {
+            "name": "Diffuse",
+            "type": 11,
+            "raw": [
+              4224,
+              2716,
+              11,
+              1,
+              12300,
+              12304
+            ],
+            "value": []
+          },
+          {
+            "name": "AlphaMap",
+            "type": 11,
+            "raw": [
+              4236,
+              2716,
+              11,
+              1,
+              12312,
+              12316
+            ],
+            "value": []
+          },
+          {
+            "name": "LightMap",
+            "type": 11,
+            "raw": [
+              4252,
+              2716,
+              11,
+              1,
+              12324,
+              12328
+            ],
+            "value": []
+          },
+          {
+            "name": "Specular",
+            "type": 11,
+            "raw": [
+              4268,
+              2716,
+              11,
+              1,
+              12336,
+              12340
+            ],
+            "value": []
+          },
+          {
+            "name": "Spec_Level",
+            "type": 4,
+            "raw": [
+              4284,
+              2716,
+              4,
+              1,
+              12348,
+              12352
+            ],
+            "value": [
+              1.0
+            ]
+          },
+          {
+            "name": "Spec_Saturation",
+            "type": 4,
+            "raw": [
+              4300,
+              2716,
+              4,
+              1,
+              12356,
+              12360
+            ],
+            "value": [
+              0.5
+            ]
+          },
+          {
+            "name": "Glossiness",
+            "type": 4,
+            "raw": [
+              4320,
+              2716,
+              4,
+              1,
+              12364,
+              12368
+            ],
+            "value": [
+              10.0
+            ]
+          },
+          {
+            "name": "_light0attenuation",
+            "type": 6,
+            "raw": [
+              4336,
+              2716,
+              6,
+              1,
+              12372,
+              12376
+            ],
+            "value": [
+              1.0,
+              0.0,
+              1.0
+            ]
+          },
+          {
+            "name": "_light0diffusecolor",
+            "type": 6,
+            "raw": [
+              4360,
+              2716,
+              6,
+              1,
+              12388,
+              12392
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "_light0specularcolor",
+            "type": 6,
+            "raw": [
+              4384,
+              2716,
+              6,
+              1,
+              12404,
+              12408
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "ambient-color",
+            "type": 7,
+            "raw": [
+              3528,
+              2716,
+              7,
+              1,
+              12420,
+              12424
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "diffuse-color",
+            "type": 7,
+            "raw": [
+              3548,
+              2716,
+              7,
+              1,
+              12440,
+              12444
+            ],
+            "value": [
+              0.800000011920929,
+              0.800000011920929,
+              0.800000011920929,
+              0.10000000149011612
+            ]
+          },
+          {
+            "name": "specular-color",
+            "type": 7,
+            "raw": [
+              3568,
+              2716,
+              7,
+              1,
+              12460,
+              12464
+            ],
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "name": "emission-color",
+            "type": 7,
+            "raw": [
+              3588,
+              2716,
+              7,
+              1,
+              12480,
+              12484
+            ],
+            "value": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "name": "shininess",
+            "type": 4,
+            "raw": [
+              3608,
+              2716,
+              4,
+              1,
+              12500,
+              12504
+            ],
+            "value": [
+              10.0
+            ]
+          },
+          {
+            "name": "texture-matrix",
+            "type": 10,
+            "raw": [
+              4412,
+              2716,
+              10,
+              1,
+              12508,
+              12512
+            ],
+            "value": [
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          {
+            "name": "alpha-ref",
+            "type": 4,
+            "raw": [
+              4432,
+              2716,
+              4,
+              1,
+              12576,
+              12580
+            ],
+            "value": [
+              0.0
+            ]
+          },
+          {
+            "name": "light0",
+            "type": 19,
+            "raw": [
+              4448,
+              2716,
+              19,
+              1,
+              12584,
+              12588
+            ],
+            "value": []
+          },
+          {
+            "name": "Multilight-fx-profile_GLES/CurrentTechnique",
+            "type": 20,
+            "raw": [
+              4468,
+              2716,
+              20,
+              1,
+              12592,
+              12596
+            ],
+            "value": []
+          },
+          {
+            "name": "Multilight-fx-profile_GLES2/CurrentTechnique",
+            "type": 20,
+            "raw": [
+              4552,
+              2716,
+              20,
+              1,
+              12604,
+              12608
+            ],
+            "value": []
+          }
+        ]
+      },
+      {
+        "id": "Material__35",
+        "raw": [
+          4604,
+          4604,
+          0,
+          4624,
+          1,
+          12616
+        ],
+        "fields": [
+          [
+            0,
+            "Material__35"
+          ],
+          [
+            4,
+            "Material__35"
+          ],
+          [
+            12,
+            "#ProfileCOMMON_Material__35-fx1302961790_main_menu_charactere_swamp"
+          ]
+        ],
+        "params": [
+          {
+            "name": "diffuse-sampler",
+            "type": 11,
+            "raw": [
+              3480,
+              2716,
+              11,
+              1,
+              12640,
+              12644
+            ],
+            "value": []
+          }
+        ]
+      },
+      {
+        "id": "_3_-_Default",
+        "raw": [
+          4696,
+          4696,
+          0,
+          4716,
+          1,
+          12652
+        ],
+        "fields": [
+          [
+            0,
+            "_3_-_Default"
+          ],
+          [
+            4,
+            "_3_-_Default"
+          ],
+          [
+            12,
+            "#ProfileCOMMON__3_-_Default-fx1302961790_main_menu_charactere_swamp"
+          ]
+        ],
+        "params": [
+          {
+            "name": "diffuse-sampler",
+            "type": 11,
+            "raw": [
+              3480,
+              2716,
+              11,
+              1,
+              12676,
+              12680
+            ],
+            "value": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "asset": "class_selection.bdae",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/optimizedmaxfiles/class_selection.bdae",
+    "materials": [
+      {
+        "id": "Material__11805",
+        "raw": [
+          6500,
+          6500,
+          6520,
+          6556,
+          22,
+          17632
+        ],
+        "fields": [
+          [
+            0,
+            "Material__11805"
+          ],
+          [
+            4,
+            "Material__11805"
+          ],
+          [
+            8,
+            "GL_Diffuse_L1_VC_iPhone.bdae"
+          ],
+          [
+            12,
+            "#Multilight-fx"
+          ]
+        ],
+        "params": [
+          {
+            "name": "Ambient_Color",
+            "type": 6,
+            "raw": [
+              6576,
+              5196,
+              6,
+              1,
+              18160,
+              18164
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "Object_Alpha",
+            "type": 4,
+            "raw": [
+              6596,
+              5196,
+              4,
+              1,
+              18176,
+              18180
+            ],
+            "value": [
+              1.0
+            ]
+          },
+          {
+            "name": "Diffuse",
+            "type": 11,
+            "raw": [
+              6616,
+              5196,
+              11,
+              1,
+              18184,
+              18188
+            ],
+            "value": []
+          },
+          {
+            "name": "AlphaMap",
+            "type": 11,
+            "raw": [
+              6628,
+              5196,
+              11,
+              1,
+              18196,
+              18200
+            ],
+            "value": []
+          },
+          {
+            "name": "LightMap",
+            "type": 11,
+            "raw": [
+              6644,
+              5196,
+              11,
+              1,
+              18208,
+              18212
+            ],
+            "value": []
+          },
+          {
+            "name": "Specular",
+            "type": 11,
+            "raw": [
+              6660,
+              5196,
+              11,
+              1,
+              18220,
+              18224
+            ],
+            "value": []
+          },
+          {
+            "name": "Spec_Level",
+            "type": 4,
+            "raw": [
+              6676,
+              5196,
+              4,
+              1,
+              18232,
+              18236
+            ],
+            "value": [
+              1.0
+            ]
+          },
+          {
+            "name": "Spec_Saturation",
+            "type": 4,
+            "raw": [
+              6692,
+              5196,
+              4,
+              1,
+              18240,
+              18244
+            ],
+            "value": [
+              0.5
+            ]
+          },
+          {
+            "name": "Glossiness",
+            "type": 4,
+            "raw": [
+              6712,
+              5196,
+              4,
+              1,
+              18248,
+              18252
+            ],
+            "value": [
+              10.0
+            ]
+          },
+          {
+            "name": "_light0attenuation",
+            "type": 6,
+            "raw": [
+              6728,
+              5196,
+              6,
+              1,
+              18256,
+              18260
+            ],
+            "value": [
+              0.375,
+              0.5120000243186951,
+              1.0470000505447388
+            ]
+          },
+          {
+            "name": "_light0diffusecolor",
+            "type": 6,
+            "raw": [
+              6752,
+              5196,
+              6,
+              1,
+              18272,
+              18276
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "_light0specularcolor",
+            "type": 6,
+            "raw": [
+              6776,
+              5196,
+              6,
+              1,
+              18288,
+              18292
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "ambient-color",
+            "type": 7,
+            "raw": [
+              6024,
+              5196,
+              7,
+              1,
+              18304,
+              18308
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "diffuse-color",
+            "type": 7,
+            "raw": [
+              6044,
+              5196,
+              7,
+              1,
+              18324,
+              18328
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              0.10000000149011612
+            ]
+          },
+          {
+            "name": "specular-color",
+            "type": 7,
+            "raw": [
+              6064,
+              5196,
+              7,
+              1,
+              18344,
+              18348
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              0.0
+            ]
+          },
+          {
+            "name": "emission-color",
+            "type": 7,
+            "raw": [
+              6084,
+              5196,
+              7,
+              1,
+              18364,
+              18368
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              0.0
+            ]
+          },
+          {
+            "name": "shininess",
+            "type": 4,
+            "raw": [
+              6104,
+              5196,
+              4,
+              1,
+              18384,
+              18388
+            ],
+            "value": [
+              10.0
+            ]
+          },
+          {
+            "name": "texture-matrix",
+            "type": 10,
+            "raw": [
+              6804,
+              5196,
+              10,
+              1,
+              18392,
+              18396
+            ],
+            "value": [
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          {
+            "name": "alpha-ref",
+            "type": 4,
+            "raw": [
+              6824,
+              5196,
+              4,
+              1,
+              18460,
+              18464
+            ],
+            "value": [
+              0.0
+            ]
+          },
+          {
+            "name": "light0",
+            "type": 19,
+            "raw": [
+              6840,
+              5196,
+              19,
+              1,
+              18468,
+              18472
+            ],
+            "value": []
+          },
+          {
+            "name": "Multilight-fx-profile_GLES/CurrentTechnique",
+            "type": 20,
+            "raw": [
+              6860,
+              5196,
+              20,
+              1,
+              18476,
+              18480
+            ],
+            "value": []
+          },
+          {
+            "name": "Multilight-fx-profile_GLES2/CurrentTechnique",
+            "type": 20,
+            "raw": [
+              6944,
+              5196,
+              20,
+              1,
+              18488,
+              18492
+            ],
+            "value": []
+          }
+        ]
+      },
+      {
+        "id": "Material__11806",
+        "raw": [
+          6996,
+          6996,
+          6520,
+          6556,
+          22,
+          18500
+        ],
+        "fields": [
+          [
+            0,
+            "Material__11806"
+          ],
+          [
+            4,
+            "Material__11806"
+          ],
+          [
+            8,
+            "GL_Diffuse_L1_VC_iPhone.bdae"
+          ],
+          [
+            12,
+            "#Multilight-fx"
+          ]
+        ],
+        "params": [
+          {
+            "name": "Ambient_Color",
+            "type": 6,
+            "raw": [
+              6576,
+              5196,
+              6,
+              1,
+              19028,
+              19032
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "Object_Alpha",
+            "type": 4,
+            "raw": [
+              6596,
+              5196,
+              4,
+              1,
+              19044,
+              19048
+            ],
+            "value": [
+              1.0
+            ]
+          },
+          {
+            "name": "Diffuse",
+            "type": 11,
+            "raw": [
+              6616,
+              5196,
+              11,
+              1,
+              19052,
+              19056
+            ],
+            "value": []
+          },
+          {
+            "name": "AlphaMap",
+            "type": 11,
+            "raw": [
+              6628,
+              5196,
+              11,
+              1,
+              19064,
+              19068
+            ],
+            "value": []
+          },
+          {
+            "name": "LightMap",
+            "type": 11,
+            "raw": [
+              6644,
+              5196,
+              11,
+              1,
+              19076,
+              19080
+            ],
+            "value": []
+          },
+          {
+            "name": "Specular",
+            "type": 11,
+            "raw": [
+              6660,
+              5196,
+              11,
+              1,
+              19088,
+              19092
+            ],
+            "value": []
+          },
+          {
+            "name": "Spec_Level",
+            "type": 4,
+            "raw": [
+              6676,
+              5196,
+              4,
+              1,
+              19100,
+              19104
+            ],
+            "value": [
+              1.0
+            ]
+          },
+          {
+            "name": "Spec_Saturation",
+            "type": 4,
+            "raw": [
+              6692,
+              5196,
+              4,
+              1,
+              19108,
+              19112
+            ],
+            "value": [
+              0.5
+            ]
+          },
+          {
+            "name": "Glossiness",
+            "type": 4,
+            "raw": [
+              6712,
+              5196,
+              4,
+              1,
+              19116,
+              19120
+            ],
+            "value": [
+              10.0
+            ]
+          },
+          {
+            "name": "_light0attenuation",
+            "type": 6,
+            "raw": [
+              6728,
+              5196,
+              6,
+              1,
+              19124,
+              19128
+            ],
+            "value": [
+              0.375,
+              0.5117189884185791,
+              1.0468800067901611
+            ]
+          },
+          {
+            "name": "_light0diffusecolor",
+            "type": 6,
+            "raw": [
+              6752,
+              5196,
+              6,
+              1,
+              19140,
+              19144
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "_light0specularcolor",
+            "type": 6,
+            "raw": [
+              6776,
+              5196,
+              6,
+              1,
+              19156,
+              19160
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "ambient-color",
+            "type": 7,
+            "raw": [
+              6024,
+              5196,
+              7,
+              1,
+              19172,
+              19176
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "diffuse-color",
+            "type": 7,
+            "raw": [
+              6044,
+              5196,
+              7,
+              1,
+              19192,
+              19196
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              0.10000000149011612
+            ]
+          },
+          {
+            "name": "specular-color",
+            "type": 7,
+            "raw": [
+              6064,
+              5196,
+              7,
+              1,
+              19212,
+              19216
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              0.0
+            ]
+          },
+          {
+            "name": "emission-color",
+            "type": 7,
+            "raw": [
+              6084,
+              5196,
+              7,
+              1,
+              19232,
+              19236
+            ],
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              0.0
+            ]
+          },
+          {
+            "name": "shininess",
+            "type": 4,
+            "raw": [
+              6104,
+              5196,
+              4,
+              1,
+              19252,
+              19256
+            ],
+            "value": [
+              10.0
+            ]
+          },
+          {
+            "name": "texture-matrix",
+            "type": 10,
+            "raw": [
+              6804,
+              5196,
+              10,
+              1,
+              19260,
+              19264
+            ],
+            "value": [
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          {
+            "name": "alpha-ref",
+            "type": 4,
+            "raw": [
+              6824,
+              5196,
+              4,
+              1,
+              19328,
+              19332
+            ],
+            "value": [
+              0.0
+            ]
+          },
+          {
+            "name": "light0",
+            "type": 19,
+            "raw": [
+              6840,
+              5196,
+              19,
+              1,
+              19336,
+              19340
+            ],
+            "value": []
+          },
+          {
+            "name": "Multilight-fx-profile_GLES/CurrentTechnique",
+            "type": 20,
+            "raw": [
+              6860,
+              5196,
+              20,
+              1,
+              19344,
+              19348
+            ],
+            "value": []
+          },
+          {
+            "name": "Multilight-fx-profile_GLES2/CurrentTechnique",
+            "type": 20,
+            "raw": [
+              6944,
+              5196,
+              20,
+              1,
+              19356,
+              19360
+            ],
+            "value": []
+          }
+        ]
+      },
+      {
+        "id": "_3_-_Default",
+        "raw": [
+          7088,
+          7088,
+          0,
+          7108,
+          1,
+          19368
+        ],
+        "fields": [
+          [
+            0,
+            "_3_-_Default"
+          ],
+          [
+            4,
+            "_3_-_Default"
+          ],
+          [
+            12,
+            "#ProfileCOMMON__3_-_Default-fx1302961867_CLASS_SELECTION"
+          ]
+        ],
+        "params": [
+          {
+            "name": "diffuse-sampler",
+            "type": 11,
+            "raw": [
+              5976,
+              5196,
+              11,
+              1,
+              19392,
+              19396
+            ],
+            "value": []
+          }
+        ]
+      }
+    ]
+  }
+]

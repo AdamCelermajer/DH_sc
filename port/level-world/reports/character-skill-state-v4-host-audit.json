@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "sanitizers": [
+    "address",
+    "undefined"
+  ],
+  "leak_detection": true,
+  "kernel_assertions": "Borrowed State mutation, effects before failed provider, real payload/service ordering, missing prefix provider and malformed pre-entry",
+  "context_validation": "Host and ARM64 syntax compatibility only; full retained-player integration not executed",
+  "full_campaign": false,
+  "commands": [
+    {
+      "command": "g++ -std=c++17 -O2 -fsanitize=address,undefined -fno-omit-frame-pointer port/level-world/character_skill_state_v4.cpp port/level-world/tests/character_skill_state_v4_host.cpp -o /tmp/dh2-skill-state-v4-host",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "ASAN_OPTIONS=detect_leaks=1 /tmp/dh2-skill-state-v4-host",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "g++ -std=c++17 -O2 -fsyntax-only port/level-world/character_skill_context_v4.cpp",
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "character_skill_state_v4.cpp": "3866f692392bcc01907edd583d3215351e4dfccc593e9525aa86dec76ada421a",
+    "character_skill_state_v4.hpp": "ee4a21a3503a8e4b3abd21dde48e5c45094e76f2354ba3fd090210deac977150",
+    "character_skill_context_v4.cpp": "d6f0e8041a134dc74c5b4381fb0284889c63758703d1d8f7508e5a78e4a143ca",
+    "character_skill_context_v4.hpp": "e0dec1679241b491895ff7d070a975ad240867751bf10d5b80f057e3cebab981",
+    "tests/character_skill_state_v4_host.cpp": "5e5f4bf697c59b41eef6e7c309d9b27be27f320f1895405e2df567462ef0ef71"
+  }
+}

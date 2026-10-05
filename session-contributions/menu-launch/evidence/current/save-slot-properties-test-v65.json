@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "cases": 128,
+  "typed_setters": 1408,
+  "fixture_sha256": "b502ea7f0ef06659cf6488df7bad62a3f5c37020573f5492227ce82a31fd1153",
+  "native_library_sha256": "f1b3372963b33b9264d55a2766620203dd617001717b5aa8993c40ff8b11f06c",
+  "source_sha256": {
+    "port\\android-native\\tools\\menu_save_slot_properties_audit.cpp": "0276cbf3b1bc8a5f6962454b170b8a47d689573e5ff291b7223aff471ced343e",
+    "port\\engine-ui\\swf_menu_save_slots.hpp": "ccc26d42627339f29bb39456afeb7f3fd39857cc68b1f462af1dc0d227ff8992",
+    "port\\engine-ui\\swf_menu_save_slots.cpp": "6acabef5e2ba71dd04856a509181ed43b6d854a7d375748d7dd772e718923433"
+  },
+  "scope": "Real native GamesWF AS objects compared with original ARM property writer. Input profile/localization/date supplied; slot enumeration, profile loading and visible occupied slots remain unconnected."
+}

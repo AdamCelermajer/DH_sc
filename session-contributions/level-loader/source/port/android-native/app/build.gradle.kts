@@ -67,6 +67,8 @@ android {
         externalNativeBuild {
             cmake {
                 arguments += "-DDH2_SOURCE_DIR=${dh2SourceRoot.invariantSeparatorsPath}"
+                arguments += "-DDH2_LOADER_PREVIEW=ON"
+                targets += "dh2_loader_preview"
             }
         }
     }

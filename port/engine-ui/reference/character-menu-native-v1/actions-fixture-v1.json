@@ -1,0 +1,191 @@
+[
+  {
+    "callback": "NativeEquipSkill",
+    "class_id": 290,
+    "writes": [],
+    "services": [
+      [
+        "_Z19NativeGetPlayerCharib",
+        102,
+        0
+      ],
+      [
+        "_ZNK9Character17IsSkillEquippableEi",
+        34603008,
+        101,
+        0,
+        34611744
+      ],
+      [
+        "_ZN9Character17SG_SetSkillInSlotEij",
+        34603008,
+        100,
+        101,
+        34611744
+      ]
+    ]
+  },
+  {
+    "callback": "NativeInvEquipItem",
+    "class_id": 290,
+    "writes": [],
+    "services": [
+      [
+        "_Z19NativeGetPlayerCharib",
+        102,
+        0
+      ],
+      [
+        "_ZN9Character15EquipItemToSlotEjj",
+        34603008,
+        100,
+        101,
+        9854776
+      ]
+    ]
+  },
+  {
+    "callback": "NativeInvUnequipItem",
+    "class_id": 290,
+    "writes": [],
+    "services": [
+      [
+        "_Z19NativeGetPlayerCharib",
+        101,
+        0
+      ],
+      [
+        "_ZN9Character19UnEquipItemFromSlotEj",
+        34603008,
+        100,
+        0,
+        9854776
+      ]
+    ]
+  },
+  {
+    "callback": "NativeInvAutoEquipSlot",
+    "class_id": 290,
+    "writes": [],
+    "services": [
+      [
+        "_Z19NativeGetPlayerCharib",
+        101,
+        0
+      ],
+      [
+        "_ZNK13ItemInventory20GetNumEquipmentSlotsEv",
+        34603900,
+        1079574528,
+        0,
+        34611744
+      ]
+    ]
+  },
+  {
+    "callback": "NativeSwapEquipment",
+    "class_id": 290,
+    "writes": [],
+    "services": [
+      [
+        "_Z19NativeGetPlayerCharib",
+        100,
+        0
+      ],
+      [
+        "_ZN13ItemInventory16SwapEquipmentSetEv",
+        34603900,
+        0,
+        9,
+        34611744
+      ],
+      [
+        "_ZN14CharProperties21UpdateGearsPropertiesEv",
+        34604384,
+        0,
+        9,
+        34611744
+      ],
+      [
+        "_ZN9Character26INV_CheckItemsRequirementsEv",
+        34603008,
+        0,
+        9,
+        34611744
+      ],
+      [
+        "_ZN9Character14INV_UpdateSkinEv",
+        34603008,
+        0,
+        9,
+        34611744
+      ],
+      [
+        "_ZN9Character12ValidateHPMPEv",
+        34603008,
+        0,
+        9,
+        34611744
+      ],
+      [
+        "_ZN8RenderFX16InvokeASCallbackEPN7gameswf9characterEPKcPKNS0_8as_valueEi",
+        0,
+        2141152640,
+        "DisplayRightHud",
+        0
+      ],
+      [
+        "_ZN8RenderFX16InvokeASCallbackEPN7gameswf9characterEPKcPKNS0_8as_valueEi",
+        0,
+        2141152640,
+        "FillActionIcon",
+        67166164
+      ]
+    ]
+  },
+  {
+    "callback": "NativeSkillsTrainSkill",
+    "class_id": 290,
+    "writes": [],
+    "services": [
+      [
+        "_Z19NativeGetPlayerCharib",
+        101,
+        0
+      ],
+      [
+        "_ZN9Character8IncSkillEib",
+        34603008,
+        100,
+        0,
+        2
+      ],
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        34604384,
+        157,
+        0,
+        2
+      ]
+    ]
+  },
+  {
+    "callback": "NativeSkillsGetSkillPointsLeft",
+    "class_id": 290,
+    "writes": [],
+    "services": [
+      [
+        "_Z19NativeGetPlayerCharib",
+        100,
+        0
+      ],
+      [
+        "_ZNK14CharProperties12PROPS_GetIntEib",
+        34604384,
+        157,
+        0,
+        1079574528
+      ]
+    ]
+  }
+]

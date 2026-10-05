@@ -1,0 +1,22 @@
+1079 MC_Torso_default_warrior swooshFX=-1
+1073 MC_Feet_default_warrior swooshFX=-1
+1076 MC_Hands_default_warrior swooshFX=-1
+664 MC_RWeapon_Longsword_01 swooshFX=-1
+1080 MC_Torso_default_mage swooshFX=-1
+1074 MC_Feet_default_mage swooshFX=-1
+1077 MC_Hands_default_mage swooshFX=-1
+1025 MC_RWeapon_Quarterstaff_01 swooshFX=-1
+1081 MC_Torso_default_rogue swooshFX=-1
+1075 MC_Feet_default_rogue swooshFX=-1
+1078 MC_Hands_default_rogue swooshFX=-1
+370 MC_RWeapon_Dagger_01 swooshFX=-1
+925  swooshFX=-1
+CHAR 48 PlayerKnight FX 253 254 255
+CHAR 49 PlayerMage FX 253 254 255
+CHAR 50 PlayerRogue FX 253 254 255
+SET 253 swoosh_prince_1hand_combo_01 type=0 loop=0
+  file=272 path=data/3D/interface/swoosh_prince_1hand_combo_01.bdae loop=0 duration=-1 redir=0 subobject= orient=0/1 scale=1
+SET 254 swoosh_prince_1hand_combo_02 type=0 loop=0
+  file=273 path=data/3D/interface/swoosh_prince_1hand_combo_02.bdae loop=0 duration=-1 redir=0 subobject= orient=0/1 scale=1
+SET 255 swoosh_prince_1hand_combo_03 type=0 loop=0
+  file=274 path=data/3D/interface/swoosh_prince_1hand_combo_03.bdae loop=0 duration=-1 redir=0 subobject= orient=0/1 scale=1

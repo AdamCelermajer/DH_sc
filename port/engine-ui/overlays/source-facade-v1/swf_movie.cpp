@@ -1,6 +1,7 @@
 #include "../../swf_movie.hpp"
 #include "../../swf_source_movie_v1.hpp"
 #include "../../swf_source_startup_v1.hpp"
+#include "../../swf_text_font_platform_v1.hpp"
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_player.h"
 #include "gameswf/gameswf_root.h"
@@ -103,7 +104,13 @@ struct SwfMovie::Impl:gameswf::render_handler {
  gameswf::bitmap_info*create_bitmap_info_rgba(image::rgba*i)override{return image(i->m_width,i->m_height,4,i->m_data,i->m_pitch);}
  gameswf::video_handler*create_video_handler()override{fail("SWF video backend unavailable");return nullptr;}
  void begin_display(gameswf::rgba c,int x,int y,int w,int h,float x0,float x1,float y0,float y1)override{SwfDraw d;d.kind=SwfDraw::begin;d.viewport[0]=x;d.viewport[1]=y;d.viewport[2]=w;d.viewport[3]=h;d.bounds[0]=x0;d.bounds[1]=x1;d.bounds[2]=y0;d.bounds[3]=y1;rgba(d.background,c);emit(d);}
- void end_display()override{SwfDraw d;d.kind=SwfDraw::end;emit(d);}
+ void end_display()override{
+  // Original root::display7755b8 -> flush_buffered_text7755c0 -> end7755cc.
+  // Keep the queued fields inside this same live renderer/core Scope.
+  if(root&&player){auto platform=SwfTextFontPlatformV1::for_player(player.get_ptr());std::string error;
+   if(platform&&!platform->flush_buffered_text(error))fail(error.empty()?"Source buffered text flush failed":error);}
+  SwfDraw d;d.kind=SwfDraw::end;emit(d);
+ }
  void set_matrix(const gameswf::matrix&m)override{state.matrix=matrix(m);}void set_cxform(const gameswf::cxform&c)override{state.color_transform=cx(c);}
  void vertices(const void*v,int n,SwfDraw::Kind kind){if(n<0||(!v&&n)){fail("Malformed upstream draw span");return;}SwfDraw d=state;d.kind=kind;auto*p=static_cast<const coord_component*>(v);d.xy.reserve(std::size_t(n)*2);for(int i=0;i<n*2;++i)d.xy.push_back(float(p[i]));emit(std::move(d));}
  void draw_mesh_strip(const void*v,int n)override{vertices(v,n,SwfDraw::triangle_strip);}void draw_triangle_list(const void*v,int n)override{vertices(v,n,SwfDraw::triangles);}void draw_line_strip(const void*v,int n)override{vertices(v,n,SwfDraw::line_strip);}
@@ -120,6 +127,7 @@ struct SwfMovie::Impl:gameswf::render_handler {
  gameswf::character*find(const char*path){if(!root||!path)return nullptr;auto*o=root->get_root_movie()->find_target(gameswf::as_value(path));return o&&o->is(gameswf::character::m_class_id)?static_cast<gameswf::character*>(o):nullptr;}
 };
 SwfMovie::Impl*SwfMovie::Impl::active=nullptr;
+#include "../../swf_movie_combat_flash_v1.inc"
 SwfMovie::SwfMovie():impl_(new Impl){}SwfMovie::~SwfMovie()=default;
 SwfMovie::SwfMovie(SwfMovie&&)noexcept=default;SwfMovie&SwfMovie::operator=(SwfMovie&&)noexcept=default;
 bool SwfMovie::load(const std::vector<std::string>&shared,const std::string&movie,const SwfServices&s,std::string&e){auto p=std::make_shared<Impl>();p->service=s;Impl::Scope scope(p.get());if(!scope.entered){e="SWF core busy";return false;}

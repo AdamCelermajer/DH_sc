@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "cases": 144,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "optimized_sha256": "e213565e3d2325a283672265ef86880fe3c6cc4901f46103b9aeeb819f674f80",
+  "gold_sha256": "3acea12824a21ef04402cf6210a393b96a4bf9f843b438b3722f775a7ed93a47",
+  "scope": "Whole original Character.GetCharAIFactionId versus optimized native code.",
+  "whole_relationship_wrappers_proven": false
+}

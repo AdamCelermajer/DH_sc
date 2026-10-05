@@ -1,0 +1,30 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "a926d6f03ba5ec909775ce2550cb948098af801422ababece44f07d97b9557e3",
+  "reference_sha256": "51e390036131767351ad0bbab0cd914df909310e32c56473a6d78e1d36b58748",
+  "comparisons": 503,
+  "authored_placements": 82,
+  "authored_group_bound_checks": 82,
+  "authored_templates": 8,
+  "mismatches": 0,
+  "original_coverage": {
+    "_ZN14ColladaFactory14createMeshNodeERKN6glitch7collada16CColladaDatabaseERKN5boost13intrusive_ptrINS1_5IMeshEEEPv@0x3508a4": 0,
+    "_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeERKSsb@0x352b74": 0,
+    "_ZN6glitch7collada10CSceneNode18computeBoundingBoxEv@0x65cda8": 68,
+    "_ZN12VisualObject11CalcMeshBoxEv@0x47211c": 187,
+    "_ZNK6glitch5scene10ISceneNode25getRelativeTransformationEv@0x598908": 55,
+    "_ZN6glitch4core10quaternion3setEfff@0x35c9d8": 141,
+    "_ZNK6glitch4core8CMatrix4IfE14transformBoxExERNS0_8aabbox3dIfEE@0x597548": 113,
+    "_ZN12VisualObject10SetScalingERK7Point3DIfE@0x4727ac": 45,
+    "_ZN12VisualObject11SetRotationERK7Point3DIfE@0x472874": 52,
+    "_ZNK6glitch4core10quaternion20getMatrix_transposedERNS0_8CMatrix4IfEE@0x5602d0": 109,
+    "_ZN6glitch7collada14CRootSceneNode10onPostLoadEv@0x65b3dc": 0,
+    "_ZN6glitch7collada15CColladaFactory10createNodeERKNS0_16CColladaDatabaseEPNS0_5SNodeE@0x631800": 0,
+    "_ZN6glitch4core10quaternion9normalizeEv@0x35c8f0": 58,
+    "_ZNK6glitch7collada16CColladaDatabase13constructNodeEPNS_5video12IVideoDriverEPNS0_5SNodeEPNS0_14CRootSceneNodeE@0x61b2f4": 0,
+    "_ZN6glitch4core8CMatrix4IfE9postScaleERKNS0_8vector3dIfEE@0x597788": 45,
+    "_ZN10GameObject8InitPostEv@0x38be5c": 46
+  },
+  "scope": "Original placement conversion, quaternion/node matrix and marker bounds.\n\nImports use common IEEE/libm services on both CPUs. Mesh bounds are read from\nthe authored BRES fixture; original CSceneNode group bounds execute with the\nfactory-created identity mesh child. No original matrix or extent algorithm\nis replaced. Complete Collada allocation/material/animation factories are\ntraced source boundaries, not executed by this bounded oracle.\n",
+  "elapsed_seconds": 7.73
+}
